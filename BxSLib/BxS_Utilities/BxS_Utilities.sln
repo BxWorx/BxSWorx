@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_WinUtilFRM", "BxS_WinUt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zBxS_WinUtil_UT", "zBxS_WinUtil_UT\zBxS_WinUtil_UT.csproj", "{5180CEBA-6FF5-487C-B71B-C3E1E27BD028}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_SAPGUI", "BxS_SAPGUI\BxS_SAPGUI.csproj", "{719DB6D7-2D66-43BE-85B3-36DB8D5E3843}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zBxS_SAPGUI_UT", "zBxS_SAPGUI_UT\zBxS_SAPGUI_UT.csproj", "{31E38F8D-05D4-4760-BD03-78C8400EB524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{5180CEBA-6FF5-487C-B71B-C3E1E27BD028}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5180CEBA-6FF5-487C-B71B-C3E1E27BD028}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5180CEBA-6FF5-487C-B71B-C3E1E27BD028}.Release|Any CPU.Build.0 = Release|Any CPU
+		{719DB6D7-2D66-43BE-85B3-36DB8D5E3843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{719DB6D7-2D66-43BE-85B3-36DB8D5E3843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{719DB6D7-2D66-43BE-85B3-36DB8D5E3843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{719DB6D7-2D66-43BE-85B3-36DB8D5E3843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31E38F8D-05D4-4760-BD03-78C8400EB524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31E38F8D-05D4-4760-BD03-78C8400EB524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31E38F8D-05D4-4760-BD03-78C8400EB524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31E38F8D-05D4-4760-BD03-78C8400EB524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

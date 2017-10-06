@@ -48,7 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UT_BxS_WinUtil_Registry.cs" />
+    <Compile Include="Unit Tests\UT_BxS_WinUtil_Registry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

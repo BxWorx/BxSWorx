@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
+
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
 namespace BxS_WinUtilFRM
 {
 	public class WinRegistryCurrentUser
@@ -7,17 +9,23 @@ namespace BxS_WinUtilFRM
 			#region **[Definitions]**
 
 			#endregion
+
 			//___________________________________________________________________________________________
+
 			#region **[Constructors]**
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public WinRegistryCurrentUser(string rootNode	= "Software", string applicationName = "BxSWorx")
+				public WinRegistryCurrentUser(	string rootNode					= "Software"	,
+																				string applicationName	= "BxSWorx"			)
 					{
 						this.RootNode					= rootNode;
 						this.ApplicationName	= applicationName;
 					}
+
 			#endregion
+
 			//___________________________________________________________________________________________
+
 			#region **[Properties]**
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -29,7 +37,9 @@ namespace BxS_WinUtilFRM
 					{	get; set; }
 
 			#endregion
+
 			//___________________________________________________________________________________________
+
 			#region **[Methods: Exposed]**
 
 				//-------------------------------------------------------------------------------------------
@@ -155,7 +165,9 @@ namespace BxS_WinUtilFRM
 					}
 
 			#endregion
+
 			//___________________________________________________________________________________________
+
 			#region **[Methods: Private]**
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -165,5 +177,6 @@ namespace BxS_WinUtilFRM
 					}
 
 			#endregion
+
 		}
 }
