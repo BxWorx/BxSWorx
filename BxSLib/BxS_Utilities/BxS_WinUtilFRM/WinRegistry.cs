@@ -4,12 +4,24 @@ namespace BxS_WinUtilFRM
 {
 	public class WinRegistry
 		{
+
+			//-------------------------------------------------------------------------------------------
+			public bool Exists(string registryPath)
+				{
+					bool	lb_Ret	= false;
+					//...............................................
+					using (RegistryKey	rootKey		= Registry.CurrentUser)
+						{
+							if (rootKey?.OpenSubKey(registryPath) != null)	lb_Ret	= true;
+						}
+					//...............................................
+					return	lb_Ret;
+				}
+
 			//-------------------------------------------------------------------------------------------
 			public void Remove(string registryPath,	string keyName)
 				{
-					//RegistryKey	rootKey		= this.GetCurrentUser();
-
-					using (RegistryKey rootKey	= this.GetCurrentUser())
+					using (RegistryKey rootKey	= Registry.CurrentUser)
 						{
 							rootKey?.DeleteSubKeyTree(registryPath);
 						}
@@ -18,10 +30,9 @@ namespace BxS_WinUtilFRM
 			//-------------------------------------------------------------------------------------------
 			public void Write(string registryPath,	string keyName, string value)
 				{
-					RegistryKey	rootKey		= this.GetCurrentUser();
-
-					using (RegistryKey rk = rootKey.CreateSubKey(registryPath))
+					using (RegistryKey	rootKey		= Registry.CurrentUser)
 						{
+							RegistryKey rk = rootKey.CreateSubKey(registryPath);
 							rk.SetValue(keyName, value, RegistryValueKind.String);
 						}
 				}
@@ -29,7 +40,7 @@ namespace BxS_WinUtilFRM
 			//-------------------------------------------------------------------------------------------
 			public string Read(string registryPath,	string keyName, string defaultValue)
 				{
-					RegistryKey	rootKey		= this.GetCurrentUser();
+					RegistryKey	rootKey		= Registry.CurrentUser;
 
 					using (RegistryKey rk = rootKey.OpenSubKey(registryPath, false))
 						{
@@ -46,12 +57,6 @@ namespace BxS_WinUtilFRM
 
 							return res.ToString();
 						}
-				}
-
-			//-------------------------------------------------------------------------------------------
-			private RegistryKey GetCurrentUser()
-				{
-					return	Registry.CurrentUser;
 				}
 
 		}
