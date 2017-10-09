@@ -8,13 +8,13 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Header Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private XmlDocument LoadXMLDoc(string	XML_FullName)
+				private XmlDocument LoadXMLDoc(string	fullName)
 					{
 						XmlDocument lo_XMLDoc = new XmlDocument();
 						//..................................................
 						try
 								{
-									lo_XMLDoc.Load(XML_FullName);
+									lo_XMLDoc.Load(fullName);
 								}
 							catch (System.SystemException)
 								{
@@ -24,11 +24,11 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Load_XML_Cleanup()
+				private void Load_XML_Cleanup(Repository repository)
 					{
 						foreach (string lc in this.ct_UnUsedSrvList)
 							{
-								this.co_Repos.Services.Remove(lc);
+								//this.co_Repos.Services.Remove(lc);
 							}
 						//...............................................
 						this.ct_UnUsedSrvList.Clear();
@@ -40,36 +40,24 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Workspace Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Load_XML_WorkSpaces(XmlDocument _xmldoc)
+				private Dictionary<string, DTOWorkspace> Load_XML_WorkSpaces(	XmlDocument xmlDoc				,
+																																			string			fromWorkspace	,
+																																			string			fromNode				)
 					{
-						foreach (XmlElement lo_WrkSpace in _xmldoc.GetElementsByTagName("Workspace"))
+						Dictionary<string, DTOWorkspace> lt_Workspaces	= new Dictionary<string, DTOWorkspace>();
+						//.............................................
+						foreach (XmlElement lo_WrkSpace in xmlDoc.GetElementsByTagName("Workspace"))
 							{
-								if (this.cc_FromWorkspace != null)
-									{
-										if (!this.cc_FromWorkspace.Length.Equals(0))
-											{
-												if (!lo_WrkSpace.GetAttribute("name").Equals(this.cc_FromWorkspace))
-													{
-														continue;
-													}
-											}
-									}
+								if (!fromWorkspace.Length.Equals(0))
+									{	if (!lo_WrkSpace.GetAttribute("name").Equals(fromWorkspace))	continue; }
 
 								//...........................................
 								DTOWorkspace lo_WsDTO = this.LoadWSAttributtes(lo_WrkSpace);
 								//...........................................
 								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName("Node"))
 									{
-										if (this.cc_FromNode != null)
-											{
-												if (!this.cc_FromNode.Length.Equals(0))
-													{
-														if (!lo_Node.GetAttribute("name").Equals(this.cc_FromNode))
-															{
-																continue;
-															}
-													}
-											}
+										if (!fromNode.Length.Equals(0))
+											{	if (!lo_Node.GetAttribute("name").Equals(fromNode))	continue;	}
 
 								//...........................................
 								DTOWorkspaceNode lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
@@ -87,9 +75,11 @@ namespace SAPGUI.XML
 							//..............................................
 							if (lo_WsDTO.Nodes.Count > 0 || lo_WsDTO.Items.Count > 0)
 								{
-									this.co_Repos.WorkSpaces.Add(lo_WsDTO.UUID, lo_WsDTO);
+									lt_Workspaces.Add(lo_WsDTO.UUID, lo_WsDTO);
 								}
-						}
+							}
+							//.............................................
+							return	lt_Workspaces;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -120,30 +110,14 @@ namespace SAPGUI.XML
 				private List<DTOWorkspaceNodeItem> GetItemList(XmlElement _xmlelement)
 					{
 						List<DTOWorkspaceNodeItem>	lt_List		= new List<DTOWorkspaceNodeItem>();
-						string											lc_SrvID	= null;
 						//..............................................
 						foreach (XmlElement lo_XMLItem in _xmlelement.GetElementsByTagName("Item"))
 							{
-								lc_SrvID = lo_XMLItem.GetAttribute("serviceid");
-
-								if (this.co_Repos.Services.ContainsKey(lc_SrvID))
-									{
-										lt_List.Add(this.LoadItemAttributtes(lo_XMLItem));
-										this.ct_UnUsedSrvList.Remove(lc_SrvID);
-									}
+								lt_List.Add(	new DTOWorkspaceNodeItem	{	UIID			= lo_XMLItem.GetAttribute("uuid"),
+																													ServiceID = lo_XMLItem.GetAttribute("serviceid") }	);
 							}
 						//.............................................
 						return lt_List;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTOWorkspaceNodeItem LoadItemAttributtes(XmlElement _xmlelement)
-					{
-						DTOWorkspaceNodeItem lo_DTO = new DTOWorkspaceNodeItem
-							{	UIID			= _xmlelement.GetAttribute("uuid"),
-								ServiceID = _xmlelement.GetAttribute("serviceid")	};
-						//.............................................
-						return lo_DTO;
 					}
 
 			#endregion
@@ -152,11 +126,11 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Message Server Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Dictionary<string, DTOMsgServer> Load_XML_MsgServers(XmlDocument _xmldoc)
+				private Dictionary<string, DTOMsgServer> Load_XML_MsgServers(XmlDocument xmlDoc)
 					{
 						Dictionary<string, DTOMsgServer>	lt_MsgSrvrs	= new	Dictionary<string, DTOMsgServer>();
 						//.............................................
-						foreach (XmlElement lo_MsgSvr in _xmldoc.GetElementsByTagName("Messageserver"))
+						foreach (XmlElement lo_MsgSvr in xmlDoc.GetElementsByTagName("Messageserver"))
 							{
 								DTOMsgServer lo_DTO = new DTOMsgServer
 									{	UUID				= lo_MsgSvr.GetAttribute("uuid"),
@@ -177,15 +151,16 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Services Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Dictionary<string, DTOMsgService> Load_XML_Services(XmlDocument _xmldoc)
+				private Dictionary<string, DTOMsgService> Load_XML_Services(XmlDocument xmlDoc			,
+																																		bool				onlySAPGUI		)
 					{
 						Dictionary<string, DTOMsgService> lt_Services	= new	Dictionary<string, DTOMsgService>();
 						//.............................................
-						foreach (XmlElement lo_Elem in _xmldoc.GetElementsByTagName("Service"))
+						foreach (XmlElement lo_Elem in xmlDoc.GetElementsByTagName("Service"))
 							{
 								string lc_Type = lo_Elem.GetAttribute("type");
 								//................................................
-								if (this.cb_OnlySAPGUIEntries && !lc_Type.Equals("SAPGUI"))	continue;
+								if (onlySAPGUI && !lc_Type.Equals("SAPGUI"))	continue;
 								//................................................
 								DTOMsgService lo_DTO = new DTOMsgService
 									{	Type				= lc_Type,

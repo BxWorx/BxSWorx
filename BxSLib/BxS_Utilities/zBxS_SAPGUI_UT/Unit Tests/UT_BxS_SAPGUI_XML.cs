@@ -10,22 +10,35 @@ namespace zBxS_SAPGUI_UT
 		{
 			private const string	cz_FileName	= "SAPUILandscapeS2A.xml";
 			//...................................................
-			private	static string	cc_Path;
-			private	static string	cc_FullName;
+			private	static readonly string	cc_Path			= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
+			private	static readonly string	cc_FullName	= Path.Combine(cc_Path, cz_FileName);
 
 			//-------------------------------------------------------------------------------------------
-			[ClassInitialize]
-			public static void Setup()
+			[TestMethod]
+			public void UT_SapGuiXML_Loader_Errors()
 				{
-					cc_Path			= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
-					cc_FullName	= Path.Combine(cc_Path, cz_FileName);
+					Repository lo_Loader0	= new Loader().Load("XXXX");
+					Assert.AreEqual(0, lo_Loader0.WorkSpaces.Count, "Invalid Name: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SapGuiXML_Loader()
+			public void UT_SapGuiXML_Loader_Base()
 				{
-					Loader lo_Loader	= new Loader(cc_FullName);
+					Repository lo_Loader0	= new Loader().Load(cc_FullName, null, null, false);
+					Assert.AreNotEqual(0, lo_Loader0.MsgServers.Count	, "Base: MsgSrvs: Error");
+
+					//...............................................
+					Repository lo_Loader1	= new Loader().Load(cc_FullName);
+					Assert.AreNotEqual(0, lo_Loader1.MsgServers.Count	, "Base: MsgSrvs: Error");
+					Assert.AreNotEqual(0, lo_Loader1.Services.Count		, "Base: Servies: Error");
+					Assert.AreNotEqual(0, lo_Loader1.WorkSpaces.Count	, "Base: Workspaces: Error");
+
+					//...............................................
+					Repository lo_Loader2	= new Loader().Load(cc_FullName, "LEGACY SYSTEMS", null, false);
+					Assert.AreNotEqual(0, lo_Loader1.MsgServers.Count	, "Base: MsgSrvs: Error");
+					Assert.AreNotEqual(0, lo_Loader1.Services.Count		, "Base: Servies: Error");
+					Assert.AreNotEqual(0, lo_Loader1.WorkSpaces.Count	, "Base: Workspaces: Error");
 				}
 		}
 }

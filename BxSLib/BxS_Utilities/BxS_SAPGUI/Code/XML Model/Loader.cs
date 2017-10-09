@@ -7,12 +7,9 @@ namespace SAPGUI.XML
 		{
 			#region "Definitions"
 
-				private	readonly string				cc_FromWorkspace;
-				private	readonly string				cc_FromNode;
-				private readonly bool					cb_OnlySAPGUIEntries;
 				private readonly List<string>	ct_UnUsedSrvList;
 				//....................................................
-				private readonly Repository	co_Repos;
+				//private readonly Repository	co_Repos;
 
 			#endregion
 
@@ -24,16 +21,8 @@ namespace SAPGUI.XML
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Loader(string	XML_FullName			,
-												string	XML_FromWorkspace	= ""	,
-												string	XML_FromNode			= ""	,
-												bool		OnlySAPGUIEntries = true	)
+				internal Loader()
 					{
-						this.cc_FromWorkspace			= XML_FromWorkspace;
-						this.cc_FromNode					= XML_FromNode;
-						this.cb_OnlySAPGUIEntries	= OnlySAPGUIEntries;
-						//.............................................
-						this.co_Repos					= new Repository();
 						this.ct_UnUsedSrvList	= new List<string>();
 					}
 
@@ -43,21 +32,25 @@ namespace SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository Load(string	XML_FullName,	string	XML_FromWorkspace	= "",	string	XML_FromNode = "", bool OnlySAPGUIEntries = true)
+				internal Repository Load(	string	fullName							,
+																	string	fromWorkspace	= ""		,
+																	string	fromNode			= ""		,
+																	bool		OnlySAPGUI		= true		)
 					{
 						Repository	lo_Repos	= new Repository();
+						XmlDocument lo_XMLDoc = this.LoadXMLDoc(fullName);
 						//.............................................
-						XmlDocument lo_XMLDoc = this.LoadXMLDoc(XML_FullName);
-						lo_Repos.MsgServers		= this.Load_XML_MsgServers(lo_XMLDoc);
-						lo_Repos.Services			= this.Load_XML_Services(lo_XMLDoc);
-
-
-						this.Load_XML_WorkSpaces(lo_XMLDoc, XML_FromWorkspace, XML_FromNode, OnlySAPGUIEntries);
-						this.Load_XML_Cleanup();
-
-						//this.ct_UnUsedSrvList.Add(lo_DTO.UUID);
-
-
+						if (lo_XMLDoc.InnerXml != string.Empty)
+							{
+								lo_Repos.MsgServers	= this.Load_XML_MsgServers(lo_XMLDoc);
+								lo_Repos.Services		= this.Load_XML_Services(lo_XMLDoc, OnlySAPGUI);
+								lo_Repos.WorkSpaces	= this.Load_XML_WorkSpaces(	lo_XMLDoc											,
+																																fromWorkspace ?? string.Empty	,
+																																fromNode			?? string.Empty		);
+								//.............................................
+								//this.Load_XML_Cleanup();
+								//this.ct_UnUsedSrvList.Add(lo_DTO.UUID);
+							}
 						//.............................................
 						return	lo_Repos;
 					}
