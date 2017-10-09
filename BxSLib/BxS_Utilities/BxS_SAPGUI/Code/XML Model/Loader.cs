@@ -31,8 +31,8 @@ namespace SAPGUI.XML
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public Loader(	string	XML_FullName			,
-												string	XML_FromWorkspace	,
-												string	XML_FromNode			,
+												string	XML_FromWorkspace	= ""	,
+												string	XML_FromNode			= ""	,
 												bool		OnlySAPGUIEntries = true	)
 					{
 						this.cc_XMLFullName				= XML_FullName;
@@ -40,7 +40,8 @@ namespace SAPGUI.XML
 						this.cc_FromNode					= XML_FromNode;
 						this.cb_OnlySAPGUIEntries	= OnlySAPGUIEntries;
 						//..................................................
-						this.ct_UnUsedSrvList			= new List<string>();
+						this.co_Repos					= new Repository();
+						this.ct_UnUsedSrvList	= new List<string>();
 						//..................................................
 						this.LoadSapGuiXML();
 					}

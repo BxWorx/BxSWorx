@@ -10,8 +10,6 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadSapGuiXML()
 					{
-						this.co_Repos = new Repository();
-						//......................................................
 						XmlDocument lo_XMLDoc = this.LoadXMLDoc();
 
 						this.Load_XML_MsgServers(ref lo_XMLDoc);
