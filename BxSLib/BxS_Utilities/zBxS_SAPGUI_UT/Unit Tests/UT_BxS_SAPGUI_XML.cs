@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SAPGUI.XML;
+using System.IO;
 using System.Reflection;
 //••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
@@ -7,14 +8,24 @@ namespace zBxS_SAPGUI_UT
 	[TestClass]
 	public class UT_BxS_SAPGUI_XML
 		{
-			private const string	cz_FullName = "SAPUILandscapeS2A.xml";
+			private const string	cz_FileName	= "SAPUILandscapeS2A.xml";
+			//...................................................
+			private	static string	cc_Path;
+			private	static string	cc_FullName;
+
+			//-------------------------------------------------------------------------------------------
+			[ClassInitialize]
+			public static void Setup()
+				{
+					cc_Path			= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
+					cc_FullName	= Path.Combine(cc_Path, cz_FileName);
+				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_SapGuiXML_Loader()
 				{
-					string xx = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-					Loader lo_Loader	= new Loader(cz_FullName);
+					Loader lo_Loader	= new Loader(cc_FullName);
 				}
 		}
 }

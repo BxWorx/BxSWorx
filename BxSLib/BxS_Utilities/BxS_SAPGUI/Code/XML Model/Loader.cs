@@ -1,51 +1,68 @@
-﻿using System.Collections.Generic;
+﻿using System.Xml;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
-	public partial class Loader
+	internal partial class Loader
 		{
 			#region "Definitions"
 
-				private readonly string				cc_XMLFullName;
 				private	readonly string				cc_FromWorkspace;
 				private	readonly string				cc_FromNode;
 				private readonly bool					cb_OnlySAPGUIEntries;
 				private readonly List<string>	ct_UnUsedSrvList;
 				//....................................................
-				private Repository	co_Repos;
+				private readonly Repository	co_Repos;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
-
-				internal Repository													Repository	{	get { return this.co_Repos;							} }
-				internal Dictionary<string, DTOMsgService>	Services		{	get { return this.co_Repos.Services;		} }
-				internal Dictionary<string, DTOMsgServer>		MsgServers	{	get { return this.co_Repos.MsgServers;	}	}
-				internal Dictionary<string, DTOWorkspace>		WorkSpaces	{	get { return this.co_Repos.WorkSpaces;	}	}
-
 			#endregion
 
 			//===========================================================================================
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Loader(	string	XML_FullName			,
+				internal Loader(string	XML_FullName			,
 												string	XML_FromWorkspace	= ""	,
 												string	XML_FromNode			= ""	,
 												bool		OnlySAPGUIEntries = true	)
 					{
-						this.cc_XMLFullName				= XML_FullName;
 						this.cc_FromWorkspace			= XML_FromWorkspace;
 						this.cc_FromNode					= XML_FromNode;
 						this.cb_OnlySAPGUIEntries	= OnlySAPGUIEntries;
-						//..................................................
+						//.............................................
 						this.co_Repos					= new Repository();
 						this.ct_UnUsedSrvList	= new List<string>();
-						//..................................................
-						this.LoadSapGuiXML();
 					}
 
 			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal Repository Load(string	XML_FullName,	string	XML_FromWorkspace	= "",	string	XML_FromNode = "", bool OnlySAPGUIEntries = true)
+					{
+						Repository	lo_Repos	= new Repository();
+						//.............................................
+						XmlDocument lo_XMLDoc = this.LoadXMLDoc(XML_FullName);
+						lo_Repos.MsgServers		= this.Load_XML_MsgServers(lo_XMLDoc);
+						lo_Repos.Services			= this.Load_XML_Services(lo_XMLDoc);
+
+
+						this.Load_XML_WorkSpaces(lo_XMLDoc, XML_FromWorkspace, XML_FromNode, OnlySAPGUIEntries);
+						this.Load_XML_Cleanup();
+
+						//this.ct_UnUsedSrvList.Add(lo_DTO.UUID);
+
+
+						//.............................................
+						return	lo_Repos;
+					}
+
+			#endregion
+
 		}
 }

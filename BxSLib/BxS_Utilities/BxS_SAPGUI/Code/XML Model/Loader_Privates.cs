@@ -3,29 +3,18 @@ using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
-	public partial class Loader
+	internal partial class Loader
 		{
 			#region "Methods: Private: XML: Header Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadSapGuiXML()
-					{
-						XmlDocument lo_XMLDoc = this.LoadXMLDoc();
-
-						this.Load_XML_MsgServers(ref lo_XMLDoc);
-						this.Load_XML_Services(ref lo_XMLDoc);
-						this.Load_XML_WorkSpaces(lo_XMLDoc);
-						this.Load_XML_Cleanup();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private XmlDocument LoadXMLDoc()
+				private XmlDocument LoadXMLDoc(string	XML_FullName)
 					{
 						XmlDocument lo_XMLDoc = new XmlDocument();
 						//..................................................
 						try
 								{
-									lo_XMLDoc.Load(this.cc_XMLFullName);
+									lo_XMLDoc.Load(XML_FullName);
 								}
 							catch (System.SystemException)
 								{
@@ -143,17 +132,17 @@ namespace SAPGUI.XML
 										this.ct_UnUsedSrvList.Remove(lc_SrvID);
 									}
 							}
-						//..............................................
+						//.............................................
 						return lt_List;
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTOWorkspaceNodeItem LoadItemAttributtes(XmlElement _xmlelement)
 					{
 						DTOWorkspaceNodeItem lo_DTO = new DTOWorkspaceNodeItem
 							{	UIID			= _xmlelement.GetAttribute("uuid"),
 								ServiceID = _xmlelement.GetAttribute("serviceid")	};
-						//...............................................
+						//.............................................
 						return lo_DTO;
 					}
 
@@ -163,25 +152,23 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Message Server Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Load_XML_MsgServers(ref XmlDocument _xmldoc)
+				private Dictionary<string, DTOMsgServer> Load_XML_MsgServers(XmlDocument _xmldoc)
 					{
+						Dictionary<string, DTOMsgServer>	lt_MsgSrvrs	= new	Dictionary<string, DTOMsgServer>();
+						//.............................................
 						foreach (XmlElement lo_MsgSvr in _xmldoc.GetElementsByTagName("Messageserver"))
 							{
-								this.LoadMsgServer(lo_MsgSvr);
-							}
-					}
+								DTOMsgServer lo_DTO = new DTOMsgServer
+									{	UUID				= lo_MsgSvr.GetAttribute("uuid"),
+										Name				= lo_MsgSvr.GetAttribute("name"),
+										Host				= lo_MsgSvr.GetAttribute("host"),
+										Port				= lo_MsgSvr.GetAttribute("port"),
+										Description	= lo_MsgSvr.GetAttribute("description")	};
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadMsgServer(XmlElement _xmlelement)
-					{
-						DTOMsgServer lo_DTO = new DTOMsgServer
-							{	UUID				= _xmlelement.GetAttribute("uuid"),
-								Name				= _xmlelement.GetAttribute("name"),
-								Host				= _xmlelement.GetAttribute("host"),
-								Port				= _xmlelement.GetAttribute("port"),
-								Description	= _xmlelement.GetAttribute("description")	};
-						//................................................
-						this.co_Repos.MsgServers.Add(lo_DTO.UUID, lo_DTO);
+								lt_MsgSrvrs.Add(lo_DTO.UUID, lo_DTO);
+							}
+						//.............................................
+						return	lt_MsgSrvrs;
 					}
 
 			#endregion
@@ -190,40 +177,34 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Services Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Load_XML_Services(ref XmlDocument _xmldoc)
+				private Dictionary<string, DTOMsgService> Load_XML_Services(XmlDocument _xmldoc)
 					{
-						foreach (XmlElement lo_ServiceElement in _xmldoc.GetElementsByTagName("Service"))
+						Dictionary<string, DTOMsgService> lt_Services	= new	Dictionary<string, DTOMsgService>();
+						//.............................................
+						foreach (XmlElement lo_Elem in _xmldoc.GetElementsByTagName("Service"))
 							{
-								this.LoadService(lo_ServiceElement);
+								string lc_Type = lo_Elem.GetAttribute("type");
+								//................................................
+								if (this.cb_OnlySAPGUIEntries && !lc_Type.Equals("SAPGUI"))	continue;
+								//................................................
+								DTOMsgService lo_DTO = new DTOMsgService
+									{	Type				= lc_Type,
+										UUID				= lo_Elem.GetAttribute("uuid"),
+										Name				= lo_Elem.GetAttribute("name"),
+										DCPG				= lo_Elem.GetAttribute("dcpg"),
+										MSID				= lo_Elem.GetAttribute("msid"),
+										SAPCPG			= lo_Elem.GetAttribute("sapcpg"),
+										Server			= lo_Elem.GetAttribute("server"),
+										SNCName			= lo_Elem.GetAttribute("sncname"),
+										SNCOp				= lo_Elem.GetAttribute("sncop"),
+										SystemID		= lo_Elem.GetAttribute("systemid"),
+										Mode				= lo_Elem.GetAttribute("mode"),
+										Description	= lo_Elem.GetAttribute("description")	};
+								//................................................
+								lt_Services.Add(lo_DTO.UUID, lo_DTO);
 							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadService(XmlElement _xmlelement)
-					{
-						string lc_Type = _xmlelement.GetAttribute("type");
-						//................................................
-						if (this.cb_OnlySAPGUIEntries)
-							{
-								if (!lc_Type.Equals("SAPGUI"))	return;
-							}
-						//................................................
-						DTOMsgService lo_DTO = new DTOMsgService
-							{	Type				= lc_Type,
-								UUID				= _xmlelement.GetAttribute("uuid"),
-								Name				= _xmlelement.GetAttribute("name"),
-								DCPG				= _xmlelement.GetAttribute("dcpg"),
-								MSID				= _xmlelement.GetAttribute("msid"),
-								SAPCPG			= _xmlelement.GetAttribute("sapcpg"),
-								Server			= _xmlelement.GetAttribute("server"),
-								SNCName			= _xmlelement.GetAttribute("sncname"),
-								SNCOp				= _xmlelement.GetAttribute("sncop"),
-								SystemID		= _xmlelement.GetAttribute("systemid"),
-								Mode				= _xmlelement.GetAttribute("mode"),
-								Description	= _xmlelement.GetAttribute("description")	};
-						//................................................
-						this.co_Repos.Services.Add(lo_DTO.UUID, lo_DTO);
-						this.ct_UnUsedSrvList.Add(lo_DTO.UUID);
+						//.............................................
+						return	lt_Services;
 					}
 
 			#endregion

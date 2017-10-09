@@ -13,17 +13,27 @@ namespace SAPGUI.XML
 
 			#endregion
 
-			//¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-
+			//===========================================================================================
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-
 				internal Repository()
 					{
 						this.Services		= new Dictionary<string, DTOMsgService>();
-						this.MsgServers = new Dictionary<string, DTOMsgServer>();
+						this.MsgServers	= new Dictionary<string, DTOMsgServer>();
 						this.WorkSpaces = new Dictionary<string, DTOWorkspace>();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				internal void Clear()
+					{
+						this.Services.Clear();
+						this.MsgServers.Clear();
+						this.WorkSpaces.Clear();
 					}
 
 			#endregion
