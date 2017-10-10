@@ -25,6 +25,12 @@ namespace zBxS_SAPGUI_UT
 			[TestMethod]
 			public void UT_SapGuiXML_Loader_Base()
 				{
+					//...............................................
+					Repository lo_Loaderx	= new Loader().Load(cc_FullName, "LEGACY SYSTEMS", "ZA", false);
+
+
+
+
 					Repository lo_Loader0	= new Loader().Load(cc_FullName, null, null, false);
 					Assert.AreNotEqual(0, lo_Loader0.MsgServers.Count	, "Base: MsgSrvs: Error");
 

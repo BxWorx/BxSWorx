@@ -15,5 +15,6 @@ namespace SAPGUI.XML
 			internal string SNCOp				{ get; set; }
 			internal string Description	{ get; set; }
 			internal string Mode				{ get; set; }
+			internal bool		Used				{ get; set; }
 		}
 }
