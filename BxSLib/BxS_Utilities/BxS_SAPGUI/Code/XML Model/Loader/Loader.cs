@@ -5,30 +5,6 @@ namespace SAPGUI.XML
 {
 	internal partial class Loader
 		{
-			#region "Definitions"
-
-				private readonly List<string>	ct_UnUsedSrvList;
-				//....................................................
-				//private readonly Repository	co_Repos;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
-			#endregion
-
-			//===========================================================================================
-			#region "Constructor"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Loader()
-					{
-						this.ct_UnUsedSrvList	= new List<string>();
-					}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -48,8 +24,7 @@ namespace SAPGUI.XML
 																																fromWorkspace ?? string.Empty	,
 																																fromNode			?? string.Empty		);
 								//.............................................
-								//this.Load_XML_Cleanup();
-								//this.ct_UnUsedSrvList.Add(lo_DTO.UUID);
+								this.Load_XML_Cleanup(lo_Repos);
 							}
 						//.............................................
 						return	lo_Repos;
@@ -79,12 +54,19 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Load_XML_Cleanup(Repository repository)
 					{
-						foreach (string lc in this.ct_UnUsedSrvList)
+						foreach (var lo_WS in repository.WorkSpaces)
 							{
-								//this.co_Repos.Services.Remove(lc);
+								foreach (var lo_Node in lo_WS.Value.Nodes)
+									{
+										foreach (var lo_Item in	lo_Node.Value.Items)
+											{
+											}
+									}
+								foreach (var lo_item in lo_WS.Value.Items)
+									{
+									}
 							}
 						//...............................................
-						this.ct_UnUsedSrvList.Clear();
 					}
 
 			#endregion

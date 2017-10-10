@@ -6,6 +6,15 @@ namespace SAPGUI.XML
 {
 	internal partial class Loader
 		{
+			#region "Constants"
+
+				private const string cz_TagName			= "name";
+				private const string cz_TagNode			= "Node";
+				private const string cz_TagWSpace		= "Workspace";
+				private const string cz_TagWSpaces	= "Workspaces";
+
+			#endregion
+
 			//===========================================================================================
 			#region "Methods: Private: XML: Workspace Section"
 
@@ -14,59 +23,36 @@ namespace SAPGUI.XML
 																																	string			forWorkspace	,
 																																	string			forNode					)
 					{
-						Dictionary<string, DTOWorkspace> lt_Workspaces	= new Dictionary<string, DTOWorkspace>();
+						Dictionary<string, DTOWorkspace>	lt_Workspaces	= new Dictionary<string, DTOWorkspace>();
 						//.............................................
 						foreach (XmlElement lo_WrkSpace in this.GetWorkSpaces(xmlDoc, forWorkspace))
 							{
-								DTOWorkspace lo_WsDTO = this.LoadWSAttributtes(lo_WrkSpace);
+								DTOWorkspace lo_WSDTO = this.LoadWSAttributtes(lo_WrkSpace);
 								//.........................................
 								foreach (XmlElement lo_Node in this.GetWorkSpaceNodes(lo_WrkSpace, forNode))
 									{
-										DTOWorkspaceNode lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
-
+										DTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
 										foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_Node))
 											{
 												lo_WSNode.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
 											}
-
-
-
-									}
-							}
-
-
-
-						foreach (XmlElement lo_WrkSpace in xmlDoc.GetElementsByTagName("Workspace"))
-							{
-								if (!forWorkspace.Length.Equals(0))
-									{	if (!lo_WrkSpace.GetAttribute("name").Equals(forWorkspace))	continue; }
-
-								//.........................................
-								DTOWorkspace lo_WsDTO = this.LoadWSAttributtes(lo_WrkSpace);
-								//.........................................
-								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName("Node"))
-									{
-										if (!forNode.Length.Equals(0))
-											{	if (!lo_Node.GetAttribute("name").Equals(forNode))	continue;	}
-
-								//.........................................
-								DTOWorkspaceNode lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
-
-								foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_Node))
-									{
-										lo_WSNode.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
+										//.....................................
+										if (lo_WSNode.Items.Count > 0)
+											{
+												lo_WSDTO.Nodes.Add(lo_WSNode.UUID, lo_WSNode);
+											}
 									}
 								//.........................................
-								if (lo_WSNode.Items.Count > 0)
+								foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_WrkSpace))
 									{
-										lo_WsDTO.Nodes.Add(lo_WSNode.UUID, lo_WSNode);
+										lo_WSDTO.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
 									}
-							}
-							//...........................................
-							if (lo_WsDTO.Nodes.Count > 0 || lo_WsDTO.Items.Count > 0)
-								{
-									lt_Workspaces.Add(lo_WsDTO.UUID, lo_WsDTO);
-								}
+
+								//...........................................
+								if (lo_WSDTO.Nodes.Count > 0 || lo_WSDTO.Items.Count > 0)
+									{
+										lt_Workspaces.Add(lo_WSDTO.UUID, lo_WSDTO);
+									}
 							}
 							//...........................................
 							return	lt_Workspaces;
@@ -115,9 +101,9 @@ namespace SAPGUI.XML
 																							string			forNode			)
 					{
 						if (forNode.Length.Equals(0))
-							return	workspace.GetElementsByTagName("Node");
+							return	workspace.GetElementsByTagName(cz_TagNode);
 						//.............................................
-						string	lc_Path	= $"//Workspace/Node[@name='{forNode}']";
+						string	lc_Path	= $"//{cz_TagWSpace}/{cz_TagNode}[@{cz_TagName}='{forNode}']";
 						return	workspace.SelectNodes(lc_Path);
 					}
 
@@ -126,9 +112,9 @@ namespace SAPGUI.XML
 																					string			forWorkspace		)
 					{
 						if (forWorkspace.Length.Equals(0))
-							return	xmlDoc.GetElementsByTagName("Workspace");
+							return	xmlDoc.GetElementsByTagName(cz_TagWSpace);
 						//.............................................
-						string	lc_Path	= $"//Workspaces/Workspace[@name='{forWorkspace}']";
+						string	lc_Path	= $"//{cz_TagWSpaces}/{cz_TagWSpace}[@{cz_TagName}='{forWorkspace}']";
 						return	xmlDoc.SelectNodes(lc_Path);
 					}
 
