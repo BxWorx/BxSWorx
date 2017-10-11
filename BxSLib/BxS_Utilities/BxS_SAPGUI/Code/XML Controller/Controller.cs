@@ -1,3 +1,16 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-[assembly:InternalsVisibleTo("zBxS_SAPGUI_UT")]
+namespace SAPGUI.XML
+{
+	internal class Controller
+		{
+			private string	cc_FullPath;
+
+			internal Controller(string fullPath)
+				{
+					this.cc_FullPath	= fullPath;
+				}
+		}
+}

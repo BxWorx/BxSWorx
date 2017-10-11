@@ -31,8 +31,7 @@ namespace SAPGUI.XML
 										SNCOp				= lo_Elem.GetAttribute("sncop")				,
 										SystemID		= lo_Elem.GetAttribute("systemid")		,
 										Mode				= lo_Elem.GetAttribute("mode")				,
-										Description	= lo_Elem.GetAttribute("description")	,
-										Used				= false																	};
+										Description	= lo_Elem.GetAttribute("description")		};
 								//................................................
 								lt_Services.Add(lo_DTO.UUID, lo_DTO);
 							}

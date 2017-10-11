@@ -161,6 +161,13 @@
 		<Messageserver uuid="c8eec100-38c5-4aa6-83bd-18a68d29098b" name="EUP" host="GLLDCSAPCEN01.gd.didata.local" port="3600"/>
 		<Messageserver uuid="14e76e0a-89aa-4c35-8e75-09cf3d708c26" name="CP2" host="SAP_CRM_CP2_SCI_26.resource.oxya.local" port="3626"/>
 		<Messageserver uuid="37b79c42-fb01-4005-b346-0891445fe704" name="EP2" host="SAP_ECC_EP2_SCI_11.resource.oxya.local" port="3611"/>
-		<Messageserver uuid="370e6e21-5a08-4d19-93b2-1494ddce7f70" name="DCA" description="DCA" host="apsapprd.ap.didata.local" port="3601"/>
+
+		<Messageserver	uuid				="370e6e21-5a08-4d19-93b2-1494ddce7f70"
+										name				="DCA"
+										description	="DCA"
+										host				="apsapprd.ap.didata.local"
+										port				="3601"
+			/>
+
 	</Messageservers>
 </Landscape>

@@ -3,7 +3,7 @@
 namespace SAPGUI.XML
 {
 	//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-	internal class Repository
+	internal class DTORepository
 		{
 			#region "Properties"
 
@@ -17,7 +17,7 @@ namespace SAPGUI.XML
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository()
+				internal DTORepository()
 					{
 						this.Services		= new Dictionary<string, DTOMsgService>();
 						this.MsgServers	= new Dictionary<string, DTOMsgServer>();
