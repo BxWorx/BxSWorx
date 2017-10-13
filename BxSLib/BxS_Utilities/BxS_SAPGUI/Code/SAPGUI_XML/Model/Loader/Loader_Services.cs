@@ -8,12 +8,9 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Services Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Dictionary<string, DTOMsgService> Load_Services(XmlDocument xmlDoc			,
-																																bool				onlySAPGUI		)
+				private void Load_Services(bool onlySAPGUI)
 					{
-						Dictionary<string, DTOMsgService> lt_Services	= new	Dictionary<string, DTOMsgService>();
-						//.............................................
-						foreach (XmlElement lo_Elem in xmlDoc.GetElementsByTagName("Service"))
+						foreach (XmlElement lo_Elem in this._XmlDoc.GetElementsByTagName("Service"))
 							{
 								string lc_Type = lo_Elem.GetAttribute("type");
 								//................................................
@@ -33,10 +30,8 @@ namespace SAPGUI.XML
 										Mode				= lo_Elem.GetAttribute("mode")				,
 										Description	= lo_Elem.GetAttribute("description")		};
 								//................................................
-								lt_Services.Add(lo_DTO.UUID, lo_DTO);
+								this._Repos.Services.Add(lo_DTO.UUID, lo_DTO);
 							}
-						//.............................................
-						return	lt_Services;
 					}
 
 			#endregion

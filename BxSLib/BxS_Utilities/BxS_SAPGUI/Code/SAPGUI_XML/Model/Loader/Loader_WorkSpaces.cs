@@ -19,21 +19,16 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Workspace Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Dictionary<string, DTOWorkspace> Load_WorkSpaces(	XmlDocument												xmlDoc				,
-																																	string														forWorkspace	,
-																																	string														forNode				,
-																																	Dictionary<string, DTOMsgService>	services				)
+				private void Load_WorkSpaces(string forWorkspace, string forNode)
 					{
-						Dictionary<string, DTOWorkspace>	lt_Workspaces	= new Dictionary<string, DTOWorkspace>();
-						//.............................................
-						foreach (XmlElement lo_WrkSpace in this.GetWorkSpaces(xmlDoc, forWorkspace))
+						foreach (XmlElement lo_WrkSpace in this.GetWorkSpaces(forWorkspace))
 							{
 								DTOWorkspace lo_WSDTO = this.LoadWSAttributtes(lo_WrkSpace);
 								//.........................................
 								foreach (XmlElement lo_Node in this.GetWorkSpaceNodes(lo_WrkSpace, forWorkspace, forNode))
 									{
 										DTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
-										foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_Node, services))
+										foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_Node))
 											{
 												lo_WSNode.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
 											}
@@ -44,17 +39,15 @@ namespace SAPGUI.XML
 								//.........................................
 								if (forNode.Length.Equals(0))
 									{
-										foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_WrkSpace, services, false))
+										foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_WrkSpace, false))
 											{
 												lo_WSDTO.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
 											}
 									}
 								//...........................................
 								if (lo_WSDTO.Nodes.Count > 0 || lo_WSDTO.Items.Count > 0)
-									lt_Workspaces.Add(lo_WSDTO.UUID, lo_WSDTO);
+									this._Repos.WorkSpaces.Add(lo_WSDTO.UUID, lo_WSDTO);
 							}
-							//...........................................
-							return	lt_Workspaces;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -82,9 +75,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private List<DTOWorkspaceNodeItem> GetItemList(	XmlElement												element		,
-																												Dictionary<string, DTOMsgService> services	,
-																												bool															forNode = true	)
+				private List<DTOWorkspaceNodeItem> GetItemList(XmlElement element, bool forNode = true)
 					{
 						List<DTOWorkspaceNodeItem>	lt_List		= new List<DTOWorkspaceNodeItem>();
 						//.............................................
@@ -93,7 +84,7 @@ namespace SAPGUI.XML
 								if (forNode || !lo_Item.ParentNode.Name.Equals(cz_TagNode))
 									{
 										string	lc_ServID	= lo_Item.GetAttribute("serviceid");
-										if (services.ContainsKey(lc_ServID))
+										if (this._Repos.Services.ContainsKey(lc_ServID))
 											{
 												lt_List.Add(	new DTOWorkspaceNodeItem	{	UIID			= lo_Item.GetAttribute("uuid")	,
 																																	ServiceID = lc_ServID												}	);
@@ -117,14 +108,13 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private XmlNodeList GetWorkSpaces(XmlDocument xmlDoc				,
-																					string			forWorkspace		)
+				private XmlNodeList GetWorkSpaces(string forWorkspace)
 					{
 						if (forWorkspace.Length.Equals(0))
-							return	xmlDoc.GetElementsByTagName(cz_TagWSpace);
+							return	this._XmlDoc.GetElementsByTagName(cz_TagWSpace);
 						//.............................................
 						string	lc_Path	= $"//{cz_TagWSpaces}/{cz_TagWSpace}[@{cz_TagName}='{forWorkspace}']";
-						return	xmlDoc.SelectNodes(lc_Path);
+						return	this._XmlDoc.SelectNodes(lc_Path);
 					}
 
 			#endregion

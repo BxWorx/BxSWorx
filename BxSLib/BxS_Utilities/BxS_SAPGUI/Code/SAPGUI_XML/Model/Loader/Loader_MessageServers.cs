@@ -8,11 +8,9 @@ namespace SAPGUI.XML
 			#region "Methods: Private: XML: Message Server Section"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Dictionary<string, DTOMsgServer> Load_MsgServers(XmlDocument xmlDoc)
+				private void Load_MsgServers()
 					{
-						Dictionary<string, DTOMsgServer>	lt_MsgSrvrs	= new	Dictionary<string, DTOMsgServer>();
-						//.............................................
-						foreach (XmlElement lo_MsgSvr in xmlDoc.GetElementsByTagName("Messageserver"))
+						foreach (XmlElement lo_MsgSvr in this._XmlDoc.GetElementsByTagName("Messageserver"))
 							{
 								DTOMsgServer lo_DTO = new DTOMsgServer
 									{	UUID				= lo_MsgSvr.GetAttribute("uuid")				,
@@ -21,10 +19,8 @@ namespace SAPGUI.XML
 										Port				= lo_MsgSvr.GetAttribute("port")				,
 										Description	= lo_MsgSvr.GetAttribute("description")		};
 
-								lt_MsgSrvrs.Add(lo_DTO.UUID, lo_DTO);
+								this._Repos.MsgServers.Add(lo_DTO.UUID, lo_DTO);
 							}
-						//.............................................
-						return	lt_MsgSrvrs;
 					}
 
 			#endregion

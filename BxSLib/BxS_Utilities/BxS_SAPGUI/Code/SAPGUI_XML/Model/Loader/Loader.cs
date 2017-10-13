@@ -5,45 +5,59 @@ namespace SAPGUI.XML
 {
 	internal partial class Loader
 		{
-			#region "Methods: Exposed"
+
+			#region "Declarations"
+
+				private XmlDocument		_XmlDoc;
+				private DTORepository	_Repos;
+
+		#endregion
+
+		//===========================================================================================
+		#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTORepository Load(	string	fullName							,
-																			string	fromWorkspace	= ""		,
-																			string	fromNode			= ""		,
-																			bool		OnlySAPGUI		= true		)
+				internal DTORepository Load(string	fullName,
+																		string	fromWorkspace	= ""	,
+																		string	fromNode			= ""	,
+																		bool		onlySAPGUI		= true	)
 					{
-						DTORepository	lo_Repos	= new DTORepository();
-						XmlDocument lo_XMLDoc		= this.LoadXMLDoc(fullName);
+						this._Repos	= this.Create();
 						//.............................................
-						if (lo_XMLDoc != null)
+						this._XmlDoc	= this.LoadXMLDoc(fullName);
+						if (this._XmlDoc != null)
 							{
-								lo_Repos.Services		= this.Load_Services(lo_XMLDoc, OnlySAPGUI);
-								lo_Repos.MsgServers	= this.Load_MsgServers(lo_XMLDoc);
-								lo_Repos.WorkSpaces	= this.Load_WorkSpaces(	lo_XMLDoc											,
-																														fromWorkspace ?? string.Empty	,
-																														fromNode			?? string.Empty ,
-																														lo_Repos.Services								);
+								this.Load_Services(onlySAPGUI);
+								this.Load_MsgServers();
 								//.............................................
-								this.Load_XML_Cleanup(lo_Repos);
+								this.Load_WorkSpaces(	fromWorkspace ?? string.Empty	,
+																			fromNode			?? string.Empty		);
+								//.............................................
+								this.Load_XML_Cleanup();
 							}
 						//.............................................
-						return	lo_Repos;
+						return	this._Repos;
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private: XML: Header Section"
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private XmlDocument LoadXMLDoc(string	fullName)
+				private DTORepository Create()
+					{
+						return	new DTORepository();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private XmlDocument LoadXMLDoc(string fullname)
 					{
 						XmlDocument lo_XMLDoc = new XmlDocument();
 						//.............................................
 						try
 								{
-									lo_XMLDoc.Load(fullName);
+									lo_XMLDoc.Load(fullname);
 								}
 							catch (System.SystemException)
 								{
@@ -54,11 +68,11 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<string> UsedMsgServers(DTORepository repository)
+				private IList<string> UsedMsgServers()
 					{
 						IList<string>	lt_List	= new List<string>();
 						//.............................................
-						foreach (var lo_Srv in repository.Services)
+						foreach (var lo_Srv in this._Repos.Services)
 							{
 								if (!lt_List.Contains(lo_Srv.Value.MSID))
 									lt_List.Add(lo_Srv.Value.MSID);
@@ -68,11 +82,11 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<string> UsedServices(DTORepository repository)
+				private IList<string> UsedServices()
 					{
 						IList<string>	lt_List	= new List<string>();
 						//.............................................
-						foreach (var lo_WS in repository.WorkSpaces)
+						foreach (var lo_WS in this._Repos.WorkSpaces)
 							{
 								foreach (var lo_Node in lo_WS.Value.Nodes)
 									{
@@ -92,19 +106,24 @@ namespace SAPGUI.XML
 						return lt_List;
 					}
 
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private: Housekeeping"
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Remove unwanted Services and Message Servers
 				//
-				private void Load_XML_Cleanup(DTORepository repository)
+				private void Load_XML_Cleanup()
 					{
 						IList<string>	lt_Use;
 						IList<string>	lt_Rem	= new List<string>();
 						//.............................................
 						// Cleanup Services
 						//
-						lt_Use	= this.UsedServices(repository);
+						lt_Use	= this.UsedServices();
 						//.............................................
-						foreach (var lo_Srv in repository.Services)
+						foreach (var lo_Srv in this._Repos.Services)
 							{
 								if (!lt_Use.Contains(lo_Srv.Key))
 									lt_Rem.Add(lo_Srv.Key);
@@ -112,16 +131,16 @@ namespace SAPGUI.XML
 						//.............................................
 						foreach (var lo_Rem in lt_Rem)
 							{
-								repository.Services.Remove(lo_Rem);
+								this._Repos.Services.Remove(lo_Rem);
 							}
 
 						//.............................................
 						// Cleanup Message Servers from cleaned Services
 						//
-						lt_Use	= this.UsedMsgServers(repository);
+						lt_Use	= this.UsedMsgServers();
 						lt_Rem.Clear();
 						//.............................................
-						foreach (var lo_Msg in repository.MsgServers)
+						foreach (var lo_Msg in this._Repos.MsgServers)
 							{
 								if (!lt_Use.Contains(lo_Msg.Key))
 									lt_Rem.Add(lo_Msg.Key);
@@ -129,7 +148,7 @@ namespace SAPGUI.XML
 						//.............................................
 						foreach (var lo_Rem in lt_Rem)
 							{
-								repository.MsgServers.Remove(lo_Rem);
+								this._Repos.MsgServers.Remove(lo_Rem);
 							}
 					}
 
