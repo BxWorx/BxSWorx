@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace SAPGUI.XML.Repository
 {
 	internal partial class ParseXML2Repository
 		{
@@ -175,52 +175,26 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<string> UsedMsgServers(DTORepository repository)
 					{
-						var zz = 	(	from c in repository.Services.Values
-												select c.MSID)
-												.Where( x => x.Length != 0)
-												.Distinct().ToList<string>();
-
-
-						var xx =	repository.Services.Values
-												.Where(x => x.MSID.Length != 0)
-												.SelectMany(c => @c.MSID)
-												.Distinct();
-
-						IList<string>	lt_List	= new List<string>();
-						//.............................................
-						foreach (KeyValuePair<string, DTOMsgService> lo_Srv in repository.Services)
-							{
-								if (!lt_List.Contains(lo_Srv.Value.MSID))
-									lt_List.Add(lo_Srv.Value.MSID);
-							}
-						//.............................................
-						return lt_List;
+						return	repository.Services.Select(
+											x => x.Value.MSID)
+												.Where(x => x.Length != 0)
+													.Distinct()
+														.ToList();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<string> UsedServices(DTORepository repository)
 					{
-						IList<string>	lt_List	= new List<string>();
-						//.............................................
-						foreach (KeyValuePair<string, DTOWorkspace> lo_WS in repository.WorkSpaces)
-							{
-								foreach (KeyValuePair<string, DTOWorkspaceNode> lo_Node in lo_WS.Value.Nodes)
-									{
-										foreach (KeyValuePair<string, DTOWorkspaceNodeItem> lo_Item in	lo_Node.Value.Items)
-											{
-												if (!lt_List.Contains(lo_Item.Value.ServiceID))
-													lt_List.Add(lo_Item.Value.ServiceID);
-											}
-									}
-
-								foreach (KeyValuePair<string, DTOWorkspaceNodeItem> lo_Item in lo_WS.Value.Items)
-									{
-										if (!lt_List.Contains(lo_Item.Value.ServiceID))
-											lt_List.Add(lo_Item.Value.ServiceID);
-									}
-							}
-						//.............................................
-						return lt_List;
+						return	repository.WorkSpaces.SelectMany
+											( ws => ws.Value.Nodes.SelectMany
+												( nd => nd.Value.Items.Select( it => it.Value.ServiceID )
+														.Where( id => id.Length != 0 )
+												)
+												.Concat
+													( ws.Value.Items.Select( it => it.Value.ServiceID )
+															.Where( id => id.Length != 0 )
+													)
+											).ToList();
 					}
 
 			#endregion

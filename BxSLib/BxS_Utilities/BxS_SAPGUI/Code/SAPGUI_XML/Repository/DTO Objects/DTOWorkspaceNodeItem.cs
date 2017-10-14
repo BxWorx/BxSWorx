@@ -1,12 +1,9 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace SAPGUI.XML.Repository
 {
-	internal class DTOMsgServer
+	internal class DTOWorkspaceNodeItem
 		{
-			internal string UUID				{ get; set; }
-			internal string Name				{ get; set; }
-			internal string Host				{ get; set; }
-			internal string Port				{ get; set; }
-			internal string Description	{ get; set; }
+			internal string UIID			{ get; set; }
+			internal string ServiceID { get; set; }
 		}
 }

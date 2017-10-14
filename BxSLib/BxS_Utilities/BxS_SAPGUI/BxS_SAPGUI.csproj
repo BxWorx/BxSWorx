@@ -6,6 +6,18 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="Code\Old Stuff\Loader\Loader.cs" />
+    <Compile Remove="Code\Old Stuff\Loader\Loader_MessageServers.cs" />
+    <Compile Remove="Code\Old Stuff\Loader\Loader_Services.cs" />
+    <Compile Remove="Code\Old Stuff\Loader\Loader_WorkSpaces.cs" />
+    <Compile Remove="Code\Old Stuff\Loader\UT_BxS_SAPGUI_XML_Loader.cs" />
+    <Compile Remove="Code\Old Stuff\Loader\UT_BxS_SAPGUI_XML_Parser.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\Old Stuff\Loader\" />
+    <Folder Include="Code\SAPGUI_XML\Helpers\" />
+    <Folder Include="Code\SAPGUI_XML\Model\" />
   </ItemGroup>
 
 </Project>

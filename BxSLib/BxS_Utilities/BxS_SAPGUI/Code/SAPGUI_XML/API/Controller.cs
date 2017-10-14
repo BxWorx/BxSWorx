@@ -1,5 +1,6 @@
 ﻿using System;
 using SAPGUI.API;
+using SAPGUI.XML.Repository;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -10,7 +11,7 @@ namespace SAPGUI.XML
 			#region "Definitions"
 
 				private readonly string				_FullPath;
-				private readonly Lazy<Loader> _Loader		= new Lazy<Loader>();
+				//private readonly Lazy<Loader> _Loader		= new Lazy<Loader>();
 
 			#endregion
 

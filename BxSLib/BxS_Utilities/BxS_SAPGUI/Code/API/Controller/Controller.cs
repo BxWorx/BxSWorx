@@ -10,7 +10,7 @@ namespace SAPGUI.API
 			#region "Definitions"
 
 				private readonly string				_FullPath;
-				private readonly Lazy<Loader> _Loader		= new Lazy<Loader>();
+				//private readonly Lazy<Loader> _Loader		= new Lazy<Loader>();
 
 			#endregion
 
