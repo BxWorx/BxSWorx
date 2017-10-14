@@ -15,10 +15,10 @@ namespace SAPGUI.XML
 				private const string cz_TagNode			= "Node";
 				private const string cz_TagWSpace		= "Workspace";
 
-		#endregion
+			#endregion
 
-		//=============================================================================================
-		#region "Methods: Exposed"
+			//=============================================================================================
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DTORepository Load(string	fullName,	bool onlySAPGUI	= true	)
@@ -200,6 +200,7 @@ namespace SAPGUI.XML
 													lt_List.Add(lo_Item.Value.ServiceID);
 											}
 									}
+
 								foreach (KeyValuePair<string, DTOWorkspaceNodeItem> lo_Item in lo_WS.Value.Items)
 									{
 										if (!lt_List.Contains(lo_Item.Value.ServiceID))
