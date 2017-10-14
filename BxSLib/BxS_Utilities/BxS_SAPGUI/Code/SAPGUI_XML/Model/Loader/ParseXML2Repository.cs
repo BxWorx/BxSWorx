@@ -1,5 +1,6 @@
 ﻿using System.Xml;
 using System.Collections.Generic;
+using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -174,6 +175,17 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<string> UsedMsgServers(DTORepository repository)
 					{
+						var zz = 	(	from c in repository.Services.Values
+												select c.MSID)
+												.Where( x => x.Length != 0)
+												.Distinct().ToList<string>();
+
+
+						var xx =	repository.Services.Values
+												.Where(x => x.MSID.Length != 0)
+												.SelectMany(c => @c.MSID)
+												.Distinct();
+
 						IList<string>	lt_List	= new List<string>();
 						//.............................................
 						foreach (KeyValuePair<string, DTOMsgService> lo_Srv in repository.Services)
