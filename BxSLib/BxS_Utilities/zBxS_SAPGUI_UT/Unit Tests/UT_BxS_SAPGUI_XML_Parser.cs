@@ -19,9 +19,9 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiXML_Parser()
 				{
 					int						ln_Cnt;
-					DTORepository	lo_Repos;
+					XMLRepository	lo_Repos;
 					//...............................................
-					var	lo_Parser		= new XMLParse2DTO();
+					var	lo_Parser		= new XMLParse2ReposDTO();
 					//...............................................
 					lo_Repos	= lo_Parser.Load("XXXX");
 					ln_Cnt		= 1;

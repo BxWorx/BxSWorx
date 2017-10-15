@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace SAPGUI.XML.DTO
 {
 	internal class DTOWorkspaceNode
 		{

@@ -1,9 +1,8 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
-	public interface IController
+	public interface IControllerSource
 		{
-			IDTOConnection	CreateConnection(string connectionID = "");
 			//...................................................
 			IDTOConnection	GetConnection	(string					connectionID);
 			void						GetConnection	(IDTOConnection	dtoConnection);

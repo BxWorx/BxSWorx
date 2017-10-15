@@ -1,10 +1,12 @@
 ﻿using System.Xml;
 using System.Collections.Generic;
 using System.Linq;
+//.........................................................
+using SAPGUI.XML.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
-	internal partial class XMLParse2DTO
+	internal partial class XMLParse2ReposDTO
 		{
 
 			#region "Declarations"
@@ -22,12 +24,12 @@ namespace SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTORepository Load(string	fullName,	bool onlySAPGUI	= true	)
+				internal XMLRepository Load(string	fullName,	bool onlySAPGUI	= true	)
 					{
-						var	Repos	= new DTORepository();
+						var	lo_Repos	= new XMLRepository();
 						//.............................................
 						XmlDocument XmlDoc	= this.LoadXMLDoc(fullName);
-						if (XmlDoc == null)		return	Repos;
+						if (XmlDoc == null)		return	lo_Repos;
 						//.............................................
 
 						//.............................................
@@ -53,7 +55,7 @@ namespace SAPGUI.XML
 										Mode				= lo_Elem.GetAttribute("mode")				,
 										Description	= lo_Elem.GetAttribute(cz_TagDesc)			};
 								//................................................
-								Repos.Services.Add(lo_DTO.UUID, lo_DTO);
+								lo_Repos.Services.Add(lo_DTO.UUID, lo_DTO);
 							}
 
 						//.............................................
@@ -68,7 +70,7 @@ namespace SAPGUI.XML
 										Port				= lo_MsgSvr.GetAttribute("port")				,
 										Description	= lo_MsgSvr.GetAttribute(cz_TagDesc)			};
 
-								Repos.MsgServers.Add(lo_DTO.UUID, lo_DTO);
+								lo_Repos.MsgServers.Add(lo_DTO.UUID, lo_DTO);
 							}
 
 						//.............................................
@@ -81,7 +83,7 @@ namespace SAPGUI.XML
 								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName(cz_TagNode))
 									{
 										DTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
-										foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(Repos, lo_Node, true))
+										foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_Node, true))
 											{
 												lo_WSNode.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
 											}
@@ -90,19 +92,19 @@ namespace SAPGUI.XML
 											lo_WSDTO.Nodes.Add(lo_WSNode.UUID, lo_WSNode);
 									}
 								//.........................................
-								foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(Repos, lo_WrkSpace, false))
+								foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_WrkSpace, false))
 									{
 										lo_WSDTO.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
 									}
 								//...........................................
 								if (lo_WSDTO.Nodes.Count > 0 || lo_WSDTO.Items.Count > 0)
-									Repos.WorkSpaces.Add(lo_WSDTO.UUID, lo_WSDTO);
+									lo_Repos.WorkSpaces.Add(lo_WSDTO.UUID, lo_WSDTO);
 							}
 
 						//.............................................
-						this.Load_XML_Cleanup(Repos);
+						this.Load_XML_Cleanup(lo_Repos);
 
-						return	Repos;
+						return	lo_Repos;
 					}
 
 			#endregion
@@ -152,7 +154,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private List<DTOWorkspaceNodeItem> GetItemList(DTORepository repository, XmlElement element, bool forNode = true)
+				private List<DTOWorkspaceNodeItem> GetItemList(XMLRepository repository, XmlElement element, bool forNode = true)
 					{
 						var	lt_List		= new List<DTOWorkspaceNodeItem>();
 						//.............................................
@@ -173,7 +175,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<string> UsedMsgServers(DTORepository repository)
+				private IList<string> UsedMsgServers(XMLRepository repository)
 					{
 						return	repository.Services.Select(
 											x => x.Value.MSID)
@@ -183,7 +185,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<string> UsedServices(DTORepository repository)
+				private IList<string> UsedServices(XMLRepository repository)
 					{
 						return	repository.WorkSpaces.SelectMany
 											( ws => ws.Value.Nodes.SelectMany
@@ -205,7 +207,7 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Remove unwanted Services and Message Servers
 				//
-				private void Load_XML_Cleanup(DTORepository repository)
+				private void Load_XML_Cleanup(XMLRepository repository)
 					{
 						IList<string>	lt_Use;
 						IList<string>	lt_Rem	= new List<string>();

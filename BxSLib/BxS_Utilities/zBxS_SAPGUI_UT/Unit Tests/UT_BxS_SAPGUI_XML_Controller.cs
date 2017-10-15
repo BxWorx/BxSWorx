@@ -21,9 +21,9 @@ namespace zBxS_SAPGUI_UT
 			[TestMethod]
 			public void UT_SapGuiXML_Controller()
 				{
-					int							ln_Cnt;
-					IController			lo_Cntlr;
-					IDTOConnection	lo_DTOConn;
+					int								ln_Cnt;
+					IControllerSource	lo_Cntlr;
+					IDTOConnection		lo_DTOConn;
 					//...............................................
 					lo_Cntlr	= new XMLController(cc_FullName, true);
 					//...............................................
