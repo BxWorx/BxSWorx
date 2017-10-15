@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML.Repository
+namespace SAPGUI.XML
 {
 	internal class DTOMsgServer
 		{

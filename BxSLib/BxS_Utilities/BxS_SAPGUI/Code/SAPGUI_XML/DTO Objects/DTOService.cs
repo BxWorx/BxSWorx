@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML.Repository
+namespace SAPGUI.XML
 {
-	internal class DTOMsgService
+	internal class DTOService
 		{
 			internal string UUID				{ get; set; }
 			internal string Name				{ get; set; }

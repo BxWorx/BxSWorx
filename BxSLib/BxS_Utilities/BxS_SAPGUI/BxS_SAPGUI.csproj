@@ -5,19 +5,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Class1.cs" />
-    <Compile Remove="Code\Old Stuff\Loader\Loader.cs" />
-    <Compile Remove="Code\Old Stuff\Loader\Loader_MessageServers.cs" />
-    <Compile Remove="Code\Old Stuff\Loader\Loader_Services.cs" />
-    <Compile Remove="Code\Old Stuff\Loader\Loader_WorkSpaces.cs" />
-    <Compile Remove="Code\Old Stuff\Loader\UT_BxS_SAPGUI_XML_Loader.cs" />
-    <Compile Remove="Code\Old Stuff\Loader\UT_BxS_SAPGUI_XML_Parser.cs" />
+    <Compile Remove="Code\SAPGUI_XML\Helpers\**" />
+    <Compile Remove="Code\SAPGUI_XML\Model\**" />
+    <EmbeddedResource Remove="Code\SAPGUI_XML\Helpers\**" />
+    <EmbeddedResource Remove="Code\SAPGUI_XML\Model\**" />
+    <None Remove="Code\SAPGUI_XML\Helpers\**" />
+    <None Remove="Code\SAPGUI_XML\Model\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\Old Stuff\Loader\" />
-    <Folder Include="Code\SAPGUI_XML\Helpers\" />
-    <Folder Include="Code\SAPGUI_XML\Model\" />
+    <Compile Remove="Class1.cs" />
+    <Compile Remove="Code\zOld Stuff\Loader\Loader.cs" />
+    <Compile Remove="Code\zOld Stuff\Loader\Loader_MessageServers.cs" />
+    <Compile Remove="Code\zOld Stuff\Loader\Loader_Services.cs" />
+    <Compile Remove="Code\zOld Stuff\Loader\Loader_WorkSpaces.cs" />
+    <Compile Remove="Code\zOld Stuff\Loader\UT_BxS_SAPGUI_XML_Loader.cs" />
+    <Compile Remove="Code\zOld Stuff\Loader\UT_BxS_SAPGUI_XML_Parser.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\zOld Stuff\Loader\" />
   </ItemGroup>
 
 </Project>

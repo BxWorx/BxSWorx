@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML.Repository
+namespace SAPGUI.XML
 {
-	internal partial class ParseXML2Repository
+	internal partial class XMLParse2DTO
 		{
 
 			#region "Declarations"
@@ -39,7 +39,7 @@ namespace SAPGUI.XML.Repository
 								//................................................
 								if (onlySAPGUI && !lc_Type.Equals("SAPGUI"))	continue;
 								//................................................
-								var lo_DTO = new DTOMsgService
+								var lo_DTO = new DTOService
 									{	Type				= lc_Type															,
 										UUID				= lo_Elem.GetAttribute(cz_TagUuid)		,
 										Name				= lo_Elem.GetAttribute(cz_TagName)		,
@@ -214,7 +214,7 @@ namespace SAPGUI.XML.Repository
 						//
 						lt_Use	= this.UsedServices(repository);
 						//.............................................
-						foreach (KeyValuePair<string, DTOMsgService> lo_Srv in repository.Services)
+						foreach (KeyValuePair<string, DTOService> lo_Srv in repository.Services)
 							{
 								if (!lt_Use.Contains(lo_Srv.Key))
 									lt_Rem.Add(lo_Srv.Key);

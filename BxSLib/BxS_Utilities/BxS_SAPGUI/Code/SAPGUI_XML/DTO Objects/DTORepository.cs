@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML.Repository
+namespace SAPGUI.XML
 {
 	//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 	internal class DTORepository
 		{
 			#region "Properties"
 
-				internal Dictionary<string, DTOMsgService>	Services		{ get; set; }
+				internal Dictionary<string, DTOService>	Services		{ get; set; }
 				internal Dictionary<string, DTOMsgServer>		MsgServers	{ get; set; }
 				internal Dictionary<string, DTOWorkspace>		WorkSpaces	{ get; set; }
 
@@ -19,7 +19,7 @@ namespace SAPGUI.XML.Repository
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DTORepository()
 					{
-						this.Services		= new Dictionary<string, DTOMsgService>();
+						this.Services		= new Dictionary<string, DTOService>();
 						this.MsgServers	= new Dictionary<string, DTOMsgServer>();
 						this.WorkSpaces = new Dictionary<string, DTOWorkspace>();
 					}

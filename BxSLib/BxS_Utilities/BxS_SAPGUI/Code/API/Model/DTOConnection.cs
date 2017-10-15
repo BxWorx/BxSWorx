@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
-	public class DTOConnection
+	internal class DTOConnection : IDTOConnection
 		{
 			#region "Properties"
 
 				public string	ID							{ get; set; }
-				public string	Name						{ get; set; }
+				public string	ServiceName			{ get; set; }
 				public string	AppServer				{ get; set; }
 				public int		InstanceNo			{ get; set; }
 				public string	SystemID				{ get; set; }
@@ -19,6 +16,14 @@ namespace SAPGUI.API
 				public bool		SNC_UsrPwd			{ get; set; }
 				public int		SNC_QOP					{ get; set; }
 				public bool		LowSpeed				{ get; set; }
+				//.................................................
+				public string MSID						{ get; set; }
+				public string MSName					{ get; set; }
+				public string MSHost					{ get; set; }
+				public string MSPort					{ get; set; }
+				public string MSDescription		{ get; set; }
+				//.................................................
+				public bool		IsValid					{ get; set; }
 
 			#endregion
 
@@ -26,18 +31,25 @@ namespace SAPGUI.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTOConnection()
+				internal DTOConnection()
 					{
 						this.ID								= string.Empty;
-						this.Name							= string.Empty;
+						this.ServiceName			= string.Empty;
 						this.AppServer				= string.Empty;
 						this.SystemID					= string.Empty;
 						this.RouterPath				= string.Empty;
 						this.SNC_PartnerName	= string.Empty;
 
+						this.MSID							= string.Empty;
+						this.MSName						= string.Empty;
+						this.MSHost						= string.Empty;
+						this.MSPort						= string.Empty;
+						this.MSDescription		= string.Empty;
+
 						this.SNC_Active				= false;
 						this.SNC_UsrPwd				= false;
 						this.LowSpeed					= false;
+						this.IsValid					= false;
 
 						this.InstanceNo				= default(int);
 						this.SNC_QOP					= default(int);

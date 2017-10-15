@@ -1,9 +1,16 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML.Repository
+namespace SAPGUI.API
 {
-	internal class DTOWorkspaceNodeItem
+	public interface IDTOConnectionView
 		{
-			internal string UIID			{ get; set; }
-			internal string ServiceID { get; set; }
+			#region "Properties"
+
+				string	ID						{ get; set; }
+				string	GroupID				{ get; set; }
+				string	SAPID					{ get; set; }
+				string	Description		{ get; set; }
+
+			#endregion
+
 		}
 }

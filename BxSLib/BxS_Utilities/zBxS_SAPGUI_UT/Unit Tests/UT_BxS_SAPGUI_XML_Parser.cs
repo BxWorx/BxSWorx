@@ -1,10 +1,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 //.........................................................
-using SAPGUI.XML.Repository;
+using SAPGUI.XML;
 //••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
-{
+	{
 	[TestClass]
 	public class UT_BxS_SAPGUI_XML_Parser
 		{
@@ -21,7 +21,7 @@ namespace zBxS_SAPGUI_UT
 					int						ln_Cnt;
 					DTORepository	lo_Repos;
 					//...............................................
-					var	lo_Parser		= new ParseXML2Repository();
+					var	lo_Parser		= new XMLParse2DTO();
 					//...............................................
 					lo_Repos	= lo_Parser.Load("XXXX");
 					ln_Cnt		= 1;
