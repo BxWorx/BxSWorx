@@ -16,14 +16,6 @@ namespace SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOConnection GetConnection(string connectionID)
-					{
-						IDTOConnection DTO	= this.CreateConnection(connectionID);
-						this._Repository.LoadConnectionDTO(DTO);
-						return	DTO;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void GetConnection(IDTOConnection dtoConnection)
 					{
 						this._Repository.LoadConnectionDTO(dtoConnection);
@@ -40,10 +32,6 @@ namespace SAPGUI.XML
 						this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 			#endregion
 
 		}

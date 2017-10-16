@@ -1,10 +1,9 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
-	public interface IControllerSource
+	internal interface IControllerSource
 		{
+			void	GetConnection	(IDTOConnection	dtoConnection);
 			//...................................................
-			IDTOConnection	GetConnection	(string					connectionID);
-			void						GetConnection	(IDTOConnection	dtoConnection);
 		}
 }

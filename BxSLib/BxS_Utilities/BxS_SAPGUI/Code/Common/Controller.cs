@@ -8,7 +8,7 @@ namespace SAPGUI.XML
 			//===========================================================================================
 			#region "Definitions"
 
-				private readonly	XMLRepository		_Repository;
+				private readonly	IControllerSource	_SrceCntlr;
 
 			#endregion
 
@@ -27,15 +27,15 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOConnection GetConnection(string connectionID)
 					{
-						IDTOConnection DTO	= this.CreateConnection(connectionID);
-						this._Repository.LoadConnectionDTO(DTO);
-						return	DTO;
+						IDTOConnection DTOConn	= this.CreateConnection(connectionID);
+						this.GetConnection(DTOConn);
+						return	DTOConn;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void GetConnection(IDTOConnection dtoConnection)
 					{
-						this._Repository.LoadConnectionDTO(dtoConnection);
+						this._SrceCntlr.GetConnection(dtoConnection);
 					}
 
 			#endregion
@@ -44,15 +44,11 @@ namespace SAPGUI.XML
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public XMLController(string fullPath, bool onlySAPGUI)
+				public Controller(IControllerSource	controller)
 					{
-						this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
+						this._SrceCntlr		= controller;
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 			#endregion
 
 		}
