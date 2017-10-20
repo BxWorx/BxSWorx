@@ -6,7 +6,7 @@ namespace SAPGUI.XML
 		{
 
 			//===========================================================================================
-			#region "Definitions"
+			#region "Declarations"
 
 				private readonly	XMLRepository		_Repository;
 

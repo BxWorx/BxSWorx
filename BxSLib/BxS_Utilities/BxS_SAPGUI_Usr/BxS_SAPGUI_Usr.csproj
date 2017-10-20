@@ -10,8 +10,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Code\Model\" />
-  </ItemGroup>
-
 </Project>
