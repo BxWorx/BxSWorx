@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Data;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
@@ -16,23 +17,49 @@ namespace SAPGUI.USR.DS
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DataSetCreate(string fullName)
+				internal DataSetCreate(string fullFileName, string dataSetName)
 					{
 						this._string	= typeof(string);
-						this._sapgui	= new DataSet("SAPGUI_USR");
+						this._sapgui	= new DataSet(dataSetName);
 						//.............................................
 						this.AddTable_Services();
 						this.AddTable_MsgServer();
 						this.AddTable_WorkSpace();
 						//.............................................
-						var xmlSW	= new System.IO.StreamWriter(fullName);
-						this._sapgui.WriteXmlSchema(xmlSW); //, XmlWriteMode.WriteSchema);
+						this.AddRelation_Service2MsgSrv();
+						this.AddRelation_Service2Workspace();
+						//.............................................
+						using (var xmlSW = new StreamWriter(fullFileName))
+							{
+								this._sapgui.WriteXmlSchema(xmlSW);
+								xmlSW.Close();
+							}
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void AddRelation_Service2MsgSrv()
+					{
+						DataColumn	lo_ColParent	= this._sapgui.Tables["MsgServer"].Columns["UUID"];
+						DataColumn	lo_ColChild		= this._sapgui.Tables["Services"].Columns["MsgServer_ID"];
+						var					lo_Rel				= new DataRelation("Service2MsgServer", lo_ColParent, lo_ColChild);
+						//.............................................
+						this._sapgui.Relations.Add(lo_Rel);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void AddRelation_Service2Workspace()
+					{
+						DataColumn	lo_ColParent	= this._sapgui.Tables["WorkSpace"].Columns["UUID"];
+						DataColumn	lo_ColChild		= this._sapgui.Tables["Services"].Columns["Workspace_ID"];
+						var					lo_Rel				= new DataRelation("Service2Workspace", lo_ColParent, lo_ColChild);
+						//.............................................
+						this._sapgui.Relations.Add(lo_Rel);
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddTable_WorkSpace()
@@ -45,7 +72,7 @@ namespace SAPGUI.USR.DS
 						WorkSpace.Columns.Add("Parent_UUID"		, this._string);
 						WorkSpace.Columns.Add("Hierarchy_ID"	, this._string);
 						//.............................................
-						this._sapgui.Tables.Add(WorkSpace);
+						this._sapgui.Tables.Add(WorkSpace);	
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -57,8 +84,8 @@ namespace SAPGUI.USR.DS
 						this.AddColumn_Name					(MsgServer);
 						this.AddColumn_Description	(MsgServer);
 						//.............................................
-						MsgServer.Columns.Add("Host"				, this._string);
-						MsgServer.Columns.Add("Port"				, this._string);
+						this.AddColumn_TypeString(MsgServer, "Host", 20);
+						this.AddColumn_TypeString(MsgServer, "Port", 20);
 						//.............................................
 						this._sapgui.Tables.Add(MsgServer);
 					}
@@ -79,6 +106,9 @@ namespace SAPGUI.USR.DS
 						Services.Columns.Add("SNC_Op"					, this._string);
 						Services.Columns.Add("SAPCodePage"		, this._string);
 						Services.Columns.Add("DownUpCodePage"	, this._string);
+						//.............................................
+						this.AddColumn_TypeString(Services, "MsgServer_ID", 32);
+						this.AddColumn_TypeString(Services, "Workspace_ID", 32);
 						//.............................................
 						this._sapgui.Tables.Add(Services);
 					}

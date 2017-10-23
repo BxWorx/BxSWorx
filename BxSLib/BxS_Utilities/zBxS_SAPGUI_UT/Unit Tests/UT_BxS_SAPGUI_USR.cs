@@ -1,14 +1,16 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Data;
 //.........................................................
 using SAPGUI.USR.DS;
-//••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
 	{
 	[TestClass]
 	public class UT_BxS_SAPGUI_USR
 		{
 			private const string	cz_FileName		= "SAPGUI_USR.xml";
+			private const string	cz_DSName			= "SAPGUI_USR";
 			private const string	cz_TestDir		= "Test Resources";
 
 			//...................................................
@@ -21,18 +23,13 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					var	lo_DSHndlr = new  DataSetCreate(cc_FullName);
+					var	lo_DSHndlr	= new DataSetCreate(cc_FullName, cz_DSName);
 					//...............................................
-					ln_Cnt			= 1;
-					//lo_DTOConn	= new DTOConnection	{	ID = "ZZZZZ" };
-					//lo_DSHndlr.GetConnection(lo_DTOConn);
-					//Assert.IsFalse	(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
-					////...............................................
-					//ln_Cnt			= 2;
-					//lo_DTOConn	= new DTOConnection	{	ID = cz_TestConnID };
-					//lo_DSHndlr.GetConnection(lo_DTOConn);
-					//Assert.AreEqual	(cz_TestConnID			, lo_DTOConn.ID	,	$"Cntlr: {ln_Cnt}: Conn: Error");
-					//Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
+					ln_Cnt	= 1;
+					var xx	= new DataSet();
+					xx.ReadXmlSchema(cc_FullName);
+					Assert.AreEqual	(cz_DSName				, xx.DataSetName	,	$"Cntlr: {ln_Cnt}: DS-Name: Error");
+					Assert.IsNotNull(xx.Tables.Count										,	$"Cntlr: {ln_Cnt}: DS-Tabs: Error");
 				}
 		}
 }
