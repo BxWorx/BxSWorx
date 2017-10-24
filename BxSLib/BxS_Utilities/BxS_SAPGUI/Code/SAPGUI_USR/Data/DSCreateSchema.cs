@@ -8,8 +8,10 @@ namespace SAPGUI.USR.DS
 		{
 			#region "Declarations"
 
+				private	readonly	string	_FullName;
+				private	readonly	string	_DSName;
 				private readonly	DataSet	_sapgui;
-				private readonly	Type		_string;
+				private						Type		_string;
 
 			#endregion
 
@@ -41,12 +43,43 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	DataSet	GetDataSet()
 					{
+						bool    lb_Ok	= false;
 						DataSet	lo_DS	= new DataSet();
+						//.............................................
+						try
+							{
+								lb_Ok	= true
+							}
+						catch (Exception)
+							{
+								this._string	= typeof(string);
+								this._sapgui	= new DataSet(dataSetName);
+								//.............................................
+								this.AddTable_Services();
+								this.AddTable_MsgServer();
+								this.AddTable_WorkSpace();
+								//.............................................
+								this.AddRelation_Service2MsgSrv();
+								this.AddRelation_Service2Workspace();
+								//.............................................
+								using (var xmlSW = new StreamWriter(fullFileName))
+									{
+										this._sapgui.WriteXmlSchema(xmlSW);
+										xmlSW.Close();
+									}
+							}
+						finally
+							{
 				
-				
+							}
+						
+						if (!lb_OK)
 
+
+						//.............................................
 						return	lo_DS;
 					}
 
