@@ -26,10 +26,10 @@ namespace zBxS_SAPGUI_UT
 					var	lo_DSHndlr	= new DataSetCreate(cc_FullName, cz_DSName);
 					//...............................................
 					ln_Cnt	= 1;
-					var xx	= new DataSet();
-					xx.ReadXmlSchema(cc_FullName);
-					Assert.AreEqual	(cz_DSName				, xx.DataSetName	,	$"Cntlr: {ln_Cnt}: DS-Name: Error");
-					Assert.IsNotNull(xx.Tables.Count										,	$"Cntlr: {ln_Cnt}: DS-Tabs: Error");
+					var lo_DSTest	= new DataSet();
+					lo_DSTest.ReadXmlSchema(cc_FullName);
+					Assert.AreEqual	(cz_DSName				, lo_DSTest.DataSetName	,	$"Cntlr: {ln_Cnt}: DS-Name: Error");
+					Assert.IsNotNull(lo_DSTest.Tables.Count										,	$"Cntlr: {ln_Cnt}: DS-Tabs: Error");
 				}
 		}
 }
