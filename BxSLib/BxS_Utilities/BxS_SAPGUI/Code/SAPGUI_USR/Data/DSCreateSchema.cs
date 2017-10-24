@@ -4,7 +4,7 @@ using System.Data;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
 {
-		internal class DataSetCreate
+		internal class DSCreateSchema
 		{
 			#region "Declarations"
 
@@ -17,7 +17,7 @@ namespace SAPGUI.USR.DS
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DataSetCreate(string fullFileName, string dataSetName)
+				internal DSCreateSchema(string fullFileName, string dataSetName)
 					{
 						this._string	= typeof(string);
 						this._sapgui	= new DataSet(dataSetName);
@@ -34,6 +34,20 @@ namespace SAPGUI.USR.DS
 								this._sapgui.WriteXmlSchema(xmlSW);
 								xmlSW.Close();
 							}
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				internal	DataSet	GetDataSet()
+					{
+						DataSet	lo_DS	= new DataSet();
+				
+				
+
+						return	lo_DS;
 					}
 
 			#endregion

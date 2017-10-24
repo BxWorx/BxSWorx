@@ -1,6 +1,6 @@
 ﻿using SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace SAPGUI.INI
 {
 	internal class INIController : IControllerSource
 		{

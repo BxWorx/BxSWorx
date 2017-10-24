@@ -1,8 +1,8 @@
 ﻿using SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace SAPGUI.USR
 {
-	internal class BxSController : IControllerSource
+	internal class USRController : IControllerSource
 		{
 
 			//===========================================================================================
@@ -27,7 +27,7 @@ namespace SAPGUI.XML
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BxSController(string fullPath, bool onlySAPGUI)
+				public USRController(string fullPath, bool onlySAPGUI)
 					{
 						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
 					}

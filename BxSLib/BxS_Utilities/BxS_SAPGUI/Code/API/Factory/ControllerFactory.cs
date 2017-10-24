@@ -1,4 +1,6 @@
 ﻿using SAPGUI.XML;
+using SAPGUI.INI;
+using SAPGUI.USR;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
@@ -12,6 +14,14 @@ namespace SAPGUI.API
 					{
 						IControllerSource XMLCntlr	= new XMLController(fullPath, onlySAPGUI);
 						IController				Cntlr			= new Controller(XMLCntlr);
+						return	Cntlr;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public static IController CreateControllerForSAPUSR(string fullPath, bool onlySAPGUI)
+					{
+						IControllerSource USRCntlr	= new USRController(fullPath, onlySAPGUI);
+						IController				Cntlr			= new Controller(USRCntlr);
 						return	Cntlr;
 					}
 

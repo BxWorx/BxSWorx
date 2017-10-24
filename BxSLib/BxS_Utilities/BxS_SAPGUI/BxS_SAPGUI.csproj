@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\SAPGUI_BxS\Data\" />
     <Folder Include="Code\zOld Stuff\Loader\" />
   </ItemGroup>
 

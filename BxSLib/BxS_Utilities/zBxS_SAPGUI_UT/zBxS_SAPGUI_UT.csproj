@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BxS_SAPGUI\BxS_SAPGUI.csproj" />
-    <ProjectReference Include="..\BxS_SAPGUI_Usr\BxS_SAPGUI_Usr.csproj" />
   </ItemGroup>
 
 </Project>
