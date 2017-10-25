@@ -11,6 +11,7 @@ namespace SAPGUI.USR.DS
 			#region "Declarations"
 
 				private						bool			_IsDirty;
+				private						bool			_IsReady;
 				private readonly	DataSet		_SapGUI;
 
 			#endregion
@@ -19,17 +20,10 @@ namespace SAPGUI.USR.DS
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UsrDataSet(string fullFileName, string schemaFileName)
+				internal UsrDataSet(string path)
 					{
-						try
-							{
-									this._SapGUI	= new DataSet();
-									this._SapGUI.ReadXmlSchema(schemaFileName);
-									this._SapGUI.ReadXml(fullFileName, XmlReadMode.IgnoreSchema);
-							}
-							catch (Exception)
-								{
-								}
+						this._SapGUI	= new DataSetHandler().GetDataSet(path);
+						if (this._SapGUI != null) this._IsReady	= true;
 					}
 
 			#endregion
@@ -40,6 +34,8 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdateService(DTOService dto)
 					{
+						if (!this._IsReady)	return false;
+						//.............................................
 						DataTable	lo_Tbl	= this._SapGUI.Tables["Services"];
 						DataRow		lo_Row	= lo_Tbl.NewRow();
 

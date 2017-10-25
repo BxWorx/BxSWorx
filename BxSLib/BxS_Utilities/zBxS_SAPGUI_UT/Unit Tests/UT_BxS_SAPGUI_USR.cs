@@ -37,20 +37,17 @@ namespace zBxS_SAPGUI_UT
 					Assert.AreEqual(lo_DSo.Tables.Count	, 3										,	$"Cntlr: {ln_Cnt}: DS-Tabs: Error");
 				}
 
-			////-------------------------------------------------------------------------------------------
-			//[TestMethod]
-			//public void UT_SapGuiUsr_DataSet()
-			//	{
-			//		int	ln_Cnt;
-			//		//...............................................
-			//		var	lo_DSx	= new UsrDataSet("ZZZ", "ZZZZ");
-			//		var	lo_DSo	= new UsrDataSet(cc_FullName, cc_SchemaName);
-			//		////...............................................
-			//		//ln_Cnt	= 1;
-			//		//var lo_DSTest	= new DataSet();
-			//		//lo_DSTest.ReadXmlSchema(cc_FullName);
-			//		//Assert.AreEqual	(cz_DSName				, lo_DSTest.DataSetName	,	$"Cntlr: {ln_Cnt}: DS-Name: Error");
-			//		//Assert.IsNotNull(lo_DSTest.Tables.Count										,	$"Cntlr: {ln_Cnt}: DS-Tabs: Error");
-			//	}
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_SapGuiUsr_DataSet()
+				{
+					int	ln_Cnt;
+					//...............................................
+					var	lo_DSo	= new UsrDataSet(cc_PathTest);
+					ln_Cnt	= 1;
+					lo_DSTest.ReadXmlSchema(cc_FullName);
+					Assert.AreEqual	(cz_DSName				, lo_DSTest.DataSetName	,	$"Cntlr: {ln_Cnt}: DS-Name: Error");
+					Assert.IsNotNull(lo_DSTest.Tables.Count										,	$"Cntlr: {ln_Cnt}: DS-Tabs: Error");
+				}
 		}
 }
