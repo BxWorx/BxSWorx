@@ -21,15 +21,18 @@ namespace zBxS_SAPGUI_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SapGuiUsr_XMLSchema()
+			public void UT_SapGuiUsr_DataSetHandler()
 				{
 					int	ln_Cnt;
-					//...............................................
-					var	lo_DSHndlr	= new DSCreateSchema(cc_SchemaName, cz_DSName);
+					var	lo_DSH	= new DataSetHandler();
 					//...............................................
 					ln_Cnt	= 1;
-					var lo_DSTest	= new DataSet();
-					lo_DSTest.ReadXmlSchema(cc_SchemaName);
+					var	lo_DSx	= lo_DSH.GetDataSet("ZZZZ");
+					Assert.AreEqual	(cz_DSName				, lo_DSTest.DataSetName	,	$"Cntlr: {ln_Cnt}: DS-Name: Error");
+					Assert.IsNotNull(lo_DSTest.Tables.Count										,	$"Cntlr: {ln_Cnt}: DS-Tabs: Error");
+					//...............................................
+					ln_Cnt	= 2;
+					var	lo_DSo	= lo_DSH.GetDataSet(cc_Path);
 					Assert.AreEqual	(cz_DSName				, lo_DSTest.DataSetName	,	$"Cntlr: {ln_Cnt}: DS-Name: Error");
 					Assert.IsNotNull(lo_DSTest.Tables.Count										,	$"Cntlr: {ln_Cnt}: DS-Tabs: Error");
 				}
