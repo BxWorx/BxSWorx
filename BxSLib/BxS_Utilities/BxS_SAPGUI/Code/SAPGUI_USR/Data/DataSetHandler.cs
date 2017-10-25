@@ -58,20 +58,25 @@ namespace SAPGUI.USR.DS
 						string	lc_SchemaFullName	= Path.Combine(path,	this.SchemaName);
 						string	lc_ReposFullName	= Path.Combine(path,	this.RepositoryName);
 						//.............................................
-						if (!File.Exists(lc_SchemaFullName))
-							{ this.CreateDSSchema(lo_DS, lc_SchemaFullName); }
-
-						try
+						if (Directory.Exists(path))
 							{
-								lo_DS.ReadXmlSchema(lc_SchemaFullName);
-								lo_DS.ReadXml(lc_ReposFullName, XmlReadMode.IgnoreSchema);
+								if (!File.Exists(lc_SchemaFullName))
+									{ this.CreateDSSchema(lo_DS, lc_SchemaFullName); }
+
+								try
+									{
+										lo_DS.ReadXmlSchema(lc_SchemaFullName);
+										lo_DS.ReadXml(lc_ReposFullName, XmlReadMode.IgnoreSchema);
+									}
+									catch (Exception)
+										{
+											bool x = false;
+											x = !x;
+											// TO-DO: log exception
+										}
 							}
-							catch (Exception)
-								{
-									bool x = false;
-									x = !x;
-									// TO-DO: log exception
-								}
+						else
+							{ lo_DS	= null; }
 						//.............................................
 						return	lo_DS;
 					}
@@ -101,7 +106,7 @@ namespace SAPGUI.USR.DS
 								using (var SW = new StreamWriter(lo_FS, System.Text.Encoding.UTF8, 512, false ))
 									{
 										dataSet.WriteXmlSchema(SW);
-										//SW.Close();
+										SW.Close();
 									}
 
 							}
