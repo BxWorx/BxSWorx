@@ -11,8 +11,14 @@ namespace SAPGUI.USR.DS
 			#region "Declarations"
 
 				private						bool			_IsDirty;
-				private						bool			_IsReady;
 				private readonly	DataSet		_SapGUI;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal bool IsReady	{	get; set; }
 
 			#endregion
 
@@ -23,7 +29,7 @@ namespace SAPGUI.USR.DS
 				internal UsrDataSet(string path)
 					{
 						this._SapGUI	= new DataSetHandler().GetDataSet(path);
-						if (this._SapGUI != null) this._IsReady	= true;
+						if (this._SapGUI != null) this.IsReady	= true;
 					}
 
 			#endregion
@@ -31,10 +37,15 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				
+
+
+
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdateService(DTOService dto)
 					{
-						if (!this._IsReady)	return false;
+						if (!this.IsReady)	return false;
 						//.............................................
 						DataTable	lo_Tbl	= this._SapGUI.Tables["Services"];
 						DataRow		lo_Row	= lo_Tbl.NewRow();

@@ -4,20 +4,29 @@ using System.Data;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
 {
-		internal class DataSetHandler
+		internal class Schema
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal Schema()
+					{
+						this._string	= typeof(string);
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Declarations"
 
-				private	Type	_string;
+				private readonly Type		_string;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal string DataSetName			{ get	{ return "SAPGUI_USR"; } }
-				internal string SchemaName			{ get	{ return "SAPGUI_USR_Schema.xml"; } }
-				internal string RepositoryName	{ get	{ return "SAPGUI_USR_Repos.xml"; } }
+				internal string DataSetName	{ get	{ return "SAPGUI_USR_Repository"; } }
 
 			#endregion
 
@@ -25,23 +34,16 @@ namespace SAPGUI.USR.DS
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	DataSet	GetDataSet(string path)
+				internal DataSet Create()
 					{
-						DataSet	lo_DS							= null;
-						string	lc_SchemaFullName	= Path.Combine(path,	this.SchemaName);
-						string	lc_ReposFullName	= Path.Combine(path,	this.RepositoryName);
+						var	lo_DS	= new DataSet(this.DataSetName);
 						//.............................................
-						if (!Directory.Exists(path))	return lo_DS;
+						this.AddTable_Services(lo_DS);
+						this.AddTable_MsgServer(lo_DS);
+						this.AddTable_WorkSpace(lo_DS);
 						//.............................................
-						lo_DS		= new DataSet(this.DataSetName);
-
-						if (!File.Exists(lc_SchemaFullName))
-							{
-								this.CreateSchema(lo_DS);
-								this.WriteSchema(lo_DS, lc_SchemaFullName);
-							}
-						//.............................................
-						this.LoadDataset(lo_DS, lc_SchemaFullName, lc_ReposFullName);
+						this.AddRelation_Service2MsgSrv(lo_DS);
+						this.AddRelation_Service2Workspace(lo_DS);
 						//.............................................
 						return	lo_DS;
 					}
@@ -50,60 +52,6 @@ namespace SAPGUI.USR.DS
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadDataset(DataSet dataSet, string schemaFullName, string reposFullName)
-					{
-						try
-							{
-								dataSet.ReadXmlSchema(schemaFullName);
-								dataSet.ReadXml(reposFullName, XmlReadMode.IgnoreSchema);
-							}
-							catch (Exception)
-								{
-									bool x = false;
-									x = !x;
-									// TO-DO: log exception
-								}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void WriteSchema(DataSet dataSet, string schemaFullName)
-					{
-						FileStream lo_FS = null;
-
-						try
-							{
-								lo_FS	= new FileStream(schemaFullName, FileMode.Create);
-								using (var SW = new StreamWriter(lo_FS, System.Text.Encoding.UTF8, 512, false ))
-									{
-										dataSet.WriteXmlSchema(SW);
-										SW.Close();
-									}
-
-							}
-							catch (Exception)
-								{
-									bool x = false;
-									x = !x;
-									// TO-DO: log exception
-								}
-							finally
-								{ lo_FS?.Dispose(); }
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CreateSchema(DataSet dataSet)
-					{
-						this._string	= typeof(string);
-						//.............................................
-						this.AddTable_Services(dataSet);
-						this.AddTable_MsgServer(dataSet);
-						this.AddTable_WorkSpace(dataSet);
-						//.............................................
-						this.AddRelation_Service2MsgSrv(dataSet);
-						this.AddRelation_Service2Workspace(dataSet);
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddRelation_Service2MsgSrv(DataSet dataSet)
@@ -182,7 +130,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddColumn_UUID(DataTable	dataTable)
 					{
-						this.AddColumn_TypeString(dataTable, "UUID", 32, true);
+						this.AddColumn_TypeString(dataTable, "UUID", 36, true);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
