@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 //.........................................................
-using SAPGUI.XML.DTO;
+using SAPGUI.API.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {

@@ -28,7 +28,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal UsrDataSet(string path)
 					{
-						this._SapGUI	= new DataSetHandler().GetDataSet(path);
+						//this._SapGUI	= new DataSetHandler().GetDataSet(path);
 						if (this._SapGUI != null) this.IsReady	= true;
 					}
 

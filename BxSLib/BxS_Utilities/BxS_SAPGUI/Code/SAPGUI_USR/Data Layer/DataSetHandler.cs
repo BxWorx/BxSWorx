@@ -1,6 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Data;
+using System.Collections.Generic;
+using System.Reflection;
+//.........................................................
+using SAPGUI.API.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
 {
@@ -11,14 +15,11 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DataSetHandler(string path)
 					{
-						this.IsReady	= false;
+						this._SchemaFullName	= Path.Combine(path,	this.SchemaName);
+						this._ReposFullName		= Path.Combine(path,	this.RepositoryName);
 						//.............................................
-						if (Directory.Exists(path))
-							{
-								this._SchemaFullName	= Path.Combine(path,	this.SchemaName);
-								this._ReposFullName		= Path.Combine(path,	this.RepositoryName);
-								this.IsReady					= true;
-							}
+						this.LoadSchema();
+						this.LoadData();
 					}
 
 			#endregion
@@ -26,17 +27,17 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly string	_SchemaFullName;
-				private readonly string	_ReposFullName;
+				private readonly string		_SchemaFullName;
+				private readonly string		_ReposFullName;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal bool		IsReady					{ get; }
-				internal string SchemaName			{ get	{ return "SAPGUI_USR_Schema.xml"; } }
-				internal string RepositoryName	{ get	{ return "SAPGUI_USR_Repos.xml"; } }
+				internal DataSet	Repository			{ get; private set; }
+				internal string		SchemaName			{ get	{ return "SAPGUI_USR_Schema.xml"; } }
+				internal string		RepositoryName	{ get	{ return "SAPGUI_USR_Repos.xml"; } }
 
 			#endregion
 
@@ -44,20 +45,23 @@ namespace SAPGUI.USR.DS
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DataSet	GetDataSet()
+				internal bool Save()
 					{
-						var	lo_DS	= default(DataSet);
-						//.............................................
-						if (!this.IsReady)	return	lo_DS;
-						//.............................................
-						if (!File.Exists(this._SchemaFullName))
-							{
-								lo_DS	= this.CreateSchema();
-							}
-						//.............................................
-						this.LoadDataset(lo_DS);
-						//.............................................
-						return	lo_DS;
+						return true;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool AddUpdate(DTOService dto)
+					{
+						DataTable	lo_Tbl	= this.Repository.Tables["Services"];
+						return this.ParseTableRow(lo_Tbl, DTOMappings.ServicesMap, dto);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool AddUpdate(DTOMsgServer dto)
+					{
+						DataTable	lo_Tbl	= this.Repository.Tables["MsgServer"];
+						return this.ParseTableRow(lo_Tbl, DTOMappings.ServicesMap, dto);
 					}
 
 			#endregion
@@ -65,62 +69,52 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Methods: Private"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadDataset(DataSet dataSet)
+
+				private bool ParseTableRow<T>(DataTable dataTable, Dictionary<string, string> map,  T dto) where T : class, new()
 					{
-						try
+						DataRow	lo_Row	= dataTable.NewRow();
+
+						foreach (var lo_Fld in map)
 							{
-								dataSet.ReadXmlSchema	(this._SchemaFullName);
-								dataSet.ReadXml				(this._ReposFullName, XmlReadMode.IgnoreSchema);
+								lo_Row[lo_Fld.Key]	= dto;
 							}
-							catch (Exception)
-								{
-									bool x = false;
-									x = !x;
-									// TO-DO: log exception
-								}
+						//lo_Row["UUID"]	= dto.UUID;
+
+						dataTable.Rows.Add(lo_Row);
+						return true;
+				
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DataSet CreateSchema()
+				private void LoadData()
 					{
-						var					lo_Schema	= new Schema();
-						DataSet			lo_DS			= lo_Schema.Create();
-						FileStream	lo_FS			= null;
-
-						using (var lo_fs	= new FileStream(this._SchemaFullName, FileMode.Create))
+						try
 							{
-								using (var SW = new StreamWriter(lo_fs, System.Text.Encoding.UTF8, 512, false ))
-									{
-										lo_DS.WriteXmlSchema(SW);
-										SW.Close();
-									}
+								this.Repository.ReadXml(this._ReposFullName, XmlReadMode.IgnoreSchema);
 							}
+						catch (System.IO.FileNotFoundException)
+							{	/* do nothing as this will be a new repository */ }
+					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadSchema()
+					{
+						this.Repository	= new DataSet();
 
 						try
 							{
-								lo_FS	= new FileStream(this._SchemaFullName, FileMode.Create);
+								this.Repository.ReadXmlSchema	(this._SchemaFullName);
+							}
+						catch (System.IO.FileNotFoundException)
+							{
+								this.Repository	= new Schema().Create();
 
-								using (var SW = new StreamWriter(lo_FS, System.Text.Encoding.UTF8, 512, false ))
+								using (var SW = new StreamWriter(this._SchemaFullName))
 									{
-										lo_DS.WriteXmlSchema(SW);
+										this.Repository.WriteXmlSchema(SW);
 										SW.Close();
 									}
-
 							}
-							catch (Exception)
-								{
-									bool x = false;
-									x = !x;
-									// TO-DO: log exception
-								}
-							finally
-								{
-									lo_FS?.Dispose();
-								}
-						//.............................................
-						return	lo_DS;
 					}
 
 			#endregion

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 //.........................................................
 using SAPGUI.API;
-using SAPGUI.XML.DTO;
+using SAPGUI.API.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
