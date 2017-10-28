@@ -1,40 +1,27 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Data;
-using System.Collections.Generic;
-using System.Reflection;
 //.........................................................
 using SAPGUI.API.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
 {
-		internal class DataSetHandler
+		internal class Repository
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DataSetHandler(string path)
+				internal Repository(string schemaFullName, string reposFullName)
 					{
-						this._SchemaFullName	= Path.Combine(path,	this.SchemaName);
-						this._ReposFullName		= Path.Combine(path,	this.RepositoryName);
+						this.LoadSchema(schemaFullName);
+						this.LoadData(reposFullName);
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private readonly string		_SchemaFullName;
-				private readonly string		_ReposFullName;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal DataSet	Repository			{ get; private set; }
-				internal string		SchemaName			{ get	{ return "SAPGUI_USR_Schema.xml"; } }
-				internal string		RepositoryName	{ get	{ return "SAPGUI_USR_Repos.xml"; } }
+				internal DataSet	Database	{ get; private set; }
 
 			#endregion
 
@@ -50,7 +37,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdate(DTOService dto)
 					{
-						DataTable	lo_Tbl	= this.Repository.Tables["Services"];
+						DataTable	lo_Tbl	= this.Database.Tables["Services"];
 						return true;
 						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
 					}
@@ -58,7 +45,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdate(DTOMsgServer dto)
 					{
-						DataTable	lo_Tbl	= this.Repository.Tables["MsgServer"];
+						DataTable	lo_Tbl	= this.Database.Tables["MsgServer"];
 						return true;
 						//return this.ParseTableRow(lo_Tbl, Mapping.ServicesMap, dto);
 					}
@@ -68,49 +55,33 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Methods: Private"
 
-
-				private bool ParseTableRow<T>(DataTable dataTable, Dictionary<string, string> map,  T dto) where T : class, new()
-					{
-						DataRow	lo_Row	= dataTable.NewRow();
-
-						foreach (var lo_Fld in map)
-							{
-								lo_Row[lo_Fld.Key]	= dto;
-							}
-						//lo_Row["UUID"]	= dto.UUID;
-
-						dataTable.Rows.Add(lo_Row);
-						return true;
-				
-					}
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadData()
+				private void LoadData(string name)
 					{
 						try
 							{
-								this.Repository.ReadXml(this._ReposFullName, XmlReadMode.IgnoreSchema);
+								this.Database.ReadXml(name, XmlReadMode.IgnoreSchema);
 							}
 						catch (System.IO.FileNotFoundException)
 							{	/* do nothing as this will be a new repository */ }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadSchema()
+				private void LoadSchema(string name)
 					{
-						this.Repository	= new DataSet();
+						this.Database	= new DataSet();
 
 						try
 							{
-								this.Repository.ReadXmlSchema	(this._SchemaFullName);
+								this.Database.ReadXmlSchema	(name);
 							}
 						catch (System.IO.FileNotFoundException)
 							{
-								this.Repository	= new Schema().Create();
+								this.Database	= new Schema().Create();
 
-								using (var SW = new StreamWriter(this._SchemaFullName))
+								using (var SW = new StreamWriter(name))
 									{
-										this.Repository.WriteXmlSchema(SW);
+										this.Database.WriteXmlSchema(SW);
 										SW.Close();
 									}
 							}

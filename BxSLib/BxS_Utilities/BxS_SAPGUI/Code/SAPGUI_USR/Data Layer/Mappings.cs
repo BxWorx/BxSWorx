@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
 {
-	internal class DTOMappings
+	internal class Mapping
 		{
 			#region "Declarations"
 
@@ -25,8 +25,8 @@ namespace SAPGUI.USR.DS
 			#region "Properties"
 
 				internal Dictionary<string, string>	Service		{ get { return this._SrvMap.Value;	} }
-				internal Dictionary<string, string>	MsgServer	{ get { return this._SrvMap.Value;	} }
-				internal Dictionary<string, string>	Workspace	{ get { return this._SrvMap.Value;	} }
+				internal Dictionary<string, string>	MsgServer	{ get { return this._MsgMap.Value;	} }
+				internal Dictionary<string, string>	Workspace	{ get { return this._WrkMap.Value;	} }
 
 			#endregion
 
@@ -49,7 +49,8 @@ namespace SAPGUI.USR.DS
 					{
 						var lt_Map = new Dictionary<string, string>
 							{
-								{ "UUID", "UUID" }
+								{ "UUID", "UUID" }	,
+								{ "UUIDz", "UUID" }
 							};
 
 						return	lt_Map;
@@ -60,7 +61,9 @@ namespace SAPGUI.USR.DS
 					{
 						var lt_Map = new Dictionary<string, string>
 							{
-								{ "UUID", "UUID" }
+								{ "UUID0", "UUID" }	,
+								{ "UUID1", "UUID" }	,
+								{ "UUID2", "UUID" }
 							};
 
 						return	lt_Map;

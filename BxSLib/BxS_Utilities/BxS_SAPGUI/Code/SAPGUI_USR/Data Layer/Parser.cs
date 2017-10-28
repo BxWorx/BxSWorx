@@ -10,7 +10,7 @@ namespace SAPGUI.USR.DS
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Parser(DTOMappings mapping)
+				internal Parser(Mapping mapping)
 					{
 						this._Mapping	= mapping;
 					}
@@ -20,7 +20,7 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly DTOMappings _Mapping;
+				private readonly Mapping _Mapping;
 
 			#endregion
 

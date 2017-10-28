@@ -35,46 +35,65 @@ namespace zBxS_SAPGUI_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SapGuiUsr_DataSetHandler()
+			public void UT_SapGuiUsr_Mapping()
 				{
-					int		ln_Cnt;
-					bool	lb_Ok;
-
-					var		lo_DSH	= new DataSetHandler(_PathTest);
-					//...............................................
-					ln_Cnt	= 0;
-					string lc_Nme	= Path.Combine(_PathTest,	lo_DSH.SchemaName);
-
-					if (File.Exists(lc_Nme))	File.Delete(lc_Nme);
-					Assert.IsFalse	(File.Exists(lc_Nme),	$"Cntlr: {ln_Cnt}: DS Ready: Error");
+					int	ln_Cnt;
+					var	lo_Map	= new Mapping();
 					//...............................................
 					ln_Cnt	= 1;
-					var			lo_DSH1	= new DataSetHandler(_PathTest);
-					DataSet lo_DS1	= null;
+					Assert.AreNotEqual	(lo_Map.Service.Count		,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreNotEqual	(lo_Map.MsgServer.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreNotEqual	(lo_Map.Workspace.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
 
-					try
-						{
-							lo_DS1	= lo_DSH1.GetDataSet();
-							lb_Ok	= true;
-						}
-						catch (Exception)	{	lb_Ok	= false; }
+					Assert.AreNotEqual	(lo_Map.Service.Count		,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreNotEqual	(lo_Map.MsgServer.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreNotEqual	(lo_Map.Workspace.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+				}
 
-					Assert.IsTrue		(lb_Ok,												$"Cntlr: {ln_Cnt}: DS-NoPath: Error");
-					Assert.AreEqual	(3		,	lo_DS1?.Tables.Count,	$"Cntlr: {ln_Cnt}: DS-NoPath: Error");
-					//...............................................
-					ln_Cnt	= 3;
-					var	lo_DSH2			= new DataSetHandler("ZZZZ");
-					DataSet lo_DS2	= null;
 
-					try
-						{
-							lo_DS2	= lo_DSH2.GetDataSet();
-							lb_Ok		= false;
-						}
-						catch (System.IO.DirectoryNotFoundException)	{	lb_Ok	= true; }
-						catch (Exception)															{	lb_Ok	= false; }
 
-						Assert.IsTrue(lb_Ok,	$"Cntlr: {ln_Cnt}: DS-NoPath: Error");
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_SapGuiUsr_DataSetHandler()
+				{
+					//int		ln_Cnt;
+					//bool	lb_Ok;
+
+					//var		lo_DSH	= new DataSetHandler(_PathTest);
+					////...............................................
+					//ln_Cnt	= 0;
+					//string lc_Nme	= Path.Combine(_PathTest,	lo_DSH.SchemaName);
+
+					//if (File.Exists(lc_Nme))	File.Delete(lc_Nme);
+					//Assert.IsFalse	(File.Exists(lc_Nme),	$"Cntlr: {ln_Cnt}: DS Ready: Error");
+					////...............................................
+					//ln_Cnt	= 1;
+					//var			lo_DSH1	= new DataSetHandler(_PathTest);
+					//DataSet lo_DS1	= null;
+
+					//try
+					//	{
+					//		lo_DS1	= lo_DSH1.GetDataSet();
+					//		lb_Ok	= true;
+					//	}
+					//	catch (Exception)	{	lb_Ok	= false; }
+
+					//Assert.IsTrue		(lb_Ok,												$"Cntlr: {ln_Cnt}: DS-NoPath: Error");
+					//Assert.AreEqual	(3		,	lo_DS1?.Tables.Count,	$"Cntlr: {ln_Cnt}: DS-NoPath: Error");
+					////...............................................
+					//ln_Cnt	= 3;
+					//var	lo_DSH2			= new DataSetHandler("ZZZZ");
+					//DataSet lo_DS2	= null;
+
+					//try
+					//	{
+					//		lo_DS2	= lo_DSH2.GetDataSet();
+					//		lb_Ok		= false;
+					//	}
+					//	catch (System.IO.DirectoryNotFoundException)	{	lb_Ok	= true; }
+					//	catch (Exception)															{	lb_Ok	= false; }
+
+					//	Assert.IsTrue(lb_Ok,	$"Cntlr: {ln_Cnt}: DS-NoPath: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
