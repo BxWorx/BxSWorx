@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API.DTO
 {
-	internal class DTOWorkspace
+	internal class DTOWorkspace : DTOBase
 		{
 			internal string UUID { get; set; }
 			internal string Name { get; set; }

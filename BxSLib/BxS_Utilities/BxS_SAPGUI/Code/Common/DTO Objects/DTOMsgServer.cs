@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API.DTO
 {
-	internal class DTOMsgServer
+	internal class DTOMsgServer : DTOBase
 		{
 			internal string UUID				{ get; set; }
 			internal string Name				{ get; set; }

@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-//.........................................................
-using SAPGUI.API.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
 {
-	internal static class DTOMappings<T> where T : class
+	internal class DTOMappings
 		{
 			#region "Declarations"
 
-				private static readonly Lazy<Dictionary<string, string>>	_Map
-									=	new Lazy<Dictionary<string, string>>(	() => LoadServicesMap()	,
+				private readonly Lazy<Dictionary<string, string>>	_SrvMap
+									=	new Lazy<Dictionary<string, string>>(	() => LoadServiceMap()	,
 																					System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
 
-				private	static readonly Lazy<PropertyInfo[]>	_Properties
-							=	new Lazy<PropertyInfo[]>( () => typeof(DTOService).GetProperties()	,
+				private readonly Lazy<Dictionary<string, string>>	_MsgMap
+									=	new Lazy<Dictionary<string, string>>(	() => LoadMsgServerMap()	,
+																					System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
+
+				private readonly Lazy<Dictionary<string, string>>	_WrkMap
+									=	new Lazy<Dictionary<string, string>>(	() => LoadWorkspaceMap()	,
 																					System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
@@ -23,8 +24,9 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Properties"
 
-				internal static Dictionary<string, string>	Map					{ get { return _Map.Value;	} }
-				internal static PropertyInfo[]							Properties	{ get { return _Properties.Value;	} }
+				internal Dictionary<string, string>	Service		{ get { return this._SrvMap.Value;	} }
+				internal Dictionary<string, string>	MsgServer	{ get { return this._SrvMap.Value;	} }
+				internal Dictionary<string, string>	Workspace	{ get { return this._SrvMap.Value;	} }
 
 			#endregion
 
@@ -32,7 +34,29 @@ namespace SAPGUI.USR.DS
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private static Dictionary<string, string> LoadServicesMap()
+				private static Dictionary<string, string> LoadServiceMap()
+					{
+						var lt_Map = new Dictionary<string, string>
+							{
+								{ "UUID", "UUID" }
+							};
+
+						return	lt_Map;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private static Dictionary<string, string> LoadMsgServerMap()
+					{
+						var lt_Map = new Dictionary<string, string>
+							{
+								{ "UUID", "UUID" }
+							};
+
+						return	lt_Map;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private static Dictionary<string, string> LoadWorkspaceMap()
 					{
 						var lt_Map = new Dictionary<string, string>
 							{

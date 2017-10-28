@@ -19,8 +19,6 @@ namespace zBxS_SAPGUI_UT
 			//...................................................
 			private	static readonly string	_Path				= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	_PathTest		= Path.Combine(_Path,	cz_TestDir);
-			//private	static readonly string	cc_SchemaName	= Path.Combine(_Path,	cz_TestDir, cz_SchemaName);
-			//private	static readonly string	cc_FullName		= Path.Combine(_Path,	cz_TestDir, cz_FileName);
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
