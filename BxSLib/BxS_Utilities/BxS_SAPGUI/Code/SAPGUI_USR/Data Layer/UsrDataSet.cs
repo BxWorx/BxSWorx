@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Data;
 //.........................................................
 using SAPGUI.API.DTO;
@@ -8,74 +7,85 @@ namespace SAPGUI.USR.DS
 {
 		internal class UsrDataSet
 		{
-			#region "Declarations"
+			#region "Constructors"
 
-				private						bool			_IsDirty;
-				private readonly	DataSet		_SapGUI;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal UsrDataSet(string schemaFullName, string reposFullName)
+					{
+						this.LoadSchema(schemaFullName);
+						this.LoadData(reposFullName);
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal bool IsReady	{	get; set; }
-
-			#endregion
-
-			//===========================================================================================
-			#region "Constructors"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UsrDataSet(string path)
-					{
-						//this._SapGUI	= new DataSetHandler().GetDataSet(path);
-						if (this._SapGUI != null) this.IsReady	= true;
-					}
+				internal DataSet	Database	{ get; private set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				
-
-
-
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool Save()
+					{
+						return true;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddUpdateService(DTOService dto)
+				internal bool AddUpdate(DTOService dto)
 					{
-						if (!this.IsReady)	return false;
-						//.............................................
-						DataTable	lo_Tbl	= this._SapGUI.Tables["Services"];
-						DataRow		lo_Row	= lo_Tbl.NewRow();
+						DataTable	lo_Tbl	= this.Database.Tables["Services"];
+						return true;
+						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
+					}
 
-						lo_Row["UUID"]	= dto.UUID;
-
-						lo_Tbl.Rows.Add(lo_Row);
-
-						return	true;
-
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool AddUpdate(DTOMsgServer dto)
+					{
+						DataTable	lo_Tbl	= this.Database.Tables["MsgServer"];
+						return true;
+						//return this.ParseTableRow(lo_Tbl, Mapping.ServicesMap, dto);
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Events: Private"
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Private"
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private void AddRelation_Service2MsgSrv()
-				//	{
-				//		DataColumn	lo_ColParent	= this._sapgui.Tables["MsgServer"].Columns["UUID"];
-				//		DataColumn	lo_ColChild		= this._sapgui.Tables["Services"].Columns["MsgServer_ID"];
-				//		var					lo_Rel				= new DataRelation("Service2MsgServer", lo_ColParent, lo_ColChild);
-				//		//.............................................
-				//		this._sapgui.Relations.Add(lo_Rel);
-				//	}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadData(string name)
+					{
+						try
+							{
+								this.Database.ReadXml(name, XmlReadMode.IgnoreSchema);
+							}
+						catch (System.IO.FileNotFoundException)
+							{	/* do nothing as this will be a new repository */ }
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadSchema(string name)
+					{
+						this.Database	= new DataSet();
+
+						try
+							{
+								this.Database.ReadXmlSchema	(name);
+							}
+						catch (System.IO.FileNotFoundException)
+							{
+								this.Database	= new Schema().Create();
+
+								using (var SW = new StreamWriter(name))
+									{
+										this.Database.WriteXmlSchema(SW);
+										SW.Close();
+									}
+							}
+					}
 
 			#endregion
 

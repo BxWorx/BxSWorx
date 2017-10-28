@@ -1,27 +1,42 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Data;
+using System.Collections.Generic;
+using System.Reflection;
 //.........................................................
 using SAPGUI.API.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
 {
-		internal class Repository
+		internal class DataLayerController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository(string schemaFullName, string reposFullName)
+				internal DataLayerController(string path)
 					{
-						this.LoadSchema(schemaFullName);
-						this.LoadData(reposFullName);
+						this._SchemaFullName	= Path.Combine(path,	this.SchemaName);
+						this._ReposFullName		= Path.Combine(path,	this.RepositoryName);
+						//.............................................
+						this.UsrDataSet	= new UsrDataSet(this._SchemaFullName, this._ReposFullName);
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private readonly string		_SchemaFullName;
+				private readonly string		_ReposFullName;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal DataSet	Database	{ get; private set; }
+				internal UsrDataSet	UsrDataSet			{ get; }
+				internal string			SchemaName			{ get	{ return "SAPGUI_USR_Schema.xml"; } }
+				internal string			RepositoryName	{ get	{ return "SAPGUI_USR_Repos.xml"; } }
 
 			#endregion
 
@@ -37,7 +52,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdate(DTOService dto)
 					{
-						DataTable	lo_Tbl	= this.Database.Tables["Services"];
+						DataTable	lo_Tbl	= this.UsrDataSet.Tables["Services"];
 						return true;
 						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
 					}
@@ -45,7 +60,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdate(DTOMsgServer dto)
 					{
-						DataTable	lo_Tbl	= this.Database.Tables["MsgServer"];
+						DataTable	lo_Tbl	= this.UsrDataSet.Tables["MsgServer"];
 						return true;
 						//return this.ParseTableRow(lo_Tbl, Mapping.ServicesMap, dto);
 					}
@@ -54,38 +69,6 @@ namespace SAPGUI.USR.DS
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadData(string name)
-					{
-						try
-							{
-								this.Database.ReadXml(name, XmlReadMode.IgnoreSchema);
-							}
-						catch (System.IO.FileNotFoundException)
-							{	/* do nothing as this will be a new repository */ }
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadSchema(string name)
-					{
-						this.Database	= new DataSet();
-
-						try
-							{
-								this.Database.ReadXmlSchema	(name);
-							}
-						catch (System.IO.FileNotFoundException)
-							{
-								this.Database	= new Schema().Create();
-
-								using (var SW = new StreamWriter(name))
-									{
-										this.Database.WriteXmlSchema(SW);
-										SW.Close();
-									}
-							}
-					}
 
 			#endregion
 
