@@ -15,28 +15,22 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DataLayerController(string path)
 					{
-						this._SchemaFullName	= Path.Combine(path,	this.SchemaName);
-						this._ReposFullName		= Path.Combine(path,	this.RepositoryName);
+						this.Path	= path;
 						//.............................................
-						this.UsrDataSet	= new UsrDataSet(this._SchemaFullName, this._ReposFullName);
+						//this.UsrDataSet	= new UsrDataSet(this._SchemaFullName, this._ReposFullName);
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
-
-				private readonly string		_SchemaFullName;
-				private readonly string		_ReposFullName;
-
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal UsrDataSet	UsrDataSet			{ get; }
-				internal string			SchemaName			{ get	{ return "SAPGUI_USR_Schema.xml"; } }
-				internal string			RepositoryName	{ get	{ return "SAPGUI_USR_Repos.xml"; } }
+				internal UsrDataSet	UsrDataSet	{ get; }
+				internal string			Path				{ get; }
 
 			#endregion
 
@@ -52,7 +46,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdate(DTOService dto)
 					{
-						DataTable	lo_Tbl	= this.UsrDataSet.Tables["Services"];
+						//DataTable	lo_Tbl	= this.UsrDataSet.Tables["Services"];
 						return true;
 						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
 					}
@@ -60,7 +54,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdate(DTOMsgServer dto)
 					{
-						DataTable	lo_Tbl	= this.UsrDataSet.Tables["MsgServer"];
+						//DataTable	lo_Tbl	= this.UsrDataSet.Tables["MsgServer"];
 						return true;
 						//return this.ParseTableRow(lo_Tbl, Mapping.ServicesMap, dto);
 					}

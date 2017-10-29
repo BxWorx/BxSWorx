@@ -6,7 +6,7 @@
         <xs:element name="Services">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="UUID" minOccurs="0">
+              <xs:element name="UUID">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="36" />
@@ -110,7 +110,7 @@
         </xs:element>
       </xs:choice>
     </xs:complexType>
-    <xs:unique name="Constraint1">
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//Services" />
       <xs:field xpath="UUID" />
     </xs:unique>

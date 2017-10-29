@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Data;
 //.........................................................
 using SAPGUI.API.DTO;
@@ -10,18 +11,37 @@ namespace SAPGUI.USR.DS
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UsrDataSet(string schemaFullName, string reposFullName)
+				internal UsrDataSet(string path)
 					{
-						this.LoadSchema(schemaFullName);
-						this.LoadData(reposFullName);
+						this._SchemaFullName	= Path.Combine(path,	this.SchemaName);
+						this._ReposFullName		= Path.Combine(path,	this.RepositoryName);
+						//.............................................
+						this.LoadSchema();
+						this.LoadData();
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private readonly	string		_SchemaFullName;
+				private readonly	string		_ReposFullName;
+				private	static		DataSet		_DataSet;
+
+				private readonly Lazy<DataTable>	_DTSrv
+									=	new Lazy<DataTable>( () =>	_DataSet.Tables["Services"]	,
+																								System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal DataSet	Database	{ get; private set; }
+				internal	DataSet	DataSetUsr			{ get { return	_DataSet; } }
+				//.................................................
+				internal	string	SchemaName			{ get	{ return "SAPGUI_USR_Schema.xml"; } }
+				internal	string	RepositoryName	{ get	{ return "SAPGUI_USR_Repos.xml"; } }
 
 			#endregion
 
@@ -35,19 +55,22 @@ namespace SAPGUI.USR.DS
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddUpdate(DTOService dto)
+				internal DataRow NewSrvRow()
 					{
-						DataTable	lo_Tbl	= this.Database.Tables["Services"];
-						return true;
-						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
+						return	this._DTSrv.Value.NewRow();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddUpdate(DTOMsgServer dto)
+				internal bool AddUpdateService(Guid keyVal, DataRow data)
 					{
-						DataTable	lo_Tbl	= this.Database.Tables["MsgServer"];
+						if (this._DTSrv.Value.Rows.Contains(keyVal))
+							{ }
+						else
+							{
+								this._DTSrv.Value.Rows.Add(data);
+							}
+						//.............................................
 						return true;
-						//return this.ParseTableRow(lo_Tbl, Mapping.ServicesMap, dto);
 					}
 
 			#endregion
@@ -56,32 +79,28 @@ namespace SAPGUI.USR.DS
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadData(string name)
+				private void LoadData()
 					{
 						try
-							{
-								this.Database.ReadXml(name, XmlReadMode.IgnoreSchema);
-							}
+							{	_DataSet.ReadXml(this._ReposFullName, XmlReadMode.IgnoreSchema); }
 						catch (System.IO.FileNotFoundException)
 							{	/* do nothing as this will be a new repository */ }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadSchema(string name)
+				private void LoadSchema()
 					{
-						this.Database	= new DataSet();
-
+						_DataSet	= new DataSet();
+						//.............................................
 						try
-							{
-								this.Database.ReadXmlSchema	(name);
-							}
+							{	_DataSet.ReadXmlSchema	(this._SchemaFullName); }
 						catch (System.IO.FileNotFoundException)
 							{
-								this.Database	= new Schema().Create();
+								_DataSet	= new Schema().Create();
 
-								using (var SW = new StreamWriter(name))
+								using (var SW = new StreamWriter(this._SchemaFullName))
 									{
-										this.Database.WriteXmlSchema(SW);
+										_DataSet.WriteXmlSchema(SW);
 										SW.Close();
 									}
 							}

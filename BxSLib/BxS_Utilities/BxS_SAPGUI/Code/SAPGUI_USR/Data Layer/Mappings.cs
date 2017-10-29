@@ -9,15 +9,15 @@ namespace SAPGUI.USR.DS
 
 				private readonly Lazy<Dictionary<string, string>>	_SrvMap
 									=	new Lazy<Dictionary<string, string>>(	() => LoadServiceMap()	,
-																					System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
+																																System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
 
 				private readonly Lazy<Dictionary<string, string>>	_MsgMap
 									=	new Lazy<Dictionary<string, string>>(	() => LoadMsgServerMap()	,
-																					System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
+																																System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
 
 				private readonly Lazy<Dictionary<string, string>>	_WrkMap
 									=	new Lazy<Dictionary<string, string>>(	() => LoadWorkspaceMap()	,
-																					System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
+																																System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
 

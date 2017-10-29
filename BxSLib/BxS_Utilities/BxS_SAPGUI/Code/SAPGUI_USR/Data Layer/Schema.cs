@@ -19,7 +19,9 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Type		_string;
+				private const			string	_UUID	= "UUID";
+				//.................................................
+				private readonly	Type		_string;
 
 			#endregion
 
@@ -122,6 +124,10 @@ namespace SAPGUI.USR.DS
 						this.AddColumn_TypeString(Services, "MsgServer_ID", 32);
 						this.AddColumn_TypeString(Services, "Workspace_ID", 32);
 						//.............................................
+						DataColumn[]	Keys	= new DataColumn[1];
+						Keys[0]	= Services.Columns[_UUID];
+						Services.PrimaryKey	= Keys;
+						//.............................................
 						dataSet.Tables.Add(Services);
 					}
 
@@ -130,7 +136,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddColumn_UUID(DataTable	dataTable)
 					{
-						this.AddColumn_TypeString(dataTable, "UUID", 36, true);
+						this.AddColumn_TypeString(dataTable, _UUID, 36, true);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -151,9 +157,12 @@ namespace SAPGUI.USR.DS
 																					int				maxLength	,
 																					bool			isKey = false)
 					{
-						var Col		= new DataColumn(name, this._string)
-													{	Unique		= isKey			,
-														MaxLength	= maxLength		};
+						var Col		= new DataColumn()
+													{	ColumnName	= name			,
+														Unique			= isKey			,
+														MaxLength		= maxLength	,
+														DataType		= this._string	};
+
 						dataTable.Columns.Add(Col);
 					}
 
