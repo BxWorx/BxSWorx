@@ -17,7 +17,7 @@ namespace SAPGUI.USR.DS
 						//.............................................
 						this._SchemaFullName	= Path.Combine(this.FullPath,	this.SchemaFileName);
 						//.............................................
-						this._Ref			= new	Lazy<References>	(	() => new References()						);
+						this._Ref			= new	Lazy<References>	(	() => new References() );
 						this._Schema	= new Lazy<DataSet>			( () => new Schema(this._Ref.Value).Create() );
 						this._UsrDS		= new Lazy<UsrDataSet>	( () => new UsrDataSet(this._Ref.Value, this._Schema.Value, path)	);
 					}

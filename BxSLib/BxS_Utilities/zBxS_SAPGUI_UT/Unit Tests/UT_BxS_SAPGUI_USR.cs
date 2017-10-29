@@ -56,12 +56,16 @@ namespace zBxS_SAPGUI_UT
 					DataSet lo_Sch	= new Schema(lo_Ref).Create();
 					var			lo_UDS	= new UsrDataSet(lo_Ref, lo_Sch, _PathTest);
 					var			lc_Key0	= Guid.NewGuid();
+					var			lc_Key1	= Guid.NewGuid();
 					//...............................................
 					ln_Cnt	= 1;
-					DataRow lo_DSRow			= lo_UDS.NewSrvRow();
-					lo_DSRow[lo_Ref.UUID]	= lc_Key0;
-					lo_UDS.AddUpdateService(lc_Key0, lo_DSRow);
-					Assert.AreEqual(1,	lo_UDS.ServiceCount,	$"Cntlr: {ln_Cnt}: DS Ready: Error");
+					DataRow lo_DSRow0				= lo_UDS.NewSrvRow();
+					DataRow lo_DSRow1				= lo_UDS.NewSrvRow();
+					lo_DSRow0[lo_Ref.UUID]	= lc_Key0;
+					lo_DSRow1[lo_Ref.UUID]	= lc_Key1;
+					lo_UDS.AddUpdateService(lo_DSRow0);
+					lo_UDS.AddUpdateService(lo_DSRow1);
+					Assert.AreEqual(2,	lo_UDS.ServiceCount,	$"Cntlr: {ln_Cnt}: DS Ready: Error");
 					//...............................................
 					ln_Cnt	= 2;
 					DataRow lo_DSRow2			= lo_UDS.GetService(lc_Key0);
@@ -69,7 +73,16 @@ namespace zBxS_SAPGUI_UT
 					//...............................................
 					ln_Cnt	= 3;
 					Assert.IsTrue(lo_UDS.RemoveService(lc_Key0)	,	$"Cntlr: {ln_Cnt}: DT-Remove: Error");
-					Assert.AreEqual(0,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
+					Assert.AreEqual(1,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
+					//...............................................
+					ln_Cnt	= 4;
+					lo_UDS.AddUpdateService(lo_DSRow1);
+					Assert.AreEqual(1,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
+					lo_UDS.AddUpdateService(lo_DSRow0);
+					Assert.AreEqual(2,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
+					//...............................................
+					ln_Cnt	= 4;
+					lo_UDS.Save();
 				}
 
 			////-------------------------------------------------------------------------------------------

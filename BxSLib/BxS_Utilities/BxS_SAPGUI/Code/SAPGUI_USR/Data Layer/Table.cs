@@ -42,24 +42,37 @@ namespace SAPGUI.USR.DS
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddUpdate(Guid keyVal, DataRow data)
+				internal void AddUpdate(DataRow data)
 					{
-						if (this._Tbl.Rows.Contains(keyVal))
-							{ }
-						else
+						try
+							{
+								DataRow lo_Row = this.GetRow((Guid)data[this._Ref.UUID]);
+							}
+						catch (MissingPrimaryKeyException)
 							{
 								this._Tbl.Rows.Add(data);
 							}
-						//.............................................
-						return true;
+						finally
+							{
+								this._Tbl.AcceptChanges();
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DataRow GetRow(Guid keyVal)
 					{
-						string		lc_Exp	= $"{this._Ref.UUID} = '{keyVal}'";
-						DataRow[] lt_Sel	= this._Tbl.Select(lc_Exp);
-						return	lt_Sel[0] ?? null;
+								return this._Tbl.Rows.Find(keyVal);
+						//try
+						//	{
+						//		return this._Tbl.Rows.Find(keyVal);
+						//	}
+						//catch (MissingPrimaryKeyException)
+						//	{
+						//		return	null;
+						//	}
+						////string		lc_Exp	= $"{this._Ref.UUID} = '{keyVal}'";
+						//DataRow[] lt_Sel	= this._Tbl.Select(lc_Exp);
+						//return	lt_Sel[0] ?? null;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -70,6 +83,7 @@ namespace SAPGUI.USR.DS
 						if (lo_Row == null)	return	false;
 						//.............................................
 						this._Tbl.Rows.Remove(lo_Row);
+						this._Tbl.AcceptChanges();
 						return	true;
 					}
 
