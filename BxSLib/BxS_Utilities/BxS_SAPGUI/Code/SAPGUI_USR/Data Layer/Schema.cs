@@ -9,9 +9,11 @@ namespace SAPGUI.USR.DS
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Schema()
+				internal Schema(References references)
 					{
-						this._string	= typeof(string);
+						this._ref	= references;
+						//.............................................
+						this._str	= typeof(string);
 					}
 
 			#endregion
@@ -19,16 +21,8 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Declarations"
 
-				private const			string	_UUID	= "UUID";
-				//.................................................
-				private readonly	Type		_string;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
-
-				internal string DataSetName	{ get	{ return "SAPGUI_USR_Repository"; } }
+				private readonly	References	_ref;
+				private readonly	Type				_str;
 
 			#endregion
 
@@ -38,7 +32,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DataSet Create()
 					{
-						var	lo_DS	= new DataSet(this.DataSetName);
+						var	lo_DS	= new DataSet(this._ref.DataSetName);
 						//.............................................
 						this.AddTable_Services(lo_DS);
 						this.AddTable_MsgServer(lo_DS);
@@ -58,9 +52,9 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddRelation_Service2MsgSrv(DataSet dataSet)
 					{
-						DataColumn	lo_ColParent	= dataSet.Tables["MsgServer"].Columns["UUID"];
-						DataColumn	lo_ColChild		= dataSet.Tables["Services"].Columns["MsgServer_ID"];
-						var					lo_Rel				= new DataRelation("Service2MsgServer", lo_ColParent, lo_ColChild);
+						DataColumn	lo_ColParent	= dataSet.Tables[this._ref.MsgServerTableName].Columns[this._ref.UUID];
+						DataColumn	lo_ColChild		= dataSet.Tables[this._ref.ServiceTableName].Columns["MsgServer_ID"];
+						var					lo_Rel				= new DataRelation($"{this._ref.ServiceTableName}2{this._ref.MsgServerTableName}", lo_ColParent, lo_ColChild);
 						//.............................................
 						dataSet.Relations.Add(lo_Rel);
 					}
@@ -68,9 +62,9 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddRelation_Service2Workspace(DataSet dataSet)
 					{
-						DataColumn	lo_ColParent	= dataSet.Tables["WorkSpace"].Columns["UUID"];
-						DataColumn	lo_ColChild		= dataSet.Tables["Services"].Columns["Workspace_ID"];
-						var					lo_Rel				= new DataRelation("Service2Workspace", lo_ColParent, lo_ColChild);
+						DataColumn	lo_ColParent	= dataSet.Tables[this._ref.WorkspaceTableName].Columns[this._ref.UUID];
+						DataColumn	lo_ColChild		= dataSet.Tables[this._ref.ServiceTableName].Columns["Workspace_ID"];
+						var					lo_Rel				= new DataRelation($"{this._ref.ServiceTableName}2{this._ref.WorkspaceTableName}", lo_ColParent, lo_ColChild);
 						//.............................................
 						dataSet.Relations.Add(lo_Rel);
 					}
@@ -78,57 +72,65 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddTable_WorkSpace(DataSet dataSet)
 					{
-						var WorkSpace	= new DataTable("WorkSpace");
+						var lo_Tbl	= new DataTable(this._ref.WorkspaceTableName);
 						//.............................................
-						this.AddColumn_UUID(WorkSpace);
+						this.AddColumn_UUID					(lo_Tbl);
+						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						WorkSpace.Columns.Add("Description"		, this._string);
-						WorkSpace.Columns.Add("Parent_UUID"		, this._string);
-						WorkSpace.Columns.Add("Hierarchy_ID"	, this._string);
+						lo_Tbl.Columns.Add("Parent_UUID"		, this._str);
+						lo_Tbl.Columns.Add("Hierarchy_ID"	, this._str);
 						//.............................................
-						dataSet.Tables.Add(WorkSpace);	
+						DataColumn[]	Keys	= new DataColumn[1];
+						Keys[0]							= lo_Tbl.Columns[this._ref.UUID];
+						lo_Tbl.PrimaryKey		= Keys;
+						//.............................................
+						dataSet.Tables.Add(lo_Tbl);	
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddTable_MsgServer(DataSet dataSet)
 					{
-						var MsgServer	= new DataTable("MsgServer");
+						var lo_Tbl	= new DataTable(this._ref.MsgServerTableName);
 						//.............................................
-						this.AddColumn_UUID					(MsgServer);
-						this.AddColumn_Name					(MsgServer);
-						this.AddColumn_Description	(MsgServer);
+						this.AddColumn_UUID					(lo_Tbl);
+						this.AddColumn_Name					(lo_Tbl);
+						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						this.AddColumn_TypeString(MsgServer, "Host", 20);
-						this.AddColumn_TypeString(MsgServer, "Port", 20);
+						this.AddColumn_TypeString(lo_Tbl, "Host", 20);
+						this.AddColumn_TypeString(lo_Tbl, "Port", 20);
 						//.............................................
-						dataSet.Tables.Add(MsgServer);
+						DataColumn[]	Keys	= new DataColumn[1];
+						Keys[0]							= lo_Tbl.Columns[this._ref.UUID];
+						lo_Tbl.PrimaryKey		= Keys;
+						//.............................................
+						dataSet.Tables.Add(lo_Tbl);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddTable_Services(DataSet dataSet)
 					{
-						var Services	= new DataTable("Services");
+						var lo_Tbl	= new DataTable(this._ref.ServiceTableName);
 						//.............................................
-						this.AddColumn_UUID					(Services);
-						this.AddColumn_Name					(Services);
-						this.AddColumn_Description	(Services);
+						this.AddColumn_UUID					(lo_Tbl);
+						this.AddColumn_Name					(lo_Tbl);
+						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						Services.Columns.Add("Type"						, this._string);
-						Services.Columns.Add("Server"					, this._string);
-						Services.Columns.Add("SystemID"				, this._string);
-						Services.Columns.Add("SNC_Name"				, this._string);
-						Services.Columns.Add("SNC_Op"					, this._string);
-						Services.Columns.Add("SAPCodePage"		, this._string);
-						Services.Columns.Add("DownUpCodePage"	, this._string);
+						lo_Tbl.Columns.Add("Type"						, this._str);
+						lo_Tbl.Columns.Add("Server"					, this._str);
+						lo_Tbl.Columns.Add("SystemID"				, this._str);
+						lo_Tbl.Columns.Add("SNC_Name"				, this._str);
+						lo_Tbl.Columns.Add("SNC_Op"					, this._str);
+						lo_Tbl.Columns.Add("SAPCodePage"		, this._str);
+						lo_Tbl.Columns.Add("DownUpCodePage"	, this._str);
 						//.............................................
-						this.AddColumn_TypeString(Services, "MsgServer_ID", 32);
-						this.AddColumn_TypeString(Services, "Workspace_ID", 32);
+						this.AddColumn_TypeString(lo_Tbl, "MsgServer_ID", 32);
+						this.AddColumn_TypeString(lo_Tbl, "Workspace_ID", 32);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[1];
-						Keys[0]	= Services.Columns[_UUID];
-						Services.PrimaryKey	= Keys;
+						Keys[0]							= lo_Tbl.Columns[this._ref.UUID];
+						lo_Tbl.PrimaryKey		= Keys;
 						//.............................................
-						dataSet.Tables.Add(Services);
+						dataSet.Tables.Add(lo_Tbl);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -136,7 +138,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddColumn_UUID(DataTable	dataTable)
 					{
-						this.AddColumn_TypeString(dataTable, _UUID, 36, true);
+						this.AddColumn_TypeString(dataTable, this._ref.UUID, 36, true);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -157,11 +159,10 @@ namespace SAPGUI.USR.DS
 																					int				maxLength	,
 																					bool			isKey = false)
 					{
-						var Col		= new DataColumn()
-													{	ColumnName	= name			,
-														Unique			= isKey			,
-														MaxLength		= maxLength	,
-														DataType		= this._string	};
+						var Col		= new DataColumn()	{	ColumnName	= name			,
+																						Unique			= isKey			,
+																						MaxLength		= maxLength	,
+																						DataType		= this._str		};
 
 						dataTable.Columns.Add(Col);
 					}

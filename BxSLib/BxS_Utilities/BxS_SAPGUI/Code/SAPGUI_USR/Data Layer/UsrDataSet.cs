@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Data;
-//.........................................................
-using SAPGUI.API.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
 {
@@ -11,13 +9,18 @@ namespace SAPGUI.USR.DS
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UsrDataSet(string path)
+				internal UsrDataSet(References references, DataSet schema, string path)
 					{
-						this._SchemaFullName	= Path.Combine(path,	this.SchemaName);
-						this._ReposFullName		= Path.Combine(path,	this.RepositoryName);
+						this._Ref			= references;
+						this._UsrDS		= schema;
 						//.............................................
-						this.LoadSchema();
+						this._UsrDSFullName		= Path.Combine(path,	this.DSFileName);
+						//.............................................
 						this.LoadData();
+						//.............................................
+						this._DTSrv	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.ServiceTableName]		) );
+						this._DTMsg	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.MsgServerTableName]	) );
+						this._DTWrk	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.WorkspaceTableName]	) );
 					}
 
 			#endregion
@@ -25,23 +28,24 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	string		_SchemaFullName;
-				private readonly	string		_ReposFullName;
-				private	static		DataSet		_DataSet;
-
-				private readonly Lazy<DataTable>	_DTSrv
-									=	new Lazy<DataTable>( () =>	_DataSet.Tables["Services"]	,
-																								System.Threading.LazyThreadSafetyMode.ExecutionAndPublication );
+				private	readonly	References	_Ref;
+				private readonly	string			_UsrDSFullName;
+				private readonly	DataSet			_UsrDS;
+				//.................................................
+				private readonly	Lazy<DSTable>	_DTSrv;
+				private readonly	Lazy<DSTable>	_DTMsg;
+				private readonly	Lazy<DSTable>	_DTWrk;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	DataSet	DataSetUsr			{ get { return	_DataSet; } }
+				internal	string	DSFileName	{ get	{ return "SAPGUI_USR_DataSet.xml"; } }
 				//.................................................
-				internal	string	SchemaName			{ get	{ return "SAPGUI_USR_Schema.xml"; } }
-				internal	string	RepositoryName	{ get	{ return "SAPGUI_USR_Repos.xml"; } }
+				internal	int	ServiceCount		{ get	{ return this._DTSrv.Value.Count; } }
+				internal	int	MsgServerCount	{ get	{ return this._DTMsg.Value.Count; } }
+				internal	int	WorkspaceCount	{ get	{ return this._DTWrk.Value.Count; } }
 
 			#endregion
 
@@ -61,17 +65,28 @@ namespace SAPGUI.USR.DS
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddUpdateService(Guid keyVal, DataRow data)
+				internal DataRow NewMsgRow()
 					{
-						if (this._DTSrv.Value.Rows.Contains(keyVal))
-							{ }
-						else
-							{
-								this._DTSrv.Value.Rows.Add(data);
-							}
-						//.............................................
-						return true;
+						return	this._DTMsg.Value.NewRow();
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DataRow NewWrkRow()
+					{
+						return	this._DTWrk.Value.NewRow();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool AddUpdateService(Guid keyVal, DataRow data)
+					{	return	this._DTSrv.Value.AddUpdate(keyVal, data); }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DataRow GetService(Guid keyVal)
+					{	return	this._DTSrv.Value.GetRow(keyVal); }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool RemoveService(Guid keyVal)
+					{	return	this._DTSrv.Value.Remove(keyVal); }
 
 			#endregion
 
@@ -82,28 +97,9 @@ namespace SAPGUI.USR.DS
 				private void LoadData()
 					{
 						try
-							{	_DataSet.ReadXml(this._ReposFullName, XmlReadMode.IgnoreSchema); }
-						catch (System.IO.FileNotFoundException)
-							{	/* do nothing as this will be a new repository */ }
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadSchema()
-					{
-						_DataSet	= new DataSet();
-						//.............................................
-						try
-							{	_DataSet.ReadXmlSchema	(this._SchemaFullName); }
-						catch (System.IO.FileNotFoundException)
-							{
-								_DataSet	= new Schema().Create();
-
-								using (var SW = new StreamWriter(this._SchemaFullName))
-									{
-										_DataSet.WriteXmlSchema(SW);
-										SW.Close();
-									}
-							}
+							{	this._UsrDS.ReadXml(this._UsrDSFullName, XmlReadMode.IgnoreSchema); }
+						catch
+							(System.IO.FileNotFoundException)	{	/* do nothing as this will be a new repository */ }
 					}
 
 			#endregion
