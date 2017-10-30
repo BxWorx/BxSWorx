@@ -46,7 +46,11 @@ namespace SAPGUI.USR.DS
 					{
 						try
 							{
-								DataRow lo_Row = this.GetRow((Guid)data[this._Ref.UUID]);
+								var			lc_ID		= (Guid)data[this._Ref.UUID];
+								DataRow lo_Row	= this.GetRow(lc_ID);
+								var x = 1;
+
+
 							}
 						catch (MissingPrimaryKeyException)
 							{
