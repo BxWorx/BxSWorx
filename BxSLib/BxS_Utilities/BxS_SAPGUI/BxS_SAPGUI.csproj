@@ -15,11 +15,6 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
-    <Compile Remove="Code\SAPGUI_XML\DTO Objects\DTOMsgServer.cs" />
-    <Compile Remove="Code\SAPGUI_XML\DTO Objects\DTOService.cs" />
-    <Compile Remove="Code\SAPGUI_XML\DTO Objects\DTOWorkspace.cs" />
-    <Compile Remove="Code\SAPGUI_XML\DTO Objects\DTOWorkspaceNode.cs" />
-    <Compile Remove="Code\SAPGUI_XML\DTO Objects\DTOWorkspaceNodeItem.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader_MessageServers.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader_Services.cs" />
@@ -29,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\SAPGUI_XML\DTO Objects\" />
     <Folder Include="Code\zOld Stuff\Loader\" />
   </ItemGroup>
 

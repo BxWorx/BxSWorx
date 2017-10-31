@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Data;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DS
@@ -46,15 +45,16 @@ namespace SAPGUI.USR.DS
 					{
 						try
 							{
+								this._Tbl.Rows.Add(data);
+							}
+						catch (ConstraintException)
+							{
 								var			lc_ID		= (Guid)data[this._Ref.UUID];
 								DataRow lo_Row	= this.GetRow(lc_ID);
-								var x = 1;
-
-
-							}
-						catch (MissingPrimaryKeyException)
-							{
-								this._Tbl.Rows.Add(data);
+								if (lo_Row == null)
+									{ }
+								else
+									{ }
 							}
 						finally
 							{
@@ -65,18 +65,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DataRow GetRow(Guid keyVal)
 					{
-								return this._Tbl.Rows.Find(keyVal);
-						//try
-						//	{
-						//		return this._Tbl.Rows.Find(keyVal);
-						//	}
-						//catch (MissingPrimaryKeyException)
-						//	{
-						//		return	null;
-						//	}
-						////string		lc_Exp	= $"{this._Ref.UUID} = '{keyVal}'";
-						//DataRow[] lt_Sel	= this._Tbl.Select(lc_Exp);
-						//return	lt_Sel[0] ?? null;
+						return this._Tbl.Rows.Find(keyVal);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

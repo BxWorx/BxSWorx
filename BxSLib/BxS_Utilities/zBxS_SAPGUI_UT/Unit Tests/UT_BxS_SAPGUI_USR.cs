@@ -49,41 +49,79 @@ namespace zBxS_SAPGUI_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SapGuiUsr_UsrDS_Tables()
+			public void UT_SapGuiUsr_UsrDS_Table()
 				{
 					int	ln_Cnt	= 0;
-					var			lo_Ref	= new References();
-					DataSet lo_Sch	= new Schema(lo_Ref).Create();
-					var			lo_UDS	= new UsrDataSet(lo_Ref, lo_Sch, _PathTest);
-					var			lc_Key0	= Guid.NewGuid();
-					var			lc_Key1	= Guid.NewGuid();
+					var	lo_Ref	= new References();
+					var	lo_Tab	= new DSTable(lo_Ref, this.CreateDataTable(lo_Ref));
+					Assert.IsNotNull	(lo_Tab,	$"{ln_Cnt}: DS Ready: Error");
 					//...............................................
-					ln_Cnt	= 1;
-					DataRow lo_DSRow0				= lo_UDS.NewSrvRow();
-					DataRow lo_DSRow1				= lo_UDS.NewSrvRow();
+					var			lc_Key0		= Guid.NewGuid();
+					var			lc_Key1		= Guid.NewGuid();
+					DataRow lo_DSRow0	= lo_Tab.NewRow();
+					DataRow lo_DSRow1	= lo_Tab.NewRow();
+					//...............................................
 					lo_DSRow0[lo_Ref.UUID]	= lc_Key0;
 					lo_DSRow1[lo_Ref.UUID]	= lc_Key1;
-					lo_UDS.AddUpdateService(lo_DSRow0);
-					lo_UDS.AddUpdateService(lo_DSRow1);
-					Assert.AreEqual(2,	lo_UDS.ServiceCount,	$"Cntlr: {ln_Cnt}: DS Ready: Error");
+					//...............................................
+					ln_Cnt	= 1;
+					lo_Tab.AddUpdate(lo_DSRow0);
+					lo_Tab.AddUpdate(lo_DSRow1);
+					Assert.AreEqual(2,	lo_Tab.Count,	$"{ln_Cnt}: DS AddUpd: Error");
 					//...............................................
 					ln_Cnt	= 2;
-					DataRow lo_DSRow2			= lo_UDS.GetService(lc_Key0);
+					DataRow lo_DSRow2	= lo_Tab.GetRow(lc_Key0);
 					Assert.AreEqual(lc_Key0.ToString(),	lo_DSRow2[lo_Ref.UUID],	$"Cntlr: {ln_Cnt}: DS Read: Error");
 					//...............................................
 					ln_Cnt	= 3;
-					Assert.IsTrue(lo_UDS.RemoveService(lc_Key0)	,	$"Cntlr: {ln_Cnt}: DT-Remove: Error");
-					Assert.AreEqual(1,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
+					Assert.IsTrue(lo_Tab.Remove(lc_Key0)	,	$"{ln_Cnt}: DT-Remove: Error");
+					Assert.AreEqual(1,	lo_Tab.Count			,	$"{ln_Cnt}: DT-Rem Count: Error");
 					//...............................................
 					ln_Cnt	= 4;
-					lo_UDS.AddUpdateService(lo_DSRow1);
-					Assert.AreEqual(1,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
-					lo_UDS.AddUpdateService(lo_DSRow0);
-					Assert.AreEqual(2,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
-					//...............................................
-					ln_Cnt	= 4;
-					lo_UDS.Save();
+					lo_Tab.AddUpdate(lo_DSRow1);
+					Assert.AreEqual(1,	lo_Tab.Count,	$"Table: {ln_Cnt}: DT-Rem Count: Error");
+					lo_Tab.AddUpdate(lo_DSRow0);
+					Assert.AreEqual(2,	lo_Tab.Count,	$"Table: {ln_Cnt}: DT-Rem Count: Error");
+
 				}
+
+			////-------------------------------------------------------------------------------------------
+			//[TestMethod]
+			//public void UT_SapGuiUsr_UsrDS_Tables()
+			//	{
+			//		int			ln_Cnt	= 0;
+			//		var			lo_Ref	= new References();
+			//		DataSet lo_Sch	= new Schema(lo_Ref).Create();
+			//		var			lo_UDS	= new UsrDataSet(lo_Ref, lo_Sch, _PathTest);
+			//		var			lc_Key0	= Guid.NewGuid();
+			//		var			lc_Key1	= Guid.NewGuid();
+			//		//...............................................
+			//		ln_Cnt	= 1;
+			//		DataRow lo_DSRow0				= lo_UDS.NewSrvRow();
+			//		DataRow lo_DSRow1				= lo_UDS.NewSrvRow();
+			//		lo_DSRow0[lo_Ref.UUID]	= lc_Key0;
+			//		lo_DSRow1[lo_Ref.UUID]	= lc_Key1;
+			//		lo_UDS.AddUpdateService(lo_DSRow0);
+			//		lo_UDS.AddUpdateService(lo_DSRow1);
+			//		Assert.AreEqual(2,	lo_UDS.ServiceCount,	$"Cntlr: {ln_Cnt}: DS Ready: Error");
+			//		//...............................................
+			//		ln_Cnt	= 2;
+			//		DataRow lo_DSRow2			= lo_UDS.GetService(lc_Key0);
+			//		Assert.AreEqual(lc_Key0.ToString(),	lo_DSRow2[lo_Ref.UUID],	$"Cntlr: {ln_Cnt}: DS Read: Error");
+			//		//...............................................
+			//		ln_Cnt	= 3;
+			//		Assert.IsTrue(lo_UDS.RemoveService(lc_Key0)	,	$"Cntlr: {ln_Cnt}: DT-Remove: Error");
+			//		Assert.AreEqual(1,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
+			//		//...............................................
+			//		ln_Cnt	= 4;
+			//		lo_UDS.AddUpdateService(lo_DSRow1);
+			//		Assert.AreEqual(1,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
+			//		lo_UDS.AddUpdateService(lo_DSRow0);
+			//		Assert.AreEqual(2,	lo_UDS.ServiceCount			,	$"Cntlr: {ln_Cnt}: DT-Rem Count: Error");
+			//		//...............................................
+			//		ln_Cnt	= 4;
+			//		lo_UDS.Save();
+			//	}
 
 			////-------------------------------------------------------------------------------------------
 			//[TestMethod]
@@ -149,5 +187,23 @@ namespace zBxS_SAPGUI_UT
 			//		//lo_DSH.AddUpdateService(lo_DTOSrv);
 			//		//Assert.IsTrue(lo_DSH.AddUpdateService(lo_DTOSrv)	,	$"Cntlr: {ln_Cnt}: DS Ready: Error");
 			//	}
+
+				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
+				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
+				private DataTable CreateDataTable(References refr)
+					{
+						Type lo_Str	= typeof(string);
+						Type lo_Gui = typeof(Guid);
+						var lo_Tbl	= new DataTable("TestTable");
+						//.............................................
+						lo_Tbl.Columns.Add(refr.UUID, lo_Gui);
+						lo_Tbl.Columns.Add("Name"		, lo_Str);
+						//.............................................
+						DataColumn[]	Keys	= new DataColumn[1];
+						Keys[0]							= lo_Tbl.Columns[refr.UUID];
+						lo_Tbl.PrimaryKey		= Keys;
+						//.............................................
+						return	lo_Tbl;
+					}
 		}
 }
