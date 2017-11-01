@@ -77,7 +77,6 @@ namespace SAPGUI.USR.DS
 						var lo_Tbl	= new DataTable(this._ref.WorkspaceTableName);
 						//.............................................
 						this.AddColumn_TypeGUID(lo_Tbl, this._ref.UUID, true);
-						//this.AddColumn_UUID					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
 						lo_Tbl.Columns.Add("Parent_UUID"	, this._str);
@@ -96,7 +95,6 @@ namespace SAPGUI.USR.DS
 						var lo_Tbl	= new DataTable(this._ref.MsgServerTableName);
 						//.............................................
 						this.AddColumn_TypeGUID(lo_Tbl, this._ref.UUID, true);
-						//this.AddColumn_UUID					(lo_Tbl);
 						this.AddColumn_Name					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
@@ -116,7 +114,6 @@ namespace SAPGUI.USR.DS
 						var lo_Tbl	= new DataTable(this._ref.ServiceTableName);
 						//.............................................
 						this.AddColumn_TypeGUID(lo_Tbl, this._ref.UUID, true);
-						//this.AddColumn_UUID					(lo_Tbl);
 						this.AddColumn_Name					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
@@ -130,8 +127,6 @@ namespace SAPGUI.USR.DS
 						//.............................................
 						this.AddColumn_TypeGUID(lo_Tbl, "MsgServer_ID", false);
 						this.AddColumn_TypeGUID(lo_Tbl, "Workspace_ID", false);
-						//this.AddColumn_TypeString(lo_Tbl, "MsgServer_ID", 32);
-						//this.AddColumn_TypeString(lo_Tbl, "Workspace_ID", 32);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[1];
 						Keys[0]							= lo_Tbl.Columns[this._ref.UUID];
@@ -143,16 +138,6 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Common private routines
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void AddColumn_UUID(DataTable	dataTable)
-					{
-						var Col		= new DataColumn()	{	ColumnName	= this._ref.UUID	,
-																						Unique			= true						,
-																						MaxLength		= 36							,
-																						DataType		= typeof(Guid)			};
-
-						dataTable.Columns.Add(Col);
-						//this.AddColumn_TypeString(dataTable, this._ref.UUID, 36, true);
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddColumn_Name(DataTable	dataTable)
@@ -169,14 +154,15 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddColumn_TypeGUID(	DataTable	dataTable	,
 																					string		name			,
-																					bool			isKey = false	)
+																					bool			isUnique = false	)
 					{
-						var Col		= new DataColumn()	{	ColumnName	= name			,
-																						Unique			= isKey			,
-																						MaxLength		= 36				,
-																						DataType		= this._guid	};
+						var Col		= new DataColumn()	{	ColumnName		= name			,
+																						Unique				= isUnique	,
+																						AutoIncrement	= false			,
+																						DataType			= this._guid	};
 
 						dataTable.Columns.Add(Col);
+//																						MaxLength			= 38				,
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

@@ -9,14 +9,14 @@ namespace SAPGUI.USR.DS
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UsrDataSet(References references, DataSet schema, string path)
+				internal UsrDataSet(References references, DataSet schema, string path, bool autoLoad = true)
 					{
 						this._Ref			= references;
 						this._UsrDS		= schema;
 						//.............................................
-						this._UsrDSFullName		= Path.Combine(path,	this.DSFileName);
+						this.DSFullName	= Path.Combine(path,	this.DSFileName);
 						//.............................................
-						this.LoadData();
+						if (autoLoad)	this.LoadData();
 						//.............................................
 						this._DTSrv	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.ServiceTableName]		) );
 						this._DTMsg	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.MsgServerTableName]	) );
@@ -29,7 +29,6 @@ namespace SAPGUI.USR.DS
 			#region "Declarations"
 
 				private	readonly	References	_Ref;
-				private readonly	string			_UsrDSFullName;
 				private readonly	DataSet			_UsrDS;
 				//.................................................
 				private readonly	Lazy<DSTable>	_DTSrv;
@@ -41,6 +40,7 @@ namespace SAPGUI.USR.DS
 			//===========================================================================================
 			#region "Properties"
 
+				internal	string	DSFullName	{ get	;	}
 				internal	string	DSFileName	{ get	{ return "SAPGUI_USR_DataSet.xml"; } }
 				//.................................................
 				internal	int	ServiceCount		{ get	{ return this._DTSrv.Value.Count; } }
@@ -53,18 +53,26 @@ namespace SAPGUI.USR.DS
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Load()
+					{
+						this.LoadData();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool Save()
 					{
 						try
 							{
-								using (var SW = new StreamWriter(this._UsrDSFullName))
+								using (var SW = new StreamWriter(this.DSFullName))
 									{
 										this._UsrDS.WriteXml(SW);
-										SW.Close();
+										//SW.Close();
 									}
 							}
 						catch (Exception)
 							{
+								int x = 1;
+								x++;
 							}
 						return true;
 					}
@@ -108,7 +116,7 @@ namespace SAPGUI.USR.DS
 				private void LoadData()
 					{
 						try
-							{	this._UsrDS.ReadXml(this._UsrDSFullName, XmlReadMode.IgnoreSchema); }
+							{	this._UsrDS.ReadXml(this.DSFullName, XmlReadMode.IgnoreSchema); }
 						catch
 							(System.IO.FileNotFoundException)	{	/* do nothing as this will be a new repository */ }
 					}

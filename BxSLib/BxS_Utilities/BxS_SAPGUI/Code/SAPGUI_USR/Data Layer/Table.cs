@@ -43,23 +43,7 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void AddUpdate(DataRow data)
 					{
-						try
-							{
-								this._Tbl.Rows.Add(data);
-							}
-						catch (ConstraintException)
-							{
-								var			lc_ID		= (Guid)data[this._Ref.UUID];
-								DataRow lo_Row	= this.GetRow(lc_ID);
-								if (lo_Row == null)
-									{ }
-								else
-									{ }
-							}
-						finally
-							{
-								this._Tbl.AcceptChanges();
-							}
+						this._Tbl.LoadDataRow(data.ItemArray, true);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
