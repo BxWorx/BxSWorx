@@ -1,8 +1,26 @@
 <SAPGUI_USR_Repository>
   <Service>
-    <UUID>88c6daba-30ef-469a-b80a-0cb8ca22a903</UUID>
+    <UUID>60c4ebc2-d7d6-4690-a019-1a2ea775a4b3</UUID>
+    <Name />
+    <Description />
+    <Type />
+    <Server />
+    <SystemID />
+    <SNC_Name />
+    <SNC_Op />
+    <SAPCodePage />
+    <DownUpCodePage />
   </Service>
   <Service>
-    <UUID>53535cff-3cf0-4e40-8266-b4d8a2f0145e</UUID>
+    <UUID>27be7d71-0f40-43a9-8777-f23f5a9d6cea</UUID>
+    <Name />
+    <Description />
+    <Type />
+    <Server />
+    <SystemID />
+    <SNC_Name />
+    <SNC_Op />
+    <SAPCodePage />
+    <DownUpCodePage />
   </Service>
 </SAPGUI_USR_Repository>

@@ -40,8 +40,8 @@ namespace SAPGUI.USR.DS
 						this.AddTable_MsgServer(lo_DS);
 						this.AddTable_WorkSpace(lo_DS);
 						//.............................................
-						this.AddRelation_Service2MsgSrv(lo_DS);
-						this.AddRelation_Service2Workspace(lo_DS);
+						//this.AddRelation_Service2MsgSrv(lo_DS);
+						//this.AddRelation_Service2Workspace(lo_DS);
 						//.............................................
 						return	lo_DS;
 					}
@@ -79,7 +79,7 @@ namespace SAPGUI.USR.DS
 						this.AddColumn_TypeGUID			(lo_Tbl, this._ref.UUID, true);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						this.AddColumn_TypeGUID			(lo_Tbl, "Parent_UUID"	, true);
+						this.AddColumn_TypeGUID			(lo_Tbl, "Parent_UUID"	, false);
 						this.AddColumn_TypeString		(lo_Tbl, "Hierarchy_ID"	, 50);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[1];
@@ -113,17 +113,17 @@ namespace SAPGUI.USR.DS
 					{
 						var lo_Tbl	= new DataTable(this._ref.ServiceTableName);
 						//.............................................
-						this.AddColumn_TypeGUID(lo_Tbl, this._ref.UUID, true);
+						this.AddColumn_TypeGUID			(lo_Tbl, this._ref.UUID, true, false, true);
 						this.AddColumn_Name					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						lo_Tbl.Columns.Add("Type"						, this._str);
-						lo_Tbl.Columns.Add("Server"					, this._str);
-						lo_Tbl.Columns.Add("SystemID"				, this._str);
-						lo_Tbl.Columns.Add("SNC_Name"				, this._str);
-						lo_Tbl.Columns.Add("SNC_Op"					, this._str);
-						lo_Tbl.Columns.Add("SAPCodePage"		, this._str);
-						lo_Tbl.Columns.Add("DownUpCodePage"	, this._str);
+						this.AddColumn_TypeString		(lo_Tbl, "Type"						, 0);
+						this.AddColumn_TypeString		(lo_Tbl, "Server"					, 0);
+						this.AddColumn_TypeString		(lo_Tbl, "SystemID"				, 0);
+						this.AddColumn_TypeString		(lo_Tbl, "SNC_Name"				, 0);
+						this.AddColumn_TypeString		(lo_Tbl, "SNC_Op"					, 0);
+						this.AddColumn_TypeString		(lo_Tbl, "SAPCodePage"		, 0);
+						this.AddColumn_TypeString		(lo_Tbl, "DownUpCodePage"	, 0);
 						//.............................................
 						this.AddColumn_TypeGUID(lo_Tbl, "MsgServer_ID", false);
 						this.AddColumn_TypeGUID(lo_Tbl, "Workspace_ID", false);
@@ -152,28 +152,37 @@ namespace SAPGUI.USR.DS
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void AddColumn_TypeGUID(	DataTable	dataTable	,
-																					string		name			,
-																					bool			isUnique = false	)
+				private void AddColumn_TypeGUID(	DataTable	dataTable					,
+																					string		name							,
+																					bool			isUnique		= false	,
+																					bool			AllowNull		= true	,
+																					bool			SetDefault	= false		)
 					{
-						var Col		= new DataColumn()	{	ColumnName		= name			,
-																						Unique				= isUnique	,
-																						AutoIncrement	= false			,
-																						DataType			= this._guid	};
+						var Col		= new DataColumn()	{	ColumnName		= name						,
+																						Unique				= isUnique				,
+																						AutoIncrement	= false						,
+																						AllowDBNull		= AllowNull				,
+																						DataType			= this._guid				};
+
+						if (SetDefault)	Col.DefaultValue	= Guid.NewGuid();
 
 						dataTable.Columns.Add(Col);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void AddColumn_TypeString(	DataTable	dataTable	,
-																						string		name			,
-																						int				maxLength	,
-																						bool			isKey = false	)
+				private void AddColumn_TypeString(	DataTable	dataTable					,
+																						string		name							,
+																						int				maxLength					,
+																						bool			isKey			= false	,
+																						bool			AllowNull	= false		)
 					{
-						var Col		= new DataColumn()	{	ColumnName	= name			,
-																						Unique			= isKey			,
-																						MaxLength		= maxLength	,
-																						DataType		= this._str		};
+						var Col		= new DataColumn()	{	ColumnName		= name			,
+																						Unique				= isKey			,
+																						AllowDBNull		= AllowNull	,
+																						DataType			= this._str		};
+
+						if (!AllowNull)	Col.DefaultValue	= string.Empty;
+						if (maxLength != 0)	Col.MaxLength	= maxLength;
 
 						dataTable.Columns.Add(Col);
 					}

@@ -78,9 +78,28 @@ namespace SAPGUI.USR.DS
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DataRow NewSrvRow()
+				internal DataRow NewSrvRow(bool LoadDefaults = true)
 					{
 						return	this._DTSrv.Value.NewRow();
+						//if (LoadDefaults)	lo_Row[this._Ref.UUID]	= Guid.NewGuid();
+					//		{
+					//			lo_Row[this._Ref.UUID]	= Guid.NewGuid();
+
+					//			foreach (object lo_Obj in lo_Row.Table.Columns)
+					//				{
+					//					var lo_Col	= (DataColumn)lo_Obj;
+
+					//					var x = lo_Col.DataType;
+					//switch (x)
+					//	{
+					//		case System.String;
+					//	default:
+					//		break;
+					//	}
+
+					//}
+					//		}
+						//return	lo_Row;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
