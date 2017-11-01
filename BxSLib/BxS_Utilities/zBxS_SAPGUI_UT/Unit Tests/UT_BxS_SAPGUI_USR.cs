@@ -139,7 +139,8 @@ namespace zBxS_SAPGUI_UT
 					//...............................................
 					ln_Cnt	= 5;
 					lo_UDS.Save();
-					var	lo_UDSx	= new UsrDataSet(lo_Ref, lo_Sch, _PathTest);
+					var	lo_UDSx	= new UsrDataSet(lo_Ref, lo_Sch, _PathTest, true);
+					Assert.AreEqual(lo_UDS.ServiceCount, lo_UDSx.ServiceCount,	$"DSSrv: {ln_Cnt}: Re-load compare: Error");
 				}
 
 			////-------------------------------------------------------------------------------------------

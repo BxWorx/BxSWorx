@@ -76,11 +76,11 @@ namespace SAPGUI.USR.DS
 					{
 						var lo_Tbl	= new DataTable(this._ref.WorkspaceTableName);
 						//.............................................
-						this.AddColumn_TypeGUID(lo_Tbl, this._ref.UUID, true);
+						this.AddColumn_TypeGUID			(lo_Tbl, this._ref.UUID, true);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						lo_Tbl.Columns.Add("Parent_UUID"	, this._str);
-						lo_Tbl.Columns.Add("Hierarchy_ID"	, this._str);
+						this.AddColumn_TypeGUID			(lo_Tbl, "Parent_UUID"	, true);
+						this.AddColumn_TypeString		(lo_Tbl, "Hierarchy_ID"	, 50);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[1];
 						Keys[0]							= lo_Tbl.Columns[this._ref.UUID];
@@ -162,7 +162,6 @@ namespace SAPGUI.USR.DS
 																						DataType			= this._guid	};
 
 						dataTable.Columns.Add(Col);
-//																						MaxLength			= 38				,
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
