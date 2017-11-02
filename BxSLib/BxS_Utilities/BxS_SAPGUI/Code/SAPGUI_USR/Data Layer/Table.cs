@@ -66,9 +66,5 @@ namespace SAPGUI.USR.DS
 
 			#endregion
 
-			//===========================================================================================
-			#region "Methods: Private"
-			#endregion
-
 		}
 }

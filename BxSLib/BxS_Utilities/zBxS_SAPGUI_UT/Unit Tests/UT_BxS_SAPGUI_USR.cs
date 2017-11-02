@@ -11,7 +11,7 @@ namespace zBxS_SAPGUI_UT
 	[TestClass]
 	public class UT_BxS_SAPGUI_USR
 		{
-			private const string	cz_TestDir		= "Test Resources";
+			private const string	cz_TestDir	= "Test Resources";
 
 			//...................................................
 			private	static readonly string	_Path				= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
@@ -22,12 +22,12 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiUsr_Schema()
 				{
 					int	ln_Cnt;
-					var	lo_DS	= new Schema(new References());
+					var	lo_Schema	= new Schema(new References());
 					//...............................................
 					ln_Cnt	= 1;
-					DataSet lo_DSx	= lo_DS.Create();
-					Assert.IsNotNull	(lo_DSx										,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreEqual		(lo_DSx.Tables.Count	, 3	,	$"Cntlr: {ln_Cnt}: DS-Schema-Tbl: Error");
+					DataSet lo_DS	= lo_Schema.Create();
+					Assert.IsNotNull	(lo_DS									,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreEqual		(lo_DS.Tables.Count	, 3	,	$"Cntlr: {ln_Cnt}: DS-Schema-Tbl: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -116,7 +116,11 @@ namespace zBxS_SAPGUI_UT
 
 					lo_DSRow0[lo_Ref.UUID]	= lc_Key0;
 					lo_DSRow1[lo_Ref.UUID]	= lc_Key1;
-					lo_DSRow2[lo_Ref.UUID]	= lc_Key2;
+
+					lo_DSRow2[lo_Ref.UUID]				= lc_Key2;
+					lo_DSRow2[lo_Ref.Name]				= "Test Name";
+					lo_DSRow2[lo_Ref.Description]	= "Test description";
+
 					//...............................................
 					ln_Cnt	= 1;
 					lo_UDS.AddUpdateService(lo_DSRow0);
@@ -139,7 +143,8 @@ namespace zBxS_SAPGUI_UT
 					//...............................................
 					ln_Cnt	= 5;
 					lo_UDS.Save();
-					var	lo_UDSx	= new UsrDataSet(lo_Ref, lo_Sch, _PathTest, true);
+					DataSet lo_Schx	= new Schema(lo_Ref).Create();
+					var			lo_UDSx	= new UsrDataSet(lo_Ref, lo_Schx, _PathTest, true);
 					Assert.AreEqual(lo_UDS.ServiceCount, lo_UDSx.ServiceCount,	$"DSSrv: {ln_Cnt}: Re-load compare: Error");
 				}
 

@@ -40,8 +40,8 @@ namespace SAPGUI.USR.DS
 						this.AddTable_MsgServer(lo_DS);
 						this.AddTable_WorkSpace(lo_DS);
 						//.............................................
-						//this.AddRelation_Service2MsgSrv(lo_DS);
-						//this.AddRelation_Service2Workspace(lo_DS);
+						this.AddRelation_Service2MsgSrv(lo_DS);
+						this.AddRelation_Service2Workspace(lo_DS);
 						//.............................................
 						return	lo_DS;
 					}
@@ -113,17 +113,17 @@ namespace SAPGUI.USR.DS
 					{
 						var lo_Tbl	= new DataTable(this._ref.ServiceTableName);
 						//.............................................
-						this.AddColumn_TypeGUID			(lo_Tbl, this._ref.UUID, true, false, true);
+						this.AddColumn_TypeGUID			(lo_Tbl, this._ref.UUID, true, false);
 						this.AddColumn_Name					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						this.AddColumn_TypeString		(lo_Tbl, "Type"						, 0);
-						this.AddColumn_TypeString		(lo_Tbl, "Server"					, 0);
-						this.AddColumn_TypeString		(lo_Tbl, "SystemID"				, 0);
-						this.AddColumn_TypeString		(lo_Tbl, "SNC_Name"				, 0);
-						this.AddColumn_TypeString		(lo_Tbl, "SNC_Op"					, 0);
-						this.AddColumn_TypeString		(lo_Tbl, "SAPCodePage"		, 0);
-						this.AddColumn_TypeString		(lo_Tbl, "DownUpCodePage"	, 0);
+						this.AddColumn_TypeString		(lo_Tbl, "Type"						);
+						this.AddColumn_TypeString		(lo_Tbl, "Server"					);
+						this.AddColumn_TypeString		(lo_Tbl, "SystemID"				);
+						this.AddColumn_TypeString		(lo_Tbl, "SNC_Name"				);
+						this.AddColumn_TypeString		(lo_Tbl, "SNC_Op"					);
+						this.AddColumn_TypeString		(lo_Tbl, "SAPCodePage"		);
+						this.AddColumn_TypeString		(lo_Tbl, "DownUpCodePage"	);
 						//.............................................
 						this.AddColumn_TypeGUID(lo_Tbl, "MsgServer_ID", false);
 						this.AddColumn_TypeGUID(lo_Tbl, "Workspace_ID", false);
@@ -142,21 +142,20 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddColumn_Name(DataTable	dataTable)
 					{
-						this.AddColumn_TypeString(dataTable, "Name", 20);
+						this.AddColumn_TypeString(dataTable, this._ref.Name, 20);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddColumn_Description(DataTable	dataTable)
 					{
-						this.AddColumn_TypeString(dataTable, "Description", 50);
+						this.AddColumn_TypeString(dataTable,this._ref.Description, 50);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void AddColumn_TypeGUID(	DataTable	dataTable					,
-																					string		name							,
+				private void AddColumn_TypeGUID(	DataTable	dataTable						,
+																					string		name								,
 																					bool			isUnique		= false	,
-																					bool			AllowNull		= true	,
-																					bool			SetDefault	= false		)
+																					bool			AllowNull		= true		)
 					{
 						var Col		= new DataColumn()	{	ColumnName		= name						,
 																						Unique				= isUnique				,
@@ -164,25 +163,23 @@ namespace SAPGUI.USR.DS
 																						AllowDBNull		= AllowNull				,
 																						DataType			= this._guid				};
 
-						if (SetDefault)	Col.DefaultValue	= Guid.NewGuid();
-
 						dataTable.Columns.Add(Col);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddColumn_TypeString(	DataTable	dataTable					,
 																						string		name							,
-																						int				maxLength					,
+																						int				maxLength	= -1		,
 																						bool			isKey			= false	,
-																						bool			AllowNull	= false		)
+																						bool			AllowNull	= true		)
 					{
 						var Col		= new DataColumn()	{	ColumnName		= name			,
 																						Unique				= isKey			,
 																						AllowDBNull		= AllowNull	,
+																						MaxLength			= maxLength	,
 																						DataType			= this._str		};
 
-						if (!AllowNull)	Col.DefaultValue	= string.Empty;
-						if (maxLength != 0)	Col.MaxLength	= maxLength;
+						Col.DefaultValue	= AllowNull	? null	: string.Empty;
 
 						dataTable.Columns.Add(Col);
 					}
