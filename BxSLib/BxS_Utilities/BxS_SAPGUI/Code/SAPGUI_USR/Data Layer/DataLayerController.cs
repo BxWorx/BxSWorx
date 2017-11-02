@@ -17,9 +17,11 @@ namespace SAPGUI.USR.DS
 						//.............................................
 						this._SchemaFullName	= Path.Combine(this.FullPath,	this.SchemaFileName);
 						//.............................................
-						this._Ref			= new	Lazy<References>	(	() => new References() );
-						this._Schema	= new Lazy<DataSet>			( () => new Schema(this._Ref.Value).Create() );
-						this._UsrDS		= new Lazy<UsrDataSet>	( () => new UsrDataSet(this._Ref.Value, this._Schema.Value, path)	);
+						this._Map			= new	Lazy<Mapping>			(	()	=>	new Mapping()			);
+						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser(this._Map.Value)	);
+						this._Ref			= new	Lazy<References>	(	()	=>	new References()	);
+						this._Schema	= new Lazy<DataSet>			( ()	=>	new Schema(this._Ref.Value).Create() );
+						this._UsrDS		= new Lazy<UsrDataSet>	( ()	=>	new UsrDataSet(this._Ref.Value, this._Schema.Value, path)	);
 					}
 
 			#endregion
@@ -30,6 +32,8 @@ namespace SAPGUI.USR.DS
 				private readonly	string		_SchemaFullName;
 				//.................................................
 				private readonly	Lazy<References>	_Ref;
+				private	readonly	Lazy<Mapping>			_Map;
+				private	readonly	Lazy<Parser>			_Parser;
 				private readonly	Lazy<DataSet>			_Schema;
 				private readonly	Lazy<UsrDataSet>	_UsrDS;
 
@@ -53,9 +57,6 @@ namespace SAPGUI.USR.DS
 						return true;
 					}
 
-				
-
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdate(DTOService dto)
 					{
@@ -70,6 +71,14 @@ namespace SAPGUI.USR.DS
 						//DataTable	lo_Tbl	= this.UsrDataSet.Tables["MsgServer"];
 						return true;
 						//return this.ParseTableRow(lo_Tbl, Mapping.ServicesMap, dto);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool AddUpdate(DTOWorkspace dto)
+					{
+						//DataTable	lo_Tbl	= this.UsrDataSet.Tables["Services"];
+						return true;
+						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
 					}
 
 			#endregion
