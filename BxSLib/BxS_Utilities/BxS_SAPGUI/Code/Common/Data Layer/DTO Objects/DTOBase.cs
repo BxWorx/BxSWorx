@@ -1,9 +1,12 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API.DTO
+namespace SAPGUI.COM.DL
 {
-	internal class DTOWorkspaceNodeItem : DTOBase
+	internal abstract class DTOBase
 		{
-			internal string UIID			{ get; set; }
-			internal string ServiceID { get; set; }
+			internal object this[string propertyName]
+				{
+					get { return	this.GetType().GetProperty(propertyName).GetValue(this, null)					; }
+					set {					this.GetType().GetProperty(propertyName).SetValue(this, value, null)	; }
+				}
 		}
 }

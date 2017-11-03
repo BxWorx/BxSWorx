@@ -2,7 +2,7 @@
 using System.IO;
 using System.Data;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.USR.DS
+namespace SAPGUI.USR.DL
 {
 		internal class UsrDataSet
 		{
@@ -52,6 +52,12 @@ namespace SAPGUI.USR.DS
 				internal	int	WorkspaceCount			{ get	{ return this._DTWrk.Value.Count; } }
 				internal	int	WorkspaceNodeCount	{ get	{ return this._DTWSN.Value.Count; } }
 				internal	int	WorkspaceItemCount	{ get	{ return this._DTWSI.Value.Count; } }
+				//.................................................
+				internal	DSTable	Services				{	get {	return	this._DTSrv.Value; } }
+				internal	DSTable	MsgServers			{	get {	return	this._DTMsg.Value; } }
+				internal	DSTable	Workspaces			{	get {	return	this._DTWrk.Value; } }
+				internal	DSTable	WorkspaceNodes	{	get {	return	this._DTWSN.Value; } }
+				internal	DSTable	WorkspaceItems	{	get {	return	this._DTWSI.Value; } }
 
 			#endregion
 

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 //.........................................................
 using SAPGUI.API;
-using SAPGUI.API.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace SAPGUI.COM.DL
 {
-	internal class XMLRepository
+	internal class Repository
 		{
 			#region "Properties"
 
@@ -19,7 +18,7 @@ namespace SAPGUI.XML
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal XMLRepository()
+				internal Repository()
 					{
 						this.Services		= new Dictionary<string, DTOService>();
 						this.MsgServers	= new Dictionary<string, DTOMsgServer>();

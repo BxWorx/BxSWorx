@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API.DTO
+namespace SAPGUI.COM.DL
 {
 	internal class DTOService : DTOBase
 		{

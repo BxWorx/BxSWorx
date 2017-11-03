@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.USR.DS
+namespace SAPGUI.USR.DL
 {
 		internal class References
 		{

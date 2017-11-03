@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 //.........................................................
-using SAPGUI.API.DTO;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -24,9 +24,9 @@ namespace SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal XMLRepository Load(string	fullName,	bool onlySAPGUI	= true	)
+				internal Repository Load(string	fullName,	bool onlySAPGUI	= true	)
 					{
-						var	lo_Repos	= new XMLRepository();
+						var	lo_Repos	= new Repository();
 						//.............................................
 						XmlDocument XmlDoc	= this.LoadXMLDoc(fullName);
 						if (XmlDoc == null)		return	lo_Repos;
@@ -83,7 +83,7 @@ namespace SAPGUI.XML
 								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName(cz_TagNode))
 									{
 										DTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
-										foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_Node, true))
+										foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_Node, true))
 											{
 												lo_WSNode.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
 											}
@@ -92,7 +92,7 @@ namespace SAPGUI.XML
 											lo_WSDTO.Nodes.Add(lo_WSNode.UUID, lo_WSNode);
 									}
 								//.........................................
-								foreach (DTOWorkspaceNodeItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_WrkSpace, false))
+								foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_WrkSpace, false))
 									{
 										lo_WSDTO.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
 									}
@@ -135,7 +135,7 @@ namespace SAPGUI.XML
 						var lo_DTO = new DTOWorkspaceNode
 							{	UUID	= element.GetAttribute(cz_TagUuid)	,
 								Name	= element.GetAttribute(cz_TagName)	,
-								Items = new Dictionary<string, DTOWorkspaceNodeItem>() };
+								Items = new Dictionary<string, DTOWorkspaceItem>() };
 						//.............................................
 						return lo_DTO;
 					}
@@ -148,15 +148,15 @@ namespace SAPGUI.XML
 								Name	= _xmlelement.GetAttribute(cz_TagName)	,
 								//.........................................
 								Nodes = new Dictionary<string, DTOWorkspaceNode>()			,
-								Items = new Dictionary<string, DTOWorkspaceNodeItem>()		};
+								Items = new Dictionary<string, DTOWorkspaceItem>()		};
 						//.............................................
 						return lo_DTO;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private List<DTOWorkspaceNodeItem> GetItemList(XMLRepository repository, XmlElement element, bool forNode = true)
+				private List<DTOWorkspaceItem> GetItemList(Repository repository, XmlElement element, bool forNode = true)
 					{
-						var	lt_List		= new List<DTOWorkspaceNodeItem>();
+						var	lt_List		= new List<DTOWorkspaceItem>();
 						//.............................................
 						foreach (XmlElement lo_Item in element.GetElementsByTagName("Item"))
 							{
@@ -165,7 +165,7 @@ namespace SAPGUI.XML
 										string	lc_ServID	= lo_Item.GetAttribute("serviceid");
 										if (repository.Services.ContainsKey(lc_ServID))
 											{
-												lt_List.Add(	new DTOWorkspaceNodeItem	{	UIID			= lo_Item.GetAttribute(cz_TagUuid)	,
+												lt_List.Add(	new DTOWorkspaceItem	{	UIID			= lo_Item.GetAttribute(cz_TagUuid)	,
 																																	ServiceID = lc_ServID														}	);
 											}
 									}
@@ -175,7 +175,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<string> UsedMsgServers(XMLRepository repository)
+				private IList<string> UsedMsgServers(Repository repository)
 					{
 						return	repository.Services.Select(
 											x => x.Value.MSID)
@@ -185,7 +185,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<string> UsedServices(XMLRepository repository)
+				private IList<string> UsedServices(Repository repository)
 					{
 						return	repository.WorkSpaces.SelectMany
 											( ws => ws.Value.Nodes.SelectMany
@@ -207,7 +207,7 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Remove unwanted Services and Message Servers
 				//
-				private void Load_XML_Cleanup(XMLRepository repository)
+				private void Load_XML_Cleanup(Repository repository)
 					{
 						IList<string>	lt_Use;
 						IList<string>	lt_Rem	= new List<string>();

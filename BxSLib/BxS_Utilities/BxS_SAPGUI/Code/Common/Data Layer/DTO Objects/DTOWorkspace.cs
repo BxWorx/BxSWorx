@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API.DTO
+namespace SAPGUI.COM.DL
 {
 	internal class DTOWorkspace : DTOBase
 		{
@@ -8,6 +8,6 @@ namespace SAPGUI.API.DTO
 			internal string Name { get; set; }
 			//...................................................
 			internal Dictionary<string, DTOWorkspaceNode>			Nodes { get; set; }
-			internal Dictionary<string, DTOWorkspaceNodeItem> Items { get; set; }
+			internal Dictionary<string, DTOWorkspaceItem> Items { get; set; }
 		}
 }

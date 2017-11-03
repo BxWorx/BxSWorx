@@ -1,4 +1,5 @@
 ﻿using SAPGUI.API;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -8,7 +9,7 @@ namespace SAPGUI.XML
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	XMLRepository		_Repository;
+				private readonly Repository		_Repository;
 
 			#endregion
 

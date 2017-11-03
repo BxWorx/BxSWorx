@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.USR.DS
+namespace SAPGUI.USR.DL
 {
 		internal class DSTable
 		{
@@ -10,8 +10,8 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DSTable(References references, DataTable table)
 					{
-						this._Ref	= references;
-						this._Tbl	= table;
+						this._Ref		= references;
+						this.Table	= table;
 					}
 
 			#endregion
@@ -20,14 +20,15 @@ namespace SAPGUI.USR.DS
 			#region "Declarations"
 
 				private	readonly	References	_Ref;
-				private readonly	DataTable		_Tbl;
+				//private readonly	DataTable		_Tbl;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	Count	{ get	{ return this._Tbl.Rows.Count; } }
+				internal int				Count	{ get	{ return	this.Table.Rows.Count; } }
+				internal DataTable	Table	{ get; }
 
 			#endregion
 
@@ -37,19 +38,19 @@ namespace SAPGUI.USR.DS
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DataRow NewRow()
 					{
-						return	this._Tbl.NewRow();
+						return	this.Table.NewRow();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void AddUpdate(DataRow data)
 					{
-						this._Tbl.LoadDataRow(data.ItemArray, true);
+						this.Table.LoadDataRow(data.ItemArray, true);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DataRow GetRow(Guid keyVal)
 					{
-						return this._Tbl.Rows.Find(keyVal);
+						return this.Table.Rows.Find(keyVal);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -59,8 +60,8 @@ namespace SAPGUI.USR.DS
 						//.............................................
 						if (lo_Row == null)	return	false;
 						//.............................................
-						this._Tbl.Rows.Remove(lo_Row);
-						this._Tbl.AcceptChanges();
+						this.Table.Rows.Remove(lo_Row);
+						this.Table.AcceptChanges();
 						return	true;
 					}
 

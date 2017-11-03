@@ -2,26 +2,26 @@
 using System.IO;
 using System.Data;
 //.........................................................
-using SAPGUI.API.DTO;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.USR.DS
+namespace SAPGUI.USR.DL
 {
-		internal class DataLayerController
+		internal class DLController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DataLayerController(string path)
+				internal DLController(string path)
 					{
 						this.FullPath	= path;
 						//.............................................
 						this._SchemaFullName	= Path.Combine(this.FullPath,	this.SchemaFileName);
 						//.............................................
-						this._Map			= new	Lazy<Mapping>			(	()	=>	new Mapping()																							);
-						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser(this._Map.Value)																);
-						this._Ref			= new	Lazy<References>	(	()	=>	new References()																					);
-						this._Schema	= new Lazy<DataSet>			( ()	=>	new Schema(this._Ref.Value).Create()											);
-						this._UsrDS		= new Lazy<UsrDataSet>	( ()	=>	new UsrDataSet(this._Ref.Value, this._Schema.Value, path)	);
+						this._Ref			= new	Lazy<References>	(	()	=>	new References	()																					);
+						this._Map			= new	Lazy<Mapping>			(	()	=>	new Mapping			(this._Ref.Value)														);
+						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser			(this._Map.Value)														);
+						this._Schema	= new Lazy<DataSet>			( ()	=>	new Schema			(this._Ref.Value).Create()									);
+						this._UsrDS		= new Lazy<UsrDataSet>	( ()	=>	new UsrDataSet	(this._Ref.Value, this._Schema.Value, path)	);
 					}
 
 			#endregion
@@ -52,10 +52,34 @@ namespace SAPGUI.USR.DS
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Save()
+				internal bool Save(Repository	repository)
 					{
 						return true;
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal Repository Load()
+					{
+						var lo_Rep	= new Repository();
+						//.............................................
+
+
+
+						//.............................................
+						return	lo_Rep;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Load(Repository repository)
+					{
+
+
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddUpdate(DTOService dto)
@@ -81,10 +105,6 @@ namespace SAPGUI.USR.DS
 						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DataSet GetSchema()

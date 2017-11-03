@@ -2,7 +2,7 @@
 using System.IO;
 using System.Data;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.USR.DS
+namespace SAPGUI.USR.DL
 {
 		internal class Schema
 		{

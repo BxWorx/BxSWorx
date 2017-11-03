@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.USR.DS
+namespace SAPGUI.USR.DL
 {
 	// Mapping always relates to KVP being: Key		:=	DS Table Field
 	//																			Value	:=	DTO property
