@@ -17,10 +17,10 @@ namespace SAPGUI.USR.DS
 						//.............................................
 						this._SchemaFullName	= Path.Combine(this.FullPath,	this.SchemaFileName);
 						//.............................................
-						this._Map			= new	Lazy<Mapping>			(	()	=>	new Mapping()			);
-						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser(this._Map.Value)	);
-						this._Ref			= new	Lazy<References>	(	()	=>	new References()	);
-						this._Schema	= new Lazy<DataSet>			( ()	=>	new Schema(this._Ref.Value).Create() );
+						this._Map			= new	Lazy<Mapping>			(	()	=>	new Mapping()																							);
+						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser(this._Map.Value)																);
+						this._Ref			= new	Lazy<References>	(	()	=>	new References()																					);
+						this._Schema	= new Lazy<DataSet>			( ()	=>	new Schema(this._Ref.Value).Create()											);
 						this._UsrDS		= new Lazy<UsrDataSet>	( ()	=>	new UsrDataSet(this._Ref.Value, this._Schema.Value, path)	);
 					}
 

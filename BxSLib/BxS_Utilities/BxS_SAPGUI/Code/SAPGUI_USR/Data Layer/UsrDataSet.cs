@@ -18,9 +18,11 @@ namespace SAPGUI.USR.DS
 						//.............................................
 						if (autoLoad)	this.LoadData();
 						//.............................................
-						this._DTSrv	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.ServiceTableName]		) );
-						this._DTMsg	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.MsgServerTableName]	) );
-						this._DTWrk	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.WorkspaceTableName]	) );
+						this._DTSrv	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.ServiceTableName]				) );
+						this._DTMsg	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.MsgServerTableName]			) );
+						this._DTWrk	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.WorkspaceTableName]			) );
+						this._DTWrk	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.WorkspaceNodeTableName]	) );
+						this._DTWrk	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.WorkspaceItemTableName]	) );
 					}
 
 			#endregion
@@ -34,18 +36,22 @@ namespace SAPGUI.USR.DS
 				private readonly	Lazy<DSTable>	_DTSrv;
 				private readonly	Lazy<DSTable>	_DTMsg;
 				private readonly	Lazy<DSTable>	_DTWrk;
+				private readonly	Lazy<DSTable>	_DTWSN;
+				private readonly	Lazy<DSTable>	_DTWSI;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	DSFullName	{ get	;	}
+				internal	string	DSFullName	{ get; }
 				internal	string	DSFileName	{ get	{ return "SAPGUI_USR_DataSet.xml"; } }
 				//.................................................
-				internal	int	ServiceCount		{ get	{ return this._DTSrv.Value.Count; } }
-				internal	int	MsgServerCount	{ get	{ return this._DTMsg.Value.Count; } }
-				internal	int	WorkspaceCount	{ get	{ return this._DTWrk.Value.Count; } }
+				internal	int	ServiceCount				{ get	{ return this._DTSrv.Value.Count; } }
+				internal	int	MsgServerCount			{ get	{ return this._DTMsg.Value.Count; } }
+				internal	int	WorkspaceCount			{ get	{ return this._DTWrk.Value.Count; } }
+				internal	int	WorkspaceNodeCount	{ get	{ return this._DTWSN.Value.Count; } }
+				internal	int	WorkspaceItemCount	{ get	{ return this._DTWSI.Value.Count; } }
 
 			#endregion
 

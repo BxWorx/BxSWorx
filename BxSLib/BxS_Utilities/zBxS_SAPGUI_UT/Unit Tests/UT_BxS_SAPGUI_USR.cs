@@ -49,6 +49,24 @@ namespace zBxS_SAPGUI_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
+			public void UT_SapGuiUsr_Parser()
+				{
+					int	ln_Cnt;
+					var	lo_Map	= new Mapping();
+					var	lo_Par	= new Parser(lo_Map);
+					//...............................................
+					ln_Cnt	= 1;
+					Assert.AreNotEqual	(lo_Map.Service.Count		,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreNotEqual	(lo_Map.MsgServer.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreNotEqual	(lo_Map.Workspace.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+
+					Assert.AreNotEqual	(lo_Map.Service.Count		,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreNotEqual	(lo_Map.MsgServer.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreNotEqual	(lo_Map.Workspace.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+				}
+
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
 			public void UT_SapGuiUsr_Table()
 				{
 					int	ln_Cnt	= 0;
