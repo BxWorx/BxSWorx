@@ -8,9 +8,8 @@ namespace SAPGUI.USR.DL
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DSTable(References references, DataTable table)
+				internal DSTable(DataTable table)
 					{
-						this._Ref		= references;
 						this.Table	= table;
 					}
 
@@ -18,17 +17,13 @@ namespace SAPGUI.USR.DL
 
 			//===========================================================================================
 			#region "Declarations"
-
-				private	readonly	References	_Ref;
-				//private readonly	DataTable		_Tbl;
-
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal int				Count	{ get	{ return	this.Table.Rows.Count; } }
 				internal DataTable	Table	{ get; }
+				internal int				Count	{ get	{ return	this.Table.Rows.Count; } }
 
 			#endregion
 

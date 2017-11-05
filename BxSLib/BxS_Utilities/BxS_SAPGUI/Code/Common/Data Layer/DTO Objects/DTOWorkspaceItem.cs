@@ -1,9 +1,10 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class DTOWorkspaceItem : DTOBase
+	internal class DTOWorkspaceItem
 		{
-			internal string UIID			{ get; set; }
-			internal string ServiceID { get; set; }
+			internal Guid UIID			{ get; set; }
+			internal Guid ServiceID { get; set; }
 		}
 }

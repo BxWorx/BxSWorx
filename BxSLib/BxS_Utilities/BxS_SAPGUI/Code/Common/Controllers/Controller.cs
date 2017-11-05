@@ -1,4 +1,5 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
 	internal class Controller : IController
@@ -15,16 +16,17 @@ namespace SAPGUI.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOConnection	CreateConnection(string connectionID	= "")
+				public IDTOConnection	CreateConnection(Guid connectionID	= default(Guid))
 					{
-						var DTO = new DTOConnection
-							{	ID = connectionID ?? string.Empty	};
+						Guid lc_ID	= connectionID == default(Guid) ? Guid.Empty : connectionID;
+						var lo_DTO	= new DTOConnection
+							{	ID = lc_ID };
 
-						return	DTO;
+						return	lo_DTO;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOConnection GetConnection(string connectionID)
+				public IDTOConnection GetConnection(Guid connectionID)
 					{
 						IDTOConnection DTOConn	= this.CreateConnection(connectionID);
 						this.GetConnection(DTOConn);

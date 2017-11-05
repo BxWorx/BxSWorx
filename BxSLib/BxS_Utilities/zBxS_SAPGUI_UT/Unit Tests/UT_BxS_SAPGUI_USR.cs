@@ -3,31 +3,31 @@ using System;
 using System.IO;
 using System.Data;
 //.........................................................
-using SAPGUI.USR.DS;
-using SAPGUI.API.DTO;
+using SAPGUI.COM.DL;
+using SAPGUI.USR.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
-	{
+{
 	[TestClass]
 	public class UT_BxS_SAPGUI_USR
 		{
 			private const string	cz_TestDir	= "Test Resources";
-
 			//...................................................
 			private	static readonly string	_Path				= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	_PathTest		= Path.Combine(_Path,	cz_TestDir);
-
+			//...................................................
+			private	readonly References		_Ref	= new References();
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_SapGuiUsr_Schema()
 				{
 					int	ln_Cnt;
-					var	lo_Schema	= new Schema(new References());
+					var	lo_Schema	= new Schema(this._Ref);
 					//...............................................
 					ln_Cnt	= 1;
 					DataSet lo_DS	= lo_Schema.Create();
-					Assert.IsNotNull	(lo_DS									,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreEqual		(lo_DS.Tables.Count	, 3	,	$"Cntlr: {ln_Cnt}: DS-Schema-Tbl: Error");
+					Assert.IsNotNull	(		lo_DS								,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreEqual		(5,	lo_DS.Tables.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Tbl: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -35,34 +35,37 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiUsr_Mapping()
 				{
 					int	ln_Cnt;
-					var	lo_Map	= new Mapping();
+					var	lo_Map	= new Mapping(this._Ref);
 					//...............................................
 					ln_Cnt	= 1;
-					Assert.AreNotEqual	(lo_Map.Service.Count		,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreNotEqual	(lo_Map.MsgServer.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreNotEqual	(lo_Map.Workspace.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-
-					Assert.AreNotEqual	(lo_Map.Service.Count		,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreNotEqual	(lo_Map.MsgServer.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreNotEqual	(lo_Map.Workspace.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.IsNotNull(lo_Map,	$"Cntlr: {ln_Cnt}: Map-Nul: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_SapGuiUsr_Parser()
 				{
-					int	ln_Cnt;
-					var	lo_Map	= new Mapping();
-					var	lo_Par	= new Parser(lo_Map);
+					int			ln_Cnt;
+					var			lo_Map	= new Mapping			(this._Ref);
+					var			lo_Par	= new Parser			(this._Ref,	lo_Map);
+					var			lo_Rep	= new Repository	();
+					DataSet lo_Sch	= new Schema			(this._Ref).Create();
+					var			lo_UDS	= new UsrDataSet	(this._Ref, lo_Sch, _PathTest, false);
+					//...............................................
+					var lc_ID		= Guid.NewGuid();
+					var lo_DTO	= new DTOMsgServer{	UUID = lc_ID, Name = "name1", Description = "desc1", Host = "host1", Port = "port1" };
+
+					lo_Rep.MsgServers.Add(lc_ID, lo_DTO);
 					//...............................................
 					ln_Cnt	= 1;
-					Assert.AreNotEqual	(lo_Map.Service.Count		,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreNotEqual	(lo_Map.MsgServer.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreNotEqual	(lo_Map.Workspace.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					lo_Par.Parse(lo_Rep, lo_UDS);
+					lo_Rep.Clear();
+					lo_Par.Parse(lo_UDS, lo_Rep);
+					lo_Rep.MsgServers.TryGetValue(lc_ID, out DTOMsgServer lo_DTOt);
 
-					Assert.AreNotEqual	(lo_Map.Service.Count		,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreNotEqual	(lo_Map.MsgServer.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreNotEqual	(lo_Map.Workspace.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
+					Assert.AreEqual	(1						,	lo_UDS.XServices.Rows.Count	,	$"Parser: {ln_Cnt}: DTO-DS:MsgSvr: Error"	);
+					Assert.AreEqual	(1						,	lo_Rep.MsgServers.Count			,	$"Parser: {ln_Cnt}: DS-DTO:MsgSvr: Error"	);
+					Assert.AreEqual	(lo_DTO.Name	,	lo_DTOt.Name								,	$"Parser: {ln_Cnt}: DS-MsgSvr: Error"			);
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -71,7 +74,7 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt	= 0;
 					var	lo_Ref	= new References();
-					var	lo_Tab	= new DSTable(lo_Ref, this.CreateDataTable(lo_Ref));
+					var	lo_Tab	= new DSTable(this.CreateDataTable(lo_Ref));
 					Assert.IsNotNull	(lo_Tab,	$"{ln_Cnt}: DS Ready: Error");
 					//...............................................
 					var			lc_Key0		= Guid.NewGuid();

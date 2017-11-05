@@ -83,11 +83,11 @@ namespace SAPGUI.USR.DL
 					{
 						return	new Dictionary<string, string>
 							{
-								{ this._Ref.UUID				, "UUID" }	,
-								{ this._Ref.Name				, "UUID" }	,
-								{ this._Ref.Description	, "UUID" }	,
-								{ this._Ref.Host				, "UUID" }	,
-								{ this._Ref.Port				, "UUID" }
+								{ this._Ref.UUID				, this._Ref.UUID.ToUpper()				}	,
+								{ this._Ref.Name				, this._Ref.Name.ToUpper()				}	,
+								{ this._Ref.Description	, this._Ref.Description.ToUpper()	}	,
+								{ this._Ref.Host				, this._Ref.Host.ToUpper()				}	,
+								{ this._Ref.Port				, this._Ref.Port.ToUpper()				}
 							};
 					}
 

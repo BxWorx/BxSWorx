@@ -1,9 +1,10 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class DTOMsgServer : DTOBase
+	internal class DTOMsgServer
 		{
-			internal string UUID				{ get; set; }
+			internal Guid		UUID				{ get; set; }
 			internal string Name				{ get; set; }
 			internal string Host				{ get; set; }
 			internal string Port				{ get; set; }

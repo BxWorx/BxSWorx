@@ -1,11 +1,12 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
 	public interface IController
 		{
-			IDTOConnection	CreateConnection(string connectionID = "");
+			IDTOConnection	CreateConnection(Guid connectionID = default(Guid));
 			//...................................................
-			IDTOConnection	GetConnection	(string					connectionID);
+			IDTOConnection	GetConnection	(Guid						connectionID);
 			void						GetConnection	(IDTOConnection	dtoConnection);
 		}
 }

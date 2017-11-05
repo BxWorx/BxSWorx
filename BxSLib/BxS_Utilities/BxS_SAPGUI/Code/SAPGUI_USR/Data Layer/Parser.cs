@@ -1,18 +1,19 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Collections.Generic;
 //.........................................................
 using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DL
 {
-		internal class Parser
+	internal class Parser
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Parser(References references, Mapping mapping)
+				internal Parser(References references)
 					{
-						this._Mapping	= mapping;
+						this._Ref	= references;
 					}
 
 			#endregion
@@ -20,26 +21,23 @@ namespace SAPGUI.USR.DL
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Mapping _Mapping;
+				private readonly References		_Ref;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Parse(UsrDataSet usrDS, Repository repository)
 					{
-						foreach (DataRow lo_Row in usrDS.MsgServers.Table.Rows)
-							{
-								var lo_DTO	= new DTOMsgServer();
-								//.............................................
-								foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.MsgServer)
-									{
-										lo_DTO[lo_KVP.Value] = lo_Row[lo_KVP.Key];
-									}
-								//.............................................
-								repository.MsgServers.Add(lo_DTO.UUID,	lo_DTO);
-							}	
+						this.ParseMsgServers(usrDS.MsgServers, repository.MsgServers);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Parse(Repository repository, UsrDataSet usrDS)
+					{
+						this.ParseMsgServers(repository.MsgServers, usrDS.MsgServers);
 					}
 
 			#endregion
@@ -48,98 +46,37 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DataRow dataRow, DTOService dto)
+				private void ParseMsgServers(DataTable DTMsgSvr, Dictionary<Guid, DTOMsgServer> dto)
 					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.Service)
+						foreach (DataRow lo_Row in DTMsgSvr.Rows)
 							{
-								dto[lo_KVP.Value] = dataRow[lo_KVP.Key];
+								var lo_DTO = new DTOMsgServer
+									{
+										UUID				= (Guid)lo_Row[this._Ref.UUID],
+										Name				= (string)lo_Row[this._Ref.Name],
+										Description = (string)lo_Row[this._Ref.Description],
+										Host				= (string)lo_Row[this._Ref.Host],
+										Port				= (string)lo_Row[this._Ref.Port]
+									};
+								//.............................................
+								dto.Add(lo_DTO.UUID,	lo_DTO);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTOMsgServer Parse(DataRow dataRow)
+				private void ParseMsgServers(Dictionary<Guid, DTOMsgServer> dto, DataTable DTMsgSvr)
 					{
-						var lo_DTO	= new DTOMsgServer();
-						//.............................................
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.MsgServer)
+						foreach (KeyValuePair<Guid, DTOMsgServer> lo_Entry in dto)
 							{
-								lo_DTO[lo_KVP.Value] = dataRow[lo_KVP.Key];
-							}
-						//.............................................
-						return	lo_DTO;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DataRow dataRow, DTOWorkspace dto)
-					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.Workspace)
-							{
-								dto[lo_KVP.Value] = dataRow[lo_KVP.Key];
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DataRow dataRow, DTOWorkspaceNode dto)
-					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.WorkspaceNode)
-							{
-								dto[lo_KVP.Value] = dataRow[lo_KVP.Key];
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DataRow dataRow, DTOWorkspaceItem dto)
-					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.WorkspaceItem)
-							{
-								dto[lo_KVP.Value] = dataRow[lo_KVP.Key];
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DTOService dto, DataRow dataRow)
-					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.Service)
-							{
-								dataRow[lo_KVP.Key]	=	dto[lo_KVP.Value];
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DTOMsgServer dto, DataRow dataRow)
-					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.MsgServer)
-							{
-								dataRow[lo_KVP.Key]	=	dto[lo_KVP.Value];
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DTOWorkspace dto, DataRow dataRow)
-					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.Workspace)
-							{
-								dataRow[lo_KVP.Key]	=	dto[lo_KVP.Value];
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DTOWorkspaceNode dto, DataRow dataRow)
-					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.WorkspaceNode)
-							{
-								dataRow[lo_KVP.Key]	=	dto[lo_KVP.Value];
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Parse(DTOWorkspaceItem dto, DataRow dataRow)
-					{
-						foreach (KeyValuePair<string, string> lo_KVP in this._Mapping.WorkspaceItem)
-							{
-								dataRow[lo_KVP.Key]	=	dto[lo_KVP.Value];
+								DataRow lo_Row	= DTMsgSvr.NewRow();
+								//.............................................
+								lo_Row[this._Ref.UUID]				= lo_Entry.Value.UUID;
+								lo_Row[this._Ref.Name]				= lo_Entry.Value.Name;
+								lo_Row[this._Ref.Description]	= lo_Entry.Value.Description;
+								lo_Row[this._Ref.Host]				= lo_Entry.Value.Host;
+								lo_Row[this._Ref.Port]				= lo_Entry.Value.Port;
+								//.............................................
+								DTMsgSvr.LoadDataRow(lo_Row.ItemArray, true);
 							}
 					}
 

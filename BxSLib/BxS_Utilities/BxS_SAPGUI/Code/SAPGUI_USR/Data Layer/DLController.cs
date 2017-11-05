@@ -18,8 +18,7 @@ namespace SAPGUI.USR.DL
 						this._SchemaFullName	= Path.Combine(this.FullPath,	this.SchemaFileName);
 						//.............................................
 						this._Ref			= new	Lazy<References>	(	()	=>	new References	()																					);
-						this._Map			= new	Lazy<Mapping>			(	()	=>	new Mapping			(this._Ref.Value)														);
-						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser			(this._Map.Value)														);
+						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser			(this._Ref.Value)														);
 						this._Schema	= new Lazy<DataSet>			( ()	=>	new Schema			(this._Ref.Value).Create()									);
 						this._UsrDS		= new Lazy<UsrDataSet>	( ()	=>	new UsrDataSet	(this._Ref.Value, this._Schema.Value, path)	);
 					}
@@ -32,7 +31,6 @@ namespace SAPGUI.USR.DL
 				private readonly	string		_SchemaFullName;
 				//.................................................
 				private readonly	Lazy<References>	_Ref;
-				private	readonly	Lazy<Mapping>			_Map;
 				private	readonly	Lazy<Parser>			_Parser;
 				private readonly	Lazy<DataSet>			_Schema;
 				private readonly	Lazy<UsrDataSet>	_UsrDS;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -6,24 +7,24 @@ namespace SAPGUI.COM.DL
 {
 	internal class Repository
 		{
-			#region "Properties"
-
-				internal Dictionary<string, DTOService>			Services		{ get; set; }
-				internal Dictionary<string, DTOMsgServer>		MsgServers	{ get; set; }
-				internal Dictionary<string, DTOWorkspace>		WorkSpaces	{ get; set; }
-
-			#endregion
-
-			//===========================================================================================
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Repository()
 					{
-						this.Services		= new Dictionary<string, DTOService>();
-						this.MsgServers	= new Dictionary<string, DTOMsgServer>();
-						this.WorkSpaces = new Dictionary<string, DTOWorkspace>();
+						this.Services		= new Dictionary<Guid, DTOService>	 ();
+						this.MsgServers	= new Dictionary<Guid, DTOMsgServer> ();
+						this.WorkSpaces = new Dictionary<Guid, DTOWorkspace> ();
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal Dictionary<Guid, DTOService>			Services		{ get; set; }
+				internal Dictionary<Guid, DTOMsgServer>		MsgServers	{ get; set; }
+				internal Dictionary<Guid, DTOWorkspace>		WorkSpaces	{ get; set; }
 
 			#endregion
 
@@ -35,29 +36,28 @@ namespace SAPGUI.COM.DL
 					{
 						var	dtoSrv	= new DTOService();
 						var dtoMsg	= new DTOMsgServer();
-
 						//.............................................
 						if (!this.Services.TryGetValue(dto.ID, out dtoSrv))
 							{
 								dto.IsValid	= false;
 								return;
 							}
-
 						//.............................................
-						this.MsgServers.TryGetValue(dtoSrv.MSID, out dtoMsg);
-
+						if (this.MsgServers.TryGetValue(dtoSrv.MSID, out dtoMsg))
+							{
+								dto.MSID						= dtoMsg.UUID;
+								dto.MSName					= dtoMsg.Name;
+								dto.MSHost					= dtoMsg.Host;
+								dto.MSPort					= dtoMsg.Port;
+								dto.MSDescription		= dtoMsg.Description;
+							}
+						//.............................................
 						dto.ID							= dtoSrv.UUID;
 						dto.ServiceName			= dtoSrv.Name;
 						dto.AppServer				= dtoSrv.Server;
 						dto.SystemID				= dtoSrv.SystemID;
 						dto.SNC_PartnerName	= dtoSrv.SNCName;
-
-						dto.MSID						= dtoMsg.UUID;
-						dto.MSName					= dtoMsg.Name;
-						dto.MSHost					= dtoMsg.Host;
-						dto.MSPort					= dtoMsg.Port;
-						dto.MSDescription		= dtoMsg.Description;
-
+						//.............................................
 						dto.IsValid					= true;
 
 						// TODO: Resolve all connection fields

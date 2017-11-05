@@ -93,7 +93,7 @@ namespace SAPGUI.USR.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddTable_WorkSpaceNode(DataSet dataSet)
 					{
-						var lo_Tbl	= new DataTable(this._Ref.WorkspaceTableName);
+						var lo_Tbl	= new DataTable(this._Ref.WorkspaceNodeTableName);
 						//.............................................
 						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID, true);
 						//.............................................

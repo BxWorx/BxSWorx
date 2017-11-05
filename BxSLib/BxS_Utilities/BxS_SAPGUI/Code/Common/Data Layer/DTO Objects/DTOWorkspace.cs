@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class DTOWorkspace : DTOBase
+	internal class DTOWorkspace
 		{
-			internal string UUID { get; set; }
+			internal Guid		UUID { get; set; }
 			internal string Name { get; set; }
 			//...................................................
-			internal Dictionary<string, DTOWorkspaceNode>			Nodes { get; set; }
-			internal Dictionary<string, DTOWorkspaceItem> Items { get; set; }
+			internal Dictionary<Guid, DTOWorkspaceNode>	Nodes { get; set; }
+			internal Dictionary<Guid, DTOWorkspaceItem> Items { get; set; }
 		}
 }

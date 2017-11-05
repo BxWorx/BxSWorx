@@ -18,11 +18,11 @@ namespace SAPGUI.USR.DL
 						//.............................................
 						if (autoLoad)	this.LoadData();
 						//.............................................
-						this._DTSrv	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.ServiceTableName]				) );
-						this._DTMsg	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.MsgServerTableName]			) );
-						this._DTWrk	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.WorkspaceTableName]			) );
-						this._DTWrk	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.WorkspaceNodeTableName]	) );
-						this._DTWrk	= new Lazy<DSTable>(	() => new DSTable(this._Ref, this._UsrDS.Tables[this._Ref.WorkspaceItemTableName]	) );
+						this._DTSrv	= new Lazy<DataTable>(	() => this._UsrDS.Tables[this._Ref.ServiceTableName]				);
+						this._DTMsg	= new Lazy<DataTable>(	() => this._UsrDS.Tables[this._Ref.MsgServerTableName]			);
+						this._DTWrk	= new Lazy<DataTable>(	() => this._UsrDS.Tables[this._Ref.WorkspaceTableName]			);
+						this._DTWSN	= new Lazy<DataTable>(	() => this._UsrDS.Tables[this._Ref.WorkspaceNodeTableName]	);
+						this._DTWSI	= new Lazy<DataTable>(	() => this._UsrDS.Tables[this._Ref.WorkspaceItemTableName]	);
 					}
 
 			#endregion
@@ -33,11 +33,11 @@ namespace SAPGUI.USR.DL
 				private	readonly	References	_Ref;
 				private readonly	DataSet			_UsrDS;
 				//.................................................
-				private readonly	Lazy<DSTable>	_DTSrv;
-				private readonly	Lazy<DSTable>	_DTMsg;
-				private readonly	Lazy<DSTable>	_DTWrk;
-				private readonly	Lazy<DSTable>	_DTWSN;
-				private readonly	Lazy<DSTable>	_DTWSI;
+				private readonly	Lazy<DataTable>	_DTSrv;
+				private readonly	Lazy<DataTable>	_DTMsg;
+				private readonly	Lazy<DataTable>	_DTWrk;
+				private readonly	Lazy<DataTable>	_DTWSN;
+				private readonly	Lazy<DataTable>	_DTWSI;
 
 			#endregion
 
@@ -47,17 +47,17 @@ namespace SAPGUI.USR.DL
 				internal	string	DSFullName	{ get; }
 				internal	string	DSFileName	{ get	{ return "SAPGUI_USR_DataSet.xml"; } }
 				//.................................................
-				internal	int	ServiceCount				{ get	{ return this._DTSrv.Value.Count; } }
-				internal	int	MsgServerCount			{ get	{ return this._DTMsg.Value.Count; } }
-				internal	int	WorkspaceCount			{ get	{ return this._DTWrk.Value.Count; } }
-				internal	int	WorkspaceNodeCount	{ get	{ return this._DTWSN.Value.Count; } }
-				internal	int	WorkspaceItemCount	{ get	{ return this._DTWSI.Value.Count; } }
+				internal	DataTable	Services				{	get {	return	this._DTSrv.Value; } }
+				internal	DataTable	MsgServers			{	get {	return	this._DTMsg.Value; } }
+				internal	DataTable	Workspaces			{	get {	return	this._DTWrk.Value; } }
+				internal	DataTable	WorkspaceNodes	{	get {	return	this._DTWSN.Value; } }
+				internal	DataTable	WorkspaceItems	{	get {	return	this._DTWSI.Value; } }
 				//.................................................
-				internal	DSTable	Services				{	get {	return	this._DTSrv.Value; } }
-				internal	DSTable	MsgServers			{	get {	return	this._DTMsg.Value; } }
-				internal	DSTable	Workspaces			{	get {	return	this._DTWrk.Value; } }
-				internal	DSTable	WorkspaceNodes	{	get {	return	this._DTWSN.Value; } }
-				internal	DSTable	WorkspaceItems	{	get {	return	this._DTWSI.Value; } }
+				internal	int	ServiceCount				{ get	{ return this._DTSrv.Value.Rows.Count; } }
+				internal	int	MsgServerCount			{ get	{ return this._DTMsg.Value.Rows.Count; } }
+				internal	int	WorkspaceCount			{ get	{ return this._DTWrk.Value.Rows.Count; } }
+				internal	int	WorkspaceNodeCount	{ get	{ return this._DTWSN.Value.Rows.Count; } }
+				internal	int	WorkspaceItemCount	{ get	{ return this._DTWSI.Value.Rows.Count; } }
 
 			#endregion
 
