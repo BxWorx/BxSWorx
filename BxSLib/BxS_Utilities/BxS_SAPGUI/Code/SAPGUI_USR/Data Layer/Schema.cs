@@ -15,6 +15,7 @@ namespace SAPGUI.USR.DL
 						//.............................................
 						this._Str		= typeof(string);
 						this._Guid	= typeof(Guid);
+						this._Bool	= typeof(bool);
 					}
 
 			#endregion
@@ -25,6 +26,7 @@ namespace SAPGUI.USR.DL
 				private readonly	References	_Ref;
 				private readonly	Type				_Str;
 				private readonly	Type				_Guid;
+				private readonly	Type				_Bool;
 
 			#endregion
 
@@ -95,13 +97,13 @@ namespace SAPGUI.USR.DL
 					{
 						var lo_Tbl	= new DataTable(this._Ref.WorkspaceNodeTableName);
 						//.............................................
-						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID, true);
-						//.............................................
-						this.AddColumn_Description	(lo_Tbl);
 						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.ReferenceID	, false);
+						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID					, true);
+						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						DataColumn[]	Keys	= new DataColumn[1];
-						Keys[0]							= lo_Tbl.Columns[this._Ref.UUID];
+						DataColumn[]	Keys	= new DataColumn[2];
+						Keys[0]							= lo_Tbl.Columns[this._Ref.ReferenceID];
+						Keys[1]							= lo_Tbl.Columns[this._Ref.UUID];
 						lo_Tbl.PrimaryKey		= Keys;
 						//.............................................
 						dataSet.Tables.Add(lo_Tbl);
@@ -112,15 +114,16 @@ namespace SAPGUI.USR.DL
 					{
 						var lo_Tbl	= new DataTable(this._Ref.WorkspaceItemTableName);
 						//.............................................
-						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID, true);
-						this.AddColumn_TypeString		(lo_Tbl, this._Ref.WSItemType, 1, false, false);
-						//.............................................
 						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.ReferenceID,	false, false);
-						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.ServiceID	,	false, false);
+						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID, true);
+						//.............................................
+						this.AddColumn_TypeGUID	(lo_Tbl, this._Ref.ServiceID		,	false, false);
+						this.AddColumn_TypeGUID	(lo_Tbl, this._Ref.WorkspaceID	,	false, false);
+						this.AddColumn_TypeBool	(lo_Tbl, this._Ref.ItemType);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[2];
-						Keys[0]							= lo_Tbl.Columns[this._Ref.UUID];
-						Keys[1]							= lo_Tbl.Columns[this._Ref.WSItemType];
+						Keys[0]							= lo_Tbl.Columns[this._Ref.ReferenceID];
+						Keys[1]							= lo_Tbl.Columns[this._Ref.UUID];
 						lo_Tbl.PrimaryKey		= Keys;
 						//.............................................
 						dataSet.Tables.Add(lo_Tbl);
@@ -135,8 +138,8 @@ namespace SAPGUI.USR.DL
 						this.AddColumn_Name					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
-						this.AddColumn_TypeString(lo_Tbl, "Host", 20);
-						this.AddColumn_TypeString(lo_Tbl, "Port", 20);
+						this.AddColumn_TypeString(lo_Tbl, this._Ref.Host, 20);
+						this.AddColumn_TypeString(lo_Tbl, this._Ref.Port, 20);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[1];
 						Keys[0]							= lo_Tbl.Columns[this._Ref.UUID];
@@ -154,13 +157,13 @@ namespace SAPGUI.USR.DL
 						//.............................................
 						this.AddColumn_Name					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
-						this.AddColumn_TypeString		(lo_Tbl, "Type"						);
-						this.AddColumn_TypeString		(lo_Tbl, "Server"					);
-						this.AddColumn_TypeString		(lo_Tbl, "SystemID"				);
-						this.AddColumn_TypeString		(lo_Tbl, "SNC_Name"				);
-						this.AddColumn_TypeString		(lo_Tbl, "SNC_Op"					);
-						this.AddColumn_TypeString		(lo_Tbl, "CodePage"				);
-						this.AddColumn_TypeString		(lo_Tbl, "DownUpCodePage"	);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.ConnType				);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.Server					);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SystemID				);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SNCName				);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SNCOp					);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.CodePage				);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.DownUpCodePage	);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[1];
 						Keys[0]							= lo_Tbl.Columns[this._Ref.UUID];
@@ -214,6 +217,17 @@ namespace SAPGUI.USR.DL
 																						DataType			= this._Str		};
 
 						Col.DefaultValue	= AllowNull	? null	: string.Empty;
+
+						dataTable.Columns.Add(Col);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void AddColumn_TypeBool(	DataTable	dataTable	,
+																					string		name				)
+					{
+						var Col		= new DataColumn()	{	ColumnName		= name				,
+																						DataType			= this._Bool	,
+																						DefaultValue	= false					};
 
 						dataTable.Columns.Add(Col);
 					}

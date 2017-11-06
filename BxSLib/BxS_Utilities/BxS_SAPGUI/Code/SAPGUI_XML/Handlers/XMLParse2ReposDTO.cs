@@ -86,7 +86,7 @@ namespace SAPGUI.XML
 										DTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
 										foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_Node, true))
 											{
-												lo_WSNode.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
+												lo_WSNode.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
 											}
 										//.....................................
 										if (lo_WSNode.Items.Count > 0)
@@ -95,7 +95,7 @@ namespace SAPGUI.XML
 								//.........................................
 								foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_WrkSpace, false))
 									{
-										lo_WSDTO.Items.Add(lo_WSNodeItem.UIID, lo_WSNodeItem);
+										lo_WSDTO.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
 									}
 								//...........................................
 								if (lo_WSDTO.Nodes.Count > 0 || lo_WSDTO.Items.Count > 0)
@@ -134,9 +134,9 @@ namespace SAPGUI.XML
 				private DTOWorkspaceNode LoadWSNodeAttributtes(XmlElement element)
 					{
 						var lo_DTO = new DTOWorkspaceNode
-							{	UUID	= Guid.Parse(element.GetAttribute(cz_TagUuid))	,
-								Name	= element.GetAttribute(cz_TagName)							,
-								Items = new Dictionary<Guid, DTOWorkspaceItem>()				};
+							{	UUID				= Guid.Parse(element.GetAttribute(cz_TagUuid))	,
+								Description	= element.GetAttribute(cz_TagName)							,
+								Items				= new Dictionary<Guid, DTOWorkspaceItem>()				};
 						//.............................................
 						return lo_DTO;
 					}
@@ -166,7 +166,7 @@ namespace SAPGUI.XML
 										var lc_ServID	= Guid.Parse(lo_Item.GetAttribute("serviceid"));
 										if (repository.Services.ContainsKey(lc_ServID))
 											{
-												lt_List.Add(	new DTOWorkspaceItem	{	UIID			= Guid.Parse(lo_Item.GetAttribute(cz_TagUuid))	,
+												lt_List.Add(	new DTOWorkspaceItem	{	UUID			= Guid.Parse(lo_Item.GetAttribute(cz_TagUuid))	,
 																															ServiceID = lc_ServID																				}	);
 											}
 									}

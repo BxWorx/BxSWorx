@@ -3,12 +3,28 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class DTOWorkspace
+	internal sealed class DTOWorkspace
 		{
-			internal Guid		UUID { get; set; }
-			internal string Name { get; set; }
-			//...................................................
-			internal Dictionary<Guid, DTOWorkspaceNode>	Nodes { get; set; }
-			internal Dictionary<Guid, DTOWorkspaceItem> Items { get; set; }
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTOWorkspace()
+					{
+						this.Nodes	= new	Dictionary<Guid, DTOWorkspaceNode>();
+						this.Items	= new Dictionary<Guid, DTOWorkspaceItem>();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal Guid		UUID { get; set; }
+				internal string Name { get; set; }
+				//...................................................
+				internal Dictionary<Guid, DTOWorkspaceNode>	Nodes { get; set; }
+				internal Dictionary<Guid, DTOWorkspaceItem> Items { get; set; }
+
+			#endregion
 		}
 }

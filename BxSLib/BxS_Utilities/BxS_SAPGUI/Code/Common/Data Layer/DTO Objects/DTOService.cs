@@ -7,6 +7,7 @@ namespace SAPGUI.COM.DL
 			internal Guid		UUID				{ get; set; }
 			//...................................................
 			internal string Name				{ get; set; }
+			internal string Description	{ get; set; }
 			internal string SystemID		{ get; set; }
 			internal string Type				{ get; set; }
 			internal string Server			{ get; set; }
@@ -14,7 +15,6 @@ namespace SAPGUI.COM.DL
 			internal string SAPCPG			{ get; set; }
 			internal string DCPG				{ get; set; }
 			internal string SNCOp				{ get; set; }
-			internal string Description	{ get; set; }
 			internal string Mode				{ get; set; }
 			//...................................................
 			internal Guid		MSID				{ get; set; }
