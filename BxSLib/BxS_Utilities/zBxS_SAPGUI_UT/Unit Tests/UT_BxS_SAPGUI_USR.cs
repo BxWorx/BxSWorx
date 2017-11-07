@@ -79,6 +79,8 @@ namespace zBxS_SAPGUI_UT
 					lo_Rep.MsgServers.TryGetValue(lc_MsgID, out DTOMsgServer lo_DTOt);
 
 					Assert.AreEqual	(1						,	lo_UDS.Services.Rows.Count	,	$"Parser: {ln_Cnt}: DTO-DS:MsgSvr: Error"	);
+
+					Assert.AreEqual	(1						,	lo_UDS.Services.Rows.Count	,	$"Parser: {ln_Cnt}: DTO-DS:MsgSvr: Error"	);
 					Assert.AreEqual	(1						,	lo_Rep.MsgServers.Count			,	$"Parser: {ln_Cnt}: DS-DTO:MsgSvr: Error"	);
 					Assert.AreEqual	(lo_MsgDTO.Name	,	lo_DTOt.Name								,	$"Parser: {ln_Cnt}: DS-MsgSvr: Error"			);
 				}
