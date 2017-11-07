@@ -11,16 +11,16 @@ namespace SAPGUI.USR.DL
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DLController(string path)
+				internal DLController(string dirPath)
 					{
-						this.FullPath	= path;
+						this._DirPath	= dirPath;
 						//.............................................
-						this._SchemaFullName	= Path.Combine(this.FullPath,	this.SchemaFileName);
+						this._SchemaFullName	= Path.Combine(this._DirPath	,	_SchemaFileName		);
+						this._DSFullName			= Path.Combine(this._DirPath	,	_DatasetFileName	);
 						//.............................................
-						this._Ref			= new	Lazy<References>	(	()	=>	new References	()																					);
-						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser			(this._Ref.Value)														);
-						this._Schema	= new Lazy<DataSet>			( ()	=>	new Schema			(this._Ref.Value).Create()									);
-						this._UsrDS		= new Lazy<UsrDataSet>	( ()	=>	new UsrDataSet	(this._Ref.Value, this._Schema.Value, path)	);
+						this._Ref			= new	Lazy<References>	(	()	=>	new References	()													);
+						this._Parser	= new	Lazy<Parser>			(	()	=>	new Parser			(this._Ref.Value)						);
+						this._DS			= new Lazy<DataSet>			( ()	=>	new Schema			(this._Ref.Value).Create()	);
 					}
 
 			#endregion
@@ -28,21 +28,22 @@ namespace SAPGUI.USR.DL
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	string		_SchemaFullName;
+				private const	string	_SchemaFileName		= "SAPGUI_USR_Schema.xml"		;
+				private const	string	_DatasetFileName	= "SAPGUI_USR_DataSet.xml"	;
 				//.................................................
-				private readonly	Lazy<References>	_Ref;
-				private	readonly	Lazy<Parser>			_Parser;
-				private readonly	Lazy<DataSet>			_Schema;
-				private readonly	Lazy<UsrDataSet>	_UsrDS;
+				private readonly string	_DirPath				;
+				private readonly string	_SchemaFullName	;
+				private readonly string	_DSFullName			;
+				//.................................................
+				private readonly	Lazy<References>	_Ref		;
+				private	readonly	Lazy<Parser>			_Parser	;
+				private readonly	Lazy<DataSet>			_DS			;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal string			SchemaFileName	{ get	{ return "SAPGUI_USR_Schema.xml"; } }
-				internal UsrDataSet	UsrDataSet			{ get { return	this._UsrDS.Value;			} }
-				internal string			FullPath				{ get;																		}
 
 			#endregion
 
@@ -80,45 +81,50 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddUpdate(DTOService dto)
+				internal bool SaveDataset()
 					{
-						//DataTable	lo_Tbl	= this.UsrDataSet.Tables["Services"];
+						try
+							{
+								using (var SW = new StreamWriter(this._DSFullName))
+									{
+										this._DS.Value.WriteXml(SW);
+										//SW.Close();
+									}
+							}
+						catch (Exception)
+							{
+								int x = 1;
+								x++;
+							}
 						return true;
-						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddUpdate(DTOMsgServer dto)
+				private void LoadData()
 					{
-						//DataTable	lo_Tbl	= this.UsrDataSet.Tables["MsgServer"];
-						return true;
-						//return this.ParseTableRow(lo_Tbl, Mapping.ServicesMap, dto);
+						try
+							{	this._DS.Value.ReadXml(this._DSFullName, XmlReadMode.IgnoreSchema); }
+						catch
+							(System.IO.FileNotFoundException)	{	/* do nothing as this will be a new repository */ }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddUpdate(DTOWorkspace dto)
-					{
-						//DataTable	lo_Tbl	= this.UsrDataSet.Tables["Services"];
-						return true;
-						//return this.ParseTableRow(lo_Tbl, Mapping.Servic, dto);
-					}
-
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DataSet GetSchema()
+				private DataSet LoadSchema()
 					{
 						var lo_DS	= new DataSet();
 						//.............................................
 						try
-							{	lo_DS.ReadXmlSchema	(this._SchemaFullName); }
+							{
+								lo_DS.ReadXmlSchema	(this._SchemaFullName);
+							}
 						catch (System.IO.FileNotFoundException)
 							{
-								lo_DS	= this._Schema.Value;
+								lo_DS	= this._DS.Value;
 
 								using (var SW = new StreamWriter(this._SchemaFullName))
 									{
 										lo_DS.WriteXmlSchema(SW);
-										SW.Close();
+										//SW.Close();
 									}
 							}
 						//.............................................
