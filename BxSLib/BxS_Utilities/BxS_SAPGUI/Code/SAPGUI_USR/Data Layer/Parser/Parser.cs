@@ -1,4 +1,5 @@
-﻿using SAPGUI.COM.DL;
+﻿using System.Data;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DL
 {
@@ -25,23 +26,23 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseDS2Rep(UsrDataSet usrDS, Repository repository)
+				internal void ParseDS2Rep(DataSet usrDS, Repository repository)
 					{
-						this.MsgServersDT2DTO	(usrDS.MsgServers			, repository.MsgServers	);
-						this.ServicesDT2DTO		(usrDS.Services				, repository.Services		);
-						this.WorkspaceDT2DTO	(usrDS.Workspaces			, repository.WorkSpaces	);
-						this.WSNodeDT2DTO 		(usrDS.WorkspaceNodes	, repository.WorkSpaces	);
-						this.WSItemDT2DTO 		(usrDS.WorkspaceItems	, repository.WorkSpaces	);
+						this.MsgServersDT2DTO	(usrDS.Tables[this._Ref.MsgServerTableName]			, repository.MsgServers	);
+						this.ServicesDT2DTO		(usrDS.Tables[this._Ref.ServiceTableName]				, repository.Services		);
+						this.WorkspaceDT2DTO	(usrDS.Tables[this._Ref.WorkspaceTableName]			, repository.WorkSpaces	);
+						this.WSNodeDT2DTO 		(usrDS.Tables[this._Ref.WorkspaceNodeTableName]	, repository.WorkSpaces	);
+						this.WSItemDT2DTO 		(usrDS.Tables[this._Ref.WorkspaceItemTableName]	, repository.WorkSpaces	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseRep2DS(Repository repository, UsrDataSet usrDS)
+				internal void ParseRep2DS(Repository repository, DataSet usrDS)
 					{
-						this.MsgServersDTO2DT	(repository.MsgServers	,	usrDS.MsgServers			);
-						this.ServicesDTO2DT		(repository.Services		, usrDS.Services				);
-						this.WorkspaceDTO2DT	(repository.WorkSpaces	, usrDS.Workspaces
-																													,	usrDS.WorkspaceItems
-																													, usrDS.WorkspaceNodes	);
+						this.MsgServersDTO2DT	(repository.MsgServers	,	usrDS.Tables[this._Ref.MsgServerTableName]	);
+						this.ServicesDTO2DT		(repository.Services		, usrDS.Tables[this._Ref.ServiceTableName]		);
+						this.WorkspaceDTO2DT	(repository.WorkSpaces	, usrDS.Tables[this._Ref.WorkspaceTableName]
+																													,	usrDS.Tables[this._Ref.WorkspaceNodeTableName]
+																													, usrDS.Tables[this._Ref.WorkspaceItemTableName]	);
 					}
 
 			#endregion

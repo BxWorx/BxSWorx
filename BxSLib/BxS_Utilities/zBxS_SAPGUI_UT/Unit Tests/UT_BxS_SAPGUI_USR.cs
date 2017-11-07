@@ -17,6 +17,7 @@ namespace zBxS_SAPGUI_UT
 			private	static readonly string	_PathTest		= Path.Combine(_Path,	cz_TestDir);
 			//...................................................
 			private	readonly References		_Ref	= new References();
+
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_SapGuiUsr_Schema()
@@ -30,17 +31,6 @@ namespace zBxS_SAPGUI_UT
 					Assert.AreEqual		(5,	lo_DS.Tables.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Tbl: Error");
 				}
 
-			////-------------------------------------------------------------------------------------------
-			//[TestMethod]
-			//public void UT_SapGuiUsr_Mapping()
-			//	{
-			//		int	ln_Cnt;
-			//		var	lo_Map	= new Mapping(this._Ref);
-			//		//...............................................
-			//		ln_Cnt	= 1;
-			//		Assert.IsNotNull(lo_Map,	$"Cntlr: {ln_Cnt}: Map-Nul: Error");
-			//	}
-
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_SapGuiUsr_Parser()
@@ -50,40 +40,110 @@ namespace zBxS_SAPGUI_UT
 					var			lo_Par	= new Parser			(this._Ref);
 					var			lo_Rep	= new Repository	();
 					DataSet lo_Sch	= new Schema			(this._Ref).Create();
-					var			lo_UDS	= new UsrDataSet	(this._Ref, lo_Sch, _PathTest, false);
 					//...............................................
-					var lc_MsgID	= Guid.NewGuid();
-					var lc_SrvID	= Guid.NewGuid();
-					var lc_WspID	= Guid.NewGuid();
-					var lc_WndID	= Guid.NewGuid();
-					var lc_ItmID	= Guid.NewGuid();
 
-					var lo_MsgDTO	= new DTOMsgServer			{	UUID = lc_MsgID	, Name = "name1", Description = "desc1", Host = "host1", Port = "port1" };
-					var lo_SrvDTO	= new DTOService				{ UUID	= lc_SrvID, Name = "NameS", MSID = lc_MsgID };
-
-					var lo_WspDTO	= new DTOWorkspace			{ UUID	= lc_SrvID, Description = "NameS"		};
-					var lo_WndDTO	= new DTOWorkspaceNode	{ UUID	= lc_WndID, Description	=	"Desc1"		};
-					var lo_ItmDTO	= new DTOWorkspaceItem	{	UUID	= lc_ItmID,	ServiceID		= lc_SrvID	};
-
-					lo_WndDTO.Items.Add(lc_ItmID, lo_ItmDTO);
-					lo_WspDTO.Nodes.Add(lc_WndID,	lo_WndDTO);
-
-					lo_Rep.MsgServers.Add	(lc_MsgID, lo_MsgDTO);
-					lo_Rep.Services.Add		(lc_SrvID, lo_SrvDTO);
-					lo_Rep.WorkSpaces.Add (lc_WspID, lo_WspDTO);
 					//...............................................
 					ln_Cnt	= 1;
-					lo_Par.ParseRep2DS(lo_Rep, lo_UDS);
+					DTOMsgServer lo_MsgDTO	= this.Create_MsgSvrDTO();
+					lo_Rep.MsgServers.Add	(lo_MsgDTO.UUID, lo_MsgDTO);
+					Assert.AreEqual	(1	,	lo_Rep.MsgServers.Count	,	$"Parser: {ln_Cnt}: DTO:MsgSvr: Error"	);
+					//...............................................
+					ln_Cnt	= 2;
+					DTOService lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);
+					lo_Rep.Services.Add	(lo_SrvDTO.UUID, lo_SrvDTO);
+					Assert.AreEqual	(1	,	lo_Rep.Services.Count	,	$"Parser: {ln_Cnt}: DTO:Service: Error"	);
+					//...............................................
+					ln_Cnt	= 3;
+					DTOWorkspace			lo_WspDTO	= this.Create_WspDTO();
+					DTOWorkspaceNode	lo_WSNDTO	= this.Create_WSNodeDTO();
+					DTOWorkspaceItem	lo_WSIDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
+					DTOWorkspaceItem	lo_WSxDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
+
+					lo_WSNDTO.Items.Add		(lo_WSIDTO.UUID, lo_WSIDTO);
+					lo_WspDTO.Nodes.Add		(lo_WSNDTO.UUID, lo_WSNDTO);
+					lo_WspDTO.Items.Add		(lo_WSxDTO.UUID, lo_WSxDTO);
+					lo_Rep.WorkSpaces.Add	(lo_WspDTO.UUID, lo_WspDTO);
+
+					Assert.AreEqual	(1	,	lo_Rep.WorkSpaces.Count	,	$"Parser: {ln_Cnt}: DTO:Workspace: Error"	);
+					//...............................................
+					ln_Cnt	= 4;
+					lo_Par.ParseRep2DS(lo_Rep, lo_Sch);
+
+					Assert.AreEqual	(1	,	lo_Sch.Tables[this._Ref.MsgServerTableName].Rows.Count			,	$"Parser: {ln_Cnt}: Parse:MsgSvr: Error"	);
+					Assert.AreEqual	(1	,	lo_Sch.Tables[this._Ref.ServiceTableName].Rows.Count				,	$"Parser: {ln_Cnt}: Parse:Service: Error"	);
+					Assert.AreEqual	(1	,	lo_Sch.Tables[this._Ref.WorkspaceTableName].Rows.Count			,	$"Parser: {ln_Cnt}: Parse:Workspace: Error"	);
+					Assert.AreEqual	(1	,	lo_Sch.Tables[this._Ref.WorkspaceNodeTableName].Rows.Count	,	$"Parser: {ln_Cnt}: Parse:WS-Node: Error"	);
+					Assert.AreEqual	(2	,	lo_Sch.Tables[this._Ref.WorkspaceItemTableName].Rows.Count	,	$"Parser: {ln_Cnt}: Parse:WS-Item: Error"	);
+					//...............................................
+					ln_Cnt	= 5;
 					lo_Rep.Clear();
-					lo_Par.ParseDS2Rep(lo_UDS, lo_Rep);
-					lo_Rep.MsgServers.TryGetValue(lc_MsgID, out DTOMsgServer lo_DTOt);
+					lo_Par.ParseDS2Rep(lo_Sch, lo_Rep);
 
-					Assert.AreEqual	(1						,	lo_UDS.Services.Rows.Count	,	$"Parser: {ln_Cnt}: DTO-DS:MsgSvr: Error"	);
+					Assert.AreEqual	(1	,	lo_Rep.MsgServers.Count	,	$"Parser: {ln_Cnt}: DTO:MsgSvr: Error"	);
+					Assert.AreEqual	(1	,	lo_Rep.Services.Count		,	$"Parser: {ln_Cnt}: DTO:Service: Error"	);
+					Assert.AreEqual	(1	,	lo_Rep.WorkSpaces.Count	,	$"Parser: {ln_Cnt}: DTO:Workspace: Error"	);
 
-					Assert.AreEqual	(1						,	lo_UDS.Services.Rows.Count	,	$"Parser: {ln_Cnt}: DTO-DS:MsgSvr: Error"	);
-					Assert.AreEqual	(1						,	lo_Rep.MsgServers.Count			,	$"Parser: {ln_Cnt}: DS-DTO:MsgSvr: Error"	);
-					Assert.AreEqual	(lo_MsgDTO.Name	,	lo_DTOt.Name								,	$"Parser: {ln_Cnt}: DS-MsgSvr: Error"			);
+
+					
+
+					//lo_WNdDTO.Items.Add(lc_ItmID, lo_ItmDTO);
+					//lo_WspDTO.Nodes.Add(lc_WndID,	lo_WNdDTO);
+					//lo_WspDTO.Items.Add(lc_WSIID,	lo_WSIDTO);
+
+					//lo_Rep.WorkSpaces.Add (lc_WspID, lo_WspDTO);
+					//ln_Cnt	= 1;
+					//lo_Par.ParseRep2DS(lo_Rep, lo_UDS);
+					//lo_Rep.Clear();
+					//lo_Par.ParseDS2Rep(lo_UDS, lo_Rep);
+					//lo_Rep.MsgServers.TryGetValue(lc_MsgID, out DTOMsgServer lo_DTOt);
+
+					//Assert.AreEqual	(1						,	lo_UDS.Services.Rows.Count	,	$"Parser: {ln_Cnt}: DTO-DS:MsgSvr: Error"	);
+					//Assert.AreEqual	(1						,	lo_Rep.MsgServers.Count			,	$"Parser: {ln_Cnt}: DS-DTO:MsgSvr: Error"	);
+					//Assert.AreEqual	(lo_MsgDTO.Name	,	lo_DTOt.Name							,	$"Parser: {ln_Cnt}: DS-MsgSvr: Error"			);
 				}
+
+			//-------------------------------------------------------------------------------------------
+			private DTOMsgServer Create_MsgSvrDTO()
+				{
+					return	new DTOMsgServer	{	UUID				= Guid.NewGuid()	,
+																			Name				= "name1"					,
+																			Description = "desc1"					,
+																			Host				= "host1"					,
+																			Port				= "port1"						};
+				}
+
+			//-------------------------------------------------------------------------------------------
+			private DTOService Create_SrvDTO(Guid	msgSvr)
+				{
+					return	new DTOService	{	UUID	= Guid.NewGuid()	,
+																		Name	= "NameS"					,
+																		MSID	= msgSvr						};
+				}
+
+			//-------------------------------------------------------------------------------------------
+			private DTOWorkspace Create_WspDTO()
+				{
+					return	new DTOWorkspace	{	UUID				= Guid.NewGuid()	,
+																			Description	= "DescWS"					};
+				}
+
+			//-------------------------------------------------------------------------------------------
+			private DTOWorkspaceNode Create_WSNodeDTO()
+				{
+					return	new DTOWorkspaceNode	{	UUID				= Guid.NewGuid()	,
+																					Description	= "DescNode"				};
+				}
+
+			//-------------------------------------------------------------------------------------------
+			private DTOWorkspaceItem Create_WSItemDTO(Guid srvID)
+				{
+					return	new DTOWorkspaceItem	{	UUID			= Guid.NewGuid()	,
+																					ServiceID	= srvID								};
+				}
+
+
+
+
 
 			////-------------------------------------------------------------------------------------------
 			//[TestMethod]
@@ -251,22 +311,35 @@ namespace zBxS_SAPGUI_UT
 			//		//Assert.IsTrue(lo_DSH.AddUpdateService(lo_DTOSrv)	,	$"Cntlr: {ln_Cnt}: DS Ready: Error");
 			//	}
 
-				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
-				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
-				private DataTable CreateDataTable(References refr)
-					{
-						Type lo_Str	= typeof(string);
-						Type lo_Gui = typeof(Guid);
-						var lo_Tbl	= new DataTable("TestTable");
-						//.............................................
-						lo_Tbl.Columns.Add(refr.UUID, lo_Gui);
-						lo_Tbl.Columns.Add("Name"		, lo_Str);
-						//.............................................
-						DataColumn[]	Keys	= new DataColumn[1];
-						Keys[0]							= lo_Tbl.Columns[refr.UUID];
-						lo_Tbl.PrimaryKey		= Keys;
-						//.............................................
-						return	lo_Tbl;
-					}
+			////-------------------------------------------------------------------------------------------
+			//[TestMethod]
+			//public void UT_SapGuiUsr_Mapping()
+			//	{
+			//		int	ln_Cnt;
+			//		var	lo_Map	= new Mapping(this._Ref);
+			//		//...............................................
+			//		ln_Cnt	= 1;
+			//		Assert.IsNotNull(lo_Map,	$"Cntlr: {ln_Cnt}: Map-Nul: Error");
+			//	}
+
+
+
+				////иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
+				////иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
+				//private DataTable CreateDataTable(References refr)
+				//	{
+				//		Type lo_Str	= typeof(string);
+				//		Type lo_Gui = typeof(Guid);
+				//		var lo_Tbl	= new DataTable("TestTable");
+				//		//.............................................
+				//		lo_Tbl.Columns.Add(refr.UUID, lo_Gui);
+				//		lo_Tbl.Columns.Add("Name"		, lo_Str);
+				//		//.............................................
+				//		DataColumn[]	Keys	= new DataColumn[1];
+				//		Keys[0]							= lo_Tbl.Columns[refr.UUID];
+				//		lo_Tbl.PrimaryKey		= Keys;
+				//		//.............................................
+				//		return	lo_Tbl;
+				//	}
 		}
 }

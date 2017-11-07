@@ -17,11 +17,12 @@ namespace SAPGUI.USR.DL
 							{
 								var lo_DTO = new DTOMsgServer
 									{
-										UUID				= (Guid)		lo_Row[this._Ref.UUID],
-										Name				= (string)	lo_Row[this._Ref.Name],
-										Description = (string)	lo_Row[this._Ref.Description],
-										Host				= (string)	lo_Row[this._Ref.Host],
-										Port				= (string)	lo_Row[this._Ref.Port]
+										UUID				= (Guid)	lo_Row[this._Ref.UUID]										,
+
+										Name				=					lo_Row[this._Ref.Name]				.ToString()	,
+										Description =					lo_Row[this._Ref.Description]	.ToString()	,
+										Host				=					lo_Row[this._Ref.Host]				.ToString()	,
+										Port				=					lo_Row[this._Ref.Port]				.ToString()
 									};
 								//.............................................
 								dto.Add(lo_DTO.UUID,	lo_DTO);

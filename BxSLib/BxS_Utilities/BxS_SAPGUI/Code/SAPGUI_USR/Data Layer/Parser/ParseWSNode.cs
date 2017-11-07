@@ -21,8 +21,8 @@ namespace SAPGUI.USR.DL
 									{
 										var lo_DTO = new DTOWorkspaceNode
 											{
-												UUID				= (Guid)		lo_Row[this._Ref.UUID]						,
-												Description = (string)	lo_Row[this._Ref.Description]			,
+												UUID				= (Guid)	lo_Row[this._Ref.UUID]										,
+												Description =					lo_Row[this._Ref.Description]	.ToString()	,
 											};
 										//.............................................
 										lo_WS.Nodes.Add(lo_DTO.UUID, lo_DTO);

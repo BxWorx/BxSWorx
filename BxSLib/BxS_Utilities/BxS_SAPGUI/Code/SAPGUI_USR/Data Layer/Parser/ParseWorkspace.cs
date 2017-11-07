@@ -17,8 +17,8 @@ namespace SAPGUI.USR.DL
 							{
 								var lo_DTO = new DTOWorkspace
 									{
-										UUID				= (Guid)		lo_Row[this._Ref.UUID],
-										Description	= (string)	lo_Row[this._Ref.Description],
+										UUID				= (Guid)	lo_Row[this._Ref.UUID],
+										Description	=					lo_Row[this._Ref.Description]	.ToString()	,
 									};
 								//.............................................
 								dto.Add(lo_DTO.UUID,	lo_DTO);
@@ -27,8 +27,8 @@ namespace SAPGUI.USR.DL
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void WorkspaceDTO2DT(Dictionary<Guid, DTOWorkspace> dto	,	DataTable dtWorkspaces
-																																				,	DataTable dtItems
-																																				,	DataTable dtNodes		)
+																																				,	DataTable dtNodes
+																																				,	DataTable dtItems				)
 					{
 						int	ln_SeqNo	= 0;
 						foreach (KeyValuePair<Guid, DTOWorkspace> lo_Entry in dto)

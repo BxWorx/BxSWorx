@@ -74,7 +74,7 @@ namespace SAPGUI.USR.DL
 								{ this._Ref.SNCName					, "UUID" }	,
 								{ this._Ref.SNCOp						, "UUID" }	,
 								{ this._Ref.CodePage				, "UUID" }	,
-								{ this._Ref.DownUpCodePage	, "UUID" }
+								{ this._Ref.DownUpCPge	, "UUID" }
 							};
 					}
 

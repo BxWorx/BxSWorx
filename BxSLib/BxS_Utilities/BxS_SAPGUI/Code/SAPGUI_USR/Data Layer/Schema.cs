@@ -119,7 +119,7 @@ namespace SAPGUI.USR.DL
 						//.............................................
 						this.AddColumn_TypeGUID	(lo_Tbl, this._Ref.ServiceID		,	false, false);
 						this.AddColumn_TypeGUID	(lo_Tbl, this._Ref.WorkspaceID	,	false, false);
-						this.AddColumn_TypeBool	(lo_Tbl, this._Ref.ItemType);
+						this.AddColumn_TypeBool	(lo_Tbl, this._Ref.TypeWSItem);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[2];
 						Keys[0]							= lo_Tbl.Columns[this._Ref.ReferenceID];
@@ -157,13 +157,14 @@ namespace SAPGUI.USR.DL
 
 						this.AddColumn_Name					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
-						this.AddColumn_TypeString		(lo_Tbl, this._Ref.ConnType				);
-						this.AddColumn_TypeString		(lo_Tbl, this._Ref.Server					);
-						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SystemID				);
-						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SNCName				);
-						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SNCOp					);
-						this.AddColumn_TypeString		(lo_Tbl, this._Ref.CodePage				);
-						this.AddColumn_TypeString		(lo_Tbl, this._Ref.DownUpCodePage	);
+
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.ConnType		);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.Server			);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SystemID		);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SNCName		);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SNCOp			);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.CodePage		);
+						this.AddColumn_TypeString		(lo_Tbl, this._Ref.DownUpCPge	);
 
 						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.MsgSrvID, false, false);
 						//.............................................

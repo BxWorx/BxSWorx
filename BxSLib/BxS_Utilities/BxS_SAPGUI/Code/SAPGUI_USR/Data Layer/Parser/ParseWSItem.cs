@@ -15,7 +15,7 @@ namespace SAPGUI.USR.DL
 					{
 						foreach (DataRow lo_Row in dtItems.Rows)
 							{
-								bool lb_IsItem	= (bool)	lo_Row[this._Ref.ItemType];
+								bool lb_IsItem	= (bool)	lo_Row[this._Ref.TypeWSItem];
 								Guid lg_WSID		= lb_IsItem	? (Guid)lo_Row[this._Ref.UUID] : (Guid)lo_Row[this._Ref.WorkspaceID]	;
 
 								if (dto.TryGetValue(lg_WSID, out DTOWorkspace lo_WS))
@@ -32,7 +32,9 @@ namespace SAPGUI.USR.DL
 											}
 										else
 											{
-												if (lo_WS.Nodes.TryGetValue((Guid)lo_Row[this._Ref.UUID], out DTOWorkspaceNode lo_ND))
+												var lc_NdID	= (Guid)lo_Row[this._Ref.UUID];
+
+												if (lo_WS.Nodes.TryGetValue(lc_NdID, out DTOWorkspaceNode lo_ND))
 													{
 														lo_ND.Items.Add(lo_DTO.UUID, lo_DTO);
 													}
@@ -46,13 +48,16 @@ namespace SAPGUI.USR.DL
 					{
 						foreach (KeyValuePair<Guid, DTOWorkspaceItem> lo_Entry in dto)
 							{
-								DataRow lo_Row	= dtItems.NewRow();
+								bool		lb_WSItem	= false;
+								DataRow lo_Row		= dtItems.NewRow();
 								//.............................................
+								if (wsID	== default(Guid))		lb_WSItem	=	true;
+
 								lo_Row[this._Ref.ReferenceID]	= refid											;
 								lo_Row[this._Ref.UUID]				= lo_Entry.Value.UUID				;
 								lo_Row[this._Ref.ServiceID]		= lo_Entry.Value.ServiceID	;
 								lo_Row[this._Ref.WorkspaceID]	= wsID											;
-								lo_Row[this._Ref.ItemType]		= (wsID	== default(Guid))	? true	: false	;
+								lo_Row[this._Ref.TypeWSItem]	= lb_WSItem									;
 								//.............................................
 								dtItems.LoadDataRow(lo_Row.ItemArray, true);
 							}
