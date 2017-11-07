@@ -16,7 +16,7 @@ namespace SAPGUI.USR.DL
 						foreach (DataRow lo_Row in dtItems.Rows)
 							{
 								bool lb_IsItem	= (bool)	lo_Row[this._Ref.TypeWSItem];
-								Guid lg_WSID		= lb_IsItem	? (Guid)lo_Row[this._Ref.UUID] : (Guid)lo_Row[this._Ref.WorkspaceID]	;
+								Guid lg_WSID		= lb_IsItem	? (Guid)lo_Row[this._Ref.ParentID] : (Guid)lo_Row[this._Ref.WorkspaceID]	;
 
 								if (dto.TryGetValue(lg_WSID, out DTOWorkspace lo_WS))
 									{
@@ -32,19 +32,19 @@ namespace SAPGUI.USR.DL
 											}
 										else
 											{
-												var lc_NdID	= (Guid)lo_Row[this._Ref.UUID];
+												var lc_NdID	= (Guid)lo_Row[this._Ref.ParentID];
 
 												if (lo_WS.Nodes.TryGetValue(lc_NdID, out DTOWorkspaceNode lo_ND))
 													{
 														lo_ND.Items.Add(lo_DTO.UUID, lo_DTO);
 													}
-												}
+											}
 									}
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void WSItemDTO2DT(Guid refid, Dictionary<Guid, DTOWorkspaceItem> dto, DataTable dtItems, Guid wsID	= default(Guid))
+				private void WSItemDTO2DT(Guid parentID, Dictionary<Guid, DTOWorkspaceItem> dto, DataTable dtItems, Guid wsID	= default(Guid))
 					{
 						foreach (KeyValuePair<Guid, DTOWorkspaceItem> lo_Entry in dto)
 							{
@@ -53,7 +53,7 @@ namespace SAPGUI.USR.DL
 								//.............................................
 								if (wsID	== default(Guid))		lb_WSItem	=	true;
 
-								lo_Row[this._Ref.ReferenceID]	= refid											;
+								lo_Row[this._Ref.ParentID]		= parentID											;
 								lo_Row[this._Ref.UUID]				= lo_Entry.Value.UUID				;
 								lo_Row[this._Ref.ServiceID]		= lo_Entry.Value.ServiceID	;
 								lo_Row[this._Ref.WorkspaceID]	= wsID											;

@@ -15,7 +15,7 @@ namespace SAPGUI.USR.DL
 					{
 						foreach (DataRow lo_Row in dtNodes.Rows)
 							{
-								var lc_WSID	= (Guid)lo_Row[this._Ref.ReferenceID];
+								var lc_WSID	= (Guid)lo_Row[this._Ref.ParentID];
 
 								if (dto.TryGetValue(lc_WSID, out DTOWorkspace lo_WS))
 									{
@@ -38,7 +38,7 @@ namespace SAPGUI.USR.DL
 							{
 								DataRow lo_Row	= dtNodes.NewRow();
 								//.............................................
-								lo_Row[this._Ref.ReferenceID]			= wsID												;
+								lo_Row[this._Ref.ParentID]			= wsID												;
 								lo_Row[this._Ref.UUID]						= lo_Entry.Value.UUID					;
 								lo_Row[this._Ref.Description]			= lo_Entry.Value.Description	;
 

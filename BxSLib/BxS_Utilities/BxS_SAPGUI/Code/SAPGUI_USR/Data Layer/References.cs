@@ -34,9 +34,9 @@ namespace SAPGUI.USR.DL
 				internal string	CodePage			{ get	{ return "CodePage";				}	}
 				internal string	DownUpCPge		{ get	{ return "DownUpCodePage";	}	}
 				//.................................................
-				internal string	ReferenceID			{ get	{ return "RefID"			;	}	}
-				internal string	WorkspaceID			{ get	{ return "WSID"				;	}	}
-				internal string	TypeWSItem			{ get	{ return "TypeWSItem"	;	}	}
+				internal string	ParentID			{ get	{ return "ParentID"		;	}	}
+				internal string	WorkspaceID		{ get	{ return "WSID"				;	}	}
+				internal string	TypeWSItem		{ get	{ return "TypeWSItem"	;	}	}
 				//.................................................
 				internal string	ServiceTableName				{ get	{ return "Service"				;	}	}
 				internal string	MsgServerTableName			{ get	{ return "MsgServer"			;	}	}

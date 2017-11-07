@@ -97,12 +97,12 @@ namespace SAPGUI.USR.DL
 					{
 						var lo_Tbl	= new DataTable(this._Ref.WorkspaceNodeTableName);
 						//.............................................
-						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.ReferenceID	, false);
+						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.ParentID	, false);
 						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID					, true);
 						this.AddColumn_Description	(lo_Tbl);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[2];
-						Keys[0]							= lo_Tbl.Columns[this._Ref.ReferenceID];
+						Keys[0]							= lo_Tbl.Columns[this._Ref.ParentID];
 						Keys[1]							= lo_Tbl.Columns[this._Ref.UUID];
 						lo_Tbl.PrimaryKey		= Keys;
 						//.............................................
@@ -114,7 +114,7 @@ namespace SAPGUI.USR.DL
 					{
 						var lo_Tbl	= new DataTable(this._Ref.WorkspaceItemTableName);
 						//.............................................
-						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.ReferenceID,	false, false);
+						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.ParentID,	false, false);
 						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID, true);
 						//.............................................
 						this.AddColumn_TypeGUID	(lo_Tbl, this._Ref.ServiceID		,	false, false);
@@ -122,7 +122,7 @@ namespace SAPGUI.USR.DL
 						this.AddColumn_TypeBool	(lo_Tbl, this._Ref.TypeWSItem);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[2];
-						Keys[0]							= lo_Tbl.Columns[this._Ref.ReferenceID];
+						Keys[0]							= lo_Tbl.Columns[this._Ref.ParentID];
 						Keys[1]							= lo_Tbl.Columns[this._Ref.UUID];
 						lo_Tbl.PrimaryKey		= Keys;
 						//.............................................

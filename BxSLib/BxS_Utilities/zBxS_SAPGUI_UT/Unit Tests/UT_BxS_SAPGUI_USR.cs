@@ -36,7 +36,6 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiUsr_Parser()
 				{
 					int			ln_Cnt;
-					var			lo_Map	= new Mapping			(this._Ref);
 					var			lo_Par	= new Parser			(this._Ref);
 					var			lo_Rep	= new Repository	();
 					DataSet lo_Sch	= new Schema			(this._Ref).Create();
@@ -78,30 +77,23 @@ namespace zBxS_SAPGUI_UT
 					ln_Cnt	= 5;
 					lo_Rep.Clear();
 					lo_Par.ParseDS2Rep(lo_Sch, lo_Rep);
+					Assert.AreEqual	(1	,	lo_Rep.MsgServers.Count	,	$"Parser: {ln_Cnt}: Rep:MsgSvr: Error"	);
+					Assert.AreEqual	(1	,	lo_Rep.Services.Count		,	$"Parser: {ln_Cnt}: Rep:Service: Error"	);
+					Assert.AreEqual	(1	,	lo_Rep.WorkSpaces.Count	,	$"Parser: {ln_Cnt}: Rep:Workspace: Error"	);
+					//...............................................
+					ln_Cnt	= 6;
 
-					Assert.AreEqual	(1	,	lo_Rep.MsgServers.Count	,	$"Parser: {ln_Cnt}: DTO:MsgSvr: Error"	);
-					Assert.AreEqual	(1	,	lo_Rep.Services.Count		,	$"Parser: {ln_Cnt}: DTO:Service: Error"	);
-					Assert.AreEqual	(1	,	lo_Rep.WorkSpaces.Count	,	$"Parser: {ln_Cnt}: DTO:Workspace: Error"	);
+					Assert.IsTrue(lo_Rep.MsgServers.ContainsKey(lo_MsgDTO.UUID)	,	$"Parser: {ln_Cnt}: Msg:Check Key: Error"	);
+					Assert.IsTrue(lo_Rep.Services.ContainsKey(lo_SrvDTO.UUID)		,	$"Parser: {ln_Cnt}: Srv:Check Key: Error"	);
+					Assert.IsTrue(lo_Rep.WorkSpaces.ContainsKey(lo_WspDTO.UUID)	,	$"Parser: {ln_Cnt}: WSp:Check Key: Error"	);
 
+					lo_Rep.WorkSpaces.TryGetValue(lo_WspDTO.UUID, out DTOWorkspace lo_WSx);
 
-					
-
-					//lo_WNdDTO.Items.Add(lc_ItmID, lo_ItmDTO);
-					//lo_WspDTO.Nodes.Add(lc_WndID,	lo_WNdDTO);
-					//lo_WspDTO.Items.Add(lc_WSIID,	lo_WSIDTO);
-
-					//lo_Rep.WorkSpaces.Add (lc_WspID, lo_WspDTO);
-					//ln_Cnt	= 1;
-					//lo_Par.ParseRep2DS(lo_Rep, lo_UDS);
-					//lo_Rep.Clear();
-					//lo_Par.ParseDS2Rep(lo_UDS, lo_Rep);
-					//lo_Rep.MsgServers.TryGetValue(lc_MsgID, out DTOMsgServer lo_DTOt);
-
-					//Assert.AreEqual	(1						,	lo_UDS.Services.Rows.Count	,	$"Parser: {ln_Cnt}: DTO-DS:MsgSvr: Error"	);
-					//Assert.AreEqual	(1						,	lo_Rep.MsgServers.Count			,	$"Parser: {ln_Cnt}: DS-DTO:MsgSvr: Error"	);
-					//Assert.AreEqual	(lo_MsgDTO.Name	,	lo_DTOt.Name							,	$"Parser: {ln_Cnt}: DS-MsgSvr: Error"			);
+					Assert.IsTrue(lo_WSx.Items.ContainsKey(lo_WSxDTO.UUID),	$"Parser: {ln_Cnt}: WSpItem:Check Key: Error"	);
+					Assert.IsTrue(lo_WSx.Nodes.ContainsKey(lo_WSNDTO.UUID),	$"Parser: {ln_Cnt}: WSpNode:Check Key: Error"	);
 				}
 
+			//-------------------------------------------------------------------------------------------
 			//-------------------------------------------------------------------------------------------
 			private DTOMsgServer Create_MsgSvrDTO()
 				{
