@@ -45,15 +45,14 @@ namespace SAPGUI.USR.DL
 								lo_Row[this._Ref.UUID]						= lo_Entry.Value.UUID					;
 								lo_Row[this._Ref.Name]						= lo_Entry.Value.Name					;
 								lo_Row[this._Ref.Description]			= lo_Entry.Value.Description	;
-								lo_Row[this._Ref.SystemID]				= lo_Entry.Value.SystemID			;
 								lo_Row[this._Ref.ConnType]				= lo_Entry.Value.Type					;
 								lo_Row[this._Ref.Server]					= lo_Entry.Value.Server				;
-								lo_Row[this._Ref.SNCName]					= lo_Entry.Value							;
-								lo_Row[this._Ref.CodePage]				= lo_Entry.Value							;
+								lo_Row[this._Ref.SystemID]				= lo_Entry.Value.SystemID			;
+								lo_Row[this._Ref.SNCName]					= lo_Entry.Value.SNCName			;
+								lo_Row[this._Ref.SNCOp]						= lo_Entry.Value.SNCOp				;
+								lo_Row[this._Ref.CodePage]				= lo_Entry.Value.SAPCPG				;
 								lo_Row[this._Ref.DownUpCodePage]	= lo_Entry.Value.DCPG					;
-								lo_Row[this._Ref.SNCOp]						= lo_Entry.Value							;
-								lo_Row[this._Ref.Mode]						= lo_Entry.Value							;
-								lo_Row[this._Ref.MsgSrvID]				= lo_Entry.Value							;
+								lo_Row[this._Ref.MsgSrvID]				= lo_Entry.Value.MSID					;
 								//.............................................
 								dtServices.LoadDataRow(lo_Row.ItemArray, true);
 							}

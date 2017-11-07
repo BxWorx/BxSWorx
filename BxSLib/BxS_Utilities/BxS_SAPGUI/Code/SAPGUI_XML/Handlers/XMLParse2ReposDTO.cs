@@ -145,8 +145,8 @@ namespace SAPGUI.XML
 				private DTOWorkspace LoadWSAttributtes(XmlElement _xmlelement)
 					{
 						var lo_DTO = new DTOWorkspace
-							{	UUID	= Guid.Parse(_xmlelement.GetAttribute(cz_TagUuid))	,
-								Name	= _xmlelement.GetAttribute(cz_TagName)							,
+							{	UUID				= Guid.Parse(_xmlelement.GetAttribute(cz_TagUuid))	,
+								Description	= _xmlelement.GetAttribute(cz_TagName)							,
 								//.........................................
 								Nodes = new Dictionary<Guid, DTOWorkspaceNode>()				,
 								Items = new Dictionary<Guid, DTOWorkspaceItem>()					};

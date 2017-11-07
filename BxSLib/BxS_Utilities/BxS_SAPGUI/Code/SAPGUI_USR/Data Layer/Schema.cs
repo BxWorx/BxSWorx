@@ -81,7 +81,7 @@ namespace SAPGUI.USR.DL
 						var lo_Tbl	= new DataTable(this._Ref.WorkspaceTableName);
 						//.............................................
 						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID, true);
-						//.............................................
+
 						this.AddColumn_Description	(lo_Tbl);
 						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SeqNo	, 2);
 						//.............................................
@@ -154,7 +154,7 @@ namespace SAPGUI.USR.DL
 						var lo_Tbl	= new DataTable(this._Ref.ServiceTableName);
 						//.............................................
 						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.UUID, true, false);
-						//.............................................
+
 						this.AddColumn_Name					(lo_Tbl);
 						this.AddColumn_Description	(lo_Tbl);
 						this.AddColumn_TypeString		(lo_Tbl, this._Ref.ConnType				);
@@ -164,6 +164,8 @@ namespace SAPGUI.USR.DL
 						this.AddColumn_TypeString		(lo_Tbl, this._Ref.SNCOp					);
 						this.AddColumn_TypeString		(lo_Tbl, this._Ref.CodePage				);
 						this.AddColumn_TypeString		(lo_Tbl, this._Ref.DownUpCodePage	);
+
+						this.AddColumn_TypeGUID			(lo_Tbl, this._Ref.MsgSrvID, false, false);
 						//.............................................
 						DataColumn[]	Keys	= new DataColumn[1];
 						Keys[0]							= lo_Tbl.Columns[this._Ref.UUID];

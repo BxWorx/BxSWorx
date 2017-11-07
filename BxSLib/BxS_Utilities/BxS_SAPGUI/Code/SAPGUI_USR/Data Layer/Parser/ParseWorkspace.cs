@@ -18,7 +18,7 @@ namespace SAPGUI.USR.DL
 								var lo_DTO = new DTOWorkspace
 									{
 										UUID				= (Guid)		lo_Row[this._Ref.UUID],
-										Name				= (string)	lo_Row[this._Ref.Name],
+										Description	= (string)	lo_Row[this._Ref.Description],
 									};
 								//.............................................
 								dto.Add(lo_DTO.UUID,	lo_DTO);
@@ -30,12 +30,15 @@ namespace SAPGUI.USR.DL
 																																				,	DataTable dtItems
 																																				,	DataTable dtNodes		)
 					{
+						int	ln_SeqNo	= 0;
 						foreach (KeyValuePair<Guid, DTOWorkspace> lo_Entry in dto)
 							{
+								ln_SeqNo++;
 								DataRow lo_Row	= dtWorkspaces.NewRow();
 								//.............................................
 								lo_Row[this._Ref.UUID]				= lo_Entry.Value.UUID;
-								lo_Row[this._Ref.Name]				= lo_Entry.Value.Name;
+								lo_Row[this._Ref.Description]	= lo_Entry.Value.Description;
+								lo_Row[this._Ref.SeqNo]				= ln_SeqNo.ToString();
 
 								dtWorkspaces.LoadDataRow(lo_Row.ItemArray, true);
 								//.............................................

@@ -19,8 +19,8 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				internal Guid		UUID { get; set; }
-				internal string Name { get; set; }
+				internal Guid		UUID				{ get; set; }
+				internal string Description	{ get; set; }
 				//...................................................
 				internal Dictionary<Guid, DTOWorkspaceNode>	Nodes { get; set; }
 				internal Dictionary<Guid, DTOWorkspaceItem> Items { get; set; }
