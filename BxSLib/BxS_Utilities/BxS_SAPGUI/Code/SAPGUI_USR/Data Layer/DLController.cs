@@ -17,8 +17,8 @@ namespace SAPGUI.USR.DL
 						this._Schema	= schema;
 						this._Parser	= parser;
 						//.............................................
-						this._SchemaFullName	= Path.Combine(this._DirPath	,	_SchemaFileName		);
-						this._DSFullName			= Path.Combine(this._DirPath	,	_DatasetFileName	);
+						this._SchemaFullName	= Path.Combine(	this._DirPath	,	_SchemaFileName		);
+						this._DSFullName			= Path.Combine(	this._DirPath	,	_DatasetFileName	);
 					}
 
 			#endregion
@@ -80,13 +80,15 @@ namespace SAPGUI.USR.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void DeleteSchemaXMLFile()
 					{
-						if (this.SchemaXMLExists)		File.Delete(this._SchemaFullName);
+						if (this.SchemaXMLExists)
+							File.Delete(this._SchemaFullName);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void DeleteDatasetXMLFile()
 					{
-						if (this.DatasetXMLExists)	File.Delete(this._DSFullName);
+						if (this.DatasetXMLExists)
+							File.Delete(this._DSFullName);
 					}
 
 			#endregion

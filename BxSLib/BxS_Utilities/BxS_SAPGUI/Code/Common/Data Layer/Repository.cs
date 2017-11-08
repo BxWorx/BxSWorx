@@ -12,9 +12,11 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Repository()
 					{
-						this.Services		= new Dictionary<Guid, DTOService>	 ();
-						this.MsgServers	= new Dictionary<Guid, DTOMsgServer> ();
-						this.WorkSpaces = new Dictionary<Guid, DTOWorkspace> ();
+						this.MsgServers		= new Dictionary<	Guid, DTOMsgServer > ();
+						this.Services			= new Dictionary<	Guid, DTOService	 > ();
+						this.WorkSpaces		= new Dictionary<	Guid, DTOWorkspace > ();
+						//.............................................
+						this.IsDirty		= false;
 					}
 
 			#endregion
@@ -22,9 +24,11 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				internal Dictionary<Guid, DTOService>			Services		{ get; set; }
-				internal Dictionary<Guid, DTOMsgServer>		MsgServers	{ get; set; }
-				internal Dictionary<Guid, DTOWorkspace>		WorkSpaces	{ get; set; }
+				internal Dictionary<Guid, DTOMsgServer>		MsgServers	{ get; private set; }
+				internal Dictionary<Guid, DTOService>			Services		{ get; private set; }
+				internal Dictionary<Guid, DTOWorkspace>		WorkSpaces	{ get; private set; }
+				//.................................................
+				internal bool	IsDirty	{ get; private set; }
 
 			#endregion
 
@@ -35,7 +39,6 @@ namespace SAPGUI.COM.DL
 				internal void LoadConnectionDTO(IDTOConnection dto)
 					{
 						var	dtoSrv	= new DTOService();
-						var dtoMsg	= new DTOMsgServer();
 						//.............................................
 						if (!this.Services.TryGetValue(dto.ID, out dtoSrv))
 							{
@@ -43,7 +46,7 @@ namespace SAPGUI.COM.DL
 								return;
 							}
 						//.............................................
-						if (this.MsgServers.TryGetValue(dtoSrv.MSID, out dtoMsg))
+						if (this.MsgServers.TryGetValue(dtoSrv.MSID, out DTOMsgServer dtoMsg))
 							{
 								dto.MSID						= dtoMsg.UUID;
 								dto.MSName					= dtoMsg.Name;
@@ -98,6 +101,18 @@ namespace SAPGUI.COM.DL
 						this.Services.Clear();
 						this.MsgServers.Clear();
 						this.WorkSpaces.Clear();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void AddUpdateMsgServer(DTOMsgServer dto)
+					{
+						this.MsgServers.Add(dto.UUID, dto);
+						this.IsDirty	= true;
 					}
 
 			#endregion

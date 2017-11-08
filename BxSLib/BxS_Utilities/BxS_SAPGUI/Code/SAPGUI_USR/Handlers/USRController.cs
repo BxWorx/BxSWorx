@@ -1,4 +1,5 @@
 ﻿using SAPGUI.API;
+using SAPGUI.COM.DL;
 using SAPGUI.USR.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR
@@ -8,12 +9,11 @@ namespace SAPGUI.USR
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public USRController(string fullPath, DLController dlCntlr)
+				internal USRController(DLController dlCntlr)
 					{
-						this._DirPath	= fullPath;
 						this._DLCntlr	= dlCntlr;
 						//.............................................
-						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
+						this._Repository	= this._DLCntlr.GetRepository();
 					}
 
 			#endregion
@@ -21,10 +21,9 @@ namespace SAPGUI.USR
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly string					_DirPath;
 				private readonly DLController		_DLCntlr;
 				//.................................................
-				//private readonly	XMLRepository		_Repository;
+				private readonly Repository			_Repository;
 
 			#endregion
 
@@ -32,15 +31,17 @@ namespace SAPGUI.USR
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void GetConnection(IDTOConnection dtoConnection)
+				internal void Save()
 					{
-						//this._Repository.LoadConnectionDTO(dtoConnection);
+						this._DLCntlr.Save(this._Repository);
 					}
 
-			#endregion
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void GetConnection(IDTOConnection dtoConnection)
+					{
+						this._Repository.LoadConnectionDTO(dtoConnection);
+					}
 
-			//===========================================================================================
-			#region "Methods: Private"
 			#endregion
 
 		}

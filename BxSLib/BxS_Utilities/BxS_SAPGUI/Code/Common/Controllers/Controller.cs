@@ -5,8 +5,18 @@ namespace SAPGUI.API
 	internal class Controller : IController
 		{
 
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public Controller(IControllerSource	controller)
+					{
+						this._SrceCntlr		= controller;
+					}
+
+			#endregion
+
 			//===========================================================================================
-			#region "Definitions"
+			#region "Declarations"
 
 				private readonly	IControllerSource	_SrceCntlr;
 
@@ -37,17 +47,6 @@ namespace SAPGUI.API
 				public void GetConnection(IDTOConnection dtoConnection)
 					{
 						this._SrceCntlr.GetConnection(dtoConnection);
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Constructors"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Controller(IControllerSource	controller)
-					{
-						this._SrceCntlr		= controller;
 					}
 
 			#endregion
