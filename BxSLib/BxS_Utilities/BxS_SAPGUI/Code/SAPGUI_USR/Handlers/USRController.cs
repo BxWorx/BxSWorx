@@ -1,13 +1,27 @@
 ﻿using SAPGUI.API;
+using SAPGUI.USR.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR
 {
 	internal class USRController : IControllerSource
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public USRController(string fullPath, DLController dlCntlr)
+					{
+						this._DirPath			= fullPath;
+						this._DLCntlr			= dlCntlr;
+						//.............................................
+						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
+					}
 
 			//===========================================================================================
-			#region "Definitions"
+			#region "Declarations"
 
+				private readonly string					_DirPath;
+				private readonly DLController		_DLCntlr;
+				//.................................................
 				//private readonly	XMLRepository		_Repository;
 
 			#endregion
@@ -23,14 +37,6 @@ namespace SAPGUI.USR
 
 			#endregion
 
-			//===========================================================================================
-			#region "Constructors"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public USRController(string fullPath, bool onlySAPGUI)
-					{
-						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
-					}
 
 			#endregion
 

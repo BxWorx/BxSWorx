@@ -1,6 +1,7 @@
 ﻿using SAPGUI.XML;
 using SAPGUI.INI;
 using SAPGUI.USR;
+using SAPGUI.USR.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
@@ -18,9 +19,14 @@ namespace SAPGUI.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IController CreateControllerForSAPUSR(string fullPath, bool onlySAPGUI)
+				public static IController CreateControllerForSAPUSR(string fullPath)
 					{
-						IControllerSource USRCntlr	= new USRController(fullPath, onlySAPGUI);
+						var lo_Ref			= new References();
+						var lo_Parser		= new Parser(lo_Ref);
+						var lo_Schema		= new Schema(lo_Ref);
+						var lo_DLCntlr	= new DLController(fullPath, lo_Schema, lo_Parser);
+						//.............................................
+						IControllerSource USRCntlr	= new USRController(fullPath, lo_DLCntlr);
 						IController				Cntlr			= new Controller(USRCntlr);
 						return	Cntlr;
 					}

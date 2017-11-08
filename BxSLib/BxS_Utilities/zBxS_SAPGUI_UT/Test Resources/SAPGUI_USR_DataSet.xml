@@ -1,10 +1,38 @@
 <SAPGUI_USR_Repository>
   <Service>
-    <UUID>1931f873-dc44-4479-a5af-893467a5a764</UUID>
+    <UUID>c15769e7-47c4-4fd9-ad09-6547f26832e3</UUID>
+    <Name>NameS</Name>
+    <MSID>bac0508a-ea05-46df-a8e2-d7b9850198f5</MSID>
   </Service>
-  <Service>
-    <UUID>8e27ad30-85aa-4535-b485-96eb9be38ed4</UUID>
-    <Name>Test Name</Name>
-    <Description>Test description</Description>
-  </Service>
+  <MsgServer>
+    <UUID>bac0508a-ea05-46df-a8e2-d7b9850198f5</UUID>
+    <Name>name1</Name>
+    <Description>desc1</Description>
+    <Host>host1</Host>
+    <Port>port1</Port>
+  </MsgServer>
+  <Workspace>
+    <UUID>d4a69373-c733-4306-a518-a5b66ecdd4e7</UUID>
+    <Description>DescWS</Description>
+    <SequenceNo>1</SequenceNo>
+  </Workspace>
+  <WorkspaceNode>
+    <ParentID>d4a69373-c733-4306-a518-a5b66ecdd4e7</ParentID>
+    <UUID>e711e9d4-d54f-4fb4-81b9-a25274a7618a</UUID>
+    <Description>DescNode</Description>
+  </WorkspaceNode>
+  <WorkspaceItem>
+    <ParentID>e711e9d4-d54f-4fb4-81b9-a25274a7618a</ParentID>
+    <UUID>2f6b5001-e13a-4d46-a020-97d1448a59ac</UUID>
+    <ServiceID>c15769e7-47c4-4fd9-ad09-6547f26832e3</ServiceID>
+    <WSID>d4a69373-c733-4306-a518-a5b66ecdd4e7</WSID>
+    <TypeWSItem>false</TypeWSItem>
+  </WorkspaceItem>
+  <WorkspaceItem>
+    <ParentID>d4a69373-c733-4306-a518-a5b66ecdd4e7</ParentID>
+    <UUID>966ccf13-cde9-415f-b1a3-546b8a552f85</UUID>
+    <ServiceID>c15769e7-47c4-4fd9-ad09-6547f26832e3</ServiceID>
+    <WSID>00000000-0000-0000-0000-000000000000</WSID>
+    <TypeWSItem>true</TypeWSItem>
+  </WorkspaceItem>
 </SAPGUI_USR_Repository>
