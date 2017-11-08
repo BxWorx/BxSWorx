@@ -11,7 +11,7 @@ namespace SAPGUI.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IController CreateControllerForSAPXML(string fullPath, bool onlySAPGUI)
+				public static IController CreateControllerForSAPXML(string fullPath, bool onlySAPGUI = true)
 					{
 						IControllerSource XMLCntlr	= new XMLController(fullPath, onlySAPGUI);
 						IController				Cntlr			= new Controller(XMLCntlr);

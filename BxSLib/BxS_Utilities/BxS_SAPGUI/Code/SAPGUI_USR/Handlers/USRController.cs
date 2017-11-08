@@ -10,11 +10,13 @@ namespace SAPGUI.USR
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public USRController(string fullPath, DLController dlCntlr)
 					{
-						this._DirPath			= fullPath;
-						this._DLCntlr			= dlCntlr;
+						this._DirPath	= fullPath;
+						this._DLCntlr	= dlCntlr;
 						//.............................................
 						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
 					}
+
+			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
@@ -34,9 +36,6 @@ namespace SAPGUI.USR
 					{
 						//this._Repository.LoadConnectionDTO(dtoConnection);
 					}
-
-			#endregion
-
 
 			#endregion
 

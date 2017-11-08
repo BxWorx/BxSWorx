@@ -44,9 +44,6 @@ namespace SAPGUI.USR.DL
 						this.AddTable_WorkSpaceNode(lo_DS);
 						this.AddTable_WorkSpaceItem(lo_DS);
 						//.............................................
-						//this.AddRelation_Service2MsgSrv(lo_DS);
-						//this.AddRelation_Service2Workspace(lo_DS);
-						//.............................................
 						return	lo_DS;
 					}
 
@@ -54,26 +51,6 @@ namespace SAPGUI.USR.DL
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private void AddRelation_Service2MsgSrv(DataSet dataSet)
-				//	{
-				//		DataColumn	lo_ColParent	= dataSet.Tables[this._ref.MsgServerTableName].Columns[this._ref.UUID];
-				//		DataColumn	lo_ColChild		= dataSet.Tables[this._ref.ServiceTableName].Columns["MsgServer_ID"];
-				//		var					lo_Rel				= new DataRelation($"{this._ref.ServiceTableName}2{this._ref.MsgServerTableName}", lo_ColParent, lo_ColChild);
-				//		//.............................................
-				//		dataSet.Relations.Add(lo_Rel);
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private void AddRelation_Service2Workspace(DataSet dataSet)
-				//	{
-				//		DataColumn	lo_ColParent	= dataSet.Tables[this._ref.WorkspaceTableName].Columns[this._ref.UUID];
-				//		DataColumn	lo_ColChild		= dataSet.Tables[this._ref.ServiceTableName].Columns["Workspace_ID"];
-				//		var					lo_Rel				= new DataRelation($"{this._ref.ServiceTableName}2{this._ref.WorkspaceTableName}", lo_ColParent, lo_ColChild);
-				//		//.............................................
-				//		dataSet.Relations.Add(lo_Rel);
-				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddTable_WorkSpace(DataSet dataSet)
