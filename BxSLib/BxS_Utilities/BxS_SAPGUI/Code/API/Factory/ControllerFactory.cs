@@ -2,6 +2,7 @@
 using SAPGUI.INI;
 using SAPGUI.USR;
 using SAPGUI.USR.DL;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
@@ -33,8 +34,9 @@ namespace SAPGUI.API
 						var lo_Parser		= new Parser(lo_Ref);
 						var lo_Schema		= new Schema(lo_Ref);
 						var lo_DLCntlr	= new DLController(fullPath, lo_Schema, lo_Parser);
+						var lo_Repos		= new Repository();
 						//.............................................
-						IControllerSource USRCntlr	= new USRController(lo_DLCntlr);
+						IControllerSource USRCntlr	= new USRController(lo_DLCntlr, lo_Repos);
 						IController				Cntlr			= new Controller(USRCntlr);
 						return	Cntlr;
 					}

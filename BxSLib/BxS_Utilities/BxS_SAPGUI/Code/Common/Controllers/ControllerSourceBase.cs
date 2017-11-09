@@ -1,33 +1,37 @@
-﻿using SAPGUI.API;
-using SAPGUI.COM.DL;
+﻿using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace SAPGUI.API
 {
-	internal class XMLController : ControllerSourceBase
+	internal abstract class ControllerSourceBase : IControllerSource
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public XMLController(string fullPath, bool onlySAPGUI)
-								: base(new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI))
+				protected ControllerSourceBase(Repository repository)
 					{
+						this._Repos = repository;
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
+
+				protected readonly	Repository	_Repos;
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public override void Save()
-					{
-					}
+				public void GetConnection(IDTOConnection dtoConnection)
+											=> this._Repos.LoadConnectionDTO(dtoConnection);
 
-			#endregion
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	abstract void Save();
+
+		#endregion
 
 		}
 }

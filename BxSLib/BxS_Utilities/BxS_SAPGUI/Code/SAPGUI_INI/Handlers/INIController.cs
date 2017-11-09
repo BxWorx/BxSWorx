@@ -1,33 +1,15 @@
 ﻿using SAPGUI.API;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.INI
 {
-	internal class INIController : IControllerSource
+	internal class INIController : ControllerSourceBase
 		{
-
-			//===========================================================================================
-			#region "Definitions"
-
-				//private readonly	XMLRepository		_Repository;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void GetConnection(IDTOConnection dtoConnection)
-					{
-						//this._Repository.LoadConnectionDTO(dtoConnection);
-					}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public INIController(string fullPath, bool onlySAPGUI)
+								: base( new Repository())
 					{
 						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
 					}
@@ -35,7 +17,17 @@ namespace SAPGUI.INI
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private"
+			#region "Definitions"
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public override void Save()
+					{
+					}
+
 			#endregion
 
 		}

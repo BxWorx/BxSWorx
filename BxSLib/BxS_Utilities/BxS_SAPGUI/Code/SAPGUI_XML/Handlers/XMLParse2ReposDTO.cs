@@ -41,13 +41,16 @@ namespace SAPGUI.XML
 								string lc_Type = lo_Elem.GetAttribute("type");
 								//.........................................
 								if (onlySAPGUI && !lc_Type.Equals("SAPGUI"))	continue;
+
+								Guid lg_Key	= this.ParseGuid(lo_Elem.GetAttribute(cz_TagUuid));
+								if (lg_Key	== Guid.Empty)	continue;
 								//.........................................
 								var lo_DTO = new DTOService
 									{	Type				= lc_Type																				,
-										UUID				= Guid.Parse(lo_Elem.GetAttribute(cz_TagUuid))	,
+										UUID				= lg_Key																				,
 										Name				= lo_Elem.GetAttribute(cz_TagName)							,
 										DCPG				= lo_Elem.GetAttribute("dcpg")									,
-										MSID				= Guid.Parse(lo_Elem.GetAttribute("msid"))			,
+										MSID				= this.ParseGuid(lo_Elem.GetAttribute("msid"))	,
 										SAPCPG			= lo_Elem.GetAttribute("sapcpg")								,
 										Server			= lo_Elem.GetAttribute("server")								,
 										SNCName			= lo_Elem.GetAttribute("sncname")								,
@@ -64,14 +67,18 @@ namespace SAPGUI.XML
 						//
 						foreach (XmlElement lo_MsgSvr in XmlDoc.GetElementsByTagName("Messageserver"))
 							{
-								var lo_DTO = new DTOMsgServer
-									{	UUID				= Guid.Parse(lo_MsgSvr.GetAttribute(cz_TagUuid))	,
-										Name				= lo_MsgSvr.GetAttribute(cz_TagName)							,
-										Host				= lo_MsgSvr.GetAttribute("host")									,
-										Port				= lo_MsgSvr.GetAttribute("port")									,
-										Description	= lo_MsgSvr.GetAttribute(cz_TagDesc)								};
+								Guid lg_Key	= this.ParseGuid(lo_MsgSvr.GetAttribute(cz_TagUuid));
+								if (lg_Key	!= Guid.Empty)
+									{
+										var lo_DTO = new DTOMsgServer
+											{	UUID				= lg_Key															,
+												Name				= lo_MsgSvr.GetAttribute(cz_TagName)	,
+												Host				= lo_MsgSvr.GetAttribute("host")			,
+												Port				= lo_MsgSvr.GetAttribute("port")			,
+												Description	= lo_MsgSvr.GetAttribute(cz_TagDesc)		};
 
-								lo_Repos.MsgServers.Add(lo_DTO.UUID, lo_DTO);
+										lo_Repos.MsgServers.Add(lo_DTO.UUID, lo_DTO);
+									}
 							}
 
 						//.............................................
@@ -113,6 +120,20 @@ namespace SAPGUI.XML
 			//===========================================================================================
 			#region "Methods: Private"
 
+				private Guid ParseGuid(string guid)
+					{
+						Guid	lg_Guid;
+						//.............................................
+						try
+							{
+								lg_Guid	=	guid?.Length == 0 ? Guid.Empty	: Guid.Parse(guid);
+							}
+						catch (Exception)
+							{	lg_Guid	=	Guid.Empty;	}
+						//.............................................
+						return	lg_Guid;
+					}
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private XmlDocument LoadXMLDoc(string fullname)
 					{
@@ -135,8 +156,7 @@ namespace SAPGUI.XML
 					{
 						var lo_DTO = new DTOWorkspaceNode
 							{	UUID				= Guid.Parse(element.GetAttribute(cz_TagUuid))	,
-								Description	= element.GetAttribute(cz_TagName)							,
-								Items				= new Dictionary<Guid, DTOWorkspaceItem>()				};
+								Description	= element.GetAttribute(cz_TagName)								};
 						//.............................................
 						return lo_DTO;
 					}
@@ -146,10 +166,7 @@ namespace SAPGUI.XML
 					{
 						var lo_DTO = new DTOWorkspace
 							{	UUID				= Guid.Parse(_xmlelement.GetAttribute(cz_TagUuid))	,
-								Description	= _xmlelement.GetAttribute(cz_TagName)							,
-								//.........................................
-								Nodes = new Dictionary<Guid, DTOWorkspaceNode>()				,
-								Items = new Dictionary<Guid, DTOWorkspaceItem>()					};
+								Description	= _xmlelement.GetAttribute(cz_TagName)								};
 						//.............................................
 						return lo_DTO;
 					}
@@ -180,7 +197,7 @@ namespace SAPGUI.XML
 					{
 						return	repository.Services.Select(
 											x => x.Value.MSID)
-												.Where(x => x.ToString().Length != 0)
+												.Where(x => x != Guid.Empty)
 													.Distinct()
 														.ToList();
 					}
@@ -191,11 +208,11 @@ namespace SAPGUI.XML
 						return	repository.WorkSpaces.SelectMany
 											( ws => ws.Value.Nodes.SelectMany
 												( nd => nd.Value.Items.Select( it => it.Value.ServiceID )
-														.Where( id => id.ToString().Length != 0 )
+														.Where( id => id != Guid.Empty )
 												)
 												.Concat
 													( ws.Value.Items.Select( it => it.Value.ServiceID )
-															.Where( id => id.ToString().Length != 0 )
+															.Where( id => id != Guid.Empty )
 													)
 											).ToList();
 					}

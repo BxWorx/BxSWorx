@@ -1,19 +1,20 @@
 ﻿using SAPGUI.API;
-using SAPGUI.COM.DL;
 using SAPGUI.USR.DL;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR
 {
-	internal class USRController : IControllerSource
+	internal class USRController : ControllerSourceBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal USRController(DLController dlCntlr)
+				internal USRController(DLController dlCntlr, Repository repository)
+									: base(repository)
 					{
 						this._DLCntlr	= dlCntlr;
 						//.............................................
-						this._Repository	= this._DLCntlr.GetRepository();
+						this._DLCntlr.LoadRepository(this._Repos);
 					}
 
 			#endregion
@@ -22,8 +23,6 @@ namespace SAPGUI.USR
 			#region "Declarations"
 
 				private readonly DLController		_DLCntlr;
-				//.................................................
-				private readonly Repository			_Repository;
 
 			#endregion
 
@@ -31,15 +30,9 @@ namespace SAPGUI.USR
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Save()
+				public override void Save()
 					{
-						this._DLCntlr.Save(this._Repository);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void GetConnection(IDTOConnection dtoConnection)
-					{
-						this._Repository.LoadConnectionDTO(dtoConnection);
+						this._DLCntlr.Save(this._Repos);
 					}
 
 			#endregion

@@ -1,1 +1,1 @@
-<Playlist Version="1.0"><Add Test="zBxS_SAPGUI_UT.UT_BxS_SAPGUI_USR.UT_SapGuiUsr_Schema" /><Add Test="zBxS_SAPGUI_UT.UT_BxS_SAPGUI_USR.UT_SapGuiUsr_Parser" /><Add Test="zBxS_SAPGUI_UT.UT_BxS_SAPGUI_USR.UT_SapGuiUsr_DLController" /></Playlist>
+<Playlist Version="1.0"><Add Test="zBxS_SAPGUI_UT.UT_BxS_SAPGUI_USR.UT_SapGuiUsr_Schema" /><Add Test="zBxS_SAPGUI_UT.UT_BxS_SAPGUI_USR.UT_SapGuiUsr_Parser" /><Add Test="zBxS_SAPGUI_UT.UT_BxS_SAPGUI_USR.UT_SapGuiUsr_DLController" /><Add Test="zBxS_SAPGUI_UT.UT_BxS_SAPGUI_USR.UT_SapGuiUsr_UsrController" /></Playlist>

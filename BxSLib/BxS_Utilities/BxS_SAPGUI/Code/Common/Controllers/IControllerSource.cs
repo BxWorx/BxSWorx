@@ -5,5 +5,6 @@ namespace SAPGUI.API
 		{
 			void	GetConnection	(IDTOConnection	dtoConnection);
 			//...................................................
+			void	Save();
 		}
 }

@@ -5,6 +5,7 @@ using System.Data;
 //.........................................................
 using SAPGUI.COM.DL;
 using SAPGUI.USR.DL;
+using SAPGUI.USR;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
 {
@@ -75,11 +76,9 @@ namespace zBxS_SAPGUI_UT
 				{
 					int					ln_Cnt;
 					//...............................................
-					var					lo_Parser		= new Parser(this._Ref);
-					var					lo_Schema		= new Schema(this._Ref);
-					var					lo_DLCntlr	= new DLController(_PathTest, lo_Schema, lo_Parser);
-					var					lo_RepX			= new Repository();
-					Repository	lo_Rep			= this.Create_RepData();
+					var						lo_RepX			= new Repository();
+					DLController	lo_DLCntlr	= this.CreateDLCntlr();
+					Repository		lo_Rep			= this.Create_RepData();
 					//...............................................
 					ln_Cnt	= 1;
 					lo_DLCntlr.DeleteSchemaXMLFile();
@@ -98,8 +97,32 @@ namespace zBxS_SAPGUI_UT
 					this.Validate_Rep(lo_RepX, ln_Cnt, "DLCntlr");
 				}
 
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_SapGuiUsr_UsrController()
+				{
+					int					ln_Cnt;
+					//...............................................
+					var						lo_RepX			= new Repository();
+					DLController	lo_DLCntlr	= this.CreateDLCntlr();
+					var						lo_UsrCntlr	= new USRController(lo_DLCntlr, lo_RepX);
+					//...............................................
+					ln_Cnt	= 1;
+
+					Assert.IsNotNull(lo_UsrCntlr	,	$"UsrCntlr: {ln_Cnt}: Instantiate: Error");
+				}
+
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//-------------------------------------------------------------------------------------------
+				private DLController CreateDLCntlr()
+					{
+						var					lo_Parser		= new Parser(this._Ref);
+						var					lo_Schema		= new Schema(this._Ref);
+						//.............................................
+						return	new DLController(_PathTest, lo_Schema, lo_Parser);
+					}
 
 				//-------------------------------------------------------------------------------------------
 				private void Validate_Rep(Repository rep, int cnt, string utName)

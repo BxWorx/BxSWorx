@@ -60,16 +60,6 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository GetRepository()
-					{
-						var lo_Rep	= new Repository();
-						//.............................................
-						this.LoadRepository(lo_Rep);
-						//.............................................
-						return	lo_Rep;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void LoadRepository(Repository repository)
 					{
 						this.LoadSchema();
@@ -104,7 +94,6 @@ namespace SAPGUI.USR.DL
 								using (var SW = new StreamWriter(this._DSFullName))
 									{
 										this._DS.WriteXml(SW);
-										//SW.Close();
 									}
 							}
 						catch (Exception)
@@ -139,7 +128,6 @@ namespace SAPGUI.USR.DL
 								using (var SW = new StreamWriter(this._SchemaFullName))
 									{
 										this._DS.WriteXmlSchema(SW);
-										//SW.Close();
 									}
 							}
 					}

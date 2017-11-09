@@ -4,7 +4,6 @@ namespace SAPGUI.API
 {
 	internal class Controller : IController
 		{
-
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -26,13 +25,12 @@ namespace SAPGUI.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOConnection	CreateConnection(Guid connectionID	= default(Guid))
+				public IDTOConnection	CreateConnection(Guid connectionID = default(Guid))
 					{
 						Guid lc_ID	= connectionID == default(Guid) ? Guid.Empty : connectionID;
-						var lo_DTO	= new DTOConnection
-							{	ID = lc_ID };
-
-						return	lo_DTO;
+						//.............................................
+						return	new DTOConnection
+													{	ID = lc_ID };
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -47,6 +45,12 @@ namespace SAPGUI.API
 				public void GetConnection(IDTOConnection dtoConnection)
 					{
 						this._SrceCntlr.GetConnection(dtoConnection);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Save()
+					{
+						this._SrceCntlr.Save();
 					}
 
 			#endregion
