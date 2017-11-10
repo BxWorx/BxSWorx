@@ -9,7 +9,6 @@ namespace SAPGUI.XML
 {
 	internal partial class XMLParse2ReposDTO
 		{
-
 			#region "Declarations"
 
 				private const string cz_TagName			= "name";
@@ -25,12 +24,11 @@ namespace SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository Load(string	fullName,	bool onlySAPGUI	= true)
+				internal void Load(Repository repository, string	fullName,	bool onlySAPGUI	= true)
 					{
-						var	lo_Repos	= new Repository();
 						//.............................................
 						XmlDocument XmlDoc	= this.LoadXMLDoc(fullName);
-						if (XmlDoc == null)		return	lo_Repos;
+						if (XmlDoc == null)		return;
 						//.............................................
 
 						//.............................................
@@ -59,7 +57,7 @@ namespace SAPGUI.XML
 										Mode				= lo_Elem.GetAttribute("mode")									,
 										Description	= lo_Elem.GetAttribute(cz_TagDesc)								};
 								//................................................
-								lo_Repos.Services.Add(lo_DTO.UUID, lo_DTO);
+								repository.Services.Add(lo_DTO.UUID, lo_DTO);
 							}
 
 						//.............................................
@@ -77,7 +75,7 @@ namespace SAPGUI.XML
 												Port				= lo_MsgSvr.GetAttribute("port")			,
 												Description	= lo_MsgSvr.GetAttribute(cz_TagDesc)		};
 
-										lo_Repos.MsgServers.Add(lo_DTO.UUID, lo_DTO);
+										repository.MsgServers.Add(lo_DTO.UUID, lo_DTO);
 									}
 							}
 
@@ -91,7 +89,7 @@ namespace SAPGUI.XML
 								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName(cz_TagNode))
 									{
 										DTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
-										foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_Node, true))
+										foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(repository, lo_Node, true))
 											{
 												lo_WSNode.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
 											}
@@ -100,19 +98,17 @@ namespace SAPGUI.XML
 											lo_WSDTO.Nodes.Add(lo_WSNode.UUID, lo_WSNode);
 									}
 								//.........................................
-								foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(lo_Repos, lo_WrkSpace, false))
+								foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(repository, lo_WrkSpace, false))
 									{
 										lo_WSDTO.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
 									}
 								//...........................................
 								if (lo_WSDTO.Nodes.Count > 0 || lo_WSDTO.Items.Count > 0)
-									lo_Repos.WorkSpaces.Add(lo_WSDTO.UUID, lo_WSDTO);
+									repository.WorkSpaces.Add(lo_WSDTO.UUID, lo_WSDTO);
 							}
 
 						//.............................................
-						this.Load_XML_Cleanup(lo_Repos);
-
-						return	lo_Repos;
+						this.Load_XML_Cleanup(repository);
 					}
 
 			#endregion
@@ -120,6 +116,7 @@ namespace SAPGUI.XML
 			//===========================================================================================
 			#region "Methods: Private"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private Guid ParseGuid(string guid)
 					{
 						Guid	lg_Guid;

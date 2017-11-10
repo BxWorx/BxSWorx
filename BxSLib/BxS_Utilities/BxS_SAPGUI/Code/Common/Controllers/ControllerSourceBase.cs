@@ -29,7 +29,7 @@ namespace SAPGUI.API
 											=> this._Repos.LoadConnectionDTO(dtoConnection);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	abstract void Save();
+				public virtual void Save()	{ }
 
 		#endregion
 

@@ -1,37 +1,37 @@
 <SAPGUI_USR_Repository>
   <Service>
-    <UUID>15972ae7-2e61-4a90-a4d4-6a427924a58a</UUID>
+    <UUID>762cadf1-446c-4c8b-9a15-9a802df26513</UUID>
     <Name>NameS</Name>
-    <MSID>0880df12-3acf-41c5-b9b6-aac92f2980e7</MSID>
+    <MSID>7c6e2e87-3d9d-401f-a075-b52e6c701d9f</MSID>
   </Service>
   <MsgServer>
-    <UUID>0880df12-3acf-41c5-b9b6-aac92f2980e7</UUID>
+    <UUID>7c6e2e87-3d9d-401f-a075-b52e6c701d9f</UUID>
     <Name>name1</Name>
     <Description>desc1</Description>
     <Host>host1</Host>
     <Port>port1</Port>
   </MsgServer>
   <Workspace>
-    <UUID>aca3a174-d848-44b8-ab7f-8727b75ea984</UUID>
+    <UUID>e23a500f-b29e-4d96-a1cb-5e1a236a025f</UUID>
     <Description>DescWS</Description>
     <SequenceNo>1</SequenceNo>
   </Workspace>
   <WorkspaceNode>
-    <ParentID>aca3a174-d848-44b8-ab7f-8727b75ea984</ParentID>
-    <UUID>a2263bd8-7dcb-4575-bfe2-ef5fed650971</UUID>
+    <ParentID>e23a500f-b29e-4d96-a1cb-5e1a236a025f</ParentID>
+    <UUID>f900f824-e05a-4ff9-a248-cc5f39ebc7cb</UUID>
     <Description>DescNode</Description>
   </WorkspaceNode>
   <WorkspaceItem>
-    <ParentID>a2263bd8-7dcb-4575-bfe2-ef5fed650971</ParentID>
-    <UUID>9e0092b7-7b1e-4db9-9985-4f9fd8cb0e3a</UUID>
-    <ServiceID>15972ae7-2e61-4a90-a4d4-6a427924a58a</ServiceID>
-    <WSID>aca3a174-d848-44b8-ab7f-8727b75ea984</WSID>
+    <ParentID>f900f824-e05a-4ff9-a248-cc5f39ebc7cb</ParentID>
+    <UUID>f2ee7fda-a57b-41d0-b357-4c79595ffffe</UUID>
+    <ServiceID>762cadf1-446c-4c8b-9a15-9a802df26513</ServiceID>
+    <WSID>e23a500f-b29e-4d96-a1cb-5e1a236a025f</WSID>
     <TypeWSItem>false</TypeWSItem>
   </WorkspaceItem>
   <WorkspaceItem>
-    <ParentID>aca3a174-d848-44b8-ab7f-8727b75ea984</ParentID>
-    <UUID>8c16608d-6a1e-44d5-8076-863237092061</UUID>
-    <ServiceID>15972ae7-2e61-4a90-a4d4-6a427924a58a</ServiceID>
+    <ParentID>e23a500f-b29e-4d96-a1cb-5e1a236a025f</ParentID>
+    <UUID>91c2a858-2503-4f21-a839-6267be96c08b</UUID>
+    <ServiceID>762cadf1-446c-4c8b-9a15-9a802df26513</ServiceID>
     <WSID>00000000-0000-0000-0000-000000000000</WSID>
     <TypeWSItem>true</TypeWSItem>
   </WorkspaceItem>

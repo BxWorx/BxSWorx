@@ -10,14 +10,23 @@ namespace SAPGUI.COM.DL
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository()
+				internal Repository(bool isReadOnly = true)
 					{
 						this.MsgServers		= new Dictionary<	Guid, DTOMsgServer > ();
 						this.Services			= new Dictionary<	Guid, DTOService	 > ();
 						this.WorkSpaces		= new Dictionary<	Guid, DTOWorkspace > ();
+
+						this._IsReadOnly	= isReadOnly;
 						//.............................................
 						this.IsDirty		= false;
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private	readonly bool		_IsReadOnly;
 
 			#endregion
 
@@ -111,6 +120,8 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddUpdateMsgServer(DTOMsgServer dto)
 					{
+						if (this._IsReadOnly)	return;
+						//.............................................
 						this.MsgServers.Add(dto.UUID, dto);
 						this.IsDirty	= true;
 					}

@@ -14,15 +14,23 @@ namespace SAPGUI.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static IController CreateControllerForSAPXML(string fullPath, bool onlySAPGUI = true)
 					{
-						IControllerSource XMLCntlr	= new XMLController(fullPath, onlySAPGUI);
+						var					lo_Repos		= new Repository(true);
+						var					lo_Parser		=	new XMLParse2ReposDTO();
+						lo_Parser.Load(lo_Repos, fullPath, onlySAPGUI);
+						//.............................................
+						IControllerSource XMLCntlr	= new XMLController(lo_Repos);
 						IController				Cntlr			= new Controller(XMLCntlr);
 						return	Cntlr;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IController CreateControllerForSAPINI(string fullPath, bool onlySAPGUI)
+				public static IController CreateControllerForSAPINI(string fullPath)
 					{
-						IControllerSource INICntlr	= new INIController(fullPath, onlySAPGUI);
+						var					lo_Repos		= new Repository(true);
+						var					lo_Parser		=	new INIParse2ReposDTO();
+						lo_Parser.Load(lo_Repos, fullPath);
+						//.............................................
+						IControllerSource INICntlr	= new INIController(lo_Repos);
 						IController				Cntlr			= new Controller(INICntlr);
 						return	Cntlr;
 					}
@@ -34,7 +42,7 @@ namespace SAPGUI.API
 						var lo_Parser		= new Parser(lo_Ref);
 						var lo_Schema		= new Schema(lo_Ref);
 						var lo_DLCntlr	= new DLController(fullPath, lo_Schema, lo_Parser);
-						var lo_Repos		= new Repository();
+						var lo_Repos		= new Repository(false);
 						//.............................................
 						IControllerSource USRCntlr	= new USRController(lo_DLCntlr, lo_Repos);
 						IController				Cntlr			= new Controller(USRCntlr);

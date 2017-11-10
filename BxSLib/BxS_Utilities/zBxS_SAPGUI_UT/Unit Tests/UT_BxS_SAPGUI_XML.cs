@@ -20,13 +20,52 @@ namespace zBxS_SAPGUI_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
+			public void UT_SapGuiXML_Parser()
+				{
+					int					ln_Cnt;
+					Repository	lo_Repos;
+					var					lo_Parser	= new XMLParse2ReposDTO();
+					//...............................................
+					ln_Cnt		= 1;
+					lo_Repos	= new Repository();
+					lo_Parser.Load(lo_Repos, "XXXX");
+					Assert.AreEqual	(00, lo_Repos.MsgServers.Count	, $"Error: {ln_Cnt}: MsgSrvs: Error");
+					Assert.AreEqual	(00, lo_Repos.Services.Count		, $"Error: {ln_Cnt}: Services: Error");
+					Assert.AreEqual	(00, lo_Repos.WorkSpaces.Count	, $"Error: {ln_Cnt}: Workspaces: Error");
+					//...............................................
+					ln_Cnt = 2;
+					lo_Repos	= new Repository();
+					lo_Parser.Load(lo_Repos, cc_FullName);
+					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
+					Assert.AreEqual(36, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
+					Assert.AreEqual(04, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
+					//...............................................
+					ln_Cnt = 3;
+					lo_Repos	= new Repository();
+					lo_Parser.Load(lo_Repos, cc_FullName, true);
+					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
+					Assert.AreEqual(36, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
+					Assert.AreEqual(04, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
+					//...............................................
+					ln_Cnt = 4;
+					lo_Repos	= new Repository();
+					lo_Parser.Load(lo_Repos, cc_FullName, false);
+					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
+					Assert.AreEqual(47, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
+					Assert.AreEqual(05, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
+				}
+
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
 			public void UT_SapGuiXML_Controller()
 				{
 					int								ln_Cnt;
-					IControllerSource	lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
+					var								lo_Parser	= new XMLParse2ReposDTO();
+					var								lo_Repos	= new Repository();
+					IControllerSource	lo_Cntlr	= new XMLController(lo_Repos) ;
 					//...............................................
-					lo_Cntlr		= new XMLController(cc_FullName, true);
+					lo_Parser.Load(lo_Repos, cc_FullName);
 					//...............................................
 					ln_Cnt			= 1;
 					lo_DTOConn	= new DTOConnection	{	ID = default(Guid) };
@@ -40,38 +79,5 @@ namespace zBxS_SAPGUI_UT
 					Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
 				}
 
-			//-------------------------------------------------------------------------------------------
-			[TestMethod]
-			public void UT_SapGuiXML_Parser()
-				{
-					int						ln_Cnt;
-					Repository		lo_Repos;
-					//...............................................
-					var	lo_Parser		= new XMLParse2ReposDTO();
-					//...............................................
-					lo_Repos	= lo_Parser.Load("XXXX");
-					ln_Cnt		= 1;
-					Assert.AreEqual	(00, lo_Repos.MsgServers.Count	, $"Error: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual	(00, lo_Repos.Services.Count		, $"Error: {ln_Cnt}: Services: Error");
-					Assert.AreEqual	(00, lo_Repos.WorkSpaces.Count	, $"Error: {ln_Cnt}: Workspaces: Error");
-					//...............................................
-					lo_Repos	= lo_Parser.Load(cc_FullName);
-					ln_Cnt = 2;
-					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual(36, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
-					Assert.AreEqual(04, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
-					//...............................................
-					lo_Repos	= lo_Parser.Load(cc_FullName, true);
-					ln_Cnt = 3;
-					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual(36, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
-					Assert.AreEqual(04, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
-					//...............................................
-					lo_Repos	= lo_Parser.Load(cc_FullName, false);
-					ln_Cnt = 4;
-					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual(47, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
-					Assert.AreEqual(05, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
-				}
 		}
 }

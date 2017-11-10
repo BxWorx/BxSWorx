@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 //.........................................................
-using SAPGUI.XML;
 using SAPGUI.API;
 //••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
@@ -14,35 +13,56 @@ namespace zBxS_SAPGUI_UT
 			private const string	cz_TestConnID	=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
 
 			//...................................................
-			private	static readonly string	cc_Path			= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
-			private	static readonly string	cc_FullName	= Path.Combine(cc_Path,	cz_TestDir, cz_FileName);
+			private	static readonly string	cc_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
+			private	static readonly string	cc_FullPath			= Path.Combine(cc_Path,	cz_TestDir);
+			private	static readonly string	cc_XMLFullName	= Path.Combine(cc_FullPath, cz_FileName);
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SapGui_Controller()
+			public void UT_SapGui_ControllerXML()
 				{
 					int								ln_Cnt;
 					IController				lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
 					//...............................................
-					lo_Cntlr	= ControllerFactory.CreateControllerForSAPXML(cc_FullName, true);
+					lo_Cntlr	= ControllerFactory.CreateControllerForSAPXML(cc_XMLFullName, true);
 					//...............................................
 					ln_Cnt			= 1;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
 					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
 					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
-					////...............................................
-					//ln_Cnt			= 2;
-					//lo_DTOConn	= lo_Cntlr.GetConnection(cz_TestConnID);
-					//Assert.AreEqual	(cz_TestConnID			, lo_DTOConn.ID	, $"Cntlr: {ln_Cnt}: Conn: Error");
-					//Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
-					////...............................................
-					//ln_Cnt				= 3;
-					//lo_DTOConn		= lo_Cntlr.CreateConnection(cz_TestConnID);
-					//lo_Cntlr.GetConnection(lo_DTOConn);
-					//Assert.AreEqual	(cz_TestConnID			, lo_DTOConn.ID	,	$"Cntlr: {ln_Cnt}: Conn: Error");
-					//Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
 				}
 
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_SapGui_ControllerINI()
+				{
+					int								ln_Cnt;
+					IController				lo_Cntlr;
+					IDTOConnection		lo_DTOConn;
+					//...............................................
+					lo_Cntlr	= ControllerFactory.CreateControllerForSAPINI(cc_XMLFullName);
+					//...............................................
+					ln_Cnt			= 1;
+					lo_DTOConn	= lo_Cntlr.CreateConnection();
+					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
+					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
+				}
+
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_SapGui_ControllerUsr()
+				{
+					int								ln_Cnt;
+					IController				lo_Cntlr;
+					IDTOConnection		lo_DTOConn;
+					//...............................................
+					lo_Cntlr	= ControllerFactory.CreateControllerForSAPUSR(cc_FullPath);
+					//...............................................
+					ln_Cnt			= 1;
+					lo_DTOConn	= lo_Cntlr.CreateConnection();
+					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
+					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
+				}
 		}
 }

@@ -8,8 +8,8 @@ namespace SAPGUI.XML
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public XMLController(string fullPath, bool onlySAPGUI)
-								: base(new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI))
+				public XMLController(Repository repository)
+								: base(repository)
 					{
 					}
 
@@ -21,12 +21,6 @@ namespace SAPGUI.XML
 
 			//===========================================================================================
 			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public override void Save()
-					{
-					}
-
 			#endregion
 
 		}

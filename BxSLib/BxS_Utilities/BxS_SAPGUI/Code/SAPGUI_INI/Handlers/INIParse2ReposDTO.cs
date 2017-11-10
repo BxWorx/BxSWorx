@@ -1,27 +1,26 @@
-﻿using SAPGUI.API;
-using SAPGUI.COM.DL;
+﻿using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.INI
+namespace SAPGUI.XML
 {
-	internal class INIController : ControllerSourceBase
+	internal partial class INIParse2ReposDTO
 		{
-			#region "Constructors"
+			#region "Declarations"
+			#endregion
+
+			//=============================================================================================
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public INIController(Repository repository)
-								: base(repository)
+				internal void Load(Repository repository, string fullName)
 					{
-						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
+						Repository	z = repository;
+						string			x = fullName;
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Definitions"
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Private"
 			#endregion
 
 		}
