@@ -1,4 +1,4 @@
-﻿using SAPGUI.API;
+﻿using SAPGUI.COM.CNTLR;
 using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
@@ -10,8 +10,7 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public XMLController(Repository repository)
 								: base(repository)
-					{
-					}
+					{	}
 
 			#endregion
 

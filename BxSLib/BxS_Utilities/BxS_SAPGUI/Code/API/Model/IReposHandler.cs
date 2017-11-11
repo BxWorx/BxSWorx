@@ -1,10 +1,16 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace SAPGUI.API
 {
-	internal sealed class DTOWorkspaceItem
+	public interface IReposHandler
 		{
-			internal Guid UUID			{ get; set; }
-			internal Guid ServiceID { get; set; }
+			#region "Properties"
+
+				
+
+
+
+			#endregion
+
 		}
 }

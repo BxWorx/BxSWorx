@@ -1,15 +1,18 @@
 ﻿using System;
+//.........................................................
+using SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API
+namespace SAPGUI.COM.CNTLR
 {
 	internal class Controller : IController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Controller(IControllerSource	controller)
+				public Controller(IControllerSource	controller, bool isReadOnly = true)
 					{
 						this._SrceCntlr		= controller;
+						this.IsReadOnly		= isReadOnly;
 					}
 
 			#endregion
@@ -20,6 +23,14 @@ namespace SAPGUI.API
 				private readonly	IControllerSource	_SrceCntlr;
 
 			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				public bool	IsReadOnly	{ get; }
+
+			#endregion
+
 
 			//===========================================================================================
 			#region "Methods: Exposed"
@@ -51,6 +62,12 @@ namespace SAPGUI.API
 				public void Save()
 					{
 						this._SrceCntlr.Save();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void AddConnection(IDTOConnection dtoConnection)
+					{
+						this._SrceCntlr.AddConnection(dtoConnection);
 					}
 
 			#endregion

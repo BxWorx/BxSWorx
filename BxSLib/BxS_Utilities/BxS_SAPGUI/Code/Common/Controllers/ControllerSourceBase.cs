@@ -1,6 +1,7 @@
 ﻿using SAPGUI.COM.DL;
+using SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API
+namespace SAPGUI.COM.CNTLR
 {
 	internal abstract class ControllerSourceBase : IControllerSource
 		{
@@ -30,6 +31,7 @@ namespace SAPGUI.API
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public virtual void Save()	{ }
+				public virtual void AddConnection(IDTOConnection dtoConnection)	{ }
 
 		#endregion
 

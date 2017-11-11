@@ -10,34 +10,25 @@ namespace SAPGUI.COM.DL
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository(bool isReadOnly = true)
+				internal Repository()
 					{
 						this.MsgServers		= new Dictionary<	Guid, DTOMsgServer > ();
 						this.Services			= new Dictionary<	Guid, DTOService	 > ();
 						this.WorkSpaces		= new Dictionary<	Guid, DTOWorkspace > ();
 
-						this._IsReadOnly	= isReadOnly;
-						//.............................................
-						this.IsDirty		= false;
+						this.IsDirty	= false;
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private	readonly bool		_IsReadOnly;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal Dictionary<Guid, DTOMsgServer>		MsgServers	{ get; private set; }
-				internal Dictionary<Guid, DTOService>			Services		{ get; private set; }
-				internal Dictionary<Guid, DTOWorkspace>		WorkSpaces	{ get; private set; }
+				internal Dictionary<Guid, DTOMsgServer>		MsgServers	{ get; }
+				internal Dictionary<Guid, DTOService>			Services		{ get; }
+				internal Dictionary<Guid, DTOWorkspace>		WorkSpaces	{ get; }
 				//.................................................
-				internal bool	IsDirty	{ get; private set; }
+				internal bool IsDirty		{ get; set;	}
 
 			#endregion
 
@@ -107,23 +98,9 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Clear()
 					{
-						this.Services.Clear();
-						this.MsgServers.Clear();
-						this.WorkSpaces.Clear();
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void AddUpdateMsgServer(DTOMsgServer dto)
-					{
-						if (this._IsReadOnly)	return;
-						//.............................................
-						this.MsgServers.Add(dto.UUID, dto);
-						this.IsDirty	= true;
+						this.Services		.Clear();
+						this.MsgServers	.Clear();
+						this.WorkSpaces	.Clear();
 					}
 
 			#endregion

@@ -1,4 +1,4 @@
-﻿using SAPGUI.API;
+﻿using SAPGUI.COM.CNTLR;
 using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.INI

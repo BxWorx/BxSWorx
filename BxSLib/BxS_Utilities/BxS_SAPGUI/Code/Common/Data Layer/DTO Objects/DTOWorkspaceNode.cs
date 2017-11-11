@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class DTOWorkspaceNode
+	internal sealed class DTOWorkspaceNode
 		{
 			#region "Constructors"
 

@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class DTOService
+	internal sealed class DTOService
 		{
 			internal Guid		UUID				{ get; set; }
 			//...................................................

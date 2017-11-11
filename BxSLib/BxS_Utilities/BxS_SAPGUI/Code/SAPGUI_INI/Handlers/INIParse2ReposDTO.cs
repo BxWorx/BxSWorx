@@ -4,10 +4,6 @@ namespace SAPGUI.XML
 {
 	internal partial class INIParse2ReposDTO
 		{
-			#region "Declarations"
-			#endregion
-
-			//=============================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -17,10 +13,6 @@ namespace SAPGUI.XML
 						string			x = fullName;
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 			#endregion
 
 		}
