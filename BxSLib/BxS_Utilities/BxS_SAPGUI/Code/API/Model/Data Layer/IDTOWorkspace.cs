@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API
+namespace SAPGUI.API.DL
 {
-	public interface IReposHandler
+	public interface IDTOWorkspace
 		{
 			#region "Properties"
 
-				
-
-
+				Guid		UUID				{ get; set; }
+				string Description	{ get; set; }
+				//...................................................
+				Dictionary<Guid, IDTOWorkspaceNode>	Nodes { get; set; }
+				Dictionary<Guid, IDTOWorkspaceItem> Items { get; set; }
 
 			#endregion
-
 		}
 }

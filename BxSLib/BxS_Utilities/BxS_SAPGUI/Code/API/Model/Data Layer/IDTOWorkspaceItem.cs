@@ -1,12 +1,10 @@
 ﻿using System;
-//.........................................................
-using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace SAPGUI.API.DL
 {
-	internal sealed class DTOWorkspaceItem :IDTOWorkspaceItem
+	public interface IDTOWorkspaceItem
 		{
-			public Guid UUID				{ get; set; }
-			public Guid ServiceID		{ get; set; }
+			Guid UUID			{ get; set; }
+			Guid ServiceID { get; set; }
 		}
 }

@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 //.........................................................
 using SAPGUI.COM.DL;
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DL
 {
@@ -11,11 +12,11 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Private: Workspaces"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void WorkspaceDT2DTO(DataTable dtWorkspaces, Dictionary<Guid, DTOWorkspace> dto)
+				private void WorkspaceDT2DTO(DataTable dtWorkspaces, Dictionary<Guid, IDTOWorkspace> dto)
 					{
 						foreach (DataRow lo_Row in dtWorkspaces.Rows)
 							{
-								var lo_DTO = new DTOWorkspace
+								IDTOWorkspace lo_DTO = new DTOWorkspace
 									{
 										UUID				= (Guid)	lo_Row[this._Ref.UUID],
 										Description	=					lo_Row[this._Ref.Description]	.ToString()	,
@@ -26,12 +27,12 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void WorkspaceDTO2DT(Dictionary<Guid, DTOWorkspace> dto	,	DataTable dtWorkspaces
-																																				,	DataTable dtNodes
-																																				,	DataTable dtItems				)
+				private void WorkspaceDTO2DT(Dictionary<Guid, IDTOWorkspace> dto	,	DataTable dtWorkspaces
+																																					,	DataTable dtNodes
+																																					,	DataTable dtItems				)
 					{
 						int	ln_SeqNo	= 0;
-						foreach (KeyValuePair<Guid, DTOWorkspace> lo_Entry in dto)
+						foreach (KeyValuePair<Guid, IDTOWorkspace> lo_Entry in dto)
 							{
 								ln_SeqNo++;
 								DataRow lo_Row	= dtWorkspaces.NewRow();

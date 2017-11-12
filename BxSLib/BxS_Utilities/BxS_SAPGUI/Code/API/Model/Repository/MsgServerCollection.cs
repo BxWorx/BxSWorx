@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 //.........................................................
-using SAPGUI.API;
+using SAPGUI.API.DL;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.CNTLR
+namespace SAPGUI.API.Repository
 {
-	internal class Controller : IController
+	internal class MsgServerCollection
 		{
-			#region "Constructors"
+			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Controller(IControllerSource	controller, bool isReadOnly = true)
+				internal MsgServerCollection(Dictionary<Guid, IDTOMsgServer>	msgServers)
 					{
-						this._SrceCntlr		= controller;
-						this.IsReadOnly		= isReadOnly;
+						this.MsgServers	= msgServers;
+						//.............................................
+						this.IsDirty	= false;
 					}
 
 			#endregion
@@ -20,54 +24,63 @@ namespace SAPGUI.COM.CNTLR
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly IControllerSource	_SrceCntlr;
+				internal Dictionary<Guid, IDTOMsgServer>	MsgServers	{ get; }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Proprties"
 
-				public bool	IsReadOnly	{ get; }
+				internal bool IsDirty { get; private set; }
 
 			#endregion
 
-
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: Message Server"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOConnection	CreateConnection(Guid connectionID = default(Guid))
+				public IDTOMsgServer	CreateMsgServer()		{	return	new DTOMsgServer();			}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IDTOMsgServer GetMsgServer(Guid ID)
 					{
-						Guid lc_ID	= connectionID == default(Guid) ? Guid.Empty : connectionID;
+						IDTOMsgServer	lo_DTO	= this.CreateMsgServer();
+						this.MsgServers.TryGetValue(ID, out lo_DTO);
+						return	lo_DTO;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool AddUpdateMsgServer(IDTOMsgServer DTO)
+					{
+						bool lb_Ret	= false;
 						//.............................................
-						return	new DTOConnection
-													{	ID = lc_ID };
+						if (this.MsgServers.ContainsKey(DTO.UUID))
+							{
+								this.MsgServers[DTO.UUID]	= DTO;
+								lb_Ret	= true;
+							}
+						else
+							{
+								lb_Ret	= this.MsgServers.TryAdd(DTO.UUID, DTO);
+							}
+
+						if (lb_Ret)		this.IsDirty	= true;
+						//.............................................
+						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOConnection GetConnection(Guid connectionID)
+				public bool RemoveMsgServer(Guid ID)
 					{
-						IDTOConnection DTOConn	= this.CreateConnection(connectionID);
-						this.GetConnection(DTOConn);
-						return	DTOConn;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void GetConnection(IDTOConnection dtoConnection)
-					{
-						this._SrceCntlr.GetConnection(dtoConnection);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Save()
-					{
-						this._SrceCntlr.Save();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddConnection(IDTOConnection dtoConnection)
-					{
-						this._SrceCntlr.AddConnection(dtoConnection);
+						bool lb_Ret	= false;
+						//.............................................
+						if (this.MsgServerInUse(ID))
+							{
+								lb_Ret	= this.MsgServers.Remove(ID);
+								if (lb_Ret)	this.IsDirty	= true;
+							}
+						//.............................................
+						return	lb_Ret;
 					}
 
 			#endregion

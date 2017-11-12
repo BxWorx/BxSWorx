@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+//.........................................................
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal sealed class DTOWorkspaceNode
+	internal sealed class DTOWorkspaceNode : IDTOWorkspaceNode
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DTOWorkspaceNode()
 					{
-						this.Items	= new Dictionary<Guid, DTOWorkspaceItem>();
+						this.Items	= new Dictionary<Guid, IDTOWorkspaceItem>();
 					}
 
 			#endregion
@@ -18,10 +20,10 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				internal Guid		UUID				{ get; set; }
-				internal string Description	{ get; set; }
+				public Guid		UUID				{ get; set; }
+				public string	Description	{ get; set; }
 				//...................................................
-				internal Dictionary<Guid, DTOWorkspaceItem>	Items { get; set; }
+				public Dictionary<Guid, IDTOWorkspaceItem>	Items	{ get; set; }
 
 			#endregion
 		}

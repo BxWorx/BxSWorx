@@ -10,15 +10,15 @@ namespace SAPGUI.COM.CNTLR
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected ControllerSourceBase(Repository repository)
 					{
-						this._Repos = repository;
+						this.Repository = repository;
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Declarations"
+			#region "Properties"
 
-				protected readonly	Repository	_Repos;
+				public Repository		Repository { get; }
 
 			#endregion
 
@@ -27,7 +27,7 @@ namespace SAPGUI.COM.CNTLR
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void GetConnection(IDTOConnection dtoConnection)
-											=> this._Repos.LoadConnectionDTO(dtoConnection);
+											=> this.Repository.LoadConnectionDTO(dtoConnection);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public virtual void Save()	{ }

@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 //.........................................................
 using SAPGUI.COM.DL;
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DL
 {
@@ -11,11 +12,11 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Private: Msg Servers"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void MsgServersDT2DTO(DataTable dtMsgServers, Dictionary<Guid, DTOMsgServer> dto)
+				private void MsgServersDT2DTO(DataTable dtMsgServers, Dictionary<Guid, IDTOMsgServer> dto)
 					{
 						foreach (DataRow lo_Row in dtMsgServers.Rows)
 							{
-								var lo_DTO = new DTOMsgServer
+								IDTOMsgServer lo_DTO = new DTOMsgServer
 									{
 										UUID				= (Guid)	lo_Row[this._Ref.UUID]										,
 
@@ -30,9 +31,9 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void MsgServersDTO2DT(Dictionary<Guid, DTOMsgServer> dto, DataTable dtMsgServers)
+				private void MsgServersDTO2DT(Dictionary<Guid, IDTOMsgServer> dto, DataTable dtMsgServers)
 					{
-						foreach (KeyValuePair<Guid, DTOMsgServer> lo_Entry in dto)
+						foreach (KeyValuePair<Guid, IDTOMsgServer> lo_Entry in dto)
 							{
 								DataRow lo_Row	= dtMsgServers.NewRow();
 								//.............................................

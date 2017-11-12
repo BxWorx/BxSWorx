@@ -15,7 +15,7 @@ namespace SAPGUI.USR
 					{
 						this._DLCntlr	= dlCntlr;
 						//.............................................
-						this._DLCntlr.LoadRepository(this._Repos);
+						this._DLCntlr.LoadRepository(this.Repository);
 					}
 
 			#endregion
@@ -33,14 +33,14 @@ namespace SAPGUI.USR
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override void Save()
 					{
-						if (this._Repos.IsDirty)
-							this._DLCntlr.Save(this._Repos);
+						if (this.Repository.IsDirty)
+							this._DLCntlr.Save(this.Repository);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override void AddConnection(IDTOConnection dtoConnection)
 					{
-							this._DLCntlr.Save(this._Repos);
+							this._DLCntlr.Save(this.Repository);
 					}
 
 			#endregion

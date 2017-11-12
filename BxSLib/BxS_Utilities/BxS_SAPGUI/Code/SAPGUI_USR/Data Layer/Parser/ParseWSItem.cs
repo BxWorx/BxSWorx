@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 //.........................................................
 using SAPGUI.COM.DL;
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DL
 {
@@ -11,16 +12,16 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Private: Workspace Items"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void WSItemDT2DTO(DataTable dtItems, Dictionary<Guid, DTOWorkspace> dto)
+				private void WSItemDT2DTO(DataTable dtItems, Dictionary<Guid, IDTOWorkspace> dto)
 					{
 						foreach (DataRow lo_Row in dtItems.Rows)
 							{
 								bool lb_IsItem	= (bool)	lo_Row[this._Ref.TypeWSItem];
 								Guid lg_WSID		= lb_IsItem	? (Guid)lo_Row[this._Ref.ParentID] : (Guid)lo_Row[this._Ref.WorkspaceID]	;
 
-								if (dto.TryGetValue(lg_WSID, out DTOWorkspace lo_WS))
+								if (dto.TryGetValue(lg_WSID, out IDTOWorkspace lo_WS))
 									{
-										var lo_DTO = new DTOWorkspaceItem
+										IDTOWorkspaceItem lo_DTO = new DTOWorkspaceItem
 											{
 												UUID				= (Guid)	lo_Row[this._Ref.UUID],
 												ServiceID		= (Guid)	lo_Row[this._Ref.ServiceID]
@@ -34,7 +35,7 @@ namespace SAPGUI.USR.DL
 											{
 												var lc_NdID	= (Guid)lo_Row[this._Ref.ParentID];
 
-												if (lo_WS.Nodes.TryGetValue(lc_NdID, out DTOWorkspaceNode lo_ND))
+												if (lo_WS.Nodes.TryGetValue(lc_NdID, out IDTOWorkspaceNode lo_ND))
 													{
 														lo_ND.Items.Add(lo_DTO.UUID, lo_DTO);
 													}
@@ -44,9 +45,9 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void WSItemDTO2DT(Guid parentID, Dictionary<Guid, DTOWorkspaceItem> dto, DataTable dtItems, Guid wsID	= default(Guid))
+				private void WSItemDTO2DT(Guid parentID, Dictionary<Guid, IDTOWorkspaceItem> dto, DataTable dtItems, Guid wsID	= default(Guid))
 					{
-						foreach (KeyValuePair<Guid, DTOWorkspaceItem> lo_Entry in dto)
+						foreach (KeyValuePair<Guid, IDTOWorkspaceItem> lo_Entry in dto)
 							{
 								bool		lb_WSItem	= false;
 								DataRow lo_Row		= dtItems.NewRow();

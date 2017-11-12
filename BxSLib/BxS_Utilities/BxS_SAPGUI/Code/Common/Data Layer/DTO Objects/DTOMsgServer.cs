@@ -1,13 +1,15 @@
 ﻿using System;
+//.........................................................
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal sealed class DTOMsgServer
+	internal sealed class DTOMsgServer : IDTOMsgServer
 		{
-			internal Guid		UUID				{ get; set; }
-			internal string Name				{ get; set; }
-			internal string Description	{ get; set; }
-			internal string Host				{ get; set; }
-			internal string Port				{ get; set; }
+			public Guid		UUID				{ get; set; }
+			public string Name				{ get; set; }
+			public string Description	{ get; set; }
+			public string Host				{ get; set; }
+			public string Port				{ get; set; }
 		}
 }

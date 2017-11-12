@@ -1,22 +1,24 @@
 ﻿using System;
+//.........................................................
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal sealed class DTOService
+	internal sealed class DTOService : IDTOService
 		{
-			internal Guid		UUID				{ get; set; }
+			public Guid		UUID				{ get; set; }
 			//...................................................
-			internal string Name				{ get; set; }
-			internal string Description	{ get; set; }
-			internal string SystemID		{ get; set; }
-			internal string Type				{ get; set; }
-			internal string Server			{ get; set; }
-			internal string SNCName			{ get; set; }
-			internal string SAPCPG			{ get; set; }
-			internal string DCPG				{ get; set; }
-			internal string SNCOp				{ get; set; }
-			internal string Mode				{ get; set; }
+			public string Name				{ get; set; }
+			public string Description	{ get; set; }
+			public string SystemID		{ get; set; }
+			public string Type				{ get; set; }
+			public string Server			{ get; set; }
+			public string SNCName			{ get; set; }
+			public string SAPCPG			{ get; set; }
+			public string DCPG				{ get; set; }
+			public string SNCOp				{ get; set; }
+			public string Mode				{ get; set; }
 			//...................................................
-			internal Guid		MSID				{ get; set; }
+			public Guid		MSID				{ get; set; }
 		}
 }

@@ -1,12 +1,18 @@
 ﻿using System;
-//.........................................................
-using SAPGUI.API.DL;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace SAPGUI.API.DL
 {
-	internal sealed class DTOWorkspaceItem :IDTOWorkspaceItem
+	public interface IDTOWorkspaceNode
 		{
-			public Guid UUID				{ get; set; }
-			public Guid ServiceID		{ get; set; }
+			#region "Properties"
+
+				Guid		UUID				{ get; set; }
+				string	Description	{ get; set; }
+				//...................................................
+				Dictionary<Guid, IDTOWorkspaceItem>	Items { get; set; }
+
+			#endregion
+
 		}
 }

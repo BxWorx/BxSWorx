@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 //.........................................................
 using SAPGUI.COM.DL;
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -68,7 +69,7 @@ namespace SAPGUI.XML
 								Guid lg_Key	= this.ParseGuid(lo_MsgSvr.GetAttribute(cz_TagUuid));
 								if (lg_Key	!= Guid.Empty)
 									{
-										var lo_DTO = new DTOMsgServer
+										IDTOMsgServer lo_DTO = new DTOMsgServer
 											{	UUID				= lg_Key															,
 												Name				= lo_MsgSvr.GetAttribute(cz_TagName)	,
 												Host				= lo_MsgSvr.GetAttribute("host")			,
@@ -247,7 +248,7 @@ namespace SAPGUI.XML
 						lt_Use	= this.UsedMsgServers(repository);
 						lt_Rem.Clear();
 						//.............................................
-						foreach (KeyValuePair<Guid, DTOMsgServer> lo_Msg in repository.MsgServers)
+						foreach (KeyValuePair<Guid, IDTOMsgServer> lo_Msg in repository.MsgServers)
 							{
 								if (!lt_Use.Contains(lo_Msg.Key))
 									lt_Rem.Add(lo_Msg.Key);

@@ -1,24 +1,17 @@
-﻿using SAPGUI.API;
-using SAPGUI.COM.DL;
+﻿using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.CNTLR
+namespace SAPGUI.API
 {
-	internal interface IControllerSource
+	public interface IRepository
 		{
 
 			#region "Properties"
-
-				Repository Repository { get; }
-
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void	GetConnection	(IDTOConnection	dtoConnection);
-				//...................................................
-				void	Save();
-				void  AddConnection(IDTOConnection dtoConnection);
+				bool AddUpdateMsgServer(IDTOMsgServer DTO);
 
 			#endregion
 

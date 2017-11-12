@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 //.........................................................
 using SAPGUI.API;
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
@@ -9,12 +10,12 @@ namespace SAPGUI.COM.DL
 		{
 			#region "Constructor"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Repository()
 					{
-						this.MsgServers		= new Dictionary<	Guid, DTOMsgServer > ();
-						this.Services			= new Dictionary<	Guid, DTOService	 > ();
-						this.WorkSpaces		= new Dictionary<	Guid, DTOWorkspace > ();
+						this.MsgServers		= new Dictionary<	Guid, IDTOMsgServer > ();
+						this.Services			= new Dictionary<	Guid, IDTOService		> ();
+						this.WorkSpaces		= new Dictionary<	Guid, IDTOWorkspace > ();
 
 						this.IsDirty	= false;
 					}
@@ -24,9 +25,9 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				internal Dictionary<Guid, DTOMsgServer>		MsgServers	{ get; }
-				internal Dictionary<Guid, DTOService>			Services		{ get; }
-				internal Dictionary<Guid, DTOWorkspace>		WorkSpaces	{ get; }
+				internal Dictionary<Guid, IDTOMsgServer>	MsgServers	{ get; }
+				internal Dictionary<Guid, IDTOService>		Services		{ get; }
+				internal Dictionary<Guid, IDTOWorkspace>	WorkSpaces	{ get; }
 				//.................................................
 				internal bool IsDirty		{ get; set;	}
 
@@ -35,10 +36,10 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void LoadConnectionDTO(IDTOConnection dto)
 					{
-						var	dtoSrv	= new DTOService();
+						IDTOService	dtoSrv	= new DTOService();
 						//.............................................
 						if (!this.Services.TryGetValue(dto.ID, out dtoSrv))
 							{
@@ -46,7 +47,7 @@ namespace SAPGUI.COM.DL
 								return;
 							}
 						//.............................................
-						if (this.MsgServers.TryGetValue(dtoSrv.MSID, out DTOMsgServer dtoMsg))
+						if (this.MsgServers.TryGetValue(dtoSrv.MSID, out IDTOMsgServer dtoMsg))
 							{
 								dto.MSID						= dtoMsg.UUID;
 								dto.MSName					= dtoMsg.Name;
@@ -95,7 +96,7 @@ namespace SAPGUI.COM.DL
 
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Clear()
 					{
 						this.Services		.Clear();
