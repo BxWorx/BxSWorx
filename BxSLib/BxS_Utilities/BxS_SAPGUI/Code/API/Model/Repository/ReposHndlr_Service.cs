@@ -1,67 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 //.........................................................
 using SAPGUI.API.DL;
-using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API.Repository
+namespace SAPGUI.COM.DL
 {
-	internal class MsgServerCollection
+	internal partial class RepositoryHandler
 		{
-			#region "Constructor"
+			#region "Methods: Exposed: Service"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal MsgServerCollection(Dictionary<Guid, IDTOMsgServer>	msgServers)
+				public IDTOService CreateService()
 					{
-						this.MsgServers	= msgServers;
-						//.............................................
-						this.IsDirty	= false;
+						return	new DTOService();
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				internal Dictionary<Guid, IDTOMsgServer>	MsgServers	{ get; }
-
-			#endregion
-
-			//===========================================================================================
-			#region "Proprties"
-
-				internal bool IsDirty { get; private set; }
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: Message Server"
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOMsgServer	CreateMsgServer()		{	return	new DTOMsgServer();			}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOMsgServer GetMsgServer(Guid ID)
+				public IDTOService GetService(Guid ID)
 					{
-						IDTOMsgServer	lo_DTO	= this.CreateMsgServer();
-						this.MsgServers.TryGetValue(ID, out lo_DTO);
+						IDTOService	lo_DTO	= this.CreateService();
+						this._Repository.Services.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateMsgServer(IDTOMsgServer DTO)
+				public bool AddUpdateService(IDTOService DTO)
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this.MsgServers.ContainsKey(DTO.UUID))
+						if (this._Repository.Services.ContainsKey(DTO.UUID))
 							{
-								this.MsgServers[DTO.UUID]	= DTO;
+								this._Repository.Services[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this.MsgServers.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this._Repository.Services.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -70,13 +43,13 @@ namespace SAPGUI.API.Repository
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool RemoveMsgServer(Guid ID)
+				public bool RemoveService(Guid ID)
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this.MsgServerInUse(ID))
+						if (this.ServiceInUse(ID))
 							{
-								lb_Ret	= this.MsgServers.Remove(ID);
+								lb_Ret	= this._Repository.Services.Remove(ID);
 								if (lb_Ret)	this.IsDirty	= true;
 							}
 						//.............................................
