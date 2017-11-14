@@ -27,16 +27,16 @@ namespace SAPGUI.API
 				bool					RemoveWorkspace			(Guid ID);
 				IDTOWorkspace	GetWorkspace				(Guid ID);
 				//.................................................
-				bool							AddUpdateNode	(IDTOWorkspaceNode DTO);
-				bool							RemoveNode		(Guid ID);
-				IDTOWorkspaceNode	GetNode				(Guid ID);
+				bool							AddUpdateNode	(Guid WSpaceID, IDTOWorkspaceNode DTO);
+				bool							RemoveNode		(Guid WSpaceID, Guid NodeID);
+				IDTOWorkspaceNode	GetNode				(Guid WSpaceID, Guid NodeID);
 				//.................................................
-				bool							AddUpdateWSItem		(Guid WspaceID, IDTOWorkspaceItem DTO);
-				bool							AddUpdateNodeItem	(Guid WspaceID, Guid NodeID, IDTOWorkspaceItem DTO);
-				bool							RemoveWSItem			(Guid WspaceID, Guid ID);
-				bool							RemoveNodeItem		(Guid WspaceID, Guid NodeID, Guid ID);
-				IDTOWorkspaceItem	GetWSItem					(Guid WspaceID, Guid ID);
-				IDTOWorkspaceItem	GetNodeItem				(Guid WspaceID, Guid NodeID, Guid ID);
+				bool							AddUpdateWSItem		(Guid WSpaceID, IDTOWorkspaceItem DTO);
+				bool							AddUpdateNodeItem	(Guid WSpaceID, Guid NodeID, IDTOWorkspaceItem DTO);
+				bool							RemoveWSItem			(Guid WSpaceID, Guid ID);
+				bool							RemoveNodeItem		(Guid WSpaceID, Guid NodeID, Guid ID);
+				IDTOWorkspaceItem	GetWSItem					(Guid WSpaceID, Guid ID);
+				IDTOWorkspaceItem	GetNodeItem				(Guid WSpaceID, Guid NodeID, Guid ID);
 				//.................................................
 				void Clear();
 

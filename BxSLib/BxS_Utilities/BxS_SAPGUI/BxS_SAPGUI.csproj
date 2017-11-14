@@ -18,6 +18,7 @@
     <Compile Remove="Code\Common\Data Layer\DTO Objects\DTOBase.cs" />
     <Compile Remove="Code\SAPGUI_USR\Data Layer\Mapping.cs" />
     <Compile Remove="Code\SAPGUI_USR\Data Layer\Table.cs" />
+    <Compile Remove="Code\zOld Stuff\Class1.cs" />
     <Compile Remove="Code\zOld Stuff\DTOBase.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader_MessageServers.cs" />

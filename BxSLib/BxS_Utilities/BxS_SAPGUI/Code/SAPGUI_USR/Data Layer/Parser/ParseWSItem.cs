@@ -54,7 +54,7 @@ namespace SAPGUI.USR.DL
 								//.............................................
 								if (wsID	== default(Guid))		lb_WSItem	=	true;
 
-								lo_Row[this._Ref.ParentID]		= parentID											;
+								lo_Row[this._Ref.ParentID]		= parentID									;
 								lo_Row[this._Ref.UUID]				= lo_Entry.Value.UUID				;
 								lo_Row[this._Ref.ServiceID]		= lo_Entry.Value.ServiceID	;
 								lo_Row[this._Ref.WorkspaceID]	= wsID											;

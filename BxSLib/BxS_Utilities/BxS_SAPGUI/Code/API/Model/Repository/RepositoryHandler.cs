@@ -65,16 +65,18 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool ServiceInUse(Guid ID)
 					{
-						bool lb_CntItm		= this._Repository.WorkSpaces.SelectMany(
-																	ws => ws.Value.Items.Where(
-																		it => it.Key.Equals(ID)))
-																			.Count().Equals(0);
+						bool lb_CntItm		= this._Repository.WorkSpaces
+																	.SelectMany( ws => ws.Value.Items
+																		.Where( it => it.Key.Equals(ID) ) )
+																			.Count()
+																				.Equals(0);
 
-						bool lb_CntNde		= this._Repository.WorkSpaces.SelectMany(
-																	ws => ws.Value.Nodes.SelectMany(
-																		nd => nd.Value.Items.Where(
-																			it => it.Key.Equals(ID))))
-																				.Count().Equals(0);
+						bool lb_CntNde		= this._Repository.WorkSpaces
+																	.SelectMany( ws => ws.Value.Nodes
+																		.SelectMany( nd => nd.Value.Items
+																			.Where( it => it.Key.Equals(ID) ) ) )
+																				.Count()
+																					.Equals(0);
 
 						return	!lb_CntItm || !lb_CntNde;
 				}

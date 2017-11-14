@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Data;
 //.........................................................
+using SAPGUI.API.DL;
 using SAPGUI.COM.DL;
 using SAPGUI.USR.DL;
 using SAPGUI.USR;
@@ -135,7 +136,7 @@ namespace zBxS_SAPGUI_UT
 						Assert.IsTrue(rep.Services.ContainsKey		(this.lg_SrvID)	,	$"{utName}: {cnt}: Srv:Check Key: Error"	);
 						Assert.IsTrue(rep.WorkSpaces.ContainsKey	(this.lg_WspID)	,	$"{utName}: {cnt}: WSp:Check Key: Error"	);
 
-						if (rep.WorkSpaces.TryGetValue(this.lg_WspID, out DTOWorkspace lo_WSx))
+						if (rep.WorkSpaces.TryGetValue(this.lg_WspID, out IDTOWorkspace lo_WSx))
 							{
 								Assert.IsTrue(lo_WSx.Items.ContainsKey(this.lg_ItmID),	$"{utName}: {cnt}: WSpItem:Check Key: Error"	);
 								Assert.IsTrue(lo_WSx.Nodes.ContainsKey(this.lg_NdeID),	$"{utName}: {cnt}: WSpNode:Check Key: Error"	);

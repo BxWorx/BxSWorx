@@ -44,7 +44,7 @@ namespace SAPGUI.XML
 								Guid lg_Key	= this.ParseGuid(lo_Elem.GetAttribute(cz_TagUuid));
 								if (lg_Key	== Guid.Empty)	continue;
 								//.........................................
-								var lo_DTO = new DTOService
+								IDTOService lo_DTO = new DTOService
 									{	Type				= lc_Type																				,
 										UUID				= lg_Key																				,
 										Name				= lo_Elem.GetAttribute(cz_TagName)							,
@@ -85,11 +85,11 @@ namespace SAPGUI.XML
 						//
 						foreach (XmlElement lo_WrkSpace in XmlDoc.GetElementsByTagName(cz_TagWSpace))
 							{
-								DTOWorkspace lo_WSDTO = this.LoadWSAttributtes(lo_WrkSpace);
+								IDTOWorkspace lo_WSDTO = this.LoadWSAttributtes(lo_WrkSpace);
 								//.........................................
 								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName(cz_TagNode))
 									{
-										DTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
+										IDTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
 										foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(repository, lo_Node, true))
 											{
 												lo_WSNode.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
@@ -150,9 +150,9 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTOWorkspaceNode LoadWSNodeAttributtes(XmlElement element)
+				private IDTOWorkspaceNode LoadWSNodeAttributtes(XmlElement element)
 					{
-						var lo_DTO = new DTOWorkspaceNode
+						IDTOWorkspaceNode lo_DTO = new DTOWorkspaceNode
 							{	UUID				= Guid.Parse(element.GetAttribute(cz_TagUuid))	,
 								Description	= element.GetAttribute(cz_TagName)								};
 						//.............................................
@@ -160,9 +160,9 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTOWorkspace LoadWSAttributtes(XmlElement _xmlelement)
+				private IDTOWorkspace LoadWSAttributtes(XmlElement _xmlelement)
 					{
-						var lo_DTO = new DTOWorkspace
+						IDTOWorkspace lo_DTO = new DTOWorkspace
 							{	UUID				= Guid.Parse(_xmlelement.GetAttribute(cz_TagUuid))	,
 								Description	= _xmlelement.GetAttribute(cz_TagName)								};
 						//.............................................
@@ -232,7 +232,7 @@ namespace SAPGUI.XML
 						//
 						lt_Use	= this.UsedServices(repository);
 						//.............................................
-						foreach (KeyValuePair<Guid, DTOService> lo_Srv in repository.Services)
+						foreach (KeyValuePair<Guid, IDTOService> lo_Srv in repository.Services)
 							{
 								if (!lt_Use.Contains(lo_Srv.Key))
 									lt_Rem.Add(lo_Srv.Key);

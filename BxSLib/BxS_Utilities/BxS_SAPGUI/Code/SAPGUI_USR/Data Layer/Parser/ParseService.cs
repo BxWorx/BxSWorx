@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 //.........................................................
 using SAPGUI.COM.DL;
+using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.USR.DL
 {
@@ -11,11 +12,11 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Private: Services"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ServicesDT2DTO(DataTable dtServices, Dictionary<Guid, DTOService> dto)
+				private void ServicesDT2DTO(DataTable dtServices, Dictionary<Guid, IDTOService> dto)
 					{
 						foreach (DataRow lo_Row in dtServices.Rows)
 							{
-								var lo_DTO = new DTOService
+								IDTOService lo_DTO = new DTOService
 									{
 										UUID				= (Guid)	lo_Row[this._Ref.UUID]										,
 										MSID				= (Guid)	lo_Row[this._Ref.MsgSrvID]								,
@@ -36,9 +37,9 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ServicesDTO2DT(Dictionary<Guid, DTOService> dto, DataTable dtServices)
+				private void ServicesDTO2DT(Dictionary<Guid, IDTOService> dto, DataTable dtServices)
 					{
-						foreach (KeyValuePair<Guid, DTOService> lo_Entry in dto)
+						foreach (KeyValuePair<Guid, IDTOService> lo_Entry in dto)
 							{
 								DataRow lo_Row	= dtServices.NewRow();
 								//.............................................
