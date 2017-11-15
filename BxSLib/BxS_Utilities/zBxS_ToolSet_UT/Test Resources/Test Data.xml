@@ -1,0 +1,11 @@
+<UT_BxS_ToolSet_SerializerDC.TestClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/zBxS_ToolSet_UT">
+  <Prop1>TestString</Prop1>
+  <Prop2>TestString</Prop2>
+  <Prop3>TestString</Prop3>
+  <_Dict xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <d2p1:KeyValueOfstringstring>
+      <d2p1:Key>TestString</d2p1:Key>
+      <d2p1:Value>TestString</d2p1:Value>
+    </d2p1:KeyValueOfstringstring>
+  </_Dict>
+</UT_BxS_ToolSet_SerializerDC.TestClass>

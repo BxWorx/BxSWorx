@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace Toolset.Serialize
@@ -83,6 +84,32 @@ namespace Toolset.Serialize
 							catch (Exception)
 								{
 									return	default(T);
+								}
+						}
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					internal string Serialize2XML<T>(T value)
+						{
+							try
+								{
+									var lo_XmlSettings = new XmlWriterSettings
+										{	Indent							= true	,
+											OmitXmlDeclaration	= true	,
+											NewLineOnAttributes	= true		};
+
+									var lo_StrBld	= new StringBuilder();
+									var lo_XMLSer	= new DataContractSerializer(typeof(T));
+
+									using (var lo_XMLWriter = XmlWriter.Create(lo_StrBld, lo_XmlSettings))
+										{
+												lo_XMLSer.WriteObject(lo_XMLWriter, value);
+												lo_XMLWriter.Flush();
+											return	lo_StrBld.ToString();
+										}
+								}
+							catch (Exception)
+								{
+									return	string.Empty;
 								}
 						}
 
