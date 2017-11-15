@@ -1,18 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace Toolset.IO
+namespace Toolset.Serialize
 {
-	public class Serializer
+	public class SerializerViaDataContract
 		{
-			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool SerialiseViaDataContract<T>(T ClassObject, string FullFileName)
+				public bool SerialiseToFile<T>(T ClassObject, string FullFileName)
 					{
-						var lb_Ret	= true;
+						bool lb_Ret	= true;
 						//.............................................
 						try
 							{
@@ -31,7 +31,7 @@ namespace Toolset.IO
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public T DeSerialiseViaDataContract<T>(string FullFileName)
+				public T DeSerialiseFromFile<T>(string FullFileName)
 					{
 						T	lo_Ret;
 						//.............................................
@@ -51,6 +51,42 @@ namespace Toolset.IO
 						return	lo_Ret;
 					}
 
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public string SerializeObject<T>(T classObject)
+						{
+							using (var lo_memStream = new MemoryStream())
+								{
+									var lo_serializer = new DataContractSerializer(typeof(T));
+
+									lo_serializer.WriteObject(lo_memStream, classObject);
+
+									lo_memStream.Seek(0, SeekOrigin.Begin);
+
+									using (var lo_streamReader = new StreamReader(lo_memStream))
+										{
+											return lo_streamReader.ReadToEnd();
+										}
+								}
+						}
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public T DeSerializeObject<T>(string xmlString)
+						{
+							try
+								{
+									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
+										{
+											var lo_serializer = new DataContractSerializer(typeof(T));
+											return (T)lo_serializer.ReadObject(lo_XMLReader);
+										}
+								}
+							catch (Exception)
+								{
+									return	default(T);
+								}
+						}
+
 			#endregion
+
 		}
 }
