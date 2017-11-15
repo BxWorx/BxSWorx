@@ -10,68 +10,8 @@ namespace Toolset.Serialize
 		{
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool SerialiseToFile<T>(T ClassObject, string FullFileName)
-					{
-						bool lb_Ret	= true;
-						//.............................................
-						try
-							{
-								using (FileStream lo_FSWriter	= File.Create(FullFileName, 0, FileOptions.None))
-									{
-										var	lo_Ser	= new DataContractSerializer(typeof(T));
-										lo_Ser.WriteObject(lo_FSWriter, ClassObject);
-									}
-							}
-						catch (System.Exception)
-							{
-								lb_Ret	= false;
-							}
-						//.............................................
-						return	lb_Ret;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public T DeSerialiseFromFile<T>(string FullFileName)
-					{
-						T	lo_Ret;
-						//.............................................
-						try
-							{
-								using (var lo_FS = new FileStream(FullFileName,	FileMode.Open, FileAccess.Read))
-									{
-										var	lo_Ser	= new DataContractSerializer(typeof(T));
-										lo_Ret			= (T)lo_Ser.ReadObject(lo_FS);
-									}
-							}
-						catch (Exception)
-							{
-								lo_Ret	= default(T);
-							}
-						//.............................................
-						return	lo_Ret;
-					}
-
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public string SerializeObject<T>(T classObject)
-						{
-							using (var lo_memStream = new MemoryStream())
-								{
-									var lo_serializer = new DataContractSerializer(typeof(T));
-
-									lo_serializer.WriteObject(lo_memStream, classObject);
-
-									lo_memStream.Seek(0, SeekOrigin.Begin);
-
-									using (var lo_streamReader = new StreamReader(lo_memStream))
-										{
-											return lo_streamReader.ReadToEnd();
-										}
-								}
-						}
-
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public T DeSerializeObject<T>(string xmlString)
+					public T DeSerialize<T>(string xmlString)
 						{
 							try
 								{
@@ -88,22 +28,23 @@ namespace Toolset.Serialize
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					internal string Serialize2XML<T>(T value)
+					internal string Serialize<T>(T classObject)
 						{
 							try
 								{
-									var lo_XmlSettings = new XmlWriterSettings
+									var lo_XWSettings = new XmlWriterSettings
 										{	Indent							= true	,
 											OmitXmlDeclaration	= true	,
 											NewLineOnAttributes	= true		};
 
 									var lo_StrBld	= new StringBuilder();
-									var lo_XMLSer	= new DataContractSerializer(typeof(T));
 
-									using (var lo_XMLWriter = XmlWriter.Create(lo_StrBld, lo_XmlSettings))
+									using (var lo_XMLWriter = XmlWriter.Create(lo_StrBld, lo_XWSettings))
 										{
-												lo_XMLSer.WriteObject(lo_XMLWriter, value);
-												lo_XMLWriter.Flush();
+											var lo_XMLSer	= new DataContractSerializer(typeof(T));
+											lo_XMLSer.WriteObject(lo_XMLWriter, classObject);
+											lo_XMLWriter.Flush();
+
 											return	lo_StrBld.ToString();
 										}
 								}

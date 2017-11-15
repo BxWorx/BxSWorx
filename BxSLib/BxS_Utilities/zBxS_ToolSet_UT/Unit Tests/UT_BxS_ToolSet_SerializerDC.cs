@@ -19,14 +19,15 @@ namespace zBxS_ToolSet_UT
 			//...................................................
 			private	static readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	_PathTest			= Path.Combine(_Path,	cz_TestDir);
-			private	static readonly string	_TestFullNme	= Path.Combine(_PathTest,	cz_TestFileName	);
 			private	static readonly string	_TestXMLFNme	= Path.Combine(_PathTest,	cz_TestFNameXML	);
 			//...................................................
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_ToolSet_SerializerDC_Obj2XML()
+			public void UT_ToolSet_SerializerDC_Obj2File()
 				{
+					if (File.Exists(_TestXMLFNme))	File.Delete(_TestXMLFNme);
+					//...............................................
 					int	ln_Cnt;
 					//...............................................
 					var				lo_IO		= new IO();
@@ -36,43 +37,18 @@ namespace zBxS_ToolSet_UT
 					TestClass lo_Res;
 
 					ln_Cnt	= 1;
-					lc_Cls	= lo_Ser.Serialize2XML(lo_Tst);
+					lc_Cls	= lo_Ser.Serialize(lo_Tst);
 					lo_IO.WriteFile(_TestXMLFNme, lc_Cls);
-					lo_Res	= lo_Ser.DeSerializeObject<TestClass>(lo_IO.ReadFile(_TestXMLFNme));
+					lo_Res	= lo_Ser.DeSerialize<TestClass>(lo_IO.ReadFile(_TestXMLFNme));
 
 					Assert.IsTrue		(	File.Exists(_TestXMLFNme)		,	$"IO: {ln_Cnt}: Write: Error");
 
 					Assert.IsNotNull(					lo_Res							, $"Serializer(DC): {ln_Cnt}: Obj-Deserialise: Error");
 					Assert.AreEqual	(cz_Tst	, lo_Res.Prop1				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-001: Error");
 					Assert.AreEqual	(cz_Tst	, lo_Res.Prop2				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
-					Assert.AreEqual	(cz_Tst	, lo_Res.Prop3				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
-					Assert.AreEqual	(1			, lo_Res._Dict.Count	, $"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
-				}
-
-			//-------------------------------------------------------------------------------------------
-			[TestMethod]
-			public void UT_ToolSet_SerializerDC_Obj2File()
-				{
-					int	ln_Cnt;
-					//...............................................
-					var				lo_IO		= new IO();
-					var				lo_Ser	= new SerializerViaDataContract();
-					TestClass lo_Tst	= this.CreateTestClass();
-					string		lc_Cls;
-					TestClass lo_Res;
-
-					ln_Cnt	= 1;
-					lc_Cls	= lo_Ser.SerializeObject(lo_Tst);
-					lo_IO.WriteFile(_TestFullNme, lc_Cls);
-					lo_Res	= lo_Ser.DeSerializeObject<TestClass>(lo_IO.ReadFile(_TestFullNme));
-
-					Assert.IsTrue		(	File.Exists(_TestFullNme)		,	$"IO: {ln_Cnt}: Write: Error");
-
-					Assert.IsNotNull(					lo_Res							, $"Serializer(DC): {ln_Cnt}: Obj-Deserialise: Error");
-					Assert.AreEqual	(cz_Tst	, lo_Res.Prop1				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-001: Error");
-					Assert.AreEqual	(cz_Tst	, lo_Res.Prop2				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
-					Assert.AreEqual	(cz_Tst	, lo_Res.Prop3				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
-					Assert.AreEqual	(1			, lo_Res._Dict.Count	, $"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
+					Assert.AreEqual	(cz_Tst	, lo_Res.Prop3				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-003: Error");
+					Assert.AreEqual	(1			, lo_Res._Dict.Count	, $"Serializer(DC): {ln_Cnt}: Obj-Complete-004: Error");
+					Assert.AreEqual	(2			, lo_Res.Count				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-005: Error");
 			}
 
 			//-------------------------------------------------------------------------------------------
@@ -88,15 +64,15 @@ namespace zBxS_ToolSet_UT
 					string		lc_Cls;
 					TestClass lo_Res;
 
-					lc_Cls	= lo_Ser.SerializeObject(lo_Tst);
-					lo_Res	= lo_Ser.DeSerializeObject<TestClass>(lc_Cls);
+					lc_Cls	= lo_Ser.Serialize(lo_Tst);
+					lo_Res	= lo_Ser.DeSerialize<TestClass>(lc_Cls);
 
-					Assert.IsNotNull	(					lc_Cls							,	$"Serializer(DC): {ln_Cnt}: Obj-Serialise: Error");
-					Assert.IsNotNull	(					lo_Res							,	$"Serializer(DC): {ln_Cnt}: Obj-Deserialise: Error");
-					Assert.AreEqual		(cz_Tst	,	lo_Res.Prop1				,	$"Serializer(DC): {ln_Cnt}: Obj-Complete-001: Error");
-					Assert.AreEqual		(cz_Tst	,	lo_Res.Prop2				,	$"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
-					Assert.AreEqual		(cz_Tst	,	lo_Res.Prop3				,	$"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
-					Assert.AreEqual		(1			,	lo_Res._Dict.Count	,	$"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
+					Assert.IsNotNull(					lo_Res							, $"Serializer(DC): {ln_Cnt}: Obj-Deserialise: Error");
+					Assert.AreEqual	(cz_Tst	, lo_Res.Prop1				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-001: Error");
+					Assert.AreEqual	(cz_Tst	, lo_Res.Prop2				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-002: Error");
+					Assert.AreEqual	(cz_Tst	, lo_Res.Prop3				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-003: Error");
+					Assert.AreEqual	(1			, lo_Res._Dict.Count	, $"Serializer(DC): {ln_Cnt}: Obj-Complete-004: Error");
+					Assert.AreEqual	(2			, lo_Res.Count				, $"Serializer(DC): {ln_Cnt}: Obj-Complete-005: Error");
 				}
 
 			//===========================================================================================
@@ -105,10 +81,9 @@ namespace zBxS_ToolSet_UT
 				//-----------------------------------------------------------------------------------------
 				private TestClass CreateTestClass()
 					{
-						var						lo_Tst	= new TestClass();
-
-						lo_Tst.Prop1	= cz_Tst;
-						lo_Tst.Prop2	= cz_Tst;
+						var lo_Tst = new TestClass
+							{	Prop1 = cz_Tst	,
+								Prop2 = cz_Tst		};
 
 						lo_Tst.SetTest(cz_Tst);
 						lo_Tst.AddDict(cz_Tst);
@@ -122,15 +97,21 @@ namespace zBxS_ToolSet_UT
 					{
 						internal TestClass()
 							{
-								this._Dict	= new	Dictionary<string, string>();
+								this._Dict	= new	Dictionary<string, string>	();
+								this._DTO		= new	Dictionary<string, TestDTO>	();
+								var lo_DTO	= new TestDTO();
+
+								this._DTO.Add("A", lo_DTO);
 							}
+
+						internal int Count { get { return	this._DTO["A"]._Dict.Count; } }
 
 						[DataMember]	public		string Prop1 { get; set; }
 						[DataMember]	internal	string Prop2 { get; set; }
 						[DataMember]	internal	string Prop3 { get; private set; }
 
-						[DataMember]	internal Dictionary<string, string>  _Dict;
-
+						[DataMember]	internal Dictionary<string, string>		_Dict;
+						[DataMember]	private	 Dictionary<string, TestDTO>	_DTO;
 
 						internal void SetTest(string Str)
 							{
@@ -140,6 +121,20 @@ namespace zBxS_ToolSet_UT
 						internal void AddDict(string Data)
 							{
 								this._Dict.Add(Data, Data);
+							}
+
+						//-------------------------------------------------------------------------------------
+						[DataContract()]
+						private class TestDTO
+							{
+								internal TestDTO()
+									{
+										this._Dict = new Dictionary<string, string>
+											{	{ "1", "a" }	,
+												{ "2", "b" }		};
+									}
+
+								[DataMember]	internal Dictionary<string, string>  _Dict;
 							}
 					}
 

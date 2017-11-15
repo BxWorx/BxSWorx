@@ -2,6 +2,23 @@
   <Prop1>TestString</Prop1>
   <Prop2>TestString</Prop2>
   <Prop3>TestString</Prop3>
+  <_DTO xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <d2p1:KeyValueOfstringUT_BxS_ToolSet_SerializerDC.TestClass.TestDTOHf1Urpbn>
+      <d2p1:Key>A</d2p1:Key>
+      <d2p1:Value>
+        <_Dict>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>1</d2p1:Key>
+            <d2p1:Value>a</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>2</d2p1:Key>
+            <d2p1:Value>b</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+        </_Dict>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringUT_BxS_ToolSet_SerializerDC.TestClass.TestDTOHf1Urpbn>
+  </_DTO>
   <_Dict xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
     <d2p1:KeyValueOfstringstring>
       <d2p1:Key>TestString</d2p1:Key>
