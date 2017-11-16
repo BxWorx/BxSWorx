@@ -21,7 +21,7 @@ namespace SAPGUI.USR.DL
 
 								if (dto.TryGetValue(lg_WSID, out IDTOWorkspace lo_WS))
 									{
-										IDTOItem lo_DTO = new DTOWorkspaceItem
+										IDTOItem lo_DTO = new DTOItem
 											{
 												UUID				= (Guid)	lo_Row[this._Ref.UUID],
 												ServiceID		= (Guid)	lo_Row[this._Ref.ServiceID]

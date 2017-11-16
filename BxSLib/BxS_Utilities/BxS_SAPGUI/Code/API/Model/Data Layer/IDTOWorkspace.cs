@@ -12,7 +12,7 @@ namespace SAPGUI.API.DL
 				string	Description	{ get; set; }
 
 				Dictionary<Guid, IDTONode>	Nodes { get; set; }
-				Dictionary<Guid, IDTOItem> Items { get; set; }
+				Dictionary<Guid, IDTOItem>	Items { get; set; }
 
 			#endregion
 		}

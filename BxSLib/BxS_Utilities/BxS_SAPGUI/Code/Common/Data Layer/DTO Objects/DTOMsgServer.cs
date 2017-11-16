@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Runtime.Serialization;
 //.........................................................
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
+	[DataContract]
 	internal sealed class DTOMsgServer : IDTOMsgServer
 		{
-			public Guid		UUID				{ get; set; }
-			public string Name				{ get; set; }
-			public string Description	{ get; set; }
-			public string Host				{ get; set; }
-			public string Port				{ get; set; }
+			#region "Properties"
+
+				[DataMember]	public Guid		UUID				{ get; set; }
+				//...................................................
+				[DataMember]	public string Name				{ get; set; }
+				[DataMember]	public string Description	{ get; set; }
+				[DataMember]	public string Host				{ get; set; }
+				[DataMember]	public string Port				{ get; set; }
+
+			#endregion
+
 		}
 }

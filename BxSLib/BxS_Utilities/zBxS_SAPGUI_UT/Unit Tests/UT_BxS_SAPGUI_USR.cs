@@ -153,9 +153,9 @@ namespace zBxS_SAPGUI_UT
 						DTOMsgServer			lo_MsgDTO	= this.Create_MsgSvrDTO();
 						DTOService				lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);
 						DTOWorkspace			lo_WspDTO	= this.Create_WspDTO();
-						DTOWorkspaceNode	lo_WSNDTO	= this.Create_WSNodeDTO();
-						DTOWorkspaceItem	lo_WSIDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
-						DTOWorkspaceItem	lo_WSxDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
+						DTONode	lo_WSNDTO	= this.Create_WSNodeDTO();
+						DTOItem	lo_WSIDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
+						DTOItem	lo_WSxDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
 
 						this.lg_WspID	= lo_WspDTO.UUID;
 						this.lg_MsgID	= lo_MsgDTO.UUID;
@@ -200,16 +200,16 @@ namespace zBxS_SAPGUI_UT
 					}
 
 				//-------------------------------------------------------------------------------------------
-				private DTOWorkspaceNode Create_WSNodeDTO()
+				private DTONode Create_WSNodeDTO()
 					{
-						return	new DTOWorkspaceNode	{	UUID				= Guid.NewGuid()	,
+						return	new DTONode	{	UUID				= Guid.NewGuid()	,
 																						Description	= "DescNode"				};
 					}
 
 				//-------------------------------------------------------------------------------------------
-				private DTOWorkspaceItem Create_WSItemDTO(Guid srvID)
+				private DTOItem Create_WSItemDTO(Guid srvID)
 					{
-						return	new DTOWorkspaceItem	{	UUID			= Guid.NewGuid()	,
+						return	new DTOItem	{	UUID			= Guid.NewGuid()	,
 																						ServiceID	= srvID								};
 					}
 

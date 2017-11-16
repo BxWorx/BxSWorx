@@ -20,7 +20,7 @@ namespace SAPGUI.USR.DL
 
 								if (dto.TryGetValue(lc_WSID, out IDTOWorkspace lo_WS))
 									{
-										IDTONode lo_DTO = new DTOWorkspaceNode
+										IDTONode lo_DTO = new DTONode
 											{
 												UUID				= (Guid)	lo_Row[this._Ref.UUID]										,
 												Description =					lo_Row[this._Ref.Description]	.ToString()	,

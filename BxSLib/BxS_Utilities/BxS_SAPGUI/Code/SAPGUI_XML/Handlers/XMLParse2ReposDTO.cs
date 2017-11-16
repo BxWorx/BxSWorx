@@ -90,7 +90,7 @@ namespace SAPGUI.XML
 								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName(cz_TagNode))
 									{
 										IDTONode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
-										foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(repository, lo_Node, true))
+										foreach (DTOItem lo_WSNodeItem in this.GetItemList(repository, lo_Node, true))
 											{
 												lo_WSNode.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
 											}
@@ -99,7 +99,7 @@ namespace SAPGUI.XML
 											lo_WSDTO.Nodes.Add(lo_WSNode.UUID, lo_WSNode);
 									}
 								//.........................................
-								foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(repository, lo_WrkSpace, false))
+								foreach (DTOItem lo_WSNodeItem in this.GetItemList(repository, lo_WrkSpace, false))
 									{
 										lo_WSDTO.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
 									}
@@ -152,7 +152,7 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IDTONode LoadWSNodeAttributtes(XmlElement element)
 					{
-						IDTONode lo_DTO = new DTOWorkspaceNode
+						IDTONode lo_DTO = new DTONode
 							{	UUID				= Guid.Parse(element.GetAttribute(cz_TagUuid))	,
 								Description	= element.GetAttribute(cz_TagName)								};
 						//.............................................
@@ -170,9 +170,9 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private List<DTOWorkspaceItem> GetItemList(Repository repository, XmlElement element, bool forNode = true)
+				private List<DTOItem> GetItemList(Repository repository, XmlElement element, bool forNode = true)
 					{
-						var	lt_List		= new List<DTOWorkspaceItem>();
+						var	lt_List		= new List<DTOItem>();
 						//.............................................
 						foreach (XmlElement lo_Item in element.GetElementsByTagName("Item"))
 							{
@@ -181,7 +181,7 @@ namespace SAPGUI.XML
 										var lc_ServID	= Guid.Parse(lo_Item.GetAttribute("serviceid"));
 										if (repository.Services.ContainsKey(lc_ServID))
 											{
-												lt_List.Add(	new DTOWorkspaceItem	{	UUID			= Guid.Parse(lo_Item.GetAttribute(cz_TagUuid))	,
+												lt_List.Add(	new DTOItem	{	UUID			= Guid.Parse(lo_Item.GetAttribute(cz_TagUuid))	,
 																															ServiceID = lc_ServID																				}	);
 											}
 									}

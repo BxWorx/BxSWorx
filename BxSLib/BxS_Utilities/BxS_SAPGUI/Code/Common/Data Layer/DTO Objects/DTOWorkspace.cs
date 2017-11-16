@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Collections.Generic;
 //.........................................................
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
+	[DataContract]
 	internal sealed class DTOWorkspace :IDTOWorkspace
 		{
 			#region "Constructors"
@@ -21,11 +23,12 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				public Guid		UUID					{ get; set; }
-				public string Description		{ get; set; }
+				[DataMember]	public Guid		UUID					{ get; set; }
 				//...................................................
-				public Dictionary<Guid, IDTONode> Nodes	{ get; set; }
-				public Dictionary<Guid, IDTOItem> Items	{ get; set; }
+				[DataMember]	public string Description		{ get; set; }
+
+				[DataMember]	public Dictionary<Guid, IDTONode> Nodes	{ get; set; }
+				[DataMember]	public Dictionary<Guid, IDTOItem> Items	{ get; set; }
 
 			#endregion
 		}

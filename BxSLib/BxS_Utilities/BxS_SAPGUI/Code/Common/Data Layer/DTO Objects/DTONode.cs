@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 //.........................................................
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal sealed class DTOWorkspaceNode : IDTONode
+	[DataContract]
+	internal sealed class DTONode : IDTONode
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTOWorkspaceNode()
+				internal DTONode()
 					{
 						this.Items	= new Dictionary<Guid, IDTOItem>();
 					}
@@ -20,10 +22,13 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				public Guid		UUID				{ get; set; }
-				public string	Description	{ get; set; }
+				[DataMember]	public Guid	UUID				{ get; set; }
 				//...................................................
-				public Dictionary<Guid, IDTOItem>	Items	{ get; set; }
+				[DataMember]	public string	Description	{ get; set; }
+
+				[DataMember]	public Dictionary<Guid, IDTOItem>	Items	{ get; set; }
+				//...................................................
+				[DataMember]	public Guid	WSID	{ get; set; }
 
 			#endregion
 		}

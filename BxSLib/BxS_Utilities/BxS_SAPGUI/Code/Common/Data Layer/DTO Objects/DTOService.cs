@@ -1,24 +1,31 @@
 ﻿using System;
+using System.Runtime.Serialization;
 //.........................................................
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
+	[DataContract]
 	internal sealed class DTOService : IDTOService
 		{
-			public Guid		UUID				{ get; set; }
-			//...................................................
-			public string Name				{ get; set; }
-			public string Description	{ get; set; }
-			public string SystemID		{ get; set; }
-			public string Type				{ get; set; }
-			public string Server			{ get; set; }
-			public string SNCName			{ get; set; }
-			public string SAPCPG			{ get; set; }
-			public string DCPG				{ get; set; }
-			public string SNCOp				{ get; set; }
-			public string Mode				{ get; set; }
-			//...................................................
-			public Guid		MSID				{ get; set; }
+			#region "Properties"
+
+				[DataMember]	public Guid		UUID				{ get; set; }
+				//...................................................
+				[DataMember]	public string Name				{ get; set; }
+				[DataMember]	public string Description	{ get; set; }
+				[DataMember]	public string SystemID		{ get; set; }
+				[DataMember]	public string Type				{ get; set; }
+				[DataMember]	public string Server			{ get; set; }
+				[DataMember]	public string SNCName			{ get; set; }
+				[DataMember]	public string SAPCPG			{ get; set; }
+				[DataMember]	public string DCPG				{ get; set; }
+				[DataMember]	public string SNCOp				{ get; set; }
+				[DataMember]	public string Mode				{ get; set; }
+				//...................................................
+				[DataMember]	public Guid		MSID				{ get; set; }
+
+			#endregion
+
 		}
 }

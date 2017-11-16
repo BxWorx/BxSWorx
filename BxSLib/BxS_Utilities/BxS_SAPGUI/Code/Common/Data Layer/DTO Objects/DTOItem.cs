@@ -1,12 +1,21 @@
 ﻿using System;
+using System.Runtime.Serialization;
 //.........................................................
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal sealed class DTOWorkspaceItem :IDTOItem
+	[DataContract]
+	internal sealed class DTOItem : IDTOItem
 		{
-			public Guid UUID				{ get; set; }
-			public Guid ServiceID		{ get; set; }
+			#region "Properties"
+
+				[DataMember]	public Guid	UUID			{ get; set; }
+				//.................................................
+				[DataMember]	public Guid	WSID			{ get; set; }
+				[DataMember]	public Guid	NodeID		{ get; set; }
+				[DataMember]	public Guid	ServiceID	{ get; set; }
+
+			#endregion
 		}
 }
