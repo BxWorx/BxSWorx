@@ -1,17 +1,10 @@
 ﻿using Microsoft.Win32;
-
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 namespace BxS_WinUtilFRM
 {
 	public class WinRegistryCurrentUser
 		{
-			#region **[Definitions]**
-
-			#endregion
-
-			//___________________________________________________________________________________________
-
 			#region **[Constructors]**
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -28,13 +21,10 @@ namespace BxS_WinUtilFRM
 
 			#region **[Properties]**
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public string RootNode
-					{	get; set; }
+				public string RootNode				{	get; set; }
+				public string ApplicationName	{	get; set; }
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public string ApplicationName
-					{	get; set; }
+				public string Path						{ get	{ return	$@"{this.RootNode}\{this.ApplicationName}"; } }
 
 			#endregion
 
@@ -45,7 +35,7 @@ namespace BxS_WinUtilFRM
 				//-------------------------------------------------------------------------------------------
 				public bool ExistsPath()
 					{
-						return	this.ExistsPath(this.Path());
+						return	this.ExistsPath(this.Path);
 					}
 
 				//-------------------------------------------------------------------------------------------
@@ -60,7 +50,7 @@ namespace BxS_WinUtilFRM
 				//-------------------------------------------------------------------------------------------
 				public bool Exists(string valueID)
 					{
-						return	this.Exists(this.Path(), valueID);
+						return	this.Exists(this.Path, valueID);
 					}
 
 				//-------------------------------------------------------------------------------------------
@@ -81,7 +71,7 @@ namespace BxS_WinUtilFRM
 				//-------------------------------------------------------------------------------------------
 				public bool RemovePath()
 					{
-						return	this.RemovePath(this.Path());
+						return	this.RemovePath(this.Path);
 					}
 
 				//-------------------------------------------------------------------------------------------
@@ -102,7 +92,7 @@ namespace BxS_WinUtilFRM
 				//-------------------------------------------------------------------------------------------
 				public bool Remove(string valueID)
 					{
-						return	this.Remove(this.Path(), valueID);
+						return	this.Remove(this.Path, valueID);
 					}
 
 				//-------------------------------------------------------------------------------------------
@@ -124,7 +114,7 @@ namespace BxS_WinUtilFRM
 				//-------------------------------------------------------------------------------------------
 				public bool Write<T>(string valueID, T value)
 					{
-						return	this.Write(this.Path(), valueID, value);
+						return	this.Write(this.Path, valueID, value);
 					}
 
 				//-------------------------------------------------------------------------------------------
@@ -146,7 +136,7 @@ namespace BxS_WinUtilFRM
 				//-------------------------------------------------------------------------------------------
 				public T Read<T>(string valueID, T defaultValue)
 					{
-						return	this.Read(this.Path(), valueID, defaultValue);
+						return	this.Read(this.Path, valueID, defaultValue);
 					}
 
 				//-------------------------------------------------------------------------------------------
@@ -162,18 +152,6 @@ namespace BxS_WinUtilFRM
 								catch (System.Exception)
 									{	return defaultValue; }
 							}
-					}
-
-			#endregion
-
-			//___________________________________________________________________________________________
-
-			#region **[Methods: Private]**
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private string Path()
-					{
-						return	$@"{this.RootNode}\{this.ApplicationName}";
 					}
 
 			#endregion

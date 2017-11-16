@@ -6,26 +6,9 @@ using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace Toolset.Serialize
 {
-	public class SerializerViaDataContract
+	public class DCSerializer
 		{
 			#region "Methods: Exposed"
-
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public T DeSerialize<T>(string xmlString)
-						{
-							try
-								{
-									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
-										{
-											var lo_serializer = new DataContractSerializer(typeof(T));
-											return (T)lo_serializer.ReadObject(lo_XMLReader);
-										}
-								}
-							catch (Exception)
-								{
-									return	default(T);
-								}
-						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 					internal string Serialize<T>(T classObject)
@@ -51,6 +34,23 @@ namespace Toolset.Serialize
 							catch (Exception)
 								{
 									return	string.Empty;
+								}
+						}
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public T DeSerialize<T>(string xmlString)
+						{
+							try
+								{
+									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
+										{
+											var lo_serializer = new DataContractSerializer(typeof(T));
+											return (T)lo_serializer.ReadObject(lo_XMLReader);
+										}
+								}
+							catch (Exception)
+								{
+									return	default(T);
 								}
 						}
 

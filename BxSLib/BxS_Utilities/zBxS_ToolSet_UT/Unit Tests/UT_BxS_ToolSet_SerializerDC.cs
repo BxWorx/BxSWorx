@@ -31,7 +31,7 @@ namespace zBxS_ToolSet_UT
 					int	ln_Cnt;
 					//...............................................
 					var				lo_IO		= new IO();
-					var				lo_Ser	= new SerializerViaDataContract();
+					var				lo_Ser	= new DCSerializer();
 					TestClass lo_Tst	= this.CreateTestClass();
 					string		lc_Cls;
 					TestClass lo_Res;
@@ -59,7 +59,7 @@ namespace zBxS_ToolSet_UT
 					//...............................................
 					ln_Cnt	= 1;
 
-					var				lo_Ser	= new SerializerViaDataContract();
+					var				lo_Ser	= new DCSerializer();
 					TestClass lo_Tst	= this.CreateTestClass();
 					string		lc_Cls;
 					TestClass lo_Res;
