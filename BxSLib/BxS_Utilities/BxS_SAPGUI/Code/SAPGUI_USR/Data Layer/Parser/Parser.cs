@@ -26,7 +26,7 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseDS2Rep(DataSet usrDS, Repository repository)
+				internal void ParseDS2Rep(DataSet usrDS, Datacontainer repository)
 					{
 						this.MsgServersDT2DTO	(usrDS.Tables[this._Ref.MsgServerTableName]			, repository.MsgServers	);
 						this.ServicesDT2DTO		(usrDS.Tables[this._Ref.ServiceTableName]				, repository.Services		);
@@ -36,7 +36,7 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseRep2DS(Repository repository, DataSet usrDS)
+				internal void ParseRep2DS(Datacontainer repository, DataSet usrDS)
 					{
 						this.MsgServersDTO2DT	(repository.MsgServers	,	usrDS.Tables[this._Ref.MsgServerTableName]	);
 						this.ServicesDTO2DT		(repository.Services		, usrDS.Tables[this._Ref.ServiceTableName]		);

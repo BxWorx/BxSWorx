@@ -58,6 +58,10 @@ namespace SAPGUI.API
 				IDTOItem	GetItem				(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
 				bool			RemoveItem		(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
 				bool			AddUpdateItem	(IDTOItem DTO);
+				bool			LoadItem			(	Guid		WSID		,
+																	Guid    NodeID	,
+																	Guid		ID			,
+																	Guid		ServiceID	);
 
 				//.................................................
 				void Clear();

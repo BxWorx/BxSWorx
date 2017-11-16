@@ -38,7 +38,7 @@ namespace SAPGUI.COM.DL
 				public IDTOService GetService(Guid ID)
 					{
 						IDTOService	lo_DTO	= this.CreateService();
-						this._Repository.Services.TryGetValue(ID, out lo_DTO);
+						this._DC.Services.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
 
@@ -47,14 +47,14 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this._Repository.Services.ContainsKey(DTO.UUID))
+						if (this._DC.Services.ContainsKey(DTO.UUID))
 							{
-								this._Repository.Services[DTO.UUID]	= DTO;
+								this._DC.Services[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this._Repository.Services.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this._DC.Services.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -69,7 +69,7 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						if (this.ServiceInUse(ID))
 							{
-								lb_Ret	= this._Repository.Services.Remove(ID);
+								lb_Ret	= this._DC.Services.Remove(ID);
 								if (lb_Ret)	this.IsDirty	= true;
 							}
 						//.............................................

@@ -7,9 +7,9 @@ namespace SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Load(Repository repository, string fullName)
+				internal void Load(Datacontainer repository, string fullName)
 					{
-						Repository	z = repository;
+						Datacontainer	z = repository;
 						string			x = fullName;
 					}
 

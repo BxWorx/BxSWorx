@@ -6,12 +6,12 @@ using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class Repository
+	internal class Datacontainerxxx
 		{
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository()
+				internal Datacontainerxxx()
 					{
 						this.MsgServers		= new Dictionary<	Guid, IDTOMsgServer > ();
 						this.Services			= new Dictionary<	Guid, IDTOService		> ();

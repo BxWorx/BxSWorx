@@ -8,7 +8,7 @@ namespace SAPGUI.INI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public INIController(Repository repository)
+				public INIController(Datacontainer repository)
 								: base(repository)
 					{
 						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);

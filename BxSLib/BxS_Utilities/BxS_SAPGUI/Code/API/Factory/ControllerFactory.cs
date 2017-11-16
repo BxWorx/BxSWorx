@@ -15,7 +15,7 @@ namespace SAPGUI.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static IController CreateControllerForSAPXML(string fullPath, bool onlySAPGUI = true)
 					{
-						var	lo_Repos		= new Repository();
+						var	lo_Repos		= new Datacontainer();
 						var	lo_Parser		=	new XMLParse2ReposDTO();
 						lo_Parser.Load(lo_Repos, fullPath, onlySAPGUI);
 						//.............................................
@@ -27,7 +27,7 @@ namespace SAPGUI.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static IController CreateControllerForSAPINI(string fullPath)
 					{
-						var	lo_Repos		= new Repository();
+						var	lo_Repos		= new Datacontainer();
 						var	lo_Parser		=	new INIParse2ReposDTO();
 						lo_Parser.Load(lo_Repos, fullPath);
 						//.............................................
@@ -43,7 +43,7 @@ namespace SAPGUI.API
 						var lo_Parser		= new Parser(lo_Ref);
 						var lo_Schema		= new Schema(lo_Ref);
 						var lo_DLCntlr	= new DLController(fullPath, lo_Schema, lo_Parser);
-						var lo_Repos		= new Repository();
+						var lo_Repos		= new Datacontainer();
 						//.............................................
 						IControllerSource USRCntlr	= new USRController(lo_DLCntlr, lo_Repos);
 						IController				Cntlr			= new Controller(USRCntlr, false);

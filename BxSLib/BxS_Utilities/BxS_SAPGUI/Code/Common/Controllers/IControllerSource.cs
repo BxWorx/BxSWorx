@@ -8,7 +8,7 @@ namespace SAPGUI.COM.CNTLR
 
 			#region "Properties"
 
-				Repository Repository { get; }
+				Datacontainer Repository { get; }
 
 			#endregion
 

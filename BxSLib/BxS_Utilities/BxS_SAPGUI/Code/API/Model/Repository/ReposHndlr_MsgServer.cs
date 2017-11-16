@@ -32,7 +32,7 @@ namespace SAPGUI.COM.DL
 				public IDTOMsgServer GetMsgServer(Guid ID)
 					{
 						IDTOMsgServer	lo_DTO	= this.CreateMsgServer();
-						this._Repository.MsgServers.TryGetValue(ID, out lo_DTO);
+						this._DC.MsgServers.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
 
@@ -41,14 +41,14 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this._Repository.MsgServers.ContainsKey(DTO.UUID))
+						if (this._DC.MsgServers.ContainsKey(DTO.UUID))
 							{
-								this._Repository.MsgServers[DTO.UUID]	= DTO;
+								this._DC.MsgServers[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this._Repository.MsgServers.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this._DC.MsgServers.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -63,7 +63,7 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						if (this.MsgServerInUse(ID))
 							{
-								lb_Ret	= this._Repository.MsgServers.Remove(ID);
+								lb_Ret	= this._DC.MsgServers.Remove(ID);
 								if (lb_Ret)	this.IsDirty	= true;
 							}
 						//.............................................

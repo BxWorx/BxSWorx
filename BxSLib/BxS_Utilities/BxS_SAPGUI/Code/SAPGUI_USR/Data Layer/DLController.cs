@@ -52,7 +52,7 @@ namespace SAPGUI.USR.DL
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Save(Repository	repository)
+				internal void Save(Datacontainer	repository)
 					{
 						this.LoadSchema();
 						this._Parser.ParseRep2DS(repository, this._DS);
@@ -60,7 +60,7 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void LoadRepository(Repository repository)
+				internal void LoadRepository(Datacontainer repository)
 					{
 						this.LoadSchema();
 						this.LoadData();

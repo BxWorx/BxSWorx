@@ -9,45 +9,40 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Workspace: Item"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOItem CreateWorkspaceItem()
+				public IDTOItem CreateItem()
 					{
 						return	new DTOItem();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateWSItem(Guid WspaceID, IDTOItem DTO)
+				public bool LoadItem(Guid WSID,	Guid NodeID, Guid ID, Guid ServiceID)
+					{
+						IDTOItem lo_DTO	= this.CreateItem();
+						//.............................................
+						lo_DTO.UUID				= ID;
+						lo_DTO.WSID				= WSID;
+						lo_DTO.NodeID			= NodeID;
+						lo_DTO.ServiceID	= ServiceID;
+						//.............................................
+						return	this.AddUpdateItem(lo_DTO);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool AddUpdateItem(IDTOItem DTO)
 					{
 						return	false;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateNodeItem(Guid WspaceID, Guid NodeID, IDTOItem DTO)
+				public bool RemoveItem(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid))
 					{
 						return	false;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool RemoveWSItem(Guid WspaceID, Guid ID)
+				public IDTOItem GetItem(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid))
 					{
-						return	false;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool RemoveNodeItem(Guid WspaceID, Guid NodeID, Guid ID)
-					{
-						return	false;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOItem GetWSItem(Guid WspaceID, Guid ID)
-					{
-						return	this.CreateWorkspaceItem();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOItem GetNodeItem(Guid WspaceID, Guid NodeID, Guid ID)
-					{
-						return	this.CreateWorkspaceItem();
+						return	this.CreateItem();
 					}
 
 			#endregion

@@ -8,7 +8,7 @@ namespace SAPGUI.COM.CNTLR
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected ControllerSourceBase(Repository repository)
+				protected ControllerSourceBase(Datacontainer repository)
 					{
 						this.Repository = repository;
 					}
@@ -18,7 +18,7 @@ namespace SAPGUI.COM.CNTLR
 			//===========================================================================================
 			#region "Properties"
 
-				public Repository		Repository { get; }
+				public Datacontainer		Repository { get; }
 
 			#endregion
 

@@ -25,7 +25,7 @@ namespace SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Load(Repository repository, string	fullName,	bool onlySAPGUI	= true)
+				internal void Load(DataContainer repository, string	fullName,	bool onlySAPGUI	= true)
 					{
 						//.............................................
 						XmlDocument XmlDoc	= this.LoadXMLDoc(fullName);
@@ -170,7 +170,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private List<DTOItem> GetItemList(Repository repository, XmlElement element, bool forNode = true)
+				private List<DTOItem> GetItemList(Datacontainer repository, XmlElement element, bool forNode = true)
 					{
 						var	lt_List		= new List<DTOItem>();
 						//.............................................
@@ -191,7 +191,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<Guid> UsedMsgServers(Repository repository)
+				private IList<Guid> UsedMsgServers(Datacontainer repository)
 					{
 						return	repository.Services.Select(
 											x => x.Value.MSID)
@@ -201,7 +201,7 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<Guid> UsedServices(Repository repository)
+				private IList<Guid> UsedServices(Datacontainer repository)
 					{
 						return	repository.WorkSpaces.SelectMany
 											( ws => ws.Value.Nodes.SelectMany
@@ -223,7 +223,7 @@ namespace SAPGUI.XML
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Remove unwanted Services and Message Servers
 				//
-				private void Load_XML_Cleanup(Repository repository)
+				private void Load_XML_Cleanup(Datacontainer repository)
 					{
 						IList<Guid>	lt_Use;
 						IList<Guid>	lt_Rem	= new List<Guid>();

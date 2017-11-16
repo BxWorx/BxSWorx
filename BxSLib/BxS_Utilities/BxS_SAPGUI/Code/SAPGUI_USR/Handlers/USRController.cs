@@ -10,7 +10,7 @@ namespace SAPGUI.USR
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal USRController(DLController dlCntlr, Repository repository)
+				internal USRController(DLController dlCntlr, Datacontainer repository)
 									: base(repository)
 					{
 						this._DLCntlr	= dlCntlr;

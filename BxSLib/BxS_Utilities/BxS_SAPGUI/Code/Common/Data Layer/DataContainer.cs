@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using SAPGUI.API;
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class Repositoryx
+	internal class DataContainer
 		{
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repositoryx()
+				internal DataContainer()
 					{
 						this.MsgServers		= new Dictionary<	Guid, IDTOMsgServer > ();
 						this.Services			= new Dictionary<	Guid, IDTOService		> ();

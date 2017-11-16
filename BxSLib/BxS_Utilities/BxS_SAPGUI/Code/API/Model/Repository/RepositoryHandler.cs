@@ -11,9 +11,9 @@ namespace SAPGUI.COM.DL
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RepositoryHandler(Repository repository)
+				internal RepositoryHandler(Datacontainer dataContainer)
 					{
-						this._Repository	= repository;
+						this._DC	= dataContainer;
 						//.............................................
 						this.IsDirty	= false;
 					}
@@ -23,7 +23,7 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Repository		_Repository;
+				private readonly Datacontainer	_DC;
 
 			#endregion
 
@@ -40,15 +40,15 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear()
 					{
-						if (			this._Repository	.MsgServers	.Count.Equals(0)
-									&&	this._Repository	.Services		.Count.Equals(0)
-									&&	this._Repository	.WorkSpaces	.Count.Equals(0)	)
+						if (			this._DC	.MsgServers	.Count.Equals(0)
+									&&	this._DC	.Services		.Count.Equals(0)
+									&&	this._DC	.WorkSpaces	.Count.Equals(0)	)
 							{
 								return;
 							}
 						//.............................................
 						this.IsDirty	= true;
-						this._Repository.Clear();
+						this._DC.Clear();
 					}
 
 			#endregion
@@ -65,19 +65,19 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool MsgServerInUse(Guid ID)
 					{
-						return	!this._Repository.Services.Count(kvp => kvp.Value.MSID.Equals(ID)).Equals(0);
+						return	!this._DC.Services.Count(kvp => kvp.Value.MSID.Equals(ID)).Equals(0);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool ServiceInUse(Guid ID)
 					{
-						bool lb_CntItm		= this._Repository.WorkSpaces
+						bool lb_CntItm		= this._DC.WorkSpaces
 																	.SelectMany( ws => ws.Value.Items
 																		.Where( it => it.Key.Equals(ID) ) )
 																			.Count()
 																				.Equals(0);
 
-						bool lb_CntNde		= this._Repository.WorkSpaces
+						bool lb_CntNde		= this._DC.WorkSpaces
 																	.SelectMany( ws => ws.Value.Nodes
 																		.SelectMany( nd => nd.Value.Items
 																			.Where( it => it.Key.Equals(ID) ) ) )

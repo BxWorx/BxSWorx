@@ -29,7 +29,7 @@ namespace SAPGUI.COM.DL
 				public IDTOWorkspace GetWorkspace(Guid ID)
 					{
 						IDTOWorkspace	lo_DTO	= this.CreateWorkspace();
-						this._Repository.WorkSpaces.TryGetValue(ID, out lo_DTO);
+						this._DC.WorkSpaces.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
 
@@ -38,14 +38,14 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this._Repository.WorkSpaces.ContainsKey(DTO.UUID))
+						if (this._DC.WorkSpaces.ContainsKey(DTO.UUID))
 							{
-								this._Repository.WorkSpaces[DTO.UUID]	= DTO;
+								this._DC.WorkSpaces[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this._Repository.WorkSpaces.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this._DC.WorkSpaces.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -58,7 +58,7 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						lb_Ret	= this._Repository.WorkSpaces.Remove(ID);
+						lb_Ret	= this._DC.WorkSpaces.Remove(ID);
 						if (lb_Ret)	this.IsDirty	= true;
 						//.............................................
 						return	lb_Ret;
