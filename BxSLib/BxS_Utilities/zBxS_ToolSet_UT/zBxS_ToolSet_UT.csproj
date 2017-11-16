@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BxS_Tools\BxS_ToolSet.csproj" />
+    <ProjectReference Include="..\BxS_ToolSet\BxS_ToolSet.csproj" />
   </ItemGroup>
 
 </Project>

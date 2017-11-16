@@ -40,9 +40,9 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear()
 					{
-						if (		this._Repository.MsgServers.Count.Equals(0)
-								&&	this._Repository.Services.Count.Equals	(0)
-								&&	this._Repository.WorkSpaces.Count.Equals(0)	)
+						if (			this._Repository	.MsgServers	.Count.Equals(0)
+									&&	this._Repository	.Services		.Count.Equals(0)
+									&&	this._Repository	.WorkSpaces	.Count.Equals(0)	)
 							{
 								return;
 							}

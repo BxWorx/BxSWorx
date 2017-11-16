@@ -21,7 +21,7 @@ namespace SAPGUI.USR.DL
 
 								if (dto.TryGetValue(lg_WSID, out IDTOWorkspace lo_WS))
 									{
-										IDTOWorkspaceItem lo_DTO = new DTOWorkspaceItem
+										IDTOItem lo_DTO = new DTOWorkspaceItem
 											{
 												UUID				= (Guid)	lo_Row[this._Ref.UUID],
 												ServiceID		= (Guid)	lo_Row[this._Ref.ServiceID]
@@ -35,7 +35,7 @@ namespace SAPGUI.USR.DL
 											{
 												var lc_NdID	= (Guid)lo_Row[this._Ref.ParentID];
 
-												if (lo_WS.Nodes.TryGetValue(lc_NdID, out IDTOWorkspaceNode lo_ND))
+												if (lo_WS.Nodes.TryGetValue(lc_NdID, out IDTONode lo_ND))
 													{
 														lo_ND.Items.Add(lo_DTO.UUID, lo_DTO);
 													}
@@ -45,9 +45,9 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void WSItemDTO2DT(Guid parentID, Dictionary<Guid, IDTOWorkspaceItem> dto, DataTable dtItems, Guid wsID	= default(Guid))
+				private void WSItemDTO2DT(Guid parentID, Dictionary<Guid, IDTOItem> dto, DataTable dtItems, Guid wsID	= default(Guid))
 					{
-						foreach (KeyValuePair<Guid, IDTOWorkspaceItem> lo_Entry in dto)
+						foreach (KeyValuePair<Guid, IDTOItem> lo_Entry in dto)
 							{
 								bool		lb_WSItem	= false;
 								DataRow lo_Row		= dtItems.NewRow();

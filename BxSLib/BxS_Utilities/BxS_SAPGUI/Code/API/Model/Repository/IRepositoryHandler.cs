@@ -9,34 +9,35 @@ namespace SAPGUI.API
 			#region "Methods: Exposed"
 
 				//.................................................
-				IDTOMsgServer			CreateMsgServer();
-				IDTOService				CreateService();
-				IDTOWorkspace			CreateWorkspace();
-				IDTOWorkspaceNode	CreateWorkspaceNode();
-				IDTOWorkspaceItem	CreateWorkspaceItem();
-				//.................................................
-				bool					AddUpdateMsgServer	(IDTOMsgServer DTO);
-				bool					RemoveMsgServer			(Guid ID);
+				IDTOMsgServer	CreateMsgServer();
 				IDTOMsgServer GetMsgServer				(Guid ID);
+				bool					RemoveMsgServer			(Guid ID);
+				bool					AddUpdateMsgServer	(IDTOMsgServer DTO);
+
 				//.................................................
-				bool				AddUpdateService	(IDTOService DTO);
-				bool				RemoveService			(Guid ID);
+				IDTOService	CreateService();
 				IDTOService	GetService				(Guid ID);
+				bool				RemoveService			(Guid ID);
+				bool				AddUpdateService	(IDTOService DTO);
+
 				//.................................................
-				bool					AddUpdateWorkspace	(IDTOWorkspace DTO);
-				bool					RemoveWorkspace			(Guid ID);
+				IDTOWorkspace	CreateWorkspace();
 				IDTOWorkspace	GetWorkspace				(Guid ID);
+				bool					RemoveWorkspace			(Guid ID);
+				bool					AddUpdateWorkspace	(IDTOWorkspace DTO);
+
 				//.................................................
-				bool							AddUpdateNode	(Guid WSpaceID, IDTOWorkspaceNode DTO);
-				bool							RemoveNode		(Guid WSpaceID, Guid NodeID);
-				IDTOWorkspaceNode	GetNode				(Guid WSpaceID, Guid NodeID);
+				IDTONode	CreateNode();
+				IDTONode	GetNode				(Guid WSpaceID, Guid NodeID);
+				bool			RemoveNode		(Guid WSpaceID, Guid NodeID);
+				bool			AddUpdateNode	(IDTONode DTO);
+
 				//.................................................
-				bool							AddUpdateWSItem		(Guid WSpaceID, IDTOWorkspaceItem DTO);
-				bool							AddUpdateNodeItem	(Guid WSpaceID, Guid NodeID, IDTOWorkspaceItem DTO);
-				bool							RemoveWSItem			(Guid WSpaceID, Guid ID);
-				bool							RemoveNodeItem		(Guid WSpaceID, Guid NodeID, Guid ID);
-				IDTOWorkspaceItem	GetWSItem					(Guid WSpaceID, Guid ID);
-				IDTOWorkspaceItem	GetNodeItem				(Guid WSpaceID, Guid NodeID, Guid ID);
+				IDTOItem	CreateItem();
+				IDTOItem	GetItem				(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
+				bool			RemoveItem		(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
+				bool			AddUpdateItem	(IDTOItem DTO);
+
 				//.................................................
 				void Clear();
 

@@ -20,7 +20,7 @@ namespace SAPGUI.USR.DL
 
 								if (dto.TryGetValue(lc_WSID, out IDTOWorkspace lo_WS))
 									{
-										IDTOWorkspaceNode lo_DTO = new DTOWorkspaceNode
+										IDTONode lo_DTO = new DTOWorkspaceNode
 											{
 												UUID				= (Guid)	lo_Row[this._Ref.UUID]										,
 												Description =					lo_Row[this._Ref.Description]	.ToString()	,
@@ -32,10 +32,10 @@ namespace SAPGUI.USR.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void WSNodeDTO2DT(Guid wsID, Dictionary<Guid, IDTOWorkspaceNode> dto	,	DataTable dtNodes
+				private void WSNodeDTO2DT(Guid wsID, Dictionary<Guid, IDTONode> dto	,	DataTable dtNodes
 																																											,	DataTable dtItems	)
 					{
-						foreach (KeyValuePair<Guid, IDTOWorkspaceNode> lo_Entry in dto)
+						foreach (KeyValuePair<Guid, IDTONode> lo_Entry in dto)
 							{
 								DataRow lo_Row	= dtNodes.NewRow();
 								//.............................................

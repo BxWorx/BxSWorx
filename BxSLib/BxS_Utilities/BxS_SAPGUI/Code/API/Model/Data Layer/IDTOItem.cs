@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API.DL
 {
-	public interface IDTOWorkspaceNode
+	public interface IDTOItem
 		{
 			#region "Properties"
 
-				Guid		UUID				{ get; set; }
-				string	Description	{ get; set; }
-				//...................................................
-				Dictionary<Guid, IDTOWorkspaceItem>	Items { get; set; }
+				Guid	UUID	{ get; set; }
+				//.................................................
+				Guid	WSID			{ get; set; }
+				Guid	NodeID		{ get; set; }
+				Guid	ServiceID	{ get; set; }
 
 			#endregion
 

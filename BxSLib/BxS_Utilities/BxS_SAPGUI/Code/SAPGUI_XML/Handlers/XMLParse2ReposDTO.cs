@@ -89,7 +89,7 @@ namespace SAPGUI.XML
 								//.........................................
 								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName(cz_TagNode))
 									{
-										IDTOWorkspaceNode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
+										IDTONode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
 										foreach (DTOWorkspaceItem lo_WSNodeItem in this.GetItemList(repository, lo_Node, true))
 											{
 												lo_WSNode.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
@@ -150,9 +150,9 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IDTOWorkspaceNode LoadWSNodeAttributtes(XmlElement element)
+				private IDTONode LoadWSNodeAttributtes(XmlElement element)
 					{
-						IDTOWorkspaceNode lo_DTO = new DTOWorkspaceNode
+						IDTONode lo_DTO = new DTOWorkspaceNode
 							{	UUID				= Guid.Parse(element.GetAttribute(cz_TagUuid))	,
 								Description	= element.GetAttribute(cz_TagName)								};
 						//.............................................

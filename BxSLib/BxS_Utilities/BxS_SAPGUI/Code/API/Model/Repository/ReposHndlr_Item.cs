@@ -9,19 +9,19 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Workspace: Item"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOWorkspaceItem CreateWorkspaceItem()
+				public IDTOItem CreateWorkspaceItem()
 					{
 						return	new DTOWorkspaceItem();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateWSItem(Guid WspaceID, IDTOWorkspaceItem DTO)
+				public bool AddUpdateWSItem(Guid WspaceID, IDTOItem DTO)
 					{
 						return	false;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateNodeItem(Guid WspaceID, Guid NodeID, IDTOWorkspaceItem DTO)
+				public bool AddUpdateNodeItem(Guid WspaceID, Guid NodeID, IDTOItem DTO)
 					{
 						return	false;
 					}
@@ -39,13 +39,13 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOWorkspaceItem GetWSItem(Guid WspaceID, Guid ID)
+				public IDTOItem GetWSItem(Guid WspaceID, Guid ID)
 					{
 						return	this.CreateWorkspaceItem();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOWorkspaceItem GetNodeItem(Guid WspaceID, Guid NodeID, Guid ID)
+				public IDTOItem GetNodeItem(Guid WspaceID, Guid NodeID, Guid ID)
 					{
 						return	this.CreateWorkspaceItem();
 					}

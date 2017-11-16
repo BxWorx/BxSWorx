@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API.DL
 {
-	public interface IDTOMsgServer
+	public interface IDTONode
 		{
 			#region "Properties"
 
 				Guid	UUID	{ get; set; }
-				//...................................................
-				string	Name				{ get; set; }
+				//.................................................
 				string	Description	{ get; set; }
-				string	Host				{ get; set; }
-				string	Port				{ get; set; }
+
+				Dictionary<Guid, IDTOItem>	Items { get; set; }
+				//.................................................
+				Guid	WSID	{ get; set; }
 
 			#endregion
+
 		}
 }

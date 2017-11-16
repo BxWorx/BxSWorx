@@ -7,11 +7,12 @@ namespace SAPGUI.API.DL
 		{
 			#region "Properties"
 
-				Guid		UUID				{ get; set; }
-				string Description	{ get; set; }
+				Guid	UUID	{ get; set; }
 				//...................................................
-				Dictionary<Guid, IDTOWorkspaceNode>	Nodes { get; set; }
-				Dictionary<Guid, IDTOWorkspaceItem> Items { get; set; }
+				string	Description	{ get; set; }
+
+				Dictionary<Guid, IDTONode>	Nodes { get; set; }
+				Dictionary<Guid, IDTOItem> Items { get; set; }
 
 			#endregion
 		}

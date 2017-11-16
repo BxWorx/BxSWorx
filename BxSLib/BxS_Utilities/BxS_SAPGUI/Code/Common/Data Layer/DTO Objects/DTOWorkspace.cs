@@ -12,8 +12,8 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DTOWorkspace()
 					{
-						this.Nodes	= new	Dictionary<Guid, IDTOWorkspaceNode>();
-						this.Items	= new Dictionary<Guid, IDTOWorkspaceItem>();
+						this.Nodes	= new	Dictionary<Guid, IDTONode>();
+						this.Items	= new Dictionary<Guid, IDTOItem>();
 					}
 
 			#endregion
@@ -24,8 +24,8 @@ namespace SAPGUI.COM.DL
 				public Guid		UUID					{ get; set; }
 				public string Description		{ get; set; }
 				//...................................................
-				public Dictionary<Guid, IDTOWorkspaceNode> Nodes	{ get; set; }
-				public Dictionary<Guid, IDTOWorkspaceItem> Items	{ get; set; }
+				public Dictionary<Guid, IDTONode> Nodes	{ get; set; }
+				public Dictionary<Guid, IDTOItem> Items	{ get; set; }
 
 			#endregion
 		}

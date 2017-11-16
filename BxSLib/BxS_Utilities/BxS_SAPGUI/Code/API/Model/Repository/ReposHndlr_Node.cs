@@ -9,13 +9,13 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Workspace: Node"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOWorkspaceNode CreateWorkspaceNode()
+				public IDTONode CreateWorkspaceNode()
 					{
 						return	new DTOWorkspaceNode();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateNode(IDTOWorkspaceNode DTO)
+				public bool AddUpdateNode(IDTONode DTO)
 					{
 						return	false;
 					}
@@ -27,7 +27,7 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOWorkspaceNode GetNode(Guid ID)
+				public IDTONode GetNode(Guid ID)
 					{
 						return	this.CreateWorkspaceNode();
 					}
