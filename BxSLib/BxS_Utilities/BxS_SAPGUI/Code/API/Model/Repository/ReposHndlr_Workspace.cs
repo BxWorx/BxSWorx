@@ -15,6 +15,17 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool	LoadWorkspace(Guid ID, string	Description)
+					{
+						IDTOWorkspace lo_DTO = this.CreateWorkspace();
+						//.............................................
+						lo_DTO.UUID					= ID;
+						lo_DTO.Description	= Description;
+						//.............................................
+						return	this.AddUpdateWorkspace(lo_DTO);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOWorkspace GetWorkspace(Guid ID)
 					{
 						IDTOWorkspace	lo_DTO	= this.CreateWorkspace();

@@ -8,9 +8,10 @@ namespace SAPGUI.API.DL
 
 				Guid	UUID	{ get; set; }
 				//.................................................
+				Guid	ServiceID	{ get; set; }
+				//.................................................
 				Guid	WSID			{ get; set; }
 				Guid	NodeID		{ get; set; }
-				Guid	ServiceID	{ get; set; }
 
 			#endregion
 

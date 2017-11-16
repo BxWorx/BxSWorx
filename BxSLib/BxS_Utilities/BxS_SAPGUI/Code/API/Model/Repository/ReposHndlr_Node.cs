@@ -9,11 +9,22 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Workspace: Node"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTONode CreateWorkspaceNode()
+				public IDTONode CreateNode()
 					{
 						return	new DTONode();
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool	LoadNode(Guid WSID,	Guid ID, string	Description)
+					{
+						IDTONode lo_DTO = this.CreateNode();
+						//.............................................
+						lo_DTO.UUID					= ID;
+						lo_DTO.Description	= Description;
+						lo_DTO.WSID					= WSID;
+						//.............................................
+						return	this.AddUpdateNode(lo_DTO);
+					}
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateNode(IDTONode DTO)
 					{
@@ -29,7 +40,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTONode GetNode(Guid ID)
 					{
-						return	this.CreateWorkspaceNode();
+						return	this.CreateNode();
 					}
 
 			#endregion

@@ -15,6 +15,20 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool LoadMsgServer(Guid ID, string Name, string Host, string Port, string Description)
+					{
+						IDTOMsgServer lo_DTO = this.CreateMsgServer();
+						//.............................................
+						lo_DTO.UUID					= ID;
+						lo_DTO.Name					= Name;
+						lo_DTO.Host					= Host;
+						lo_DTO.Port					= Port;
+						lo_DTO.Description	= Description;
+						//.............................................
+						return	this.AddUpdateMsgServer(lo_DTO);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOMsgServer GetMsgServer(Guid ID)
 					{
 						IDTOMsgServer	lo_DTO	= this.CreateMsgServer();

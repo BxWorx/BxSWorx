@@ -15,6 +15,26 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool LoadService(Guid ID, string Name, string Description, string SystemID, string Type, string Server, string SAPCPGE, string DCPG, string SNCName, string SNCOp, string Mode)
+					{
+						IDTOService lo_DTO = this.CreateService();
+						//.............................................
+						lo_DTO.UUID					= ID;
+						lo_DTO.Name					= Name;
+						lo_DTO.Description	= Description;
+						lo_DTO.SystemID			= SystemID;
+						lo_DTO.Type					= Type;
+						lo_DTO.Server				= Server;
+						lo_DTO.SAPCPG				= SAPCPGE;
+						lo_DTO.DCPG					= DCPG;
+						lo_DTO.SNCName			= SNCName;
+						lo_DTO.SNCOp				= SNCOp;
+						lo_DTO.Mode					= Mode;
+						//.............................................
+						return	this.AddUpdateService(lo_DTO);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOService GetService(Guid ID)
 					{
 						IDTOService	lo_DTO	= this.CreateService();

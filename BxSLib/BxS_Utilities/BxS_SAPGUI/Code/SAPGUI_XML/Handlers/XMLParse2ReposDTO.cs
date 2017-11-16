@@ -138,7 +138,7 @@ namespace SAPGUI.XML
 						var lo_XMLDoc = new XmlDocument();
 						//.............................................
 						try
-								{	
+								{
 									lo_XMLDoc.Load(fullname);
 								}
 							catch (System.SystemException)
@@ -153,7 +153,7 @@ namespace SAPGUI.XML
 				private IDTONode LoadWSNodeAttributtes(XmlElement element)
 					{
 						IDTONode lo_DTO = new DTONode
-							{	UUID				= Guid.Parse(element.GetAttribute(cz_TagUuid))	,
+							{	UUID				= this.ParseGuid(element.GetAttribute(cz_TagUuid))	,
 								Description	= element.GetAttribute(cz_TagName)								};
 						//.............................................
 						return lo_DTO;
@@ -163,7 +163,7 @@ namespace SAPGUI.XML
 				private IDTOWorkspace LoadWSAttributtes(XmlElement _xmlelement)
 					{
 						IDTOWorkspace lo_DTO = new DTOWorkspace
-							{	UUID				= Guid.Parse(_xmlelement.GetAttribute(cz_TagUuid))	,
+							{	UUID				= this.ParseGuid(_xmlelement.GetAttribute(cz_TagUuid))	,
 								Description	= _xmlelement.GetAttribute(cz_TagName)								};
 						//.............................................
 						return lo_DTO;
@@ -178,10 +178,10 @@ namespace SAPGUI.XML
 							{
 								if (forNode || !lo_Item.ParentNode.Name.Equals(cz_TagNode))
 									{
-										var lc_ServID	= Guid.Parse(lo_Item.GetAttribute("serviceid"));
+										var lc_ServID	= this.ParseGuid(lo_Item.GetAttribute("serviceid"));
 										if (repository.Services.ContainsKey(lc_ServID))
 											{
-												lt_List.Add(	new DTOItem	{	UUID			= Guid.Parse(lo_Item.GetAttribute(cz_TagUuid))	,
+												lt_List.Add(	new DTOItem	{	UUID	= this.ParseGuid(lo_Item.GetAttribute(cz_TagUuid))	,
 																															ServiceID = lc_ServID																				}	);
 											}
 									}

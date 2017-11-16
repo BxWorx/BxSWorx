@@ -12,9 +12,10 @@ namespace SAPGUI.COM.DL
 
 				[DataMember]	public Guid	UUID			{ get; set; }
 				//.................................................
+				[DataMember]	public Guid	ServiceID	{ get; set; }
+				//.................................................
 				[DataMember]	public Guid	WSID			{ get; set; }
 				[DataMember]	public Guid	NodeID		{ get; set; }
-				[DataMember]	public Guid	ServiceID	{ get; set; }
 
 			#endregion
 		}
