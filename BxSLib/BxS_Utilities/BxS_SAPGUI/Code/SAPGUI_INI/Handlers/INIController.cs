@@ -1,5 +1,5 @@
-﻿using SAPGUI.COM.CNTLR;
-using SAPGUI.COM.DL;
+﻿using SAPGUI.API;
+using SAPGUI.COM.CNTLR;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.INI
 {
@@ -8,7 +8,7 @@ namespace SAPGUI.INI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public INIController(DataContainer repository)
+				public INIController(IRepository repository)
 								: base(repository)
 					{
 						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);

@@ -9,15 +9,15 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Message Server"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOMsgServer CreateMsgServer()
+				public IDTOMsgServer CreateMsgServerDTO()
 					{
 						return	new DTOMsgServer();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool LoadMsgServer(Guid ID, string Name, string Host, string Port, string Description)
+				public bool AddUpdateMsgServer(Guid ID, string Name, string Host, string Port, string Description)
 					{
-						IDTOMsgServer lo_DTO = this.CreateMsgServer();
+						IDTOMsgServer lo_DTO = this.CreateMsgServerDTO();
 						//.............................................
 						lo_DTO.UUID					= ID;
 						lo_DTO.Name					= Name;
@@ -31,7 +31,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOMsgServer GetMsgServer(Guid ID)
 					{
-						IDTOMsgServer	lo_DTO	= this.CreateMsgServer();
+						IDTOMsgServer	lo_DTO	= this.CreateMsgServerDTO();
 						this._DC.MsgServers.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
@@ -61,7 +61,7 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this.MsgServerInUse(ID))
+						if (!this.MsgServerInUse(ID))
 							{
 								lb_Ret	= this._DC.MsgServers.Remove(ID);
 								if (lb_Ret)	this.IsDirty	= true;

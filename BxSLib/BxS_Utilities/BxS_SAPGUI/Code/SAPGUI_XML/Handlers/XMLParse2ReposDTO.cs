@@ -114,7 +114,7 @@ namespace SAPGUI.XML
 						Guid lg_Key	= this.ParseGuid(msgSvr.GetAttribute(cz_TagUuid));
 						if (lg_Key == Guid.Empty)	return;
 						//.........................................
-						this._Repos.LoadMsgServer(	ID:						lg_Key													,
+						this._Repos.AddUpdateMsgServer(	ID:						lg_Key													,
 																				Name:					msgSvr.GetAttribute(cz_TagName)	,
 																				Host:					msgSvr.GetAttribute("host")			,
 																				Port:					msgSvr.GetAttribute("port")			,
@@ -131,7 +131,7 @@ namespace SAPGUI.XML
 						Guid lg_Key	= this.ParseGuid(srv.GetAttribute(cz_TagUuid));
 						if (lg_Key	== Guid.Empty)	return;
 						//.........................................
-						this._Repos.LoadService(	ID:						lg_Key																		,
+						this._Repos.AddUpdateService(	ID:						lg_Key																		,
 																			Name:					srv.GetAttribute(cz_TagName)							,
 																			Description:	srv.GetAttribute(cz_TagDesc)							,
 																			SystemID:			srv.GetAttribute("systemid")							,
@@ -149,7 +149,7 @@ namespace SAPGUI.XML
 				private Guid LoadNode(Guid WSID, XmlElement node)
 					{
 						Guid lo_ID	= this.ParseGuid(node.GetAttribute(cz_TagUuid));
-						this._Repos.LoadNode(	WSID:					WSID													,
+						this._Repos.AddUpdateNode(	WSID:					WSID													,
 																	ID:						lo_ID													,
 																	Description:	node.GetAttribute(cz_TagName)		);
 						return	lo_ID;
@@ -159,7 +159,7 @@ namespace SAPGUI.XML
 				private Guid LoadWorkspace(XmlElement ws)
 					{
 						Guid lo_ID	= this.ParseGuid(ws.GetAttribute(cz_TagUuid));
-						this._Repos.LoadWorkspace(	ID:						lo_ID												,
+						this._Repos.AddUpdateWorkspace(	ID:						lo_ID												,
 																				Description:	ws.GetAttribute(cz_TagName)		);
 						return	lo_ID;
 					}
@@ -170,7 +170,7 @@ namespace SAPGUI.XML
 						Guid lg_ID		= this.ParseGuid(item.GetAttribute(cz_TagUuid));
 						Guid lg_SrvID	= this.ParseGuid(item.GetAttribute("serviceid"));
 
-						this._Repos.LoadItem(wsID, nodeID, lg_ID, lg_SrvID);
+						this._Repos.AddUpdateItem(wsID, nodeID, lg_ID, lg_SrvID);
 					}
 
 			#endregion

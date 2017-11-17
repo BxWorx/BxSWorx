@@ -9,15 +9,15 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Service"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOService CreateService()
+				public IDTOService CreateServiceDTO()
 					{
 						return	new DTOService();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool LoadService(Guid ID, string Name, string Description, string SystemID, string Type, string Server, string SAPCPG, string DCPG, string SNCName, string SNCOp, Guid MsgServer, string Mode)
+				public bool AddUpdateService(Guid ID, string Name, string Description, string SystemID, string Type, string Server, string SAPCPG, string DCPG, string SNCName, string SNCOp, Guid MsgServer, string Mode)
 					{
-						IDTOService lo_DTO = this.CreateService();
+						IDTOService lo_DTO = this.CreateServiceDTO();
 						//.............................................
 						lo_DTO.UUID					= ID;
 						lo_DTO.Name					= Name;
@@ -38,7 +38,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOService GetService(Guid ID)
 					{
-						IDTOService	lo_DTO	= this.CreateService();
+						IDTOService	lo_DTO	= this.CreateServiceDTO();
 						this._DC.Services.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
@@ -68,7 +68,7 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this.ServiceInUse(ID))
+						if (!this.ServiceInUse(ID))
 							{
 								lb_Ret	= this._DC.Services.Remove(ID);
 								if (lb_Ret)	this.IsDirty	= true;

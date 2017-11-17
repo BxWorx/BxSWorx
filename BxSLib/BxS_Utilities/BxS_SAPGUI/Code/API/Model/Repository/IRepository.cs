@@ -1,7 +1,6 @@
 ﻿using System;
 //.........................................................
 using SAPGUI.API.DL;
-using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
@@ -10,24 +9,24 @@ namespace SAPGUI.API
 			#region "Methods: Exposed"
 
 				//.................................................
-				IDTOMsgServer	CreateMsgServer();
+				IDTOMsgServer	CreateMsgServerDTO();
 				IDTOMsgServer GetMsgServer				(Guid ID);
 				bool					RemoveMsgServer			(Guid ID);
 				bool					AddUpdateMsgServer	(IDTOMsgServer DTO);
 
-				bool					LoadMsgServer				(	Guid		ID		,
+				bool					AddUpdateMsgServer	(	Guid		ID		,
 																						string	Name	,
 																						string	Host	,
 																						string	Port	,
 																						string	Description	);
 
 				//.................................................
-				IDTOService	CreateService();
+				IDTOService	CreateServiceDTO();
 				IDTOService	GetService				(Guid ID);
 				bool				RemoveService			(Guid ID);
 				bool				AddUpdateService	(IDTOService DTO);
 
-				bool				LoadService				(	Guid		ID					,
+				bool				AddUpdateService	(	Guid		ID					,
 																				string	Name				,
 																				string	Description	,
 																				string	SystemID		,
@@ -41,35 +40,39 @@ namespace SAPGUI.API
 																				string	Mode					);
 
 				//.................................................
-				IDTOWorkspace	CreateWorkspace();
+				IDTOWorkspace	CreateWorkspaceDTO();
 				IDTOWorkspace	GetWorkspace				(Guid ID);
 				bool					RemoveWorkspace			(Guid ID);
 				bool					AddUpdateWorkspace	(IDTOWorkspace DTO);
 
-				bool					LoadWorkspace				(	Guid		ID	,
+				bool					AddUpdateWorkspace	(	Guid		ID	,
 																						string	Description	);
 
 				//.................................................
-				IDTONode	CreateNode();
+				IDTONode	CreateNodeDTO();
 				IDTONode	GetNode				(Guid NodeID, Guid ForWSpaceID);
 				bool			RemoveNode		(Guid NodeID, Guid ForWSpaceID);
 				bool			AddUpdateNode	(IDTONode DTO);
 
-				bool			LoadNode			(	Guid		WSID	,
+				bool			AddUpdateNode	(	Guid		WSID	,
 																	Guid		ID		,
 																	string	Description	);
 
 				//.................................................
-				IDTOItem	CreateItem();
+				IDTOItem	CreateItemDTO();
 				IDTOItem	GetItem				(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
 				bool			RemoveItem		(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
 				bool			AddUpdateItem	(IDTOItem DTO);
 
-				bool			LoadItem			(	Guid	WSID		,
+				bool			AddUpdateItem	(	Guid	WSID		,
 																	Guid  NodeID	,
 																	Guid	ID			,
 																	Guid	ServiceID	);
 
+				//.................................................
+				int MsgServerCount	{ get; }
+				int ServiceCount		{ get; }
+				int WorkspaceCount	{ get; }
 				//.................................................
 				void Clear();
 				void HouseKeeping();

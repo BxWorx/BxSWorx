@@ -9,20 +9,9 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Workspace"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOWorkspace CreateWorkspace()
+				public IDTOWorkspace CreateWorkspaceDTO()
 					{
 						return	new DTOWorkspace();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool	LoadWorkspace(Guid ID, string	Description)
-					{
-						IDTOWorkspace lo_DTO = this.CreateWorkspace();
-						//.............................................
-						lo_DTO.UUID					= ID;
-						lo_DTO.Description	= Description;
-						//.............................................
-						return	this.AddUpdateWorkspace(lo_DTO);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -34,9 +23,24 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOWorkspace GetWorkspace(Guid ID)
 					{
-						IDTOWorkspace	lo_DTO	= this.CreateWorkspace();
-						this._DC.WorkSpaces.TryGetValue(ID, out lo_DTO);
+						IDTOWorkspace	lo_DTO	= this.CreateWorkspaceDTO();
+						lo_DTO.UUID	= ID;
+						//.............................................
+						if (!this.GetWorkspace(lo_DTO))
+							lo_DTO.UUID	= Guid.Empty;
+						//.............................................
 						return	lo_DTO;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool	AddUpdateWorkspace(Guid ID, string	Description)
+					{
+						IDTOWorkspace lo_DTO = this.CreateWorkspaceDTO();
+						//.............................................
+						lo_DTO.UUID					= ID;
+						lo_DTO.Description	= Description;
+						//.............................................
+						return	this.AddUpdateWorkspace(lo_DTO);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

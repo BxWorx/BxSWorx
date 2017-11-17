@@ -1,4 +1,5 @@
-﻿using SAPGUI.COM.DL;
+﻿using SAPGUI.API;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -7,9 +8,9 @@ namespace SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Load(DataContainer repository, string fullName)
+				internal void Load(IRepository repository, string fullName)
 					{
-						DataContainer	z = repository;
+						IRepository	z = repository;
 						string			x = fullName;
 					}
 

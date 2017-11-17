@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -9,15 +10,15 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Workspace: Item"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOItem CreateItem()
+				public IDTOItem CreateItemDTO()
 					{
 						return	new DTOItem();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool LoadItem(Guid WSID,	Guid NodeID, Guid ID, Guid ServiceID)
+				public bool AddUpdateItem(Guid WSID,	Guid NodeID, Guid ID, Guid ServiceID)
 					{
-						IDTOItem lo_DTO	= this.CreateItem();
+						IDTOItem lo_DTO	= this.CreateItemDTO();
 						//.............................................
 						lo_DTO.UUID				= ID;
 						lo_DTO.WSID				= WSID;
@@ -30,7 +31,22 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateItem(IDTOItem DTO)
 					{
-						return	false;
+						bool lb_Ret	= false;
+						//.............................................
+						Dictionary<Guid, IDTOItem> lt_Items	= this.GetItemContainer(DTO.WSID, DTO.NodeID);
+
+						if (lt_Items.ContainsKey(DTO.UUID))
+							{
+								lt_Items[DTO.UUID]	= DTO;
+								lb_Ret	= true;
+							}
+						else
+							{
+								lb_Ret	= lt_Items.TryAdd(DTO.UUID, DTO);
+							}
+							if (lb_Ret)		this.IsDirty	= true;
+						//.............................................
+						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -42,7 +58,25 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOItem GetItem(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid))
 					{
-						return	this.CreateItem();
+						return	this.CreateItemDTO();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private: Workspace: Item"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private Dictionary<Guid, IDTOItem> GetItemContainer(Guid ForWSpaceID, Guid ForNodeID)
+					{
+						if (ForNodeID == Guid.Empty)
+							{
+								return	this.GetNode(ForNodeID, ForWSpaceID)?.Items;
+							}
+						else
+							{
+								return	this.GetWorkspace(ForWSpaceID)?.Items;
+							}
 					}
 
 			#endregion

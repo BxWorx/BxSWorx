@@ -29,9 +29,13 @@ namespace SAPGUI.COM.DL
 			#endregion
 
 			//===========================================================================================
-			#region "Proprties"
+			#region "Properties"
 
 				internal bool IsDirty { get; private set; }
+				//.................................................
+				public int MsgServerCount	{ get {	return	this._DC.MsgServers.Count; } }
+				public int ServiceCount		{ get {	return	this._DC.Services.Count; } }
+				public int WorkspaceCount	{ get {	return	this._DC.WorkSpaces.Count; } }
 
 			#endregion
 

@@ -104,9 +104,10 @@ namespace zBxS_SAPGUI_UT
 				{
 					int					ln_Cnt;
 					//...............................................
-					var						lo_RepX			= new DataContainer();
+					var						lo_DC				= new DataContainer();
+					var           lo_Repos		= new Repository(lo_DC);
 					DLController	lo_DLCntlr	= this.CreateDLCntlr();
-					var						lo_UsrCntlr	= new USRController(lo_DLCntlr, lo_RepX);
+					var						lo_UsrCntlr	= new USRController(lo_DLCntlr, lo_Repos);
 					//...............................................
 					ln_Cnt	= 1;
 

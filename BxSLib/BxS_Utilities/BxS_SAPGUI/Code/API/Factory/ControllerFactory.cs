@@ -43,7 +43,7 @@ namespace SAPGUI.API
 						var lo_Parser		= new Parser(lo_Ref);
 						var lo_Schema		= new Schema(lo_Ref);
 						var lo_DLCntlr	= new DLController(fullPath, lo_Schema, lo_Parser);
-						var lo_Repos		= new DataContainer();
+						IRepository lo_Repos	= CreateRepository();
 						//.............................................
 						IControllerSource USRCntlr	= new USRController(lo_DLCntlr, lo_Repos);
 						IController				Cntlr			= new Controller(USRCntlr, false);

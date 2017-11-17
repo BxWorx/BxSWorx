@@ -24,36 +24,36 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiXML_Parser()
 				{
 					int					ln_Cnt;
-					DataContainer	lo_Repos;
+					IRepository	lo_Repos;
 					var					lo_Parser	= new XMLParse2ReposDTO();
 					//...............................................
-					ln_Cnt		= 1;
-					lo_Repos	= new DataContainer();
+					ln_Cnt	= 1;
+					lo_Repos	= this.CreateRepository();
 					lo_Parser.Load(lo_Repos, "XXXX");
-					Assert.AreEqual	(00, lo_Repos.MsgServers.Count	, $"Error: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual	(00, lo_Repos.Services.Count		, $"Error: {ln_Cnt}: Services: Error");
-					Assert.AreEqual	(00, lo_Repos.WorkSpaces.Count	, $"Error: {ln_Cnt}: Workspaces: Error");
+					Assert.AreEqual	(00, lo_Repos.MsgServerCount	, $"Error: {ln_Cnt}: MsgSrvs: Error");
+					Assert.AreEqual	(00, lo_Repos.ServiceCount		, $"Error: {ln_Cnt}: Services: Error");
+					Assert.AreEqual	(00, lo_Repos.WorkspaceCount	, $"Error: {ln_Cnt}: Workspaces: Error");
 					//...............................................
 					ln_Cnt = 2;
-					lo_Repos	= new DataContainer();
+					lo_Repos	= this.CreateRepository();
 					lo_Parser.Load(lo_Repos, cc_FullName);
-					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual(36, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
-					Assert.AreEqual(04, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
+					Assert.AreEqual(07, lo_Repos.MsgServerCount	, $"Base: {ln_Cnt}: MsgSrvs: Error");
+					Assert.AreEqual(36, lo_Repos.ServiceCount		, $"Base: {ln_Cnt}: Services: Error");
+					Assert.AreEqual(04, lo_Repos.WorkspaceCount	, $"Base: {ln_Cnt}: Workspaces: Error");
 					//...............................................
 					ln_Cnt = 3;
-					lo_Repos	= new DataContainer();
+					lo_Repos	= this.CreateRepository();
 					lo_Parser.Load(lo_Repos, cc_FullName, true);
-					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual(36, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
-					Assert.AreEqual(04, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
+					Assert.AreEqual(07, lo_Repos.MsgServerCount	, $"Base: {ln_Cnt}: MsgSrvs: Error");
+					Assert.AreEqual(36, lo_Repos.ServiceCount		, $"Base: {ln_Cnt}: Services: Error");
+					Assert.AreEqual(04, lo_Repos.WorkspaceCount	, $"Base: {ln_Cnt}: Workspaces: Error");
 					//...............................................
 					ln_Cnt = 4;
-					lo_Repos	= new DataContainer();
+					lo_Repos	= this.CreateRepository();
 					lo_Parser.Load(lo_Repos, cc_FullName, false);
-					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual(47, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
-					Assert.AreEqual(05, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
+					Assert.AreEqual(07, lo_Repos.MsgServerCount	, $"Base: {ln_Cnt}: MsgSrvs: Error");
+					Assert.AreEqual(47, lo_Repos.ServiceCount		, $"Base: {ln_Cnt}: Services: Error");
+					Assert.AreEqual(05, lo_Repos.WorkspaceCount	, $"Base: {ln_Cnt}: Workspaces: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ namespace zBxS_SAPGUI_UT
 					int								ln_Cnt;
 					IDTOConnection		lo_DTOConn;
 					var								lo_Parser	= new XMLParse2ReposDTO();
-					var								lo_Repos	= new DataContainer();
+					IRepository				lo_Repos	= this.CreateRepository();
 					IControllerSource	lo_Cntlr	= new XMLController(lo_Repos) ;
 					//...............................................
 					lo_Parser.Load(lo_Repos, cc_FullName);
@@ -78,6 +78,14 @@ namespace zBxS_SAPGUI_UT
 					lo_Cntlr.GetConnection(lo_DTOConn);
 					Assert.AreEqual	(cz_TestConnID			, lo_DTOConn.ID	,	$"Cntlr: {ln_Cnt}: Conn: Error");
 					Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
+				}
+
+			//-------------------------------------------------------------------------------------------
+			private IRepository	CreateRepository()
+				{
+					var	lo_DC			= new DataContainer();
+					var	lo_Repos	= new Repository(lo_DC);
+					return	lo_Repos;
 				}
 
 		}

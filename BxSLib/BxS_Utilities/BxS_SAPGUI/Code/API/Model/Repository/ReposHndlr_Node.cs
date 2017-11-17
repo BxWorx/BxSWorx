@@ -9,15 +9,15 @@ namespace SAPGUI.COM.DL
 			#region "Methods: Exposed: Workspace: Node"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTONode CreateNode()
+				public IDTONode CreateNodeDTO()
 					{
 						return	new DTONode();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool	LoadNode(Guid WSID,	Guid ID, string	Description)
+				public bool	AddUpdateNode(Guid WSID, Guid ID, string	Description)
 					{
-						IDTONode lo_DTO = this.CreateNode();
+						IDTONode lo_DTO = this.CreateNodeDTO();
 						//.............................................
 						lo_DTO.UUID					= ID;
 						lo_DTO.Description	= Description;
@@ -28,22 +28,54 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateNode(IDTONode DTO)
 					{
-						return	false;
+						bool lb_Ret	= false;
+						//.............................................
+						IDTOWorkspace lo_WS	= this.GetWorkspace(DTO.WSID);
+
+						if (lo_WS.UUID != Guid.Empty)
+							{
+								if (lo_WS.Nodes.ContainsKey(DTO.UUID))
+									{
+										lo_WS.Nodes[DTO.UUID]	= DTO;
+										lb_Ret	= true;
+									}
+								else
+									{
+										lb_Ret	= lo_WS.Nodes.TryAdd(DTO.UUID, DTO);
+									}
+
+								if (lb_Ret)		this.IsDirty	= true;
+							}
+						//.............................................
+						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool RemoveNode(Guid NodeID, Guid ForWSpaceID)
 					{
+						IDTOWorkspace lo_WS	= this.GetWorkspace(ForWSpaceID);
+
+						if (lo_WS.UUID != Guid.Empty)
+							{
+								return	lo_WS.Nodes.Remove(NodeID);
+							}
+						//.............................................
 						return	false;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTONode GetNode(Guid NodeID, Guid ForWSpaceID)
 					{
-						IDTOWorkspace lo_WS	= this.GetWorkspace(ForWSpaceID);
+						IDTONode			lo_DTO	= this.CreateNodeDTO();
+						IDTOWorkspace lo_WS		= this.GetWorkspace(ForWSpaceID);
 
-
-						return	this.CreateNode();
+						if (lo_WS.UUID != Guid.Empty)
+							{
+								if (!lo_WS.Nodes.TryGetValue(NodeID, out lo_DTO))
+									{	}
+							}
+						//.............................................
+						return	lo_DTO;
 					}
 
 			#endregion
