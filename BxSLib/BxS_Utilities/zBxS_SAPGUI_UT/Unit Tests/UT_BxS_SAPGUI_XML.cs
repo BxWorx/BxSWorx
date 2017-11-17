@@ -24,32 +24,32 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiXML_Parser()
 				{
 					int					ln_Cnt;
-					Datacontainer	lo_Repos;
+					DataContainer	lo_Repos;
 					var					lo_Parser	= new XMLParse2ReposDTO();
 					//...............................................
 					ln_Cnt		= 1;
-					lo_Repos	= new Datacontainer();
+					lo_Repos	= new DataContainer();
 					lo_Parser.Load(lo_Repos, "XXXX");
 					Assert.AreEqual	(00, lo_Repos.MsgServers.Count	, $"Error: {ln_Cnt}: MsgSrvs: Error");
 					Assert.AreEqual	(00, lo_Repos.Services.Count		, $"Error: {ln_Cnt}: Services: Error");
 					Assert.AreEqual	(00, lo_Repos.WorkSpaces.Count	, $"Error: {ln_Cnt}: Workspaces: Error");
 					//...............................................
 					ln_Cnt = 2;
-					lo_Repos	= new Datacontainer();
+					lo_Repos	= new DataContainer();
 					lo_Parser.Load(lo_Repos, cc_FullName);
 					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
 					Assert.AreEqual(36, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
 					Assert.AreEqual(04, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
 					//...............................................
 					ln_Cnt = 3;
-					lo_Repos	= new Datacontainer();
+					lo_Repos	= new DataContainer();
 					lo_Parser.Load(lo_Repos, cc_FullName, true);
 					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
 					Assert.AreEqual(36, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
 					Assert.AreEqual(04, lo_Repos.WorkSpaces.Count	, $"Base: {ln_Cnt}: Workspaces: Error");
 					//...............................................
 					ln_Cnt = 4;
-					lo_Repos	= new Datacontainer();
+					lo_Repos	= new DataContainer();
 					lo_Parser.Load(lo_Repos, cc_FullName, false);
 					Assert.AreEqual(07, lo_Repos.MsgServers.Count	, $"Base: {ln_Cnt}: MsgSrvs: Error");
 					Assert.AreEqual(47, lo_Repos.Services.Count		, $"Base: {ln_Cnt}: Services: Error");
@@ -63,7 +63,7 @@ namespace zBxS_SAPGUI_UT
 					int								ln_Cnt;
 					IDTOConnection		lo_DTOConn;
 					var								lo_Parser	= new XMLParse2ReposDTO();
-					var								lo_Repos	= new Datacontainer();
+					var								lo_Repos	= new DataContainer();
 					IControllerSource	lo_Cntlr	= new XMLController(lo_Repos) ;
 					//...............................................
 					lo_Parser.Load(lo_Repos, cc_FullName);

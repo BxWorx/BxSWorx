@@ -3,8 +3,9 @@ using System.Xml;
 using System.Collections.Generic;
 using System.Linq;
 //.........................................................
-using SAPGUI.COM.DL;
+using SAPGUI.API;
 using SAPGUI.API.DL;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -19,97 +20,55 @@ namespace SAPGUI.XML
 				private const string cz_TagNode			= "Node";
 				private const string cz_TagWSpace		= "Workspace";
 
+				private IRepository	_Repos;
+				private bool								_OnlySAPGUI;
+
 			#endregion
 
 			//=============================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Load(DataContainer repository, string	fullName,	bool onlySAPGUI	= true)
+				internal void Load(IRepository repository, string xmlFullName,	bool onlySAPGUI	= true)
 					{
 						//.............................................
-						XmlDocument XmlDoc	= this.LoadXMLDoc(fullName);
+						XmlDocument XmlDoc	= this.LoadXMLDoc(xmlFullName);
 						if (XmlDoc == null)		return;
 						//.............................................
-
+						this._Repos				= repository;
+						this._OnlySAPGUI	= onlySAPGUI;
 						//.............................................
-						// Load Services
-						//
-						foreach (XmlElement lo_Elem in XmlDoc.GetElementsByTagName("Service"))
-							{
-								string lc_Type = lo_Elem.GetAttribute("type");
-								//.........................................
-								if (onlySAPGUI && !lc_Type.Equals("SAPGUI"))	continue;
-
-								Guid lg_Key	= this.ParseGuid(lo_Elem.GetAttribute(cz_TagUuid));
-								if (lg_Key	== Guid.Empty)	continue;
-								//.........................................
-								IDTOService lo_DTO = new DTOService
-									{	Type				= lc_Type																				,
-										UUID				= lg_Key																				,
-										Name				= lo_Elem.GetAttribute(cz_TagName)							,
-										DCPG				= lo_Elem.GetAttribute("dcpg")									,
-										MSID				= this.ParseGuid(lo_Elem.GetAttribute("msid"))	,
-										SAPCPG			= lo_Elem.GetAttribute("sapcpg")								,
-										Server			= lo_Elem.GetAttribute("server")								,
-										SNCName			= lo_Elem.GetAttribute("sncname")								,
-										SNCOp				= lo_Elem.GetAttribute("sncop")									,
-										SystemID		= lo_Elem.GetAttribute("systemid")							,
-										Mode				= lo_Elem.GetAttribute("mode")									,
-										Description	= lo_Elem.GetAttribute(cz_TagDesc)								};
-								//................................................
-								repository.Services.Add(lo_DTO.UUID, lo_DTO);
-							}
-
-						//.............................................
-						// Load Message Servers
-						//
 						foreach (XmlElement lo_MsgSvr in XmlDoc.GetElementsByTagName("Messageserver"))
-							{
-								Guid lg_Key	= this.ParseGuid(lo_MsgSvr.GetAttribute(cz_TagUuid));
-								if (lg_Key	!= Guid.Empty)
-									{
-										IDTOMsgServer lo_DTO = new DTOMsgServer
-											{	UUID				= lg_Key															,
-												Name				= lo_MsgSvr.GetAttribute(cz_TagName)	,
-												Host				= lo_MsgSvr.GetAttribute("host")			,
-												Port				= lo_MsgSvr.GetAttribute("port")			,
-												Description	= lo_MsgSvr.GetAttribute(cz_TagDesc)		};
+							{	this.LoadMsgServer(lo_MsgSvr); }
 
-										repository.MsgServers.Add(lo_DTO.UUID, lo_DTO);
-									}
-							}
+						foreach (XmlElement lo_Srv in XmlDoc.GetElementsByTagName("Service"))
+							{	this.LoadService(lo_Srv); }
 
 						//.............................................
 						// Load Workspaces
 						//
 						foreach (XmlElement lo_WrkSpace in XmlDoc.GetElementsByTagName(cz_TagWSpace))
 							{
-								IDTOWorkspace lo_WSDTO = this.LoadWSAttributtes(lo_WrkSpace);
+								Guid lg_WSID	= this.LoadWorkspace(lo_WrkSpace);
 								//.........................................
 								foreach (XmlElement lo_Node in lo_WrkSpace.GetElementsByTagName(cz_TagNode))
 									{
-										IDTONode	lo_WSNode = this.LoadWSNodeAttributtes(lo_Node);
-										foreach (DTOItem lo_WSNodeItem in this.GetItemList(repository, lo_Node, true))
-											{
-												lo_WSNode.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
-											}
+										Guid lg_Node	= this.LoadNode(lg_WSID, lo_Node);
 										//.....................................
-										if (lo_WSNode.Items.Count > 0)
-											lo_WSDTO.Nodes.Add(lo_WSNode.UUID, lo_WSNode);
+										foreach (XmlElement lo_Item in lo_Node.GetElementsByTagName("Item"))
+											{
+												this.LoadItem(lg_WSID, lg_Node, lo_Item );
+											}
 									}
 								//.........................................
-								foreach (DTOItem lo_WSNodeItem in this.GetItemList(repository, lo_WrkSpace, false))
+								foreach (XmlElement lo_Item in lo_WrkSpace.GetElementsByTagName("Item"))
 									{
-										lo_WSDTO.Items.Add(lo_WSNodeItem.UUID, lo_WSNodeItem);
+										if (!lo_Item.ParentNode.Name.Equals(cz_TagNode))
+											this.LoadItem(lg_WSID, default(Guid), lo_Item );
 									}
-								//...........................................
-								if (lo_WSDTO.Nodes.Count > 0 || lo_WSDTO.Items.Count > 0)
-									repository.WorkSpaces.Add(lo_WSDTO.UUID, lo_WSDTO);
 							}
-
 						//.............................................
-						this.Load_XML_Cleanup(repository);
+						repository.HouseKeeping();
 					}
 
 			#endregion
@@ -150,114 +109,68 @@ namespace SAPGUI.XML
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IDTONode LoadWSNodeAttributtes(XmlElement element)
+				private void LoadMsgServer(XmlElement msgSvr)
 					{
-						IDTONode lo_DTO = new DTONode
-							{	UUID				= this.ParseGuid(element.GetAttribute(cz_TagUuid))	,
-								Description	= element.GetAttribute(cz_TagName)								};
-						//.............................................
-						return lo_DTO;
+						Guid lg_Key	= this.ParseGuid(msgSvr.GetAttribute(cz_TagUuid));
+						if (lg_Key == Guid.Empty)	return;
+						//.........................................
+						this._Repos.LoadMsgServer(	ID:						lg_Key													,
+																				Name:					msgSvr.GetAttribute(cz_TagName)	,
+																				Host:					msgSvr.GetAttribute("host")			,
+																				Port:					msgSvr.GetAttribute("port")			,
+																				Description:	msgSvr.GetAttribute(cz_TagDesc)		);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IDTOWorkspace LoadWSAttributtes(XmlElement _xmlelement)
+				private void LoadService(XmlElement srv)
 					{
-						IDTOWorkspace lo_DTO = new DTOWorkspace
-							{	UUID				= this.ParseGuid(_xmlelement.GetAttribute(cz_TagUuid))	,
-								Description	= _xmlelement.GetAttribute(cz_TagName)								};
-						//.............................................
-						return lo_DTO;
+						string lc_Type = srv.GetAttribute("type");
+						//.........................................
+						if (this._OnlySAPGUI && !lc_Type.Equals("SAPGUI"))	return;
+						//.........................................
+						Guid lg_Key	= this.ParseGuid(srv.GetAttribute(cz_TagUuid));
+						if (lg_Key	== Guid.Empty)	return;
+						//.........................................
+						this._Repos.LoadService(	ID:						lg_Key																		,
+																			Name:					srv.GetAttribute(cz_TagName)							,
+																			Description:	srv.GetAttribute(cz_TagDesc)							,
+																			SystemID:			srv.GetAttribute("systemid")							,
+																			Type:					lc_Type																		,
+																			Server:				srv.GetAttribute("server")								,
+																			SAPCPG:				srv.GetAttribute("sapcpg")								,
+																			DCPG:					srv.GetAttribute("dcpg")									,
+																			SNCName:			srv.GetAttribute("sncname")								,
+																			SNCOp:				srv.GetAttribute("sncop")									,
+																			MsgServer:		this.ParseGuid(srv.GetAttribute("msid"))	,
+																			Mode:					srv.GetAttribute("mode")										);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private List<DTOItem> GetItemList(Datacontainer repository, XmlElement element, bool forNode = true)
+				private Guid LoadNode(Guid WSID, XmlElement node)
 					{
-						var	lt_List		= new List<DTOItem>();
-						//.............................................
-						foreach (XmlElement lo_Item in element.GetElementsByTagName("Item"))
-							{
-								if (forNode || !lo_Item.ParentNode.Name.Equals(cz_TagNode))
-									{
-										var lc_ServID	= this.ParseGuid(lo_Item.GetAttribute("serviceid"));
-										if (repository.Services.ContainsKey(lc_ServID))
-											{
-												lt_List.Add(	new DTOItem	{	UUID	= this.ParseGuid(lo_Item.GetAttribute(cz_TagUuid))	,
-																															ServiceID = lc_ServID																				}	);
-											}
-									}
-							}
-						//.............................................
-						return lt_List;
+						Guid lo_ID	= this.ParseGuid(node.GetAttribute(cz_TagUuid));
+						this._Repos.LoadNode(	WSID:					WSID													,
+																	ID:						lo_ID													,
+																	Description:	node.GetAttribute(cz_TagName)		);
+						return	lo_ID;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<Guid> UsedMsgServers(Datacontainer repository)
+				private Guid LoadWorkspace(XmlElement ws)
 					{
-						return	repository.Services.Select(
-											x => x.Value.MSID)
-												.Where(x => x != Guid.Empty)
-													.Distinct()
-														.ToList();
+						Guid lo_ID	= this.ParseGuid(ws.GetAttribute(cz_TagUuid));
+						this._Repos.LoadWorkspace(	ID:						lo_ID												,
+																				Description:	ws.GetAttribute(cz_TagName)		);
+						return	lo_ID;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<Guid> UsedServices(Datacontainer repository)
+				private void LoadItem(Guid wsID, Guid nodeID, XmlElement item)
 					{
-						return	repository.WorkSpaces.SelectMany
-											( ws => ws.Value.Nodes.SelectMany
-												( nd => nd.Value.Items.Select( it => it.Value.ServiceID )
-														.Where( id => id != Guid.Empty )
-												)
-												.Concat
-													( ws.Value.Items.Select( it => it.Value.ServiceID )
-															.Where( id => id != Guid.Empty )
-													)
-											).ToList();
-					}
+						Guid lg_ID		= this.ParseGuid(item.GetAttribute(cz_TagUuid));
+						Guid lg_SrvID	= this.ParseGuid(item.GetAttribute("serviceid"));
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private: Housekeeping"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// Remove unwanted Services and Message Servers
-				//
-				private void Load_XML_Cleanup(Datacontainer repository)
-					{
-						IList<Guid>	lt_Use;
-						IList<Guid>	lt_Rem	= new List<Guid>();
-						//.............................................
-						// Cleanup Services
-						//
-						lt_Use	= this.UsedServices(repository);
-						//.............................................
-						foreach (KeyValuePair<Guid, IDTOService> lo_Srv in repository.Services)
-							{
-								if (!lt_Use.Contains(lo_Srv.Key))
-									lt_Rem.Add(lo_Srv.Key);
-							}
-						//.............................................
-						foreach (Guid lo_Rem in lt_Rem)
-							{
-								repository.Services.Remove(lo_Rem);
-							}
-						//.............................................
-						// Cleanup Message Servers from cleaned Services
-						//
-						lt_Use	= this.UsedMsgServers(repository);
-						lt_Rem.Clear();
-						//.............................................
-						foreach (KeyValuePair<Guid, IDTOMsgServer> lo_Msg in repository.MsgServers)
-							{
-								if (!lt_Use.Contains(lo_Msg.Key))
-									lt_Rem.Add(lo_Msg.Key);
-							}
-						//.............................................
-						foreach (Guid lo_Rem in lt_Rem)
-							{
-								repository.MsgServers.Remove(lo_Rem);
-							}
+						this._Repos.LoadItem(wsID, nodeID, lg_ID, lg_SrvID);
 					}
 
 			#endregion

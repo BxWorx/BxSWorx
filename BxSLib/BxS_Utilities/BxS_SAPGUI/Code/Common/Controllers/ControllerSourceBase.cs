@@ -8,7 +8,7 @@ namespace SAPGUI.COM.CNTLR
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected ControllerSourceBase(Datacontainer repository)
+				protected ControllerSourceBase(IRepository repository)
 					{
 						this.Repository = repository;
 					}
@@ -18,16 +18,16 @@ namespace SAPGUI.COM.CNTLR
 			//===========================================================================================
 			#region "Properties"
 
-				public Datacontainer		Repository { get; }
+				public IRepository	Repository { get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void GetConnection(IDTOConnection dtoConnection)
-											=> this.Repository.LoadConnectionDTO(dtoConnection);
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void GetConnection(IDTOConnection dtoConnection) { }
+				//							=> this.Repository.LoadConnectionDTO(dtoConnection);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public virtual void Save()	{ }

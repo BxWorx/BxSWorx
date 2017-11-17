@@ -4,7 +4,7 @@ using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal partial class RepositoryHandler
+	internal partial class Repository
 		{
 			#region "Methods: Exposed: Workspace"
 
@@ -23,6 +23,12 @@ namespace SAPGUI.COM.DL
 						lo_DTO.Description	= Description;
 						//.............................................
 						return	this.AddUpdateWorkspace(lo_DTO);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool GetWorkspace(IDTOWorkspace dto)
+					{
+						return	this._DC.WorkSpaces.TryGetValue(dto.UUID, out dto);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

@@ -47,7 +47,7 @@ namespace zBxS_SAPGUI_UT
 					var	lo_Par	= new Parser(this._Ref);
 
 					DataSet			lo_DS		= new Schema(this._Ref).Create();
-					Datacontainer	lo_Rep	= this.Create_RepData();
+					DataContainer	lo_Rep	= this.Create_RepData();
 					//...............................................
 
 					//...............................................
@@ -77,9 +77,9 @@ namespace zBxS_SAPGUI_UT
 				{
 					int					ln_Cnt;
 					//...............................................
-					var						lo_RepX			= new Datacontainer();
+					var						lo_RepX			= new DataContainer();
 					DLController	lo_DLCntlr	= this.CreateDLCntlr();
-					Datacontainer		lo_Rep			= this.Create_RepData();
+					DataContainer		lo_Rep			= this.Create_RepData();
 					//...............................................
 					ln_Cnt	= 1;
 					lo_DLCntlr.DeleteSchemaXMLFile();
@@ -104,7 +104,7 @@ namespace zBxS_SAPGUI_UT
 				{
 					int					ln_Cnt;
 					//...............................................
-					var						lo_RepX			= new Datacontainer();
+					var						lo_RepX			= new DataContainer();
 					DLController	lo_DLCntlr	= this.CreateDLCntlr();
 					var						lo_UsrCntlr	= new USRController(lo_DLCntlr, lo_RepX);
 					//...............................................
@@ -126,7 +126,7 @@ namespace zBxS_SAPGUI_UT
 					}
 
 				//-------------------------------------------------------------------------------------------
-				private void Validate_Rep(Datacontainer rep, int cnt, string utName)
+				private void Validate_Rep(DataContainer rep, int cnt, string utName)
 					{
 						Assert.AreEqual	(1	,	rep.MsgServers.Count	,	$"{utName}: {cnt}: Rep:MsgSvr: Error"	);
 						Assert.AreEqual	(1	,	rep.Services.Count		,	$"{utName}: {cnt}: Rep:Service: Error"	);
@@ -146,9 +146,9 @@ namespace zBxS_SAPGUI_UT
 					}
 
 				//-------------------------------------------------------------------------------------------
-				private Datacontainer Create_RepData()
+				private DataContainer Create_RepData()
 					{
-						var								lo_Rep		= new Datacontainer();
+						var								lo_Rep		= new DataContainer();
 
 						DTOMsgServer			lo_MsgDTO	= this.Create_MsgSvrDTO();
 						DTOService				lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);

@@ -1,5 +1,4 @@
 ﻿using SAPGUI.API;
-using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.CNTLR
 {
@@ -8,7 +7,7 @@ namespace SAPGUI.COM.CNTLR
 
 			#region "Properties"
 
-				Datacontainer Repository { get; }
+				IRepository Repository { get; }
 
 			#endregion
 

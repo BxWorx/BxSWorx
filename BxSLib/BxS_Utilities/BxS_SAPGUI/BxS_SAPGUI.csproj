@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="Code\API\Controllers\IRepository.cs" />
     <Compile Remove="Code\Common\Data Layer\DTO Objects\DTOBase.cs" />
     <Compile Remove="Code\SAPGUI_USR\Data Layer\Mapping.cs" />
     <Compile Remove="Code\SAPGUI_USR\Data Layer\Table.cs" />

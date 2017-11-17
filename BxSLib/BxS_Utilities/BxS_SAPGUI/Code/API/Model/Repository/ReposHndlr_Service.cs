@@ -4,7 +4,7 @@ using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal partial class RepositoryHandler
+	internal partial class Repository
 		{
 			#region "Methods: Exposed: Service"
 
@@ -15,7 +15,7 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool LoadService(Guid ID, string Name, string Description, string SystemID, string Type, string Server, string SAPCPGE, string DCPG, string SNCName, string SNCOp, string Mode)
+				public bool LoadService(Guid ID, string Name, string Description, string SystemID, string Type, string Server, string SAPCPG, string DCPG, string SNCName, string SNCOp, Guid MsgServer, string Mode)
 					{
 						IDTOService lo_DTO = this.CreateService();
 						//.............................................
@@ -25,12 +25,13 @@ namespace SAPGUI.COM.DL
 						lo_DTO.SystemID			= SystemID;
 						lo_DTO.Type					= Type;
 						lo_DTO.Server				= Server;
-						lo_DTO.SAPCPG				= SAPCPGE;
+						lo_DTO.SAPCPG				= SAPCPG;
 						lo_DTO.DCPG					= DCPG;
 						lo_DTO.SNCName			= SNCName;
 						lo_DTO.SNCOp				= SNCOp;
 						lo_DTO.Mode					= Mode;
-						//.............................................
+						lo_DTO.MSID					= MsgServer;
+							//.............................................
 						return	this.AddUpdateService(lo_DTO);
 					}
 

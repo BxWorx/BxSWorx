@@ -4,7 +4,7 @@ using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal partial class RepositoryHandler
+	internal partial class Repository
 		{
 			#region "Methods: Exposed: Message Server"
 

@@ -1,10 +1,11 @@
 ﻿using System;
 //.........................................................
 using SAPGUI.API.DL;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
-	public interface IRepositoryHandler
+	public interface IRepository
 		{
 			#region "Methods: Exposed"
 
@@ -13,6 +14,7 @@ namespace SAPGUI.API
 				IDTOMsgServer GetMsgServer				(Guid ID);
 				bool					RemoveMsgServer			(Guid ID);
 				bool					AddUpdateMsgServer	(IDTOMsgServer DTO);
+
 				bool					LoadMsgServer				(	Guid		ID		,
 																						string	Name	,
 																						string	Host	,
@@ -24,16 +26,18 @@ namespace SAPGUI.API
 				IDTOService	GetService				(Guid ID);
 				bool				RemoveService			(Guid ID);
 				bool				AddUpdateService	(IDTOService DTO);
+
 				bool				LoadService				(	Guid		ID					,
 																				string	Name				,
 																				string	Description	,
 																				string	SystemID		,
 																				string	Type				,
 																				string	Server			,
-																				string	SAPCPGE			,
+																				string	SAPCPG			,
 																				string	DCPG				,
 																				string	SNCName			,
 																				string	SNCOp				,
+																				Guid    MsgServer		,
 																				string	Mode					);
 
 				//.................................................
@@ -41,14 +45,16 @@ namespace SAPGUI.API
 				IDTOWorkspace	GetWorkspace				(Guid ID);
 				bool					RemoveWorkspace			(Guid ID);
 				bool					AddUpdateWorkspace	(IDTOWorkspace DTO);
+
 				bool					LoadWorkspace				(	Guid		ID	,
 																						string	Description	);
 
 				//.................................................
 				IDTONode	CreateNode();
-				IDTONode	GetNode				(Guid WSpaceID, Guid NodeID);
-				bool			RemoveNode		(Guid WSpaceID, Guid NodeID);
+				IDTONode	GetNode				(Guid NodeID, Guid ForWSpaceID);
+				bool			RemoveNode		(Guid NodeID, Guid ForWSpaceID);
 				bool			AddUpdateNode	(IDTONode DTO);
+
 				bool			LoadNode			(	Guid		WSID	,
 																	Guid		ID		,
 																	string	Description	);
@@ -58,13 +64,15 @@ namespace SAPGUI.API
 				IDTOItem	GetItem				(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
 				bool			RemoveItem		(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
 				bool			AddUpdateItem	(IDTOItem DTO);
-				bool			LoadItem			(	Guid		WSID		,
-																	Guid    NodeID	,
-																	Guid		ID			,
-																	Guid		ServiceID	);
+
+				bool			LoadItem			(	Guid	WSID		,
+																	Guid  NodeID	,
+																	Guid	ID			,
+																	Guid	ServiceID	);
 
 				//.................................................
 				void Clear();
+				void HouseKeeping();
 
 			#endregion
 

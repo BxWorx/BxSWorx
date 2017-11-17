@@ -4,7 +4,7 @@ using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal partial class RepositoryHandler
+	internal partial class Repository
 		{
 			#region "Methods: Exposed: Workspace: Node"
 
@@ -32,14 +32,17 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool RemoveNode(Guid WSpaceID, Guid NodeID)
+				public bool RemoveNode(Guid NodeID, Guid ForWSpaceID)
 					{
 						return	false;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTONode GetNode(Guid WSpaceID, Guid NodeID)
+				public IDTONode GetNode(Guid NodeID, Guid ForWSpaceID)
 					{
+						IDTOWorkspace lo_WS	= this.GetWorkspace(ForWSpaceID);
+
+
 						return	this.CreateNode();
 					}
 

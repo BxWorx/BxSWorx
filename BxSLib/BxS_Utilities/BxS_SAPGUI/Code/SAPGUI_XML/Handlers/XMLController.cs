@@ -1,5 +1,5 @@
-﻿using SAPGUI.COM.CNTLR;
-using SAPGUI.COM.DL;
+﻿using SAPGUI.API;
+using SAPGUI.COM.CNTLR;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -8,18 +8,10 @@ namespace SAPGUI.XML
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public XMLController(Datacontainer repository)
+				public XMLController(IRepository repository)
 								: base(repository)
 					{	}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
 			#endregion
 
 		}
