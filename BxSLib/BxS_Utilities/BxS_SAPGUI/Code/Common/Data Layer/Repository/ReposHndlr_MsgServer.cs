@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 //.........................................................
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -7,80 +6,74 @@ namespace SAPGUI.COM.DL
 {
 	internal partial class Repository
 		{
-			#region "Methods: Exposed: Workspace: Item"
+			#region "Methods: Exposed: Message Server"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOItem CreateItemDTO()
+				public IDTOMsgServer CreateMsgServerDTO()
 					{
-						return	new DTOItem();
+						return	new DTOMsgServer();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateItem(Guid WSID,	Guid NodeID, Guid ID, Guid ServiceID)
+				public bool MsgServerExists(Guid ID)
 					{
-						IDTOItem lo_DTO	= this.CreateItemDTO();
-						//.............................................
-						lo_DTO.UUID				= ID;
-						lo_DTO.WSID				= WSID;
-						lo_DTO.NodeID			= NodeID;
-						lo_DTO.ServiceID	= ServiceID;
-						//.............................................
-						return	this.AddUpdateItem(lo_DTO);
+						return	this._DC.MsgServers.ContainsKey(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateItem(IDTOItem DTO)
+				public bool AddUpdateMsgServer(Guid ID, string Name, string Host, string Port, string Description)
+					{
+						IDTOMsgServer lo_DTO = this.CreateMsgServerDTO();
+						//.............................................
+						lo_DTO.UUID					= ID;
+						lo_DTO.Name					= Name;
+						lo_DTO.Host					= Host;
+						lo_DTO.Port					= Port;
+						lo_DTO.Description	= Description;
+						//.............................................
+						return	this.AddUpdateMsgServer(lo_DTO);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IDTOMsgServer GetMsgServer(Guid ID)
+					{
+						IDTOMsgServer	lo_DTO	= this.CreateMsgServerDTO();
+						this._DC.MsgServers.TryGetValue(ID, out lo_DTO);
+						return	lo_DTO;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool AddUpdateMsgServer(IDTOMsgServer DTO)
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						Dictionary<Guid, IDTOItem> lt_Items	= this.GetItemContainer(DTO.WSID, DTO.NodeID);
-
-						if (lt_Items != null)
+						if (this._DC.MsgServers.ContainsKey(DTO.UUID))
 							{
-								if (lt_Items.ContainsKey(DTO.UUID))
-									{
-										lt_Items[DTO.UUID]	= DTO;
-										lb_Ret	= true;
-									}
-								else
-									{
-										lb_Ret	= lt_Items.TryAdd(DTO.UUID, DTO);
-									}
-
-								if (lb_Ret)		this.IsDirty	= true;
+								this._DC.MsgServers[DTO.UUID]	= DTO;
+								lb_Ret	= true;
 							}
+						else
+							{
+								lb_Ret	= this._DC.MsgServers.TryAdd(DTO.UUID, DTO);
+							}
+
+						if (lb_Ret)		this.IsDirty	= true;
 						//.............................................
 						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool RemoveItem(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid))
+				public bool RemoveMsgServer(Guid ID)
 					{
-						return	false;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOItem GetItem(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid))
-					{
-						return	this.CreateItemDTO();
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private: Workspace: Item"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Dictionary<Guid, IDTOItem> GetItemContainer(Guid ForWSpaceID, Guid ForNodeID)
-					{
-						if (ForNodeID == Guid.Empty)
+						bool lb_Ret	= false;
+						//.............................................
+						if (!this.MsgServerInUse(ID))
 							{
-								return	this.GetWorkspace(ForWSpaceID)?.Items;
+								lb_Ret	= this._DC.MsgServers.Remove(ID);
+								if (lb_Ret)	this.IsDirty	= true;
 							}
-						else
-							{
-								return	this.GetNode(ForNodeID, ForWSpaceID)?.Items;
-							}
+						//.............................................
+						return	lb_Ret;
 					}
 
 			#endregion

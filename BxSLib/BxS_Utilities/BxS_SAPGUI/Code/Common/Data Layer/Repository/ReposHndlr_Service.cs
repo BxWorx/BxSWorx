@@ -15,6 +15,20 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool ServiceExists(Guid ID)
+					{
+						return	this._DC.Services.ContainsKey(ID);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IDTOService GetService(Guid ID)
+					{
+						IDTOService	lo_DTO	= this.CreateServiceDTO();
+						this._DC.Services.TryGetValue(ID, out lo_DTO);
+						return	lo_DTO;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateService(Guid ID, string Name, string Description, string SystemID, string Type, string Server, string SAPCPG, string DCPG, string SNCName, string SNCOp, Guid MsgServer, string Mode)
 					{
 						IDTOService lo_DTO = this.CreateServiceDTO();
@@ -36,31 +50,26 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOService GetService(Guid ID)
-					{
-						IDTOService	lo_DTO	= this.CreateServiceDTO();
-						this._DC.Services.TryGetValue(ID, out lo_DTO);
-						return	lo_DTO;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateService(IDTOService DTO)
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this._DC.Services.ContainsKey(DTO.UUID))
+						if ( DTO.MSID.Equals(Guid.Empty) || this._DC.MsgServers.ContainsKey(DTO.MSID) )
 							{
-								this._DC.Services[DTO.UUID]	= DTO;
-								lb_Ret	= true;
-							}
-						else
-							{
-								lb_Ret	= this._DC.Services.TryAdd(DTO.UUID, DTO);
-							}
+								if (this._DC.Services.ContainsKey(DTO.UUID))
+									{
+										this._DC.Services[DTO.UUID]	= DTO;
+										lb_Ret	= true;
+									}
+								else
+									{
+										lb_Ret	= this._DC.Services.TryAdd(DTO.UUID, DTO);
+									}
 
-						if (lb_Ret)		this.IsDirty	= true;
-						//.............................................
-						return	lb_Ret;
+								if (lb_Ret)		this.IsDirty	= true;
+							}
+							//.............................................
+							return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

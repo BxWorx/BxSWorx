@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 //.........................................................
 using SAPGUI.API;
-using SAPGUI.API.DL;
-using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.XML
 {
@@ -17,11 +15,12 @@ namespace SAPGUI.XML
 				private const string cz_TagUuid			= "uuid";
 				private const string cz_TagDesc			= "description";
 
+				private const string cz_TagItem			= "Item";
 				private const string cz_TagNode			= "Node";
 				private const string cz_TagWSpace		= "Workspace";
 
-				private IRepository	_Repos;
-				private bool								_OnlySAPGUI;
+				private IRepository		_Repos;
+				private bool					_OnlySAPGUI;
 
 			#endregion
 
@@ -55,15 +54,15 @@ namespace SAPGUI.XML
 									{
 										Guid lg_Node	= this.LoadNode(lg_WSID, lo_Node);
 										//.....................................
-										foreach (XmlElement lo_Item in lo_Node.GetElementsByTagName("Item"))
+										foreach (XmlElement lo_Item in lo_Node.GetElementsByTagName(cz_TagItem))
 											{
 												this.LoadItem(lg_WSID, lg_Node, lo_Item );
 											}
 									}
 								//.........................................
-								foreach (XmlElement lo_Item in lo_WrkSpace.GetElementsByTagName("Item"))
+								foreach (XmlElement lo_Item in lo_WrkSpace.GetElementsByTagName(cz_TagItem))
 									{
-										if (!lo_Item.ParentNode.Name.Equals(cz_TagNode))
+										if (lo_Item.ParentNode.Name.Equals(cz_TagWSpace))
 											this.LoadItem(lg_WSID, default(Guid), lo_Item );
 									}
 							}
@@ -115,10 +114,10 @@ namespace SAPGUI.XML
 						if (lg_Key == Guid.Empty)	return;
 						//.........................................
 						this._Repos.AddUpdateMsgServer(	ID:						lg_Key													,
-																				Name:					msgSvr.GetAttribute(cz_TagName)	,
-																				Host:					msgSvr.GetAttribute("host")			,
-																				Port:					msgSvr.GetAttribute("port")			,
-																				Description:	msgSvr.GetAttribute(cz_TagDesc)		);
+																						Name:					msgSvr.GetAttribute(cz_TagName)	,
+																						Host:					msgSvr.GetAttribute("host")			,
+																						Port:					msgSvr.GetAttribute("port")			,
+																						Description:	msgSvr.GetAttribute(cz_TagDesc)		);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -128,21 +127,22 @@ namespace SAPGUI.XML
 						//.........................................
 						if (this._OnlySAPGUI && !lc_Type.Equals("SAPGUI"))	return;
 						//.........................................
-						Guid lg_Key	= this.ParseGuid(srv.GetAttribute(cz_TagUuid));
-						if (lg_Key	== Guid.Empty)	return;
+						Guid lg_Key		= this.ParseGuid(srv.GetAttribute(cz_TagUuid));
+						if (lg_Key == Guid.Empty)										return;
+						Guid lg_MSID	= this.ParseGuid(srv.GetAttribute("msid"));
 						//.........................................
-						this._Repos.AddUpdateService(	ID:						lg_Key																		,
-																			Name:					srv.GetAttribute(cz_TagName)							,
-																			Description:	srv.GetAttribute(cz_TagDesc)							,
-																			SystemID:			srv.GetAttribute("systemid")							,
-																			Type:					lc_Type																		,
-																			Server:				srv.GetAttribute("server")								,
-																			SAPCPG:				srv.GetAttribute("sapcpg")								,
-																			DCPG:					srv.GetAttribute("dcpg")									,
-																			SNCName:			srv.GetAttribute("sncname")								,
-																			SNCOp:				srv.GetAttribute("sncop")									,
-																			MsgServer:		this.ParseGuid(srv.GetAttribute("msid"))	,
-																			Mode:					srv.GetAttribute("mode")										);
+						this._Repos.AddUpdateService(	ID:						lg_Key												,
+																					Name:					srv.GetAttribute(cz_TagName)	,
+																					Description:	srv.GetAttribute(cz_TagDesc)	,
+																					SystemID:			srv.GetAttribute("systemid")	,
+																					Type:					lc_Type												,
+																					Server:				srv.GetAttribute("server")		,
+																					SAPCPG:				srv.GetAttribute("sapcpg")		,
+																					DCPG:					srv.GetAttribute("dcpg")			,
+																					SNCName:			srv.GetAttribute("sncname")		,
+																					SNCOp:				srv.GetAttribute("sncop")			,
+																					MsgServer:		lg_MSID												,
+																					Mode:					srv.GetAttribute("mode")				);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -150,8 +150,8 @@ namespace SAPGUI.XML
 					{
 						Guid lo_ID	= this.ParseGuid(node.GetAttribute(cz_TagUuid));
 						this._Repos.AddUpdateNode(	WSID:					WSID													,
-																	ID:						lo_ID													,
-																	Description:	node.GetAttribute(cz_TagName)		);
+																				ID:						lo_ID													,
+																				Description:	node.GetAttribute(cz_TagName)		);
 						return	lo_ID;
 					}
 
@@ -160,7 +160,7 @@ namespace SAPGUI.XML
 					{
 						Guid lo_ID	= this.ParseGuid(ws.GetAttribute(cz_TagUuid));
 						this._Repos.AddUpdateWorkspace(	ID:						lo_ID												,
-																				Description:	ws.GetAttribute(cz_TagName)		);
+																						Description:	ws.GetAttribute(cz_TagName)		);
 						return	lo_ID;
 					}
 
@@ -170,7 +170,7 @@ namespace SAPGUI.XML
 						Guid lg_ID		= this.ParseGuid(item.GetAttribute(cz_TagUuid));
 						Guid lg_SrvID	= this.ParseGuid(item.GetAttribute("serviceid"));
 
-						this._Repos.AddUpdateItem(wsID, nodeID, lg_ID, lg_SrvID);
+						this._Repos.AddUpdateItem(lg_ID, lg_SrvID, wsID, nodeID);
 					}
 
 			#endregion

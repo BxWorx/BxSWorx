@@ -6,49 +6,41 @@ namespace SAPGUI.COM.DL
 {
 	internal partial class Repository
 		{
-			#region "Methods: Exposed: Message Server"
+			#region "Methods: Exposed: Workspace: Node"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOMsgServer CreateMsgServerDTO()
+				public IDTONode CreateNodeDTO()
 					{
-						return	new DTOMsgServer();
+						return	new DTONode();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateMsgServer(Guid ID, string Name, string Host, string Port, string Description)
+				public bool	AddUpdateNode(Guid WSID, Guid ID, string	Description)
 					{
-						IDTOMsgServer lo_DTO = this.CreateMsgServerDTO();
+						IDTONode lo_DTO = this.CreateNodeDTO();
 						//.............................................
 						lo_DTO.UUID					= ID;
-						lo_DTO.Name					= Name;
-						lo_DTO.Host					= Host;
-						lo_DTO.Port					= Port;
 						lo_DTO.Description	= Description;
+						lo_DTO.WSID					= WSID;
 						//.............................................
-						return	this.AddUpdateMsgServer(lo_DTO);
+						return	this.AddUpdateNode(lo_DTO);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOMsgServer GetMsgServer(Guid ID)
+				public bool AddUpdateNode(IDTONode DTO)
 					{
-						IDTOMsgServer	lo_DTO	= this.CreateMsgServerDTO();
-						this._DC.MsgServers.TryGetValue(ID, out lo_DTO);
-						return	lo_DTO;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateMsgServer(IDTOMsgServer DTO)
-					{
-						bool lb_Ret	= false;
+						IDTOWorkspace lo_WS	= this.GetWorkspace(DTO.WSID);
+						if (lo_WS == null)	return	false;
 						//.............................................
-						if (this._DC.MsgServers.ContainsKey(DTO.UUID))
+						bool lb_Ret	= true;
+
+						if (lo_WS.Nodes.ContainsKey(DTO.UUID))
 							{
-								this._DC.MsgServers[DTO.UUID]	= DTO;
-								lb_Ret	= true;
+								lo_WS.Nodes[DTO.UUID]	= DTO;
 							}
 						else
 							{
-								lb_Ret	= this._DC.MsgServers.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= lo_WS.Nodes.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -57,17 +49,19 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool RemoveMsgServer(Guid ID)
+				public bool RemoveNode(Guid NodeID, Guid ForWSpaceID)
 					{
-						bool lb_Ret	= false;
-						//.............................................
-						if (!this.MsgServerInUse(ID))
-							{
-								lb_Ret	= this._DC.MsgServers.Remove(ID);
-								if (lb_Ret)	this.IsDirty	= true;
-							}
-						//.............................................
-						return	lb_Ret;
+						IDTOWorkspace lo_WS	= this.GetWorkspace(ForWSpaceID);
+						return	lo_WS?.Nodes.Remove(NodeID) == true;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IDTONode GetNode(Guid NodeID, Guid ForWSpaceID)
+					{
+						IDTONode			lo_DTO	= null;
+						IDTOWorkspace lo_WS		= this.GetWorkspace(ForWSpaceID);
+						lo_WS?.Nodes.TryGetValue(NodeID, out lo_DTO);
+						return	lo_DTO;
 					}
 
 			#endregion

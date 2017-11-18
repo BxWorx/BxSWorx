@@ -15,12 +15,12 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
-    <Compile Remove="Code\API\Controllers\IRepository.cs" />
     <Compile Remove="Code\Common\Data Layer\DTO Objects\DTOBase.cs" />
     <Compile Remove="Code\SAPGUI_USR\Data Layer\Mapping.cs" />
     <Compile Remove="Code\SAPGUI_USR\Data Layer\Table.cs" />
     <Compile Remove="Code\zOld Stuff\Class1.cs" />
     <Compile Remove="Code\zOld Stuff\DTOBase.cs" />
+    <Compile Remove="Code\zOld Stuff\IRepository.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader_MessageServers.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader_Services.cs" />
@@ -28,6 +28,7 @@
     <Compile Remove="Code\zOld Stuff\Loader\UT_BxS_SAPGUI_XML_Loader.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\UT_BxS_SAPGUI_XML_Parser.cs" />
     <Compile Remove="Code\zOld Stuff\Mapping.cs" />
+    <Compile Remove="Code\zOld Stuff\Repository.cs" />
     <Compile Remove="Code\zOld Stuff\Table.cs" />
     <Compile Remove="Code\zOld Stuff\UsrDataSet.cs" />
   </ItemGroup>
