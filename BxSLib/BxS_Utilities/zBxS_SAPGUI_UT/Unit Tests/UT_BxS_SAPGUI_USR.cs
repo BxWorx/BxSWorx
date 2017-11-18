@@ -86,12 +86,12 @@ namespace zBxS_SAPGUI_UT
 					lo_DLCntlr.DeleteDatasetXMLFile();
 
 					Assert.IsFalse	(lo_DLCntlr.SchemaXMLExists		,	$"DLCntlr: {ln_Cnt}: Del:Schema: Error");
-					Assert.IsFalse	(lo_DLCntlr.DatasetXMLExists	,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
+					Assert.IsFalse	(lo_DLCntlr.DCXMLExists	,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
 					//...............................................
 					ln_Cnt	= 2;
 					lo_DLCntlr.Save(lo_Rep);
 					Assert.IsTrue	(lo_DLCntlr.SchemaXMLExists		,	$"DLCntlr: {ln_Cnt}: Save: File Schema: Error");
-					Assert.IsTrue	(lo_DLCntlr.DatasetXMLExists	,	$"DLCntlr: {ln_Cnt}: Save: File DS: Error");
+					Assert.IsTrue	(lo_DLCntlr.DCXMLExists	,	$"DLCntlr: {ln_Cnt}: Save: File DS: Error");
 					//...............................................
 					ln_Cnt	= 2;
 					lo_DLCntlr.LoadRepository(lo_RepX);

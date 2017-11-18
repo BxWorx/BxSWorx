@@ -19,6 +19,7 @@
     <Compile Remove="Code\SAPGUI_USR\Data Layer\Mapping.cs" />
     <Compile Remove="Code\SAPGUI_USR\Data Layer\Table.cs" />
     <Compile Remove="Code\zOld Stuff\Class1.cs" />
+    <Compile Remove="Code\zOld Stuff\DLController.cs" />
     <Compile Remove="Code\zOld Stuff\DTOBase.cs" />
     <Compile Remove="Code\zOld Stuff\IRepository.cs" />
     <Compile Remove="Code\zOld Stuff\Loader\Loader.cs" />
@@ -30,15 +31,24 @@
     <Compile Remove="Code\zOld Stuff\Mapping.cs" />
     <Compile Remove="Code\zOld Stuff\Repository.cs" />
     <Compile Remove="Code\zOld Stuff\Table.cs" />
+    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\Parser.cs" />
+    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParserMsgServer.cs" />
+    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParseService.cs" />
+    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParseWorkspace.cs" />
+    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParseWSItem.cs" />
+    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParseWSNode.cs" />
+    <Compile Remove="Code\zOld Stuff\Usr Data Layer\References.cs" />
+    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Schema.cs" />
     <Compile Remove="Code\zOld Stuff\UsrDataSet.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\zOld Stuff\Loader\" />
+    <ProjectReference Include="..\BxS_ToolSet\BxS_ToolSet.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BxS_ToolSet\BxS_ToolSet.csproj" />
+    <Folder Include="Code\zOld Stuff\Loader\" />
+    <Folder Include="Code\zOld Stuff\Usr Data Layer\Parser\" />
   </ItemGroup>
 
 </Project>

@@ -40,17 +40,10 @@ namespace SAPGUI.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static IController CreateControllerForSAPUSR(string fullPath)
 					{
-						var lo_DCSer		= new DCSerializer();
-						var lo_IO				= new IO();
-
-						string	lx_XML	= lo_IO.ReadFile()
-
-
-						var lo_Ref			= new References();
-						var lo_Parser		= new Parser(lo_Ref);
-						var lo_Schema		= new Schema(lo_Ref);
-						var lo_DLCntlr	= new DLController(fullPath, lo_Schema, lo_Parser);
-						IRepository lo_Repos	= CreateRepository();
+						var					lo_IO				= new IO();
+						var					lo_DCSer		= new DCSerializer();
+						var					lo_DLCntlr	= new DLController(fullPath, lo_IO, lo_DCSer);
+						IRepository lo_Repos		= CreateRepository();
 						//.............................................
 						IControllerSource USRCntlr	= new USRController(lo_DLCntlr, lo_Repos);
 						IController				Cntlr			= new Controller(USRCntlr, false);
@@ -65,9 +58,7 @@ namespace SAPGUI.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private static IRepository CreateRepository()
 					{
-						var					lo_DC			= new DataContainer();
-						IRepository	lo_Repos	= new Repository(lo_DC);
-						return	lo_Repos;
+						return	new Repository(new DataContainer());
 					}
 
 			#endregion
