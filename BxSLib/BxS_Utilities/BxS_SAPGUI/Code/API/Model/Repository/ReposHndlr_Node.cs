@@ -25,27 +25,25 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						return	this.AddUpdateNode(lo_DTO);
 					}
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateNode(IDTONode DTO)
 					{
-						bool lb_Ret	= false;
-						//.............................................
 						IDTOWorkspace lo_WS	= this.GetWorkspace(DTO.WSID);
+						if (lo_WS == null)	return	false;
+						//.............................................
+						bool lb_Ret	= true;
 
-						if (lo_WS.UUID != Guid.Empty)
+						if (lo_WS.Nodes.ContainsKey(DTO.UUID))
 							{
-								if (lo_WS.Nodes.ContainsKey(DTO.UUID))
-									{
-										lo_WS.Nodes[DTO.UUID]	= DTO;
-										lb_Ret	= true;
-									}
-								else
-									{
-										lb_Ret	= lo_WS.Nodes.TryAdd(DTO.UUID, DTO);
-									}
-
-								if (lb_Ret)		this.IsDirty	= true;
+								lo_WS.Nodes[DTO.UUID]	= DTO;
 							}
+						else
+							{
+								lb_Ret	= lo_WS.Nodes.TryAdd(DTO.UUID, DTO);
+							}
+
+						if (lb_Ret)		this.IsDirty	= true;
 						//.............................................
 						return	lb_Ret;
 					}
@@ -54,27 +52,15 @@ namespace SAPGUI.COM.DL
 				public bool RemoveNode(Guid NodeID, Guid ForWSpaceID)
 					{
 						IDTOWorkspace lo_WS	= this.GetWorkspace(ForWSpaceID);
-
-						if (lo_WS.UUID != Guid.Empty)
-							{
-								return	lo_WS.Nodes.Remove(NodeID);
-							}
-						//.............................................
-						return	false;
+						return	lo_WS?.Nodes.Remove(NodeID) == true;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTONode GetNode(Guid NodeID, Guid ForWSpaceID)
 					{
-						IDTONode			lo_DTO	= this.CreateNodeDTO();
+						IDTONode lo_DTO	= null;
 						IDTOWorkspace lo_WS		= this.GetWorkspace(ForWSpaceID);
-
-						if (lo_WS.UUID != Guid.Empty)
-							{
-								if (!lo_WS.Nodes.TryGetValue(NodeID, out lo_DTO))
-									{	}
-							}
-						//.............................................
+						lo_WS?.Nodes.TryGetValue(NodeID, out lo_DTO);
 						return	lo_DTO;
 					}
 

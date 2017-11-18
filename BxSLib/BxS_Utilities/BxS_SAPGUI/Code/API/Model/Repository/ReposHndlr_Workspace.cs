@@ -15,21 +15,10 @@ namespace SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool GetWorkspace(IDTOWorkspace dto)
-					{
-						return	this._DC.WorkSpaces.TryGetValue(dto.UUID, out dto);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOWorkspace GetWorkspace(Guid ID)
 					{
-						IDTOWorkspace	lo_DTO	= this.CreateWorkspaceDTO();
-						lo_DTO.UUID	= ID;
-						//.............................................
-						if (!this.GetWorkspace(lo_DTO))
-							lo_DTO.UUID	= Guid.Empty;
-						//.............................................
-						return	lo_DTO;
+						this._DC.WorkSpaces.TryGetValue(ID, out IDTOWorkspace DTO);
+						return	DTO;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

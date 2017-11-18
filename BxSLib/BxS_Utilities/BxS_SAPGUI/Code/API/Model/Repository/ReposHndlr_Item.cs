@@ -35,16 +35,20 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						Dictionary<Guid, IDTOItem> lt_Items	= this.GetItemContainer(DTO.WSID, DTO.NodeID);
 
-						if (lt_Items.ContainsKey(DTO.UUID))
+						if (lt_Items != null)
 							{
-								lt_Items[DTO.UUID]	= DTO;
-								lb_Ret	= true;
+								if (lt_Items.ContainsKey(DTO.UUID))
+									{
+										lt_Items[DTO.UUID]	= DTO;
+										lb_Ret	= true;
+									}
+								else
+									{
+										lb_Ret	= lt_Items.TryAdd(DTO.UUID, DTO);
+									}
+
+								if (lb_Ret)		this.IsDirty	= true;
 							}
-						else
-							{
-								lb_Ret	= lt_Items.TryAdd(DTO.UUID, DTO);
-							}
-							if (lb_Ret)		this.IsDirty	= true;
 						//.............................................
 						return	lb_Ret;
 					}
@@ -71,11 +75,11 @@ namespace SAPGUI.COM.DL
 					{
 						if (ForNodeID == Guid.Empty)
 							{
-								return	this.GetNode(ForNodeID, ForWSpaceID)?.Items;
+								return	this.GetWorkspace(ForWSpaceID)?.Items;
 							}
 						else
 							{
-								return	this.GetWorkspace(ForWSpaceID)?.Items;
+								return	this.GetNode(ForNodeID, ForWSpaceID)?.Items;
 							}
 					}
 
