@@ -9,6 +9,10 @@ namespace SAPGUI.API
 
 				bool IsReadOnly	{ get;  }
 
+				int	MsgServerCount	{ get; }
+				int	ServiceCount		{ get; }
+				int	WorkspaceCount	{ get; }
+
 			#endregion
 
 			//===========================================================================================

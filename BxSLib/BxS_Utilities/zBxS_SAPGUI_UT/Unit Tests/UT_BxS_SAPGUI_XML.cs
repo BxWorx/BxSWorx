@@ -61,7 +61,6 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiXML_Controller()
 				{
 					int								ln_Cnt;
-					IDTOConnection		lo_DTOConn;
 					var								lo_Parser	= new XMLParse2ReposDTO();
 					IRepository				lo_Repos	= this.CreateRepository();
 					IControllerSource	lo_Cntlr	= new XMLController(lo_Repos) ;
@@ -69,15 +68,18 @@ namespace zBxS_SAPGUI_UT
 					lo_Parser.Load(lo_Repos, cc_FullName);
 					//...............................................
 					ln_Cnt			= 1;
-					lo_DTOConn	= new DTOConnection	{	ID = default(Guid) };
-					lo_Cntlr.GetConnection(lo_DTOConn);
-					Assert.IsFalse	(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
-					//...............................................
-					ln_Cnt			= 2;
-					lo_DTOConn	= new DTOConnection	{	ID = cz_TestConnID };
-					lo_Cntlr.GetConnection(lo_DTOConn);
-					Assert.AreEqual	(cz_TestConnID			, lo_DTOConn.ID	,	$"Cntlr: {ln_Cnt}: Conn: Error");
-					Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
+					Assert.AreNotEqual(0,	lo_Cntlr.Repository.MsgServerCount,	$"Cntlr: {ln_Cnt}: Loaded: Error");
+
+					//IDTOConnection		lo_DTOConn;
+					//lo_DTOConn	= new DTOConnection	{	ID = default(Guid) };
+					//lo_Cntlr.GetConnection(lo_DTOConn);
+					//Assert.IsFalse	(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
+					////...............................................
+					//ln_Cnt			= 2;
+					//lo_DTOConn	= new DTOConnection	{	ID = cz_TestConnID };
+					//lo_Cntlr.GetConnection(lo_DTOConn);
+					//Assert.AreEqual	(cz_TestConnID			, lo_DTOConn.ID	,	$"Cntlr: {ln_Cnt}: Conn: Error");
+					//Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------

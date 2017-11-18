@@ -37,4 +37,8 @@
     <Folder Include="Code\zOld Stuff\Loader\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BxS_ToolSet\BxS_ToolSet.csproj" />
+  </ItemGroup>
+
 </Project>

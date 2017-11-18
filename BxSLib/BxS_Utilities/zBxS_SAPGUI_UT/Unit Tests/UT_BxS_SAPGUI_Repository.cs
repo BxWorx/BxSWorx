@@ -66,6 +66,7 @@ namespace zBxS_SAPGUI_UT
 
 					var					lg_ID		= Guid.NewGuid();
 					var					lg_MID	= Guid.NewGuid();
+					bool				lb_MOk	= lo_Repos.AddUpdateMsgServer(lg_MID, "Name", "Host", "Port", cz_Desc);
 					bool				lb_Ok		= lo_Repos.AddUpdateService(lg_ID, cz_Desc, "XXXXX", "SysID", "Type", "Server", "SAPCPG", "DCPG", "SNCNme", "SNCOp", lg_MID, "Mode");
 					IDTOService	lo_Get	= lo_Repos.GetService(lg_ID);
 
@@ -136,12 +137,15 @@ namespace zBxS_SAPGUI_UT
 					//...............................................
 					ln_Cnt	= 1;
 
+					var	lg_MID	= Guid.NewGuid();
 					var	lg_WSID	= Guid.NewGuid();
 					var	lg_NdID	= Guid.NewGuid();
 					var	lg_IDn	= Guid.NewGuid();
 					var	lg_IDw	= Guid.NewGuid();
 					var	lg_SvID	= Guid.NewGuid();
 
+					bool	lb_MOk	= lo_Repos.AddUpdateMsgServer	(lg_MID, "Name", "Host", "Port", cz_Desc);
+					bool	lb_SOk	= lo_Repos.AddUpdateService		(lg_SvID, cz_Desc, "XXXXX", "SysID", "Type", "Server", "SAPCPG", "DCPG", "SNCNme", "SNCOp", lg_MID, "Mode");
 					bool	lb_WSOk	= lo_Repos.AddUpdateWorkspace	(lg_WSID, cz_Desc);
 					bool	lb_NdOk	= lo_Repos.AddUpdateNode			(lg_WSID, lg_NdID, cz_Desc);
 					bool	lb_ItON	= lo_Repos.AddUpdateItem			(lg_IDn	, lg_SvID, lg_WSID, lg_NdID);

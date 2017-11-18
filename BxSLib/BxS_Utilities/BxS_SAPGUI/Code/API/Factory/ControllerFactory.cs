@@ -4,12 +4,13 @@ using SAPGUI.USR;
 using SAPGUI.USR.DL;
 using SAPGUI.COM.DL;
 using SAPGUI.COM.CNTLR;
+using Toolset.Serialize;
+using Toolset.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
 	public static class ControllerFactory
 		{
-
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -39,6 +40,12 @@ namespace SAPGUI.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static IController CreateControllerForSAPUSR(string fullPath)
 					{
+						var lo_DCSer		= new DCSerializer();
+						var lo_IO				= new IO();
+
+						string	lx_XML	= lo_IO.ReadFile()
+
+
 						var lo_Ref			= new References();
 						var lo_Parser		= new Parser(lo_Ref);
 						var lo_Schema		= new Schema(lo_Ref);
