@@ -17,7 +17,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool MsgServerExists(Guid ID)
 					{
-						return	this._DC.MsgServers.ContainsKey(ID);
+						return	this.DataCon.MsgServers.ContainsKey(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -38,7 +38,7 @@ namespace SAPGUI.COM.DL
 				public IDTOMsgServer GetMsgServer(Guid ID)
 					{
 						IDTOMsgServer	lo_DTO	= this.CreateMsgServerDTO();
-						this._DC.MsgServers.TryGetValue(ID, out lo_DTO);
+						this.DataCon.MsgServers.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
 
@@ -47,14 +47,14 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this._DC.MsgServers.ContainsKey(DTO.UUID))
+						if (this.DataCon.MsgServers.ContainsKey(DTO.UUID))
 							{
-								this._DC.MsgServers[DTO.UUID]	= DTO;
+								this.DataCon.MsgServers[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this._DC.MsgServers.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this.DataCon.MsgServers.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -69,7 +69,7 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						if (!this.MsgServerInUse(ID))
 							{
-								lb_Ret	= this._DC.MsgServers.Remove(ID);
+								lb_Ret	= this.DataCon.MsgServers.Remove(ID);
 								if (lb_Ret)	this.IsDirty	= true;
 							}
 						//.............................................

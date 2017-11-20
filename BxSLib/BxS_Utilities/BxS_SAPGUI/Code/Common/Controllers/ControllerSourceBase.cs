@@ -15,10 +15,12 @@ namespace SAPGUI.COM.CNTLR
 
 			#endregion
 
+				internal DataContainer _DC;
+
 			//===========================================================================================
 			#region "Properties"
 
-				public IRepository	Repository { get; }
+				public IRepository	Repository { get; set; }
 
 			#endregion
 
@@ -26,11 +28,11 @@ namespace SAPGUI.COM.CNTLR
 			#region "Methods: Exposed"
 
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void GetConnection(IDTOConnection dtoConnection) { }
+				public void GetConnection(IDTOConnection dtoConnection) { dtoConnection = new DTOConnection();  }
 				//							=> this.Repository.LoadConnectionDTO(dtoConnection);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public virtual void Save()	{ }
+				public virtual void Save(bool forceSave = false)	{ }
 				public virtual void AddConnection(IDTOConnection dtoConnection)	{ }
 
 		#endregion

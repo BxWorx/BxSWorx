@@ -29,9 +29,9 @@ namespace SAPGUI.COM.CNTLR
 
 				public bool	IsReadOnly	{ get; }
 
-				public int	MsgServerCount	{ get { return	this._SrceCntlr.Repository.MsgServerCount;	}}
-				public int	ServiceCount		{ get { return	this._SrceCntlr.Repository.ServiceCount;		}}
-				public int	WorkspaceCount	{ get { return	this._SrceCntlr.Repository.WorkspaceCount;	}}
+				public int	MsgServerCount	{ get { return	this._SrceCntlr.Repository.MsgServerCount; } }
+				public int	ServiceCount		{ get { return	this._SrceCntlr.Repository.ServiceCount;	 } }
+				public int	WorkspaceCount	{ get { return	this._SrceCntlr.Repository.WorkspaceCount; } }
 
 			#endregion
 

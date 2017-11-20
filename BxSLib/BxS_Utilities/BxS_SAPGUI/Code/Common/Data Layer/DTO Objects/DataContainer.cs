@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 //.........................................................
 using SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.COM.DL
 {
-	internal class DataContainer
+	[DataContract]
+	[KnownType(typeof(DTOMsgServer))]
+	[KnownType(typeof(DTOService))]
+	[KnownType(typeof(DTOWorkspace))]
+	[KnownType(typeof(DTONode))]
+	[KnownType(typeof(DTOItem))]
+	public class DataContainer
 		{
 			#region "Constructor"
 
@@ -24,9 +31,9 @@ namespace SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				internal Dictionary<Guid, IDTOMsgServer>	MsgServers	{ get; }
-				internal Dictionary<Guid, IDTOService>		Services		{ get; }
-				internal Dictionary<Guid, IDTOWorkspace>	WorkSpaces	{ get; }
+				[DataMember]	internal Dictionary<Guid, IDTOMsgServer>	MsgServers	{ get; set; }
+				[DataMember]	internal Dictionary<Guid, IDTOService>		Services		{ get; set; }
+				[DataMember]	internal Dictionary<Guid, IDTOWorkspace>	WorkSpaces	{ get; set; }
 				//.................................................
 				internal bool IsDirty		{ get; set;	}
 

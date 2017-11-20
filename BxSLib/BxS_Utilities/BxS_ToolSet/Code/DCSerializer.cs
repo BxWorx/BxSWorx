@@ -11,7 +11,7 @@ namespace Toolset.Serialize
 			#region "Methods: Exposed"
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					internal string Serialize<T>(T classObject)
+					public string Serialize<T>(T classObject)
 						{
 							try
 								{
@@ -51,6 +51,23 @@ namespace Toolset.Serialize
 							catch (Exception)
 								{
 									return	default(T);
+								}
+						}
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public void DeSerialize<T>(string xmlString, ref T classObject)
+						{
+							try
+								{
+									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
+										{
+											var lo_serializer = new DataContractSerializer(typeof(T));
+											classObject	= (T)lo_serializer.ReadObject(lo_XMLReader);
+										}
+								}
+							catch (Exception)
+								{
+									classObject	=	default(T);
 								}
 						}
 

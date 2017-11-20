@@ -17,14 +17,14 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool ServiceExists(Guid ID)
 					{
-						return	this._DC.Services.ContainsKey(ID);
+						return	this.DataCon.Services.ContainsKey(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOService GetService(Guid ID)
 					{
 						IDTOService	lo_DTO	= this.CreateServiceDTO();
-						this._DC.Services.TryGetValue(ID, out lo_DTO);
+						this.DataCon.Services.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
 
@@ -54,16 +54,16 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if ( DTO.MSID.Equals(Guid.Empty) || this._DC.MsgServers.ContainsKey(DTO.MSID) )
+						if ( DTO.MSID.Equals(Guid.Empty) || this.DataCon.MsgServers.ContainsKey(DTO.MSID) )
 							{
-								if (this._DC.Services.ContainsKey(DTO.UUID))
+								if (this.DataCon.Services.ContainsKey(DTO.UUID))
 									{
-										this._DC.Services[DTO.UUID]	= DTO;
+										this.DataCon.Services[DTO.UUID]	= DTO;
 										lb_Ret	= true;
 									}
 								else
 									{
-										lb_Ret	= this._DC.Services.TryAdd(DTO.UUID, DTO);
+										lb_Ret	= this.DataCon.Services.TryAdd(DTO.UUID, DTO);
 									}
 
 								if (lb_Ret)		this.IsDirty	= true;
@@ -79,7 +79,7 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						if (!this.ServiceInUse(ID))
 							{
-								lb_Ret	= this._DC.Services.Remove(ID);
+								lb_Ret	= this.DataCon.Services.Remove(ID);
 								if (lb_Ret)	this.IsDirty	= true;
 							}
 						//.............................................

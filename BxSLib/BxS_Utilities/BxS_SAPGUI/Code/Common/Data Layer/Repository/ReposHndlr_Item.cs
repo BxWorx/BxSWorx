@@ -37,7 +37,7 @@ namespace SAPGUI.COM.DL
 
 						if (lt_Items != null)
 							{
-								if (this._DC.Services.ContainsKey(DTO.ServiceID))
+								if (this.DataCon.Services.ContainsKey(DTO.ServiceID))
 									{
 										if (lt_Items.ContainsKey(DTO.UUID))
 											{

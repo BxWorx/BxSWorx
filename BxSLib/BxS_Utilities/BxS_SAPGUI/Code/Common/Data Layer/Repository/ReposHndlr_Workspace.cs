@@ -17,7 +17,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOWorkspace GetWorkspace(Guid ID)
 					{
-						this._DC.WorkSpaces.TryGetValue(ID, out IDTOWorkspace DTO);
+						this.DataCon.WorkSpaces.TryGetValue(ID, out IDTOWorkspace DTO);
 						return	DTO;
 					}
 
@@ -37,14 +37,14 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this._DC.WorkSpaces.ContainsKey(DTO.UUID))
+						if (this.DataCon.WorkSpaces.ContainsKey(DTO.UUID))
 							{
-								this._DC.WorkSpaces[DTO.UUID]	= DTO;
+								this.DataCon.WorkSpaces[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this._DC.WorkSpaces.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this.DataCon.WorkSpaces.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -57,7 +57,7 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						lb_Ret	= this._DC.WorkSpaces.Remove(ID);
+						lb_Ret	= this.DataCon.WorkSpaces.Remove(ID);
 						if (lb_Ret)	this.IsDirty	= true;
 						//.............................................
 						return	lb_Ret;

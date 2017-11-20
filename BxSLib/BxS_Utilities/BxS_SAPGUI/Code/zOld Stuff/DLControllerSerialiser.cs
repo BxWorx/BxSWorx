@@ -1,25 +1,21 @@
-﻿using SAPGUI.API;
-using SAPGUI.COM.CNTLR;
-using SAPGUI.COM.DL;
-using Toolset.IO;
+﻿using SAPGUI.COM.DL;
 using Toolset.Serialize;
+using Toolset.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.USR
+namespace SAPGUI.USR.DL
 {
-	internal class USRController : ControllerSourceBase
+		internal class DLController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal USRController(IRepository repository, string dirPath, IO FileIO, DCSerializer dcSerializer)
-									: base(repository)
+				internal DLController(string dirPath, IO FileIO, DCSerializer dcSerializer)
 					{
 						this._DirPath	= dirPath			;
 						this._IO			= FileIO			;
 						this._DCSer		= dcSerializer;
 						//.............................................
 						this._DCFullName	= this._IO.PathFileCombine( this._DirPath	,	_DCFileName	);
-						this.LoadDataContainer();
 					}
 
 			#endregion
@@ -38,39 +34,25 @@ namespace SAPGUI.USR
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Properties"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool FileExists()
-					{
-						return	this._IO.FileExists(this._DCFullName);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public override void Save(bool forceSave = false)
-					{
-						if (forceSave || this.Repository.IsDirty)
-							{
-								this._IO.WriteFile(this._DCFullName, this._DCSer.Serialize(this.Repository.GetDataContainer()));
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public override void AddConnection(IDTOConnection dtoConnection)
-					{
-							//this._DLCntlr.Save(this.Repository);
-					}
+				internal bool DCXMLExists	{ get { return	this._IO.FileExists(this._DCFullName); } }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private"
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadDataContainer()
+				internal void Save(DataContainer dc)
 					{
-						if (this.FileExists())
-							this._DCSer.DeSerialize<DataContainer>(this._IO.ReadFile(this._DCFullName), ref this.Repository.GetDataContainer());
+						this._IO.WriteFile(this._DCFullName, this._DCSer.Serialize(dc));
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Load(ref DataContainer dc)
+					{
+						this._DCSer.DeSerialize<DataContainer>(this._IO.ReadFile(this._DCFullName), ref dc);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -78,10 +60,6 @@ namespace SAPGUI.USR
 					{
 						this._IO.DeleteFile(this._DCFullName);
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void ProcessConnection(IDTOConnection dtoConnection)
-					{ }
 
 			#endregion
 

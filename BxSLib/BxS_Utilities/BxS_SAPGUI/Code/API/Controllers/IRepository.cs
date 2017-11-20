@@ -1,6 +1,7 @@
 ﻿using System;
 //.........................................................
 using SAPGUI.API.DL;
+using SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace SAPGUI.API
 {
@@ -72,11 +73,16 @@ namespace SAPGUI.API
 																	Guid  ForNodeID		= default(Guid)	);
 
 				//.................................................
-				int MsgServerCount	{ get; }
-				int ServiceCount		{ get; }
-				int WorkspaceCount	{ get; }
+				//DataContainer	DataCon					{ get; set; }
+				bool					IsDirty					{ get; }
+				int						MsgServerCount	{ get; }
+				int						ServiceCount		{ get; }
+				int						WorkspaceCount	{ get; }
 
 				//.................................................
+
+				ref	DataContainer GetDataContainer();
+
 				void Clear();
 				void HouseKeeping(bool ClearEmptyNodesWorkspaces = true);
 

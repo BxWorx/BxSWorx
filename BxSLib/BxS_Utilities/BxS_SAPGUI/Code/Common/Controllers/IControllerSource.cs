@@ -7,7 +7,7 @@ namespace SAPGUI.COM.CNTLR
 
 			#region "Properties"
 
-				IRepository Repository { get; }
+				IRepository Repository { get; set; }
 
 			#endregion
 
@@ -16,7 +16,7 @@ namespace SAPGUI.COM.CNTLR
 
 				void	GetConnection	(IDTOConnection	dtoConnection);
 				//...................................................
-				void	Save();
+				void	Save(bool forceSave = false);
 				void  AddConnection(IDTOConnection dtoConnection);
 
 			#endregion

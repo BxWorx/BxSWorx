@@ -1,12 +1,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
-using System.Data;
 //.........................................................
+using SAPGUI.API;
 using SAPGUI.API.DL;
 using SAPGUI.COM.DL;
-using SAPGUI.USR.DL;
 using SAPGUI.USR;
+using Toolset.IO;
+using Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
 {
@@ -18,8 +19,6 @@ namespace zBxS_SAPGUI_UT
 			private	static readonly string	_Path				= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	_PathTest		= Path.Combine(_Path,	cz_TestDir);
 			//...................................................
-			private	readonly References		_Ref	= new References();
-
 			private Guid lg_WspID;
 			private Guid lg_MsgID;
 			private Guid lg_SrvID;
@@ -28,105 +27,40 @@ namespace zBxS_SAPGUI_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SapGuiUsr_Schema()
-				{
-					int	ln_Cnt;
-					var	lo_Schema	= new Schema(this._Ref);
-					//...............................................
-					ln_Cnt	= 1;
-					DataSet lo_DS	= lo_Schema.Create();
-					Assert.IsNotNull	(		lo_DS								,	$"Cntlr: {ln_Cnt}: DS-Schema-Nul: Error");
-					Assert.AreEqual		(5,	lo_DS.Tables.Count	,	$"Cntlr: {ln_Cnt}: DS-Schema-Tbl: Error");
-				}
-
-			//-------------------------------------------------------------------------------------------
-			[TestMethod]
-			public void UT_SapGuiUsr_Parser()
-				{
-					int	ln_Cnt;
-					var	lo_Par	= new Parser(this._Ref);
-
-					DataSet			lo_DS		= new Schema(this._Ref).Create();
-					DataContainer	lo_Rep	= this.Create_RepData();
-					//...............................................
-
-					//...............................................
-					ln_Cnt	= 1;
-					Assert.AreEqual	(1	,	lo_Rep.MsgServers.Count	,	$"Parser: {ln_Cnt}: DTO:MsgSvr: Error"		);
-					Assert.AreEqual	(1	,	lo_Rep.Services.Count		,	$"Parser: {ln_Cnt}: DTO:Service: Error"		);
-					Assert.AreEqual	(1	,	lo_Rep.WorkSpaces.Count	,	$"Parser: {ln_Cnt}: DTO:Workspace: Error"	);
-					//...............................................
-					ln_Cnt	= 2;
-					lo_Par.ParseRep2DS(lo_Rep, lo_DS);
-
-					Assert.AreEqual	(1	,	lo_DS.Tables[this._Ref.MsgServerTableName].Rows.Count			,	$"Parser: {ln_Cnt}: Parse:MsgSvr: Error"	);
-					Assert.AreEqual	(1	,	lo_DS.Tables[this._Ref.ServiceTableName].Rows.Count				,	$"Parser: {ln_Cnt}: Parse:Service: Error"	);
-					Assert.AreEqual	(1	,	lo_DS.Tables[this._Ref.WorkspaceTableName].Rows.Count			,	$"Parser: {ln_Cnt}: Parse:Workspace: Error"	);
-					Assert.AreEqual	(1	,	lo_DS.Tables[this._Ref.WorkspaceNodeTableName].Rows.Count	,	$"Parser: {ln_Cnt}: Parse:WS-Node: Error"	);
-					Assert.AreEqual	(2	,	lo_DS.Tables[this._Ref.WorkspaceItemTableName].Rows.Count	,	$"Parser: {ln_Cnt}: Parse:WS-Item: Error"	);
-					//...............................................
-					ln_Cnt	= 3;
-					lo_Rep.Clear();
-					lo_Par.ParseDS2Rep(lo_DS, lo_Rep);
-					this.Validate_Rep(lo_Rep, ln_Cnt, "Parser");
-			}
-
-			//-------------------------------------------------------------------------------------------
-			[TestMethod]
-			public void UT_SapGuiUsr_DLController()
-				{
-					int					ln_Cnt;
-					//...............................................
-					var						lo_RepX			= new DataContainer();
-					DLController	lo_DLCntlr	= this.CreateDLCntlr();
-					DataContainer		lo_Rep			= this.Create_RepData();
-					//...............................................
-					ln_Cnt	= 1;
-					lo_DLCntlr.DeleteSchemaXMLFile();
-					lo_DLCntlr.DeleteDatasetXMLFile();
-
-					Assert.IsFalse	(lo_DLCntlr.SchemaXMLExists		,	$"DLCntlr: {ln_Cnt}: Del:Schema: Error");
-					Assert.IsFalse	(lo_DLCntlr.DCXMLExists	,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
-					//...............................................
-					ln_Cnt	= 2;
-					lo_DLCntlr.Save(lo_Rep);
-					Assert.IsTrue	(lo_DLCntlr.SchemaXMLExists		,	$"DLCntlr: {ln_Cnt}: Save: File Schema: Error");
-					Assert.IsTrue	(lo_DLCntlr.DCXMLExists	,	$"DLCntlr: {ln_Cnt}: Save: File DS: Error");
-					//...............................................
-					ln_Cnt	= 2;
-					lo_DLCntlr.LoadRepository(lo_RepX);
-					this.Validate_Rep(lo_RepX, ln_Cnt, "DLCntlr");
-				}
-
-			//-------------------------------------------------------------------------------------------
-			[TestMethod]
 			public void UT_SapGuiUsr_UsrController()
 				{
-					int					ln_Cnt;
+					int	ln_Cnt;
 					//...............................................
-					var						lo_DC				= new DataContainer();
-					var           lo_Repos		= new Repository(lo_DC);
-					DLController	lo_DLCntlr	= this.CreateDLCntlr();
-					var						lo_UsrCntlr	= new USRController(lo_DLCntlr, lo_Repos);
+					IRepository		lo_Rep			= this.CreateRepository();
+					IRepository		lo_RepX			= this.CreateRepository(true);
+
+					var	lo_IO				= new IO();
+					var	lo_DCSer		= new DCSerializer();
+					var	lo_UsrCntlr	= new USRController(lo_Rep, _PathTest, lo_IO, lo_DCSer);
 					//...............................................
 					ln_Cnt	= 1;
-
-					Assert.IsNotNull(lo_UsrCntlr	,	$"UsrCntlr: {ln_Cnt}: Instantiate: Error");
+					lo_UsrCntlr.DeleteDCXMLFile();
+					Assert.IsFalse	(lo_UsrCntlr.FileExists()	,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
+					//...............................................
+					ln_Cnt	= 2;
+					lo_UsrCntlr.Save(true);
+					Assert.IsTrue	(lo_UsrCntlr.FileExists(),	$"DLCntlr: {ln_Cnt}: Save: File DS: Error");
+					//...............................................
+					ln_Cnt	= 3;
+					var	lo_UsrCntlrx	= new USRController(lo_RepX, _PathTest, lo_IO, lo_DCSer);
+					this.Validate_Rep(lo_UsrCntlrx.Repository.GetDataContainer(), ln_Cnt, "UsrCntlr");
 				}
 
 			//===========================================================================================
 			#region "Methods: Private"
 
-				//-------------------------------------------------------------------------------------------
-				private DLController CreateDLCntlr()
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IRepository CreateRepository(bool emptyOne = false)
 					{
-						var					lo_Parser		= new Parser(this._Ref);
-						var					lo_Schema		= new Schema(this._Ref);
-						//.............................................
-						return	new DLController(_PathTest, lo_Schema, lo_Parser);
+						return	emptyOne	? new Repository(new DataContainer()) :	new Repository(CreateAndFill_DC());
 					}
 
-				//-------------------------------------------------------------------------------------------
+				//-----------------------------------------------------------------------------------------
 				private void Validate_Rep(DataContainer rep, int cnt, string utName)
 					{
 						Assert.AreEqual	(1	,	rep.MsgServers.Count	,	$"{utName}: {cnt}: Rep:MsgSvr: Error"	);
@@ -146,14 +80,15 @@ namespace zBxS_SAPGUI_UT
 							{	Assert.Fail($"{utName}: {cnt}: WS:Get: Error");	}
 					}
 
-				//-------------------------------------------------------------------------------------------
-				private DataContainer Create_RepData()
+				//-----------------------------------------------------------------------------------------
+				private DataContainer CreateAndFill_DC()
 					{
-						var								lo_Rep		= new DataContainer();
+						var	lo_DC	= new DataContainer();
 
-						DTOMsgServer			lo_MsgDTO	= this.Create_MsgSvrDTO();
-						DTOService				lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);
-						DTOWorkspace			lo_WspDTO	= this.Create_WspDTO();
+						DTOMsgServer	lo_MsgDTO	= this.Create_MsgSvrDTO();
+						DTOService		lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);
+						DTOWorkspace	lo_WspDTO	= this.Create_WspDTO();
+
 						DTONode	lo_WSNDTO	= this.Create_WSNodeDTO();
 						DTOItem	lo_WSIDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
 						DTOItem	lo_WSxDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
@@ -164,18 +99,18 @@ namespace zBxS_SAPGUI_UT
 						this.lg_NdeID	= lo_WSNDTO.UUID;
 						this.lg_ItmID	= lo_WSxDTO.UUID;
 
-						lo_WSNDTO.Items.Add		(lo_WSIDTO.UUID, lo_WSIDTO);
-						lo_WspDTO.Nodes.Add		(lo_WSNDTO.UUID, lo_WSNDTO);
-						lo_WspDTO.Items.Add		(lo_WSxDTO.UUID, lo_WSxDTO);
+						lo_WSNDTO.Items	.Add (lo_WSIDTO.UUID, lo_WSIDTO);
+						lo_WspDTO.Nodes	.Add (lo_WSNDTO.UUID, lo_WSNDTO);
+						lo_WspDTO.Items	.Add (lo_WSxDTO.UUID, lo_WSxDTO);
 
-						lo_Rep.MsgServers.Add	(lo_MsgDTO.UUID, lo_MsgDTO);
-						lo_Rep.Services.Add		(lo_SrvDTO.UUID, lo_SrvDTO);
-						lo_Rep.WorkSpaces.Add	(lo_WspDTO.UUID, lo_WspDTO);
+						lo_DC.MsgServers	.Add	(lo_MsgDTO.UUID, lo_MsgDTO);
+						lo_DC.Services		.Add	(lo_SrvDTO.UUID, lo_SrvDTO);
+						lo_DC.WorkSpaces	.Add	(lo_WspDTO.UUID, lo_WspDTO);
 
-						return	lo_Rep;
+						return	lo_DC;
 					}
 
-				//-------------------------------------------------------------------------------------------
+				//-----------------------------------------------------------------------------------------
 				private DTOMsgServer Create_MsgSvrDTO()
 					{
 						return	new DTOMsgServer	{	UUID				= Guid.NewGuid()	,
@@ -185,7 +120,7 @@ namespace zBxS_SAPGUI_UT
 																				Port				= "port1"						};
 					}
 
-				//-------------------------------------------------------------------------------------------
+				//-----------------------------------------------------------------------------------------
 				private DTOService Create_SrvDTO(Guid	msgSvr)
 					{
 						return	new DTOService	{	UUID	= Guid.NewGuid()	,
@@ -193,25 +128,25 @@ namespace zBxS_SAPGUI_UT
 																			MSID	= msgSvr						};
 					}
 
-				//-------------------------------------------------------------------------------------------
+				//-----------------------------------------------------------------------------------------
 				private DTOWorkspace Create_WspDTO()
 					{
 						return	new DTOWorkspace	{	UUID				= Guid.NewGuid()	,
 																				Description	= "DescWS"					};
 					}
 
-				//-------------------------------------------------------------------------------------------
+				//-----------------------------------------------------------------------------------------
 				private DTONode Create_WSNodeDTO()
 					{
 						return	new DTONode	{	UUID				= Guid.NewGuid()	,
-																						Description	= "DescNode"				};
+																	Description	= "DescNode"				};
 					}
 
-				//-------------------------------------------------------------------------------------------
+				//-----------------------------------------------------------------------------------------
 				private DTOItem Create_WSItemDTO(Guid srvID)
 					{
 						return	new DTOItem	{	UUID			= Guid.NewGuid()	,
-																						ServiceID	= srvID								};
+																	ServiceID	= srvID								};
 					}
 
 			#endregion
