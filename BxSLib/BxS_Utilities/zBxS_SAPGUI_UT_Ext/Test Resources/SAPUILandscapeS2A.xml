@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Landscape updated="2017-04-18T10:59:10Z" version="1" generator="SAP GUI for Windows v7400.3.12.123">
+	<Services>
+		<Service type="SAPGUI" uuid="fa4e487b-d47a-40b9-a246-edd48bfd3a7e" name="NWBC GTP LOAD BALANCING" systemid="GTP" msid="c58ed55a-aa52-4721-8eb2-2647b85dcd94" server="DD_GTP" sncname="p:SAPServiceGTP@GD.DIDATA.LOCAL" sapcpg="1100" dcpg="2" sncop="0"/>
+		<Service type="SAPGUI" uuid="f0b5fd87-d349-4e90-a45a-0a53f8069d20" name="NWBC GTP REPORTING SERVER" systemid="GTP" msid="c58ed55a-aa52-4721-8eb2-2647b85dcd94" server="DD_GTP_REPORTING" sncname="p:SAPServiceGTP@GD.DIDATA.LOCAL" sapcpg="1100" dcpg="2" sncop="0"/>
+		<Service type="SAPGUI" uuid="742cc371-fb12-44f9-8d2c-6e77dd63a7bc" name="NWBC GTQ REPORTING SERVER" systemid="GTQ" msid="957f0b36-e01c-4d9d-a7f6-3cb53e0cacae" server="DD_GTQ_REPORTING" sncname="p:SAPServiceGTQ@GD.DIDATA.LOCAL" sapcpg="1100" dcpg="2" sncop="0"/>
+		<Service type="SAPGUI" uuid="af3dd28f-9c3a-4f62-ae62-930c629d872d" name="BPD300 - BPC DEVELOPMENT" systemid="BPD" mode="1" server="GLCADSVSAPBPD.gd.didata.local:3200" sncname="p:SAPServiceBPD@GD.DIDATA.LOCAL" sncop="9" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="0c1861c3-5797-469f-a26c-d91f8d7bc847" name="BPP500 - BPC PRODUCTION" systemid="BPP" mode="1" server="GLCADSVSAPBPP.gd.didata.local:3200" sncname="p:SAPServiceBPP@GD.DIDATA.LOCAL" sncop="9" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="633d6d00-78cf-4730-9737-1cc03b147580" name="BPQ500 - BPC QUALITY ASSURANCE" systemid="BPQ" mode="1" server="GLCADSVSAPBPQ.gd.didata.local:3200" sncname="p:SAPServiceBPQ@GD.DIDATA.LOCAL" sncop="9" sapcpg="1100" dcpg="2"/>
+		<Service uuid="4db80c77-46bd-4dfd-a7e3-6644d9562cb2" name="GTD300 N - DEVELOPMENT CUSTOMIZING" description="GTD300 N - DEVELOPMENT CUSTOMIZING" url="https://GLCADSVSAPGTD.GD.DIDATA.LOCAL/sap/bc/nwbc" client="300" language="EN" type="NWBC"/>
+		<Service uuid="d92df428-3ea8-4551-b93b-dfd915c80c0c" name="GTD500 N - DEVELOPMENT UNIT TESTING" description="GTD500 N - DEVELOPMENT UNIT TESTING" url="https://GLCADSVSAPGTD.GD.DIDATA.LOCAL/sap/bc/nwbc" client="500" language="EN" type="NWBC"/>
+		<Service uuid="c3ded495-0f7e-470e-a777-fefce4cde4ab" name="GTM700 N - DATA MIGRATION" description="GTM700 N - DATA MIGRATION" url="https://GLCADSVGTMCEN.GD.DIDATA.LOCAL/sap/bc/nwbc" client="700" language="EN" type="NWBC"/>
+		<Service uuid="d6d59dd5-19e2-43b4-832f-e084eebc9933" name="GTP500 N - PRODUCTION" description="GTP500 N - PRODUCTION" url="https://GLCADSVGTPCEN.GD.DIDATA.LOCAL/sap/bc/nwbc" client="500" language="EN" type="NWBC" sapguiid="fa4e487b-d47a-40b9-a246-edd48bfd3a7e"/>
+		<Service uuid="da81d8c3-a67c-4a89-8dd8-dd65e6322587" name="GTQ500 N - QUALITY ASSURANCE" description="GTQ500 N - QUALITY ASSURANCE" url="https://GLCADSVSAPGTQ.GD.DIDATA.LOCAL/sap/bc/nwbc" client="500" language="EN" type="NWBC"/>
+		<Service uuid="f1e6c12f-9c58-4d29-8e81-8470f0813f6d" name="GTT700 N - TRAINING" description="GTT700 N - TRAINING" url="https://GLCADSVGTTCEN.GD.DIDATA.LOCAL/sap/bc/nwbc" client="700" language="EN" type="NWBC"/>
+		<Service uuid="050d96ba-f32b-454f-a141-f24df3501ccb" name="GTU700 N - USER ACCEPTANCE TESTING" description="GTU700 N - USER ACCEPTANCE TESTING" url="https://GLCADSVGTUCEN.GD.DIDATA.LOCAL/sap/bc/nwbc" client="700" language="EN" type="NWBC"/>
+		
+		<Service type="SAPGUI"
+						 uuid="dbb1aab6-c82f-4762-bf2b-c525dc55191b"
+						 name="ZAP500 - DDZA Production"
+						 systemid="ZAP"
+						 msid="057f2156-c301-43aa-9c6c-a58fadb03688"
+						 server="DDZA"
+						 sncname="p:SAPServiceZAP@AFRICA"
+						 sapcpg="1100"
+						 dcpg="2"
+						 sncop="9"
+						 />
+		
+		<Service type="SAPGUI" uuid="d105ab25-ff20-4617-8ae1-d409a74d84c2" name="EUP500 - DDEU Production" systemid="EUP" msid="c8eec100-38c5-4aa6-83bd-18a68d29098b" server="DD_EUP" sncname="p:SAPServiceEUP@GD" sapcpg="1100" dcpg="2" sncop="9"/>
+		
+		<Service type="SAPGUI" 
+						 uuid="67b8f84d-0b3e-401f-8afd-4bba7f0db313"
+						 name="ZAQ500 - DDZA Quality Assurance"
+						 systemid="ZAQ" 
+						 mode="1" 
+						 server="ZABRYSVSAPQA2.af.didata.local:3200" 
+						 sncname="p:SAPServiceZAQ@AFRICA" 
+						 sncop="9"
+						 sapcpg="1100"
+						 dcpg="2"/>
+		
+		<Service type="SAPGUI" uuid="2558f208-5486-42d4-9bfb-f150a1a129c4" name="*______CORE MODEL PROD DIDATA______" systemid="CMD" mode="1" server="00:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="ad46a9e6-9f54-4290-b403-60f75cc2920a" name="*_BW_PROD_BP2" systemid="BP2" mode="1" server="SAP_BW_BP2_SCI_41.resource.oxya.local:3241" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="fa62193b-592e-4795-a8ad-fb5c00f3bba7" name="*_CRM_PROD_CP2" systemid="CP2" msid="14e76e0a-89aa-4c35-8e75-09cf3d708c26" server="PUBLIC" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="95803086-697f-407d-b4c4-5e30a1cd3247" name="*_ECC_PROD_EP2" systemid="EP2" msid="37b79c42-fb01-4005-b346-0891445fe704" server="PUBLIC" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="4e7621a0-c2d5-4d55-bf8b-f7b804d936f4" name="*_SOLMAN_PROD_SP3" systemid="SP3" mode="1" server="SAP_SOLMAN_SP3_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="88859626-3613-4056-ba5c-87e6ff2778fa" name="u____CORE MODEL PRE-PROD DIDATA____" systemid="CMN" mode="1" server="00:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="82aa9aee-9004-424d-aef8-d40f1ca1cc7b" name="u_BW_PP_BM2" systemid="BM2" mode="1" server="SAP_BW_BM2_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="e751c04a-0606-4960-8e44-0d1abd446da6" name="u_CRM_PP_CM2" systemid="CM2" mode="1" server="SAP_CRM_CM2_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="4a855617-cc13-4f52-bfb4-1e24eba24a16" name="u_ECC_PP_EM2" systemid="EM2" mode="1" server="SAP_ECC_EM2_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="4b867924-d87b-440b-902d-8d442e07bb49" name="v______CORE MODEL DEV DIDATA______" systemid="CMN" mode="1" server="00:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="e822295e-6339-4021-a637-f26775e780b9" name="v_BW_DEV_BD2" systemid="BD2" mode="1" server="SAP_BW_BD2_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="2c06f345-285f-4d14-875a-a14f580c21d1" name="v_CRM_DEV_CD2" systemid="CD2" mode="1" server="SAP_CRM_CD2_SCI_16.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="e1aef07c-a786-4600-93b0-b44aec64382f" name="v_ECC_DEV_ED2" systemid="ED2" mode="1" server="SAP_ECC_ED2_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="c79543cb-33bb-4d5a-8e88-19ad784ebef1" name="w____CORE MODEL OTHERS DIDATA_____" systemid="CMO" mode="1" server="00:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="e316ad2b-99da-4344-a88e-8b2cad010c40" name="w_SOLMAN_DEV_SD3" systemid="SD3" mode="1" server="SAP_SOLMAN_SD3_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="df203422-2f66-4b7b-823c-bc08beddde67" name="w_XI_DEV_XD2" systemid="XD2" mode="1" server="SAP_XI_XD2_SCI_60.resource.oxya.local:3260" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="f69694ff-c0a7-45d4-adae-bb90a5acf4eb" name="w_XI_PP_XM2" systemid="XM2" mode="1" server="SAP_XI_XM2_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="3b3fea48-5c70-4fbb-ac7f-7c1e485ab41f" name="w_XI_PROD_XP3" systemid="XP2" mode="1" server="SAP_XI_XP3_SCI_70.resource.oxya.local:3270" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="2e8966e5-d6c9-457d-8496-aef633e0c248" name="x_________LEGACY DIDATA___________" systemid="LEG" mode="1" server="00:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="5c47a56e-4f7b-48a2-ba3e-dc75540ad4d8" name="x_GERMAN_LEGACY_EBP" systemid="EBP" mode="1" server="SAP_ECC_EBP_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="37eed94c-9742-4d40-b223-e7faa6935095" name="y________SSC PROD DIDATA__________" systemid="SPD" mode="1" server="00:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="8869a4e7-0c89-470b-8573-52dc701dea5a" name="y_BW_PROD_BP2" systemid="BP2" mode="1" server="SAP_BW_BP2_SCI_41.resource.oxya.local:3241" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="19a46a64-496b-404e-9b13-d0554bf28a55" name="y_SSC_PROD_PRD" systemid="PRD" mode="1" server="SAP_SSC_PRD_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="56dc1907-c493-48fd-b8dd-76fe5d1fcc88" name="z________SSC DEV DIDATA___________" systemid="SSO" mode="1" server="00:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="4beab75d-1e09-473f-ac40-45831d9569c7" name="z_SSC_DEV_QUA" systemid="QUA" mode="1" server="SAP_SSC_QUA_SCI_00.resource.oxya.local:3200" sncop="-1" sapcpg="1100" dcpg="2"/>
+		<Service type="SAPGUI" uuid="d3b8abed-a894-4aa3-bbf1-0cfa83ce0a4d" name="1. Dimension Data - SAP Production (DCA)" msid="370e6e21-5a08-4d19-93b2-1494ddce7f70" server="Production" sncname="p:SAPServiceDCA@AP.DIDATA.LOCAL" sncop="9" sapcpg="1100" dcpg="2" description="DCA" systemid="DCA"/>
+		<Service type="SAPGUI" uuid="16800f9f-1509-4323-af10-f6e560a190d3" name="2. Dimension Data - SAP Quality Assurance (QAS)" systemid="DCQ" mode="1" server="apsgsapqas01.ap.didata.local:3201" sncname="p:SAPServiceDCQ@AP.DIDATA.LOCAL" sncop="9" sapcpg="1100" dcpg="2"/>
+		<Service uuid="fc508aed-1b83-441b-b118-3c23d87b5d69" name="GTR700 N - PROGRAM OVERFLOW TESTING" description="GTR700 N - PROGRAM OVERFLOW TESTING" url="https://GLCADSVGTRCEN.GD.DIDATA.LOCAL/sap/bc/nwbc" client="700" language="EN" type="NWBC"/>
+		<Service uuid="399ecfd4-9fca-4241-a56b-a098ba40bbe3" name="GTX700 N - INTEGRATION VOLUME TESTING" description="GTX700 N - INTEGRATION VOLUME TESTING" url="https://GLCADSVGTXCEN.GD.DIDATA.LOCAL/sap/bc/nwbc" client="700" language="EN" type="NWBC"/>
+		<Service uuid="e82bfc78-b144-492c-8f59-fb1fffb4b69d" name="GTZ700 N - UPGRADE AND PATCH TESTING" description="GTZ700 N - UPGRADE AND PATCH TESTING" url="https://GLCADSVGTZCEN.GD.DIDATA.LOCAL/sap/bc/nwbc" client="700" language="EN" type="NWBC"/>
+		<Service uuid="837bffe5-57ec-43ab-9293-c0cd3e87467a" name="IDE500 N - IDES SANDBOX" description="IDE500 N - IDES SANDBOX" url="https://GLCADSVIDECEN.GD.DIDATA.LOCAL/sap/bc/nwbc" client="700" language="EN" type="NWBC"/>
+	</Services>
+	<Workspaces>
+		<Workspace uuid="b52ccca2-a0d2-46ee-be0e-572728083de7" name="GT - SYSTEMS" hidden="0" expanded="1">
+			<Node uuid="db9d8dc8-63a7-4010-b76f-e30fe80d448b" name="GT - NORTH CLOUD" expanded="0" hidden="0">
+				<Item uuid="4395b96f-7e97-4589-96d1-6809851c9f3a" serviceid="d6d59dd5-19e2-43b4-832f-e084eebc9933" hidden="0"/>
+				<Item uuid="460a1480-9288-4c8b-b023-e71d5c83a7f4" serviceid="da81d8c3-a67c-4a89-8dd8-dd65e6322587" hidden="0"/>
+				<Item uuid="bd27a8b9-f197-4a3f-9a75-ee407ac5ccf0" serviceid="f1e6c12f-9c58-4d29-8e81-8470f0813f6d" hidden="0"/>
+			</Node>
+			<Item uuid="b5852018-1c54-4700-a244-9ec3e1923b77" serviceid="653209fd-20e7-4f3f-b4f6-5afd57c84d44"/>
+			<Item uuid="ead0a0d8-1a4e-471d-8716-81e64dba9a92" serviceid="1d8b7567-4a0c-4f99-81fb-9ae35c9863f3"/>
+			<Item uuid="e3245354-3a97-4002-869c-1d5532c0f776" serviceid="584cd1b0-02e5-4a8d-abcd-1aed84b1b2f3"/>
+			<Item uuid="7b019ea7-b5dd-4059-93a1-3fece6a1bc75" serviceid="52af38da-31fc-46da-95dd-104a7ea9661d"/>
+			<Node uuid="a5f538ac-74e5-4351-902b-9559c7a62560" name="GT - PROGRAM BUILD AND DATA" expanded="1" hidden="0">
+				<Item uuid="759f5184-da85-44c2-b734-f0995d2329be" serviceid="050d96ba-f32b-454f-a141-f24df3501ccb"/>
+				<Item uuid="171fb7d2-44f7-4f76-bcf2-c461a57ca102" serviceid="4db80c77-46bd-4dfd-a7e3-6644d9562cb2"/>
+				<Item uuid="a2e16937-21ed-49cc-a5f4-4c86e5200918" serviceid="d92df428-3ea8-4551-b93b-dfd915c80c0c"/>
+				<Item uuid="93297511-ee9d-4e7e-9e71-269c855e7688" serviceid="c3ded495-0f7e-470e-a777-fefce4cde4ab"/>
+				<Item uuid="a751b9f3-75ce-44dd-bc8e-2ef908db385d" serviceid="fc508aed-1b83-441b-b118-3c23d87b5d69"/>
+				<Item uuid="7c71cb8a-9c90-4985-bb58-3f0daedf5ed5" serviceid="399ecfd4-9fca-4241-a56b-a098ba40bbe3"/>
+				<Item uuid="f1ae6b3e-0ef9-491c-8e4b-228f4e3ab6fe" serviceid="e82bfc78-b144-492c-8f59-fb1fffb4b69d"/>
+				<Item uuid="547da7bb-9c23-4160-b0d7-00260545a3c8" serviceid="837bffe5-57ec-43ab-9293-c0cd3e87467a"/>
+			</Node>
+		</Workspace>
+		<Workspace uuid="18368791-8c14-4da7-a464-1104a3f54251" name="GT - BPC" hidden="1" expanded="0">
+			<Item uuid="4d36ca92-19ef-47cd-a447-e50b4f2f32cd" serviceid="af3dd28f-9c3a-4f62-ae62-930c629d872d"/>
+			<Item uuid="26622b7a-87c9-40c7-9c49-8f1d35939cfe" serviceid="0c1861c3-5797-469f-a26c-d91f8d7bc847"/>
+			<Item uuid="b5b0125c-7b91-4c9e-9d8c-35995456190d" serviceid="633d6d00-78cf-4730-9737-1cc03b147580"/>
+		</Workspace>
+		<Workspace uuid="f2204dd1-c8c6-4984-80c3-c751476ced40" name="GT - LOAD BALANCERS" hidden="1" expanded="0">
+			<Item uuid="8e42ba7b-1985-4e8e-8b9b-d92d82b858e5" serviceid="fa4e487b-d47a-40b9-a246-edd48bfd3a7e"/>
+			<Item uuid="03034e10-f489-448b-bec8-0049329d65c0" serviceid="f0b5fd87-d349-4e90-a45a-0a53f8069d20"/>
+			<Item uuid="607ce3fa-613e-44c8-bc31-b6520227209d" serviceid="742cc371-fb12-44f9-8d2c-6e77dd63a7bc"/>
+		</Workspace>
+		
+		<Workspace uuid="64f11ef7-326d-4810-b0a4-718fc1121d44" name="LEGACY SYSTEMS" hidden="1" expanded="1">
+			
+			<Node uuid="ee4897bf-a323-49d7-853c-c1de388c03f5" name="ZA" expanded="0" hidden="0">
+				<Item uuid="6899ab9e-d99f-4abd-84eb-5a91989de797" serviceid="dbb1aab6-c82f-4762-bf2b-c525dc55191b"/>
+				<Item uuid="aa84e20c-46d5-41c5-b526-39b65b468d11" serviceid="67b8f84d-0b3e-401f-8afd-4bba7f0db313"/>
+			</Node>
+			
+			<Node uuid="350bbdb9-b644-4d54-b254-9a7f2dbfa7ba" name="EU" expanded="0" hidden="0">
+				<Item uuid="951617aa-f6fd-4f3d-96f0-647bb78e4d9a" serviceid="d105ab25-ff20-4617-8ae1-d409a74d84c2"/>
+			</Node>
+			<Node uuid="a16179ba-74cf-48a8-a2b3-a42ae7ba35cd" name="AP" expanded="0" hidden="0">
+				<Item uuid="cfe70cbe-e87b-460b-86de-c8a217d64394" serviceid="d3b8abed-a894-4aa3-bbf1-0cfa83ce0a4d"/>
+				<Item uuid="7900c1ba-8a35-4d17-b3e1-aee2a69f5589" serviceid="16800f9f-1509-4323-af10-f6e560a190d3"/>
+			</Node>
+		</Workspace>
+		
+		<Workspace uuid="27e74fc2-be42-401e-818a-f6448bb96802" name="DDNEW SYSTEMS" hidden="1" expanded="0">
+			<Item uuid="f5f87f5e-c79b-412a-8a0c-24bb1f1aee1b" serviceid="2558f208-5486-42d4-9bfb-f150a1a129c4"/>
+			<Item uuid="57739a76-eba6-4a8c-abca-3a7500997931" serviceid="ad46a9e6-9f54-4290-b403-60f75cc2920a"/>
+			<Item uuid="3a3bd3e4-c567-43b5-8637-cd6dad671fa5" serviceid="fa62193b-592e-4795-a8ad-fb5c00f3bba7"/>
+			<Item uuid="df4fe78b-c80b-4e2f-b482-2972b187cdca" serviceid="95803086-697f-407d-b4c4-5e30a1cd3247"/>
+			<Item uuid="5a5e3c83-5622-4dc6-a09d-1c74b6b4a259" serviceid="4e7621a0-c2d5-4d55-bf8b-f7b804d936f4"/>
+			<Item uuid="31cafa1f-0bea-49e7-ba9e-4b41f7d40a55" serviceid="88859626-3613-4056-ba5c-87e6ff2778fa"/>
+			<Item uuid="8c2f2987-748f-48eb-91e1-71b162d0134c" serviceid="82aa9aee-9004-424d-aef8-d40f1ca1cc7b"/>
+			<Item uuid="b894d0c7-630f-463f-b31b-b7f913715b64" serviceid="e751c04a-0606-4960-8e44-0d1abd446da6"/>
+			<Item uuid="8bbd2164-b75f-499f-9e72-40b69b768ab4" serviceid="4a855617-cc13-4f52-bfb4-1e24eba24a16"/>
+			<Item uuid="f5344880-6fe9-4663-a2cc-2a37405a547c" serviceid="4b867924-d87b-440b-902d-8d442e07bb49"/>
+			<Item uuid="3959eedd-a38a-4f50-adf0-ce02e6c87036" serviceid="e822295e-6339-4021-a637-f26775e780b9"/>
+			<Item uuid="2b0fe8fc-6ef4-4a82-b2e3-8901dbf6d173" serviceid="2c06f345-285f-4d14-875a-a14f580c21d1"/>
+			<Item uuid="8be168b3-950a-414e-97dd-87b70b4b1035" serviceid="e1aef07c-a786-4600-93b0-b44aec64382f"/>
+			<Item uuid="852c0459-e346-41ea-a5e4-b97257a7a274" serviceid="c79543cb-33bb-4d5a-8e88-19ad784ebef1"/>
+			<Item uuid="4b97aba8-10da-4fd7-b0f5-cf75e9bab4d3" serviceid="e316ad2b-99da-4344-a88e-8b2cad010c40"/>
+			<Item uuid="43875d35-c7fd-4332-9a97-5931e6a03b36" serviceid="df203422-2f66-4b7b-823c-bc08beddde67"/>
+			<Item uuid="267141ff-2ca1-41ed-90a1-e396096953b5" serviceid="f69694ff-c0a7-45d4-adae-bb90a5acf4eb"/>
+			<Item uuid="a2ece65e-b41f-4447-9626-a207aabd653d" serviceid="3b3fea48-5c70-4fbb-ac7f-7c1e485ab41f"/>
+			<Item uuid="92cc3a7d-617d-4696-8ffe-1464291007f5" serviceid="2e8966e5-d6c9-457d-8496-aef633e0c248"/>
+			<Item uuid="8122b2cc-a875-4005-bf13-1c564d900af8" serviceid="5c47a56e-4f7b-48a2-ba3e-dc75540ad4d8"/>
+			<Item uuid="407e8e20-c28d-4014-bad2-c5f1257a8ceb" serviceid="37eed94c-9742-4d40-b223-e7faa6935095"/>
+			<Item uuid="b1ed818e-4da3-4c6f-8197-9ad8e0c700f1" serviceid="8869a4e7-0c89-470b-8573-52dc701dea5a"/>
+			<Item uuid="f612ea42-feb6-4c31-9cfa-bc7f7591f536" serviceid="19a46a64-496b-404e-9b13-d0554bf28a55"/>
+			<Item uuid="c213cbbc-cc00-4278-a0f0-c41b87492987" serviceid="56dc1907-c493-48fd-b8dd-76fe5d1fcc88"/>
+			<Item uuid="5e7a7467-5ded-4dc9-a547-91a0e1130bf4" serviceid="4beab75d-1e09-473f-ac40-45831d9569c7"/>
+		</Workspace>
+	</Workspaces>
+	<Messageservers>
+		
+		<Messageserver uuid="c58ed55a-aa52-4721-8eb2-2647b85dcd94" 
+									 name="GTP" 
+									 host="GLCADSVGTPCEN.gd.didata.local" 
+									 port="3600"/>
+		
+		<Messageserver uuid="957f0b36-e01c-4d9d-a7f6-3cb53e0cacae" name="GTQ" host="GLCADSVSAPGTQ.gd.didata.local" port="3600"/>
+		<Messageserver uuid="057f2156-c301-43aa-9c6c-a58fadb03688" name="ZAP" host="ZABRYSVSAPCEN.af.didata.local" port="3600"/>
+		<Messageserver uuid="c8eec100-38c5-4aa6-83bd-18a68d29098b" name="EUP" host="GLLDCSAPCEN01.gd.didata.local" port="3600"/>
+		<Messageserver uuid="14e76e0a-89aa-4c35-8e75-09cf3d708c26" name="CP2" host="SAP_CRM_CP2_SCI_26.resource.oxya.local" port="3626"/>
+		<Messageserver uuid="37b79c42-fb01-4005-b346-0891445fe704" name="EP2" host="SAP_ECC_EP2_SCI_11.resource.oxya.local" port="3611"/>
+
+		<Messageserver	uuid				="370e6e21-5a08-4d19-93b2-1494ddce7f70"
+										name				="DCA"
+										description	="DCA"
+										host				="apsapprd.ap.didata.local"
+										port				="3601"
+			/>
+
+	</Messageservers>
+</Landscape>

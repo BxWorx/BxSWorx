@@ -2,9 +2,9 @@
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 //.........................................................
-using SAPGUI.API.DL;
+using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace BxS_SAPGUI.COM.DL
 {
 	[DataContract]
 	internal sealed class DTOWorkspace :IDTOWorkspace

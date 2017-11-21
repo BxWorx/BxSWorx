@@ -1,6 +1,6 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API
+namespace BxS_SAPGUI.API
 {
 	internal class DTOConnection : IDTOConnection
 		{

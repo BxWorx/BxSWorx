@@ -3,9 +3,9 @@ using System.Xml;
 using System.Collections.Generic;
 using System.Linq;
 //.........................................................
-using SAPGUI.API;
+using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace BxS_SAPGUI.XML
 {
 	internal partial class XMLParse2ReposDTO
 		{

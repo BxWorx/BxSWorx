@@ -1,8 +1,8 @@
 ﻿using System;
 //.........................................................
-using SAPGUI.API.DL;
+using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace BxS_SAPGUI.COM.DL
 {
 	internal partial class Repository
 		{
@@ -17,7 +17,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool MsgServerExists(Guid ID)
 					{
-						return	this.DataCon.MsgServers.ContainsKey(ID);
+						return	this._DataCon.MsgServers.ContainsKey(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -38,7 +38,7 @@ namespace SAPGUI.COM.DL
 				public IDTOMsgServer GetMsgServer(Guid ID)
 					{
 						IDTOMsgServer	lo_DTO	= this.CreateMsgServerDTO();
-						this.DataCon.MsgServers.TryGetValue(ID, out lo_DTO);
+						this._DataCon.MsgServers.TryGetValue(ID, out lo_DTO);
 						return	lo_DTO;
 					}
 
@@ -47,14 +47,14 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this.DataCon.MsgServers.ContainsKey(DTO.UUID))
+						if (this._DataCon.MsgServers.ContainsKey(DTO.UUID))
 							{
-								this.DataCon.MsgServers[DTO.UUID]	= DTO;
+								this._DataCon.MsgServers[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this.DataCon.MsgServers.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this._DataCon.MsgServers.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -69,7 +69,7 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						if (!this.MsgServerInUse(ID))
 							{
-								lb_Ret	= this.DataCon.MsgServers.Remove(ID);
+								lb_Ret	= this._DataCon.MsgServers.Remove(ID);
 								if (lb_Ret)	this.IsDirty	= true;
 							}
 						//.............................................

@@ -1,12 +1,12 @@
-﻿using SAPGUI.XML;
-using SAPGUI.INI;
-using SAPGUI.USR;
-using SAPGUI.COM.DL;
-using SAPGUI.COM.CNTLR;
-using Toolset.Serialize;
-using Toolset.IO;
+﻿using BxS_SAPGUI.XML;
+using BxS_SAPGUI.INI;
+using BxS_SAPGUI.USR;
+using BxS_SAPGUI.COM.DL;
+using BxS_SAPGUI.COM.CNTLR;
+using BxS_Toolset.Serialize;
+using BxS_Toolset.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API
+namespace BxS_SAPGUI.API
 {
 	public static class ControllerFactory
 		{

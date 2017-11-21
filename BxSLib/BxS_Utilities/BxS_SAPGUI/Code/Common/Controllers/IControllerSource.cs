@@ -1,6 +1,6 @@
-﻿using SAPGUI.API;
+﻿using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.CNTLR
+namespace BxS_SAPGUI.COM.CNTLR
 {
 	internal interface IControllerSource
 		{

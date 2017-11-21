@@ -1,8 +1,8 @@
 ﻿using System;
 //.........................................................
-using SAPGUI.API.DL;
+using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace BxS_SAPGUI.COM.DL
 {
 	internal partial class Repository
 		{

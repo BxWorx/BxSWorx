@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 //.........................................................
-using SAPGUI.API.DL;
+using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace BxS_SAPGUI.COM.DL
 {
 	[DataContract]
 	[KnownType(typeof(DTOMsgServer))]

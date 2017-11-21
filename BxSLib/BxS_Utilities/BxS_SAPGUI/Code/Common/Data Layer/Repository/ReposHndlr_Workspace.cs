@@ -1,8 +1,8 @@
 ﻿using System;
 //.........................................................
-using SAPGUI.API.DL;
+using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace BxS_SAPGUI.COM.DL
 {
 	internal partial class Repository
 		{
@@ -17,7 +17,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOWorkspace GetWorkspace(Guid ID)
 					{
-						this.DataCon.WorkSpaces.TryGetValue(ID, out IDTOWorkspace DTO);
+						this._DataCon.WorkSpaces.TryGetValue(ID, out IDTOWorkspace DTO);
 						return	DTO;
 					}
 
@@ -37,14 +37,14 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this.DataCon.WorkSpaces.ContainsKey(DTO.UUID))
+						if (this._DataCon.WorkSpaces.ContainsKey(DTO.UUID))
 							{
-								this.DataCon.WorkSpaces[DTO.UUID]	= DTO;
+								this._DataCon.WorkSpaces[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this.DataCon.WorkSpaces.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this._DataCon.WorkSpaces.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -57,7 +57,7 @@ namespace SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						lb_Ret	= this.DataCon.WorkSpaces.Remove(ID);
+						lb_Ret	= this._DataCon.WorkSpaces.Remove(ID);
 						if (lb_Ret)	this.IsDirty	= true;
 						//.............................................
 						return	lb_Ret;

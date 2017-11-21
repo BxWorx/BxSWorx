@@ -2,12 +2,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 //.........................................................
-using SAPGUI.API;
-using SAPGUI.API.DL;
-using SAPGUI.COM.DL;
-using SAPGUI.USR;
-using Toolset.IO;
-using Toolset.Serialize;
+using BxS_SAPGUI.API;
+using BxS_SAPGUI.API.DL;
+using BxS_SAPGUI.COM.DL;
+using BxS_SAPGUI.USR;
+using BxS_Toolset.IO;
+using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
 {
@@ -31,12 +31,13 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					IRepository		lo_Rep			= this.CreateRepository();
-					IRepository		lo_RepX			= this.CreateRepository(true);
+					IRepository		lo_Rep	= this.CreateRepository();
+					IRepository		lo_RepX	= this.CreateRepository(true);
+					IRepository		lo_RepY	= this.CreateRepository(true);
 
 					var	lo_IO				= new IO();
 					var	lo_DCSer		= new DCSerializer();
-					var	lo_UsrCntlr	= new USRController(lo_Rep, _PathTest, lo_IO, lo_DCSer);
+					var	lo_UsrCntlr	= new USRController(lo_Rep, _PathTest, lo_IO, lo_DCSer, false);
 					//...............................................
 					ln_Cnt	= 1;
 					lo_UsrCntlr.DeleteDCXMLFile();
@@ -49,6 +50,12 @@ namespace zBxS_SAPGUI_UT
 					ln_Cnt	= 3;
 					var	lo_UsrCntlrx	= new USRController(lo_RepX, _PathTest, lo_IO, lo_DCSer);
 					this.Validate_Rep(lo_UsrCntlrx.Repository.GetDataContainer(), ln_Cnt, "UsrCntlr");
+					//...............................................
+					ln_Cnt	= 4;
+					lo_UsrCntlr.Repository.AddUpdateMsgServer(this.Create_MsgSvrDTO());
+					lo_UsrCntlr.Save(true);
+					var	lo_UsrCntlry	= new USRController(lo_RepY, _PathTest, lo_IO, lo_DCSer);
+					Assert.AreEqual	(2,	lo_UsrCntlry.Repository.MsgServerCount,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
 				}
 
 			//===========================================================================================

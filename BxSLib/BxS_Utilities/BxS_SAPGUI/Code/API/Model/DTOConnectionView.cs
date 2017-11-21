@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API
+namespace BxS_SAPGUI.API
 {
 	internal class DTOConnectionView : IDTOConnectionView
 		{

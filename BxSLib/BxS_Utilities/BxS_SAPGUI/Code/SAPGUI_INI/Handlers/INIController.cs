@@ -1,7 +1,7 @@
-﻿using SAPGUI.API;
-using SAPGUI.COM.CNTLR;
+﻿using BxS_SAPGUI.API;
+using BxS_SAPGUI.COM.CNTLR;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.INI
+namespace BxS_SAPGUI.INI
 {
 	internal class INIController : ControllerSourceBase
 		{

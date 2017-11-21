@@ -1,6 +1,6 @@
 ﻿using System.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace Toolset.IO
+namespace BxS_Toolset.IO
 {
 	public class IO
 		{

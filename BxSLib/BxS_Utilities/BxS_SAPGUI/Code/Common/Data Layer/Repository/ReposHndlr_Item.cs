@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using SAPGUI.API.DL;
+using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace BxS_SAPGUI.COM.DL
 {
 	internal partial class Repository
 		{
@@ -37,7 +37,7 @@ namespace SAPGUI.COM.DL
 
 						if (lt_Items != null)
 							{
-								if (this.DataCon.Services.ContainsKey(DTO.ServiceID))
+								if (this._DataCon.Services.ContainsKey(DTO.ServiceID))
 									{
 										if (lt_Items.ContainsKey(DTO.UUID))
 											{

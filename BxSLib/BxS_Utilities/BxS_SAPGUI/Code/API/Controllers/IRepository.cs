@@ -1,12 +1,22 @@
 ﻿using System;
 //.........................................................
-using SAPGUI.API.DL;
-using SAPGUI.COM.DL;
+using BxS_SAPGUI.API.DL;
+using BxS_SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API
+namespace BxS_SAPGUI.API
 {
 	public interface IRepository
 		{
+			#region "Properties"
+
+				bool	IsDirty					{ get; }
+				int		MsgServerCount	{ get; }
+				int		ServiceCount		{ get; }
+				int		WorkspaceCount	{ get; }
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//.................................................
@@ -71,13 +81,6 @@ namespace SAPGUI.API
 																	Guid	ServiceID		,
 																	Guid	ForWSpaceID	,
 																	Guid  ForNodeID		= default(Guid)	);
-
-				//.................................................
-				//DataContainer	DataCon					{ get; set; }
-				bool					IsDirty					{ get; }
-				int						MsgServerCount	{ get; }
-				int						ServiceCount		{ get; }
-				int						WorkspaceCount	{ get; }
 
 				//.................................................
 

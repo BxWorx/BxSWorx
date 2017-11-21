@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace Toolset.Serialize
+namespace BxS_Toolset.Serialize
 {
 	public class DCSerializer
 		{

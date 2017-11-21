@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 //.........................................................
-using SAPGUI.API;
-using SAPGUI.API.DL;
+using BxS_SAPGUI.API;
+using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.DL
+namespace BxS_SAPGUI.COM.DL
 {
 	internal partial class Repository : IRepository
 		{
@@ -14,35 +14,40 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Repository(DataContainer dataContainer)
 					{
-						this.DataCon	= dataContainer;
-						//this.DataCon	= dataContainer;
+						this._DataCon	= dataContainer;
 						//.............................................
 						this.IsDirty	= false;
 					}
 
 			#endregion
 
-				private DataContainer	DataCon;
+			//===========================================================================================
+			#region "Declarations"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ref DataContainer GetDataContainer()
-					{
-						return ref this.DataCon;
-					}
+				private DataContainer	_DataCon;
 
-
+			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public bool	IsDirty	{					get {	return	this.DataCon.IsDirty	; }
-															private set { this.DataCon.IsDirty = value	; } }
+				public bool	IsDirty	{					get {	return	this._DataCon.IsDirty	; }
+															private set { this._DataCon.IsDirty = value	; } }
 
-				public int	MsgServerCount	{ get {	return	this.DataCon.MsgServers.Count	; } }
-				public int	ServiceCount		{ get {	return	this.DataCon.Services.Count		; } }
-				public int	WorkspaceCount	{ get {	return	this.DataCon.WorkSpaces.Count	; } }
+				public int	MsgServerCount	{ get {	return	this._DataCon.MsgServers.Count	; } }
+				public int	ServiceCount		{ get {	return	this._DataCon.Services.Count		; } }
+				public int	WorkspaceCount	{ get {	return	this._DataCon.WorkSpaces.Count	; } }
 
-				//public DataContainer	DataCon	{ get; set; }
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: By Ref"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public ref DataContainer GetDataContainer()
+					{
+						return ref this._DataCon;
+					}
 
 			#endregion
 
@@ -52,14 +57,14 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear()
 					{
-						if (			this.DataCon	.MsgServers	.Count.Equals(0)
-									&&	this.DataCon	.Services		.Count.Equals(0)
-									&&	this.DataCon	.WorkSpaces	.Count.Equals(0)	)
+						if (			this._DataCon	.MsgServers	.Count.Equals(0)
+									&&	this._DataCon	.Services		.Count.Equals(0)
+									&&	this._DataCon	.WorkSpaces	.Count.Equals(0)	)
 							{
 								return;
 							}
 						//.............................................
-						this.DataCon.Clear();
+						this._DataCon.Clear();
 						this.IsDirty	= true;
 					}
 
@@ -76,7 +81,7 @@ namespace SAPGUI.COM.DL
 						//
 						lt_Use	= this.UsedServices();
 						//.............................................
-						foreach (KeyValuePair<Guid, IDTOService> lo_Srv in this.DataCon.Services)
+						foreach (KeyValuePair<Guid, IDTOService> lo_Srv in this._DataCon.Services)
 							{
 								if (!lt_Use.Contains(lo_Srv.Key))
 									lt_Rem.Add(lo_Srv.Key);
@@ -84,7 +89,7 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						foreach (Guid lo_Rem in lt_Rem)
 							{
-								this.DataCon.Services.Remove(lo_Rem);
+								this._DataCon.Services.Remove(lo_Rem);
 							}
 
 						if (!lt_Rem.Count.Equals(0))		this.IsDirty	= true;
@@ -95,7 +100,7 @@ namespace SAPGUI.COM.DL
 						lt_Use	= this.UsedMsgServers();
 						lt_Rem.Clear();
 						//.............................................
-						foreach (KeyValuePair<Guid, IDTOMsgServer> lo_Msg in this.DataCon.MsgServers)
+						foreach (KeyValuePair<Guid, IDTOMsgServer> lo_Msg in this._DataCon.MsgServers)
 							{
 								if (!lt_Use.Contains(lo_Msg.Key))
 									lt_Rem.Add(lo_Msg.Key);
@@ -103,7 +108,7 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						foreach (Guid lo_Rem in lt_Rem)
 							{
-								this.DataCon.MsgServers.Remove(lo_Rem);
+								this._DataCon.MsgServers.Remove(lo_Rem);
 							}
 
 						if (!lt_Rem.Count.Equals(0))		this.IsDirty	= true;
@@ -115,7 +120,7 @@ namespace SAPGUI.COM.DL
 						//.............................................
 						lt_Use.Clear();
 
-						foreach (KeyValuePair<Guid, IDTOWorkspace> lo_WS in this.DataCon.WorkSpaces)
+						foreach (KeyValuePair<Guid, IDTOWorkspace> lo_WS in this._DataCon.WorkSpaces)
 							{
 								if (lo_WS.Value.Items.Count.Equals(0))
 									{
@@ -148,7 +153,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<Guid> UsedMsgServers()
 					{
-						return	this.DataCon.Services.Select(
+						return	this._DataCon.Services.Select(
 											x => x.Value.MSID)
 												.Where(x => x != Guid.Empty)
 													.Distinct()
@@ -158,7 +163,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<Guid> UsedServices()
 					{
-						return	this.DataCon.WorkSpaces.SelectMany
+						return	this._DataCon.WorkSpaces.SelectMany
 											( ws => ws.Value.Nodes.SelectMany
 												( nd => nd.Value.Items.Select( it => it.Value.ServiceID )
 														.Where( id => id != Guid.Empty )
@@ -173,7 +178,7 @@ namespace SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool MsgServerInUse(Guid ID)
 					{
-						return	!this.DataCon.Services.Count(kvp => kvp.Value.MSID.Equals(ID)).Equals(0);
+						return	!this._DataCon.Services.Count(kvp => kvp.Value.MSID.Equals(ID)).Equals(0);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -182,7 +187,7 @@ namespace SAPGUI.COM.DL
 						bool lb_CntItm	= false;
 						bool lb_CntNde	= false;
 						//.............................................
-						lb_CntItm	= this.DataCon.WorkSpaces
+						lb_CntItm	= this._DataCon.WorkSpaces
 													.SelectMany( ws => ws.Value.Items
 														.Where( it => it.Key.Equals(ID) ) )
 															.Count()
@@ -190,7 +195,7 @@ namespace SAPGUI.COM.DL
 
 						if (lb_CntItm)
 							{
-								lb_CntNde	= this.DataCon.WorkSpaces
+								lb_CntNde	= this._DataCon.WorkSpaces
 															.SelectMany( ws => ws.Value.Nodes
 																.SelectMany( nd => nd.Value.Items
 																	.Where( it => it.Key.Equals(ID) ) ) )

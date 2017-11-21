@@ -1,7 +1,7 @@
-﻿using SAPGUI.API;
-using SAPGUI.COM.CNTLR;
+﻿using BxS_SAPGUI.API;
+using BxS_SAPGUI.COM.CNTLR;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace BxS_SAPGUI.XML
 {
 	internal class XMLController : ControllerSourceBase
 		{

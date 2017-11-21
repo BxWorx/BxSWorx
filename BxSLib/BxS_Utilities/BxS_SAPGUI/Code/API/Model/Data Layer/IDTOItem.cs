@@ -1,6 +1,6 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API.DL
+namespace BxS_SAPGUI.API.DL
 {
 	public interface IDTOItem
 		{

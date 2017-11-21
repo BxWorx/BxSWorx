@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.API.DL
+namespace BxS_SAPGUI.API.DL
 {
 	public interface IDTONode
 		{

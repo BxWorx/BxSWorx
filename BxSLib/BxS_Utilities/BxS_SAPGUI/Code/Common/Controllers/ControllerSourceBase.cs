@@ -1,7 +1,7 @@
-﻿using SAPGUI.COM.DL;
-using SAPGUI.API;
+﻿using BxS_SAPGUI.COM.DL;
+using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.COM.CNTLR
+namespace BxS_SAPGUI.COM.CNTLR
 {
 	internal abstract class ControllerSourceBase : IControllerSource
 		{

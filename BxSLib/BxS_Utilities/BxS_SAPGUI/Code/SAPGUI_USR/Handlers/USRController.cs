@@ -1,17 +1,17 @@
-﻿using SAPGUI.API;
-using SAPGUI.COM.CNTLR;
-using SAPGUI.COM.DL;
-using Toolset.IO;
-using Toolset.Serialize;
+﻿using BxS_SAPGUI.API;
+using BxS_SAPGUI.COM.CNTLR;
+using BxS_SAPGUI.COM.DL;
+using BxS_Toolset.IO;
+using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.USR
+namespace BxS_SAPGUI.USR
 {
 	internal class USRController : ControllerSourceBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal USRController(IRepository repository, string dirPath, IO FileIO, DCSerializer dcSerializer)
+				internal USRController(IRepository repository, string dirPath, IO FileIO, DCSerializer dcSerializer, bool AutoLoad = true)
 									: base(repository)
 					{
 						this._DirPath	= dirPath			;
@@ -19,7 +19,8 @@ namespace SAPGUI.USR
 						this._DCSer		= dcSerializer;
 						//.............................................
 						this._DCFullName	= this._IO.PathFileCombine( this._DirPath	,	_DCFileName	);
-						this.LoadDataContainer();
+
+						if (AutoLoad)		this.LoadDataContainer();
 					}
 
 			#endregion

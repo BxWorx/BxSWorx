@@ -2,9 +2,9 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 //.........................................................
-using SAPGUI.API;
-using SAPGUI.API.DL;
-using SAPGUI.COM.DL;
+using BxS_SAPGUI.API;
+using BxS_SAPGUI.API.DL;
+using BxS_SAPGUI.COM.DL;
 //••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
 	{

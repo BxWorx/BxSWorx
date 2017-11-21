@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using Toolset.Serialize;
-using Toolset.IO;
+using BxS_Toolset.Serialize;
+using BxS_Toolset.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_ToolSet_UT
 {

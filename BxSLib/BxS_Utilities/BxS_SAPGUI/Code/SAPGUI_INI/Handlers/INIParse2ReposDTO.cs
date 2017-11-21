@@ -1,7 +1,7 @@
-﻿using SAPGUI.API;
-using SAPGUI.COM.DL;
+﻿using BxS_SAPGUI.API;
+using BxS_SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace SAPGUI.XML
+namespace BxS_SAPGUI.XML
 {
 	internal partial class INIParse2ReposDTO
 		{
