@@ -10,11 +10,27 @@ namespace zBxS_ToolSet_UT
 		{
 			private const string	cz_TestDir			= "Test Resources";
 			private const string	cz_TestFileName	= "Test Data.txt";
+			private const string	cz_TestIniName	= "saplogon_Test.ini";
 			//...................................................
 			private	static readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
-			private	static readonly string	_PathTest			= Path.Combine(_Path,	cz_TestDir);
+			private	static readonly string	_PathTest			= Path.Combine(_Path		,	cz_TestDir			);
 			private	static readonly string	_TestFullNme	= Path.Combine(_PathTest,	cz_TestFileName	);
 			//...................................................
+
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_ToolSet_IO_Read()
+				{
+					int	ln_Cnt;
+					//...............................................
+					string	lc_Tst;
+					string	lc_IniFullNme	= Path.Combine(_PathTest,	cz_TestIniName);
+					var			lo_IO					= new IO();
+
+					ln_Cnt	= 1;
+					lc_Tst	= lo_IO.ReadFile(lc_IniFullNme);
+					Assert.AreNotEqual(string.Empty, lc_Tst,	$"IO: {ln_Cnt}: Write: Error");
+				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]

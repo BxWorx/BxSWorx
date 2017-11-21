@@ -5,10 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Code\SAPGUI_USR\Data Layer\**" />
     <Compile Remove="Code\SAPGUI_XML\Helpers\**" />
     <Compile Remove="Code\SAPGUI_XML\Model\**" />
+    <EmbeddedResource Remove="Code\SAPGUI_USR\Data Layer\**" />
     <EmbeddedResource Remove="Code\SAPGUI_XML\Helpers\**" />
     <EmbeddedResource Remove="Code\SAPGUI_XML\Model\**" />
+    <None Remove="Code\SAPGUI_USR\Data Layer\**" />
     <None Remove="Code\SAPGUI_XML\Helpers\**" />
     <None Remove="Code\SAPGUI_XML\Model\**" />
   </ItemGroup>
@@ -16,10 +19,6 @@
   <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="Code\Common\Data Layer\DTO Objects\DTOBase.cs" />
-    <Compile Remove="Code\SAPGUI_USR\Data Layer\DLController.cs" />
-    <Compile Remove="Code\SAPGUI_USR\Data Layer\DLControllerSerialiser.cs" />
-    <Compile Remove="Code\SAPGUI_USR\Data Layer\Mapping.cs" />
-    <Compile Remove="Code\SAPGUI_USR\Data Layer\Table.cs" />
     <Compile Remove="Code\zOld Stuff\Class1.cs" />
     <Compile Remove="Code\zOld Stuff\DLController.cs" />
     <Compile Remove="Code\zOld Stuff\DLControllerSerialiser.cs" />
@@ -50,7 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\SAPGUI_USR\Data Layer\" />
     <Folder Include="Code\zOld Stuff\Loader\" />
     <Folder Include="Code\zOld Stuff\Usr Data Layer\Parser\" />
   </ItemGroup>

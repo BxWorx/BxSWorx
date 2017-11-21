@@ -8,12 +8,12 @@ using BxS_Toolset.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.API
 {
-	public static class ControllerFactory
+	public class ControllerFactory
 		{
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IController CreateControllerForSAPXML(string fullPath, bool onlySAPGUI = true)
+				public IController CreateControllerForSAPXML(string fullPath, bool onlySAPGUI = true)
 					{
 						IRepository lo_Repos	= CreateRepository();
 						var					lo_Parser	=	new XMLParse2ReposDTO();
@@ -25,10 +25,11 @@ namespace BxS_SAPGUI.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IController CreateControllerForSAPINI(string fullPath)
+				public IController CreateControllerForSAPINI(string fullPath)
 					{
 						IRepository				lo_Repos	= CreateRepository();
-						var								lo_Parser	=	new INIParse2ReposDTO();
+						var								lo_IO			= new IO();
+						var								lo_Parser	=	new INIParse2ReposDTO(lo_IO);
 						IControllerSource INICntlr	= new INIController(lo_Repos);
 						//.............................................
 						lo_Parser.Load(lo_Repos, fullPath);
@@ -37,7 +38,7 @@ namespace BxS_SAPGUI.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IController CreateControllerForSAPUSR(string fullPath)
+				public IController CreateControllerForSAPUSR(string fullPath)
 					{
 						var								lo_IO			= new IO();
 						var								lo_DCSer	= new DCSerializer();
@@ -53,7 +54,7 @@ namespace BxS_SAPGUI.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private static IRepository CreateRepository()
+				private IRepository CreateRepository()
 					{
 						return	new Repository(new DataContainer());
 					}

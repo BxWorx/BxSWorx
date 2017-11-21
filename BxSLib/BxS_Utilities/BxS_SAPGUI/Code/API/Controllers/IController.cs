@@ -4,7 +4,6 @@ namespace BxS_SAPGUI.API
 {
 	public interface IController
 		{
-
 			#region "Properties"
 
 				bool IsReadOnly	{ get;  }

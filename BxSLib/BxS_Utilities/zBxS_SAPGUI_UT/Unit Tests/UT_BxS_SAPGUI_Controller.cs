@@ -11,11 +11,12 @@ namespace zBxS_SAPGUI_UT
 			private const string	cz_FileName		= "SAPUILandscapeS2A.xml";
 			private const string	cz_TestDir		= "Test Resources";
 			private const string	cz_TestConnID	=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
-
 			//...................................................
 			private	static readonly string	cc_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	cc_FullPath			= Path.Combine(cc_Path,	cz_TestDir);
 			private	static readonly string	cc_XMLFullName	= Path.Combine(cc_FullPath, cz_FileName);
+			//...................................................
+			private readonly ControllerFactory _CntlrFact	= new ControllerFactory();
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
@@ -25,7 +26,7 @@ namespace zBxS_SAPGUI_UT
 					IController				lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
 					//...............................................
-					lo_Cntlr	= ControllerFactory.CreateControllerForSAPXML(cc_XMLFullName, true);
+					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPXML(cc_XMLFullName, true);
 					//...............................................
 					ln_Cnt			= 1;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
@@ -41,7 +42,7 @@ namespace zBxS_SAPGUI_UT
 					IController				lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
 					//...............................................
-					lo_Cntlr	= ControllerFactory.CreateControllerForSAPINI(cc_XMLFullName);
+					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPINI(cc_XMLFullName);
 					//...............................................
 					ln_Cnt			= 1;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
@@ -57,7 +58,7 @@ namespace zBxS_SAPGUI_UT
 					IController				lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
 					//...............................................
-					lo_Cntlr	= ControllerFactory.CreateControllerForSAPUSR(cc_FullPath);
+					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPUSR(cc_FullPath);
 					//...............................................
 					ln_Cnt			= 1;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();

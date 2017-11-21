@@ -1,1 +1,1 @@
-<Playlist Version="1.0"><Add Test="zBxS_ToolSet_UT.UT_BxS_ToolSet_IO.UT_ToolSet_IO_Write" /></Playlist>
+<Playlist Version="1.0"><Add Test="zBxS_ToolSet_UT.UT_BxS_ToolSet_IO.UT_ToolSet_IO_Write" /><Add Test="zBxS_ToolSet_UT.UT_BxS_ToolSet_IO.UT_ToolSet_IO_Read" /></Playlist>
