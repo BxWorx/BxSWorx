@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset.IO
 {
@@ -50,6 +51,25 @@ namespace BxS_Toolset.IO
 							{
 								return lo_SR.ReadToEnd();
 							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<string> ReadTextFile(string FullPathFileName)
+					{
+						IList<string>	lt_List	= new List<string>();
+						var						lo_FS		= new FileStream(FullPathFileName, FileMode.Open);
+
+						using (var lo_SR = new StreamReader(lo_FS))
+							{
+								string lc_Line;
+
+								while ((lc_Line = lo_SR.ReadLine()) != null)
+									{
+										lt_List.Add(lc_Line);
+									}
+					}
+						//.............................................
+						return	lt_List;
 					}
 
 			#endregion

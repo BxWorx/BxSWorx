@@ -1,4 +1,5 @@
 using System.IO;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 using BxS_Toolset.IO;
@@ -23,12 +24,16 @@ namespace zBxS_ToolSet_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					string	lc_Tst;
+					string				lc_Tst;
+					IList<string> lt_List;
+
 					string	lc_IniFullNme	= Path.Combine(_PathTest,	cz_TestIniName);
 					var			lo_IO					= new IO();
 
 					ln_Cnt	= 1;
 					lc_Tst	= lo_IO.ReadFile(lc_IniFullNme);
+					lt_List = lo_IO.ReadTextFile(lc_IniFullNme);
+
 					Assert.AreNotEqual(string.Empty, lc_Tst,	$"IO: {ln_Cnt}: Write: Error");
 				}
 
