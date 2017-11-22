@@ -29,11 +29,11 @@ namespace zBxS_SAPGUI_UT
 					//...............................................
 					IRepository	lo_Rep		= this.CreateRepository();
 					var					lo_IO			= new IO();
-					var					lo_Parser	= new INIParse2ReposDTO(lo_IO);
+					var					lo_Parser	= new INIParse2ReposDTO(lo_IO, lo_Rep, _FileTest);
 					//...............................................
 					ln_Cnt	= 1;
-					lo_Parser.Load(lo_Rep, _FileTest);
-					//Assert.IsFalse	(lo_UsrCntlr.FileExists()	,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
+					lo_Parser.Load();
+					Assert.IsTrue	(true	,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
 				}
 
 			//===========================================================================================

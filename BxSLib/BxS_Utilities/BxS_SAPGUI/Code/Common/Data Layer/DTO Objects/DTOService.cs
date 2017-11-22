@@ -15,6 +15,7 @@ namespace BxS_SAPGUI.COM.DL
 				[DataMember]	public string Name				{ get; set; }
 				[DataMember]	public string Description	{ get; set; }
 				[DataMember]	public string SystemID		{ get; set; }
+				[DataMember]	public string SystemNo		{ get; set; }
 				[DataMember]	public string Type				{ get; set; }
 				[DataMember]	public string Server			{ get; set; }
 				[DataMember]	public string SNCName			{ get; set; }

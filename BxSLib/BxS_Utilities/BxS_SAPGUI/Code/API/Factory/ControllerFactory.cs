@@ -29,10 +29,10 @@ namespace BxS_SAPGUI.API
 					{
 						IRepository				lo_Repos	= CreateRepository();
 						var								lo_IO			= new IO();
-						var								lo_Parser	=	new INIParse2ReposDTO(lo_IO);
+						var								lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Repos, fullPath);
 						IControllerSource INICntlr	= new INIController(lo_Repos);
 						//.............................................
-						lo_Parser.Load(lo_Repos, fullPath);
+						lo_Parser.Load();
 
 						return	new Controller(INICntlr);
 					}

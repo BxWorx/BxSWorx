@@ -33,7 +33,7 @@ namespace BxS_SAPGUI.API
 																						string	Description	);
 
 				//.................................................
-				IDTOService	CreateServiceDTO();
+				IDTOService	CreateServiceDTO	(Guid ID = default(Guid));
 				IDTOService	GetService				(Guid ID);
 				bool				ServiceExists			(Guid ID);
 				bool				RemoveService			(Guid ID);

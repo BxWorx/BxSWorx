@@ -11,6 +11,7 @@ namespace BxS_SAPGUI.API.DL
 				string	Name				{ get; set; }
 				string	Description	{ get; set; }
 				string	SystemID		{ get; set; }
+				string	SystemNo		{ get; set; }
 				string	Type				{ get; set; }
 				string	Server			{ get; set; }
 				string	SNCName			{ get; set; }

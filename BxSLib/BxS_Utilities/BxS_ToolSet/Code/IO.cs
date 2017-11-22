@@ -54,7 +54,7 @@ namespace BxS_Toolset.IO
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<string> ReadTextFile(string FullPathFileName)
+				public IList<string> ReadTextFile(string FullPathFileName, bool includeBlankLines = true)
 					{
 						IList<string>	lt_List	= new List<string>();
 						var						lo_FS		= new FileStream(FullPathFileName, FileMode.Open);
@@ -65,7 +65,8 @@ namespace BxS_Toolset.IO
 
 								while ((lc_Line = lo_SR.ReadLine()) != null)
 									{
-										lt_List.Add(lc_Line);
+										if (includeBlankLines || !lc_Line.Length.Equals(0))
+											lt_List.Add(lc_Line);
 									}
 					}
 						//.............................................
