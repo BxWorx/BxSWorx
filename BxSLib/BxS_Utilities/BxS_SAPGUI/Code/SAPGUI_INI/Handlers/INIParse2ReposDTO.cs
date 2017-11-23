@@ -17,8 +17,8 @@ namespace BxS_SAPGUI.INI
 						this._Repos					= repository;
 						this._FullPathName	= fullPathName;
 						//.............................................
-						this._ItemID	= new	Dictionary<int, Guid>();
-						this._Items		= new Dictionary<int, Dictionary<string, string>>();
+						this._Items					= new Dictionary<int, Dictionary<string, string>>();
+						this._ActiveSection	= string.Empty;
 					}
 
 			#endregion
@@ -26,22 +26,12 @@ namespace BxS_SAPGUI.INI
 			//===========================================================================================
 			#region "Declarations"
 
-				private enum IniSect
-					{
-						NotUsed		= 0,
-						EntryKey	= 1,
-						Router		= 2,
-						Server		= 3
-					}
-
 				private readonly IO						_IO;
 				private readonly IRepository	_Repos;
 				private readonly string				_FullPathName;
 
-				private	Dictionary<int, Guid>	_ItemID;
-				
+				private string																			_ActiveSection;
 				private Dictionary<int, Dictionary<string, string>>	_Items;
-				
 
 			#endregion
 
@@ -52,59 +42,22 @@ namespace BxS_SAPGUI.INI
 				internal void Load()
 					{
 						this.LoadSAPLogoINI();
+
+						foreach (KeyValuePair<int, Dictionary<string, string>> item in this._Items)
+							{
+								IDTOService lo = this.GetService(Guid.NewGuid());
+
+								foreach (KeyValuePair<string, string> prop in item.Value)
+									{
+										lo.GetType().GetProperty(prop.Key).SetValue(lo, prop.Value);
+									}
+							}
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				private void LoadSAPLogoINI()
-					{
-						string  lc_Sectn	= string.Empty;
-						//.............................................
-						this._Items.Clear();
-
-						foreach (string lc_Line in this._IO.ReadTextFile(this._FullPathName, false))
-							{
-								if (lc_Line.StartsWith("[") && lc_Line.EndsWith("]"))
-									{
-										lc_Sectn	=	this.GetSection(lc_Line);	
-										continue;
-									}
-								//.........................................
-								if (lc_Sectn.Length.Equals(0))	continue;
-								if (!lc_Line.StartsWith("Item") || !lc_Line.Contains("="))	continue;
-								//.........................................
-								(int Index, string Value) ls_Info = this.GetItemInfo(lc_Line);
-
-								if (ls_Info.Index.Equals(0) || ls_Info.Value.Length.Equals(0))	continue;
-								//.........................................
-								if (!this._Items.ContainsKey(ls_Info.Index))
-									{
-										this._Items.Add(ls_Info.Index, new Dictionary<string, string>());
-									}
-
-								if (this._Items.TryGetValue(ls_Info.Index, out Dictionary<string, string> lt_List))
-									{
-										lt_List[lc_Sectn]	= ls_Info.Value;
-									}
-							}
-					}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IDTOService GetService(Guid id)
@@ -118,63 +71,89 @@ namespace BxS_SAPGUI.INI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Guid GetIndexID(int index)
+				private void LoadSAPLogoINI()
 					{
-						Guid lg_ID	= Guid.Empty;
-						if (!this._ItemID.TryGetValue(index, out lg_ID))
-							{
-								lg_ID	= Guid.NewGuid();
-								this._ItemID.Add(index, lg_ID);
-							}
+						this._Items.Clear();
 						//.............................................
-						return	lg_ID;
+						foreach (string lc_Line in this._IO.ReadTextFile(this._FullPathName, false))
+							{
+								if (	this.GetSection(lc_Line)							)	continue;
+								if (	this._ActiveSection.Length.Equals(0)	)	continue;
+								//.........................................
+								(bool IsValidItem, int Index, string Value) ls_Info = this.GetItemInfo(lc_Line);
+								if (!ls_Info.IsValidItem)	continue;
+								//.........................................
+								if (!this._Items.ContainsKey(ls_Info.Index))
+									{
+										this._Items.Add(ls_Info.Index, new Dictionary<string, string>());
+									}
+
+								if (this._Items.TryGetValue(ls_Info.Index, out Dictionary<string, string> lt_List))
+									{
+										lt_List[this._ActiveSection]	= ls_Info.Value;
+									}
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private (int ID, string Value) GetItemInfo(string line)
+				private (bool IsItem, int ID, string Value) GetItemInfo(string line)
 					{
-						string lc_Val = string.Empty;
+						bool		lb_IsItem	= line.StartsWith("Item") && line.Contains("=");
+						string	lc_Val		= string.Empty;
+						int			ln_ID			= 0;
 						//.............................................
-						string[] x	= line.Split('=');
-						var y				=	x[0].Replace("Item",string.Empty);
+						if (lb_IsItem)
+							{
+								string[] lt_Const		= line.Split('=');
+								string	 ln_ItemNo	=	lt_Const[0].Replace("Item",string.Empty);
 
-						if (!int.TryParse(y, out int ln_ID)) ln_ID = 0;
-						lc_Val	= x[1];
+								if (int.TryParse(ln_ItemNo, out ln_ID))
+									lc_Val	= lt_Const[1];
+
+								if (ln_ID.Equals(0) || lc_Val.Length.Equals(0))
+									lb_IsItem	= false;
+							}
 						//.............................................
-						return	(ID: ln_ID, Value: lc_Val);
+						return	(IsItem: lb_IsItem, ID: ln_ID, Value: lc_Val);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private string GetSection(string line)
+				private bool GetSection(string line)
 					{
-						string lc_Sectn	=	line.Replace("[",null).Replace("]",null);
+						if (!line.StartsWith("[") || !line.EndsWith("]"))
+							{	return	false; }
+						//.............................................
+						string lc_Sect	= line.Replace("[",null).Replace("]",null);
 
-						switch (lc_Sectn)
+						switch (lc_Sect)
 							{
-								case "EntryKey"						:	return	"UUID"			;
-								case "Database"						:	return	"SystemNo"	;
-								case "MSSysName"					:	return	"SystemID"	;
-								case "SncChoice"					:	return	"SNCOp"			;
-								case "Codepage"						:	return	"SAPCPG"		;
-								case "MSSrvName"					:	return	"MSID"			;
-								case "SncNoSSO"						:	return	"Mode"			;
+								case "EntryKey"						:	this._ActiveSection	=	"UUID"			;	break;
+								case "Database"						:	this._ActiveSection	=	"SystemNo"	;	break;
+								case "MSSysName"					:	this._ActiveSection	=	"SystemID"	;	break;
+								case "SncChoice"					:	this._ActiveSection	=	"SNCOp"			;	break;
+								case "Codepage"						:	this._ActiveSection	=	"SAPCPG"		;	break;
+								case "MSSrvName"					:	this._ActiveSection	=	"MSID"			;	break;
+								case "SncNoSSO"						:	this._ActiveSection	=	"Mode"			;	break;
+								case "SncName"						:	this._ActiveSection	=	"SNCName"		;	break;
+								//.........................................
+								case "Server"							:	this._ActiveSection	=	lc_Sect			;	break;
+								case "Description"				:	this._ActiveSection	=	lc_Sect			;	break;
 
-								case "Server"							:	return	lc_Sectn		;
-								case "Description"				:	return	lc_Sectn		;
-								case "SncName"						:	return	lc_Sectn		;
+								// TO-DO: FIX THIS ISSUE
+								//case "Router"							:	this._ActiveSection	=	"Router"		;	break;
+								//case "System"							:	this._ActiveSection	=	"";	break;
+								//case "Address"						:	this._ActiveSection	=	"";	break;
+								//case "MSSrvPort"					:	this._ActiveSection	=	"";	break;
+								//case "SessManKey"					:	this._ActiveSection	=	"";	break;
+								//case "CodepageIndex"			:	this._ActiveSection	=	"";	break;
+								//case "LowSpeedConnection"	:	this._ActiveSection	=	"";	break;
+								//case "Utf8Off"						:	this._ActiveSection	=	"";	break;
+								//case "EncodingID"					:	this._ActiveSection	=	"";	break;
 
-								case "Router"							:	return	"Router"					;
-								case "System"							:	return	"";
-								case "Address"						:	return	"";
-								case "MSSrvPort"					:	return	"";
-								case "SessManKey"					:	return	"";
-								case "CodepageIndex"			:	return	"";
-								case "LowSpeedConnection"	:	return	"";
-								case "Utf8Off"						:	return	"";
-								case "EncodingID"					:	return	"";
-
-								default										:	return	"";
+								default										:	this._ActiveSection	=	"";	break;
 							}
+						//.............................................
+						return	true;
 					}
 
 			#endregion

@@ -1,12 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.IO;
 //.........................................................
 using BxS_SAPGUI.API;
 using BxS_SAPGUI.COM.DL;
-using BxS_SAPGUI.USR;
 using BxS_Toolset.IO;
-using BxS_Toolset.Serialize;
 using BxS_SAPGUI.INI;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
