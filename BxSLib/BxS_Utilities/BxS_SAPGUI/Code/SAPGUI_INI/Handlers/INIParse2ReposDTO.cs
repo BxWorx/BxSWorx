@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BxS_SAPGUI.API;
+using BxS_SAPGUI.COM.DL;
 using BxS_SAPGUI.API.DL;
 using BxS_Toolset.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -26,12 +26,12 @@ namespace BxS_SAPGUI.INI
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly IO						_IO;
-				private readonly IRepository	_Repos;
-				private readonly string				_FullPathName;
+				private readonly	IO						_IO;
+				private readonly	IRepository		_Repos;
+				private readonly	string				_FullPathName;
+				private						string				_ActiveSection;
 
-				private string																			_ActiveSection;
-				private Dictionary<int, Dictionary<string, string>>	_Items;
+				private	readonly	Dictionary<int, Dictionary<string, string>>	_Items;
 
 			#endregion
 
@@ -43,12 +43,32 @@ namespace BxS_SAPGUI.INI
 					{
 						this.LoadSAPLogoINI();
 						this.TranslateToDTO();
+						this.LoadWorkspaceNode();
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadWorkspaceNode()
+					{
+						IDTOWorkspace lo_WSDTO	= this._Repos.CreateWorkspaceDTO(Guid.NewGuid());
+						lo_WSDTO.Description		= "Connections";
+						this._Repos.AddUpdateWorkspace(lo_WSDTO);
+						//.............................................
+						foreach (KeyValuePair<Guid, IDTOService> ls_Srv in this._Repos.GetDataContainer().Services)
+							{
+								IDTOItem lo_Item	= this._Repos.CreateItemDTO();
+
+								lo_Item.UUID			= Guid.NewGuid();
+								lo_Item.ServiceID	= ls_Srv.Key;
+								lo_Item.WSID			= lo_WSDTO.UUID;
+
+								this._Repos.AddUpdateItem(lo_Item);
+							}
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void TranslateToDTO()
@@ -61,6 +81,7 @@ namespace BxS_SAPGUI.INI
 									{
 										lo.GetType().GetProperty(prop.Key).SetValue(lo, prop.Value);
 									}
+
 							}
 					}
 

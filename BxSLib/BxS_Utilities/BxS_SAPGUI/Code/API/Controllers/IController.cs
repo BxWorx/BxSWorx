@@ -6,23 +6,26 @@ namespace BxS_SAPGUI.API
 		{
 			#region "Properties"
 
-				bool IsReadOnly	{ get;  }
-
-				int	MsgServerCount	{ get; }
-				int	ServiceCount		{ get; }
-				int	WorkspaceCount	{ get; }
+				bool	IsReadOnly			{ get; }
+				int		MsgServerCount	{ get; }
+				int		ServiceCount		{ get; }
+				int		WorkspaceCount	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				void Save();
+				//...................................................
+
+
+
+
 				IDTOConnection	CreateConnection(Guid connectionID = default(Guid));
 				//...................................................
 				IDTOConnection	GetConnection	(Guid						connectionID);
 				void						GetConnection	(IDTOConnection	dtoConnection);
-				//...................................................
-				void Save();
 
 				void AddConnection(IDTOConnection dtoConnection);
 

@@ -15,8 +15,6 @@ namespace BxS_SAPGUI.COM.CNTLR
 
 			#endregion
 
-				internal DataContainer _DC;
-
 			//===========================================================================================
 			#region "Properties"
 

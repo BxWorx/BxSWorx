@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 //.........................................................
-using BxS_SAPGUI.API;
+using BxS_SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.XML
 {

@@ -1,9 +1,8 @@
 ﻿using System;
 //.........................................................
 using BxS_SAPGUI.API.DL;
-using BxS_SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API
+namespace BxS_SAPGUI.COM.DL
 {
 	public interface IRepository
 		{
@@ -53,7 +52,7 @@ namespace BxS_SAPGUI.API
 																				string	Mode					);
 
 				//.................................................
-				IDTOWorkspace	CreateWorkspaceDTO();
+				IDTOWorkspace	CreateWorkspaceDTO	(Guid ID = default(Guid));
 				IDTOWorkspace	GetWorkspace				(Guid ID);
 				bool					RemoveWorkspace			(Guid ID);
 				bool					AddUpdateWorkspace	(IDTOWorkspace DTO);

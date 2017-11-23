@@ -1,4 +1,5 @@
 ﻿using BxS_SAPGUI.API;
+using BxS_SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.CNTLR
 {
@@ -14,9 +15,9 @@ namespace BxS_SAPGUI.COM.CNTLR
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void	GetConnection	(IDTOConnection	dtoConnection);
-				//...................................................
 				void	Save(bool forceSave = false);
+				//...................................................
+				void	GetConnection	(IDTOConnection	dtoConnection);
 				void  AddConnection(IDTOConnection dtoConnection);
 
 			#endregion

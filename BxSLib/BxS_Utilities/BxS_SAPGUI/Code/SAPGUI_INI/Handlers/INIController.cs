@@ -1,4 +1,4 @@
-﻿using BxS_SAPGUI.API;
+﻿using BxS_SAPGUI.COM.DL;
 using BxS_SAPGUI.COM.CNTLR;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.INI

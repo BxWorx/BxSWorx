@@ -27,7 +27,7 @@ namespace BxS_SAPGUI.COM.CNTLR
 			//===========================================================================================
 			#region "Properties"
 
-				public bool	IsReadOnly	{ get; }
+				public bool	IsReadOnly			{ get; }
 
 				public int	MsgServerCount	{ get { return	this._SrceCntlr.Repository.MsgServerCount; } }
 				public int	ServiceCount		{ get { return	this._SrceCntlr.Repository.ServiceCount;	 } }
@@ -40,12 +40,22 @@ namespace BxS_SAPGUI.COM.CNTLR
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Save()
+					{
+						if (!this.IsReadOnly)
+							this._SrceCntlr.Save();
+					}
+
+
+
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOConnection	CreateConnection(Guid connectionID = default(Guid))
 					{
-						Guid lc_ID	= connectionID == default(Guid) ? Guid.Empty : connectionID;
-						//.............................................
 						return	new DTOConnection
-													{	ID = lc_ID };
+													{	ID = connectionID };
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -62,11 +72,6 @@ namespace BxS_SAPGUI.COM.CNTLR
 						this._SrceCntlr.GetConnection(dtoConnection);
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Save()
-					{
-						this._SrceCntlr.Save();
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void AddConnection(IDTOConnection dtoConnection)
