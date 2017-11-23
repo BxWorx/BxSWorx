@@ -14,10 +14,11 @@ namespace zBxS_SAPGUI_UT
 	[TestClass]
 	public class UT_BxS_SAPGUI_USR
 		{
-			private const string	cz_TestDir	= "Test Resources";
+			private const string	cz_TestDir			= "Test Resources";
+			private const	string	cz_UsrFileName	= "SAPGUI_USR_DC.xml"	;
 			//...................................................
-			private	static readonly string	_Path				= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
-			private	static readonly string	_PathTest		= Path.Combine(_Path,	cz_TestDir);
+			private	static readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
+			private	static readonly string	_FullPathName	= Path.Combine(_Path,	cz_TestDir, cz_UsrFileName);
 			//...................................................
 			private Guid lg_WspID;
 			private Guid lg_MsgID;
@@ -37,7 +38,7 @@ namespace zBxS_SAPGUI_UT
 
 					var	lo_IO				= new IO();
 					var	lo_DCSer		= new DCSerializer();
-					var	lo_UsrCntlr	= new USRController(lo_Rep, _PathTest, lo_IO, lo_DCSer, false);
+					var	lo_UsrCntlr	= new USRController(lo_Rep, _FullPathName, lo_IO, lo_DCSer, false);
 					//...............................................
 					ln_Cnt	= 1;
 					lo_UsrCntlr.DeleteDCXMLFile();
@@ -48,13 +49,13 @@ namespace zBxS_SAPGUI_UT
 					Assert.IsTrue	(lo_UsrCntlr.FileExists(),	$"DLCntlr: {ln_Cnt}: Save: File DS: Error");
 					//...............................................
 					ln_Cnt	= 3;
-					var	lo_UsrCntlrx	= new USRController(lo_RepX, _PathTest, lo_IO, lo_DCSer);
+					var	lo_UsrCntlrx	= new USRController(lo_RepX, _FullPathName, lo_IO, lo_DCSer);
 					this.Validate_Rep(lo_UsrCntlrx.Repository.GetDataContainer(), ln_Cnt, "UsrCntlr");
 					//...............................................
 					ln_Cnt	= 4;
 					lo_UsrCntlr.Repository.AddUpdateMsgServer(this.Create_MsgSvrDTO());
 					lo_UsrCntlr.Save(true);
-					var	lo_UsrCntlry	= new USRController(lo_RepY, _PathTest, lo_IO, lo_DCSer);
+					var	lo_UsrCntlry	= new USRController(lo_RepY, _FullPathName, lo_IO, lo_DCSer);
 					Assert.AreEqual	(2,	lo_UsrCntlry.Repository.MsgServerCount,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
 				}
 

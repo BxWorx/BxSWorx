@@ -8,13 +8,14 @@ namespace zBxS_SAPGUI_UT
 	[TestClass]
 	public class UT_BxS_SAPGUI_Controller
 		{
-			private const string	cz_FileName		= "SAPUILandscapeS2A.xml";
-			private const string	cz_TestDir		= "Test Resources";
-			private const string	cz_TestConnID	=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
+			private const string	cz_XMLFileName	= "SAPUILandscapeS2A.xml";
+			private const string	cz_INIFileName	= "saplogon_Test.ini";
+			private const	string	cz_UsrFileName	= "SAPGUI_USR_DC.xml"	;
+			private const string	cz_TestDir			= "Test Resources";
+			//private const string	cz_TestConnID		=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
 			//...................................................
 			private	static readonly string	cc_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	cc_FullPath			= Path.Combine(cc_Path,	cz_TestDir);
-			private	static readonly string	cc_XMLFullName	= Path.Combine(cc_FullPath, cz_FileName);
 			//...................................................
 			private readonly ControllerFactory _CntlrFact	= new ControllerFactory();
 
@@ -25,11 +26,16 @@ namespace zBxS_SAPGUI_UT
 					int								ln_Cnt;
 					IController				lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
-					//...............................................
-					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPXML(cc_XMLFullName, true);
+					string						lc_FullName	= Path.Combine(cc_FullPath, cz_XMLFileName);
 					//...............................................
 					ln_Cnt			= 1;
+					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPXML(lc_FullName, true);
+
+					Assert.AreNotEqual(0, lo_Cntlr.ServiceCount,	$"Cntlr-XML: {ln_Cnt}: Instantiate: Error");
+					//...............................................
+					ln_Cnt			= 2;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
+
 					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
 					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
 				}
@@ -41,10 +47,14 @@ namespace zBxS_SAPGUI_UT
 					int								ln_Cnt;
 					IController				lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
-					//...............................................
-					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPINI(cc_XMLFullName);
+					string						lc_FullName	= Path.Combine(cc_FullPath, cz_INIFileName);
 					//...............................................
 					ln_Cnt			= 1;
+					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPINI(lc_FullName);
+
+					Assert.AreNotEqual(0, lo_Cntlr.ServiceCount,	$"Cntlr-INI: {ln_Cnt}: Instantiate: Error");
+					//...............................................
+					ln_Cnt			= 2;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
 					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
 					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
@@ -57,10 +67,13 @@ namespace zBxS_SAPGUI_UT
 					int								ln_Cnt;
 					IController				lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
-					//...............................................
-					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPUSR(cc_FullPath);
+					string						lc_FullName	= Path.Combine(cc_FullPath, cz_UsrFileName);
 					//...............................................
 					ln_Cnt			= 1;
+					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPUSR(lc_FullName);
+					//Assert.AreNotEqual(0, lo_Cntlr.ServiceCount,	$"Cntlr-INI: {ln_Cnt}: Instantiate: Error");
+					//...............................................
+					ln_Cnt			= 2;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
 					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
 					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");

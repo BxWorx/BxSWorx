@@ -42,7 +42,17 @@ namespace BxS_SAPGUI.INI
 				internal void Load()
 					{
 						this.LoadSAPLogoINI();
+						this.TranslateToDTO();
+					}
 
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void TranslateToDTO()
+					{
 						foreach (KeyValuePair<int, Dictionary<string, string>> item in this._Items)
 							{
 								IDTOService lo = this.GetService(Guid.NewGuid());
@@ -53,11 +63,6 @@ namespace BxS_SAPGUI.INI
 									}
 							}
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IDTOService GetService(Guid id)

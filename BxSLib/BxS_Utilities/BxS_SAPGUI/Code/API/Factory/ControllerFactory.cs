@@ -13,37 +13,37 @@ namespace BxS_SAPGUI.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IController CreateControllerForSAPXML(string fullPath, bool onlySAPGUI = true)
+				public IController CreateControllerForSAPXML(string fullPathName, bool onlySAPGUI = true)
 					{
-						IRepository lo_Repos	= CreateRepository();
-						var					lo_Parser	=	new XMLParse2ReposDTO();
-						//.............................................
-						lo_Parser.Load(lo_Repos, fullPath, onlySAPGUI);
+						IRepository				lo_Repos		= CreateRepository();
+						var								lo_Parser		=	new XMLParse2ReposDTO();
 						IControllerSource lo_XMLCntlr	= new XMLController(lo_Repos);
-
+						//.............................................
+						lo_Parser.Load(lo_Repos, fullPathName, onlySAPGUI);
+						//.............................................
 						return	new Controller(lo_XMLCntlr);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IController CreateControllerForSAPINI(string fullPath)
+				public IController CreateControllerForSAPINI(string fullPathName)
 					{
 						IRepository				lo_Repos	= CreateRepository();
 						var								lo_IO			= new IO();
-						var								lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Repos, fullPath);
+						var								lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Repos, fullPathName);
 						IControllerSource INICntlr	= new INIController(lo_Repos);
 						//.............................................
 						lo_Parser.Load();
-
+						//.............................................
 						return	new Controller(INICntlr);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IController CreateControllerForSAPUSR(string fullPath)
+				public IController CreateControllerForSAPUSR(string fullPathName)
 					{
 						var								lo_IO			= new IO();
 						var								lo_DCSer	= new DCSerializer();
 						IRepository				lo_Repos	= CreateRepository();
-						IControllerSource	USRCntlr	= new USRController(lo_Repos, fullPath, lo_IO, lo_DCSer);
+						IControllerSource	USRCntlr	= new USRController(lo_Repos, fullPathName, lo_IO, lo_DCSer);
 						//.............................................
 						return	new Controller(USRCntlr, false);
 					}

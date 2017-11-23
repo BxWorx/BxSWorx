@@ -11,7 +11,6 @@ namespace BxS_SAPGUI.INI
 				public INIController(IRepository repository)
 								: base(repository)
 					{
-						//this._Repository	= new XMLParse2ReposDTO().Load(fullPath, onlySAPGUI);
 					}
 
 			#endregion

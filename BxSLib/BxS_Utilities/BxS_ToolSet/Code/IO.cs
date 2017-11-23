@@ -68,7 +68,7 @@ namespace BxS_Toolset.IO
 										if (includeBlankLines || !lc_Line.Length.Equals(0))
 											lt_List.Add(lc_Line);
 									}
-					}
+							}
 						//.............................................
 						return	lt_List;
 					}

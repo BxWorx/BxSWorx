@@ -11,15 +11,13 @@ namespace BxS_SAPGUI.USR
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal USRController(IRepository repository, string dirPath, IO FileIO, DCSerializer dcSerializer, bool AutoLoad = true)
+				internal USRController(IRepository repository, string fullPathName, IO FileIO, DCSerializer dcSerializer, bool AutoLoad = true)
 									: base(repository)
 					{
-						this._DirPath	= dirPath			;
-						this._IO			= FileIO			;
-						this._DCSer		= dcSerializer;
+						this._DCFullName	= fullPathName	;
+						this._IO					= FileIO				;
+						this._DCSer				= dcSerializer	;
 						//.............................................
-						this._DCFullName	= this._IO.PathFileCombine( this._DirPath	,	_DCFileName	);
-
 						if (AutoLoad)		this.LoadDataContainer();
 					}
 
@@ -28,9 +26,6 @@ namespace BxS_SAPGUI.USR
 			//===========================================================================================
 			#region "Declarations"
 
-				private const	string	_DCFileName	= "SAPGUI_USR_DC.xml"	;
-				//.................................................
-				private readonly string	_DirPath		;
 				private readonly string	_DCFullName	;
 				//.................................................
 				private readonly IO							_IO		 ;
