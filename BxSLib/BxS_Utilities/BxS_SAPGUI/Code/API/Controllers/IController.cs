@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.API
 {
@@ -17,7 +18,11 @@ namespace BxS_SAPGUI.API
 			#region "Methods: Exposed"
 
 				void Save();
-				//...................................................
+				//.................................................
+				IList<IDTOConnectionView>	GetConnectionViewTree();
+
+
+
 
 
 
@@ -25,7 +30,7 @@ namespace BxS_SAPGUI.API
 				IDTOConnection	CreateConnection(Guid connectionID = default(Guid));
 				//...................................................
 				IDTOConnection	GetConnection	(Guid						connectionID);
-				void						GetConnection	(IDTOConnection	dtoConnection);
+				void						LoadConnection	(IDTOConnection	dtoConnection);
 
 				void AddConnection(IDTOConnection dtoConnection);
 

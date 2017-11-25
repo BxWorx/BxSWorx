@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
-//.........................................................
-using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {

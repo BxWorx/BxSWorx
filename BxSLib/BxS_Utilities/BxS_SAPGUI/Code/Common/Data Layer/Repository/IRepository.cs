@@ -1,10 +1,8 @@
 ﻿using System;
-//.........................................................
-using BxS_SAPGUI.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
-	public interface IRepository
+	internal interface IRepository
 		{
 			#region "Properties"
 

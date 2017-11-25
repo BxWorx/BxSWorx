@@ -38,12 +38,12 @@ namespace BxS_SAPGUI.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IController CreateControllerForSAPUSR(string fullPathName)
+				public IController CreateControllerForSAPUSR(string fullPathName, bool autoLoad = true)
 					{
 						var								lo_IO			= new IO();
 						var								lo_DCSer	= new DCSerializer();
 						IRepository				lo_Repos	= CreateRepository();
-						IControllerSource	USRCntlr	= new USRController(lo_Repos, fullPathName, lo_IO, lo_DCSer);
+						IControllerSource	USRCntlr	= new USRController(lo_Repos, fullPathName, lo_IO, lo_DCSer, autoLoad);
 						//.............................................
 						return	new Controller(USRCntlr, false);
 					}

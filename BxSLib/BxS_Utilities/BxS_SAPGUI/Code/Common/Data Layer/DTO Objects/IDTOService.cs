@@ -1,8 +1,8 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API.DL
+namespace BxS_SAPGUI.COM.DL
 {
-	public interface IDTOService
+	internal interface IDTOService
 		{
 			#region "Properties"
 

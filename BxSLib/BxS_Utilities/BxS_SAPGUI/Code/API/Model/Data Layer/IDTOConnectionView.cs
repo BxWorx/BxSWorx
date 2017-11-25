@@ -1,18 +1,17 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API.DL
+namespace BxS_SAPGUI.API
 {
-	public interface IDTOMsgServer
+	public interface IDTOConnectionView
 		{
 			#region "Properties"
 
-				Guid	UUID	{ get; set; }
-				//...................................................
-				string	Name				{ get; set; }
-				string	Description	{ get; set; }
-				string	Host				{ get; set; }
-				string	Port				{ get; set; }
+				string	HierID				{ get; }
+				string	HierID_Parent	{ get; }
+				string	Description		{ get; }
+				Guid		SAPID					{ get; }
 
 			#endregion
+
 		}
 }

@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API.DL
+namespace BxS_SAPGUI.COM.DL
 {
-	public interface IDTOWorkspace
+	internal interface IDTOItem
 		{
 			#region "Properties"
 
 				Guid	UUID	{ get; set; }
-				//...................................................
-				string	Description	{ get; set; }
-
-				Dictionary<Guid, IDTONode>	Nodes { get; set; }
-				Dictionary<Guid, IDTOItem>	Items { get; set; }
+				//.................................................
+				Guid	ServiceID	{ get; set; }
+				//.................................................
+				Guid	WSID		{ get; set; }
+				Guid	NodeID	{ get; set; }
 
 			#endregion
+
 		}
 }

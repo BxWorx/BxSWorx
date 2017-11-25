@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -35,7 +36,6 @@ namespace BxS_SAPGUI.COM.CNTLR
 
 			#endregion
 
-
 			//===========================================================================================
 			#region "Methods: Exposed"
 
@@ -48,8 +48,22 @@ namespace BxS_SAPGUI.COM.CNTLR
 
 
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadConnection(IDTOConnection dtoConnection)
+					{
+						IDTOConnection x = dtoConnection;
+					}
 
 
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<IDTOConnectionView> GetConnectionViewTree()
+					{
+						IList<IDTOConnectionView>	lt = new List<IDTOConnectionView>();
+						return	lt;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOConnection	CreateConnection(Guid connectionID = default(Guid))

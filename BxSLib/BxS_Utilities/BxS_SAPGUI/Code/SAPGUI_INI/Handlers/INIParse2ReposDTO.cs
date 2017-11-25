@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BxS_SAPGUI.COM.DL;
-using BxS_SAPGUI.API.DL;
 using BxS_Toolset.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.INI

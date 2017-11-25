@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
-	[DataContract]
-	internal sealed class DTOItem : IDTOItem
+	internal interface IDTONode
 		{
 			#region "Properties"
 
-				[DataMember]	public Guid	UUID			{ get; set; }
+				Guid	UUID	{ get; set; }
 				//.................................................
-				[DataMember]	public Guid	ServiceID	{ get; set; }
+				string	Description	{ get; set; }
+
+				Dictionary<Guid, IDTOItem>	Items { get; set; }
 				//.................................................
-				[DataMember]	public Guid	WSID			{ get; set; }
-				[DataMember]	public Guid	NodeID		{ get; set; }
+				Guid	WSID	{ get; set; }
 
 			#endregion
+
 		}
 }

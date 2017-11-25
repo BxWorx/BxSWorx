@@ -2,8 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 //.........................................................
-using BxS_SAPGUI.API;
-using BxS_SAPGUI.API.DL;
 using BxS_SAPGUI.COM.DL;
 using BxS_SAPGUI.USR;
 using BxS_Toolset.IO;

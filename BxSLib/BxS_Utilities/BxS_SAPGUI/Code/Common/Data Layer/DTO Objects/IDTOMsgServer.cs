@@ -1,19 +1,18 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API.DL
+namespace BxS_SAPGUI.COM.DL
 {
-	public interface IDTOItem
+	internal interface IDTOMsgServer
 		{
 			#region "Properties"
 
 				Guid	UUID	{ get; set; }
-				//.................................................
-				Guid	ServiceID	{ get; set; }
-				//.................................................
-				Guid	WSID			{ get; set; }
-				Guid	NodeID		{ get; set; }
+				//...................................................
+				string	Name				{ get; set; }
+				string	Description	{ get; set; }
+				string	Host				{ get; set; }
+				string	Port				{ get; set; }
 
 			#endregion
-
 		}
 }
