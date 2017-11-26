@@ -8,10 +8,10 @@ namespace BxS_SAPGUI.COM.DL
 		{
 			#region "Properties"
 
-				public string	HierID				{ get; }
-				public string	HierID_Parent	{ get; }
-				public string	Description		{ get; }
-				public Guid		SAPID					{ get; }
+				public string	HierID				{ get; set; }
+				public string	HierID_Parent	{ get; set; }
+				public string	Description		{ get; set; }
+				public Guid		SAPID					{ get; set; }
 
 			#endregion
 
@@ -19,12 +19,12 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTOConnectionView()
+				internal DTOConnectionView(string id, string description, string parent	= default(string), Guid sapid = default(Guid) )
 					{
-						this.HierID					= string.Empty	;
-						this.HierID_Parent	= string.Empty	;
-						this.Description		= string.Empty	;
-						this.SAPID					= Guid.Empty		;
+						this.HierID					= id					;
+						this.HierID_Parent	= parent			;
+						this.Description		= description	;
+						this.SAPID					= sapid				;
 					}
 
 			#endregion

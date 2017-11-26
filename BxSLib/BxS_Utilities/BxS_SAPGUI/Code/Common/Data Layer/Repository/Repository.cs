@@ -57,42 +57,71 @@ namespace BxS_SAPGUI.COM.DL
 				public IList<IDTOConnectionView> CompileHierachicalView()
 					{
 						IList<IDTOConnectionView>	lt = new List<IDTOConnectionView>();
-						int ln_WSNo	= 0;
-						int ln_NdNo	= 0;
+						int ln_WSNo;
+						int ln_NdNo;
 						int ln_ItNo	= 0;
+						string	lc_WSID;
+						string  lc_NDID;
+						string	lc_ItID;
 						//.............................................
+						ln_WSNo	= 0;
 						foreach (KeyValuePair<Guid, IDTOWorkspace> ls_WS in this._DataCon.WorkSpaces)
 							{
+								ln_WSNo ++	;
+								ln_NdNo	= 0	;
+								ln_ItNo	= 0	;
+								lc_WSID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
+
+								lt.Add(new DTOConnectionView(lc_WSID, ls_WS.Value.Description));
+								//.........................................
 								foreach (KeyValuePair<Guid, IDTONode> ls_Node in ls_WS.Value.Nodes)
 									{
+										ln_NdNo	++	;
+										ln_ItNo	= 0	;
+										lc_NDID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
+
+										lt.Add(new DTOConnectionView(lc_NDID, ls_Node.Value.Description, lc_WSID));
+
 										foreach (KeyValuePair<Guid, IDTOItem> ls_Item in ls_Node.Value.Items)
 											{
+												ln_ItNo	++	;
+												lc_ItID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
+												lt.Add(new DTOConnectionView(lc_ItID, ls_Item.Value.NodeID.ToString(), lc_WSID));
 											}
 
 									}
-
-								foreach (KeyValuePair<Guid, IDTOItem> item in ls_WS.Value.Items)
+								//.........................................
+								foreach (KeyValuePair<Guid, IDTOItem> ls_Item in ls_WS.Value.Items)
 									{
+										ln_ItNo	++	;
+										lc_ItID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
+										lt.Add(new DTOConnectionView(lc_ItID, ls_Item.Value.NodeID.ToString(), lc_WSID));
 									}
 							}
 						//.............................................
 						return	lt;
 					}
 
-				private IDTOConnectionView CreateHierNode()
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IDTOConnectionView CreateHierNode(Guid sapid = default(Guid))
 					{
-						IDTOConnectionView	lo_Node	= new DTOConnectionView();
-
-
-
+						IDTOConnectionView lo_Node = new DTOConnectionView
+							{	SAPID = sapid	};
+						//...................................................
 						return	lo_Node;
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private string CreateHierID(int wsNo, int ndNo, int itNo)
+					{
+						string ls_WS	= $"{wsNo:D2}";
+						string ls_Nd	= $"{ndNo:D2}";
+						string ls_It	= $"{itNo:D2}";
 
-
-
+						return $"{ls_WS}.{ls_Nd}.{ls_It}";
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear()

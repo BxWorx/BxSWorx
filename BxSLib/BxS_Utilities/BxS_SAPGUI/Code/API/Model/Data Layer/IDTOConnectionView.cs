@@ -6,10 +6,10 @@ namespace BxS_SAPGUI.API
 		{
 			#region "Properties"
 
-				string	HierID				{ get; }
-				string	HierID_Parent	{ get; }
-				string	Description		{ get; }
-				Guid		SAPID					{ get; }
+				string	HierID				{ get; set; }
+				string	HierID_Parent	{ get; set; }
+				string	Description		{ get; set; }
+				Guid		SAPID					{ get; set; }
 
 			#endregion
 
