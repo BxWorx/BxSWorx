@@ -1,4 +1,6 @@
-﻿using BxS_SAPGUI.API;
+﻿using System.Collections.Generic;
+//.........................................................
+using BxS_SAPGUI.API;
 using BxS_SAPGUI.COM.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.CNTLR
@@ -17,6 +19,8 @@ namespace BxS_SAPGUI.COM.CNTLR
 
 				void	Save(bool forceSave = false);
 				//...................................................
+				IList<IDTOConnectionView>	GetConnectionViewTree();
+
 				void	GetConnection	(IDTOConnection	dtoConnection);
 				void  AddConnection(IDTOConnection dtoConnection);
 

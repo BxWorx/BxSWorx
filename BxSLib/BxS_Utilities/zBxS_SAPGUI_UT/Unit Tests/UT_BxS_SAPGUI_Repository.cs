@@ -9,14 +9,14 @@ namespace zBxS_SAPGUI_UT
 	[TestClass]
 	public class UT_BxS_SAPGUI_Repository
 		{
-			private const string	cz_FileName		= "SAPUILandscapeS2A.xml";
-			private const string	cz_TestDir		= "Test Resources";
+			//private const string	cz_FileName		= "SAPUILandscapeS2A.xml";
+			//private const string	cz_TestDir		= "Test Resources";
 			private const string	cz_TestConnID	=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
 			private const string	cz_Desc				= "Desc";
 			//...................................................
-			private	static readonly string	cc_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
-			private	static readonly string	cc_FullPath			= Path.Combine(cc_Path,	cz_TestDir);
-			private	static readonly string	cc_XMLFullName	= Path.Combine(cc_FullPath, cz_FileName);
+			//private	static readonly string	cc_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
+			//private	static readonly string	cc_FullPath			= Path.Combine(cc_Path,	cz_TestDir);
+			//private	static readonly string	cc_XMLFullName	= Path.Combine(cc_FullPath, cz_FileName);
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
@@ -166,9 +166,7 @@ namespace zBxS_SAPGUI_UT
 			//-------------------------------------------------------------------------------------------
 			private IRepository	CreateRepository()
 				{
-					var	lo_DC			= new DataContainer();
-					var	lo_Repos	= new Repository(lo_DC);
-					return	lo_Repos;
+					return	new Repository(new DataContainer());
 				}
 		}
 }

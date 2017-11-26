@@ -1,38 +1,38 @@
 <DataContainer xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.COM.DL">
   <MsgServers xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
     <d2p1:KeyValueOfguidanyType>
-      <d2p1:Key>2a3cf9b1-cb2e-4d03-ba6e-b314bda6ea86</d2p1:Key>
+      <d2p1:Key>a48a5fe5-7100-4e00-a51f-c8c22aeec24a</d2p1:Key>
       <d2p1:Value
         i:type="DTOMsgServer">
         <Description>desc1</Description>
         <Host>host1</Host>
         <Name>name1</Name>
         <Port>port1</Port>
-        <UUID>2a3cf9b1-cb2e-4d03-ba6e-b314bda6ea86</UUID>
+        <UUID>a48a5fe5-7100-4e00-a51f-c8c22aeec24a</UUID>
       </d2p1:Value>
     </d2p1:KeyValueOfguidanyType>
     <d2p1:KeyValueOfguidanyType>
-      <d2p1:Key>5dfda48d-647d-4845-b96d-a3fb77fd350f</d2p1:Key>
+      <d2p1:Key>d5cfa258-182e-4775-a7b5-818ffa8d1226</d2p1:Key>
       <d2p1:Value
         i:type="DTOMsgServer">
         <Description>desc1</Description>
         <Host>host1</Host>
         <Name>name1</Name>
         <Port>port1</Port>
-        <UUID>5dfda48d-647d-4845-b96d-a3fb77fd350f</UUID>
+        <UUID>d5cfa258-182e-4775-a7b5-818ffa8d1226</UUID>
       </d2p1:Value>
     </d2p1:KeyValueOfguidanyType>
   </MsgServers>
   <Services xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
     <d2p1:KeyValueOfguidanyType>
-      <d2p1:Key>b281dc43-504c-4a0f-8afa-6de06a95d3b7</d2p1:Key>
+      <d2p1:Key>a7f5866f-a16e-4217-a399-0cfce7f0300b</d2p1:Key>
       <d2p1:Value
         i:type="DTOService">
         <DCPG
           i:nil="true" />
         <Description
           i:nil="true" />
-        <MSID>2a3cf9b1-cb2e-4d03-ba6e-b314bda6ea86</MSID>
+        <MSID>a48a5fe5-7100-4e00-a51f-c8c22aeec24a</MSID>
         <Mode
           i:nil="true" />
         <Name>NameS</Name>
@@ -50,52 +50,52 @@
           i:nil="true" />
         <Type
           i:nil="true" />
-        <UUID>b281dc43-504c-4a0f-8afa-6de06a95d3b7</UUID>
+        <UUID>a7f5866f-a16e-4217-a399-0cfce7f0300b</UUID>
       </d2p1:Value>
     </d2p1:KeyValueOfguidanyType>
   </Services>
   <WorkSpaces xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
     <d2p1:KeyValueOfguidanyType>
-      <d2p1:Key>cd6466be-669d-447a-b6a5-ae0d40cb7a6b</d2p1:Key>
+      <d2p1:Key>ea08f858-16a1-4164-918a-7506dba91e51</d2p1:Key>
       <d2p1:Value
         i:type="DTOWorkspace">
         <Description>DescWS</Description>
         <Items>
           <d2p1:KeyValueOfguidanyType>
-            <d2p1:Key>a9229759-f1c1-4fb9-92cf-a4cce356dd83</d2p1:Key>
+            <d2p1:Key>2ca21c99-90a5-45dc-b137-63d2b3d1295e</d2p1:Key>
             <d2p1:Value
               i:type="DTOItem">
               <NodeID>00000000-0000-0000-0000-000000000000</NodeID>
-              <ServiceID>b281dc43-504c-4a0f-8afa-6de06a95d3b7</ServiceID>
-              <UUID>a9229759-f1c1-4fb9-92cf-a4cce356dd83</UUID>
+              <ServiceID>a7f5866f-a16e-4217-a399-0cfce7f0300b</ServiceID>
+              <UUID>2ca21c99-90a5-45dc-b137-63d2b3d1295e</UUID>
               <WSID>00000000-0000-0000-0000-000000000000</WSID>
             </d2p1:Value>
           </d2p1:KeyValueOfguidanyType>
         </Items>
         <Nodes>
           <d2p1:KeyValueOfguidanyType>
-            <d2p1:Key>a2f603b7-bff8-41a7-8f66-744dd0edce5f</d2p1:Key>
+            <d2p1:Key>682b8352-9dbe-402b-a224-7c2456850308</d2p1:Key>
             <d2p1:Value
               i:type="DTONode">
               <Description>DescNode</Description>
               <Items>
                 <d2p1:KeyValueOfguidanyType>
-                  <d2p1:Key>f782a16b-bf5d-457d-a2ce-7e4e6d1b0483</d2p1:Key>
+                  <d2p1:Key>54530169-f29e-4d2d-ac5f-62ddd023980f</d2p1:Key>
                   <d2p1:Value
                     i:type="DTOItem">
                     <NodeID>00000000-0000-0000-0000-000000000000</NodeID>
-                    <ServiceID>b281dc43-504c-4a0f-8afa-6de06a95d3b7</ServiceID>
-                    <UUID>f782a16b-bf5d-457d-a2ce-7e4e6d1b0483</UUID>
+                    <ServiceID>a7f5866f-a16e-4217-a399-0cfce7f0300b</ServiceID>
+                    <UUID>54530169-f29e-4d2d-ac5f-62ddd023980f</UUID>
                     <WSID>00000000-0000-0000-0000-000000000000</WSID>
                   </d2p1:Value>
                 </d2p1:KeyValueOfguidanyType>
               </Items>
-              <UUID>a2f603b7-bff8-41a7-8f66-744dd0edce5f</UUID>
+              <UUID>682b8352-9dbe-402b-a224-7c2456850308</UUID>
               <WSID>00000000-0000-0000-0000-000000000000</WSID>
             </d2p1:Value>
           </d2p1:KeyValueOfguidanyType>
         </Nodes>
-        <UUID>cd6466be-669d-447a-b6a5-ae0d40cb7a6b</UUID>
+        <UUID>ea08f858-16a1-4164-918a-7506dba91e51</UUID>
       </d2p1:Value>
     </d2p1:KeyValueOfguidanyType>
   </WorkSpaces>

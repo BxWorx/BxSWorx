@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+//.........................................................
+using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
@@ -80,8 +83,9 @@ namespace BxS_SAPGUI.COM.DL
 																	Guid  ForNodeID		= default(Guid)	);
 
 				//.................................................
-
 				ref	DataContainer GetDataContainer();
+				//.................................................
+				IList<IDTOConnectionView> GetConnectionViewTree();
 
 				void Clear();
 				void HouseKeeping(bool ClearEmptyNodesWorkspaces = true);

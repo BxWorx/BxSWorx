@@ -19,12 +19,12 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTOConnectionView(string id, string description, string parent	= default(string), Guid sapid = default(Guid) )
+				internal DTOConnectionView(	string id, string description, string parent	= default(string), Guid sapID = default(Guid) )
 					{
 						this.HierID					= id					;
 						this.HierID_Parent	= parent			;
 						this.Description		= description	;
-						this.SAPID					= sapid				;
+						this.SAPID					= sapID				;
 					}
 
 			#endregion

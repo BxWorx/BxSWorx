@@ -54,17 +54,19 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IDTOConnectionView> CompileHierachicalView()
+				public IList<IDTOConnectionView> GetConnectionViewTree()
 					{
-						IList<IDTOConnectionView>	lt = new List<IDTOConnectionView>();
-						int ln_WSNo;
-						int ln_NdNo;
-						int ln_ItNo	= 0;
+						int			ln_WSNo;
+						int			ln_NdNo;
+						int			ln_ItNo;
 						string	lc_WSID;
 						string  lc_NDID;
 						string	lc_ItID;
+
+						IList<IDTOConnectionView>	lt_HierNodes = new List<IDTOConnectionView>();
 						//.............................................
 						ln_WSNo	= 0;
+
 						foreach (KeyValuePair<Guid, IDTOWorkspace> ls_WS in this._DataCon.WorkSpaces)
 							{
 								ln_WSNo ++	;
@@ -72,7 +74,7 @@ namespace BxS_SAPGUI.COM.DL
 								ln_ItNo	= 0	;
 								lc_WSID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-								lt.Add(new DTOConnectionView(lc_WSID, ls_WS.Value.Description));
+								lt_HierNodes.Add(new DTOConnectionView(lc_WSID, ls_WS.Value.Description));
 								//.........................................
 								foreach (KeyValuePair<Guid, IDTONode> ls_Node in ls_WS.Value.Nodes)
 									{
@@ -80,48 +82,31 @@ namespace BxS_SAPGUI.COM.DL
 										ln_ItNo	= 0	;
 										lc_NDID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-										lt.Add(new DTOConnectionView(lc_NDID, ls_Node.Value.Description, lc_WSID));
+										lt_HierNodes.Add(new DTOConnectionView(lc_NDID, ls_Node.Value.Description, lc_WSID));
 
 										foreach (KeyValuePair<Guid, IDTOItem> ls_Item in ls_Node.Value.Items)
 											{
-												ln_ItNo	++	;
+												ln_ItNo	++;
 												lc_ItID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-												lt.Add(new DTOConnectionView(lc_ItID, ls_Item.Value.NodeID.ToString(), lc_WSID));
+												lt_HierNodes.Add(new DTOConnectionView(lc_ItID, this.GetItemDescription(ls_Item.Value.ServiceID), lc_WSID, ls_Item.Key));
 											}
 
 									}
 								//.........................................
 								foreach (KeyValuePair<Guid, IDTOItem> ls_Item in ls_WS.Value.Items)
 									{
+										ln_NdNo	++	;
 										ln_ItNo	++	;
 										lc_ItID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-										lt.Add(new DTOConnectionView(lc_ItID, ls_Item.Value.NodeID.ToString(), lc_WSID));
+										lt_HierNodes.Add(new DTOConnectionView(lc_ItID, this.GetItemDescription(ls_Item.Value.ServiceID), lc_WSID, ls_Item.Key));
 									}
 							}
 						//.............................................
-						return	lt;
+						return	lt_HierNodes;
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IDTOConnectionView CreateHierNode(Guid sapid = default(Guid))
-					{
-						IDTOConnectionView lo_Node = new DTOConnectionView
-							{	SAPID = sapid	};
-						//...................................................
-						return	lo_Node;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private string CreateHierID(int wsNo, int ndNo, int itNo)
-					{
-						string ls_WS	= $"{wsNo:D2}";
-						string ls_Nd	= $"{ndNo:D2}";
-						string ls_It	= $"{itNo:D2}";
-
-						return $"{ls_WS}.{ls_Nd}.{ls_It}";
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear()
@@ -218,6 +203,18 @@ namespace BxS_SAPGUI.COM.DL
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private string CreateHierID(int wsNo, int ndNo, int itNo)
+					{
+						return $"{wsNo:D2}.{ndNo:D2}.{itNo:D2}";
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private string GetItemDescription(Guid serviceID)
+					{
+						return	this._DataCon.Services.TryGetValue(serviceID, out IDTOService lo_Srv) ? lo_Srv.Description : string.Empty;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<Guid> UsedMsgServers()
