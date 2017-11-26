@@ -15,14 +15,10 @@ namespace zBxS_SAPGUI_UT
 			private const string	cz_TestDir			= "Test Resources";
 			private const	string	cz_UsrFileName	= "SAPGUI_USR_DC.xml"	;
 			//...................................................
-			private	static readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
-			private	static readonly string	_FullPathName	= Path.Combine(_Path,	cz_TestDir, cz_UsrFileName);
-			//...................................................
-			private Guid lg_WspID;
-			private Guid lg_MsgID;
-			private Guid lg_SrvID;
-			private Guid lg_NdeID;
-			private Guid lg_ItmID;
+			private	static	readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
+			private	static	readonly string	_FullPathName	= Path.Combine(_Path,	cz_TestDir, cz_UsrFileName);
+
+			private readonly UT_BxS_DataContainerFiller	_DC	= new UT_BxS_DataContainerFiller();
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
@@ -30,9 +26,9 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					IRepository		lo_Rep	= this.CreateRepository();
-					IRepository		lo_RepX	= this.CreateRepository(true);
-					IRepository		lo_RepY	= this.CreateRepository(true);
+					IRepository		lo_Rep	= this._DC.CreateRepository();
+					IRepository		lo_RepX	= this._DC.CreateRepository(true);
+					IRepository		lo_RepY	= this._DC.CreateRepository(true);
 
 					var	lo_IO				= new IO();
 					var	lo_DCSer		= new DCSerializer();
@@ -51,7 +47,7 @@ namespace zBxS_SAPGUI_UT
 					this.Validate_Rep(lo_UsrCntlrx.Repository.GetDataContainer(), ln_Cnt, "UsrCntlr");
 					//...............................................
 					ln_Cnt	= 4;
-					lo_UsrCntlr.Repository.AddUpdateMsgServer(this.Create_MsgSvrDTO());
+					lo_UsrCntlr.Repository.AddUpdateMsgServer(this._DC.Create_MsgSvrDTO());
 					lo_UsrCntlr.Save(true);
 					var	lo_UsrCntlry	= new USRController(lo_RepY, _FullPathName, lo_IO, lo_DCSer);
 					Assert.AreEqual	(2,	lo_UsrCntlry.Repository.MsgServerCount,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
@@ -60,12 +56,6 @@ namespace zBxS_SAPGUI_UT
 			//===========================================================================================
 			#region "Methods: Private"
 
-				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
-				private IRepository CreateRepository(bool emptyOne = false)
-					{
-						return	emptyOne	? new Repository(new DataContainer()) :	new Repository(CreateAndFill_DC());
-					}
-
 				//-----------------------------------------------------------------------------------------
 				private void Validate_Rep(DataContainer rep, int cnt, string utName)
 					{
@@ -73,86 +63,17 @@ namespace zBxS_SAPGUI_UT
 						Assert.AreEqual	(1	,	rep.Services.Count		,	$"{utName}: {cnt}: Rep:Service: Error"	);
 						Assert.AreEqual	(1	,	rep.WorkSpaces.Count	,	$"{utName}: {cnt}: Rep:Workspace: Error"	);
 						//...............................................
-						Assert.IsTrue(rep.MsgServers.ContainsKey	(this.lg_MsgID)	,	$"{utName}: {cnt}: Msg:Check Key: Error"	);
-						Assert.IsTrue(rep.Services.ContainsKey		(this.lg_SrvID)	,	$"{utName}: {cnt}: Srv:Check Key: Error"	);
-						Assert.IsTrue(rep.WorkSpaces.ContainsKey	(this.lg_WspID)	,	$"{utName}: {cnt}: WSp:Check Key: Error"	);
+						Assert.IsTrue(rep.MsgServers.ContainsKey	(this._DC.MsgID)	,	$"{utName}: {cnt}: Msg:Check Key: Error"	);
+						Assert.IsTrue(rep.Services.ContainsKey		(this._DC.SrvID)	,	$"{utName}: {cnt}: Srv:Check Key: Error"	);
+						Assert.IsTrue(rep.WorkSpaces.ContainsKey	(this._DC.WSpID)	,	$"{utName}: {cnt}: WSp:Check Key: Error"	);
 
-						if (rep.WorkSpaces.TryGetValue(this.lg_WspID, out IDTOWorkspace lo_WSx))
+						if (rep.WorkSpaces.TryGetValue(this._DC.WSpID, out IDTOWorkspace lo_WSx))
 							{
-								Assert.IsTrue(lo_WSx.Items.ContainsKey(this.lg_ItmID),	$"{utName}: {cnt}: WSpItem:Check Key: Error"	);
-								Assert.IsTrue(lo_WSx.Nodes.ContainsKey(this.lg_NdeID),	$"{utName}: {cnt}: WSpNode:Check Key: Error"	);
+								Assert.IsTrue(lo_WSx.Items.ContainsKey(this._DC.ItmID),	$"{utName}: {cnt}: WSpItem:Check Key: Error"	);
+								Assert.IsTrue(lo_WSx.Nodes.ContainsKey(this._DC.NdeID),	$"{utName}: {cnt}: WSpNode:Check Key: Error"	);
 							}
 						else
 							{	Assert.Fail($"{utName}: {cnt}: WS:Get: Error");	}
-					}
-
-				//-----------------------------------------------------------------------------------------
-				private DataContainer CreateAndFill_DC()
-					{
-						var	lo_DC	= new DataContainer();
-
-						DTOMsgServer	lo_MsgDTO	= this.Create_MsgSvrDTO();
-						DTOService		lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);
-						DTOWorkspace	lo_WspDTO	= this.Create_WspDTO();
-
-						DTONode	lo_WSNDTO	= this.Create_WSNodeDTO();
-						DTOItem	lo_WSIDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
-						DTOItem	lo_WSxDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
-
-						this.lg_WspID	= lo_WspDTO.UUID;
-						this.lg_MsgID	= lo_MsgDTO.UUID;
-						this.lg_SrvID	= lo_SrvDTO.UUID;
-						this.lg_NdeID	= lo_WSNDTO.UUID;
-						this.lg_ItmID	= lo_WSxDTO.UUID;
-
-						lo_WSNDTO.Items	.Add (lo_WSIDTO.UUID, lo_WSIDTO);
-						lo_WspDTO.Nodes	.Add (lo_WSNDTO.UUID, lo_WSNDTO);
-						lo_WspDTO.Items	.Add (lo_WSxDTO.UUID, lo_WSxDTO);
-
-						lo_DC.MsgServers	.Add	(lo_MsgDTO.UUID, lo_MsgDTO);
-						lo_DC.Services		.Add	(lo_SrvDTO.UUID, lo_SrvDTO);
-						lo_DC.WorkSpaces	.Add	(lo_WspDTO.UUID, lo_WspDTO);
-
-						return	lo_DC;
-					}
-
-				//-----------------------------------------------------------------------------------------
-				private DTOMsgServer Create_MsgSvrDTO()
-					{
-						return	new DTOMsgServer	{	UUID				= Guid.NewGuid()	,
-																				Name				= "name1"					,
-																				Description = "desc1"					,
-																				Host				= "host1"					,
-																				Port				= "port1"						};
-					}
-
-				//-----------------------------------------------------------------------------------------
-				private DTOService Create_SrvDTO(Guid	msgSvr)
-					{
-						return	new DTOService	{	UUID	= Guid.NewGuid()	,
-																			Name	= "NameS"					,
-																			MSID	= msgSvr						};
-					}
-
-				//-----------------------------------------------------------------------------------------
-				private DTOWorkspace Create_WspDTO()
-					{
-						return	new DTOWorkspace	{	UUID				= Guid.NewGuid()	,
-																				Description	= "DescWS"					};
-					}
-
-				//-----------------------------------------------------------------------------------------
-				private DTONode Create_WSNodeDTO()
-					{
-						return	new DTONode	{	UUID				= Guid.NewGuid()	,
-																	Description	= "DescNode"				};
-					}
-
-				//-----------------------------------------------------------------------------------------
-				private DTOItem Create_WSItemDTO(Guid srvID)
-					{
-						return	new DTOItem	{	UUID			= Guid.NewGuid()	,
-																	ServiceID	= srvID								};
 					}
 
 			#endregion

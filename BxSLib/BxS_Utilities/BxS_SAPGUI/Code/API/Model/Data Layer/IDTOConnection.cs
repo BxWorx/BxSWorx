@@ -25,8 +25,6 @@ namespace BxS_SAPGUI.API
 				string	MSHost					{ get; set; }
 				string	MSName					{ get; set; }
 				string	MSPort					{ get; set; }
-				//.................................................
-				bool		IsValid					{ get; set; }
 
 			#endregion
 

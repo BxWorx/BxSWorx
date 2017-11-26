@@ -37,7 +37,6 @@ namespace zBxS_SAPGUI_UT
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
 
 					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
-					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -57,7 +56,6 @@ namespace zBxS_SAPGUI_UT
 					ln_Cnt			= 2;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
 					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
-					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -76,7 +74,6 @@ namespace zBxS_SAPGUI_UT
 					ln_Cnt			= 2;
 					lo_DTOConn	= lo_Cntlr.CreateConnection();
 					Assert.IsNotNull	(lo_DTOConn					,	$"Cntlr: {ln_Cnt}: DTO a: Error");
-					Assert.IsFalse		(lo_DTOConn.IsValid	,	$"Cntlr: {ln_Cnt}: DTO b: Error");
 				}
 		}
 }

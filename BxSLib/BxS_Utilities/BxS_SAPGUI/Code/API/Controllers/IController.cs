@@ -20,6 +20,10 @@ namespace BxS_SAPGUI.API
 				void Save();
 				//.................................................
 				IList<IDTOConnectionView>	GetConnectionViewTree();
+				//...................................................
+				IDTOConnection	GetConnection		(Guid						id);
+				void						LoadConnection	(IDTOConnection	dto);
+				//...................................................
 
 
 
@@ -28,9 +32,6 @@ namespace BxS_SAPGUI.API
 
 
 				IDTOConnection	CreateConnection(Guid connectionID = default(Guid));
-				//...................................................
-				IDTOConnection	GetConnection	(Guid						connectionID);
-				void						LoadConnection	(IDTOConnection	dtoConnection);
 
 				void AddConnection(IDTOConnection dtoConnection);
 

@@ -89,11 +89,13 @@ namespace BxS_SAPGUI.COM.DL
 												ln_ItNo	++;
 												lc_ItID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-												lt_HierNodes.Add(new DTOConnectionView(lc_ItID, this.GetItemDescription(ls_Item.Value.ServiceID), lc_WSID, ls_Item.Key));
+												lt_HierNodes.Add(new DTOConnectionView(lc_ItID, this.GetItemDescription(ls_Item.Value.ServiceID), lc_NDID, ls_Item.Key));
 											}
 
 									}
 								//.........................................
+								ln_ItNo	= 0;
+
 								foreach (KeyValuePair<Guid, IDTOItem> ls_Item in ls_WS.Value.Items)
 									{
 										ln_NdNo	++	;

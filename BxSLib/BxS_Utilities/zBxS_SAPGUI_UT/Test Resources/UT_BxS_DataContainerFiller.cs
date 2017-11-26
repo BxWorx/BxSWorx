@@ -23,6 +23,16 @@ namespace BxS_SAPGUI.COM.DL
 						return	emptyOne	? new Repository(new DataContainer()) :	new Repository(CreateAndFill_DC());
 					}
 
+				//-----------------------------------------------------------------------------------------
+				internal DTOMsgServer Create_MsgSvrDTO()
+					{
+						return	new DTOMsgServer	{	UUID				= Guid.NewGuid()	,
+																				Name				= "name1"					,
+																				Description = "desc1"					,
+																				Host				= "host1"					,
+																				Port				= "port1"						};
+					}
+
 			#endregion
 
 			//===========================================================================================
@@ -59,21 +69,12 @@ namespace BxS_SAPGUI.COM.DL
 					}
 
 				//-----------------------------------------------------------------------------------------
-				private DTOMsgServer Create_MsgSvrDTO()
-					{
-						return	new DTOMsgServer	{	UUID				= Guid.NewGuid()	,
-																				Name				= "name1"					,
-																				Description = "desc1"					,
-																				Host				= "host1"					,
-																				Port				= "port1"						};
-					}
-
-				//-----------------------------------------------------------------------------------------
 				private DTOService Create_SrvDTO(Guid	msgSvr)
 					{
-						return	new DTOService	{	UUID	= Guid.NewGuid()	,
-																			Name	= "NameS"					,
-																			MSID	= msgSvr						};
+						return	new DTOService	{	UUID				= Guid.NewGuid()	,
+																			Name				= "NameS"					,
+																			Description	= "DescS"					,
+																			MSID				= msgSvr						};
 					}
 
 				//-----------------------------------------------------------------------------------------

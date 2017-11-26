@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 //.........................................................
 using BxS_SAPGUI.COM.DL;
 //••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -9,14 +9,24 @@ namespace zBxS_SAPGUI_UT
 	[TestClass]
 	public class UT_BxS_SAPGUI_Repository
 		{
-			//private const string	cz_FileName		= "SAPUILandscapeS2A.xml";
-			//private const string	cz_TestDir		= "Test Resources";
 			private const string	cz_TestConnID	=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
 			private const string	cz_Desc				= "Desc";
-			//...................................................
-			//private	static readonly string	cc_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
-			//private	static readonly string	cc_FullPath			= Path.Combine(cc_Path,	cz_TestDir);
-			//private	static readonly string	cc_XMLFullName	= Path.Combine(cc_FullPath, cz_FileName);
+
+			private readonly UT_BxS_DataContainerFiller	_DC	= new UT_BxS_DataContainerFiller();
+
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_SapGui_Repos_Hierarchy()
+				{
+					int					ln_Cnt;
+					IRepository lo_Repos	= this._DC.CreateRepository();
+					//...............................................
+					ln_Cnt	= 1;
+
+					IList<BxS_SAPGUI.API.IDTOConnectionView> lt_HierList = lo_Repos.GetConnectionViewTree();
+
+					Assert.AreNotEqual(0	,	lo_Repos.WorkspaceCount	,	$"Repos-Create: {ln_Cnt}: DTO-Msg: Error");
+				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]

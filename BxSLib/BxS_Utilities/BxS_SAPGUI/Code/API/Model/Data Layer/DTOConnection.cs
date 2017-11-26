@@ -25,8 +25,6 @@ namespace BxS_SAPGUI.API
 				public string MSHost					{ get; set; }
 				public string MSPort					{ get; set; }
 				public string MSDescription		{ get; set; }
-				//.................................................
-				public bool		IsValid					{ get; set; }
 
 			#endregion
 
@@ -55,8 +53,6 @@ namespace BxS_SAPGUI.API
 						this.MSHost						= string.Empty;
 						this.MSPort						= string.Empty;
 						this.MSDescription		= string.Empty;
-						//..............................................
-						this.IsValid					= false;
 					}
 
 			#endregion
