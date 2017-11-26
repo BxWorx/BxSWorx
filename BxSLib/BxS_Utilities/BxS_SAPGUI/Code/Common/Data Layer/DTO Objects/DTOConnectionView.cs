@@ -1,6 +1,8 @@
 ﻿using System;
+//.........................................................
+using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API
+namespace BxS_SAPGUI.COM.DL
 {
 	public class DTOConnectionView : IDTOConnectionView
 		{

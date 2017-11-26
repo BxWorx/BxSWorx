@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+//.........................................................
+using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
@@ -50,6 +52,47 @@ namespace BxS_SAPGUI.COM.DL
 
 			//===========================================================================================
 			#region "Methods: Exposed: General"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<IDTOConnectionView> CompileHierachicalView()
+					{
+						IList<IDTOConnectionView>	lt = new List<IDTOConnectionView>();
+						int ln_WSNo	= 0;
+						int ln_NdNo	= 0;
+						int ln_ItNo	= 0;
+						//.............................................
+						foreach (KeyValuePair<Guid, IDTOWorkspace> ls_WS in this._DataCon.WorkSpaces)
+							{
+								foreach (KeyValuePair<Guid, IDTONode> ls_Node in ls_WS.Value.Nodes)
+									{
+										foreach (KeyValuePair<Guid, IDTOItem> ls_Item in ls_Node.Value.Items)
+											{
+
+											}
+
+									}
+
+								foreach (KeyValuePair<Guid, IDTOItem> item in ls_WS.Value.Items)
+									{
+
+									}
+							}
+						//.............................................
+						return	lt;
+					}
+
+				private IDTOConnectionView CreateHierNode()
+					{
+						IDTOConnectionView	lo_Node	= new DTOConnectionView();
+
+
+
+						return	lo_Node;
+					}
+
+
+
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear()
