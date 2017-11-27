@@ -13,6 +13,21 @@ namespace BxS_SAPGUI.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IFavourites CreateControllerForFavourites(string fullPathName)
+					{
+						
+
+
+						IRepository				lo_Repos		= CreateRepository();
+						var								lo_Parser		=	new XMLParse2ReposDTO();
+						IControllerSource lo_XMLCntlr	= new XMLController(lo_Repos);
+						//.............................................
+						lo_Parser.Load(lo_Repos, fullPathName, onlySAPGUI);
+						//.............................................
+						return	new Controller(lo_XMLCntlr);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IController CreateControllerForSAPXML(string fullPathName, bool onlySAPGUI = true)
 					{
 						IRepository				lo_Repos		= CreateRepository();
