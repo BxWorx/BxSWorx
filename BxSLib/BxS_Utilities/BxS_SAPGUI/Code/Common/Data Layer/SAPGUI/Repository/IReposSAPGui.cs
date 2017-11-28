@@ -5,7 +5,7 @@ using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
-	internal interface IRepository
+	internal interface IReposSAPGui
 		{
 			#region "Properties"
 
@@ -83,7 +83,7 @@ namespace BxS_SAPGUI.COM.DL
 																	Guid  ForNodeID		= default(Guid)	);
 
 				//.................................................
-				ref	DataContainer GetDataContainer();
+				ref	DCSapGui GetDataContainer();
 				//.................................................
 				IList<IDTOConnectionView> GetConnectionViewTree();
 

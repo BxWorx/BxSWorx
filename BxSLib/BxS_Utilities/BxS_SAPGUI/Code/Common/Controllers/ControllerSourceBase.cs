@@ -10,7 +10,7 @@ namespace BxS_SAPGUI.COM.CNTLR
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected ControllerSourceBase(IRepository repository)
+				protected ControllerSourceBase(IReposSAPGui repository)
 					{
 						this.Repository = repository;
 					}
@@ -20,7 +20,7 @@ namespace BxS_SAPGUI.COM.CNTLR
 			//===========================================================================================
 			#region "Properties"
 
-				public IRepository	Repository { get; set; }
+				public IReposSAPGui	Repository { get; set; }
 
 			#endregion
 

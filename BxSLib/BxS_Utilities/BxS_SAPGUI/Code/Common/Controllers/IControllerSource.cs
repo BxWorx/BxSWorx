@@ -10,7 +10,7 @@ namespace BxS_SAPGUI.COM.CNTLR
 
 			#region "Properties"
 
-				IRepository Repository { get; set; }
+				IReposSAPGui Repository { get; set; }
 
 			#endregion
 

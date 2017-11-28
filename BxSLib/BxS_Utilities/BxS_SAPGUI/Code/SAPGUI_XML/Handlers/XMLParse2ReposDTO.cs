@@ -17,7 +17,7 @@ namespace BxS_SAPGUI.XML
 				private const string cz_TagNode			= "Node";
 				private const string cz_TagWSpace		= "Workspace";
 
-				private IRepository		_Repos;
+				private IReposSAPGui		_Repos;
 				private bool					_OnlySAPGUI;
 
 			#endregion
@@ -26,7 +26,7 @@ namespace BxS_SAPGUI.XML
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Load(IRepository repository, string xmlFullName,	bool onlySAPGUI	= true)
+				internal void Load(IReposSAPGui repository, string xmlFullName,	bool onlySAPGUI	= true)
 					{
 						//.............................................
 						XmlDocument XmlDoc	= this.LoadXMLDoc(xmlFullName);

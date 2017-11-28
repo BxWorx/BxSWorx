@@ -7,7 +7,7 @@ namespace BxS_SAPGUI.API
 		{
 			#region "Properties"
 
-				IList<IDTOFavourite>	Favourites	{ get; }
+				IList<IDTOFavourite>	FavouriteList	{ get; }
 
 			#endregion
 

@@ -19,7 +19,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Hierarchy()
 				{
 					int					ln_Cnt;
-					IRepository lo_Repos	= this._DC.CreateRepository();
+					IReposSAPGui lo_Repos	= this._DC.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -33,7 +33,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Create()
 				{
 					int					ln_Cnt;
-					IRepository lo_Repos	= this.CreateRepository();
+					IReposSAPGui lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -49,7 +49,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_MsgSrv()
 				{
 					int					ln_Cnt;
-					IRepository lo_Repos	= this.CreateRepository();
+					IReposSAPGui lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -68,7 +68,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Service()
 				{
 					int					ln_Cnt;
-					IRepository lo_Repos	= this.CreateRepository();
+					IReposSAPGui lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -89,7 +89,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Workspace()
 				{
 					int					ln_Cnt;
-					IRepository lo_Repos	= this.CreateRepository();
+					IReposSAPGui lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -111,7 +111,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Node()
 				{
 					int					ln_Cnt;
-					IRepository lo_Repos	= this.CreateRepository();
+					IReposSAPGui lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -141,7 +141,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Item()
 				{
 					int					ln_Cnt;
-					IRepository lo_Repos	= this.CreateRepository();
+					IReposSAPGui lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -174,9 +174,9 @@ namespace zBxS_SAPGUI_UT
 
 			//-------------------------------------------------------------------------------------------
 			//-------------------------------------------------------------------------------------------
-			private IRepository	CreateRepository()
+			private IReposSAPGui	CreateRepository()
 				{
-					return	new Repository(new DataContainer());
+					return	new ReposSAPGui(new DCSapGui());
 				}
 		}
 }

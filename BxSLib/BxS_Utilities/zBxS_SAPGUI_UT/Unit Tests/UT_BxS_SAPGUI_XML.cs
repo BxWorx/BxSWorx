@@ -24,7 +24,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiXML_Parser()
 				{
 					int					ln_Cnt;
-					IRepository	lo_Repos;
+					IReposSAPGui	lo_Repos;
 					var					lo_Parser	= new XMLParse2ReposDTO();
 					//...............................................
 					ln_Cnt	= 1;
@@ -62,7 +62,7 @@ namespace zBxS_SAPGUI_UT
 				{
 					int								ln_Cnt;
 					var								lo_Parser	= new XMLParse2ReposDTO();
-					IRepository				lo_Repos	= this.CreateRepository();
+					IReposSAPGui				lo_Repos	= this.CreateRepository();
 					IControllerSource	lo_Cntlr	= new XMLController(lo_Repos) ;
 					//...............................................
 					lo_Parser.Load(lo_Repos, cc_FullName);
@@ -83,10 +83,10 @@ namespace zBxS_SAPGUI_UT
 				}
 
 			//-------------------------------------------------------------------------------------------
-			private IRepository	CreateRepository()
+			private IReposSAPGui	CreateRepository()
 				{
-					var	lo_DC			= new DataContainer();
-					var	lo_Repos	= new Repository(lo_DC);
+					var	lo_DC			= new DCSapGui();
+					var	lo_Repos	= new ReposSAPGui(lo_DC);
 					return	lo_Repos;
 				}
 

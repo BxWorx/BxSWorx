@@ -5,21 +5,15 @@ using System.Runtime.Serialization;
 namespace BxS_SAPGUI.COM.DL
 {
 	[DataContract]
-	[KnownType(typeof(DTOMsgServer))]
-	[KnownType(typeof(DTOService))]
-	[KnownType(typeof(DTOWorkspace))]
-	[KnownType(typeof(DTONode))]
-	[KnownType(typeof(DTOItem))]
-	public class DataContainer
+	[KnownType(typeof(DTOFavourite))]
+	public class DCFavourites
 		{
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DataContainer()
+				internal DCFavourites()
 					{
-						this.MsgServers		= new Dictionary<	Guid, IDTOMsgServer > ();
-						this.Services			= new Dictionary<	Guid, IDTOService		> ();
-						this.WorkSpaces		= new Dictionary<	Guid, IDTOWorkspace > ();
+						this.FavouriteList		= new Dictionary<	Guid, IDTOMsgServer > ();
 						//.............................................
 						this.IsDirty	= false;
 					}
@@ -29,9 +23,7 @@ namespace BxS_SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	internal Dictionary<Guid, IDTOMsgServer>	MsgServers	{ get; set; }
-				[DataMember]	internal Dictionary<Guid, IDTOService>		Services		{ get; set; }
-				[DataMember]	internal Dictionary<Guid, IDTOWorkspace>	WorkSpaces	{ get; set; }
+				[DataMember]	internal Dictionary<Guid, IDTOMsgServer>	FavouriteList	{ get; set; }
 				//.................................................
 				internal bool IsDirty		{ get; set;	}
 
@@ -43,9 +35,7 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Clear()
 					{
-						this.Services		.Clear();
-						this.MsgServers	.Clear();
-						this.WorkSpaces	.Clear();
+						this.FavouriteList.Clear();
 					}
 
 			#endregion

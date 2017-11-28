@@ -6,12 +6,12 @@ using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
-	internal partial class Repository : IRepository
+	internal partial class ReposSAPGui : IReposSAPGui
 		{
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository(DataContainer dataContainer)
+				internal ReposSAPGui(DCSapGui dataContainer)
 					{
 						this._DataCon	= dataContainer;
 						//.............................................
@@ -23,7 +23,7 @@ namespace BxS_SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Declarations"
 
-				private DataContainer	_DataCon;
+				private DCSapGui	_DataCon;
 
 			#endregion
 
@@ -43,7 +43,7 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Methods: Exposed: By Ref"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ref DataContainer GetDataContainer()
+				public ref DCSapGui GetDataContainer()
 					{
 						return ref this._DataCon;
 					}

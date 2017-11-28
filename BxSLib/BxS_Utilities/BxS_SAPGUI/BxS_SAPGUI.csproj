@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
-    <Compile Remove="Code\Common\Data Layer\DTO Objects\DTOBase.cs" />
+    <Compile Remove="Code\Common\Data Layer\SAPGUI\DTO Objects\DTOBase.cs" />
     <Compile Remove="Code\zOld Stuff\Class1.cs" />
     <Compile Remove="Code\zOld Stuff\DLController.cs" />
     <Compile Remove="Code\zOld Stuff\DLControllerSerialiser.cs" />

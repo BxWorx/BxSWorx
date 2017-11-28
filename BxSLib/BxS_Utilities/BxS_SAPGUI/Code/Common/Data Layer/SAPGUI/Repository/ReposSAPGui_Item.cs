@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
-	internal partial class Repository
+	internal partial class ReposSAPGui
 		{
 			#region "Methods: Exposed: Workspace: Item"
 

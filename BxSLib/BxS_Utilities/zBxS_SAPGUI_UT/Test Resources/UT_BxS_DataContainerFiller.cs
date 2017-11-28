@@ -18,9 +18,9 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IRepository CreateRepository(bool emptyOne = false)
+				internal IReposSAPGui CreateRepository(bool emptyOne = false)
 					{
-						return	emptyOne	? new Repository(new DataContainer()) :	new Repository(CreateAndFill_DC());
+						return	emptyOne	? new ReposSAPGui(new DCSapGui()) :	new ReposSAPGui(CreateAndFill_DC());
 					}
 
 				//-----------------------------------------------------------------------------------------
@@ -39,9 +39,9 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Methods: Private"
 
 				//-----------------------------------------------------------------------------------------
-				private DataContainer CreateAndFill_DC()
+				private DCSapGui CreateAndFill_DC()
 					{
-						var	lo_DC	= new DataContainer();
+						var	lo_DC	= new DCSapGui();
 
 						DTOMsgServer	lo_MsgDTO	= this.Create_MsgSvrDTO();
 						DTOService		lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);

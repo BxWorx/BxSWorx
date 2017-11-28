@@ -10,7 +10,7 @@ namespace BxS_SAPGUI.INI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public INIParse2ReposDTO(IO io, IRepository repository, string fullPathName)
+				public INIParse2ReposDTO(IO io, IReposSAPGui repository, string fullPathName)
 					{
 						this._IO						= io;
 						this._Repos					= repository;
@@ -26,7 +26,7 @@ namespace BxS_SAPGUI.INI
 			#region "Declarations"
 
 				private readonly	IO						_IO;
-				private readonly	IRepository		_Repos;
+				private readonly	IReposSAPGui		_Repos;
 				private readonly	string				_FullPathName;
 				private						string				_ActiveSection;
 

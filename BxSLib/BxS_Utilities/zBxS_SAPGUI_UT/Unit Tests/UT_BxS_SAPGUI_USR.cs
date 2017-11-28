@@ -26,9 +26,9 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					IRepository		lo_Rep	= this._DC.CreateRepository();
-					IRepository		lo_RepX	= this._DC.CreateRepository(true);
-					IRepository		lo_RepY	= this._DC.CreateRepository(true);
+					IReposSAPGui		lo_Rep	= this._DC.CreateRepository();
+					IReposSAPGui		lo_RepX	= this._DC.CreateRepository(true);
+					IReposSAPGui		lo_RepY	= this._DC.CreateRepository(true);
 
 					var	lo_IO				= new IO();
 					var	lo_DCSer		= new DCSerializer();
@@ -57,7 +57,7 @@ namespace zBxS_SAPGUI_UT
 			#region "Methods: Private"
 
 				//-----------------------------------------------------------------------------------------
-				private void Validate_Rep(DataContainer rep, int cnt, string utName)
+				private void Validate_Rep(DCSapGui rep, int cnt, string utName)
 					{
 						Assert.AreEqual	(1	,	rep.MsgServers.Count	,	$"{utName}: {cnt}: Rep:MsgSvr: Error"	);
 						Assert.AreEqual	(1	,	rep.Services.Count		,	$"{utName}: {cnt}: Rep:Service: Error"	);

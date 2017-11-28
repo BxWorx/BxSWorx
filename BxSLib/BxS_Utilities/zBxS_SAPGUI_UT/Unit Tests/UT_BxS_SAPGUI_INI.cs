@@ -24,7 +24,7 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					IRepository	lo_Rep		= this.CreateRepository();
+					IReposSAPGui	lo_Rep		= this.CreateRepository();
 					var					lo_IO			= new IO();
 					var					lo_Parser	= new INIParse2ReposDTO(lo_IO, lo_Rep, _FileTest);
 					//...............................................
@@ -37,9 +37,9 @@ namespace zBxS_SAPGUI_UT
 			#region "Methods: Private"
 
 				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
-				private IRepository CreateRepository(bool emptyOne = false)
+				private IReposSAPGui CreateRepository(bool emptyOne = false)
 					{
-						return	emptyOne	? new Repository(new DataContainer()) :	new Repository(new DataContainer());
+						return	emptyOne	? new ReposSAPGui(new DCSapGui()) :	new ReposSAPGui(new DCSapGui());
 					}
 
 			#endregion

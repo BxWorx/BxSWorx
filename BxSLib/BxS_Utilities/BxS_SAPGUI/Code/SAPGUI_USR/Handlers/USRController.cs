@@ -11,7 +11,7 @@ namespace BxS_SAPGUI.USR
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal USRController(IRepository repository, string fullPathName, IO FileIO, DCSerializer dcSerializer, bool AutoLoad = true)
+				internal USRController(IReposSAPGui repository, string fullPathName, IO FileIO, DCSerializer dcSerializer, bool AutoLoad = true)
 									: base(repository)
 					{
 						this._DCFullName	= fullPathName	;
@@ -66,7 +66,7 @@ namespace BxS_SAPGUI.USR
 				private void LoadDataContainer()
 					{
 						if (this.FileExists())
-							this._DCSer.DeSerialize<DataContainer>(this._IO.ReadFile(this._DCFullName), ref this.Repository.GetDataContainer());
+							this._DCSer.DeSerialize<DCSapGui>(this._IO.ReadFile(this._DCFullName), ref this.Repository.GetDataContainer());
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
