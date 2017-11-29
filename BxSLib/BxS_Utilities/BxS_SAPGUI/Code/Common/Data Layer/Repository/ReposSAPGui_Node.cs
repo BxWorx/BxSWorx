@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
@@ -13,7 +15,9 @@ namespace BxS_SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool	AddUpdateNode(Guid WSID, Guid ID, string	Description)
+				public bool	AddUpdateNode(	Guid		WSID				,
+																		Guid		ID					,
+																		string	Description		)
 					{
 						IDTONode lo_DTO = this.CreateNodeDTO();
 						//.............................................
@@ -27,21 +31,24 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateNode(IDTONode DTO)
 					{
-						IDTOWorkspace lo_WS	= this.GetWorkspace(DTO.WSID);
-						if (lo_WS == null)	return	false;
+						//IDTOWorkspace lo_WS	= this.GetWorkspace(DTO.WSID);
+						//if (lo_WS == null)	return	false;
+						bool lb_Ret	= false;
 						//.............................................
-						bool lb_Ret	= true;
-
-						if (lo_WS.Nodes.ContainsKey(DTO.UUID))
+						if (this._DC.WorkSpaces.ContainsKey(DTO.WSID))
 							{
-								lo_WS.Nodes[DTO.UUID]	= DTO;
-							}
-						else
-							{
-								lb_Ret	= lo_WS.Nodes.TryAdd(DTO.UUID, DTO);
-							}
+								if (this._DC.Nodes.ContainsKey(DTO.UUID))
+									{
+										this._DC.Nodes[DTO.UUID]	= DTO;
+										lb_Ret	= true;
+									}
+								else
+									{
+										lb_Ret	= this._DC.Nodes.TryAdd(DTO.UUID, DTO);
+									}
 
-						if (lb_Ret)		this.IsDirty	= true;
+								if (lb_Ret)		this.IsDirty	= true;
+							}
 						//.............................................
 						return	lb_Ret;
 					}
@@ -49,6 +56,9 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool RemoveNode(Guid NodeID, Guid ForWSpaceID)
 					{
+						var ItemList	= this.NodeItems(NodeID,ForWSpaceID);
+
+						return	this._DC.Nodes
 						IDTOWorkspace lo_WS	= this.GetWorkspace(ForWSpaceID);
 						return	lo_WS?.Nodes.Remove(NodeID) == true;
 					}
@@ -63,6 +73,17 @@ namespace BxS_SAPGUI.COM.DL
 					}
 
 			#endregion
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IList<Guid> NodeItems(Guid nodeID, Guid workspaceID)
+					{
+						return	this._DC.Items
+											.Where( Itm =>	Itm.Value.NodeID	== nodeID && 
+																			Itm.Value.WSID		== workspaceID )
+												.Select( x => x.Key )
+													.ToList();
+					}
 
 		}
 }

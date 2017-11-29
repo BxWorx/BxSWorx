@@ -4,55 +4,46 @@ namespace BxS_SAPGUI.COM.DL
 {
 	internal partial class ReposSAPGui
 		{
-			#region "Methods: Exposed: Message Server"
+			#region "Methods: Exposed: Workspace"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOMsgServer CreateMsgServerDTO()
+				public IDTOWorkspace CreateWorkspaceDTO(Guid ID = default(Guid))
 					{
-						return	new DTOMsgServer();
+						return	new DTOWorkspace()	{	UUID	= ID };
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool MsgServerExists(Guid ID)
+				public IDTOWorkspace GetWorkspace(Guid ID)
 					{
-						return	this._DataCon.MsgServers.ContainsKey(ID);
+						this._DC.WorkSpaces.TryGetValue(ID, out IDTOWorkspace DTO);
+						return	DTO;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateMsgServer(Guid ID, string Name, string Host, string Port, string Description)
+				public bool	AddUpdateWorkspace(	Guid		ID					,
+																				string	Description		)
 					{
-						IDTOMsgServer lo_DTO = this.CreateMsgServerDTO();
+						IDTOWorkspace lo_DTO = this.CreateWorkspaceDTO();
 						//.............................................
 						lo_DTO.UUID					= ID;
-						lo_DTO.Name					= Name;
-						lo_DTO.Host					= Host;
-						lo_DTO.Port					= Port;
 						lo_DTO.Description	= Description;
 						//.............................................
-						return	this.AddUpdateMsgServer(lo_DTO);
+						return	this.AddUpdateWorkspace(lo_DTO);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOMsgServer GetMsgServer(Guid ID)
-					{
-						IDTOMsgServer	lo_DTO	= this.CreateMsgServerDTO();
-						this._DataCon.MsgServers.TryGetValue(ID, out lo_DTO);
-						return	lo_DTO;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateMsgServer(IDTOMsgServer DTO)
+				public bool AddUpdateWorkspace(IDTOWorkspace DTO)
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (this._DataCon.MsgServers.ContainsKey(DTO.UUID))
+						if (this._DC.WorkSpaces.ContainsKey(DTO.UUID))
 							{
-								this._DataCon.MsgServers[DTO.UUID]	= DTO;
+								this._DC.WorkSpaces[DTO.UUID]	= DTO;
 								lb_Ret	= true;
 							}
 						else
 							{
-								lb_Ret	= this._DataCon.MsgServers.TryAdd(DTO.UUID, DTO);
+								lb_Ret	= this._DC.WorkSpaces.TryAdd(DTO.UUID, DTO);
 							}
 
 						if (lb_Ret)		this.IsDirty	= true;
@@ -61,15 +52,12 @@ namespace BxS_SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool RemoveMsgServer(Guid ID)
+				public bool RemoveWorkspace(Guid ID)
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if (!this.MsgServerInUse(ID))
-							{
-								lb_Ret	= this._DataCon.MsgServers.Remove(ID);
-								if (lb_Ret)	this.IsDirty	= true;
-							}
+						lb_Ret	= this._DC.WorkSpaces.Remove(ID);
+						if (lb_Ret)	this.IsDirty	= true;
 						//.............................................
 						return	lb_Ret;
 					}

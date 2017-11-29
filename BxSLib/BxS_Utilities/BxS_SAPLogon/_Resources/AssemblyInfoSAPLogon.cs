@@ -19,4 +19,4 @@ using System.Runtime.InteropServices;
 
 // Unit tests: expose internal classes
 
-[assembly:InternalsVisibleTo("zBxS_SAPGUI_UT")]
+[assembly:InternalsVisibleTo("zBxS_SAPLogon_UT")]

@@ -13,18 +13,12 @@ namespace BxS_SAPGUI.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IFavourites CreateControllerForFavourites(string fullPathName)
-					{
-						return	new Favourites();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IController CreateControllerForSAPXML(string fullPathName, bool onlySAPGUI = true)
 					{
-						IReposSAPGui				lo_Repos		= CreateRepository();
-						var								lo_Parser		=	new XMLParse2ReposDTO();
+						IReposSAPGui			lo_Repos		= new ReposSAPGui(new DCSapGui());
 						IControllerSource lo_XMLCntlr	= new XMLController(lo_Repos);
 						//.............................................
+						var	lo_Parser		=	new XMLParse2ReposDTO();
 						lo_Parser.Load(lo_Repos, fullPathName, onlySAPGUI);
 						//.............................................
 						return	new Controller(lo_XMLCntlr);
@@ -33,11 +27,11 @@ namespace BxS_SAPGUI.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IController CreateControllerForSAPINI(string fullPathName)
 					{
-						IReposSAPGui				lo_Repos	= CreateRepository();
+						IReposSAPGui			lo_Repos	= new ReposSAPGui(new DCSapGui());
 						var								lo_IO			= new IO();
-						var								lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Repos, fullPathName);
 						IControllerSource INICntlr	= new INIController(lo_Repos);
 						//.............................................
+						var	lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Repos, fullPathName);
 						lo_Parser.Load();
 						//.............................................
 						return	new Controller(INICntlr);
@@ -48,7 +42,7 @@ namespace BxS_SAPGUI.API
 					{
 						var								lo_IO			= new IO();
 						var								lo_DCSer	= new DCSerializer();
-						IReposSAPGui				lo_Repos	= CreateRepository();
+						IReposSAPGui			lo_Repos	= new ReposSAPGui(new DCSapGui());
 						IControllerSource	USRCntlr	= new USRController(lo_Repos, fullPathName, lo_IO, lo_DCSer, autoLoad);
 						//.............................................
 						return	new Controller(USRCntlr, false);
@@ -56,15 +50,5 @@ namespace BxS_SAPGUI.API
 
 			#endregion
 
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IReposSAPGui CreateRepository()
-					{
-						return	new ReposSAPGui(new DCSapGui());
-					}
-
-			#endregion
 		}
 }

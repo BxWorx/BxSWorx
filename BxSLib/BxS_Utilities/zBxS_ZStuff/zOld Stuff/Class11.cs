@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BxS_SAPGUI.Code.zOld_Stuff
 {
-		class Class1
+		class Class11
 		{
 		}
 }

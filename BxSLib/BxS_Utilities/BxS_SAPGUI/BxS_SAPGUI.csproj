@@ -18,39 +18,11 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
-    <Compile Remove="Code\Common\Data Layer\SAPGUI\DTO Objects\DTOBase.cs" />
-    <Compile Remove="Code\zOld Stuff\Class1.cs" />
-    <Compile Remove="Code\zOld Stuff\DLController.cs" />
-    <Compile Remove="Code\zOld Stuff\DLControllerSerialiser.cs" />
-    <Compile Remove="Code\zOld Stuff\DTOBase.cs" />
-    <Compile Remove="Code\zOld Stuff\IRepository.cs" />
-    <Compile Remove="Code\zOld Stuff\Loader\Loader.cs" />
-    <Compile Remove="Code\zOld Stuff\Loader\Loader_MessageServers.cs" />
-    <Compile Remove="Code\zOld Stuff\Loader\Loader_Services.cs" />
-    <Compile Remove="Code\zOld Stuff\Loader\Loader_WorkSpaces.cs" />
-    <Compile Remove="Code\zOld Stuff\Loader\UT_BxS_SAPGUI_XML_Loader.cs" />
-    <Compile Remove="Code\zOld Stuff\Loader\UT_BxS_SAPGUI_XML_Parser.cs" />
-    <Compile Remove="Code\zOld Stuff\Mapping.cs" />
-    <Compile Remove="Code\zOld Stuff\Repository.cs" />
-    <Compile Remove="Code\zOld Stuff\Table.cs" />
-    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\Parser.cs" />
-    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParserMsgServer.cs" />
-    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParseService.cs" />
-    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParseWorkspace.cs" />
-    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParseWSItem.cs" />
-    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Parser\ParseWSNode.cs" />
-    <Compile Remove="Code\zOld Stuff\Usr Data Layer\References.cs" />
-    <Compile Remove="Code\zOld Stuff\Usr Data Layer\Schema.cs" />
-    <Compile Remove="Code\zOld Stuff\UsrDataSet.cs" />
+    <Compile Remove="Code\Common\Data Layer\DTO Objects\DTOBase.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BxS_ToolSet\BxS_ToolSet.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Code\zOld Stuff\Loader\" />
-    <Folder Include="Code\zOld Stuff\Usr Data Layer\Parser\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="zOld Stuff\Class11.cs" />
+    <Compile Remove="zOld Stuff\DLController.cs" />
+    <Compile Remove="zOld Stuff\DLControllerSerialiser.cs" />
+    <Compile Remove="zOld Stuff\DTOBase.cs" />
+    <Compile Remove="zOld Stuff\Loader\Loader.cs" />
+    <Compile Remove="zOld Stuff\Loader\Loader_MessageServers.cs" />
+    <Compile Remove="zOld Stuff\Loader\Loader_Services.cs" />
+    <Compile Remove="zOld Stuff\Loader\Loader_WorkSpaces.cs" />
+    <Compile Remove="zOld Stuff\Loader\UT_BxS_SAPGUI_XML_Loader.cs" />
+    <Compile Remove="zOld Stuff\Mapping.cs" />
+    <Compile Remove="zOld Stuff\Repository.cs" />
+    <Compile Remove="zOld Stuff\Table.cs" />
+    <Compile Remove="zOld Stuff\Usr Data Layer\Parser\Parser.cs" />
+    <Compile Remove="zOld Stuff\Usr Data Layer\Parser\ParserMsgServer.cs" />
+    <Compile Remove="zOld Stuff\Usr Data Layer\Parser\ParseService.cs" />
+    <Compile Remove="zOld Stuff\Usr Data Layer\Parser\ParseWorkspace.cs" />
+    <Compile Remove="zOld Stuff\Usr Data Layer\Parser\ParseWSItem.cs" />
+    <Compile Remove="zOld Stuff\Usr Data Layer\Parser\ParseWSNode.cs" />
+    <Compile Remove="zOld Stuff\Usr Data Layer\References.cs" />
+    <Compile Remove="zOld Stuff\Usr Data Layer\Schema.cs" />
+    <Compile Remove="zOld Stuff\UsrDataSet.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="zOld Stuff\Loader\" />
+    <Folder Include="zOld Stuff\Usr Data Layer\Parser\" />
+  </ItemGroup>
+
+</Project>

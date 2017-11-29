@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
 	[DataContract]
-	[KnownType(typeof(DTOMsgServer))]
-	[KnownType(typeof(DTOService))]
-	[KnownType(typeof(DTOWorkspace))]
-	[KnownType(typeof(DTONode))]
-	[KnownType(typeof(DTOItem))]
-	public class DCSapGui
+	[KnownType(typeof(DTOFavourite))]
+	public class DCFavourites
 		{
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DCSapGui()
+				internal DCFavourites()
 					{
-						this.MsgServers		= new Dictionary<	Guid, IDTOMsgServer > ();
-						this.Services			= new Dictionary<	Guid, IDTOService		> ();
-						this.WorkSpaces		= new Dictionary<	Guid, IDTOWorkspace > ();
+						this.FavouriteList		= new Dictionary<	Guid, IDTOFavourite > ();
 						//.............................................
 						this.IsDirty	= false;
 					}
@@ -29,9 +24,7 @@ namespace BxS_SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	internal Dictionary<Guid, IDTOMsgServer>	MsgServers	{ get; set; }
-				[DataMember]	internal Dictionary<Guid, IDTOService>		Services		{ get; set; }
-				[DataMember]	internal Dictionary<Guid, IDTOWorkspace>	WorkSpaces	{ get; set; }
+				[DataMember]	internal Dictionary<Guid, IDTOFavourite>	FavouriteList	{ get; set; }
 				//.................................................
 				internal bool IsDirty		{ get; set;	}
 
@@ -43,9 +36,7 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Clear()
 					{
-						this.Services		.Clear();
-						this.MsgServers	.Clear();
-						this.WorkSpaces	.Clear();
+						this.FavouriteList.Clear();
 					}
 
 			#endregion
