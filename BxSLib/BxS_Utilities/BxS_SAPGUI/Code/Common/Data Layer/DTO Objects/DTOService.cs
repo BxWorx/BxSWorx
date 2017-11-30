@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 namespace BxS_SAPGUI.COM.DL
 {
 	[DataContract]
+
 	internal sealed class DTOService : IDTOService
 		{
 			#region "Properties"

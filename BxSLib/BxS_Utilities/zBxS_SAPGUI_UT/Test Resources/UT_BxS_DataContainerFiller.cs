@@ -59,12 +59,12 @@ namespace BxS_SAPGUI.COM.DL
 						this.ItNID	= lo_NItDTO.UUID;
 						this.ItWID	= lo_WItDTO.UUID;
 
-						lo_DC.XMsgServers	.AddUpdate	(lo_MsgDTO.UUID, lo_MsgDTO);
-						lo_DC.XServices		.AddUpdate	(lo_SrvDTO.UUID, lo_SrvDTO);
-						lo_DC.XWorkspaces	.AddUpdate	(lo_WspDTO.UUID, lo_WspDTO);
-						lo_DC.XNodes			.AddUpdate	(lo_NdeDTO.UUID, lo_NdeDTO);
-						lo_DC.XItems			.AddUpdate	(lo_NItDTO.UUID, lo_NItDTO);
-						lo_DC.XItems			.AddUpdate	(lo_WItDTO.UUID, lo_WItDTO);
+						lo_DC.MsgServers	.AddUpdate	(lo_MsgDTO.UUID, lo_MsgDTO);
+						lo_DC.Services		.AddUpdate	(lo_SrvDTO.UUID, lo_SrvDTO);
+						lo_DC.Workspaces	.AddUpdate	(lo_WspDTO.UUID, lo_WspDTO);
+						lo_DC.Nodes			.AddUpdate	(lo_NdeDTO.UUID, lo_NdeDTO);
+						lo_DC.Items			.AddUpdate	(lo_NItDTO.UUID, lo_NItDTO);
+						lo_DC.Items			.AddUpdate	(lo_WItDTO.UUID, lo_WItDTO);
 
 						return	lo_DC;
 					}

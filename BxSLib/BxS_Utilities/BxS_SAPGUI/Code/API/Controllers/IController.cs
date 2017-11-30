@@ -11,6 +11,8 @@ namespace BxS_SAPGUI.API
 				int		MsgServerCount	{ get; }
 				int		ServiceCount		{ get; }
 				int		WorkspaceCount	{ get; }
+				int		NodeCount				{ get; }
+				int		ItemCount				{ get; }
 
 			#endregion
 

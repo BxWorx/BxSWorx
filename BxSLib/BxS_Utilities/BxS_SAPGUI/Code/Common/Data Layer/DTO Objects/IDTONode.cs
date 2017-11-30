@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
@@ -10,10 +9,7 @@ namespace BxS_SAPGUI.COM.DL
 				Guid	UUID	{ get; set; }
 				//.................................................
 				string	Description	{ get; set; }
-
-				//Dictionary<Guid, IDTOItem>	Items { get; set; }
-				//.................................................
-				Guid	WSID	{ get; set; }
+				Guid		WSID				{ get; set; }
 
 			#endregion
 

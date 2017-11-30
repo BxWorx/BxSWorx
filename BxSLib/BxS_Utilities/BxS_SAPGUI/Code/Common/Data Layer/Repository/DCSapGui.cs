@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.Collections.Generic;
 using System.Runtime.Serialization;
 using BxS_Toolset.DataContainer;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -20,15 +19,11 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DCSapGui()
 					{
-						//this.MsgServers		= new Dictionary<	Guid, IDTOMsgServer > ();
-						//this.Services			= new Dictionary<	Guid, IDTOService		> ();
-						//this.WorkSpaces		= new Dictionary<	Guid, IDTOWorkspace > ();
-
-						this.XMsgServers	= new DCTable	<IDTOMsgServer>	( (Guid ID) => new DTOMsgServer()	{ UUID	= ID } );
-						this.XServices		= new DCTable	<IDTOService>		( (Guid ID) => new DTOService()		{ UUID	= ID } );
-						this.XWorkspaces	= new DCTable	<IDTOWorkspace>	( (Guid ID) => new DTOWorkspace() { UUID	= ID } );
-						this.XNodes				= new DCTable	<IDTONode>			( (Guid ID) => new DTONode()			{ UUID	= ID } );
-						this.XItems				= new DCTable	<IDTOItem>			( (Guid ID) => new DTOItem()			{ UUID	= ID } );
+						this.MsgServers		= new DCTable	<IDTOMsgServer>	( (Guid ID) => new DTOMsgServer()	{ UUID	= ID } );
+						this.Services			= new DCTable	<IDTOService>		( (Guid ID) => new DTOService()		{ UUID	= ID } );
+						this.Workspaces		= new DCTable	<IDTOWorkspace>	( (Guid ID) => new DTOWorkspace() { UUID	= ID } );
+						this.Nodes				= new DCTable	<IDTONode>			( (Guid ID) => new DTONode()			{ UUID	= ID } );
+						this.Items				= new DCTable	<IDTOItem>			( (Guid ID) => new DTOItem()			{ UUID	= ID } );
 					}
 
 			#endregion
@@ -36,21 +31,17 @@ namespace BxS_SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				//[DataMember]	internal Dictionary<Guid, IDTOMsgServer>	MsgServers	{ get; set; }
-				//[DataMember]	internal Dictionary<Guid, IDTOService>		Services		{ get; set; }
-				//[DataMember]	internal Dictionary<Guid, IDTOWorkspace>	WorkSpaces	{ get; set; }
-
-				[DataMember]	internal DCTable<IDTOMsgServer> XMsgServers		{ get; set; }
-				[DataMember]	internal DCTable<IDTOService>		XServices			{ get; set; }
-				[DataMember]	internal DCTable<IDTOWorkspace> XWorkspaces		{ get; set; }
-				[DataMember]	internal DCTable<IDTONode>			XNodes				{ get; set; }
-				[DataMember]	internal DCTable<IDTOItem>			XItems				{ get; set; }
+				[DataMember]	internal DCTable<IDTOMsgServer> MsgServers	{ get; set; }
+				[DataMember]	internal DCTable<IDTOService>		Services		{ get; set; }
+				[DataMember]	internal DCTable<IDTOWorkspace> Workspaces	{ get; set; }
+				[DataMember]	internal DCTable<IDTONode>			Nodes				{ get; set; }
+				[DataMember]	internal DCTable<IDTOItem>			Items				{ get; set; }
 				//.................................................
-				internal bool IsDirty		{ get	{		return	this.XMsgServers.	IsDirty
-																							||	this.XServices.		IsDirty
-																							||	this.XWorkspaces.	IsDirty
-																							||	this.XNodes.			IsDirty
-																							||	this.XItems.			IsDirty; } }
+				internal bool IsDirty		{ get	{		return	this.MsgServers	.IsDirty
+																							||	this.Services		.IsDirty
+																							||	this.Workspaces	.IsDirty
+																							||	this.Nodes			.IsDirty
+																							||	this.Items			.IsDirty; } }
 
 			#endregion
 
@@ -60,11 +51,11 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Clear()
 					{
-						this.XMsgServers	.Clear();
-						this.XServices		.Clear();
-						this.XWorkspaces	.Clear();
-						this.XNodes				.Clear();
-						this.XItems				.Clear();
+						this.MsgServers	.Clear();
+						this.Services		.Clear();
+						this.Workspaces	.Clear();
+						this.Nodes			.Clear();
+						this.Items			.Clear();
 					}
 
 			#endregion

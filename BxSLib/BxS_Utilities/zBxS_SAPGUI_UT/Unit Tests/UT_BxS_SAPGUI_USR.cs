@@ -41,11 +41,11 @@ namespace zBxS_SAPGUI_UT
 					ln_Cnt	= 2;
 					lo_UsrCntlr.Save(true);
 					Assert.IsTrue	(lo_UsrCntlr.FileExists(),	$"DLCntlr: {ln_Cnt}: Save: File DS: Error");
-					this.Validate_Rep(lo_UsrCntlr.Repository.DataContainerx, ln_Cnt, "UsrCntlr");
+					this.Validate_Rep(lo_UsrCntlr.Repository.DataContainer, ln_Cnt, "UsrCntlr");
 					//...............................................
 					ln_Cnt	= 3;
 					var	lo_UsrCntlrx	= new USRController(lo_RepX, _FullPathName, lo_IO, lo_DCSer);
-					this.Validate_Rep(lo_UsrCntlrx.Repository.DataContainerx, ln_Cnt, "UsrCntlr");
+					this.Validate_Rep(lo_UsrCntlrx.Repository.DataContainer, ln_Cnt, "UsrCntlr");
 					//...............................................
 					ln_Cnt	= 4;
 					lo_UsrCntlr.Repository.AddUpdateMsgServer(this._DC.Create_MsgSvrDTO());
@@ -60,18 +60,18 @@ namespace zBxS_SAPGUI_UT
 				//-----------------------------------------------------------------------------------------
 				private void Validate_Rep(DCSapGui rep, int cnt, string utName)
 					{
-						Assert.AreEqual	(1	,	rep.XMsgServers	.Count	,	$"{utName}: {cnt}: Rep:MsgSvr"		);
-						Assert.AreEqual	(1	,	rep.XServices		.Count	,	$"{utName}: {cnt}: Rep:Service"		);
-						Assert.AreEqual	(1	,	rep.XWorkspaces	.Count	,	$"{utName}: {cnt}: Rep:Workspace"	);
-						Assert.AreEqual	(1	,	rep.XNodes			.Count	,	$"{utName}: {cnt}: Rep:Node"			);
-						Assert.AreEqual	(2	,	rep.XItems			.Count	,	$"{utName}: {cnt}: Rep:Item"			);
+						Assert.AreEqual	(1	,	rep.MsgServers	.Count	,	$"{utName}: {cnt}: Rep:MsgSvr"		);
+						Assert.AreEqual	(1	,	rep.Services		.Count	,	$"{utName}: {cnt}: Rep:Service"		);
+						Assert.AreEqual	(1	,	rep.Workspaces	.Count	,	$"{utName}: {cnt}: Rep:Workspace"	);
+						Assert.AreEqual	(1	,	rep.Nodes			.Count	,	$"{utName}: {cnt}: Rep:Node"			);
+						Assert.AreEqual	(2	,	rep.Items			.Count	,	$"{utName}: {cnt}: Rep:Item"			);
 						//...............................................
-						Assert.IsTrue(rep.XMsgServers	.Exists(this._DC.MsgID)	,	$"{utName}: {cnt}: Msg:Check Key"			);
-						Assert.IsTrue(rep.XServices		.Exists(this._DC.SrvID)	,	$"{utName}: {cnt}: Srv:Check Key"			);
-						Assert.IsTrue(rep.XWorkspaces	.Exists(this._DC.WSpID)	,	$"{utName}: {cnt}: WSp:Check Key"			);
-						Assert.IsTrue(rep.XNodes			.Exists(this._DC.NdeID),	$"{utName}: {cnt}: WSpNode:Check Key"	);
-						Assert.IsTrue(rep.XItems			.Exists(this._DC.ItNID),	$"{utName}: {cnt}: NdeItem:Check Key"	);
-						Assert.IsTrue(rep.XItems			.Exists(this._DC.ItWID),	$"{utName}: {cnt}: WSpItem:Check Key"	);
+						Assert.IsTrue(rep.MsgServers	.Exists(this._DC.MsgID)	,	$"{utName}: {cnt}: Msg:Check Key"			);
+						Assert.IsTrue(rep.Services		.Exists(this._DC.SrvID)	,	$"{utName}: {cnt}: Srv:Check Key"			);
+						Assert.IsTrue(rep.Workspaces	.Exists(this._DC.WSpID)	,	$"{utName}: {cnt}: WSp:Check Key"			);
+						Assert.IsTrue(rep.Nodes			.Exists(this._DC.NdeID),	$"{utName}: {cnt}: WSpNode:Check Key"	);
+						Assert.IsTrue(rep.Items			.Exists(this._DC.ItNID),	$"{utName}: {cnt}: NdeItem:Check Key"	);
+						Assert.IsTrue(rep.Items			.Exists(this._DC.ItWID),	$"{utName}: {cnt}: WSpItem:Check Key"	);
 					}
 
 			#endregion

@@ -23,7 +23,7 @@ namespace BxS_SAPGUI.COM.DL
 						//.............................................
 						ln_WSNo	= 0;
 
-						foreach (IDTOWorkspace ls_WS in this._DC.XWorkspaces.ValueListFor())
+						foreach (IDTOWorkspace ls_WS in this._DC.Workspaces.ValueListFor())
 							{
 								ln_WSNo ++	;
 								ln_NdNo	= 0	;
@@ -32,7 +32,7 @@ namespace BxS_SAPGUI.COM.DL
 
 								lt_HierNodes.Add(new DTOConnectionView(lc_WSID, ls_WS.Description));
 								//.........................................
-								foreach (IDTONode ls_Node in this._DC.XNodes.ValueListFor("WSID", ls_WS.UUID))
+								foreach (IDTONode ls_Node in this._DC.Nodes.ValueListFor("WSID", ls_WS.UUID))
 									{
 										ln_NdNo	++	;
 										ln_ItNo	= 0	;
@@ -40,7 +40,7 @@ namespace BxS_SAPGUI.COM.DL
 
 										lt_HierNodes.Add(new DTOConnectionView(lc_NDID, ls_Node.Description, lc_WSID));
 
-										foreach (IDTOItem ls_Item in this._DC.XItems.ValueListFor("WSID", ls_WS.UUID, "NodeID", ls_Node.UUID))
+										foreach (IDTOItem ls_Item in this._DC.Items.ValueListFor("WSID", ls_WS.UUID, "NodeID", ls_Node.UUID))
 											{
 												ln_ItNo	++;
 												lc_ItID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
@@ -52,7 +52,7 @@ namespace BxS_SAPGUI.COM.DL
 								//.........................................
 								ln_ItNo	= 0;
 
-								foreach (IDTOItem ls_Item in this._DC.XItems.ValueListFor("WSID", ls_WS.UUID))
+								foreach (IDTOItem ls_Item in this._DC.Items.ValueListFor("WSID", ls_WS.UUID))
 									{
 										ln_NdNo	++	;
 										ln_ItNo	++	;

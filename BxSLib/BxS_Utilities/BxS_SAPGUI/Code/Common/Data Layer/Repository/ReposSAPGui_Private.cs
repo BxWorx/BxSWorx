@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
@@ -11,68 +10,32 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private string GetServiceDescription(Guid serviceID)
 					{
-						return	this._DC.XServices.Get(serviceID).Description;
+						return	this._DC.Services.Get(serviceID).Description;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<Guid> UsedMsgServers()
 					{
-						return	this._DC.XServices.List<Guid>("MSID");
+						return	this._DC.Services.List<Guid>("MSID");
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<Guid> UsedServices()
 					{
-						return	this._DC.XItems.List<Guid>("ServiceID");
-
-						//return	this._DC.WorkSpaces.SelectMany
-						//					( ws => ws.Value.Nodes.SelectMany
-						//						( nd => nd.Value.Items.Select( it => it.Value.ServiceID )
-						//								.Where( id => id != Guid.Empty )
-						//						)
-						//						.Concat
-						//							( ws.Value.Items.Select( it => it.Value.ServiceID )
-						//									.Where( id => id != Guid.Empty )
-						//							)
-						//					).ToList();
+						return	this._DC.Items.List<Guid>("ServiceID");
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool MsgServerInUse(Guid ID)
 					{
-						return	this._DC.XServices.IsUsed(ID, "MSID");
+						return	this._DC.Services.IsUsed(ID, "MSID");
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool ServiceInUse(Guid ID)
 					{
-						return	this._DC.XItems.IsUsed(ID, "ServiceID");
+						return	this._DC.Items.IsUsed(ID, "ServiceID");
 					}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private bool ServiceInUse(Guid ID)
-				//	{
-				//		bool lb_CntItm	= false;
-				//		bool lb_CntNde	= false;
-				//		//.............................................
-				//		lb_CntItm	= this._DC.WorkSpaces
-				//									.SelectMany( ws => ws.Value.Items
-				//										.Where( it => it.Key.Equals(ID) ) )
-				//											.Count()
-				//												.Equals(0);
-
-				//		if (lb_CntItm)
-				//			{
-				//				lb_CntNde	= this._DC.WorkSpaces
-				//											.SelectMany( ws => ws.Value.Nodes
-				//												.SelectMany( nd => nd.Value.Items
-				//													.Where( it => it.Key.Equals(ID) ) ) )
-				//														.Count()
-				//															.Equals(0);
-				//			}
-				//		//.............................................
-				//		return	!lb_CntItm || !lb_CntNde;
-				//	}
 
 			#endregion
 

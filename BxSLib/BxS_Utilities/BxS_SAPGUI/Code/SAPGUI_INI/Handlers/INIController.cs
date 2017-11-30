@@ -10,17 +10,8 @@ namespace BxS_SAPGUI.INI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public INIController(IReposSAPGui repository)
 								: base(repository)
-					{
-					}
+					{	}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Definitions"
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
 			#endregion
 
 		}

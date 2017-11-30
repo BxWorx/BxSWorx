@@ -9,21 +9,19 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOService CreateServiceDTO(Guid ID = default(Guid))
 					{
-						return	this._DC.XServices.Create(ID);
+						return	this._DC.Services.Create(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool ServiceExists(Guid ID)
 					{
-						return	this._DC.XServices.Exists(ID);
+						return	this._DC.Services.Exists(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOService GetService(Guid ID)
 					{
-						//IDTOService	lo_DTO	= this.CreateServiceDTO();
-						return	this._DC.XServices.Get(ID);
-						//return	lo_DTO;
+						return	this._DC.Services.Get(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -42,7 +40,6 @@ namespace BxS_SAPGUI.COM.DL
 					{
 						IDTOService lo_DTO = this.CreateServiceDTO(ID);
 						//.............................................
-						//lo_DTO.UUID					= ID;
 						lo_DTO.Name					= Name;
 						lo_DTO.Description	= Description;
 						lo_DTO.SystemID			= SystemID;
@@ -63,20 +60,9 @@ namespace BxS_SAPGUI.COM.DL
 					{
 						bool lb_Ret	= false;
 						//.............................................
-						if ( DTO.MSID.Equals(Guid.Empty) || this._DC.XMsgServers.Exists(DTO.MSID) )
+						if ( DTO.MSID.Equals(Guid.Empty) || this._DC.MsgServers.Exists(DTO.MSID) )
 							{
-								lb_Ret	= this._DC.XServices.AddUpdate(DTO.UUID, DTO);
-								//if (this._DC.Services.ContainsKey(DTO.UUID))
-								//	{
-								//		this._DC.Services[DTO.UUID]	= DTO;
-								//		lb_Ret	= true;
-								//	}
-								//else
-								//	{
-								//		lb_Ret	= this._DC.Services.TryAdd(DTO.UUID, DTO);
-								//	}
-
-								//if (lb_Ret)		this.IsDirty	= true;
+								lb_Ret	= this._DC.Services.AddUpdate(DTO.UUID, DTO);
 							}
 							//.............................................
 							return	lb_Ret;
@@ -89,8 +75,7 @@ namespace BxS_SAPGUI.COM.DL
 						//.............................................
 						if (!this.ServiceInUse(ID))
 							{
-								lb_Ret	= this._DC.XServices.Remove(ID);
-								//if (lb_Ret)	this.IsDirty	= true;
+								lb_Ret	= this._DC.Services.Remove(ID);
 							}
 						//.............................................
 						return	lb_Ret;
