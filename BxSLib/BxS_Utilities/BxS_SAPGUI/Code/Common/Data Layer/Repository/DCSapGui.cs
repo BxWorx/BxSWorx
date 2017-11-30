@@ -19,7 +19,7 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DCSapGui()
 					{
-						this.MsgServers		= new DCTable	<IDTOMsgServer>	( (Guid ID) => new DTOMsgServer()	{ UUID	= ID } );
+						this.MsgServers		= new DCTable	<IDTOMsgServer, Guid>	( (Guid ID) => new DTOMsgServer()	{ UUID	= ID } );
 						this.Services			= new DCTable	<IDTOService>		( (Guid ID) => new DTOService()		{ UUID	= ID } );
 						this.Workspaces		= new DCTable	<IDTOWorkspace>	( (Guid ID) => new DTOWorkspace() { UUID	= ID } );
 						this.Nodes				= new DCTable	<IDTONode>			( (Guid ID) => new DTONode()			{ UUID	= ID } );
@@ -31,7 +31,7 @@ namespace BxS_SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	internal DCTable<IDTOMsgServer> MsgServers	{ get; set; }
+				[DataMember]	internal DCTable<IDTOMsgServer, Guid> MsgServers	{ get; set; }
 				[DataMember]	internal DCTable<IDTOService>		Services		{ get; set; }
 				[DataMember]	internal DCTable<IDTOWorkspace> Workspaces	{ get; set; }
 				[DataMember]	internal DCTable<IDTONode>			Nodes				{ get; set; }

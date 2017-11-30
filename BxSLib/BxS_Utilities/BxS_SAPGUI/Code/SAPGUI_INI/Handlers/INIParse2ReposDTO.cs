@@ -16,9 +16,10 @@ namespace BxS_SAPGUI.INI
 						this._Repos					= repository;
 						this._FullPathName	= fullPathName;
 						//.............................................
+						this._ActiveSection	= string.Empty;
 						this._WSID					= Guid.NewGuid();
 						this._Items					= new Dictionary<int, Dictionary<string, string>>();
-						this._ActiveSection	= string.Empty;
+						this._LinkDesc2Srv					= new Dictionary<string, Guid>();
 					}
 
 			#endregion
@@ -29,10 +30,11 @@ namespace BxS_SAPGUI.INI
 				private readonly	IO						_IO;
 				private readonly	IReposSAPGui	_Repos;
 				private readonly	string				_FullPathName;
-				private						string				_ActiveSection;
-
 				private	readonly	Guid					_WSID;
+				private						string				_ActiveSection;
+				//.................................................
 				private	readonly	Dictionary<int, Dictionary<string, string>>	_Items;
+				private readonly	Dictionary<string, Guid>										_LinkDesc2Srv	;
 
 			#endregion
 
@@ -66,16 +68,25 @@ namespace BxS_SAPGUI.INI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void TranslateToRepository()
 					{
-						foreach (KeyValuePair<int, Dictionary<string, string>> item in this._Items)
+						foreach (KeyValuePair<int, Dictionary<string, string>> ls_Item in this._Items)
 							{
 								//.........................................
 								// create service
 								//
-								IDTOService lo_Srv = this.GetAddService(Guid.NewGuid());
+								string x =	ls_Item.Value["Description"];
 
-								foreach (KeyValuePair<string, string> prop in item.Value)
+								if (!this._LinkDesc2Srv.TryGetValue(x, out Guid lg_ID))
 									{
-										lo_Srv.GetType().GetProperty(prop.Key).SetValue(lo_Srv, prop.Value);
+										lg_ID	= Guid.NewGuid();
+										this._LinkDesc2Srv.Add(x, lg_ID);
+									}
+
+
+								IDTOService lo_Srv = this.GetAddService(lg_ID);
+
+								foreach (KeyValuePair<string, string> ls_Prop in ls_Item.Value)
+									{
+										lo_Srv.GetType().GetProperty(ls_Prop.Key).SetValue(lo_Srv, ls_Prop.Value);
 									}
 								//.........................................
 								// add service as item to workspace node

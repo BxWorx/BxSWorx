@@ -4,6 +4,7 @@ using System.IO;
 //.........................................................
 using BxS_SAPGUI.COM.DL;
 using BxS_SAPGUI.USR;
+using BxS_SAPGUI.INI;
 using BxS_Toolset.IO;
 using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -14,11 +15,24 @@ namespace zBxS_SAPGUI_UT
 		{
 			private const string	cz_TestDir			= "Test Resources";
 			private const	string	cz_UsrFileName	= "SAPGUI_USR_DC.xml"	;
+			private const string	cz_INIFileName	= "saplogon_Test.ini";
 			//...................................................
 			private	static	readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static	readonly string	_FullPathName	= Path.Combine(_Path,	cz_TestDir, cz_UsrFileName);
 
 			private readonly UT_BxS_DataContainerFiller	_DC	= new UT_BxS_DataContainerFiller();
+
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_SapGuiUsr_Parser()
+				{
+					string				lc_IniFullName	= Path.Combine(_Path,	cz_TestDir, cz_INIFileName);
+					IReposSAPGui	lo_Repos				= new ReposSAPGui(new DCSapGui());
+					var						lo_IO						= new IO();
+					//.............................................
+					var	lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Repos, lc_IniFullName);
+					lo_Parser.Load();
+				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]

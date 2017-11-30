@@ -8,15 +8,15 @@ namespace BxS_Toolset.DataContainer
 {
 	[DataContract]
 
-	public class DCTable<T> where T : class
+	public class DCTable<T,K> where T : class
 		{
 			//===========================================================================================
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DCTable(Func<Guid, T> NewEntry)
+				public DCTable(Func<K, T> NewEntry)
 					{
-						this.DataTable	= new	Dictionary<Guid, T>();
+						this.DataTable	= new	Dictionary<K, T>();
 						this.CreateNew	= NewEntry;
 					}
 
@@ -25,8 +25,8 @@ namespace BxS_Toolset.DataContainer
 			//===========================================================================================
 			#region "Declarations"
 
-											private readonly Func<Guid, T>				CreateNew;
-				[DataMember]	private	readonly Dictionary<Guid, T>	DataTable;
+											private readonly Func<K, T>				CreateNew;
+				[DataMember]	private	readonly Dictionary<K, T>	DataTable;
 
 			#endregion
 
@@ -42,7 +42,7 @@ namespace BxS_Toolset.DataContainer
 			#region "Methods: Exposed: Workspace: Item"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Exists(Guid ID)
+				public bool Exists(K ID)
 					{
 						return	this.DataTable.ContainsKey(ID);
 					}

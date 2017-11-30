@@ -6,7 +6,8 @@ using BxS_SAPGUI.API;
 namespace BxS_SAPGUI.COM.DL
 {
 	[DataContract]
-	[KnownType(typeof(DTOFavourite))]
+		[KnownType(typeof(DTOFavourite))]
+
 	public class DCFavourites
 		{
 			#region "Constructor"
