@@ -10,7 +10,8 @@ namespace BxS_SAPGUI.COM.DL
 			 internal	Guid MsgID { get; private set; }
 			 internal	Guid SrvID { get; private set; }
 			 internal	Guid NdeID { get; private set; }
-			 internal	Guid ItmID { get; private set; }
+			 internal	Guid ItNID { get; private set; }
+			 internal	Guid ItWID { get; private set; }
 
 			#endregion
 
@@ -47,23 +48,23 @@ namespace BxS_SAPGUI.COM.DL
 						DTOService		lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);
 						DTOWorkspace	lo_WspDTO	= this.Create_WspDTO();
 
-						DTONode	lo_WSNDTO	= this.Create_WSNodeDTO();
-						DTOItem	lo_WSIDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
-						DTOItem	lo_WSxDTO	= this.Create_WSItemDTO(lo_SrvDTO.UUID);
+						DTONode	lo_NdeDTO	= this.Create_NodeDTO();
+						DTOItem	lo_NItDTO	= this.Create_ItemDTO(lo_SrvDTO.UUID);
+						DTOItem	lo_WItDTO	= this.Create_ItemDTO(lo_SrvDTO.UUID);
 
 						this.WSpID	= lo_WspDTO.UUID;
 						this.MsgID	= lo_MsgDTO.UUID;
 						this.SrvID	= lo_SrvDTO.UUID;
-						this.NdeID	= lo_WSNDTO.UUID;
-						this.ItmID	= lo_WSxDTO.UUID;
+						this.NdeID	= lo_NdeDTO.UUID;
+						this.ItNID	= lo_NItDTO.UUID;
+						this.ItWID	= lo_WItDTO.UUID;
 
-						lo_WSNDTO.Items	.Add (lo_WSIDTO.UUID, lo_WSIDTO);
-						lo_WspDTO.Nodes	.Add (lo_WSNDTO.UUID, lo_WSNDTO);
-						lo_WspDTO.Items	.Add (lo_WSxDTO.UUID, lo_WSxDTO);
-
-						lo_DC.MsgServers	.Add	(lo_MsgDTO.UUID, lo_MsgDTO);
-						lo_DC.Services		.Add	(lo_SrvDTO.UUID, lo_SrvDTO);
-						lo_DC.WorkSpaces	.Add	(lo_WspDTO.UUID, lo_WspDTO);
+						lo_DC.XMsgServers	.AddUpdate	(lo_MsgDTO.UUID, lo_MsgDTO);
+						lo_DC.XServices		.AddUpdate	(lo_SrvDTO.UUID, lo_SrvDTO);
+						lo_DC.XWorkspaces	.AddUpdate	(lo_WspDTO.UUID, lo_WspDTO);
+						lo_DC.XNodes			.AddUpdate	(lo_NdeDTO.UUID, lo_NdeDTO);
+						lo_DC.XItems			.AddUpdate	(lo_NItDTO.UUID, lo_NItDTO);
+						lo_DC.XItems			.AddUpdate	(lo_WItDTO.UUID, lo_WItDTO);
 
 						return	lo_DC;
 					}
@@ -85,14 +86,14 @@ namespace BxS_SAPGUI.COM.DL
 					}
 
 				//-----------------------------------------------------------------------------------------
-				private DTONode Create_WSNodeDTO()
+				private DTONode Create_NodeDTO()
 					{
 						return	new DTONode	{	UUID				= Guid.NewGuid()	,
 																	Description	= "DescNode"				};
 					}
 
 				//-----------------------------------------------------------------------------------------
-				private DTOItem Create_WSItemDTO(Guid srvID)
+				private DTOItem Create_ItemDTO(Guid srvID)
 					{
 						return	new DTOItem	{	UUID			= Guid.NewGuid()	,
 																	ServiceID	= srvID								};

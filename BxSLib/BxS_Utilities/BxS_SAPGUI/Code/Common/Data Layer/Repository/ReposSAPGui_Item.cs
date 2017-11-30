@@ -8,9 +8,9 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Methods: Exposed: Workspace: Item"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOItem CreateItemDTO()
+				public IDTOItem CreateItemDTO(Guid ID	= default(Guid))
 					{
-						return	new DTOItem();
+						return	this._DC.XItems.Create(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -19,9 +19,9 @@ namespace BxS_SAPGUI.COM.DL
 																		Guid	ForWSpaceID	,
 																		Guid	ForNodeID			= default(Guid)	)
 					{
-						IDTOItem lo_DTO	= this.CreateItemDTO();
+						IDTOItem lo_DTO	= this.CreateItemDTO(ID);
 						//.............................................
-						lo_DTO.UUID				= ID;
+						//lo_DTO.UUID				= ID;
 						lo_DTO.ServiceID	= ServiceID;
 						lo_DTO.WSID				= ForWSpaceID;
 						lo_DTO.NodeID			= ForNodeID;
@@ -38,23 +38,24 @@ namespace BxS_SAPGUI.COM.DL
 
 						//if (lt_Items != null)
 						//	{
-								if (this._DC.WorkSpaces.ContainsKey(DTO.WSID))
+								if (this._DC.XWorkspaces.Exists(DTO.WSID))
 									{
-										if (DTO.NodeID.Equals(Guid.Empty) || this._DC.Nodes.ContainsKey(DTO.NodeID))
+										if (DTO.NodeID.Equals(Guid.Empty) || this._DC.XNodes.Exists(DTO.NodeID))
 											{
-												if (this._DC.Services.ContainsKey(DTO.ServiceID))
+												if (this._DC.XServices.Exists(DTO.ServiceID))
 													{
-														if (this._DC.Items.ContainsKey(DTO.UUID))
-															{
-																this._DC.Items[DTO.UUID]	= DTO;
-																lb_Ret	= true;
-															}
-														else
-															{
-																lb_Ret	= this._DC.Items.TryAdd(DTO.UUID, DTO);
-															}
+														lb_Ret	=	this._DC.XItems.AddUpdate(DTO.UUID, DTO);
+														//if (this._DC.Items.ContainsKey(DTO.UUID))
+														//	{
+														//		this._DC.Items[DTO.UUID]	= DTO;
+														//		lb_Ret	= true;
+														//	}
+														//else
+														//	{
+														//		lb_Ret	= this._DC.Items.TryAdd(DTO.UUID, DTO);
+														//	}
 
-														if (lb_Ret)		this.IsDirty	= true;
+														//if (lb_Ret)		this.IsDirty	= true;
 														}
 											}
 									}
@@ -63,18 +64,18 @@ namespace BxS_SAPGUI.COM.DL
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool RemoveItem(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid))
+				public bool RemoveItem(Guid ID)
 					{
-						return	false;
+						return	this._DC.XItems.Remove(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOItem GetItem(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid))
+				public IDTOItem GetItem(Guid ID)
 					{
-						IDTOItem lo_DTO	= this.CreateItemDTO();
+						return	this._DC.XItems.Get(ID);
 						//Dictionary<Guid, IDTOItem> lt_Items	= this.GetItemContainer(ForWSpaceID, ForNodeID);
-						this._DC.Items.TryGetValue(ID, out lo_DTO);
-						return	lo_DTO;
+						//this._DC.Items.TryGetValue(ID, out lo_DTO);
+						//return	lo_DTO;
 					}
 
 			#endregion

@@ -5,7 +5,7 @@ using BxS_Toolset.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.INI
 {
-	internal partial class INIParse2ReposDTO
+	internal class INIParse2ReposDTO
 		{
 			#region "Constructors"
 
@@ -16,6 +16,7 @@ namespace BxS_SAPGUI.INI
 						this._Repos					= repository;
 						this._FullPathName	= fullPathName;
 						//.............................................
+						this._WSID					= Guid.NewGuid();
 						this._Items					= new Dictionary<int, Dictionary<string, string>>();
 						this._ActiveSection	= string.Empty;
 					}
@@ -26,10 +27,11 @@ namespace BxS_SAPGUI.INI
 			#region "Declarations"
 
 				private readonly	IO						_IO;
-				private readonly	IReposSAPGui		_Repos;
+				private readonly	IReposSAPGui	_Repos;
 				private readonly	string				_FullPathName;
 				private						string				_ActiveSection;
 
+				private	readonly	Guid					_WSID;
 				private	readonly	Dictionary<int, Dictionary<string, string>>	_Items;
 
 			#endregion
@@ -41,8 +43,8 @@ namespace BxS_SAPGUI.INI
 				internal void Load()
 					{
 						this.LoadSAPLogoINI();
-						this.TranslateToDTO();
-						this.LoadWorkspaceNode();
+						this.AddWorkspaceNode();
+						this.TranslateToRepository();
 					}
 
 			#endregion
@@ -51,41 +53,44 @@ namespace BxS_SAPGUI.INI
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadWorkspaceNode()
+				// INI file does not have concept of workspace so a root one is created and all services
+				// are added at item level on workspace, no NODE.
+				//
+				private void AddWorkspaceNode()
 					{
-						IDTOWorkspace lo_WSDTO	= this._Repos.CreateWorkspaceDTO(Guid.NewGuid());
+						IDTOWorkspace lo_WSDTO	= this._Repos.CreateWorkspaceDTO(this._WSID);
 						lo_WSDTO.Description		= "Connections";
 						this._Repos.AddUpdateWorkspace(lo_WSDTO);
-						//.............................................
-						foreach (KeyValuePair<Guid, IDTOService> ls_Srv in this._Repos.GetDataContainer().Services)
-							{
-								IDTOItem lo_Item	= this._Repos.CreateItemDTO();
+					}
 
-								lo_Item.UUID			= Guid.NewGuid();
-								lo_Item.ServiceID	= ls_Srv.Key;
-								lo_Item.WSID			= lo_WSDTO.UUID;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void TranslateToRepository()
+					{
+						foreach (KeyValuePair<int, Dictionary<string, string>> item in this._Items)
+							{
+								//.........................................
+								// create service
+								//
+								IDTOService lo_Srv = this.GetAddService(Guid.NewGuid());
+
+								foreach (KeyValuePair<string, string> prop in item.Value)
+									{
+										lo_Srv.GetType().GetProperty(prop.Key).SetValue(lo_Srv, prop.Value);
+									}
+								//.........................................
+								// add service as item to workspace node
+								//
+								IDTOItem lo_Item	= this._Repos.CreateItemDTO(Guid.NewGuid());
+
+								lo_Item.ServiceID	= lo_Srv.UUID;
+								lo_Item.WSID			= this._WSID;
 
 								this._Repos.AddUpdateItem(lo_Item);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void TranslateToDTO()
-					{
-						foreach (KeyValuePair<int, Dictionary<string, string>> item in this._Items)
-							{
-								IDTOService lo = this.GetService(Guid.NewGuid());
-
-								foreach (KeyValuePair<string, string> prop in item.Value)
-									{
-										lo.GetType().GetProperty(prop.Key).SetValue(lo, prop.Value);
-									}
-
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IDTOService GetService(Guid id)
+				private IDTOService GetAddService(Guid id)
 					{
 						if (!this._Repos.ServiceExists(id))
 							{
@@ -152,18 +157,18 @@ namespace BxS_SAPGUI.INI
 
 						switch (lc_Sect)
 							{
-								case "EntryKey"						:	this._ActiveSection	=	"UUID"			;	break;
-								case "Database"						:	this._ActiveSection	=	"SystemNo"	;	break;
-								case "MSSysName"					:	this._ActiveSection	=	"SystemID"	;	break;
-								case "SncChoice"					:	this._ActiveSection	=	"SNCOp"			;	break;
-								case "Codepage"						:	this._ActiveSection	=	"SAPCPG"		;	break;
-								case "MSSrvName"					:	this._ActiveSection	=	"MSID"			;	break;
-								case "SncNoSSO"						:	this._ActiveSection	=	"Mode"			;	break;
-								case "SncName"						:	this._ActiveSection	=	"SNCName"		;	break;
-								//.........................................
-								case "Server"							:	this._ActiveSection	=	lc_Sect			;	break;
-								case "Description"				:	this._ActiveSection	=	lc_Sect			;	break;
+								case "EntryKey"						:	this._ActiveSection	=	"UUID"				;	break;
+								case "Database"						:	this._ActiveSection	=	"SystemNo"		;	break;
+								case "MSSysName"					:	this._ActiveSection	=	"SystemID"		;	break;
+								case "SncChoice"					:	this._ActiveSection	=	"SNCOp"				;	break;
+								case "Codepage"						:	this._ActiveSection	=	"SAPCPG"			;	break;
+								case "MSSrvName"					:	this._ActiveSection	=	"MSID"				;	break;
+								case "SncNoSSO"						:	this._ActiveSection	=	"Mode"				;	break;
+								case "SncName"						:	this._ActiveSection	=	"SNCName"			;	break;
+								case "Server"							:	this._ActiveSection	=	"Server"			;	break;
+								case "Description"				:	this._ActiveSection	=	"Description"	;	break;
 
+								//.........................................
 								// TO-DO: FIX THIS ISSUE
 								//case "Router"							:	this._ActiveSection	=	"Router"		;	break;
 								//case "System"							:	this._ActiveSection	=	"";	break;

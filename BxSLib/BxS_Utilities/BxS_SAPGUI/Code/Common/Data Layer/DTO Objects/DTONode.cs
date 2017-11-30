@@ -7,15 +7,15 @@ namespace BxS_SAPGUI.COM.DL
 	[DataContract]
 	internal sealed class DTONode : IDTONode
 		{
-			#region "Constructors"
+			//#region "Constructors"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTONode()
-					{
-						this.Items	= new Dictionary<Guid, IDTOItem>();
-					}
+			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//	internal DTONode()
+			//		{
+			//			//this.Items	= new Dictionary<Guid, IDTOItem>();
+			//		}
 
-			#endregion
+			//#endregion
 
 			//===========================================================================================
 			#region "Properties"
@@ -24,7 +24,7 @@ namespace BxS_SAPGUI.COM.DL
 				//...................................................
 				[DataMember]	public string	Description	{ get; set; }
 
-				[DataMember]	public Dictionary<Guid, IDTOItem>	Items	{ get; set; }
+				//[DataMember]	public Dictionary<Guid, IDTOItem>	Items	{ get; set; }
 				//...................................................
 				[DataMember]	public Guid	WSID	{ get; set; }
 

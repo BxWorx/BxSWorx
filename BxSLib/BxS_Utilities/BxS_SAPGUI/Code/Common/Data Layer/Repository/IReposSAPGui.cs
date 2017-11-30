@@ -15,6 +15,8 @@ namespace BxS_SAPGUI.COM.DL
 				int		WorkspaceCount	{ get; }
 				int		NodeCount				{ get; }
 				int		ItemCount				{ get; }
+				//.................................................
+				DCSapGui	DataContainerx	{ get; }
 
 			#endregion
 
@@ -22,7 +24,7 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Methods: Exposed"
 
 				//.................................................
-				IDTOMsgServer	CreateMsgServerDTO();
+				IDTOMsgServer	CreateMsgServerDTO	(Guid ID = default(Guid));
 				IDTOMsgServer GetMsgServer				(Guid ID);
 				bool					MsgServerExists			(Guid ID);
 				bool					RemoveMsgServer			(Guid ID);
@@ -64,19 +66,19 @@ namespace BxS_SAPGUI.COM.DL
 																						string	Description	);
 
 				//.................................................
-				IDTONode	CreateNodeDTO();
-				IDTONode	GetNode				(Guid NodeID, Guid ForWSpaceID);
-				bool			RemoveNode		(Guid NodeID, Guid ForWSpaceID);
+				IDTONode	CreateNodeDTO	(Guid ID = default(Guid));
+				IDTONode	GetNode				(Guid NodeID);
+				bool			RemoveNode		(Guid NodeID);
 				bool			AddUpdateNode	(IDTONode DTO);
 
-				bool			AddUpdateNode	(	Guid		WSID	,
-																	Guid		ID		,
-																	string	Description	);
+				bool			AddUpdateNode	(	Guid		ID					,
+																	string	Description	,
+																	Guid		ForWSID				);
 
 				//.................................................
-				IDTOItem	CreateItemDTO();
-				IDTOItem	GetItem				(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
-				bool			RemoveItem		(Guid ID, Guid ForWSpaceID, Guid ForNodeID = default(Guid));
+				IDTOItem	CreateItemDTO	(Guid ID = default(Guid));
+				IDTOItem	GetItem				(Guid ID);
+				bool			RemoveItem		(Guid ID);
 				bool			AddUpdateItem	(IDTOItem DTO);
 
 				bool			AddUpdateItem	(	Guid	ID					,
@@ -85,10 +87,11 @@ namespace BxS_SAPGUI.COM.DL
 																	Guid  ForNodeID		= default(Guid)	);
 
 				//.................................................
-				ref	DCSapGui GetDataContainer();
+				//ref	DCSapGui GetDataContainer();
 				//.................................................
 				IList<IDTOConnectionView> GetConnectionViewTree();
 
+				void Load(DCSapGui DC);
 				void Clear();
 				void HouseKeeping(bool ClearEmptyNodesWorkspaces = true);
 

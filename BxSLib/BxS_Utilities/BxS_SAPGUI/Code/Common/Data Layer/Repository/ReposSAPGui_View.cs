@@ -23,42 +23,42 @@ namespace BxS_SAPGUI.COM.DL
 						//.............................................
 						ln_WSNo	= 0;
 
-						foreach (KeyValuePair<Guid, IDTOWorkspace> ls_WS in this._DC.WorkSpaces)
+						foreach (IDTOWorkspace ls_WS in this._DC.XWorkspaces.ValueListFor())
 							{
 								ln_WSNo ++	;
 								ln_NdNo	= 0	;
 								ln_ItNo	= 0	;
 								lc_WSID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-								lt_HierNodes.Add(new DTOConnectionView(lc_WSID, ls_WS.Value.Description));
+								lt_HierNodes.Add(new DTOConnectionView(lc_WSID, ls_WS.Description));
 								//.........................................
-								foreach (KeyValuePair<Guid, IDTONode> ls_Node in ls_WS.Value.Nodes)
+								foreach (IDTONode ls_Node in this._DC.XNodes.ValueListFor("WSID", ls_WS.UUID))
 									{
 										ln_NdNo	++	;
 										ln_ItNo	= 0	;
 										lc_NDID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-										lt_HierNodes.Add(new DTOConnectionView(lc_NDID, ls_Node.Value.Description, lc_WSID));
+										lt_HierNodes.Add(new DTOConnectionView(lc_NDID, ls_Node.Description, lc_WSID));
 
-										foreach (KeyValuePair<Guid, IDTOItem> ls_Item in ls_Node.Value.Items)
+										foreach (IDTOItem ls_Item in this._DC.XItems.ValueListFor("WSID", ls_WS.UUID, "NodeID", ls_Node.UUID))
 											{
 												ln_ItNo	++;
 												lc_ItID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-												lt_HierNodes.Add(new DTOConnectionView(lc_ItID, this.GetItemDescription(ls_Item.Value.ServiceID), lc_NDID, ls_Item.Key));
+												lt_HierNodes.Add(new DTOConnectionView(lc_ItID, this.GetServiceDescription(ls_Item.ServiceID), lc_NDID, ls_Item.UUID));
 											}
 
 									}
 								//.........................................
 								ln_ItNo	= 0;
 
-								foreach (KeyValuePair<Guid, IDTOItem> ls_Item in ls_WS.Value.Items)
+								foreach (IDTOItem ls_Item in this._DC.XItems.ValueListFor("WSID", ls_WS.UUID))
 									{
 										ln_NdNo	++	;
 										ln_ItNo	++	;
 										lc_ItID	= this.CreateHierID(ln_WSNo, ln_NdNo, ln_ItNo);
 
-										lt_HierNodes.Add(new DTOConnectionView(lc_ItID, this.GetItemDescription(ls_Item.Value.ServiceID), lc_WSID, ls_Item.Key));
+										lt_HierNodes.Add(	new DTOConnectionView(lc_ItID, this.GetServiceDescription(ls_Item.ServiceID), lc_WSID, ls_Item.UUID));
 									}
 							}
 						//.............................................

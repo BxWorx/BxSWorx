@@ -12,14 +12,14 @@ namespace zBxS_SAPGUI_UT
 			private const string	cz_TestConnID	=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
 			private const string	cz_Desc				= "Desc";
 
-			private readonly UT_BxS_DataContainerFiller	_DC	= new UT_BxS_DataContainerFiller();
+			private readonly UT_BxS_DataContainerFiller	_DCFiller	= new UT_BxS_DataContainerFiller();
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_SapGui_Repos_Hierarchy()
 				{
-					int					ln_Cnt;
-					IReposSAPGui lo_Repos	= this._DC.CreateRepository();
+					int						ln_Cnt;
+					IReposSAPGui	lo_Repos	= this._DCFiller.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -32,8 +32,8 @@ namespace zBxS_SAPGUI_UT
 			[TestMethod]
 			public void UT_SapGui_Repos_Create()
 				{
-					int					ln_Cnt;
-					IReposSAPGui lo_Repos	= this.CreateRepository();
+					int						ln_Cnt;
+					IReposSAPGui	lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -48,8 +48,8 @@ namespace zBxS_SAPGUI_UT
 			[TestMethod]
 			public void UT_SapGui_Repos_MsgSrv()
 				{
-					int					ln_Cnt;
-					IReposSAPGui lo_Repos	= this.CreateRepository();
+					int						ln_Cnt;
+					IReposSAPGui	lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -67,8 +67,8 @@ namespace zBxS_SAPGUI_UT
 			[TestMethod]
 			public void UT_SapGui_Repos_Service()
 				{
-					int					ln_Cnt;
-					IReposSAPGui lo_Repos	= this.CreateRepository();
+					int						ln_Cnt;
+					IReposSAPGui	lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -88,8 +88,8 @@ namespace zBxS_SAPGUI_UT
 			[TestMethod]
 			public void UT_SapGui_Repos_Workspace()
 				{
-					int					ln_Cnt;
-					IReposSAPGui lo_Repos	= this.CreateRepository();
+					int						ln_Cnt;
+					IReposSAPGui	lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -99,49 +99,49 @@ namespace zBxS_SAPGUI_UT
 					IDTOWorkspace	lo_Get	= lo_Repos.GetWorkspace(lg_ID);
 					IDTOWorkspace	lo_Err	= lo_Repos.GetWorkspace(lg_ErID);
 
-					Assert.IsTrue			(	lb_Ok													,	$"Repos-Wsp: {ln_Cnt}: AddUpd		: Error");
-					Assert.IsNotNull	(	lo_Get												, $"Repos-Wsp: {ln_Cnt}: GetID		: Error");
-					Assert.AreEqual		(	lg_ID		, lo_Get.UUID					, $"Repos-Wsp: {ln_Cnt}: Equal		: Error");
-					Assert.AreEqual		(	cz_Desc	, lo_Get.Description	, $"Repos-Wsp: {ln_Cnt}: PropID		: Error");
-					Assert.IsNull			(	lo_Err												, $"Repos-Wsp: {ln_Cnt}: Error		: Error");
+					Assert.IsTrue			(	lb_Ok															,	$"Repos-Wsp: {ln_Cnt}: AddUpd		: Error");
+					Assert.IsNotNull	(	lo_Get														, $"Repos-Wsp: {ln_Cnt}: GetID		: Error");
+					Assert.AreEqual		(	lg_ID				, lo_Get.UUID					, $"Repos-Wsp: {ln_Cnt}: Equal		: Error");
+					Assert.AreEqual		(	cz_Desc			, lo_Get.Description	, $"Repos-Wsp: {ln_Cnt}: PropID		: Error");
+					Assert.AreEqual		(	Guid.Empty	, lo_Err.UUID					, $"Repos-Wsp: {ln_Cnt}: Error		: Error");
 				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_SapGui_Repos_Node()
 				{
-					int					ln_Cnt;
-					IReposSAPGui lo_Repos	= this.CreateRepository();
+					int						ln_Cnt;
+					IReposSAPGui	lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
 					var	lg_WSID	= Guid.NewGuid();
 					var	lg_ErID	= Guid.NewGuid();
-					var	lg_ID		= Guid.NewGuid();
+					var	lg_NdID	= Guid.NewGuid();
+					var	lg_NeID	= Guid.NewGuid();
 
-					bool	lb_WSOk	= lo_Repos.AddUpdateWorkspace	(lg_WSID, cz_Desc);
-					bool	lb_NdOk	= lo_Repos.AddUpdateNode			(lg_WSID, lg_ID, cz_Desc);
-					bool	lb_NdEr	= lo_Repos.AddUpdateNode			(lg_ErID, lg_ID, cz_Desc);
+					bool	lb_WSOk	= lo_Repos.AddUpdateWorkspace	(lg_WSID	, cz_Desc);
+					bool	lb_NdOk	= lo_Repos.AddUpdateNode			(lg_NdID	, cz_Desc	, lg_WSID);
+					bool	lb_NdEr	= lo_Repos.AddUpdateNode			(lg_NeID	, cz_Desc	, lg_ErID);
 
-					IDTONode	lo_Get	= lo_Repos.GetNode						(lg_ID	, lg_WSID);
-					IDTONode	lo_Er1	= lo_Repos.GetNode						(lg_ID	, lg_ErID);
-					IDTONode	lo_Er2	= lo_Repos.GetNode						(lg_ErID, lg_WSID);
+					IDTONode	lo_Get	= lo_Repos.GetNode	(lg_NdID);
+					IDTONode	lo_Er1	= lo_Repos.GetNode	(lg_NeID);
 
-					Assert.IsTrue			(	lb_WSOk												,	$"Repos-Nde: {ln_Cnt}: AddUpdWS	: Error");
-					Assert.IsTrue			(	lb_NdOk												,	$"Repos-Nde: {ln_Cnt}: AddUpdNd	: Error");
-					Assert.IsNotNull	(	lo_Get												, $"Repos-Nde: {ln_Cnt}: GetID		: Error");
-					Assert.AreEqual		(	lg_ID		, lo_Get.UUID					, $"Repos-Nde: {ln_Cnt}: Equal		: Error");
-					Assert.AreEqual		(	cz_Desc	, lo_Get.Description	, $"Repos-Nde: {ln_Cnt}: PropID		: Error");
-					Assert.IsNull			(	lo_Er1												, $"Repos-Nde: {ln_Cnt}: GetID		: Error");
-					Assert.IsNull			(	lo_Er2												, $"Repos-Nde: {ln_Cnt}: GetID		: Error");
+					Assert.IsTrue			(	lb_WSOk														,	$"Repos-Nde: {ln_Cnt}: AddUpdWS"		);
+					Assert.IsTrue			(	lb_NdOk														,	$"Repos-Nde: {ln_Cnt}: AddUpdNd"		);
+					Assert.IsFalse		(	lb_NdEr														,	$"Repos-Nde: {ln_Cnt}: AddUpdNdErr"	);
+					Assert.IsNotNull	(	lo_Get														, $"Repos-Nde: {ln_Cnt}: GetID"				);
+					Assert.AreEqual		(	lg_NdID			, lo_Get.UUID					, $"Repos-Nde: {ln_Cnt}: Equal"				);
+					Assert.AreEqual		(	cz_Desc			, lo_Get.Description	, $"Repos-Nde: {ln_Cnt}: PropID"			);
+					Assert.AreEqual		(	Guid.Empty	,	lo_Er1.UUID					, $"Repos-Nde: {ln_Cnt}: GetIDErr1"		);
 				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_SapGui_Repos_Item()
 				{
-					int					ln_Cnt;
-					IReposSAPGui lo_Repos	= this.CreateRepository();
+					int						ln_Cnt;
+					IReposSAPGui	lo_Repos	= this.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -155,12 +155,12 @@ namespace zBxS_SAPGUI_UT
 					bool	lb_MOk	= lo_Repos.AddUpdateMsgServer	(lg_MID, "Name", "Host", "Port", cz_Desc);
 					bool	lb_SOk	= lo_Repos.AddUpdateService		(lg_SvID, cz_Desc, "XXXXX", "SysID", "Type", "Server", "SAPCPG", "DCPG", "SNCNme", "SNCOp", lg_MID, "Mode");
 					bool	lb_WSOk	= lo_Repos.AddUpdateWorkspace	(lg_WSID, cz_Desc);
-					bool	lb_NdOk	= lo_Repos.AddUpdateNode			(lg_WSID, lg_NdID, cz_Desc);
+					bool	lb_NdOk	= lo_Repos.AddUpdateNode			(lg_NdID, cz_Desc, lg_WSID);
 					bool	lb_ItON	= lo_Repos.AddUpdateItem			(lg_IDn	, lg_SvID, lg_WSID, lg_NdID);
 					bool	lb_ItOW	= lo_Repos.AddUpdateItem			(lg_IDw	, lg_SvID, lg_WSID);
 
-					IDTOItem	lo_GetN	= lo_Repos.GetItem	(lg_IDn	, lg_WSID, lg_NdID);
-					IDTOItem	lo_GetW	= lo_Repos.GetItem	(lg_IDw	, lg_WSID);
+					IDTOItem	lo_GetN	= lo_Repos.GetItem	(lg_IDn);
+					IDTOItem	lo_GetW	= lo_Repos.GetItem	(lg_IDw);
 
 					Assert.IsTrue			(	lb_WSOk											,	$"Repos-Itm: {ln_Cnt}: AddUpdWS	: Error");
 					Assert.IsTrue			(	lb_NdOk											,	$"Repos-Itm: {ln_Cnt}: AddUpdNd	: Error");

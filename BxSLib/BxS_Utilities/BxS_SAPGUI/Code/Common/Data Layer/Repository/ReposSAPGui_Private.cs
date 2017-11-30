@@ -9,66 +9,70 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private string GetItemDescription(Guid serviceID)
+				private string GetServiceDescription(Guid serviceID)
 					{
-						return	this._DC.Services.TryGetValue(serviceID, out IDTOService lo_Srv) ? lo_Srv.Description : string.Empty;
+						return	this._DC.XServices.Get(serviceID).Description;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<Guid> UsedMsgServers()
 					{
-						return	this._DC.Services.Select(
-											x => x.Value.MSID)
-												.Where(x => x != Guid.Empty)
-													.Distinct()
-														.ToList();
+						return	this._DC.XServices.List<Guid>("MSID");
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<Guid> UsedServices()
 					{
-						return	this._DC.WorkSpaces.SelectMany
-											( ws => ws.Value.Nodes.SelectMany
-												( nd => nd.Value.Items.Select( it => it.Value.ServiceID )
-														.Where( id => id != Guid.Empty )
-												)
-												.Concat
-													( ws.Value.Items.Select( it => it.Value.ServiceID )
-															.Where( id => id != Guid.Empty )
-													)
-											).ToList();
+						return	this._DC.XItems.List<Guid>("ServiceID");
+
+						//return	this._DC.WorkSpaces.SelectMany
+						//					( ws => ws.Value.Nodes.SelectMany
+						//						( nd => nd.Value.Items.Select( it => it.Value.ServiceID )
+						//								.Where( id => id != Guid.Empty )
+						//						)
+						//						.Concat
+						//							( ws.Value.Items.Select( it => it.Value.ServiceID )
+						//									.Where( id => id != Guid.Empty )
+						//							)
+						//					).ToList();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool MsgServerInUse(Guid ID)
 					{
-						return	!this._DC.Services.Count(kvp => kvp.Value.MSID.Equals(ID)).Equals(0);
+						return	this._DC.XServices.IsUsed(ID, "MSID");
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool ServiceInUse(Guid ID)
 					{
-						bool lb_CntItm	= false;
-						bool lb_CntNde	= false;
-						//.............................................
-						lb_CntItm	= this._DC.WorkSpaces
-													.SelectMany( ws => ws.Value.Items
-														.Where( it => it.Key.Equals(ID) ) )
-															.Count()
-																.Equals(0);
-
-						if (lb_CntItm)
-							{
-								lb_CntNde	= this._DC.WorkSpaces
-															.SelectMany( ws => ws.Value.Nodes
-																.SelectMany( nd => nd.Value.Items
-																	.Where( it => it.Key.Equals(ID) ) ) )
-																		.Count()
-																			.Equals(0);
-							}
-						//.............................................
-						return	!lb_CntItm || !lb_CntNde;
+						return	this._DC.XItems.IsUsed(ID, "ServiceID");
 					}
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private bool ServiceInUse(Guid ID)
+				//	{
+				//		bool lb_CntItm	= false;
+				//		bool lb_CntNde	= false;
+				//		//.............................................
+				//		lb_CntItm	= this._DC.WorkSpaces
+				//									.SelectMany( ws => ws.Value.Items
+				//										.Where( it => it.Key.Equals(ID) ) )
+				//											.Count()
+				//												.Equals(0);
+
+				//		if (lb_CntItm)
+				//			{
+				//				lb_CntNde	= this._DC.WorkSpaces
+				//											.SelectMany( ws => ws.Value.Nodes
+				//												.SelectMany( nd => nd.Value.Items
+				//													.Where( it => it.Key.Equals(ID) ) ) )
+				//														.Count()
+				//															.Equals(0);
+				//			}
+				//		//.............................................
+				//		return	!lb_CntItm || !lb_CntNde;
+				//	}
 
 			#endregion
 

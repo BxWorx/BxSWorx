@@ -7,15 +7,15 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Methods: Exposed: Message Server"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOMsgServer CreateMsgServerDTO()
+				public IDTOMsgServer CreateMsgServerDTO(Guid ID = default(Guid))
 					{
-						return	new DTOMsgServer();
+						return	this._DC.XMsgServers.Create(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool MsgServerExists(Guid ID)
 					{
-						return	this._DC.MsgServers.ContainsKey(ID);
+						return	this._DC.XMsgServers.Exists(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -25,9 +25,8 @@ namespace BxS_SAPGUI.COM.DL
 																				string	Port				,
 																				string	Description		)
 					{
-						IDTOMsgServer lo_DTO = this.CreateMsgServerDTO();
+						IDTOMsgServer lo_DTO = this.CreateMsgServerDTO(ID);
 						//.............................................
-						lo_DTO.UUID					= ID;
 						lo_DTO.Name					= Name;
 						lo_DTO.Host					= Host;
 						lo_DTO.Port					= Port;
@@ -39,21 +38,24 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateMsgServer(IDTOMsgServer DTO)
 					{
-						bool lb_Ret	= false;
-						//.............................................
-						if (this._DC.MsgServers.ContainsKey(DTO.UUID))
-							{
-								this._DC.MsgServers[DTO.UUID]	= DTO;
-								lb_Ret	= true;
-							}
-						else
-							{
-								lb_Ret	= this._DC.MsgServers.TryAdd(DTO.UUID, DTO);
-							}
+						return	this._DC.XMsgServers.AddUpdate(DTO.UUID, DTO);
+						//bool lb_Ret	= false;
+						////.............................................
 
-						if (lb_Ret)		this.IsDirty	= true;
-						//.............................................
-						return	lb_Ret;
+
+						//if (this._DC.MsgServers.ContainsKey(DTO.UUID))
+						//	{
+						//		this._DC.MsgServers[DTO.UUID]	= DTO;
+						//		lb_Ret	= true;
+						//	}
+						//else
+						//	{
+						//		lb_Ret	= this._DC.MsgServers.TryAdd(DTO.UUID, DTO);
+						//	}
+
+						//if (lb_Ret)		this.IsDirty	= true;
+						////.............................................
+						//return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -63,8 +65,7 @@ namespace BxS_SAPGUI.COM.DL
 						//.............................................
 						if (!this.MsgServerInUse(ID))
 							{
-								lb_Ret	= this._DC.MsgServers.Remove(ID);
-								if (lb_Ret)	this.IsDirty	= true;
+								lb_Ret	= this._DC.XMsgServers.Remove(ID);
 							}
 						//.............................................
 						return	lb_Ret;
@@ -73,9 +74,10 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDTOMsgServer GetMsgServer(Guid ID)
 					{
-						IDTOMsgServer	lo_DTO	= this.CreateMsgServerDTO();
-						this._DC.MsgServers.TryGetValue(ID, out lo_DTO);
-						return	lo_DTO;
+						return	this._DC.XMsgServers.Get(ID);
+						//IDTOMsgServer	lo_DTO	= this.CreateMsgServerDTO();
+						//this._DC.MsgServers.TryGetValue(ID, out lo_DTO);
+						//return	lo_DTO;
 					}
 
 			#endregion

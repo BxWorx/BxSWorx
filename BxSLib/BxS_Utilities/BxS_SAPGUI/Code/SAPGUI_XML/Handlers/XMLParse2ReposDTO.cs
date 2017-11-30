@@ -147,9 +147,9 @@ namespace BxS_SAPGUI.XML
 				private Guid LoadNode(Guid WSID, XmlElement node)
 					{
 						Guid lo_ID	= this.ParseGuid(node.GetAttribute(cz_TagUuid));
-						this._Repos.AddUpdateNode(	WSID:					WSID													,
-																				ID:						lo_ID													,
-																				Description:	node.GetAttribute(cz_TagName)		);
+						this._Repos.AddUpdateNode(	ID:						lo_ID													,
+																				Description:	node.GetAttribute(cz_TagName)	,
+																				ForWSID:			WSID														);
 						return	lo_ID;
 					}
 

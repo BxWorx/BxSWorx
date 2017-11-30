@@ -47,7 +47,7 @@ namespace BxS_SAPGUI.USR
 					{
 						if (forceSave || this.Repository.IsDirty)
 							{
-								this._IO.WriteFile(this._DCFullName, this._DCSer.Serialize(this.Repository.GetDataContainer()));
+								this._IO.WriteFile(this._DCFullName, this._DCSer.Serialize(this.Repository.DataContainerx));
 							}
 					}
 
@@ -66,7 +66,11 @@ namespace BxS_SAPGUI.USR
 				private void LoadDataContainer()
 					{
 						if (this.FileExists())
-							this._DCSer.DeSerialize<DCSapGui>(this._IO.ReadFile(this._DCFullName), ref this.Repository.GetDataContainer());
+							{
+								DCSapGui lo_DC	= null;
+								this._DCSer.DeSerialize<DCSapGui>(this._IO.ReadFile(this._DCFullName), ref lo_DC);  // out  ref this.Repository.DataContainerx);
+								this.Repository.Load(lo_DC);
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

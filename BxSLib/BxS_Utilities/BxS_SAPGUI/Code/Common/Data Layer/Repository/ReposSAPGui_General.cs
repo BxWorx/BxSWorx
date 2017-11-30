@@ -10,17 +10,17 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear()
 					{
-						if (			this._DC	.MsgServers	.Count.Equals(0)
-									&&	this._DC	.Services		.Count.Equals(0)
-									&&	this._DC	.WorkSpaces	.Count.Equals(0)
-									&&	this._DC	.Nodes			.Count.Equals(0)
-									&&	this._DC	.Items			.Count.Equals(0)	)
-							{
-								return;
-							}
-						//.............................................
+						//if (			this._DC	.XMsgServers	.Count.Equals(0)
+						//			&&	this._DC	.XServices		.Count.Equals(0)
+						//			&&	this._DC	.XWorkspaces	.Count.Equals(0)
+						//			&&	this._DC	.XNodes				.Count.Equals(0)
+						//			&&	this._DC	.XItems			.Count.Equals(0)	)
+						//	{
+						//		return;
+						//	}
+						////.............................................
 						this._DC.Clear();
-						this.IsDirty	= true;
+						//this.IsDirty	= true;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -36,18 +36,20 @@ namespace BxS_SAPGUI.COM.DL
 						//
 						lt_Use	= this.UsedServices();
 						//.............................................
-						foreach (KeyValuePair<Guid, IDTOService> lo_Srv in this._DC.Services)
+						foreach (Guid lg_SrvID in this._DC.XServices.KeyListFor())
 							{
-								if (!lt_Use.Contains(lo_Srv.Key))
-									lt_Rem.Add(lo_Srv.Key);
-							}
-						//.............................................
-						foreach (Guid lo_Rem in lt_Rem)
-							{
-								this._DC.Services.Remove(lo_Rem);
+								if (!lt_Use.Contains(lg_SrvID))
+									lt_Rem.Add(lg_SrvID);
 							}
 
-						if (!lt_Rem.Count.Equals(0))		this.IsDirty	= true;
+						this._DC.XServices.Remove(lt_Rem);
+						////.............................................
+						//foreach (Guid lo_Rem in lt_Rem)
+						//	{
+						//		this._DC.Services.Remove(lo_Rem);
+						//	}
+
+						//if (!lt_Rem.Count.Equals(0))		this.IsDirty	= true;
 
 						//.............................................
 						// Cleanup Message Servers from cleaned Services
@@ -55,50 +57,69 @@ namespace BxS_SAPGUI.COM.DL
 						lt_Use	= this.UsedMsgServers();
 						lt_Rem.Clear();
 						//.............................................
-						foreach (KeyValuePair<Guid, IDTOMsgServer> lo_Msg in this._DC.MsgServers)
+						foreach (Guid lg_MsgID in this._DC.XMsgServers.KeyListFor())
 							{
-								if (!lt_Use.Contains(lo_Msg.Key))
-									lt_Rem.Add(lo_Msg.Key);
-							}
-						//.............................................
-						foreach (Guid lo_Rem in lt_Rem)
-							{
-								this._DC.MsgServers.Remove(lo_Rem);
+								if (!lt_Use.Contains(lg_MsgID))
+									lt_Rem.Add(lg_MsgID);
 							}
 
-						if (!lt_Rem.Count.Equals(0))		this.IsDirty	= true;
+						this._DC.XMsgServers.Remove(lt_Rem);
+						////.............................................
+						//foreach (Guid lo_Rem in lt_Rem)
+						//	{
+						//		this._DC.MsgServers.Remove(lo_Rem);
+						//	}
+
+						//if (!lt_Rem.Count.Equals(0))		this.IsDirty	= true;
 
 						//.............................................
 						// Cleanup Workspaces and Nodes
 						//
 						if (!ClearEmptyNodesWorkspaces)	return;
 						//.............................................
-						lt_Use.Clear();
+						lt_Rem.Clear();
 
-						foreach (KeyValuePair<Guid, IDTOWorkspace> lo_WS in this._DC.WorkSpaces)
+						foreach (Guid lg_Node in this._DC.XNodes.KeyListFor())
 							{
-								if (lo_WS.Value.Items.Count.Equals(0))
-									{
-										lt_Rem.Clear();
-
-										foreach (KeyValuePair<Guid, IDTONode> lo_ND in lo_WS.Value.Nodes)
-											{
-												if (lo_ND.Value.Items.Count.Equals(0))	lt_Rem.Add(lo_ND.Key);
-											}
-										foreach (Guid lg_ID in lt_Rem)
-											{
-												this.RemoveNode(lg_ID, lo_WS.Key);
-											}
-
-										if (lo_WS.Value.Nodes.Count.Equals(0))	lt_Use.Add(lo_WS.Key);
-									}
+								if (this._DC.XItems.KeyListFor("NodeID", lg_Node).Count.Equals(0))
+									{	lt_Rem.Add(lg_Node); }
 							}
 
-						foreach (Guid lg_ID in lt_Use)
+						this._DC.XNodes.Remove(lt_Rem);
+						//.............................................
+						lt_Rem.Clear();
+
+						foreach (Guid lg_WS in this._DC.XWorkspaces.KeyListFor())
 							{
-								this.RemoveWorkspace(lg_ID);
+								if (		this._DC.XItems.KeyListFor("WSID", lg_WS).Count.Equals(0)
+										&&	this._DC.XNodes.KeyListFor("WSID", lg_WS).Count.Equals(0))
+									{	lt_Rem.Add(lg_WS); }
 							}
+
+						this._DC.XWorkspaces.Remove(lt_Rem);
 					}
+				//if (lo_WS.Value.Items.Count.Equals(0))
+				//					{
+				//						lt_Rem.Clear();
+
+				//						foreach (KeyValuePair<Guid, IDTONode> lo_ND in lo_WS.Value.Nodes)
+				//							{
+				//								if (lo_ND.Value.Items.Count.Equals(0))	lt_Rem.Add(lo_ND.Key);
+				//							}
+				//						foreach (Guid lg_ID in lt_Rem)
+				//							{
+				//								this.RemoveNode(lg_ID, lo_WS.Key);
+				//							}
+
+				//						if (lo_WS.Value.Nodes.Count.Equals(0))	lt_Use.Add(lo_WS.Key);
+				//					}
+				//			}
+
+				//		foreach (Guid lg_ID in lt_Use)
+				//			{
+				//				this.RemoveWorkspace(lg_ID);
+				//			}
+					//}
 
 			#endregion
 

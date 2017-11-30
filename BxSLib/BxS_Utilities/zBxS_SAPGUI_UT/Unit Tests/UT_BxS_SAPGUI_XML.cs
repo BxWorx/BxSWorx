@@ -23,9 +23,9 @@ namespace zBxS_SAPGUI_UT
 			[TestMethod]
 			public void UT_SapGuiXML_Parser()
 				{
-					int					ln_Cnt;
+					int						ln_Cnt;
 					IReposSAPGui	lo_Repos;
-					var					lo_Parser	= new XMLParse2ReposDTO();
+					var						lo_Parser	= new XMLParse2ReposDTO();
 					//...............................................
 					ln_Cnt	= 1;
 					lo_Repos	= this.CreateRepository();
@@ -37,9 +37,9 @@ namespace zBxS_SAPGUI_UT
 					ln_Cnt = 2;
 					lo_Repos	= this.CreateRepository();
 					lo_Parser.Load(lo_Repos, cc_FullName);
-					Assert.AreEqual(07, lo_Repos.MsgServerCount	, $"Base: {ln_Cnt}: MsgSrvs: Error");
-					Assert.AreEqual(36, lo_Repos.ServiceCount		, $"Base: {ln_Cnt}: Services: Error");
-					Assert.AreEqual(04, lo_Repos.WorkspaceCount	, $"Base: {ln_Cnt}: Workspaces: Error");
+					Assert.AreEqual(07, lo_Repos.MsgServerCount	, $"Base: {ln_Cnt}: MsgSrvs"		);
+					Assert.AreEqual(36, lo_Repos.ServiceCount		, $"Base: {ln_Cnt}: Services"		);
+					Assert.AreEqual(04, lo_Repos.WorkspaceCount	, $"Base: {ln_Cnt}: Workspaces"	);
 					//...............................................
 					ln_Cnt = 3;
 					lo_Repos	= this.CreateRepository();

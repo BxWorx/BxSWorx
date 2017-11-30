@@ -11,7 +11,7 @@ namespace BxS_SAPGUI.COM.DL
 				//.................................................
 				string	Description	{ get; set; }
 
-				Dictionary<Guid, IDTOItem>	Items { get; set; }
+				//Dictionary<Guid, IDTOItem>	Items { get; set; }
 				//.................................................
 				Guid	WSID	{ get; set; }
 
