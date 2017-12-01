@@ -6,7 +6,7 @@ using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset.Serialize
 {
-	public class DCSerializer
+	public class ObjSerializer
 		{
 			#region "Methods: Exposed"
 

@@ -16,6 +16,7 @@ namespace zBxS_SAPGUI_UT
 			private const string	cz_TestDir			= "Test Resources";
 			private const	string	cz_UsrFileName	= "SAPGUI_USR_DC.xml"	;
 			private const string	cz_INIFileName	= "saplogon_Test.ini";
+			private const string	cz_LNKFileName	= "saplogon_Link.xml";
 			//...................................................
 			private	static	readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static	readonly string	_FullPathName	= Path.Combine(_Path,	cz_TestDir, cz_UsrFileName);
@@ -27,10 +28,12 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGuiUsr_Parser()
 				{
 					string				lc_IniFullName	= Path.Combine(_Path,	cz_TestDir, cz_INIFileName);
+					string				lc_LnkFullName	= Path.Combine(_Path,	cz_TestDir, cz_LNKFileName);
 					IReposSAPGui	lo_Repos				= new ReposSAPGui(new DCSapGui());
 					var						lo_IO						= new IO();
+					var						lo_Ser					= new ObjSerializer();
 					//.............................................
-					var	lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Repos, lc_IniFullName);
+					var	lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Ser, lo_Repos, lc_IniFullName, lc_LnkFullName);
 					lo_Parser.Load();
 				}
 
@@ -45,7 +48,7 @@ namespace zBxS_SAPGUI_UT
 					IReposSAPGui		lo_RepY	= this._DC.CreateRepository(true);
 
 					var	lo_IO				= new IO();
-					var	lo_DCSer		= new DCSerializer();
+					var	lo_DCSer		= new ObjSerializer();
 					var	lo_UsrCntlr	= new USRController(lo_Rep, _FullPathName, lo_IO, lo_DCSer, false);
 					//...............................................
 					ln_Cnt	= 1;

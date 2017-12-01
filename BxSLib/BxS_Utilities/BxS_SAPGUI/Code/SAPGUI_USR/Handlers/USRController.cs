@@ -11,7 +11,7 @@ namespace BxS_SAPGUI.USR
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal USRController(IReposSAPGui repository, string fullPathName, IO FileIO, DCSerializer dcSerializer, bool AutoLoad = true)
+				internal USRController(IReposSAPGui repository, string fullPathName, IO FileIO, ObjSerializer dcSerializer, bool AutoLoad = true)
 									: base(repository)
 					{
 						this._DCFullName	= fullPathName	;
@@ -29,7 +29,7 @@ namespace BxS_SAPGUI.USR
 				private readonly string	_DCFullName	;
 				//.................................................
 				private readonly IO							_IO		 ;
-				private	readonly DCSerializer		_DCSer ;
+				private	readonly ObjSerializer		_DCSer ;
 
 			#endregion
 

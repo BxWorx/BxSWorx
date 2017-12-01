@@ -25,13 +25,14 @@ namespace BxS_SAPGUI.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IController CreateControllerForSAPINI(string fullPathName)
+				public IController CreateControllerForSAPINI(string fullPathNameINI, string fullPathNameLNK)
 					{
 						IReposSAPGui			lo_Repos	= new ReposSAPGui(new DCSapGui());
 						var								lo_IO			= new IO();
+						var								lo_Ser		= new ObjSerializer();
 						IControllerSource INICntlr	= new INIController(lo_Repos);
 						//.............................................
-						var	lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Repos, fullPathName);
+						var	lo_Parser	=	new INIParse2ReposDTO(lo_IO, lo_Ser, lo_Repos, fullPathNameINI, fullPathNameLNK);
 						lo_Parser.Load();
 						//.............................................
 						return	new Controller(INICntlr);
@@ -41,7 +42,7 @@ namespace BxS_SAPGUI.API
 				public IController CreateControllerForSAPUSR(string fullPathName, bool autoLoad = true)
 					{
 						var								lo_IO			= new IO();
-						var								lo_DCSer	= new DCSerializer();
+						var								lo_DCSer	= new ObjSerializer();
 						IReposSAPGui			lo_Repos	= new ReposSAPGui(new DCSapGui());
 						IControllerSource	USRCntlr	= new USRController(lo_Repos, fullPathName, lo_IO, lo_DCSer, autoLoad);
 						//.............................................

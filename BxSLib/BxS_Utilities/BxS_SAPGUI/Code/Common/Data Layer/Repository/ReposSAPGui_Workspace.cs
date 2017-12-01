@@ -39,8 +39,8 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool RemoveWorkspace(Guid ID)
 					{
-						IList<Guid> lt_Items	= this._DC.Items.KeyListFor("WSID", ID);
-						IList<Guid> lt_Nodes	= this._DC.Nodes.KeyListFor("WSID", ID);
+						IList<Guid> lt_Items	= this._DC.Items.KeyListFor<Guid, Guid>("WSID", ID);
+						IList<Guid> lt_Nodes	= this._DC.Nodes.KeyListFor<Guid, Guid>("WSID", ID);
 						//.............................................
 						if (		this._DC.Items.Remove(lt_Items).Equals(lt_Items.Count)
 								 && this._DC.Nodes.Remove(lt_Nodes).Equals(lt_Nodes.Count)	)

@@ -25,7 +25,7 @@ namespace zBxS_ToolSet_UT
 					int	ln_Cnt	= 0;
 					//...............................................
 					ln_Cnt	++;
-					var lo_DT	= new DCTable<IDTO>(( Guid ID ) => new DTO());
+					var lo_DT	= new DCTable<IDTO, Guid>(( Guid ID ) => new DTO());
 
 					Assert.IsNotNull	(		lo_DT				,	$"DCTable: {ln_Cnt}: Ins: Error");
 					Assert.AreEqual		(0, lo_DT.Count	,	$"DCTable: {ln_Cnt}: Cnt: Error");

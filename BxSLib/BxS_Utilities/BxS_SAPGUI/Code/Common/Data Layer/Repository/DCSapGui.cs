@@ -6,11 +6,11 @@ namespace BxS_SAPGUI.COM.DL
 {
 	[DataContract]
 
-		[KnownType(typeof(DTOMsgServer))]
-		[KnownType(typeof(DTOService))]
-		[KnownType(typeof(DTOWorkspace))]
-		[KnownType(typeof(DTONode))]
-		[KnownType(typeof(DTOItem))]
+		[	KnownType(typeof(DTOMsgServer)	)]
+		[	KnownType(typeof(DTOService)		)]
+		[	KnownType(typeof(DTOWorkspace)	)]
+		[	KnownType(typeof(DTONode)				)]
+		[	KnownType(typeof(DTOItem)				)]
 
 	public class DCSapGui
 		{
@@ -19,11 +19,11 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DCSapGui()
 					{
-						this.MsgServers		= new DCTable	<IDTOMsgServer, Guid>	( (Guid ID) => new DTOMsgServer()	{ UUID	= ID } );
-						this.Services			= new DCTable	<IDTOService>		( (Guid ID) => new DTOService()		{ UUID	= ID } );
-						this.Workspaces		= new DCTable	<IDTOWorkspace>	( (Guid ID) => new DTOWorkspace() { UUID	= ID } );
-						this.Nodes				= new DCTable	<IDTONode>			( (Guid ID) => new DTONode()			{ UUID	= ID } );
-						this.Items				= new DCTable	<IDTOItem>			( (Guid ID) => new DTOItem()			{ UUID	= ID } );
+						this.MsgServers		= new DCTable	<IDTOMsgServer	, Guid>	( (Guid ID) => new DTOMsgServer	()	{ UUID	= ID } );
+						this.Services			= new DCTable	<IDTOService		, Guid>	( (Guid ID) => new DTOService		()	{ UUID	= ID } );
+						this.Workspaces		= new DCTable	<IDTOWorkspace	, Guid>	( (Guid ID) => new DTOWorkspace	()	{ UUID	= ID } );
+						this.Nodes				= new DCTable	<IDTONode				, Guid>	( (Guid ID) => new DTONode			()	{ UUID	= ID } );
+						this.Items				= new DCTable	<IDTOItem				, Guid>	( (Guid ID) => new DTOItem			()	{ UUID	= ID } );
 					}
 
 			#endregion
@@ -31,11 +31,11 @@ namespace BxS_SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	internal DCTable<IDTOMsgServer, Guid> MsgServers	{ get; set; }
-				[DataMember]	internal DCTable<IDTOService>		Services		{ get; set; }
-				[DataMember]	internal DCTable<IDTOWorkspace> Workspaces	{ get; set; }
-				[DataMember]	internal DCTable<IDTONode>			Nodes				{ get; set; }
-				[DataMember]	internal DCTable<IDTOItem>			Items				{ get; set; }
+				[DataMember]	internal DCTable<IDTOMsgServer	, Guid> MsgServers	{ get; set; }
+				[DataMember]	internal DCTable<IDTOService		,	Guid>	Services		{ get; set; }
+				[DataMember]	internal DCTable<IDTOWorkspace	, Guid> Workspaces	{ get; set; }
+				[DataMember]	internal DCTable<IDTONode				, Guid>	Nodes				{ get; set; }
+				[DataMember]	internal DCTable<IDTOItem				, Guid>	Items				{ get; set; }
 				//.................................................
 				internal bool IsDirty		{ get	{		return	this.MsgServers	.IsDirty
 																							||	this.Services		.IsDirty

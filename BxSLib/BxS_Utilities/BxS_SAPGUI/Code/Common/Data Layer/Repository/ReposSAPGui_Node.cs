@@ -42,7 +42,7 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool RemoveNode(Guid NodeID)
 					{
-						IList<Guid> lt_Items	= this._DC.Items.KeyListFor("NodeID", NodeID);
+						IList<Guid> lt_Items	= this._DC.Items.KeyListFor<Guid, Guid>("NodeID", NodeID);
 						//.............................................
 						if (this._DC.Items.Remove(lt_Items).Equals(lt_Items.Count))
 							{

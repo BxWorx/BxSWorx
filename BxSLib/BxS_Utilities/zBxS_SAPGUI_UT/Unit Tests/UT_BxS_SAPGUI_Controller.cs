@@ -10,6 +10,7 @@ namespace zBxS_SAPGUI_UT
 		{
 			private const string	cz_XMLFileName	= "SAPUILandscapeS2A.xml";
 			private const string	cz_INIFileName	= "saplogon_Test.ini";
+			private const string	cz_LNKFileName	= "saplogon_Link.xml";
 			private const	string	cz_UsrFileName	= "SAPGUI_USR_DC.xml"	;
 			private const string	cz_TestDir			= "Test Resources";
 			//private const string	cz_TestConnID		=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
@@ -46,10 +47,11 @@ namespace zBxS_SAPGUI_UT
 					int								ln_Cnt;
 					IController				lo_Cntlr;
 					IDTOConnection		lo_DTOConn;
-					string						lc_FullName	= Path.Combine(cc_FullPath, cz_INIFileName);
+					string						lc_FullNameINI	= Path.Combine(cc_FullPath, cz_INIFileName);
+					string						lc_FullNameLNK	= Path.Combine(cc_FullPath, cz_LNKFileName);
 					//...............................................
 					ln_Cnt			= 1;
-					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPINI(lc_FullName);
+					lo_Cntlr	= this._CntlrFact.CreateControllerForSAPINI(lc_FullNameINI, lc_FullNameLNK);
 
 					Assert.AreNotEqual(0, lo_Cntlr.ServiceCount,	$"Cntlr-INI: {ln_Cnt}: Instantiate: Error");
 					//...............................................
