@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
@@ -56,6 +57,12 @@ namespace BxS_SAPGUI.COM.DL
 				public IDTOItem GetItem(Guid ID)
 					{
 						return	this._DC.Items.Get(ID);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<IDTOItem> ItemList()
+					{
+						return	this._DC.Items.ValueListFor();
 					}
 
 			#endregion

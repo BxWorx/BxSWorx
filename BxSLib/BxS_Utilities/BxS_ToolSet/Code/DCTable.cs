@@ -8,7 +8,7 @@ namespace BxS_Toolset.DataContainer
 {
 	[DataContract]
 
-	public class DCTable<TCls,TKey> where TCls : class
+	public class DCTable<TCls, TKey> where TCls : class
 		{
 			//===========================================================================================
 			#region "Constructor"
@@ -16,8 +16,10 @@ namespace BxS_Toolset.DataContainer
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DCTable(Func<TKey, TCls> NewEntry)
 					{
-						this._DataTable	= new	Dictionary<TKey, TCls>();
 						this._CreateNew	= NewEntry;
+						//.............................................
+						this._TypeOf		= typeof(TCls);
+						this._DataTable	= new	Dictionary<TKey, TCls>();
 					}
 
 			#endregion
@@ -25,8 +27,9 @@ namespace BxS_Toolset.DataContainer
 			//===========================================================================================
 			#region "Declarations"
 
-											private readonly Func				<TKey, TCls>	_CreateNew;
-				[DataMember]	private	readonly Dictionary	<TKey, TCls>	_DataTable;
+											private						Type											_TypeOf;
+											private readonly	Func				<TKey, TCls>	_CreateNew;
+				[DataMember]	private	readonly	Dictionary	<TKey, TCls>	_DataTable;
 
 			#endregion
 
@@ -40,6 +43,15 @@ namespace BxS_Toolset.DataContainer
 
 			//===========================================================================================
 			#region "Methods: Exposed: Workspace: Item"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Reload(DCTable<TCls,TKey> DataTab)
+					{
+						foreach (KeyValuePair<TKey, TCls> ls_Kvp in this._DataTable)
+							{
+								DataTab.AddUpdate(ls_Kvp.Key, ls_Kvp.Value);
+							}
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Exists(TKey ID)
@@ -68,7 +80,7 @@ namespace BxS_Toolset.DataContainer
 				public TCls Get(TKey ID)
 					{
 						if (!this._DataTable.TryGetValue(ID, out TCls lo_DTO))
-							{	lo_DTO	= this.Create(); }
+							{	lo_DTO	= this.Create(ID); }
 						//.............................................
 						return	lo_DTO;
 					}
@@ -134,8 +146,8 @@ namespace BxS_Toolset.DataContainer
 				public IList<TKey> KeyListFor<P, P1>(	string PropertyName		= default(string),	P	 ID		= default(P)	,
 																							string PropertyName1	= default(string),	P1 ID1	= default(P1)		)
 					{
-						PropertyInfo	lo_PI		= PropertyName	== null ? null : typeof(TCls).GetProperty(PropertyName)	;
-						PropertyInfo	lo_PI1	= PropertyName1 == null ? null : typeof(TCls).GetProperty(PropertyName1)	;
+						PropertyInfo	lo_PI		= this.GetPropInfo(PropertyName	);
+						PropertyInfo	lo_PI1	= this.GetPropInfo(PropertyName1);
 						//.............................................
 						if (lo_PI == null)
 							{	return	this._DataTable.Keys.ToList();	}
@@ -163,8 +175,8 @@ namespace BxS_Toolset.DataContainer
 				public IList<TCls> ValueListFor(	string PropertyName		= default(string),	TKey ID		= default(TKey) ,
 																					string PropertyName1	= default(string),	TKey ID1	= default(TKey)		)
 					{
-						PropertyInfo	lo_PI		= PropertyName	== null ? null : typeof(TCls).GetProperty(PropertyName)	;
-						PropertyInfo	lo_PI1	= PropertyName1 == null ? null : typeof(TCls).GetProperty(PropertyName1)	;
+						PropertyInfo	lo_PI		= this.GetPropInfo(PropertyName	);
+						PropertyInfo	lo_PI1	= this.GetPropInfo(PropertyName1);
 						//.............................................
 						if (lo_PI == null)
 							{	return	this._DataTable.Values.ToList();	}
@@ -189,7 +201,7 @@ namespace BxS_Toolset.DataContainer
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IList<P> List<P>(string PropertyName	= default(string))
 					{
-						PropertyInfo	lo_PI	= PropertyName	== null ? null : typeof(TCls).GetProperty(PropertyName)	;
+						PropertyInfo	lo_PI		= this.GetPropInfo(PropertyName	);
 						//.............................................
 						if (lo_PI == null)
 							{	return	new List<P>();	}
@@ -204,5 +216,17 @@ namespace BxS_Toolset.DataContainer
 					}
 
 			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private PropertyInfo GetPropInfo(string Name)
+					{
+						return	Name == null	? null : this._TypeOf.GetProperty(Name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+					}
+
+			#endregion
+
 		}
 }

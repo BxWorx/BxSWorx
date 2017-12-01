@@ -83,7 +83,8 @@ namespace BxS_SAPGUI.INI
 					{
 						if (this._IO.FileExists(this._FullPathNameLNK))
 							{
-								this._Serializer.DeSerialize<DCTable<INILinkDTO, string>>(this._IO.ReadFile(this._FullPathNameLNK), ref this._LinkDesc2Srv);
+								DCTable<INILinkDTO, string> x = this._Serializer.DeSerialize<DCTable<INILinkDTO, string>>(this._IO.ReadFile(this._FullPathNameLNK));
+								x.Reload(this._LinkDesc2Srv);
 							}
 					}
 

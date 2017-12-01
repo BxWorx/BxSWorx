@@ -1,0 +1,305 @@
+<DCTableOfINILinkDTOstringQT5_Sl5o5 xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BxS_Toolset.DataContainer">
+  <_DataTable xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.000 - DD - IDE - Development</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.000 - DD - IDE - Development</d4p1:INIItemDesc>
+        <d4p1:ServiceID>bc861fb1-2422-4e5e-86a3-6feb0c72514b</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.00a: Pebbletree: Development</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.00a: Pebbletree: Development</d4p1:INIItemDesc>
+        <d4p1:ServiceID>4d80a915-15cc-4dad-978e-390221f7809e</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.00b: Pebbletree: Quality</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.00b: Pebbletree: Quality</d4p1:INIItemDesc>
+        <d4p1:ServiceID>720efb2a-c921-4a31-acea-ebe790c1eb02</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.00c: Pebbletree: Production</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.00c: Pebbletree: Production</d4p1:INIItemDesc>
+        <d4p1:ServiceID>06d67242-cbcf-403a-a311-865e0cdc000d</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.01 - DD - GTD - Development (Direct IP)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.01 - DD - GTD - Development (Direct IP)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>333db901-b657-466a-a1c0-9dafffd324e7</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.02 - DD - GTD - Development (ddeurouter)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.02 - DD - GTD - Development (ddeurouter)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>c086c118-8b6c-4cc7-b175-dd1dc578b4a4</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.02 - DD - GTQ - Quality (Direct IP)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.02 - DD - GTQ - Quality (Direct IP)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>13797281-15a6-4a63-a240-b1139b08ff6b</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.20 - DD - GTP - Production (North)  (ddeurouter)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.20 - DD - GTP - Production (North)  (ddeurouter)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>f5c96792-23ed-4ba4-aa6a-f43657359966</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.30 - DD - AUP - Production (South)  (ddeurouter)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.30 - DD - AUP - Production (South)  (ddeurouter)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>68e1d595-895e-49fa-9016-14b15d76ef12</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.40 - DD - GTT - Training (ddeurouter)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.40 - DD - GTT - Training (ddeurouter)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>9c2c1aa4-c134-46f3-9cc0-333facbbf81a</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.90 - DD - GTX - Dev (7.4)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.90 - DD - GTX - Dev (7.4)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>eb3c9be0-1feb-4fac-af80-42dc5dd5db3a</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.95 - DD - BPC - Development (ddeurouter)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.95 - DD - BPC - Development (ddeurouter)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>c8d21bcd-c449-4b2b-ac8a-ec9a19cb1967</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>00.99</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>00.99</d4p1:INIItemDesc>
+        <d4p1:ServiceID>a859653b-c458-4ffc-9389-04e99a43de4b</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>01.01 - DD - GTD - Development (STD)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>01.01 - DD - GTD - Development (STD)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>eebddc8f-874d-4858-b1f3-1bda2352c380</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>01.02 - DD - Development</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>01.02 - DD - Development</d4p1:INIItemDesc>
+        <d4p1:ServiceID>2bee9a6c-a27f-490e-917e-a3c49d073986</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>01.03 - DD - EU - Quality</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>01.03 - DD - EU - Quality</d4p1:INIItemDesc>
+        <d4p1:ServiceID>9b1eee99-cc4a-47b4-9772-857bc0d265c9</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>01.04 - DD - EU - Production (3333)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>01.04 - DD - EU - Production (3333)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>8f62e593-399a-41a3-b138-099541daab1d</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>01.05 - DD - ZA - Quality</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>01.05 - DD - ZA - Quality</d4p1:INIItemDesc>
+        <d4p1:ServiceID>0744ca7a-e79a-4ff8-a7a5-98052d7b45db</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>01.06 - DD - ZA - Production</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>01.06 - DD - ZA - Production</d4p1:INIItemDesc>
+        <d4p1:ServiceID>e4522c8b-1ecb-42d6-b87a-30224edd4746</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>01.99</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>01.99</d4p1:INIItemDesc>
+        <d4p1:ServiceID>230e59d6-b5a3-470c-899d-95a98d5ed1bb</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>02.01 - AMKA - Development</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>02.01 - AMKA - Development</d4p1:INIItemDesc>
+        <d4p1:ServiceID>593edab9-f18f-4cb4-8ec7-a3b80e09969b</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>02.02 - AMKA - Quality</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>02.02 - AMKA - Quality</d4p1:INIItemDesc>
+        <d4p1:ServiceID>beac9a4f-855e-4726-bf85-440fa84f788d</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>02.03 - AMKA - Production</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>02.03 - AMKA - Production</d4p1:INIItemDesc>
+        <d4p1:ServiceID>44763082-49f6-4056-80c9-f4a1c51c8748</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>02.04 - AMKA - Development (Old)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>02.04 - AMKA - Development (Old)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>0561086e-ea99-47d8-a50e-e35629c87823</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>02.99</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>02.99</d4p1:INIItemDesc>
+        <d4p1:ServiceID>57142801-d8c5-4e5f-b29d-6f4f1ade3ccd</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.01 - Consol - ERP - Development</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.01 - Consol - ERP - Development</d4p1:INIItemDesc>
+        <d4p1:ServiceID>aac5a9f1-5385-4e20-8964-8e88f2e61c81</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.02 - Consol - ERP - Quality</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.02 - Consol - ERP - Quality</d4p1:INIItemDesc>
+        <d4p1:ServiceID>38667e30-fc90-4b52-86bf-82a895ccc400</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.03 - Consol - ERP - Production</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.03 - Consol - ERP - Production</d4p1:INIItemDesc>
+        <d4p1:ServiceID>b3693f63-35b3-4f4b-ab30-f150949f946d</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.04 - Consol - HR  - Development</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.04 - Consol - HR  - Development</d4p1:INIItemDesc>
+        <d4p1:ServiceID>d0dd8232-bc44-4750-936d-bc64e16fba5f</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.05 - Consol - HR  - Quality</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.05 - Consol - HR  - Quality</d4p1:INIItemDesc>
+        <d4p1:ServiceID>01d46b72-2450-4f1a-bf46-c3ba6a157f7f</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.06 - Consol - HR  - Production</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.06 - Consol - HR  - Production</d4p1:INIItemDesc>
+        <d4p1:ServiceID>250dfeab-4a11-48f5-aa5b-695bae8c7b01</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.07 - Consol - SM - Development</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.07 - Consol - SM - Development</d4p1:INIItemDesc>
+        <d4p1:ServiceID>f9b95d7c-a16d-4f7a-9a1f-59849f2a8508</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.08 - Consol - SM - Production</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.08 - Consol - SM - Production</d4p1:INIItemDesc>
+        <d4p1:ServiceID>d3ebddf7-7aff-4fc4-b9fc-a3f65b7ab0cb</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>03.99</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>03.99</d4p1:INIItemDesc>
+        <d4p1:ServiceID>3ad32420-d2cc-4d18-a4fe-6dd743f93ddd</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>04.01 - DD Auz</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>04.01 - DD Auz</d4p1:INIItemDesc>
+        <d4p1:ServiceID>5c698560-bb6d-49c5-82b9-b9dce2258383</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>04.02 - Air Liquide - Quality</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>04.02 - Air Liquide - Quality</d4p1:INIItemDesc>
+        <d4p1:ServiceID>e30852f9-8be1-47dc-916e-87f04a07d7f3</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>04.03 - AirLiquide - Production</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>04.03 - AirLiquide - Production</d4p1:INIItemDesc>
+        <d4p1:ServiceID>a62131d5-e773-4fa2-9f35-9d14c59b8787</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>04.99</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>04.99</d4p1:INIItemDesc>
+        <d4p1:ServiceID>f9b15d6a-12b5-4a27-b0ba-d6cacc6a9bae</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>05.01 - Konica - Development</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>05.01 - Konica - Development</d4p1:INIItemDesc>
+        <d4p1:ServiceID>136d8c3a-77f1-4c16-b454-b745cb106d5e</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>05.02 - Konica - Quality</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>05.02 - Konica - Quality</d4p1:INIItemDesc>
+        <d4p1:ServiceID>85d229d3-dec9-4448-8e7a-2860983f3330</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>05.03 - Konica - Production (DB)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>05.03 - Konica - Production (DB)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>d95f64aa-4bd6-44f8-bb22-bc3084c762a3</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>05.04 - Konica - Production (AS)</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>05.04 - Konica - Production (AS)</d4p1:INIItemDesc>
+        <d4p1:ServiceID>5340511a-1af5-495d-9c4f-d732ca3e5b07</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+    <d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+      <d2p1:Key>05.99</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_SAPGUI.INI">
+        <d4p1:INIItemDesc>05.99</d4p1:INIItemDesc>
+        <d4p1:ServiceID>50bb643c-acbb-4252-a034-49a3f27b4d8e</d4p1:ServiceID>
+      </d2p1:Value>
+    </d2p1:KeyValueOfstringINILinkDTOmPtguYW_S>
+  </_DataTable>
+</DCTableOfINILinkDTOstringQT5_Sl5o5>

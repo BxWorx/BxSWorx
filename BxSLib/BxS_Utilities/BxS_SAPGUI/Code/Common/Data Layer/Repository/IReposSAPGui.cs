@@ -85,6 +85,7 @@ namespace BxS_SAPGUI.COM.DL
 																	Guid	ServiceID		,
 																	Guid	ForWSpaceID	,
 																	Guid  ForNodeID		= default(Guid)	);
+				IList<IDTOItem>	ItemList();
 
 				//.................................................
 				IList<IDTOConnectionView> GetConnectionViewTree();

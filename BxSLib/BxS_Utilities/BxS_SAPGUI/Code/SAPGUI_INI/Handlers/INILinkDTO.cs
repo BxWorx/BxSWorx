@@ -11,7 +11,7 @@ namespace BxS_SAPGUI.INI
 
 				[DataMember]	internal string	INIItemDesc	{ get; set; }
 				[DataMember]	internal Guid		ServiceID		{ get; set; }
-											internal bool   Used				{ get; set; }
+											internal bool		Used				{ get; set; }
 
 			#endregion
 		}
