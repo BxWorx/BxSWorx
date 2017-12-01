@@ -35,6 +35,7 @@ namespace BxS_SAPGUI.COM.DL
 																						string	Host	,
 																						string	Port	,
 																						string	Description	);
+				IList<IDTOMsgServer>	MsgServerList();
 
 				//.................................................
 				IDTOService	CreateServiceDTO	(Guid ID = default(Guid));
@@ -55,6 +56,7 @@ namespace BxS_SAPGUI.COM.DL
 																				string	SNCOp				,
 																				Guid    MsgServer		,
 																				string	Mode					);
+				IList<IDTOService>	ServiceList();
 
 				//.................................................
 				IDTOWorkspace	CreateWorkspaceDTO	(Guid ID = default(Guid));

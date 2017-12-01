@@ -36,6 +36,12 @@ namespace BxS_SAPGUI.INI
 			//===========================================================================================
 			#region "Declarations"
 
+				private const	string cz_BROpen	= "["						;
+				private const	string cz_BRClse	= "]"						;
+				private const	string cz_Equals	= "="						;
+				private const	string cz_TagItm	= "Item"				;
+				private const	string cz_TagDes	= "Description"	;
+				//.................................................
 				private readonly	IO						_IO								;
 				private readonly	ObjSerializer	_Serializer				;
 				private readonly	IReposSAPGui	_Repos						;
@@ -115,7 +121,7 @@ namespace BxS_SAPGUI.INI
 								//.........................................
 								// create/update link
 								//
-								string			lc_Key	=	ls_Item.Value["Description"];
+								string			lc_Key	=	ls_Item.Value[cz_TagDes];
 								INILinkDTO	lo_Link	= this._LinkDesc2Srv.Get(lc_Key);
 
 								if (lo_Link.ServiceID.Equals(Guid.Empty))
@@ -186,14 +192,14 @@ namespace BxS_SAPGUI.INI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private (bool IsItem, int ID, string Value) GetItemInfo(string line)
 					{
-						bool		lb_IsItem	= line.StartsWith("Item") && line.Contains("=");
+						bool		lb_IsItem	= line.StartsWith(cz_TagItm) && line.Contains(cz_Equals);
 						string	lc_Val		= string.Empty;
 						int			ln_ID			= 0;
 						//.............................................
 						if (lb_IsItem)
 							{
-								string[] lt_Const		= line.Split('=');
-								string	 ln_ItemNo	=	lt_Const[0].Replace("Item",string.Empty);
+								string[] lt_Const		= line.Split(cz_Equals);
+								string	 ln_ItemNo	=	lt_Const[0].Replace(cz_TagItm,string.Empty);
 
 								if (int.TryParse(ln_ItemNo, out ln_ID))
 									lc_Val	= lt_Const[1];
@@ -208,10 +214,10 @@ namespace BxS_SAPGUI.INI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool GetSection(string line)
 					{
-						if (!line.StartsWith("[") || !line.EndsWith("]"))
+						if (!line.StartsWith(cz_BROpen) || !line.EndsWith(cz_BRClse))
 							{	return	false; }
 						//.............................................
-						string lc_Sect	= line.Replace("[",null).Replace("]",null);
+						string lc_Sect	= line.Replace(cz_BROpen,null).Replace(cz_BRClse,null);
 
 						switch (lc_Sect)
 							{
@@ -224,7 +230,8 @@ namespace BxS_SAPGUI.INI
 								case "SncNoSSO"						:	this._ActiveSection	=	"Mode"				;	break;
 								case "SncName"						:	this._ActiveSection	=	"SNCName"			;	break;
 								case "Server"							:	this._ActiveSection	=	"Server"			;	break;
-								case "Description"				:	this._ActiveSection	=	"Description"	;	break;
+
+								case cz_TagDes		:	this._ActiveSection	=	cz_TagDes	;	break;
 
 								//.........................................
 								// TO-DO: FIX THIS ISSUE

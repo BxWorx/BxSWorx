@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset.DataContainer
 {
@@ -18,7 +19,6 @@ namespace BxS_Toolset.DataContainer
 					{
 						this._CreateNew	= NewEntry;
 						//.............................................
-						this._TypeOf		= typeof(TCls);
 						this._DataTable	= new	Dictionary<TKey, TCls>();
 					}
 
@@ -27,7 +27,9 @@ namespace BxS_Toolset.DataContainer
 			//===========================================================================================
 			#region "Declarations"
 
-											private						Type											_TypeOf;
+				private readonly	Lazy<Type>	_Type		= new Lazy<Type>(	() => typeof(TCls),
+																																				LazyThreadSafetyMode.None );
+				//.................................................
 											private readonly	Func				<TKey, TCls>	_CreateNew;
 				[DataMember]	private	readonly	Dictionary	<TKey, TCls>	_DataTable;
 
@@ -80,7 +82,7 @@ namespace BxS_Toolset.DataContainer
 				public TCls Get(TKey ID)
 					{
 						if (!this._DataTable.TryGetValue(ID, out TCls lo_DTO))
-							{	lo_DTO	= this.Create(ID); }
+							{	lo_DTO	= this.Create(); }
 						//.............................................
 						return	lo_DTO;
 					}
@@ -223,7 +225,10 @@ namespace BxS_Toolset.DataContainer
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private PropertyInfo GetPropInfo(string Name)
 					{
-						return	Name == null	? null : this._TypeOf.GetProperty(Name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+						return	Name == null	? null : this._Type.Value.GetProperty(	Name	,
+																																						BindingFlags.Instance
+																																					| BindingFlags.Public
+																																					| BindingFlags.NonPublic	);
 					}
 
 			#endregion
