@@ -20,7 +20,8 @@ namespace zBxS_ToolSet_UT
 			private	static	readonly string		_PathTest			= Path.Combine(_Path		,	cz_TestDir			);
 			private	static	readonly string		_TestFullNme	= Path.Combine(_PathTest,	cz_TestFileName	);
 			//...................................................
-			private					readonly ToolSet	_TS						= new BxS_Toolset.ToolSet();
+			private	readonly ToolSet	_TS	= new BxS_Toolset.ToolSet();
+
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_ToolSet_Toolset()
@@ -29,21 +30,26 @@ namespace zBxS_ToolSet_UT
 					//...............................................
 					IO													x		= this._TS.GetIO();
 					ObjSerializer								y		= this._TS.GetSerlizser();
-					DCController<TestDTO, Guid> z		= this._TS.CreateDCController<TestDTO, Guid>(_TestFullNme, (Guid id) => new TestDTO() { ID = id } );
+					DCController	<TestDTO, Guid>	z		= this._TS.CreateDCController	<TestDTO, Guid>	(_TestFullNme, (Guid id) => new TestDTO() { ID = id } );
+					DCTable				<TestDTO, Guid>	t		= this._TS.CreateDCTable			<TestDTO, Guid>	(	(Guid id) => new TestDTO() { ID = id } );
 					//...............................................
 					ln_Cnt ++;
 
 					Assert.IsNotNull(x,	$"Toolset: {ln_Cnt}: x");
 					Assert.IsNotNull(y,	$"Toolset: {ln_Cnt}: y");
 					Assert.IsNotNull(z,	$"Toolset: {ln_Cnt}: z");
+					Assert.IsNotNull(t,	$"Toolset: {ln_Cnt}: t");
 					//...............................................
 					ln_Cnt ++;
 
 					var			i		= Guid.NewGuid();
 					TestDTO o		= z.DataTable.Create(i);
+					TestDTO p		= t.Create(i);
 
 					Assert.IsNotNull	(		o		,	$"Toolset: {ln_Cnt}: o");
+					Assert.IsNotNull	(		p		,	$"Toolset: {ln_Cnt}: o");
 					Assert.AreEqual		(i, o.ID,	$"Toolset: {ln_Cnt}: z");
+					Assert.AreEqual		(i, p.ID,	$"Toolset: {ln_Cnt}: z");
 				}
 
 			//===========================================================================================

@@ -21,8 +21,14 @@ namespace BxS_Toolset
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DCTable<TCls, TKey> CreateDCTable<TCls, TKey>(	Func<TKey, TCls>	createNew	)	where TCls: class
+					{
+						return	new DCTable<TCls, TKey>(createNew);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DCController<TCls, TKey> CreateDCController<TCls, TKey>(	string						fullPathName	,
-																																				Func<TKey, TCls>	createNew				) where TCls: class
+																																				Func<TKey, TCls>	createNew				)	where TCls: class
 					{
 						return	new DCController<TCls, TKey>(	this._IO.Value	,
 																									this._Ser.Value	,

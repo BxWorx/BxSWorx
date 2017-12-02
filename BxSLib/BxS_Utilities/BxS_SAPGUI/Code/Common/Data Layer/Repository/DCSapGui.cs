@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
+//.........................................................
+using BxS_Toolset;
 using BxS_Toolset.DataContainer;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
@@ -17,9 +19,10 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DCSapGui()
+				internal DCSapGui(ToolSet toolset)
 					{
-						this.MsgServers		= new DCTable	<IDTOMsgServer	, Guid>	( (Guid ID) => new DTOMsgServer	()	{ UUID	= ID } );
+						this.MsgServers		= toolset.CreateDCTable<IDTOMsgServer	, Guid>	( (Guid ID) => new DTOMsgServer	()	{ UUID	= ID } );
+						//this.MsgServers		= new DCTable	<IDTOMsgServer	, Guid>	( (Guid ID) => new DTOMsgServer	()	{ UUID	= ID } );
 						this.Services			= new DCTable	<IDTOService		, Guid>	( (Guid ID) => new DTOService		()	{ UUID	= ID } );
 						this.Workspaces		= new DCTable	<IDTOWorkspace	, Guid>	( (Guid ID) => new DTOWorkspace	()	{ UUID	= ID } );
 						this.Nodes				= new DCTable	<IDTONode				, Guid>	( (Guid ID) => new DTONode			()	{ UUID	= ID } );
