@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BxS_ToolSet\BxS_ToolSet.csproj" />
+  </ItemGroup>
+
 </Project>

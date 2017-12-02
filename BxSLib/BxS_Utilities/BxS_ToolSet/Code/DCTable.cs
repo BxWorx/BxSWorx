@@ -225,10 +225,9 @@ namespace BxS_Toolset.DataContainer
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private PropertyInfo GetPropInfo(string Name)
 					{
-						return	Name == null	? null : this._Type.Value.GetProperty(	Name	,
-																																						BindingFlags.Instance
-																																					| BindingFlags.Public
-																																					| BindingFlags.NonPublic	);
+						return	Name == null	? null : this._Type.Value.GetProperty(	Name,		BindingFlags.Instance
+																																								| BindingFlags.Public
+																																								| BindingFlags.NonPublic	);
 					}
 
 			#endregion

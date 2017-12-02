@@ -52,7 +52,7 @@ namespace BxS_SAPGUI.INI
 				private						bool					_IsDirty					;
 				//.................................................
 				private	readonly	Dictionary<int, Dictionary<string, string>>		_Items;
-				private						DCTable<INILinkDTO, string>										_LinkDesc2Srv;
+				private readonly	DCTable<INILinkDTO, string>										_LinkDesc2Srv;
 
 			#endregion
 
@@ -89,8 +89,10 @@ namespace BxS_SAPGUI.INI
 					{
 						if (this._IO.FileExists(this._FullPathNameLNK))
 							{
-								DCTable<INILinkDTO, string> x = this._Serializer.DeSerialize<DCTable<INILinkDTO, string>>(this._IO.ReadFile(this._FullPathNameLNK));
-								x.Reload(this._LinkDesc2Srv);
+								DCTable<INILinkDTO, string> lo_DTO	= this._Serializer
+																												.DeSerialize<DCTable<INILinkDTO, string>>
+																													(this._IO.ReadFile(this._FullPathNameLNK));
+								lo_DTO.Reload(this._LinkDesc2Srv);
 							}
 					}
 

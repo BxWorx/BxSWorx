@@ -1,11 +1,13 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API
+namespace BxS_SAPLogon.API
 {
 	public interface IDTOFavourite
 		{
 			#region "Properties"
 
+				Guid		UUID					{ get; set; }
+				//.................................................
 				int			SeqNo					{ get; set; }
 				Guid		ServiceID			{ get; set; }
 				string	Description		{ get; set; }

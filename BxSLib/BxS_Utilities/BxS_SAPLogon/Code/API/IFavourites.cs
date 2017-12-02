@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API
+namespace BxS_SAPLogon.API
 {
 	public interface IFavourites
 		{
 			#region "Properties"
 
-				IList<IDTOFavourite>	FavouriteList	{ get; }
+				IList<IDTOFavourite>	List	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				IDTOFavourite CreateFavourite();
+				IDTOFavourite Create(Guid ID = default(Guid));
 				//.................................................
-				void AddFavorite(IDTOFavourite DTO);
+				void Add(IDTOFavourite DTO);
 
 			#endregion
 
