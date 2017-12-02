@@ -1,20 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 //.........................................................
-using BxS_Toolset.DataContainer;
 using BxS_Toolset.IODisk;
 using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPLogon.API
+namespace BxS_Toolset.DataContainer
 {
-	public class Favourites : IFavourites
+	public class DCController<TCls, TKey> where TCls : class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Favourites(	DCController<IDTOFavourite	, Guid>	cntlr )
+				public DCController(IO								io						,
+															ObjSerializer			serializer		,
+															string						fullPathName	,
+															Func<TKey, TCls>	newEntry				)
 					{
-						this._DCCntlr	= cntlr;
+						this._IO						= io;
+						this._Serializer		= serializer;
+						this._FullPathName	= fullPathName;
+						//.............................................
+						this.DataTable	= new DCTable<TCls, TKey>( newEntry );
 					}
 
 			#endregion
@@ -22,20 +27,16 @@ namespace BxS_SAPLogon.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	DCController<IDTOFavourite	, Guid>	_DCCntlr;
-
-				//private readonly	IO						_IO								;
-				//private readonly	ObjSerializer	_Serializer				;
-				//private readonly	string				_FullPathName	;
-				////.................................................
-				//private readonly	DCTable<IDTOFavourite, Guid>	_DC;
+				private readonly	IO						_IO						;
+				private readonly	ObjSerializer	_Serializer		;
+				private readonly	string				_FullPathName	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public IList<IDTOFavourite>	List	{ get { return	this._DCCntlr.DataTable.ValueListFor()	;	} }
+				public DCTable<TCls, TKey>	DataTable { get; }
 
 			#endregion
 
@@ -43,32 +44,25 @@ namespace BxS_SAPLogon.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IDTOFavourite Create(Guid ID = default(Guid))
-					{
-						return	this._DCCntlr.DataTable.Create(ID);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	void Add(IDTOFavourite DTO)
-					{
-						this._DCCntlr.DataTable.AddUpdate(DTO.UUID, DTO);
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Save()
 					{
-						this._DCCntlr.Save();
+						if (this.DataTable.IsDirty)
+							{
+								this._IO.WriteFile(	this._FullPathName													,
+																		this._Serializer.Serialize(this.DataTable)		);
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Load()
+				public void Load()
 					{
-						this._DCCntlr.Load();
+						if (this._IO.FileExists(this._FullPathName))
+							{
+								DCTable<TCls, TKey> lo_DTO	= this._Serializer
+																								.DeSerialize<DCTable<TCls, TKey>>
+																									(this._IO.ReadFile(this._FullPathName));
+								lo_DTO.TransferTo(this.DataTable);
+							}
 					}
 
 			#endregion

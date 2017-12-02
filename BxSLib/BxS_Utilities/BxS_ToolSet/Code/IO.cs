@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Toolset.IO
+namespace BxS_Toolset.IODisk
 {
 	public class IO
 		{

@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 //.........................................................
 using BxS_SAPGUI.COM.DL;
-using BxS_Toolset.IO;
+using BxS_Toolset.IODisk;
 using BxS_SAPGUI.INI;
 using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

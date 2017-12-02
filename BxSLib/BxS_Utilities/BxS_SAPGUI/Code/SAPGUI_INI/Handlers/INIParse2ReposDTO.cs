@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_SAPGUI.COM.DL;
 using BxS_Toolset.DataContainer;
-using BxS_Toolset.IO;
+using BxS_Toolset.IODisk;
 using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.INI
@@ -29,6 +29,7 @@ namespace BxS_SAPGUI.INI
 						this._WSID						= Guid.NewGuid();
 						this._Items						= new Dictionary<int, Dictionary<string, string>>();
 						this._LinkDesc2Srv		= new DCTable<INILinkDTO, string>	( (string ID) => new INILinkDTO()	{ INIItemDesc	= ID } );
+						this._Used						= new List<string>();
 					}
 
 			#endregion
@@ -49,11 +50,10 @@ namespace BxS_SAPGUI.INI
 				private readonly	string				_FullPathNameLNK	;
 				private	readonly	Guid					_WSID							;
 				private						string				_ActiveSection		;
-				private						bool					_IsDirty					;
 				//.................................................
 				private	readonly	Dictionary<int, Dictionary<string, string>>		_Items;
 				private readonly	DCTable<INILinkDTO, string>										_LinkDesc2Srv;
-
+				private readonly	IList<string>																	_Used;
 			#endregion
 
 			//===========================================================================================
@@ -78,7 +78,7 @@ namespace BxS_SAPGUI.INI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void SaveLink()
 					{
-						if (this._IsDirty)
+						if (this._LinkDesc2Srv.IsDirty)
 							{
 								this._IO.WriteFile(this._FullPathNameLNK, this._Serializer.Serialize(this._LinkDesc2Srv));
 							}
@@ -92,15 +92,21 @@ namespace BxS_SAPGUI.INI
 								DCTable<INILinkDTO, string> lo_DTO	= this._Serializer
 																												.DeSerialize<DCTable<INILinkDTO, string>>
 																													(this._IO.ReadFile(this._FullPathNameLNK));
-								lo_DTO.Reload(this._LinkDesc2Srv);
+								lo_DTO.TransferTo(this._LinkDesc2Srv);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LinkHousekeeping()
 					{
-						IList<string> lt = this._LinkDesc2Srv.KeyListFor<bool, string>("Used", false);
-						this._LinkDesc2Srv.Remove(lt);
+						IList<string> lt_Rem	= new List<string>();
+						//.............................................
+						foreach (string lc_Key in this._LinkDesc2Srv.KeyListFor<bool, bool>())
+							{
+								if (!this._Used.Contains(lc_Key))		lt_Rem.Add(lc_Key);
+							}
+						//.............................................
+						this._LinkDesc2Srv.Remove(lt_Rem);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -128,11 +134,10 @@ namespace BxS_SAPGUI.INI
 
 								if (lo_Link.ServiceID.Equals(Guid.Empty))
 									{
-										this._IsDirty			= true;
 										lo_Link.ServiceID	= Guid.NewGuid();
+										this._LinkDesc2Srv.AddUpdate(lo_Link.INIItemDesc, lo_Link);
 									}
-								lo_Link.Used	= true;
-								this._LinkDesc2Srv.AddUpdate(lo_Link.INIItemDesc, lo_Link);
+								this._Used.Add(lo_Link.INIItemDesc);
 
 								//.........................................
 								// create service

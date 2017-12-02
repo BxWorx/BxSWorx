@@ -1,7 +1,7 @@
 ﻿using BxS_SAPGUI.API;
 using BxS_SAPGUI.COM.CNTLR;
 using BxS_SAPGUI.COM.DL;
-using BxS_Toolset.IO;
+using BxS_Toolset.IODisk;
 using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.USR

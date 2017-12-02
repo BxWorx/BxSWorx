@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 using BxS_Toolset.Serialize;
-using BxS_Toolset.IO;
+using BxS_Toolset.IODisk;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_ToolSet_UT
 {

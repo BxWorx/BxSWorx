@@ -5,7 +5,7 @@ using System.IO;
 using BxS_SAPGUI.COM.DL;
 using BxS_SAPGUI.USR;
 using BxS_SAPGUI.INI;
-using BxS_Toolset.IO;
+using BxS_Toolset.IODisk;
 using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT

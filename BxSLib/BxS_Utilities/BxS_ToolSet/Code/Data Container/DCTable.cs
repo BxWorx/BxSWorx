@@ -44,11 +44,13 @@ namespace BxS_Toolset.DataContainer
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: Workspace: Item"
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Reload(DCTable<TCls,TKey> DataTab)
+				public void TransferTo(DCTable<TCls,TKey> DataTab, bool Reset	= true)
 					{
+						if (Reset)	DataTab.Clear();
+						//.............................................
 						foreach (KeyValuePair<TKey, TCls> ls_Kvp in this._DataTable)
 							{
 								DataTab.AddUpdate(ls_Kvp.Key, ls_Kvp.Value);

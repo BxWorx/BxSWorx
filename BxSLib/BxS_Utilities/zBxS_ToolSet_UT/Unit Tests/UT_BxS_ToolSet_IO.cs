@@ -2,7 +2,7 @@ using System.IO;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using BxS_Toolset.IO;
+using BxS_Toolset.IODisk;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_ToolSet_UT
 {
