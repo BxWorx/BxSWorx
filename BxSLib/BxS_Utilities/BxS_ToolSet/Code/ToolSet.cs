@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading;
+using BxS_Toolset.DataContainer;
 //.........................................................
 using BxS_Toolset.IODisk;
 using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset
 {
-	public class IOToolSet
+	public class ToolSet
 		{
 
 			#region "Declarations"
@@ -16,7 +17,18 @@ namespace BxS_Toolset
 
 			#endregion
 
+			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DCController<TCls, TKey> CreateDCController<TCls, TKey>(	string						fullPathName	,
+																																				Func<TKey, TCls>	createNew				) where TCls: class
+					{
+						return	new DCController<TCls, TKey>(	this._IO.Value	,
+																									this._Ser.Value	,
+																									fullPathName		,
+																									createNew					);
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IO GetIO()

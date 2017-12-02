@@ -11,9 +11,9 @@ namespace BxS_Toolset.DataContainer
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DCController(IO								io						,
-															ObjSerializer			serializer		,
-															string						fullPathName	,
-															Func<TKey, TCls>	newEntry				)
+														ObjSerializer			serializer		,
+														string						fullPathName	,
+														Func<TKey, TCls>	newEntry				)
 					{
 						this._IO						= io;
 						this._Serializer		= serializer;

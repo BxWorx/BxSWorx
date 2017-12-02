@@ -1,13 +1,21 @@
 ﻿using System;
+using System.Threading;
 //.........................................................
-using BxS_Toolset.Serialize;
-using BxS_Toolset.IODisk;
+using BxS_Toolset;
 using BxS_Toolset.DataContainer;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPLogon.API
 {
 	public class Factory
 		{
+			#region "Declarations"
+
+				private readonly Lazy<ToolSet>	_TS		= new Lazy<ToolSet>(	() => new ToolSet()	,
+																																			LazyThreadSafetyMode.ExecutionAndPublication );
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -24,10 +32,8 @@ namespace BxS_SAPLogon.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DCController<IDTOFavourite, Guid> CreateFavouriteDC(string fullPathName)
 					{
-						var	lo_IO		= new IO();
-						var	lo_Ser	= new ObjSerializer();
-						//.............................................
-						return	new DCController<IDTOFavourite, Guid>	(lo_IO, lo_Ser, fullPathName, (Guid ID) => new DTOFavourite()	{ UUID = ID } );
+						return	this._TS.Value.CreateDCController<IDTOFavourite, Guid>	(	fullPathName	,
+																																							(Guid ID) => new DTOFavourite()	{ UUID = ID } );
 					}
 
 			#endregion
