@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using BxS_SAPGUI.API;
+//using BxS_SAPGUI.API;
+using BxS_SAPLogon.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
@@ -15,7 +16,7 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DCFavourites()
 					{
-						this.FavouriteList		= new Dictionary<	Guid, IDTOFavourite > ();
+						//this.FavouriteList		= new Dictionary<	Guid, IDTOFavourite > ();
 						//.............................................
 						this.IsDirty	= false;
 					}
@@ -25,7 +26,7 @@ namespace BxS_SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	internal Dictionary<Guid, IDTOFavourite>	FavouriteList	{ get; set; }
+				//[DataMember]	internal Dictionary<Guid, IDTOFavourite>	FavouriteList	{ get; set; }
 				//.................................................
 				internal bool IsDirty		{ get; set;	}
 
@@ -37,7 +38,7 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Clear()
 					{
-						this.FavouriteList.Clear();
+						//this.FavouriteList.Clear();
 					}
 
 			#endregion

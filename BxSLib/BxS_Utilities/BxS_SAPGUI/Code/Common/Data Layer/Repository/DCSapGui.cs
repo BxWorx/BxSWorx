@@ -19,14 +19,17 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DCSapGui(ToolSet toolset)
+				internal DCSapGui(DCTable	<IDTOMsgServer	, Guid> msgServer		,
+													DCTable	<IDTOService		, Guid> services		,
+													DCTable	<IDTOWorkspace	, Guid>	workspaces	,
+													DCTable	<IDTONode				, Guid>	nodes				,
+													DCTable	<IDTOItem				, Guid>	items					)
 					{
-						this.MsgServers		= toolset.CreateDCTable<IDTOMsgServer	, Guid>	( (Guid ID) => new DTOMsgServer	()	{ UUID	= ID } );
-						//this.MsgServers		= new DCTable	<IDTOMsgServer	, Guid>	( (Guid ID) => new DTOMsgServer	()	{ UUID	= ID } );
-						this.Services			= new DCTable	<IDTOService		, Guid>	( (Guid ID) => new DTOService		()	{ UUID	= ID } );
-						this.Workspaces		= new DCTable	<IDTOWorkspace	, Guid>	( (Guid ID) => new DTOWorkspace	()	{ UUID	= ID } );
-						this.Nodes				= new DCTable	<IDTONode				, Guid>	( (Guid ID) => new DTONode			()	{ UUID	= ID } );
-						this.Items				= new DCTable	<IDTOItem				, Guid>	( (Guid ID) => new DTOItem			()	{ UUID	= ID } );
+						this.MsgServers		= msgServer		;
+						this.Services			= services		;
+						this.Workspaces		= workspaces	;
+						this.Nodes				= nodes				;
+						this.Items				= items				;
 					}
 
 			#endregion

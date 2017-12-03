@@ -18,6 +18,8 @@ namespace zBxS_SAPGUI_UT
 			//...................................................
 			private	static readonly string	cc_Path			= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	cc_FullName	= Path.Combine(cc_Path,	cz_TestDir, cz_FileName);
+			//...................................................
+			private readonly ControllerFactory _Fac		= new ControllerFactory();
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
@@ -28,28 +30,28 @@ namespace zBxS_SAPGUI_UT
 					var						lo_Parser	= new XMLParse2ReposDTO();
 					//...............................................
 					ln_Cnt	= 1;
-					lo_Repos	= this.CreateRepository();
+					lo_Repos	= this._Fac.CreateRepository();
 					lo_Parser.Load(lo_Repos, "XXXX");
 					Assert.AreEqual	(00, lo_Repos.MsgServerCount	, $"Error: {ln_Cnt}: MsgSrvs: Error");
 					Assert.AreEqual	(00, lo_Repos.ServiceCount		, $"Error: {ln_Cnt}: Services: Error");
 					Assert.AreEqual	(00, lo_Repos.WorkspaceCount	, $"Error: {ln_Cnt}: Workspaces: Error");
 					//...............................................
 					ln_Cnt = 2;
-					lo_Repos	= this.CreateRepository();
+					lo_Repos	= this._Fac.CreateRepository();
 					lo_Parser.Load(lo_Repos, cc_FullName);
 					Assert.AreEqual(07, lo_Repos.MsgServerCount	, $"Base: {ln_Cnt}: MsgSrvs"		);
 					Assert.AreEqual(36, lo_Repos.ServiceCount		, $"Base: {ln_Cnt}: Services"		);
 					Assert.AreEqual(04, lo_Repos.WorkspaceCount	, $"Base: {ln_Cnt}: Workspaces"	);
 					//...............................................
 					ln_Cnt = 3;
-					lo_Repos	= this.CreateRepository();
+					lo_Repos	= this._Fac.CreateRepository();
 					lo_Parser.Load(lo_Repos, cc_FullName, true);
 					Assert.AreEqual(07, lo_Repos.MsgServerCount	, $"Base: {ln_Cnt}: MsgSrvs: Error");
 					Assert.AreEqual(36, lo_Repos.ServiceCount		, $"Base: {ln_Cnt}: Services: Error");
 					Assert.AreEqual(04, lo_Repos.WorkspaceCount	, $"Base: {ln_Cnt}: Workspaces: Error");
 					//...............................................
 					ln_Cnt = 4;
-					lo_Repos	= this.CreateRepository();
+					lo_Repos	= this._Fac.CreateRepository();
 					lo_Parser.Load(lo_Repos, cc_FullName, false);
 					Assert.AreEqual(07, lo_Repos.MsgServerCount	, $"Base: {ln_Cnt}: MsgSrvs: Error");
 					Assert.AreEqual(47, lo_Repos.ServiceCount		, $"Base: {ln_Cnt}: Services: Error");
@@ -62,7 +64,7 @@ namespace zBxS_SAPGUI_UT
 				{
 					int								ln_Cnt;
 					var								lo_Parser	= new XMLParse2ReposDTO();
-					IReposSAPGui				lo_Repos	= this.CreateRepository();
+					IReposSAPGui			lo_Repos	= this._Fac.CreateRepository();
 					IControllerSource	lo_Cntlr	= new XMLController(lo_Repos) ;
 					//...............................................
 					lo_Parser.Load(lo_Repos, cc_FullName);
@@ -80,14 +82,6 @@ namespace zBxS_SAPGUI_UT
 					//lo_Cntlr.GetConnection(lo_DTOConn);
 					//Assert.AreEqual	(cz_TestConnID			, lo_DTOConn.ID	,	$"Cntlr: {ln_Cnt}: Conn: Error");
 					//Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
-				}
-
-			//-------------------------------------------------------------------------------------------
-			private IReposSAPGui	CreateRepository()
-				{
-					var	lo_DC			= new DCSapGui();
-					var	lo_Repos	= new ReposSAPGui(lo_DC);
-					return	lo_Repos;
 				}
 
 		}

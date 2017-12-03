@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Collections.Generic;
 //.........................................................
+using BxS_SAPGUI.API;
 using BxS_SAPGUI.COM.DL;
 using BxS_Toolset.IODisk;
 using BxS_SAPGUI.INI;
@@ -20,6 +21,9 @@ namespace zBxS_SAPGUI_UT
 			private	static readonly string	_PathTest			= Path.Combine(_Path,	cz_TestDir);
 			private	static readonly string	_FileTestINI	= Path.Combine(_PathTest,	cz_TestINI);
 			private	static readonly string	_FileTestLNK	= Path.Combine(_PathTest,	cz_TestLNK);
+			//...................................................
+			private readonly ControllerFactory					_Fac			= new ControllerFactory();
+			private readonly UT_BxS_DataContainerFiller	_DCFiller	= new UT_BxS_DataContainerFiller();
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
@@ -27,12 +31,10 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					IReposSAPGui	lo_Rep		= this.CreateRepository();
-					IReposSAPGui	lo_Repx		= this.CreateRepository();
-					var						lo_IO			= new IO();
-					var						lo_Ser		= new ObjSerializer();
-					var						lo_Parser	= new INIParse2ReposDTO(lo_IO, lo_Ser, lo_Rep	,	_FileTestINI, _FileTestLNK);
-					var						lo_Parsex	= new INIParse2ReposDTO(lo_IO, lo_Ser, lo_Repx,	_FileTestINI, _FileTestLNK);
+					IReposSAPGui			lo_Rep		= this._DCFiller.CreateRepository();
+					IReposSAPGui			lo_Repx		= this._DCFiller.CreateRepository(true);
+					INIParse2ReposDTO lo_Parser	= this._Fac.CreateINIParser(lo_Rep	,	_FileTestINI, _FileTestLNK);
+					INIParse2ReposDTO lo_Parsex	= this._Fac.CreateINIParser(lo_Repx	,	_FileTestINI, _FileTestLNK);
 					//...............................................
 					ln_Cnt	= 1;
 					lo_Parser.Load();
@@ -41,22 +43,11 @@ namespace zBxS_SAPGUI_UT
 					IList<IDTOItem> lt	= lo_Rep.ItemList();
 					IList<IDTOItem> ltx	= lo_Rep.ItemList();
 
-					Assert.AreEqual(43							,	lo_Rep	.ItemCount,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
-					Assert.AreEqual(43							,	lo_Repx	.ItemCount,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
-					Assert.AreEqual(lo_Rep.ItemCount,	lo_Repx	.ItemCount,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
-					Assert.AreEqual(lt[1].UUID			,	ltx[1].UUID				,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
+					Assert.AreEqual(43								,	lo_Rep	.ItemCount,	$"DLCntlr: {ln_Cnt}: Rep count");
+					Assert.AreEqual(43								,	lo_Repx	.ItemCount,	$"DLCntlr: {ln_Cnt}: Repx count");
+					Assert.AreEqual(lo_Rep.ItemCount	,	lo_Repx	.ItemCount,	$"DLCntlr: {ln_Cnt}: Rep vs Repx count");
+					Assert.AreEqual(lt[1].UUID				,	ltx[1].UUID				,	$"DLCntlr: {ln_Cnt}: Rep vs Repx ID");
 				}
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
-				private IReposSAPGui CreateRepository(bool emptyOne = false)
-					{
-						return	emptyOne	? new ReposSAPGui(new DCSapGui()) :	new ReposSAPGui(new DCSapGui());
-					}
-
-			#endregion
 
 		}
 }

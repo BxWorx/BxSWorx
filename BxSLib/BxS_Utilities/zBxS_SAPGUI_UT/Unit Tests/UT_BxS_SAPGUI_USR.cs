@@ -1,5 +1,4 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.IO;
 //.........................................................
 using BxS_SAPGUI.COM.DL;
@@ -20,8 +19,8 @@ namespace zBxS_SAPGUI_UT
 			//...................................................
 			private	static	readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static	readonly string	_FullPathName	= Path.Combine(_Path,	cz_TestDir, cz_UsrFileName);
-
-			private readonly UT_BxS_DataContainerFiller	_DC	= new UT_BxS_DataContainerFiller();
+			//...................................................
+			private readonly UT_BxS_DataContainerFiller	_DCFiller	= new UT_BxS_DataContainerFiller();
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
@@ -29,7 +28,7 @@ namespace zBxS_SAPGUI_UT
 				{
 					string				lc_IniFullName	= Path.Combine(_Path,	cz_TestDir, cz_INIFileName);
 					string				lc_LnkFullName	= Path.Combine(_Path,	cz_TestDir, cz_LNKFileName);
-					IReposSAPGui	lo_Repos				= new ReposSAPGui(new DCSapGui());
+					IReposSAPGui	lo_Repos				= this._DCFiller.CreateRepository(true);
 					var						lo_IO						= new IO();
 					var						lo_Ser					= new ObjSerializer();
 					//.............................................
@@ -43,9 +42,9 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					IReposSAPGui		lo_Rep	= this._DC.CreateRepository();
-					IReposSAPGui		lo_RepX	= this._DC.CreateRepository(true);
-					IReposSAPGui		lo_RepY	= this._DC.CreateRepository(true);
+					IReposSAPGui		lo_Rep	= this._DCFiller.CreateRepository();
+					IReposSAPGui		lo_RepX	= this._DCFiller.CreateRepository(true);
+					IReposSAPGui		lo_RepY	= this._DCFiller.CreateRepository(true);
 
 					var	lo_IO				= new IO();
 					var	lo_DCSer		= new ObjSerializer();
@@ -65,7 +64,7 @@ namespace zBxS_SAPGUI_UT
 					this.Validate_Rep(lo_UsrCntlrx.Repository.DataContainer, ln_Cnt, "UsrCntlr");
 					//...............................................
 					ln_Cnt	= 4;
-					lo_UsrCntlr.Repository.AddUpdateMsgServer(this._DC.Create_MsgSvrDTO());
+					lo_UsrCntlr.Repository.AddUpdateMsgServer(this._DCFiller.Create_MsgSvrDTO());
 					lo_UsrCntlr.Save(true);
 					var	lo_UsrCntlry	= new USRController(lo_RepY, _FullPathName, lo_IO, lo_DCSer);
 					Assert.AreEqual	(2,	lo_UsrCntlry.Repository.MsgServerCount,	$"DLCntlr: {ln_Cnt}: Del:Dataset: Error");
@@ -80,15 +79,15 @@ namespace zBxS_SAPGUI_UT
 						Assert.AreEqual	(1	,	rep.MsgServers	.Count	,	$"{utName}: {cnt}: Rep:MsgSvr"		);
 						Assert.AreEqual	(1	,	rep.Services		.Count	,	$"{utName}: {cnt}: Rep:Service"		);
 						Assert.AreEqual	(1	,	rep.Workspaces	.Count	,	$"{utName}: {cnt}: Rep:Workspace"	);
-						Assert.AreEqual	(1	,	rep.Nodes			.Count	,	$"{utName}: {cnt}: Rep:Node"			);
-						Assert.AreEqual	(2	,	rep.Items			.Count	,	$"{utName}: {cnt}: Rep:Item"			);
+						Assert.AreEqual	(1	,	rep.Nodes				.Count	,	$"{utName}: {cnt}: Rep:Node"			);
+						Assert.AreEqual	(2	,	rep.Items				.Count	,	$"{utName}: {cnt}: Rep:Item"			);
 						//...............................................
-						Assert.IsTrue(rep.MsgServers	.Exists(this._DC.MsgID)	,	$"{utName}: {cnt}: Msg:Check Key"			);
-						Assert.IsTrue(rep.Services		.Exists(this._DC.SrvID)	,	$"{utName}: {cnt}: Srv:Check Key"			);
-						Assert.IsTrue(rep.Workspaces	.Exists(this._DC.WSpID)	,	$"{utName}: {cnt}: WSp:Check Key"			);
-						Assert.IsTrue(rep.Nodes			.Exists(this._DC.NdeID),	$"{utName}: {cnt}: WSpNode:Check Key"	);
-						Assert.IsTrue(rep.Items			.Exists(this._DC.ItNID),	$"{utName}: {cnt}: NdeItem:Check Key"	);
-						Assert.IsTrue(rep.Items			.Exists(this._DC.ItWID),	$"{utName}: {cnt}: WSpItem:Check Key"	);
+						Assert.IsTrue(rep.MsgServers	.Exists(this._DCFiller.MsgID)	,	$"{utName}: {cnt}: Msg:Check Key"			);
+						Assert.IsTrue(rep.Services		.Exists(this._DCFiller.SrvID)	,	$"{utName}: {cnt}: Srv:Check Key"			);
+						Assert.IsTrue(rep.Workspaces	.Exists(this._DCFiller.WSpID)	,	$"{utName}: {cnt}: WSp:Check Key"			);
+						Assert.IsTrue(rep.Nodes				.Exists(this._DCFiller.NdeID)	,	$"{utName}: {cnt}: WSpNode:Check Key"	);
+						Assert.IsTrue(rep.Items				.Exists(this._DCFiller.ItNID)	,	$"{utName}: {cnt}: NdeItem:Check Key"	);
+						Assert.IsTrue(rep.Items				.Exists(this._DCFiller.ItWID)	,	$"{utName}: {cnt}: WSpItem:Check Key"	);
 					}
 
 			#endregion

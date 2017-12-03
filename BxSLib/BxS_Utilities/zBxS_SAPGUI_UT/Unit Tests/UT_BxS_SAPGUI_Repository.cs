@@ -11,7 +11,7 @@ namespace zBxS_SAPGUI_UT
 		{
 			private const string	cz_TestConnID	=	"dbb1aab6-c82f-4762-bf2b-c525dc55191b";
 			private const string	cz_Desc				= "Desc";
-
+			//...................................................
 			private readonly UT_BxS_DataContainerFiller	_DCFiller	= new UT_BxS_DataContainerFiller();
 
 			//-------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Create()
 				{
 					int						ln_Cnt;
-					IReposSAPGui	lo_Repos	= this.CreateRepository();
+					IReposSAPGui	lo_Repos	= this._DCFiller.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -49,7 +49,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_MsgSrv()
 				{
 					int						ln_Cnt;
-					IReposSAPGui	lo_Repos	= this.CreateRepository();
+					IReposSAPGui	lo_Repos	= this._DCFiller.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -68,7 +68,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Service()
 				{
 					int						ln_Cnt;
-					IReposSAPGui	lo_Repos	= this.CreateRepository();
+					IReposSAPGui	lo_Repos	= this._DCFiller.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -89,7 +89,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Workspace()
 				{
 					int						ln_Cnt;
-					IReposSAPGui	lo_Repos	= this.CreateRepository();
+					IReposSAPGui	lo_Repos	= this._DCFiller.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -111,7 +111,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Node()
 				{
 					int						ln_Cnt;
-					IReposSAPGui	lo_Repos	= this.CreateRepository();
+					IReposSAPGui	lo_Repos	= this._DCFiller.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -141,7 +141,7 @@ namespace zBxS_SAPGUI_UT
 			public void UT_SapGui_Repos_Item()
 				{
 					int						ln_Cnt;
-					IReposSAPGui	lo_Repos	= this.CreateRepository();
+					IReposSAPGui	lo_Repos	= this._DCFiller.CreateRepository();
 					//...............................................
 					ln_Cnt	= 1;
 
@@ -172,11 +172,5 @@ namespace zBxS_SAPGUI_UT
 					Assert.AreEqual		(	lg_SvID	, lo_GetN.ServiceID	, $"Repos-Itm: {ln_Cnt}: PropID		: Error");
 				}
 
-			//-------------------------------------------------------------------------------------------
-			//-------------------------------------------------------------------------------------------
-			private IReposSAPGui	CreateRepository()
-				{
-					return	new ReposSAPGui(new DCSapGui());
-				}
 		}
 }

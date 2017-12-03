@@ -1,9 +1,18 @@
 ﻿using System;
+//.........................................................
+using BxS_SAPGUI.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.DL
 {
 	internal sealed class UT_BxS_DataContainerFiller
 		{
+			#region "Declarations"
+
+				private readonly ControllerFactory _Fac		= new ControllerFactory();
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
 
 			 internal	Guid WSpID { get; private set; }
@@ -21,7 +30,8 @@ namespace BxS_SAPGUI.COM.DL
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IReposSAPGui CreateRepository(bool emptyOne = false)
 					{
-						return	emptyOne	? new ReposSAPGui(new DCSapGui()) :	new ReposSAPGui(CreateAndFill_DC());
+						return	emptyOne	? new ReposSAPGui(	this._Fac.CreateDC()	)
+															:	new ReposSAPGui(	CreateAndFill_DC()		);
 					}
 
 				//-----------------------------------------------------------------------------------------
@@ -42,7 +52,7 @@ namespace BxS_SAPGUI.COM.DL
 				//-----------------------------------------------------------------------------------------
 				private DCSapGui CreateAndFill_DC()
 					{
-						var	lo_DC	= new DCSapGui();
+						DCSapGui lo_DC	= this._Fac.CreateDC();
 
 						DTOMsgServer	lo_MsgDTO	= this.Create_MsgSvrDTO();
 						DTOService		lo_SrvDTO	= this.Create_SrvDTO(lo_MsgDTO.UUID);
@@ -62,9 +72,9 @@ namespace BxS_SAPGUI.COM.DL
 						lo_DC.MsgServers	.AddUpdate	(lo_MsgDTO.UUID, lo_MsgDTO);
 						lo_DC.Services		.AddUpdate	(lo_SrvDTO.UUID, lo_SrvDTO);
 						lo_DC.Workspaces	.AddUpdate	(lo_WspDTO.UUID, lo_WspDTO);
-						lo_DC.Nodes			.AddUpdate	(lo_NdeDTO.UUID, lo_NdeDTO);
-						lo_DC.Items			.AddUpdate	(lo_NItDTO.UUID, lo_NItDTO);
-						lo_DC.Items			.AddUpdate	(lo_WItDTO.UUID, lo_WItDTO);
+						lo_DC.Nodes				.AddUpdate	(lo_NdeDTO.UUID, lo_NdeDTO);
+						lo_DC.Items				.AddUpdate	(lo_NItDTO.UUID, lo_NItDTO);
+						lo_DC.Items				.AddUpdate	(lo_WItDTO.UUID, lo_WItDTO);
 
 						return	lo_DC;
 					}
