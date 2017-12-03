@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_WinUtilFRM", "BxS_WinUtilFRM\BxS_WinUtilFRM.csproj", "{23DC689A-FAA1-4882-A7A3-826CFAB8C4D5}"
 EndProject
@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BxS_SAPLogon", "BxS_SAPLogo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "zBxS_ZStuff", "zBxS_ZStuff\zBxS_ZStuff.csproj", "{2D5E8C9A-BC05-40BD-BA53-C9AE68A0A574}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_SAPConnection", "BxS_SAPConnection\BxS_SAPConnection.csproj", "{031B054E-BC1A-45D3-8B35-3F8E23780362}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BxS_SAPConnection", "BxS_SAPConnection\BxS_SAPConnection.csproj", "{031B054E-BC1A-45D3-8B35-3F8E23780362}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zBxS_SAPLogon_UT", "zBxS_SAPLogon\zBxS_SAPLogon_UT.csproj", "{F6F0F186-9AA2-4581-BA83-D9DD4BD0E10E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{031B054E-BC1A-45D3-8B35-3F8E23780362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{031B054E-BC1A-45D3-8B35-3F8E23780362}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{031B054E-BC1A-45D3-8B35-3F8E23780362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6F0F186-9AA2-4581-BA83-D9DD4BD0E10E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6F0F186-9AA2-4581-BA83-D9DD4BD0E10E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6F0F186-9AA2-4581-BA83-D9DD4BD0E10E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6F0F186-9AA2-4581-BA83-D9DD4BD0E10E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

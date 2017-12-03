@@ -19,9 +19,12 @@ namespace BxS_SAPLogon.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IFavourites CreateFavourite(string fullPathName)
+				public IFavourites CreateFavourite(	string	fullPathName						,
+																						int			MaximumEntries	= 3			,
+																						bool		Autoload				= true	,
+																						bool		AutoSave				= true		)
 					{
-						return	new Favourites(this.CreateFavouriteDC(fullPathName));
+						return	new Favourites(this.CreateFavouriteDC(fullPathName), MaximumEntries, Autoload, AutoSave);
 					}
 
 			#endregion

@@ -43,9 +43,9 @@ namespace zBxS_ToolSet_UT
 				{
 					if (File.Exists(_TestFullNme))	File.Delete(_TestFullNme);
 					//...............................................
-					int	ln_Cnt;
+					int	ln_Cnt	= 0;
 					//...............................................
-					ln_Cnt	= 1;
+					ln_Cnt	++;
 
 					const string lz_Tst	= "TestString";
 

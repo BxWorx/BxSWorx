@@ -7,14 +7,16 @@ namespace BxS_SAPLogon.API
 		{
 			#region "Properties"
 
-				IList<IDTOFavourite>	List	{ get; }
+				int Count	{	get;	}
+				int Max		{	get;	set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				IDTOFavourite Create(Guid ID = default(Guid));
+				IList<IDTOFavourite>	List();
+				IDTOFavourite					Create(Guid ID = default(Guid));
 				//.................................................
 				void Add(IDTOFavourite DTO);
 

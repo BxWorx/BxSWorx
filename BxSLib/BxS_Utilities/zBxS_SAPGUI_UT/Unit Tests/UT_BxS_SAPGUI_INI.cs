@@ -46,6 +46,5 @@ namespace zBxS_SAPGUI_UT
 					Assert.AreEqual(lo_Rep.ItemCount	,	lo_Repx	.ItemCount,	$"DLCntlr: {ln_Cnt}: Rep vs Repx count");
 					Assert.AreEqual(lt[1].UUID				,	ltx[1].UUID				,	$"DLCntlr: {ln_Cnt}: Rep vs Repx ID");
 				}
-
 		}
 }

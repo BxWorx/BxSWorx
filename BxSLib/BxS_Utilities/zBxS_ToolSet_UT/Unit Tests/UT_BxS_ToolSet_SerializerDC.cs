@@ -20,7 +20,6 @@ namespace zBxS_ToolSet_UT
 			private	static readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	_PathTest			= Path.Combine(_Path,	cz_TestDir);
 			private	static readonly string	_TestXMLFNme	= Path.Combine(_PathTest,	cz_TestFNameXML	);
-			//...................................................
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
@@ -55,10 +54,9 @@ namespace zBxS_ToolSet_UT
 			[TestMethod]
 			public void UT_ToolSet_SerializerDC_Obj()
 				{
-					int	ln_Cnt;
+					int	ln_Cnt = 0;
 					//...............................................
-					ln_Cnt	= 1;
-
+					ln_Cnt ++;
 					var				lo_Ser	= new ObjSerializer();
 					TestClass lo_Tst	= this.CreateTestClass();
 					string		lc_Cls;
@@ -111,7 +109,7 @@ namespace zBxS_ToolSet_UT
 						[DataMember]	internal	string Prop3 { get; private set; }
 
 						[DataMember]	internal Dictionary<string, string>		_Dict;
-						[DataMember]	private	 Dictionary<string, TestDTO>	_DTO;
+						[DataMember]	private readonly Dictionary<string, TestDTO>	_DTO;
 
 						internal void SetTest(string Str)
 							{

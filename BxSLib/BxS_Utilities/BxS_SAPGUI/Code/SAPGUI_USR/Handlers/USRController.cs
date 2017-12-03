@@ -54,6 +54,7 @@ namespace BxS_SAPGUI.USR
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override void AddConnection(IDTOConnection dtoConnection)
 					{
+						IDTOConnection x = dtoConnection;
 							//this._DLCntlr.Save(this.Repository);
 					}
 
@@ -81,7 +82,9 @@ namespace BxS_SAPGUI.USR
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ProcessConnection(IDTOConnection dtoConnection)
-					{ }
+					{
+						IDTOConnection x = dtoConnection;
+					}
 
 			#endregion
 

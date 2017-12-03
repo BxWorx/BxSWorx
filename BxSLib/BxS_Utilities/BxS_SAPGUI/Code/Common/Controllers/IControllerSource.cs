@@ -8,7 +8,6 @@ namespace BxS_SAPGUI.COM.CNTLR
 {
 	internal interface IControllerSource
 		{
-
 			#region "Properties"
 
 				IReposSAPGui Repository { get; set; }

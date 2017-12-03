@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
@@ -11,7 +12,7 @@ namespace BxS_Toolset.Serialize
 			#region "Methods: Exposed"
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public string Serialize<T>(T classObject)
+					public string Serialize<T>(T classObject, List<Type> knownTypes = default(List<Type>))
 						{
 							try
 								{
@@ -24,7 +25,8 @@ namespace BxS_Toolset.Serialize
 
 									using (var lo_XMLWriter = XmlWriter.Create(lo_StrBld, lo_XWSettings))
 										{
-											var lo_XMLSer	= new DataContractSerializer(typeof(T));
+											var lo_XMLSer	= new DataContractSerializer(typeof(T), knownTypes);
+
 											lo_XMLSer.WriteObject(lo_XMLWriter, classObject);
 											lo_XMLWriter.Flush();
 

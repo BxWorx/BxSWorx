@@ -171,6 +171,5 @@ namespace zBxS_SAPGUI_UT
 					Assert.AreEqual		(	lg_IDw	, lo_GetW.UUID			, $"Repos-Itm: {ln_Cnt}: Equal		: Error");
 					Assert.AreEqual		(	lg_SvID	, lo_GetN.ServiceID	, $"Repos-Itm: {ln_Cnt}: PropID		: Error");
 				}
-
 		}
 }

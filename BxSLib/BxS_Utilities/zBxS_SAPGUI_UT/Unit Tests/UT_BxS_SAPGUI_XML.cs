@@ -83,6 +83,5 @@ namespace zBxS_SAPGUI_UT
 					//Assert.AreEqual	(cz_TestConnID			, lo_DTOConn.ID	,	$"Cntlr: {ln_Cnt}: Conn: Error");
 					//Assert.IsTrue		(lo_DTOConn.IsValid	,									$"Cntlr: {ln_Cnt}: Valid: Error");
 				}
-
 		}
 }

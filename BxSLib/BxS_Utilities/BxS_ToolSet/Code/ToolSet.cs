@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using BxS_Toolset.DataContainer;
 //.........................................................
@@ -9,7 +10,6 @@ namespace BxS_Toolset
 {
 	public class ToolSet
 		{
-
 			#region "Declarations"
 
 				private readonly	Lazy<IO>						_IO		= new Lazy<IO>						( () => new IO()						,	LazyThreadSafetyMode.ExecutionAndPublication );
@@ -28,12 +28,17 @@ namespace BxS_Toolset
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DCController<TCls, TKey> CreateDCController<TCls, TKey>(	string						fullPathName	,
-																																				Func<TKey, TCls>	createNew				)	where TCls: class
+																																				Func<TKey, TCls>	createNew			,
+																																				List<Type>        knownTypes	= default(List<Type>)	)
+																					where TCls: class
 					{
+						List<Type> lt_Known = knownTypes ?? new List<Type>();
+
 						return	new DCController<TCls, TKey>(	this._IO.Value	,
 																									this._Ser.Value	,
 																									fullPathName		,
-																									createNew					);
+																									createNew				,
+																									lt_Known					);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

@@ -47,7 +47,6 @@ namespace BxS_SAPGUI.COM.DL
 
 												lt_HierNodes.Add(new DTOConnectionView(lc_ItID, this.GetServiceDescription(ls_Item.ServiceID), lc_NDID, ls_Item.UUID));
 											}
-
 									}
 								//.........................................
 								ln_ItNo	= 0;

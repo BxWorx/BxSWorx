@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
+using BxS_Toolset;
 using BxS_Toolset.DataContainer;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_ToolSet_UT
@@ -11,12 +12,39 @@ namespace zBxS_ToolSet_UT
 	public class UT_BxS_ToolSet_DataTable
 		{
 			private const string	cz_TestDir			= "Test Resources";
-			private const string	cz_TestFileName	= "Test Data.txt";
+			private const string	cz_TestFileName	= "Test DTCntlr.xml";
 			private const string	cz_TestIniName	= "saplogon_Test.ini";
 			//...................................................
 			private	static readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 			private	static readonly string	_PathTest			= Path.Combine(_Path		,	cz_TestDir			);
 			private	static readonly string	_TestFullNme	= Path.Combine(_PathTest,	cz_TestFileName	);
+			//...................................................
+			private readonly ToolSet _TS	= new ToolSet();
+
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_ToolSet_DTCntlr()
+				{
+					int	ln_Cnt	= 0;
+					//...............................................
+					ln_Cnt	++;
+
+					DCController<IDTO, Guid> lo_DC = this._TS.CreateDCController<IDTO, Guid>(_TestFullNme,	(Guid ID) => new DTO() );
+					Assert.IsNotNull	(	lo_DC	,	$"DTCntlr: {ln_Cnt}: Instantiate");
+					//...............................................
+					ln_Cnt	++;
+					var lt_Types = new List<Type>	{	typeof(DTO)	};
+
+					DCController<IDTO, Guid>	lo_DC1	= this._TS.CreateDCController<IDTO, Guid>(_TestFullNme,	(Guid ID) => new DTO() );
+					IDTO											lo_DTO1	= lo_DC1.DataTable.Create(Guid.NewGuid());
+
+					lo_DC1.DataTable.AddUpdate(lo_DTO1.Key, lo_DTO1);
+
+					Assert.IsNotNull	(	lo_DC1																	,	$"DTCntlr1: {ln_Cnt}: Instantiate");
+					Assert.AreEqual		(	1							, lo_DC1.DataTable.Count	,	$"DTCntlr1: {ln_Cnt}: Count"				);
+					Assert.IsTrue			(	lo_DC1.Save()														,	$"DTCntlr1: {ln_Cnt}: Save"				);
+					Assert.IsTrue			(	File.Exists(_TestFullNme)								,	$"DTCntlr1: {ln_Cnt}: Exists"	);
+				}
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
@@ -25,7 +53,7 @@ namespace zBxS_ToolSet_UT
 					int	ln_Cnt	= 0;
 					//...............................................
 					ln_Cnt	++;
-					var lo_DT	= new DCTable<IDTO, Guid>(( Guid ID ) => new DTO());
+					DCTable<IDTO, Guid> lo_DT = this._TS.CreateDCTable<IDTO, Guid>(	(Guid ID) => new DTO() );
 
 					Assert.IsNotNull	(		lo_DT				,	$"DCTable: {ln_Cnt}: Ins: Error");
 					Assert.AreEqual		(0, lo_DT.Count	,	$"DCTable: {ln_Cnt}: Cnt: Error");
