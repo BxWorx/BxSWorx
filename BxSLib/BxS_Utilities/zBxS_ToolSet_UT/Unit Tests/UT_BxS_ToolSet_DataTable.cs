@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 using BxS_Toolset;
@@ -25,25 +26,44 @@ namespace zBxS_ToolSet_UT
 			[TestMethod]
 			public void UT_ToolSet_DTCntlr()
 				{
-					int	ln_Cnt	= 0;
+					int	ln_Cnt		= 0;
+					var lt_Types	= new List<Type>	{	typeof(DTO)	};
 					//...............................................
 					ln_Cnt	++;
 
-					DCController<IDTO, Guid> lo_DC = this._TS.CreateDCController<IDTO, Guid>(_TestFullNme,	(Guid ID) => new DTO() );
-					Assert.IsNotNull	(	lo_DC	,	$"DTCntlr: {ln_Cnt}: Instantiate");
+					if (File.Exists(_TestFullNme))	File.Delete(_TestFullNme);
+					Assert.IsFalse	(	File.Exists(_TestFullNme)	,	$"DTCntlr1: {ln_Cnt}: Not Exists"	);
 					//...............................................
 					ln_Cnt	++;
-					var lt_Types = new List<Type>	{	typeof(DTO)	};
 
-					DCController<IDTO, Guid>	lo_DC1	= this._TS.CreateDCController<IDTO, Guid>(_TestFullNme,	(Guid ID) => new DTO() );
+					DCController<IDTO, Guid>	lo_DC0	= this._TS.CreateDCController<IDTO, Guid>(_TestFullNme,	(Guid ID) => new DTO() { Key = ID } );
+					IDTO											lo_DTO0	= lo_DC0.DataTable.Create(Guid.NewGuid());
+
+					lo_DC0.DataTable.AddUpdate(lo_DTO0.Key, lo_DTO0);
+					bool lb_Sve0	= lo_DC0.Save();
+
+					Assert.IsNotNull	(	lo_DC0	,	$"DTCntlr: {ln_Cnt}: Instantiate"	);
+					Assert.IsFalse		(	lb_Sve0	,	$"DTCntlr1: {ln_Cnt}: Save"				);
+					//...............................................
+					ln_Cnt	++;
+
+					DCController<IDTO, Guid>	lo_DC1	= this._TS.CreateDCController<IDTO, Guid>(_TestFullNme,	(Guid ID) => new DTO() { Key = ID }, lt_Types );
 					IDTO											lo_DTO1	= lo_DC1.DataTable.Create(Guid.NewGuid());
 
 					lo_DC1.DataTable.AddUpdate(lo_DTO1.Key, lo_DTO1);
+					bool lb_Sve1	= lo_DC1.Save();
 
-					Assert.IsNotNull	(	lo_DC1																	,	$"DTCntlr1: {ln_Cnt}: Instantiate");
-					Assert.AreEqual		(	1							, lo_DC1.DataTable.Count	,	$"DTCntlr1: {ln_Cnt}: Count"				);
-					Assert.IsTrue			(	lo_DC1.Save()														,	$"DTCntlr1: {ln_Cnt}: Save"				);
-					Assert.IsTrue			(	File.Exists(_TestFullNme)								,	$"DTCntlr1: {ln_Cnt}: Exists"	);
+					Assert.IsNotNull	(	lo_DC1											,	$"DTCntlr1: {ln_Cnt}: Instantiate"	);
+					Assert.IsTrue			(	lb_Sve1											,	$"DTCntlr1: {ln_Cnt}: Save"					);
+					Assert.IsTrue			(	File.Exists(_TestFullNme)		,	$"DTCntlr1: {ln_Cnt}: Exists"				);
+
+					Assert.AreEqual		(	1	, lo_DC1.DataTable.Count	,	$"DTCntlr1: {ln_Cnt}: Count"				);
+					//...............................................
+					ln_Cnt	++;
+
+					DCController<IDTO, Guid>	lo_DC2	= this._TS.CreateDCController<IDTO, Guid>(_TestFullNme,	(Guid ID) => new DTO() { Key = ID }, lt_Types );
+
+
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -101,11 +121,13 @@ namespace zBxS_ToolSet_UT
 						bool IsValid	{ get; set;	}
 					}
 
+				[DataContract]
+
 				private class DTO : IDTO
 					{
-						public Guid Key     { get; set; }
-						public Guid Key1    { get; set; }
-						public bool IsValid { get; set; }
+						[DataMember]	public Guid Key     { get; set; }
+						[DataMember]	public Guid Key1    { get; set; }
+						[DataMember]	public bool IsValid { get; set; }
 					}
 
 			#endregion

@@ -66,7 +66,6 @@ namespace BxS_Toolset.DataContainer
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public TCls Create(TKey ID	= default(TKey))
 					{
-						this.IsDirty	= true;
 						return	this._CreateNew(ID);
 					}
 

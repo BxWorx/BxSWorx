@@ -1,0 +1,13 @@
+<DCTableOfanyTypeguid xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BxS_Toolset.DataContainer">
+  <_DataTable xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <d2p1:KeyValueOfguidanyType>
+      <d2p1:Key>f473eaab-b722-47ac-8be5-6e71f4735ac1</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/zBxS_ToolSet_UT"
+        i:type="d4p1:UT_BxS_ToolSet_DataTable.DTO">
+        <d4p1:IsValid>false</d4p1:IsValid>
+        <d4p1:Key>f473eaab-b722-47ac-8be5-6e71f4735ac1</d4p1:Key>
+        <d4p1:Key1>00000000-0000-0000-0000-000000000000</d4p1:Key1>
+      </d2p1:Value>
+    </d2p1:KeyValueOfguidanyType>
+  </_DataTable>
+</DCTableOfanyTypeguid>

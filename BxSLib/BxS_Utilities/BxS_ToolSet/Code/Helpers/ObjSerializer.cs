@@ -14,8 +14,8 @@ namespace BxS_Toolset.Serialize
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 					public string Serialize<T>(T classObject, List<Type> knownTypes = default(List<Type>))
 						{
-							try
-								{
+							//try
+							//	{
 									var lo_XWSettings = new XmlWriterSettings
 										{	Indent							= true	,
 											OmitXmlDeclaration	= true	,
@@ -32,11 +32,11 @@ namespace BxS_Toolset.Serialize
 
 											return	lo_StrBld.ToString();
 										}
-								}
-							catch (Exception)
-								{
-									return	string.Empty;
-								}
+							//	}
+							//catch (Exception)
+							//	{
+							//		return	string.Empty;
+							//	}
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
