@@ -134,7 +134,8 @@ namespace BxS_SAPGUI.INI
 
 								if (lo_Link.ServiceID.Equals(Guid.Empty))
 									{
-										lo_Link.ServiceID	= Guid.NewGuid();
+										lo_Link.INIItemDesc	= lc_Key;
+										lo_Link.ServiceID		= Guid.NewGuid();
 										this._LinkDesc2Srv.AddUpdate(lo_Link.INIItemDesc, lo_Link);
 									}
 								this._Used.Add(lo_Link.INIItemDesc);

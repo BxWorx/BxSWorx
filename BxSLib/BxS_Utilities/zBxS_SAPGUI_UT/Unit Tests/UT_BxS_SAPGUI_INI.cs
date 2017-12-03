@@ -4,9 +4,7 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_SAPGUI.API;
 using BxS_SAPGUI.COM.DL;
-using BxS_Toolset.IODisk;
 using BxS_SAPGUI.INI;
-using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPGUI_UT
 {
@@ -31,7 +29,7 @@ namespace zBxS_SAPGUI_UT
 				{
 					int	ln_Cnt;
 					//...............................................
-					IReposSAPGui			lo_Rep		= this._DCFiller.CreateRepository();
+					IReposSAPGui			lo_Rep		= this._DCFiller.CreateRepository(true);
 					IReposSAPGui			lo_Repx		= this._DCFiller.CreateRepository(true);
 					INIParse2ReposDTO lo_Parser	= this._Fac.CreateINIParser(lo_Rep	,	_FileTestINI, _FileTestLNK);
 					INIParse2ReposDTO lo_Parsex	= this._Fac.CreateINIParser(lo_Repx	,	_FileTestINI, _FileTestLNK);

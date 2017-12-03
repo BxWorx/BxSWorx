@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 //.........................................................
 using BxS_SAPGUI.API;
+using BxS_SAPConn.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.CNTLR
 {

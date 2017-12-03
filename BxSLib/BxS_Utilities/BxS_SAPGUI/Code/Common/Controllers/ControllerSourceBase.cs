@@ -2,6 +2,7 @@
 //.........................................................
 using BxS_SAPGUI.COM.DL;
 using BxS_SAPGUI.API;
+using BxS_SAPConn.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.CNTLR
 {
@@ -33,7 +34,10 @@ namespace BxS_SAPGUI.COM.CNTLR
 					}
 
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void GetConnection(IDTOConnection dtoConnection) { dtoConnection = new DTOConnection();  }
+				public void GetConnection(IDTOConnection dtoConnection) 
+					{
+						//dtoConnection = new DTOConnection();
+					}
 				//							=> this.Repository.LoadConnectionDTO(dtoConnection);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

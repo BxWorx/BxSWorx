@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "zBxS_ToolSet_UT", "zBxS_Too
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BxS_ToolSet", "BxS_ToolSet\BxS_ToolSet.csproj", "{69D404B4-FB17-4667-8107-CC3E0827EBDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_SAPLogon", "BxS_SAPLogon\BxS_SAPLogon.csproj", "{131A0355-9E62-4222-BCE7-0B2417385A06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BxS_SAPLogon", "BxS_SAPLogon\BxS_SAPLogon.csproj", "{131A0355-9E62-4222-BCE7-0B2417385A06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zBxS_ZStuff", "zBxS_ZStuff\zBxS_ZStuff.csproj", "{2D5E8C9A-BC05-40BD-BA53-C9AE68A0A574}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "zBxS_ZStuff", "zBxS_ZStuff\zBxS_ZStuff.csproj", "{2D5E8C9A-BC05-40BD-BA53-C9AE68A0A574}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_SAPConnection", "BxS_SAPConnection\BxS_SAPConnection.csproj", "{031B054E-BC1A-45D3-8B35-3F8E23780362}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{2D5E8C9A-BC05-40BD-BA53-C9AE68A0A574}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D5E8C9A-BC05-40BD-BA53-C9AE68A0A574}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D5E8C9A-BC05-40BD-BA53-C9AE68A0A574}.Release|Any CPU.Build.0 = Release|Any CPU
+		{031B054E-BC1A-45D3-8B35-3F8E23780362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{031B054E-BC1A-45D3-8B35-3F8E23780362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{031B054E-BC1A-45D3-8B35-3F8E23780362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{031B054E-BC1A-45D3-8B35-3F8E23780362}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

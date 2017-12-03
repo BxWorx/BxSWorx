@@ -1,9 +1,9 @@
-﻿using BxS_SAPGUI.API;
-using BxS_SAPGUI.COM.CNTLR;
+﻿using BxS_SAPGUI.COM.CNTLR;
 using BxS_SAPGUI.COM.DL;
 using BxS_Toolset.IODisk;
 using BxS_Toolset.Serialize;
-//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+using BxS_SAPConn.API;
+	//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.USR
 {
 	internal class USRController : ControllerSourceBase

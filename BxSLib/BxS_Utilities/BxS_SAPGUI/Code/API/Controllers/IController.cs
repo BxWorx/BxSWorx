@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+//.........................................................
+using BxS_SAPConn.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.API
 {

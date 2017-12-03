@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Runtime.Serialization;
+//.........................................................
+using BxS_SAPConn.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPLogon.API
 {
-	[DataContract]
-
-	internal class DTOFavourite : IDTOFavourite
+	public interface IDTOFavourite
 		{
 			#region "Properties"
 
-				[DataMember]	public Guid		UUID					{ get; set; }
+				Guid		UUID					{ get; set; }
 				//.................................................
-				[DataMember]	public int		SeqNo					{ get; set; }
-				[DataMember]	public Guid		ServiceID			{ get; set; }
-				[DataMember]	public string	Description		{ get; set; }
-				[DataMember]	public string	Client				{ get; set; }
-				[DataMember]	public string	SystemID			{ get; set; }
+				int			SeqNo					{ get; set; }
+				string	Client				{ get; set; }
+				string	User					{ get; set; }
+				string	Password			{ get; set; }
+				//.................................................
+				IDTOConnection	SAPConn	{ get; set; }
 
 			#endregion
 

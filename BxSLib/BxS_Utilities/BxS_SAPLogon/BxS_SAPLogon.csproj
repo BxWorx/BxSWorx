@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BxS_SAPConnection\BxS_SAPConnection.csproj" />
     <ProjectReference Include="..\BxS_ToolSet\BxS_ToolSet.csproj" />
   </ItemGroup>
 

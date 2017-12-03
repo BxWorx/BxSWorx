@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 //.........................................................
 using BxS_Toolset.DataContainer;
-using BxS_Toolset.IODisk;
-using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPLogon.API
 {
@@ -12,9 +10,11 @@ namespace BxS_SAPLogon.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Favourites(	DCController<IDTOFavourite	, Guid>	cntlr )
+				internal Favourites(	DCController<IDTOFavourite, Guid>	cntlr,
+															bool	autoLoad	= true)
 					{
 						this._DCCntlr	= cntlr;
+						if (autoLoad)	this.Load();
 					}
 
 			#endregion
@@ -23,12 +23,6 @@ namespace BxS_SAPLogon.API
 			#region "Declarations"
 
 				private readonly	DCController<IDTOFavourite	, Guid>	_DCCntlr;
-
-				//private readonly	IO						_IO								;
-				//private readonly	ObjSerializer	_Serializer				;
-				//private readonly	string				_FullPathName	;
-				////.................................................
-				//private readonly	DCTable<IDTOFavourite, Guid>	_DC;
 
 			#endregion
 

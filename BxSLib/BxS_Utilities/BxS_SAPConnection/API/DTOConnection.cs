@@ -1,30 +1,33 @@
 ﻿using System;
+using System.Runtime.Serialization;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPGUI.API
+namespace BxS_SAPConn.API
 {
-	internal class DTOConnection : IDTOConnection
+	[DataContract]
+
+	public class DTOConnection : IDTOConnection
 		{
 			#region "Properties"
 
-				public Guid		ID							{ get; set; }
+				[DataMember]	public Guid		ID							{ get; set; }
 				//.................................................
-				public string	AppServer				{ get; set; }
-				public int		InstanceNo			{ get; set; }
-				public string	RouterPath			{ get; set; }
-				public string	ServiceName			{ get; set; }
-				public string	SystemID				{ get; set; }
-				public bool		LowSpeed				{ get; set; }
+				[DataMember]	public string	AppServer				{ get; set; }
+				[DataMember]	public int		InstanceNo			{ get; set; }
+				[DataMember]	public string	RouterPath			{ get; set; }
+				[DataMember]	public string	ServiceName			{ get; set; }
+				[DataMember]	public string	SystemID				{ get; set; }
+				[DataMember]	public bool		LowSpeed				{ get; set; }
 				//.................................................
-				public bool		SNC_Active			{ get; set; }
-				public string	SNC_PartnerName	{ get; set; }
-				public int		SNC_QOP					{ get; set; }
-				public bool		SNC_UsrPwd			{ get; set; }
+				[DataMember]	public bool		SNC_Active			{ get; set; }
+				[DataMember]	public string	SNC_PartnerName	{ get; set; }
+				[DataMember]	public int		SNC_QOP					{ get; set; }
+				[DataMember]	public bool		SNC_UsrPwd			{ get; set; }
 				//.................................................
-				public Guid		MSID						{ get; set; }
-				public string MSName					{ get; set; }
-				public string MSHost					{ get; set; }
-				public string MSPort					{ get; set; }
-				public string MSDescription		{ get; set; }
+				[DataMember]	public Guid		MSID						{ get; set; }
+				[DataMember]	public string MSName					{ get; set; }
+				[DataMember]	public string MSHost					{ get; set; }
+				[DataMember]	public string MSPort					{ get; set; }
+				[DataMember]	public string MSDescription		{ get; set; }
 
 			#endregion
 
@@ -32,7 +35,7 @@ namespace BxS_SAPGUI.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTOConnection()
+				public DTOConnection()
 					{
 						this.ID								= Guid.Empty;
 						//..............................................

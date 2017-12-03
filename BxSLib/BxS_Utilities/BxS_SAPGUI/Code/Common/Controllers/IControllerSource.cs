@@ -2,6 +2,7 @@
 //.........................................................
 using BxS_SAPGUI.API;
 using BxS_SAPGUI.COM.DL;
+using BxS_SAPConn.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPGUI.COM.CNTLR
 {
