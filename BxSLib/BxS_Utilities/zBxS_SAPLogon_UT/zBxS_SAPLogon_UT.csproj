@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Unit Tests\" />
     <Folder Include="Test Resources\" />
+    <Folder Include="Unit Tests\" />
   </ItemGroup>
 
 </Project>

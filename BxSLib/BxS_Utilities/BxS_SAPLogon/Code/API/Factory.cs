@@ -26,7 +26,10 @@ namespace BxS_SAPLogon.API
 																						bool		AutoLoad				= true	,
 																						bool		AutoSave				= true		)
 					{
-						return	new Favourites(this.CreateDTCntlr(fullPathName, AutoLoad), MaximumEntries, AutoLoad, AutoSave);
+						return	new Favourites(	this.CreateDTCntlr(	fullPathName, AutoLoad)	,
+																		MaximumEntries															,
+																		AutoLoad																		,
+																		AutoSave																			);
 					}
 
 			#endregion
