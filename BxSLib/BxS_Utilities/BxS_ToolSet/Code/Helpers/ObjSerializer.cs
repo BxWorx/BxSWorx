@@ -12,7 +12,15 @@ namespace BxS_Toolset.Serialize
 			#region "Methods: Exposed"
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public string Serialize<T>(T classObject, List<Type> knownTypes = default(List<Type>))
+					public string Serialize<T>(T classObject)
+						{
+							var	lt_Types	= new List<Type>();
+							return	this.Serialize(classObject, lt_Types);
+						}
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public string Serialize<T>(	T						classObject	,
+																			List<Type>	knownTypes		)
 						{
 							//try
 							//	{
@@ -42,35 +50,57 @@ namespace BxS_Toolset.Serialize
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 					public T DeSerialize<T>(string xmlString)
 						{
-							try
-								{
-									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
-										{
-											var lo_serializer = new DataContractSerializer(typeof(T));
-											return (T)lo_serializer.ReadObject(lo_XMLReader);
-										}
-								}
-							catch (Exception)
-								{
-									return	default(T);
-								}
+							var	lt_Types	= new List<Type>();
+							return	this.DeSerialize<T>(	xmlString	:	xmlString	,
+																						knownTypes: lt_Types		);
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void DeSerialize<T>(string xmlString, ref T classObject)
+					public T DeSerialize<T>(	string			xmlString		,
+																		List<Type>	knownTypes		)
 						{
-							try
-								{
+							//try
+							//	{
 									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
 										{
-											var lo_serializer = new DataContractSerializer(typeof(T));
+											var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
+											return (T)lo_serializer.ReadObject(lo_XMLReader);
+										}
+							//	}
+							//catch (Exception)
+							//	{
+							//		return	default(T);
+							//	}
+						}
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public void DeSerialize<T>(	string			xmlString		,
+																			ref T				classObject		)
+						{
+							var	lt_Types	= new List<Type>();
+
+							this.DeSerialize(			xmlString		,
+																ref classObject	,
+																		lt_Types			);
+						}
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public void DeSerialize<T>(	string			xmlString		,
+																			ref T				classObject	,
+																			List<Type>	knownTypes		)
+						{
+							//try
+							//	{
+									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
+										{
+											var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
 											classObject	= (T)lo_serializer.ReadObject(lo_XMLReader);
 										}
-								}
-							catch (Exception)
-								{
-									classObject	=	default(T);
-								}
+							//	}
+							//catch (Exception)
+							//	{
+							//		classObject	=	default(T);
+							//	}
 						}
 
 			#endregion

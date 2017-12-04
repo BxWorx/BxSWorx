@@ -28,7 +28,7 @@ namespace BxS_SAPGUI.INI
 						this._ActiveSection		= string.Empty;
 						this._WSID						= Guid.NewGuid();
 						this._Items						= new Dictionary<int, Dictionary<string, string>>();
-						this._LinkDesc2Srv		= new DCTable<INILinkDTO, string>	( (string ID) => new INILinkDTO()	{ INIItemDesc	= ID } );
+						this._LinkDesc2Srv		= new DataTable<INILinkDTO, string>	( (string ID) => new INILinkDTO()	{ INIItemDesc	= ID } );
 						this._Used						= new List<string>();
 					}
 
@@ -52,7 +52,7 @@ namespace BxS_SAPGUI.INI
 				private						string				_ActiveSection		;
 				//.................................................
 				private	readonly	Dictionary<int, Dictionary<string, string>>		_Items;
-				private readonly	DCTable<INILinkDTO, string>										_LinkDesc2Srv;
+				private readonly	DataTable<INILinkDTO, string>										_LinkDesc2Srv;
 				private readonly	IList<string>																	_Used;
 			#endregion
 
@@ -89,8 +89,8 @@ namespace BxS_SAPGUI.INI
 					{
 						if (this._IO.FileExists(this._FullPathNameLNK))
 							{
-								DCTable<INILinkDTO, string> lo_DTO	= this._Serializer
-																												.DeSerialize<DCTable<INILinkDTO, string>>
+								DataTable<INILinkDTO, string> lo_DTO	= this._Serializer
+																												.DeSerialize<DataTable<INILinkDTO, string>>
 																													(this._IO.ReadFile(this._FullPathNameLNK));
 								lo_DTO.TransferTo(this._LinkDesc2Srv);
 							}

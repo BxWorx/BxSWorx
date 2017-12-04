@@ -25,8 +25,10 @@ namespace zBxS_SAPLogon_UT
 					int	ln_Cnt	= 0;
 					//...............................................
 					ln_Cnt	++;
-					IFavourites lo_Fav	= this._Fac.CreateFavourite(_TestFullNme);
-					Assert.IsNotNull	(	lo_Fav,	$"DCTable: {ln_Cnt}: Ins: Error");
+					IFavourites lo_Fav	= this._Fac.CreateFavourite(	fullPathName: _TestFullNme	,
+																														AutoLoad		: false					,
+																														AutoSave		: false						);
+					Assert.IsNotNull	(	lo_Fav,	$"DCTable: {ln_Cnt}: Instantiate");
 
 					//...............................................
 					ln_Cnt	++;
@@ -44,6 +46,17 @@ namespace zBxS_SAPLogon_UT
 					Assert.AreEqual		(3, lo_Fav.Count	,	$"Fav: {ln_Cnt}: Cnt3");
 					lo_Fav.Add(lo_DTO4);
 					Assert.AreEqual		(3, lo_Fav.Count	,	$"Fav: {ln_Cnt}: Cnt4");
+
+					lo_Fav.Save(true);
+
+					//...............................................
+					ln_Cnt	++;
+					IFavourites lo_Fav1	= this._Fac.CreateFavourite(	fullPathName: _TestFullNme	,
+																														AutoLoad		: true					,
+																														AutoSave		: false						);
+
+					Assert.IsNotNull	(		lo_Fav1				,	$"Fav: {ln_Cnt}: Instantiate"	);
+					Assert.AreEqual		(3, lo_Fav1.Count	,	$"Fav: {ln_Cnt}: Cnt4"				);
 				}
 	}
 }

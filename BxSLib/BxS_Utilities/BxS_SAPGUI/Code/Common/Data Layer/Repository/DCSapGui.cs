@@ -19,11 +19,11 @@ namespace BxS_SAPGUI.COM.DL
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DCSapGui(DCTable	<IDTOMsgServer	, Guid> msgServer		,
-													DCTable	<IDTOService		, Guid> services		,
-													DCTable	<IDTOWorkspace	, Guid>	workspaces	,
-													DCTable	<IDTONode				, Guid>	nodes				,
-													DCTable	<IDTOItem				, Guid>	items					)
+				internal DCSapGui(DataTable	<IDTOMsgServer	, Guid> msgServer		,
+													DataTable	<IDTOService		, Guid> services		,
+													DataTable	<IDTOWorkspace	, Guid>	workspaces	,
+													DataTable	<IDTONode				, Guid>	nodes				,
+													DataTable	<IDTOItem				, Guid>	items					)
 					{
 						this.MsgServers		= msgServer		;
 						this.Services			= services		;
@@ -37,11 +37,11 @@ namespace BxS_SAPGUI.COM.DL
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	internal DCTable<IDTOMsgServer	, Guid> MsgServers	{ get; set; }
-				[DataMember]	internal DCTable<IDTOService		,	Guid>	Services		{ get; set; }
-				[DataMember]	internal DCTable<IDTOWorkspace	, Guid> Workspaces	{ get; set; }
-				[DataMember]	internal DCTable<IDTONode				, Guid>	Nodes				{ get; set; }
-				[DataMember]	internal DCTable<IDTOItem				, Guid>	Items				{ get; set; }
+				[DataMember]	internal DataTable<IDTOMsgServer	, Guid> MsgServers	{ get; set; }
+				[DataMember]	internal DataTable<IDTOService		,	Guid>	Services		{ get; set; }
+				[DataMember]	internal DataTable<IDTOWorkspace	, Guid> Workspaces	{ get; set; }
+				[DataMember]	internal DataTable<IDTONode				, Guid>	Nodes				{ get; set; }
+				[DataMember]	internal DataTable<IDTOItem				, Guid>	Items				{ get; set; }
 				//.................................................
 				internal bool IsDirty		{ get	{		return	this.MsgServers	.IsDirty
 																							||	this.Services		.IsDirty

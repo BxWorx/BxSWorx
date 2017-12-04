@@ -17,6 +17,7 @@ namespace BxS_SAPLogon.API
 
 				IList<IDTOFavourite>	List();
 				IDTOFavourite					Create(Guid ID = default(Guid));
+				bool									Save(bool Force = false);
 				//.................................................
 				void Add(IDTOFavourite DTO);
 

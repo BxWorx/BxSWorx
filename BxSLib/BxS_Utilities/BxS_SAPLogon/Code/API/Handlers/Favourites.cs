@@ -11,7 +11,7 @@ namespace BxS_SAPLogon.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Favourites(	DCController<IDTOFavourite, Guid>	cntlr	,
+				internal Favourites(	DTController<IDTOFavourite, Guid>	cntlr	,
 															int   max				= 3											,
 															bool	autoLoad	= true									,
 															bool	autoSave	= true										)
@@ -28,7 +28,7 @@ namespace BxS_SAPLogon.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	DCController<IDTOFavourite, Guid>	_DCCntlr;
+				private readonly	DTController<IDTOFavourite, Guid>	_DCCntlr;
 				private readonly	bool		_AutoSave;
 				private int _Max;
 
@@ -69,9 +69,9 @@ namespace BxS_SAPLogon.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Save()
+				public bool	Save(bool Force = false)
 					{
-						this._DCCntlr.Save();
+						return	this._DCCntlr.Save(Force);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -118,7 +118,7 @@ namespace BxS_SAPLogon.API
 								ln_Cnt ++;
 								lo_Entry.SeqNo	= ln_Cnt;
 								this._DCCntlr.DataTable.AddUpdate(lo_Entry.UUID, lo_Entry);
-								if (ln_Cnt > this.Max)	return;
+								if (ln_Cnt >= this.Max)	return;
 							}
 					}
 

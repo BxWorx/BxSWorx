@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "zBxS_ZStuff", "zBxS_ZStuff\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BxS_SAPConnection", "BxS_SAPConnection\BxS_SAPConnection.csproj", "{031B054E-BC1A-45D3-8B35-3F8E23780362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zBxS_SAPLogon_UT", "zBxS_SAPLogon_UT\zBxS_SAPLogon_UT.csproj", "{F6F0F186-9AA2-4581-BA83-D9DD4BD0E10E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zBxS_SAPLogon_UT", "zBxS_SAPLogon\zBxS_SAPLogon_UT.csproj", "{F6F0F186-9AA2-4581-BA83-D9DD4BD0E10E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

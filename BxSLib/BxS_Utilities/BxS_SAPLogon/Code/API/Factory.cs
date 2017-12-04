@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 //.........................................................
+using BxS_SAPConn.API;
 using BxS_Toolset;
 using BxS_Toolset.DataContainer;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -21,10 +23,10 @@ namespace BxS_SAPLogon.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IFavourites CreateFavourite(	string	fullPathName						,
 																						int			MaximumEntries	= 3			,
-																						bool		Autoload				= true	,
+																						bool		AutoLoad				= true	,
 																						bool		AutoSave				= true		)
 					{
-						return	new Favourites(this.CreateFavouriteDC(fullPathName), MaximumEntries, Autoload, AutoSave);
+						return	new Favourites(this.CreateDTCntlr(fullPathName, AutoLoad), MaximumEntries, AutoLoad, AutoSave);
 					}
 
 			#endregion
@@ -33,10 +35,15 @@ namespace BxS_SAPLogon.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DCController<IDTOFavourite, Guid> CreateFavouriteDC(string fullPathName)
+				private DTController<IDTOFavourite, Guid> CreateDTCntlr(string fullPathName, bool autoLoad)
 					{
-						return	this._TS.Value.CreateDCController<IDTOFavourite, Guid>	(	fullPathName	,
-																																							(Guid ID) => new DTOFavourite()	{ UUID = ID } );
+						var lt_Types	= new List<Type>	{	typeof(DTOFavourite)	,
+																							typeof(DTOConnection)		};
+
+						return	this._TS.Value.CreateDTController<IDTOFavourite, Guid>	(	fullPathName																	,
+																																							(Guid ID) => new DTOFavourite()	{ UUID = ID } ,
+																																							lt_Types																			,
+																																							autoLoad																				);
 					}
 
 			#endregion

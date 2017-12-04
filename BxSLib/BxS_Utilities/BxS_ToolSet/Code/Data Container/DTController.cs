@@ -6,23 +6,25 @@ using BxS_Toolset.Serialize;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset.DataContainer
 {
-	public class DCController<TCls, TKey> where TCls : class
+	public class DTController<TCls, TKey> where TCls : class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DCController(IO								io						,
+				public DTController(IO								io						,
 														ObjSerializer			serializer		,
 														string						fullPathName	,
 														Func<TKey, TCls>	newEntry			,
-														List<Type>				knownTypes			)
+														List<Type>				knownTypes		,
+														bool							autoLoad				= true	)
 					{
 						this._IO						= io						;
 						this._Serializer		= serializer		;
 						this._FullPathName	= fullPathName	;
 						this._KnownTypes		= knownTypes		;
 						//.............................................
-						this.DataTable	= new DCTable<TCls, TKey>( newEntry );
+						this.DataTable	= new DataTable<TCls, TKey>( newEntry );
+						if (autoLoad)	this.Load();
 					}
 
 			#endregion
@@ -40,7 +42,7 @@ namespace BxS_Toolset.DataContainer
 			//===========================================================================================
 			#region "Properties"
 
-				public DCTable<TCls, TKey>	DataTable { get; }
+				public DataTable<TCls, TKey>	DataTable { get; }
 
 			#endregion
 
@@ -48,17 +50,17 @@ namespace BxS_Toolset.DataContainer
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Save()
+				public bool Save(bool force = false)
 					{
 						bool lb_Ret	= true;
 						//.............................................
-						if (this.DataTable.IsDirty)
+						if (force || this.DataTable.IsDirty)
 							{
 								try
 									{
-										this._IO.WriteFile(	this._FullPathName															,
+										this._IO.WriteFile(	this._FullPathName													,
 																				this._Serializer.Serialize(	this.DataTable	,
-																																		this._KnownTypes	)		);
+																																		this._KnownTypes	)	);
 									}
 								catch (Exception)
 									{	lb_Ret	=	false; }
@@ -68,15 +70,26 @@ namespace BxS_Toolset.DataContainer
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Load()
+				public bool Load()
 					{
+						bool lb_Ret	= false;
+						//.............................................
 						if (this._IO.FileExists(this._FullPathName))
 							{
-								DCTable<TCls, TKey> lo_DTO	= this._Serializer
-																								.DeSerialize<DCTable<TCls, TKey>>
-																									(this._IO.ReadFile(this._FullPathName));
-								lo_DTO.TransferTo(this.DataTable);
+								try
+									{
+										DataTable<TCls, TKey> lo_DTab	= this._Serializer
+																											.DeSerialize<DataTable<TCls, TKey>>
+																												(	this._IO.ReadFile(this._FullPathName)	,
+																													this._KnownTypes												);
+										lo_DTab.TransferTo(this.DataTable);
+										lb_Ret	= true;
+									}
+								catch (Exception)
+									{	lb_Ret	=	false; }
 							}
+						//.............................................
+						return	lb_Ret;
 					}
 
 			#endregion

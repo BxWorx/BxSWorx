@@ -21,24 +21,35 @@ namespace BxS_Toolset
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DCTable<TCls, TKey> CreateDCTable<TCls, TKey>(	Func<TKey, TCls>	createNew	)	where TCls: class
+				public DataTable<TCls, TKey> CreateDataTable<TCls, TKey>(	Func<TKey, TCls>	createNew	)
+																			where TCls: class
 					{
-						return	new DCTable<TCls, TKey>(createNew);
+						return	new DataTable<TCls, TKey>(createNew);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DCController<TCls, TKey> CreateDCController<TCls, TKey>(	string						fullPathName	,
+				public DTController<TCls, TKey> CreateDTController<TCls, TKey>(	string						fullPathName	,
 																																				Func<TKey, TCls>	createNew			,
-																																				List<Type>        knownTypes	= default(List<Type>)	)
+																																				bool							autoLoad			= true	)
 																					where TCls: class
 					{
-						List<Type> lt_Known = knownTypes ?? new List<Type>();
+						var lt_Types	=new List<Type>();
+						return	this.CreateDTController<TCls, TKey>(fullPathName, createNew, lt_Types, autoLoad);
+					}
 
-						return	new DCController<TCls, TKey>(	this._IO.Value	,
-																									this._Ser.Value	,
-																									fullPathName		,
-																									createNew				,
-																									lt_Known					);
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTController<TCls, TKey> CreateDTController<TCls, TKey>(	string						fullPathName	,
+																																				Func<TKey, TCls>	createNew			,
+																																				List<Type>        knownTypes		,
+																																				bool							autoLoad			= true	)
+																					where TCls: class
+					{
+						return	new DTController<TCls, TKey>(	this._IO	.Value	,
+																									this._Ser	.Value	,
+																									fullPathName			,
+																									createNew					,
+																									knownTypes				,
+																									autoLoad						);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

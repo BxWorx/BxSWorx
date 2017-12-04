@@ -2,22 +2,22 @@
   <Items xmlns:d2p1="http://schemas.datacontract.org/2004/07/BxS_Toolset.DataContainer">
     <d2p1:_DataTable xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
       <d3p1:KeyValueOfguidanyType>
-        <d3p1:Key>8bd7de8f-eb16-4ef0-89cb-f83cfa3b5ad0</d3p1:Key>
+        <d3p1:Key>fd2c8d97-c234-46ee-8b30-6ea08f2e8ead</d3p1:Key>
         <d3p1:Value
           i:type="DTOItem">
           <NodeID>00000000-0000-0000-0000-000000000000</NodeID>
-          <ServiceID>0e024f54-12e1-4159-97eb-faa18d2f6578</ServiceID>
-          <UUID>8bd7de8f-eb16-4ef0-89cb-f83cfa3b5ad0</UUID>
+          <ServiceID>532cb112-b488-480f-a085-27c2be238db4</ServiceID>
+          <UUID>fd2c8d97-c234-46ee-8b30-6ea08f2e8ead</UUID>
           <WSID>00000000-0000-0000-0000-000000000000</WSID>
         </d3p1:Value>
       </d3p1:KeyValueOfguidanyType>
       <d3p1:KeyValueOfguidanyType>
-        <d3p1:Key>1728d444-8a30-4a09-8b39-48f9f7a71b89</d3p1:Key>
+        <d3p1:Key>9fb1c04c-3515-4827-a51d-a83fdb3ab3a7</d3p1:Key>
         <d3p1:Value
           i:type="DTOItem">
           <NodeID>00000000-0000-0000-0000-000000000000</NodeID>
-          <ServiceID>0e024f54-12e1-4159-97eb-faa18d2f6578</ServiceID>
-          <UUID>1728d444-8a30-4a09-8b39-48f9f7a71b89</UUID>
+          <ServiceID>532cb112-b488-480f-a085-27c2be238db4</ServiceID>
+          <UUID>9fb1c04c-3515-4827-a51d-a83fdb3ab3a7</UUID>
           <WSID>00000000-0000-0000-0000-000000000000</WSID>
         </d3p1:Value>
       </d3p1:KeyValueOfguidanyType>
@@ -26,25 +26,25 @@
   <MsgServers xmlns:d2p1="http://schemas.datacontract.org/2004/07/BxS_Toolset.DataContainer">
     <d2p1:_DataTable xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
       <d3p1:KeyValueOfguidanyType>
-        <d3p1:Key>924c5f2b-8b40-4914-a27b-fb095525fe44</d3p1:Key>
+        <d3p1:Key>fb1274ec-62bd-44bb-8658-ace88506854f</d3p1:Key>
         <d3p1:Value
           i:type="DTOMsgServer">
           <Description>desc1</Description>
           <Host>host1</Host>
           <Name>name1</Name>
           <Port>port1</Port>
-          <UUID>924c5f2b-8b40-4914-a27b-fb095525fe44</UUID>
+          <UUID>fb1274ec-62bd-44bb-8658-ace88506854f</UUID>
         </d3p1:Value>
       </d3p1:KeyValueOfguidanyType>
       <d3p1:KeyValueOfguidanyType>
-        <d3p1:Key>88f162bd-87b3-456b-997e-0ca99011e023</d3p1:Key>
+        <d3p1:Key>766c0907-91b7-4fbd-93d6-f290f0c51b3a</d3p1:Key>
         <d3p1:Value
           i:type="DTOMsgServer">
           <Description>desc1</Description>
           <Host>host1</Host>
           <Name>name1</Name>
           <Port>port1</Port>
-          <UUID>88f162bd-87b3-456b-997e-0ca99011e023</UUID>
+          <UUID>766c0907-91b7-4fbd-93d6-f290f0c51b3a</UUID>
         </d3p1:Value>
       </d3p1:KeyValueOfguidanyType>
     </d2p1:_DataTable>
@@ -52,11 +52,11 @@
   <Nodes xmlns:d2p1="http://schemas.datacontract.org/2004/07/BxS_Toolset.DataContainer">
     <d2p1:_DataTable xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
       <d3p1:KeyValueOfguidanyType>
-        <d3p1:Key>8cffd223-7a4a-4dc4-a8e2-f9c76fc1ee23</d3p1:Key>
+        <d3p1:Key>be8a09dd-87c8-4f71-8152-e582e4f5c23f</d3p1:Key>
         <d3p1:Value
           i:type="DTONode">
           <Description>DescNode</Description>
-          <UUID>8cffd223-7a4a-4dc4-a8e2-f9c76fc1ee23</UUID>
+          <UUID>be8a09dd-87c8-4f71-8152-e582e4f5c23f</UUID>
           <WSID>00000000-0000-0000-0000-000000000000</WSID>
         </d3p1:Value>
       </d3p1:KeyValueOfguidanyType>
@@ -65,13 +65,13 @@
   <Services xmlns:d2p1="http://schemas.datacontract.org/2004/07/BxS_Toolset.DataContainer">
     <d2p1:_DataTable xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
       <d3p1:KeyValueOfguidanyType>
-        <d3p1:Key>0e024f54-12e1-4159-97eb-faa18d2f6578</d3p1:Key>
+        <d3p1:Key>532cb112-b488-480f-a085-27c2be238db4</d3p1:Key>
         <d3p1:Value
           i:type="DTOService">
           <DCPG
             i:nil="true" />
           <Description>DescS</Description>
-          <MSID>924c5f2b-8b40-4914-a27b-fb095525fe44</MSID>
+          <MSID>fb1274ec-62bd-44bb-8658-ace88506854f</MSID>
           <Mode
             i:nil="true" />
           <Name>NameS</Name>
@@ -89,7 +89,7 @@
             i:nil="true" />
           <Type
             i:nil="true" />
-          <UUID>0e024f54-12e1-4159-97eb-faa18d2f6578</UUID>
+          <UUID>532cb112-b488-480f-a085-27c2be238db4</UUID>
         </d3p1:Value>
       </d3p1:KeyValueOfguidanyType>
     </d2p1:_DataTable>
@@ -97,11 +97,11 @@
   <Workspaces xmlns:d2p1="http://schemas.datacontract.org/2004/07/BxS_Toolset.DataContainer">
     <d2p1:_DataTable xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
       <d3p1:KeyValueOfguidanyType>
-        <d3p1:Key>5f10ad4d-f8e0-4303-a2ad-88c3be55a5f4</d3p1:Key>
+        <d3p1:Key>7db78ead-c066-4b2b-950c-75e57dc8228d</d3p1:Key>
         <d3p1:Value
           i:type="DTOWorkspace">
           <Description>DescWS</Description>
-          <UUID>5f10ad4d-f8e0-4303-a2ad-88c3be55a5f4</UUID>
+          <UUID>7db78ead-c066-4b2b-950c-75e57dc8228d</UUID>
         </d3p1:Value>
       </d3p1:KeyValueOfguidanyType>
     </d2p1:_DataTable>

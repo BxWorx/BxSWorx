@@ -93,11 +93,11 @@ namespace BxS_SAPGUI.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DCSapGui CreateDC()
 					{
-						BxS_Toolset.DataContainer.DCTable<IDTOMsgServer	, Guid> m	= this._TS.Value.CreateDCTable<IDTOMsgServer	, Guid>	( (Guid ID) => new DTOMsgServer	()	{ UUID	= ID } );
-						BxS_Toolset.DataContainer.DCTable<IDTOService		, Guid> s	= this._TS.Value.CreateDCTable<IDTOService		, Guid>	( (Guid ID) => new DTOService		()	{ UUID	= ID } );
-						BxS_Toolset.DataContainer.DCTable<IDTOWorkspace	, Guid> w	= this._TS.Value.CreateDCTable<IDTOWorkspace	, Guid>	( (Guid ID) => new DTOWorkspace	()	{ UUID	= ID } );
-						BxS_Toolset.DataContainer.DCTable<IDTONode			, Guid> n	= this._TS.Value.CreateDCTable<IDTONode				, Guid>	( (Guid ID) => new DTONode			()	{ UUID	= ID } );
-						BxS_Toolset.DataContainer.DCTable<IDTOItem			, Guid> i	= this._TS.Value.CreateDCTable<IDTOItem				, Guid>	( (Guid ID) => new DTOItem			()	{ UUID	= ID } );
+						BxS_Toolset.DataContainer.DataTable<IDTOMsgServer	, Guid> m	= this._TS.Value.CreateDataTable<IDTOMsgServer	, Guid>	( (Guid ID) => new DTOMsgServer	()	{ UUID	= ID } );
+						BxS_Toolset.DataContainer.DataTable<IDTOService		, Guid> s	= this._TS.Value.CreateDataTable<IDTOService		, Guid>	( (Guid ID) => new DTOService		()	{ UUID	= ID } );
+						BxS_Toolset.DataContainer.DataTable<IDTOWorkspace	, Guid> w	= this._TS.Value.CreateDataTable<IDTOWorkspace	, Guid>	( (Guid ID) => new DTOWorkspace	()	{ UUID	= ID } );
+						BxS_Toolset.DataContainer.DataTable<IDTONode			, Guid> n	= this._TS.Value.CreateDataTable<IDTONode				, Guid>	( (Guid ID) => new DTONode			()	{ UUID	= ID } );
+						BxS_Toolset.DataContainer.DataTable<IDTOItem			, Guid> i	= this._TS.Value.CreateDataTable<IDTOItem				, Guid>	( (Guid ID) => new DTOItem			()	{ UUID	= ID } );
 						//.............................................
 						return	new	DCSapGui(m, s, w, n, i);
 					}

@@ -9,13 +9,13 @@ namespace BxS_Toolset.DataContainer
 {
 	[DataContract]
 
-	public class DCTable<TCls, TKey> where TCls : class
+	public class DataTable<TCls, TKey> where TCls : class
 		{
 			//===========================================================================================
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DCTable(Func<TKey, TCls> NewEntry)
+				public DataTable(Func<TKey, TCls> NewEntry)
 					{
 						this._CreateNew	= NewEntry;
 						//.............................................
@@ -47,7 +47,7 @@ namespace BxS_Toolset.DataContainer
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void TransferTo(DCTable<TCls,TKey> DataTab, bool Reset	= true)
+				public void TransferTo(DataTable<TCls,TKey> DataTab, bool Reset	= true)
 					{
 						if (Reset)	DataTab.Clear();
 						//.............................................
