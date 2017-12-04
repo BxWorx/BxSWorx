@@ -34,7 +34,7 @@ namespace BxS_SAPGUI.COM.CNTLR
 					}
 
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void GetConnection(IDTOConnection dtoConnection) 
+				public void GetConnection(IDTOConnection dtoConnection)
 					{
 						//dtoConnection = new DTOConnection();
 					}

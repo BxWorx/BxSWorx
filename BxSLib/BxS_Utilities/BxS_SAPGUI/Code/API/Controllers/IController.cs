@@ -29,12 +29,6 @@ namespace BxS_SAPGUI.API
 				void						LoadConnection	(IDTOConnection	dto);
 				//...................................................
 
-
-
-
-
-
-
 				IDTOConnection	CreateConnection(Guid connectionID = default(Guid));
 
 				void AddConnection(IDTOConnection dtoConnection);

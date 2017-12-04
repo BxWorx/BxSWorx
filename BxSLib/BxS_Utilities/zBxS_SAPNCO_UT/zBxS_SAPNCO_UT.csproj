@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BxS_SAPNCO\BxS_SAPNCO.csproj" />
+    <Folder Include="Test Resources\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Test Resources\" />
+    <ProjectReference Include="..\BxS_SAPNCOz\BxS_SAPNCOz.csproj" />
   </ItemGroup>
 
 </Project>

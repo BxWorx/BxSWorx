@@ -49,7 +49,7 @@ namespace zBxS_ToolSet_UT
 
 					DTController<IDTO, Guid>	lo_DC1	= this._TS.CreateDTController<IDTO, Guid>(_TestFullNme,	(Guid ID) => new DTO() { Key = ID }, lt_Types );
 					IDTO											lo_DTO1	= lo_DC1.DataTable.Create(Guid.NewGuid());
-					DTOSUB										lo_DTOs	= new DTOSUB() { Key = Guid.NewGuid() };
+					var												lo_DTOs	= new DTOSUB() { Key = Guid.NewGuid() };
 					lo_DTO1.Dto	= lo_DTOs;
 
 					lo_DC1.DataTable.AddUpdate(lo_DTO1.Key, lo_DTO1);
@@ -71,7 +71,6 @@ namespace zBxS_ToolSet_UT
 
 					Assert.AreEqual		(0, lo_DC2.DataTable.Count	,	$"DCTable: {ln_Cnt}: Load1");
 					Assert.AreEqual		(1, lo_DC3.DataTable.Count	,	$"DCTable: {ln_Cnt}: Load2");
-
 				}
 
 			//-------------------------------------------------------------------------------------------

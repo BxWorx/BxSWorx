@@ -1,4 +1,5 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BxS_SAPNCO;
 
 namespace zBxS_SAPNCO_UT
 {
@@ -8,7 +9,7 @@ namespace zBxS_SAPNCO_UT
 		[TestMethod]
 		public void TestMethod1()
 			{
-				var x = new BxS_SAPNCO.Class1();
+				var x = new Class1();
 				x.Tree();
 
 
