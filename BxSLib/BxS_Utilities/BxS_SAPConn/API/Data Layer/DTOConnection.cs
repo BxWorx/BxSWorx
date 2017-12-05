@@ -5,7 +5,7 @@ namespace BxS_SAPConn.API
 {
 	[DataContract]
 
-	public class DTOConnection : IDTOConnection
+	internal class DTOConnection : IDTOConnection
 		{
 			#region "Properties"
 

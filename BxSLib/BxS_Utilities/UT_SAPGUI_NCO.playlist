@@ -1,1 +1,1 @@
-<Playlist Version="1.0"><Add Test="zBxS_SAPNCO_UT.UnitTest1.TestMethod1" /></Playlist>
+<Playlist Version="1.0"><Add Test="zBxS_SAPNCO_UT.UnitTest1.TestMethod1" /><Add Test="zBxS_SAPNCO_UT.UT_BxS_SAPNCO_Destination.UT_SAPNCO_Dest_INI" /><Add Test="zBxS_SAPNCO_UT.UT_BxS_SAPNCO_Destination.UT_SAPNCO_Dest_Mngr" /><Add Test="zBxS_SAPNCO_UT.UT_BxS_SAPNCO.UT_SAPNCO_Controller" /><Add Test="zBxS_SAPNCO_UT.UT_BxS_SAPNCO.UT_SAPNCO_Dest_INI" /><Add Test="zBxS_SAPNCO_UT.UT_BxS_SAPNCO.UT_SAPNCO_Dest_Mngr" /></Playlist>

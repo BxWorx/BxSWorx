@@ -8,8 +8,15 @@ using BxS_Toolset.DataContainer;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPLogon.API
 {
-	public class Factory
+	public class LogonFactory
 		{
+			#region "Constructors"
+
+				private readonly ConnFactory	_ConnFac	= new ConnFactory();
+
+			#endregion
+
+			//===========================================================================================
 			#region "Declarations"
 
 				private readonly Lazy<ToolSet>	_TS		= new Lazy<ToolSet>(	() => new ToolSet()	,
@@ -40,8 +47,8 @@ namespace BxS_SAPLogon.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTController<IDTOFavourite, Guid> CreateDTCntlr(string fullPathName, bool autoLoad)
 					{
-						var lt_Types	= new List<Type>	{	typeof(DTOFavourite)	,
-																							typeof(DTOConnection)		};
+						var lt_Types	= new List<Type>	{	typeof(DTOFavourite)						,
+																							this._ConnFac.GetDTOConnType()		};
 
 						return	this._TS.Value.CreateDTController<IDTOFavourite, Guid>	(	fullPathName																	,
 																																							(Guid ID) => new DTOFavourite()	{ UUID = ID } ,

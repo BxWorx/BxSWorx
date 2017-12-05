@@ -16,7 +16,7 @@ namespace zBxS_SAPLogon_UT
 		private	static readonly string	_PathTest			= Path.Combine(_Path		,	cz_TestDir	);
 		private	static readonly string	_TestFullNme	= Path.Combine(_PathTest,	cz_TestNme	);
 
-		private readonly Factory _Fac	= new Factory();
+		private readonly LogonFactory _Fac	= new LogonFactory();
 
 		//-------------------------------------------------------------------------------------------
 			[TestMethod]

@@ -1,7 +1,7 @@
 ﻿using System;
 using SMC = SAP.Middleware.Connector;
 
-namespace BxS_SAPNCO
+namespace BxS_SAPNCOz
 {
 		public class Class1
 		{

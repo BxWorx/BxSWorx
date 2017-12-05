@@ -2,18 +2,18 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("zUnitTestProject1")]
+[assembly: AssemblyTitle("zBxS_SAPNCO_UT")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("zUnitTestProject1")]
+[assembly: AssemblyProduct("zBxS_SAPNCO_UT")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("ad7586d7-9571-42e9-89be-849c10cd2348")]
+[assembly: Guid("26f0f313-ca0b-4081-93dc-518d00bc3287")]
 
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
