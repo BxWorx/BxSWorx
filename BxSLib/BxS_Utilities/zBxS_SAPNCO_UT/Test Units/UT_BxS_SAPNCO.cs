@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using BxS_SAPNCO.API;
+using BxS_SAPNCO.Destination;
 using BxS_SAPConn.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
@@ -30,9 +30,9 @@ namespace zBxS_SAPNCO_UT
 					IDTOConnParameters	lo_DTO		= this._Fac.CreateParameterDTO();
 					IDTOConnParameters	lo_DTO1		= this._Fac.CreateParameterDTO();
 
-					IList<string> y = this._Cnt.GetEntries();
-					this._Cnt.GetConfig(y[0]	, lo_DTO);
-					this._Cnt.GetConfig(y[1]	, lo_DTO1);
+					IList<string> y = this._Cnt.GetSAPIniList();
+					this._Cnt.LoadParameters(y[0]	, lo_DTO);
+					this._Cnt.LoadParameters(y[1]	, lo_DTO1);
 
 					Assert.AreNotEqual		(0, y.Count										,	$"SAPNCO:INI: {ln_Cnt}: List");
 					Assert.AreNotEqual		(0, lo_DTO.Parameters.Count		,	$"SAPNCO:INI: {ln_Cnt}: Parms 0");
@@ -52,8 +52,8 @@ namespace zBxS_SAPNCO_UT
 					var									lo_SAPini	= new SAPLogonINI();
 
 					IList<string> y = lo_SAPini.GetEntries();
-					lo_SAPini.GetConfig(y[0]	, lo_DTO);
-					lo_SAPini.GetConfig("XXX"	, lo_DTO1);
+					lo_SAPini.LoadParameters(y[0]	, lo_DTO);
+					lo_SAPini.LoadParameters("XXX"	, lo_DTO1);
 
 					Assert.AreNotEqual		(0, y.Count										,	$"SAPNCO:INI: {ln_Cnt}: List");
 					Assert.AreNotEqual		(0, lo_DTO.Parameters.Count		,	$"SAPNCO:INI: {ln_Cnt}: Parms");

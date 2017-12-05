@@ -160,7 +160,7 @@ namespace BxS_Toolset.DataContainer
 									{
 										return	this._DataTable
 															.Where(	kvp => lo_PI.GetValue(kvp.Value).Equals(ID))
-																.Select( kvp => kvp.Key)
+																.Select( kvp => kvp.Key )
 																	.ToList();
 									}
 								else
@@ -168,7 +168,7 @@ namespace BxS_Toolset.DataContainer
 										return	this._DataTable
 															.Where(	x =>			lo_PI	.GetValue(x.Value).Equals(ID)
 																						&&	lo_PI1.GetValue(x.Value).Equals(ID1)	)
-																.Select( kvp => kvp.Key)
+																.Select( kvp => kvp.Key )
 																	.ToList();
 									}
 							}

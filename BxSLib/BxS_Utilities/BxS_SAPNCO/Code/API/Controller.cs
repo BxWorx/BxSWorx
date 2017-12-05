@@ -2,14 +2,37 @@
 using System.Collections.Generic;
 using System.Threading;
 //.........................................................
-using BxS_SAPConn.API;
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_SAPConn.API;
+using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
 	public class Controller
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public Controller(bool LoadSAPIni = true)
+					{
+						if (LoadSAPIni)	this._SAPIni.Value.LoadRepository(this._DestRep.Value);
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Declarations"
+
+				private	readonly	ConnFactory				_ConnFac	= new ConnFactory();
+
+				private readonly	Lazy<DestinationManager>	_DestMngr
+														= new Lazy<DestinationManager>(	() => new DestinationManager()							,
+																																LazyThreadSafetyMode.ExecutionAndPublication		);
+
+				private readonly	Lazy<DestinationRepository>	_DestRep
+														= new Lazy<DestinationRepository>(	() => new DestinationRepository()							,
+																																LazyThreadSafetyMode.ExecutionAndPublication		);
 
 				private readonly	Lazy<SAPLogonINI>	_SAPIni
 														= new Lazy<SAPLogonINI>(	() => new SAPLogonINI()												,
@@ -24,22 +47,59 @@ namespace BxS_SAPNCO.API
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<string>	GetEntries()
+				public Guid GetDestination(SMC.RfcConfigParameters rfcConfig)
 					{
-						return	this._SAPIni.Value.GetEntries();
+						return	this._DestMngr.Value.GetRfcDestination(rfcConfig);
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	GetConfig(string ID, IDTOConnParameters DTO)
+				public Guid GetDestination(string destinationName)
 					{
-						this._SAPIni.Value.GetConfig(ID, DTO);
+						return	this._DestMngr.Value.GetRfcDestination(rfcConfig);
+					}
+
+				public bool AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
+					{
+						return	this._DestRep.Value.AddConfig(ID, rfcConfig);
+					}
+
+
+
+
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IDTOConnParameters FetchParameters(string ID)
+					{
+						IDTOConnParameters lo_DTO	= this._ConnFac.CreateParameterDTO();
+						this._SAPIni.Value.LoadParameters(ID, lo_DTO);
+						return	lo_DTO;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SMC.RfcConfigParameters	Parse(IDTOConnParameters DTO)
 					{
 						return	this._Parser.Value.Parse(DTO);
+					}
+
+
+
+				public IList<IDTOConnection> GetConnectionList()
+					{
+						return	this._DestRep.Value.
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.RfcConfigParameters GetSAPIniConfig(string ID)
+					{
+						return	this._SAPIni.Value.GetConfig(ID);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<string>	GetSAPIniList()
+					{
+						return	this._SAPIni.Value.GetEntries();
 					}
 
 			#endregion

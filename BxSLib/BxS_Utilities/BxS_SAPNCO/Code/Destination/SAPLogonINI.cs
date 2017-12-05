@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-//.........................................................
+////.........................................................
 using SMC	= SAP.Middleware.Connector;
-using BxS_SAPConn.API;
+//using BxS_SAPConn.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API
+namespace BxS_SAPNCO.Destination
 {
 	internal class SAPLogonINI
 		{
@@ -21,14 +21,13 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	GetConfig(string ID, IDTOConnParameters DTO)
+				internal void LoadRepository(DestinationRepository destinationRepository)
 					{
-						SMC.RfcConfigParameters lo_Cfg = this._SAPCnf.Value.GetParameters(ID);
-						if (lo_Cfg == null)	return;
-						//.............................................
-						foreach (KeyValuePair<string, string> ls_kvp in lo_Cfg)
+						foreach (string lc_ID in this._SAPCnf.Value.GetEntries())
 							{
-								DTO.Parameters.Add(ls_kvp.Key, ls_kvp.Value);
+								SMC.RfcConfigParameters lo = this._SAPCnf.Value.GetParameters(lc_ID);
+								if (lo is null)		return;
+								destinationRepository.AddConfig(lc_ID, lo);
 							}
 					}
 
@@ -36,6 +35,12 @@ namespace BxS_SAPNCO.API
 				internal IList<string>	GetEntries()
 					{
 						return	this._SAPCnf.Value.GetEntries();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal SMC.RfcConfigParameters GetConfig(string ID)
+					{
+						return	this._SAPCnf.Value.GetParameters(ID)	?? new SMC.RfcConfigParameters();
 					}
 
 			#endregion
