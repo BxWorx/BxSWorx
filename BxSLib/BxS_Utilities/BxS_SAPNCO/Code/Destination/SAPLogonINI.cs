@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 ////.........................................................
 using SMC	= SAP.Middleware.Connector;
-//using BxS_SAPConn.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
 {
@@ -26,7 +25,7 @@ namespace BxS_SAPNCO.Destination
 						foreach (string lc_ID in this._SAPCnf.Value.GetEntries())
 							{
 								SMC.RfcConfigParameters lo = this._SAPCnf.Value.GetParameters(lc_ID);
-								if (lo is null)		return;
+								if (lo is null)		continue;
 								destinationRepository.AddConfig(lc_ID, lo);
 							}
 					}

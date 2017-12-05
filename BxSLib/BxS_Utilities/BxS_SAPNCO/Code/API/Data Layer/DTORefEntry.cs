@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.DL
 {
-	internal class DTOConnection : IDTOConnection
+	internal class DTORefEntry : IDTORefEntry
 		{
 			#region "Properties"
 

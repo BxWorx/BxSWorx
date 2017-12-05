@@ -7,6 +7,24 @@ namespace BxS_SAPNCO.Destination
 {
 	internal class DestinationManager
 		{
+			#region "Constructors"
+
+				internal DestinationManager(DestinationRepository repository)
+					{
+						this._Repos	= repository;
+						SDM.RegisterDestinationConfiguration(this._Repos);
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private readonly DestinationRepository	_Repos;
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
 
 				internal bool IsRegistered	{ get { return	SDM.IsDestinationConfigurationRegistered(); } }
@@ -17,15 +35,9 @@ namespace BxS_SAPNCO.Destination
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Register(SMC.IDestinationConfiguration destinationConfiguration)
+				internal void UnRegister()
 					{
-						SDM.RegisterDestinationConfiguration(destinationConfiguration);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void UnRegister(SMC.IDestinationConfiguration destinationConfiguration)
-					{
-						SDM.UnregisterDestinationConfiguration(destinationConfiguration);
+						SDM.UnregisterDestinationConfiguration(this._Repos);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

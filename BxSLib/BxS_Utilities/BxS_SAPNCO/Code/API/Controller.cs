@@ -6,6 +6,7 @@ using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_SAPConn.API;
 using BxS_SAPNCO.Destination;
+using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
@@ -14,9 +15,11 @@ namespace BxS_SAPNCO.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Controller(bool LoadSAPIni = true)
+				public Controller(DestinationManager destinationManager)
 					{
-						if (LoadSAPIni)	this._SAPIni.Value.LoadRepository(this._DestRep.Value);
+						this._DestMngrx	= destinationManager;
+						this._LoadSAPIni	= LoadSAPIni;
+						//if (LoadSAPIni)	this._SAPIni.Value.LoadRepository(this._DestRep.Value);
 					}
 
 			#endregion
@@ -24,23 +27,27 @@ namespace BxS_SAPNCO.API
 			//===========================================================================================
 			#region "Declarations"
 
+				private readonly DestinationManager _DestMngrx;
+
+				private bool _LoadSAPIni;
+
 				private	readonly	ConnFactory				_ConnFac	= new ConnFactory();
 
-				private readonly	Lazy<DestinationManager>	_DestMngr
-														= new Lazy<DestinationManager>(	() => new DestinationManager()							,
+				private readonly	Lazy<DestinationManager>		_DestMngr
+														= new Lazy<DestinationManager>		(	() => new DestinationManager()							,
 																																LazyThreadSafetyMode.ExecutionAndPublication		);
 
 				private readonly	Lazy<DestinationRepository>	_DestRep
-														= new Lazy<DestinationRepository>(	() => new DestinationRepository()							,
+														= new Lazy<DestinationRepository>	(	() => new DestinationRepository()							,
 																																LazyThreadSafetyMode.ExecutionAndPublication		);
 
-				private readonly	Lazy<SAPLogonINI>	_SAPIni
-														= new Lazy<SAPLogonINI>(	() => new SAPLogonINI()												,
-																											LazyThreadSafetyMode.ExecutionAndPublication		);
+				private readonly	Lazy<SAPLogonINI>						_SAPIni
+														= new Lazy<SAPLogonINI>						(	() => new SAPLogonINI()												,
+																																LazyThreadSafetyMode.ExecutionAndPublication		);
 
-				private readonly	Lazy<Parser>			_Parser
-														= new Lazy<Parser>(	() => new Parser()														,
-																								LazyThreadSafetyMode.ExecutionAndPublication		);
+				private readonly	Lazy<Parser>								_Parser
+														= new Lazy<Parser>								(	() => new Parser()														,
+																																LazyThreadSafetyMode.ExecutionAndPublication		);
 
 			#endregion
 
@@ -54,7 +61,7 @@ namespace BxS_SAPNCO.API
 
 				public Guid GetDestination(string destinationName)
 					{
-						return	this._DestMngr.Value.GetRfcDestination(rfcConfig);
+						return	this._DestMngr.Value.GetRfcDestination(destinationName);
 					}
 
 				public bool AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
@@ -84,9 +91,14 @@ namespace BxS_SAPNCO.API
 
 
 
-				public IList<IDTOConnection> GetConnectionList()
+
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<IDTORefEntry> ConnectionReferenceList()
 					{
-						return	this._DestRep.Value.
+						return	this._DestRep.Value.ReferenceList();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

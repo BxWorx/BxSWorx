@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.DL
 {
-	public interface IDTOConnection
+	public interface IDTORefEntry
 		{
 			#region "Properties"
 

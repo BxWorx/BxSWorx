@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
 using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -13,9 +14,9 @@ namespace BxS_SAPNCO.Destination
 
 				internal DestinationRepository()
 					{
-						this._Map							= new Dictionary<string	, System.Guid>							();
-						this._Dest						= new Dictionary<Guid		, SMC.RfcConfigParameters>	();
-						this._SupportChgEvent	= true;
+						this._Map		= new Dictionary<string	, System.Guid>							();
+						this._Des		= new Dictionary<Guid		, SMC.RfcConfigParameters>	();
+						this._Evt		= true;
 					}
 
 			#endregion
@@ -23,11 +24,9 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly bool																						_SupportChgEvent;
+				private readonly bool																						_Evt;
 				private readonly Dictionary<string,	Guid>												_Map;
-				private readonly Dictionary<Guid	, SMC.RfcConfigParameters>		_Dest;
-				//.................................................
-				public event SMC.RfcDestinationManager.ConfigurationChangeHandler		ConfigurationChanged;
+				private readonly Dictionary<Guid	, SMC.RfcConfigParameters>		_Des;
 
 			#endregion
 
@@ -41,14 +40,15 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				internal IList<IDTOConnection>	List()
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IList<IDTORefEntry> ReferenceList()
 					{
-						IList<IDTOConnection>	lt_List	= new List<IDTOConnection>(this._Map.Count-1);
+						IList<IDTORefEntry>	lt_List	= new List<IDTORefEntry>(this._Map.Count-1);
 						//.............................................
 						foreach (KeyValuePair<string, Guid> ls_kvp in this._Map)
 							{
-								lt_List.Add( new DTOConnection{ ID		= ls_kvp.Value	,
-																						Name	= ls_kvp.Key			} );
+								lt_List.Add( new DTORefEntry{ ID		= ls_kvp.Value	,
+																							Name	= ls_kvp.Key			} );
 							}
 						//.............................................
 						return	lt_List;
@@ -59,7 +59,7 @@ namespace BxS_SAPNCO.Destination
 					{
 						Guid lg_Ret	= this.GetAddGuidFor(ID);
 						//.............................................
-						this._Dest[lg_Ret]	= rfcConfig;
+						this._Des[lg_Ret]	= rfcConfig;
 						//.............................................
 						return	lg_Ret;
 					}
@@ -67,7 +67,7 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool AddConfig(Guid ID, SMC.RfcConfigParameters rfcConfig)
 					{
-						this._Dest[ID]	= rfcConfig;
+						this._Des[ID]	= rfcConfig;
 						return	true;
 					}
 
@@ -89,12 +89,15 @@ namespace BxS_SAPNCO.Destination
 			#region "Methods: Interface"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public event SDM.ConfigurationChangeHandler		ConfigurationChanged;
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SMC.RfcConfigParameters GetParameters(string destinationName)
 					{
 						Guid lg = this.GetAddGuidFor(destinationName, false);
 
 						if (			lg != Guid.Empty
-									&&	this._Dest.TryGetValue(lg, out SMC.RfcConfigParameters lo_Cnf)	)
+									&&	this._Des.TryGetValue(lg, out SMC.RfcConfigParameters lo_Cnf)	)
 							{
 								return lo_Cnf;
 							}
@@ -105,7 +108,7 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool ChangeEventsSupported()
 					{
-						return	this._SupportChgEvent;
+						return	this._Evt;
 					}
 
 			#endregion
