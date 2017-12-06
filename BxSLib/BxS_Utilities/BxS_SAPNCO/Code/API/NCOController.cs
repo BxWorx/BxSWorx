@@ -47,34 +47,34 @@ namespace BxS_SAPNCO.API
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				public Guid GetDestination(SMC.RfcConfigParameters rfcConfig)
-					{
-						return	this._DestMngr.Value.GetRfcDestination(rfcConfig);
-					}
+				//public Guid GetDestination(SMC.RfcConfigParameters rfcConfig)
+				//	{
+				//		return	this._DestMngr.Value.GetRfcDestination(rfcConfig);
+				//	}
 
-				public Guid GetDestination(string destinationName)
-					{
-						return	this._DestMngr.Value.GetRfcDestination(destinationName);
-					}
+				//public Guid GetDestination(string destinationName)
+				//	{
+				//		return	this._DestMngr.Value.GetRfcDestination(destinationName);
+				//	}
 
-				public bool AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
-					{
-						return	this._DestRep.Value.AddConfig(ID, rfcConfig);
-					}
-
-
+				//public bool AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
+				//	{
+				//		return	this._DestRep.Value.AddConfig(ID, rfcConfig);
+				//	}
 
 
 
 
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOConnParameters FetchParameters(string ID)
-					{
-						IDTOConnParameters lo_DTO	= this._ConnFac.CreateParameterDTO();
-						this._SAPIni.Value.LoadParameters(ID, lo_DTO);
-						return	lo_DTO;
-					}
+
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public IDTOConnParameters FetchParameters(string ID)
+				//	{
+				//		IDTOConnParameters lo_DTO	= this._ConnFac.CreateParameterDTO();
+				//		this._SAPIni.Value.LoadParameters(ID, lo_DTO);
+				//		return	lo_DTO;
+				//	}
 
 
 

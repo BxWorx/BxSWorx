@@ -1,4 +1,6 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System.Collections.Generic;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 using SDM = SAP.Middleware.Connector.RfcDestinationManager;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
@@ -7,7 +9,7 @@ namespace BxS_SAPNCO.Destination
 		{
 			#region "Properties"
 
-				internal	
+				internal Dictionary<string,string> cc;
 
 
 				internal bool IsRegistered	{ get { return	SDM.IsDestinationConfigurationRegistered(); } }

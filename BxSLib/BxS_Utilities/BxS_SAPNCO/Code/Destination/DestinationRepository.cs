@@ -57,7 +57,7 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Guid AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
 					{
-						return	this.AddConfig(	this.GetAddGuidFor(ID)	,
+						return	this.AddConfig(	this.GetAddIDFor(ID)	,
 																		rfcConfig									);
 					}
 
@@ -69,7 +69,7 @@ namespace BxS_SAPNCO.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Guid GetAddGuidFor(string ID, bool Add = true)
+				internal Guid GetAddIDFor(string ID, bool Add = true)
 					{
 						if (!this._Map.TryGetValue(ID, out Guid lg_Guid))
 							{
@@ -91,7 +91,7 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SMC.RfcConfigParameters GetParameters(string destinationName)
 					{
-						Guid lg = this.GetAddGuidFor(destinationName, false);
+						Guid lg = this.GetAddIDFor(destinationName, false);
 
 						if (			lg != Guid.Empty
 									&&	this._Des.TryGetValue(lg, out SMC.RfcConfigParameters lo_Cnf)	)

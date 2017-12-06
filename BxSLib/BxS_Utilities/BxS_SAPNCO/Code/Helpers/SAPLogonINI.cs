@@ -21,7 +21,7 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly SMC.SapLogonIniConfiguration	_SAPCnf;
+				private readonly SMC.SapLogonIniConfiguration		_SAPCnf;
 
 			#endregion
 
