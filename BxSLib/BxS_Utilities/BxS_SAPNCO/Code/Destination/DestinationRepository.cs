@@ -57,18 +57,15 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Guid AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
 					{
-						Guid lg_Ret	= this.GetAddGuidFor(ID);
-						//.............................................
-						this._Des[lg_Ret]	= rfcConfig;
-						//.............................................
-						return	lg_Ret;
+						return	this.AddConfig(	this.GetAddGuidFor(ID)	,
+																		rfcConfig									);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool AddConfig(Guid ID, SMC.RfcConfigParameters rfcConfig)
+				internal Guid AddConfig(Guid ID, SMC.RfcConfigParameters rfcConfig)
 					{
 						this._Des[ID]	= rfcConfig;
-						return	true;
+						return	ID;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

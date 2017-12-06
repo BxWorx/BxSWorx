@@ -5,26 +5,14 @@ using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
-	public class SAPNCOFactory
+	public class NCOFactory
 		{
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public NCOController CreateNCOController(bool LoadSAPIni	= true)
+				public NCOController CreateNCOController(bool LoadSAPIni	= true, bool AutoRegister = true)
 					{
-						var lo_DestRepo	= new DestinationRepository();
-						//.............................................
-						if (LoadSAPIni)
-							{
-								var	lo_SAPCnf	= SMC.SapLogonIniConfiguration.Create();
-								var lo_SAPIni	= new SAPLogonINI(lo_SAPCnf);
-
-								lo_SAPIni.LoadRepository(lo_DestRepo);
-							}
-						//.............................................
-						var lo_DestMngr	= new DestinationManager(lo_DestRepo);
-
-						return	new NCOController(lo_DestMngr);
+						return	new NCOController(LoadSAPIni, AutoRegister);
 					}
 
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

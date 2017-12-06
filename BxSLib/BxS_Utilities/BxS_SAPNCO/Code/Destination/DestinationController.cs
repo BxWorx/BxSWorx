@@ -10,13 +10,13 @@ using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
-	public class NCOController
+	public class DestinationController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public NCOController(	bool LoadSAPIni		= true	,
-															bool AutoRegister	= true		)
+				public DestinationController(	bool LoadSAPIni		= true	,
+																			bool AutoRegister	= true		)
 					{
 						if (LoadSAPIni)		this.LoadSAPINIintoRepository();
 						if (AutoRegister)	this.RegisterRepository();
