@@ -3,7 +3,7 @@
 using BxS_SAPConn.API;
 using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.Destination
+namespace BxS_SAPNCO.Helper
 {
 	internal class Parser
 		{

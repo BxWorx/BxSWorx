@@ -10,16 +10,14 @@ using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
-	public class Controller
+	public class NCOController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Controller(DestinationManager destinationManager)
+				public NCOController(DestinationManager destinationManager)
 					{
-						this._DestMngrx	= destinationManager;
-						this._LoadSAPIni	= LoadSAPIni;
-						//if (LoadSAPIni)	this._SAPIni.Value.LoadRepository(this._DestRep.Value);
+						this._DestMngr	= destinationManager;
 					}
 
 			#endregion
@@ -27,27 +25,14 @@ namespace BxS_SAPNCO.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly DestinationManager _DestMngrx;
-
-				private bool _LoadSAPIni;
+				private readonly DestinationManager _DestMngr;
 
 				private	readonly	ConnFactory				_ConnFac	= new ConnFactory();
 
-				private readonly	Lazy<DestinationManager>		_DestMngr
-														= new Lazy<DestinationManager>		(	() => new DestinationManager()							,
-																																LazyThreadSafetyMode.ExecutionAndPublication		);
 
-				private readonly	Lazy<DestinationRepository>	_DestRep
-														= new Lazy<DestinationRepository>	(	() => new DestinationRepository()							,
-																																LazyThreadSafetyMode.ExecutionAndPublication		);
-
-				private readonly	Lazy<SAPLogonINI>						_SAPIni
-														= new Lazy<SAPLogonINI>						(	() => new SAPLogonINI()												,
-																																LazyThreadSafetyMode.ExecutionAndPublication		);
-
-				private readonly	Lazy<Parser>								_Parser
-														= new Lazy<Parser>								(	() => new Parser()														,
-																																LazyThreadSafetyMode.ExecutionAndPublication		);
+				//private readonly	Lazy<Parser>								_Parser
+				//										= new Lazy<Parser>								(	() => new Parser()														,
+				//																												LazyThreadSafetyMode.ExecutionAndPublication		);
 
 			#endregion
 
