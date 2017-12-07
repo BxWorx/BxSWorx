@@ -22,29 +22,22 @@ namespace BxS_Toolset.Serialize
 					public string Serialize<T>(	T						classObject	,
 																			List<Type>	knownTypes		)
 						{
-							//try
-							//	{
-									var lo_XWSettings = new XmlWriterSettings
-										{	Indent							= true	,
-											OmitXmlDeclaration	= true	,
-											NewLineOnAttributes	= true		};
+							var lo_XWSettings = new XmlWriterSettings
+								{	Indent							= true	,
+									OmitXmlDeclaration	= true	,
+									NewLineOnAttributes	= true		};
 
-									var lo_StrBld	= new StringBuilder();
+							var lo_StrBld	= new StringBuilder();
 
-									using (var lo_XMLWriter = XmlWriter.Create(lo_StrBld, lo_XWSettings))
-										{
-											var lo_XMLSer	= new DataContractSerializer(typeof(T), knownTypes);
+							using (var lo_XMLWriter = XmlWriter.Create(lo_StrBld, lo_XWSettings))
+								{
+									var lo_XMLSer	= new DataContractSerializer(typeof(T), knownTypes);
 
-											lo_XMLSer.WriteObject(lo_XMLWriter, classObject);
-											lo_XMLWriter.Flush();
+									lo_XMLSer.WriteObject(lo_XMLWriter, classObject);
+									lo_XMLWriter.Flush();
 
-											return	lo_StrBld.ToString();
-										}
-							//	}
-							//catch (Exception)
-							//	{
-							//		return	string.Empty;
-							//	}
+									return	lo_StrBld.ToString();
+								}
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -59,18 +52,11 @@ namespace BxS_Toolset.Serialize
 					public T DeSerialize<T>(	string			xmlString		,
 																		List<Type>	knownTypes		)
 						{
-							//try
-							//	{
-									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
-										{
-											var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
-											return (T)lo_serializer.ReadObject(lo_XMLReader);
-										}
-							//	}
-							//catch (Exception)
-							//	{
-							//		return	default(T);
-							//	}
+							using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
+								{
+									var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
+									return (T)lo_serializer.ReadObject(lo_XMLReader);
+								}
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -89,18 +75,11 @@ namespace BxS_Toolset.Serialize
 																			ref T				classObject	,
 																			List<Type>	knownTypes		)
 						{
-							//try
-							//	{
-									using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
-										{
-											var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
-											classObject	= (T)lo_serializer.ReadObject(lo_XMLReader);
-										}
-							//	}
-							//catch (Exception)
-							//	{
-							//		classObject	=	default(T);
-							//	}
+							using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
+								{
+									var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
+									classObject	= (T)lo_serializer.ReadObject(lo_XMLReader);
+								}
 						}
 
 			#endregion

@@ -16,7 +16,7 @@ namespace BxS_SAPNCO.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DestinationController(bool	autoLoadSAPIni	= true	)
+				internal DestinationController(bool	autoLoadSAPIni = true)
 					{
 						this._SAPIniLoaded	= false;
 						this._DestRepos			= new DestinationRepository();
@@ -33,10 +33,10 @@ namespace BxS_SAPNCO.API
 				private						bool										_SAPIniLoaded;
 				private readonly	DestinationRepository		_DestRepos;
 				//.................................................
-				private readonly	Lazy<SAPLogonINI>	_SAPINI
-														= new Lazy<SAPLogonINI>
-															(	() => new SAPLogonINI()
-																, LazyThreadSafetyMode.ExecutionAndPublication	);
+				private readonly	Lazy<SAPLogonINI>				_SAPINI		= new Lazy<SAPLogonINI>
+																																(	() => new SAPLogonINI()
+																																	, LazyThreadSafetyMode
+																																			.ExecutionAndPublication	);
 
 			#endregion
 
