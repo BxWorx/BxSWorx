@@ -18,8 +18,8 @@ namespace BxS_SAPNCO.API
 				public NCOController(	bool LoadSAPIni		= true	,
 															bool AutoRegister	= true		)
 					{
-						if (LoadSAPIni)		this.LoadSAPINIintoRepository();
-						if (AutoRegister)	this.RegisterRepository();
+						//if (LoadSAPIni)		var x = 0;
+						//if (AutoRegister)	this.RegisterRepository();
 					}
 
 			#endregion
@@ -37,10 +37,10 @@ namespace BxS_SAPNCO.API
 															(	() => SMC.SapLogonIniConfiguration.Create()
 																, LazyThreadSafetyMode.ExecutionAndPublication	);
 
-				private readonly	Lazy<DestinationManager>						_DestMngr
-														= new Lazy<DestinationManager>
-															(	() => new DestinationManager()
-																,	LazyThreadSafetyMode.ExecutionAndPublication	);
+				//private readonly	Lazy<DestinationManager>						_DestMngr
+				//										= new Lazy<DestinationManager>
+				//											(	() => new DestinationManager()
+				//												,	LazyThreadSafetyMode.ExecutionAndPublication	);
 
 			#endregion
 
@@ -105,23 +105,7 @@ namespace BxS_SAPNCO.API
 						return	this._SAPINI.Value.GetEntries();
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void RegisterRepository()
-					{
-						this._DestMngr.Value.Register(this._DestRepos.Value);
-					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadSAPINIintoRepository()
-					{
-						foreach (string lc_ID in this._SAPINI.Value.GetEntries())
-							{
-								SMC.RfcConfigParameters lo = this._SAPINI.Value.GetParameters(lc_ID);
-								if (lo is null)		continue;
-								this._DestRepos.Value.AddConfig(lc_ID, lo);
-							}
-					}
 
 			#endregion
 

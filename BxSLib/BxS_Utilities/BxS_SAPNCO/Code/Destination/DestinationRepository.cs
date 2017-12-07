@@ -14,9 +14,11 @@ namespace BxS_SAPNCO.Destination
 
 				internal DestinationRepository()
 					{
-						this._Map		= new Dictionary<string	, System.Guid>							();
+						this._Map		= new Dictionary<string	, Guid>											();
+						this._Ref		= new Dictionary<Guid		,	string>										();
 						this._Des		= new Dictionary<Guid		, SMC.RfcConfigParameters>	();
-						this._Evt		= true;
+						//.............................................
+						this.ToggleChangeEvent	= true;
 					}
 
 			#endregion
@@ -24,8 +26,8 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly bool																						_Evt;
 				private readonly Dictionary<string,	Guid>												_Map;
+				private readonly Dictionary<Guid,	string>												_Ref;
 				private readonly Dictionary<Guid	, SMC.RfcConfigParameters>		_Des;
 
 			#endregion
@@ -33,7 +35,7 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Properties"
 
-				internal bool ChangeEventSupported	{ get; set; }
+				internal bool ToggleChangeEvent	{ get; set; }
 
 			#endregion
 
@@ -43,12 +45,12 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IList<IDTORefEntry> ReferenceList()
 					{
-						IList<IDTORefEntry>	lt_List	= new List<IDTORefEntry>(this._Map.Count-1);
+						IList<IDTORefEntry>	lt_List	= new List<IDTORefEntry>(this._Map.Count);
 						//.............................................
-						foreach (KeyValuePair<string, Guid> ls_kvp in this._Map)
+						foreach (KeyValuePair<Guid, string> ls_kvp in this._Ref)
 							{
-								lt_List.Add( new DTORefEntry{ ID		= ls_kvp.Value	,
-																							Name	= ls_kvp.Key			} );
+								lt_List.Add( new DTORefEntry{ ID		= ls_kvp.Key		,
+																							Name	= ls_kvp.Value		} );
 							}
 						//.............................................
 						return	lt_List;
@@ -57,24 +59,36 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Guid AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
 					{
-						return	this.AddConfig(	this.GetAddIDFor(ID)	,
-																		rfcConfig									);
+						return	this.AddConfig(	this.GetAddIDFor(ID, true)	,
+																		rfcConfig											);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Guid AddConfig(Guid ID, SMC.RfcConfigParameters rfcConfig)
 					{
 						this._Des[ID]	= rfcConfig;
+						var lo_E = new SMC.RfcConfigurationEventArgs(SMC.RfcConfigParameters.EventType.CHANGED);
+						this.OnConfigurationChanged("A",lo_E);
 						return	ID;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Guid GetAddIDFor(string ID, bool Add = true)
+				internal string GetNameFor(Guid ID)
+					{
+						return	this._Ref[ID] ?? string.Empty;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal Guid GetAddIDFor(string ID, bool Add = false)
 					{
 						if (!this._Map.TryGetValue(ID, out Guid lg_Guid))
 							{
 								lg_Guid	= Guid.NewGuid();
-								if (Add)	this._Map.Add(ID, lg_Guid);
+								if (Add)
+									{
+										this._Map[ID]				= lg_Guid;
+										this._Ref[lg_Guid]	= ID;
+									}
 							}
 						//.............................................
 						return	lg_Guid;
@@ -91,7 +105,7 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SMC.RfcConfigParameters GetParameters(string destinationName)
 					{
-						Guid lg = this.GetAddIDFor(destinationName, false);
+						Guid lg = this.GetAddIDFor(destinationName);
 
 						if (			lg != Guid.Empty
 									&&	this._Des.TryGetValue(lg, out SMC.RfcConfigParameters lo_Cnf)	)
@@ -105,8 +119,16 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool ChangeEventsSupported()
 					{
-						return	this._Evt;
+						return	this.ToggleChangeEvent;
 					}
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void OnConfigurationChanged(string name, SMC.RfcConfigurationEventArgs e)
+				{
+					SDM.ConfigurationChangeHandler lo_EvntHndlr	= this.ConfigurationChanged;
+					lo_EvntHndlr(name, e);
+				}
 
 			#endregion
 

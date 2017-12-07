@@ -11,7 +11,6 @@ namespace BxS_SAPNCO.Destination
 
 				internal Dictionary<string,string> cc;
 
-
 				internal bool IsRegistered	{ get { return	SDM.IsDestinationConfigurationRegistered(); } }
 
 			#endregion

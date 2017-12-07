@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Threading;
+using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -8,20 +10,12 @@ namespace BxS_SAPNCO.Helpers
 {
 	internal class SAPLogonINI
 		{
-			#region "Constructors"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPLogonINI(SMC.SapLogonIniConfiguration	SAPINIConfiguration)
-					{
-						this._SAPCnf	= SAPINIConfiguration;
-					}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Declarations"
 
-				private readonly SMC.SapLogonIniConfiguration		_SAPCnf;
+				private readonly	Lazy<SMC.SapLogonIniConfiguration>	_SAPINI
+														= new Lazy<SMC.SapLogonIniConfiguration>
+															(	() => SMC.SapLogonIniConfiguration.Create()
+																, LazyThreadSafetyMode.ExecutionAndPublication	);
 
 			#endregion
 
@@ -33,8 +27,7 @@ namespace BxS_SAPNCO.Helpers
 					{
 						foreach (string lc_ID in this.GetEntries())
 							{
-								SMC.RfcConfigParameters lo = this._SAPCnf.GetParameters(lc_ID);
-								if (lo is null)		continue;
+								SMC.RfcConfigParameters lo = this.GetParameters(lc_ID);
 								destinationRepository.AddConfig(lc_ID, lo);
 							}
 					}
@@ -42,13 +35,13 @@ namespace BxS_SAPNCO.Helpers
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IList<string>	GetEntries()
 					{
-						return	this._SAPCnf.GetEntries();
+						return	this._SAPINI.Value.GetEntries();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.RfcConfigParameters GetConfig(string ID)
+				internal SMC.RfcConfigParameters GetParameters(string ID)
 					{
-						return	this._SAPCnf.GetParameters(ID)	?? new SMC.RfcConfigParameters();
+						return	this._SAPINI.Value.GetParameters(ID)	?? new SMC.RfcConfigParameters();
 					}
 
 			#endregion

@@ -18,7 +18,6 @@ namespace zBxS_SAPNCO_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-
 			public void UT_SAPNCO_Repos_Instantiate()
 				{
 					int	ln_Cnt	= 0;
@@ -32,7 +31,6 @@ namespace zBxS_SAPNCO_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-
 			public void UT_SAPNCO_Repos_AddGetGUID()
 				{
 					int	ln_Cnt	= 0;
@@ -42,7 +40,7 @@ namespace zBxS_SAPNCO_UT
 					var lg_ID1	= Guid.NewGuid();
 					var lo_Repo = new DestinationRepository();
 
-					Guid lg_a00	= lo_Repo.GetAddIDFor(cz_A, false);
+					Guid lg_a00	= lo_Repo.GetAddIDFor(cz_A, false	);
 					Guid lg_a01	= lo_Repo.GetAddIDFor(cz_A, true	);
 					Guid lg_a02	= lo_Repo.GetAddIDFor(cz_A, true	);
 
@@ -55,7 +53,6 @@ namespace zBxS_SAPNCO_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-
 			public void UT_SAPNCO_Repos_AddConfig()
 				{
 					int	ln_Cnt	= 0;
@@ -72,9 +69,14 @@ namespace zBxS_SAPNCO_UT
 
 					IList<IDTORefEntry> lt_Lst = lo_Repo.ReferenceList();
 
-					Assert.AreEqual			(lg_ID1	, lg_b02				,	$"SAPNCO:Repos:Conf {ln_Cnt}: 1			");
-					Assert.AreEqual			(lg_b01	, lg_b03				,	$"SAPNCO:Repos:Conf {ln_Cnt}: 2			");
-					Assert.AreEqual			(1			, lt_Lst.Count	,	$"SAPNCO:Repos:Conf {ln_Cnt}: Count	");
+					Assert.AreEqual	(lg_ID1	, lg_b02				,	$"SAPNCO:Repos:Conf {ln_Cnt}: 1			");
+					Assert.AreEqual	(lg_b01	, lg_b03				,	$"SAPNCO:Repos:Conf {ln_Cnt}: 2			");
+					Assert.AreEqual	(1			, lt_Lst.Count	,	$"SAPNCO:Repos:Conf {ln_Cnt}: Count	");
+					//...............................................
+					ln_Cnt	++;
+
+					IList<IDTORefEntry> lt = lo_Repo.ReferenceList();
+					Assert.AreNotEqual	(0, lt.Count	,	$"SAPNCO:Repos:Conf {ln_Cnt}: Not =	");
 				}
 	}
 }
