@@ -2,12 +2,12 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset.Queue
 {
-	public class Queue<T> where T : class
+	internal class Queue<T> where T : class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Queue()
+				internal Queue()
 					{
 						this._queue		= new ConcurrentQueue<T>();
 					}
@@ -24,7 +24,7 @@ namespace BxS_Toolset.Queue
 			//===========================================================================================
 			#region "Properties"
 
-				public int Count	{ get { return this._queue.Count; } }
+				internal int Count	{ get { return this._queue.Count; } }
 
 			#endregion
 
@@ -32,14 +32,14 @@ namespace BxS_Toolset.Queue
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public T Get()
+				internal T Get()
 				{
 					this._queue.TryDequeue(out T lo_Obj);
 					return	lo_Obj	?? null;
 				}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Add(T item)
+				internal void Add(T item)
 				{
 					this._queue.Enqueue(item);
 				}

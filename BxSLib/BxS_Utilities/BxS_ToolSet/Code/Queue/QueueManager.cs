@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset.Queue
 {
@@ -10,7 +9,8 @@ namespace BxS_Toolset.Queue
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public QueueManager(int NoQueues = 3)
 					{
-						this._quecount	= NoQueues;
+						this._maxqueues	= NoQueues;
+						//.............................................
 						this.Setup();
 					}
 
@@ -19,44 +19,49 @@ namespace BxS_Toolset.Queue
 			//===========================================================================================
 			#region "Declarations"
 
-				private int		_quecount;
+				private int		_maxqueues;
 				//.................................................
-				private readonly Lazy<Queue<T>>	_Q00		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q01		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q02		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q03		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q04		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q05		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q06		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q07		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q08		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q09		= new Lazy<Queue<T>>( new Queue<T>() );
-				private readonly Lazy<Queue<T>>	_Q10		= new Lazy<Queue<T>>( new Queue<T>() );
-				//private ConcurrentDictionary<int, Queue<T>>	_queue;
+				private	Dictionary<int, Queue<T>>		_queue;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
-
-				public int Count	{ get { return this._queue.Count; }	}
-
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public T Get()
+				public int GetCount(int Level)
+					{
+					int ln_Indx	= (Level < 0 || Level >		this._maxqueues) ? 0 : Level;
+					//...............................................
+					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
+							return	lo_Q.Count;
+					//...............................................
+					return 0;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public T Get(int Level)
 				{
-					this._queue.TryDequeue(out T lo_Obj);
-					return	lo_Obj	?? null;
+					int ln_Indx	= (Level < 0 || Level >		this._maxqueues) ? 0 : Level;
+					//...............................................
+					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
+							return	lo_Q.Get();
+					//...............................................
+					return null;
 				}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Add(T item)
+				public void Add(int Level, T item)
 				{
-					this._queue.Enqueue(item);
+					int ln_Indx	= (Level < 0 || Level >		this._maxqueues) ? 0 : Level;
+					//...............................................
+					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
+							lo_Q.Add(item);
+					//...............................................
 				}
 
 			#endregion
@@ -64,14 +69,15 @@ namespace BxS_Toolset.Queue
 			//===========================================================================================
 			#region "Methods: Private"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Setup()
 					{
-						if			(this._quecount	< 1)		this._quecount	= 1		;
-						else if (this._quecount> 10)		this._quecount	= 10	;
+						if			(this._maxqueues	< 01)		this._maxqueues	= 01	;
+						else if (this._maxqueues	> 10)		this._maxqueues	= 10	;
 						//.............................................
-						this._queue		= new ConcurrentDictionary<int, Queue<T>>();
+						this._queue		= new Dictionary<int, Queue<T>>();
 
-						for (int i = 0; i < this._quecount; i++)
+						for (int i = 0; i < this._maxqueues; i++)
 							{
 								this._queue.TryAdd(i, new Queue<T>());
 							}

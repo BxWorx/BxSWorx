@@ -5,6 +5,7 @@ using BxS_Toolset.DataContainer;
 //.........................................................
 using BxS_Toolset.IODisk;
 using BxS_Toolset.Serialize;
+using BxS_Toolset.Queue;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset
 {
@@ -19,6 +20,13 @@ namespace BxS_Toolset
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public QueueManager<TCls>	CreateQueueManager<TCls>(int NoQueues)
+																			where TCls: class
+					{
+						return	new QueueManager<TCls>(NoQueues);
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DataTable<TCls, TKey> CreateDataTable<TCls, TKey>(	Func<TKey, TCls>	createNew	)

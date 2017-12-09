@@ -28,10 +28,11 @@ namespace zBxS_ToolSet_UT
 				{
 					int	ln_Cnt	= 0;
 					//...............................................
-					IO													x		= this._TS.GetIO();
-					ObjSerializer								y		= this._TS.GetSerlizser();
-					DTController	<TestDTO, Guid>	z		= this._TS.CreateDTController	<TestDTO, Guid>	(_TestFullNme, (Guid id) => new TestDTO() { ID = id } );
-					DataTable				<TestDTO, Guid>	t		= this._TS.CreateDataTable			<TestDTO, Guid>	(	(Guid id) => new TestDTO() { ID = id } );
+					IO						x		= this._TS.GetIO();
+					ObjSerializer	y		= this._TS.GetSerlizser();
+
+					DTController	<TestDTO, Guid>		z	= this._TS.CreateDTController	<TestDTO, Guid>	(_TestFullNme, (Guid id) => new TestDTO() { ID = id } );
+					DataTable			<TestDTO, Guid>		t	= this._TS.CreateDataTable		<TestDTO, Guid>	(	(Guid id) => new TestDTO() { ID = id } );
 					//...............................................
 					ln_Cnt ++;
 
