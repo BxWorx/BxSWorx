@@ -26,38 +26,44 @@ namespace BxS_Toolset.Queue
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public int GetCount(int Level)
+				public int GetCount(int Level = -1)
 					{
-					int ln_Indx	= (Level < 0 || Level >		this._maxqueues) ? 0 : Level;
+					if (Level == -1)
+						{
+							int ln_Cnt = 0;
+							foreach (KeyValuePair<int, Queue<T>> ls_kvp in this._queue)
+								{
+									ln_Cnt += ls_kvp.Value.Count;
+								}
+							return	ln_Cnt;
+						}
 					//...............................................
+					int ln_Indx	= (Level < 0 || Level > this._maxqueues) ? 0 : Level;
+
 					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
 							return	lo_Q.Count;
-					//...............................................
+
 					return 0;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public T Get(int Level)
 				{
-					int ln_Indx	= (Level < 0 || Level >		this._maxqueues) ? 0 : Level;
-					//...............................................
+					int ln_Indx	= (Level < 0 || Level > this._maxqueues) ? 0 : Level;
+
 					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
 							return	lo_Q.Get();
-					//...............................................
+
 					return null;
 				}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Add(int Level, T item)
 				{
-					int ln_Indx	= (Level < 0 || Level >		this._maxqueues) ? 0 : Level;
+					int ln_Indx	= (Level < 0 || Level > this._maxqueues) ? 0 : Level;
 					//...............................................
 					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
 							lo_Q.Add(item);
