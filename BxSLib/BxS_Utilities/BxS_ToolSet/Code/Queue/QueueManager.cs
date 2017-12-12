@@ -21,7 +21,14 @@ namespace BxS_Toolset.Queue
 
 				private int		_maxqueues;
 				//.................................................
-				private	Dictionary<int, Queue<T>>		_queue;
+				private	Dictionary<int, Queue<T>>		_queues;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				public int QCount { get { return	this._queues.Count; } }
 
 			#endregion
 
@@ -31,44 +38,68 @@ namespace BxS_Toolset.Queue
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public int GetCount(int Level = -1)
 					{
-					if (Level == -1)
-						{
-							int ln_Cnt = 0;
-							foreach (KeyValuePair<int, Queue<T>> ls_kvp in this._queue)
-								{
-									ln_Cnt += ls_kvp.Value.Count;
-								}
-							return	ln_Cnt;
-						}
-					//...............................................
-					int ln_Indx	= (Level < 0 || Level > this._maxqueues) ? 0 : Level;
+						if (Level == -1)
+							{
+								int ln_Cnt = 0;
+								foreach (KeyValuePair<int, Queue<T>> ls_kvp in this._queues)
+									{
+										ln_Cnt += ls_kvp.Value.Count;
+									}
+								return	ln_Cnt;
+							}
+						//...............................................
+						if (this._queues.TryGetValue( this.GetIndex(Level), out Queue<T> lo_Q) )
+								return	lo_Q.Count;
 
-					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
-							return	lo_Q.Count;
+						return 0;
+					}
 
-					return 0;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public T Peek(int Level)
+					{
+						if (this._queues.TryGetValue( this.GetIndex(Level), out Queue<T> lo_Q) )
+								return	lo_Q.Peek();
+
+						return null;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public T Get(int Level)
-				{
-					int ln_Indx	= (Level < 0 || Level > this._maxqueues) ? 0 : Level;
+					{
+						if (this._queues.TryGetValue( this.GetIndex(Level), out Queue<T> lo_Q) )
+								return	lo_Q.Get();
 
-					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
-							return	lo_Q.Get();
-
-					return null;
-				}
+						return null;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Add(int Level, T item)
-				{
-					int ln_Indx	= (Level < 0 || Level > this._maxqueues) ? 0 : Level;
-					//...............................................
-					if (this._queue.TryGetValue(ln_Indx, out Queue<T> lo_Q) )
-							lo_Q.Add(item);
-					//...............................................
-				}
+					{
+						if (this._queues.TryGetValue( this.GetIndex(Level), out Queue<T> lo_Q) )
+								lo_Q.Add(item);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public T GetNext()
+					{
+						int ln_CurQ	= this.QCount;
+						int ln_Trgt	= ln_CurQ;
+						bool	lb_Go	= true;
+						T		lo_Obj	= null;
+						//...............................................
+						do
+							{
+								for (int i = ln_CurQ; i < ln_Trgt; i--)
+									{
+										lo_Obj	=	this._queues[i].Get();
+										if (lo_Obj != null)
+											{ lb_Go	= false; break; }
+									}
+								if (lb_Go) ln_Trgt --;
+							} while (lb_Go);
+						//...............................................
+						return	lo_Obj;
+					}
 
 			#endregion
 
@@ -76,16 +107,22 @@ namespace BxS_Toolset.Queue
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private int GetIndex(int Level)
+					{
+						return	(Level < 0 || Level > this._maxqueues) ? 0 : Level;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Setup()
 					{
 						if			(this._maxqueues	< 01)		this._maxqueues	= 01	;
 						else if (this._maxqueues	> 10)		this._maxqueues	= 10	;
 						//.............................................
-						this._queue		= new Dictionary<int, Queue<T>>();
+						this._queues		= new Dictionary<int, Queue<T>>();
 
-						for (int i = 0; i < this._maxqueues; i++)
+						for (int i = 0; i <= this._maxqueues; i++)
 							{
-								this._queue.TryAdd(i, new Queue<T>());
+								this._queues.TryAdd(i, new Queue<T>());
 							}
 					}
 
