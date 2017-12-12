@@ -22,21 +22,39 @@ namespace BxS_Toolset
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public QueueManager<TCls>	CreateQueueManager<TCls>(int NoQueues)
-																			where TCls: class
+				public QueueManager<TCls>	CreateQueueManager<TCls>(int NoQueues = 3, bool IncludeZeroQue = true)
+																		where TCls: class
 					{
-						return	new QueueManager<TCls>(NoQueues);
+						var lo_QM	= new QueueManager<TCls>(NoQueues);
+						int ln_St	= 1;
+						int ln_En	= lo_QM.MaxQueues;
+						//.............................................
+						if (IncludeZeroQue)		ln_St = 0;
+						//.............................................
+						for (int i = ln_St; i <= ln_En; i++)
+							{
+								lo_QM.AddQueue(this.CreateQueue<TCls>(), i);
+							}
+						//.............................................
+						return	lo_QM;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DataTable<TCls, TKey> CreateDataTable<TCls, TKey>(	Func<TKey, TCls>	createNew	)
-																			where TCls: class
+				public BxSQueue<TCls>	CreateQueue<TCls>()
+															where TCls: class
+					{
+						return	new BxSQueue<TCls>();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DataTable<TCls, TKey>	CreateDataTable<TCls, TKey>(	Func<TKey, TCls>	createNew	)
+																				where TCls: class
 					{
 						return	new DataTable<TCls, TKey>(createNew);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTController<TCls, TKey> CreateDTController<TCls, TKey>(	string						fullPathName	,
+				public DTController<TCls, TKey>	CreateDTController<TCls, TKey>(	string						fullPathName	,
 																																				Func<TKey, TCls>	createNew			,
 																																				bool							autoLoad			= true	)
 																					where TCls: class
