@@ -45,7 +45,7 @@ namespace BxS_Toolset.Queue
 						//.............................................
 						lock (this._Lock)
 							{
-								if (			this.QCount >= this.MaxQueues
+								if (			this.QCount > this.MaxQueues
 											||	this._Queues.ContainsKey(Level)	)
 									{	return ln_Lev; }
 								//.............................................
@@ -60,7 +60,7 @@ namespace BxS_Toolset.Queue
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public int GetCount(int Level = -1)
+				public int Count(int Level = -1)
 					{
 						if (Level < 0)
 							{

@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="zBxS_ToolSet_UT.UT_BxS_ToolSet_QMngr.UT_ToolSet_QMngr_GetNext" /><Add Test="zBxS_ToolSet_UT.UT_BxS_ToolSet_QMngr.UT_ToolSet_QMngr_ProcessQ" /><Add Test="zBxS_ToolSet_UT.UT_BxS_ToolSet_QMngr.UT_ToolSet_QMngr_Priority" /><Add Test="zBxS_ToolSet_UT.UT_BxS_ToolSet_QMngr.UT_ToolSet_QMngr_Instantiate" /></Playlist>

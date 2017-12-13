@@ -12,7 +12,7 @@ namespace zBxS_ToolSet_UT
 	[TestClass]
 	public class UT_BxS_ToolSet_QMngr
 		{
-			private const int	_N	= 10000;
+			private const int	_N	= 1000;
 
 			private	ToolSet		_TS	= new ToolSet();
 
@@ -38,7 +38,7 @@ namespace zBxS_ToolSet_UT
 								}
 						}
 
-					Assert.AreEqual(ln_Cnt,	lo_QM.GetCount(),	$"QM:ProcessQ {ln_Ass}: Add");
+					Assert.AreEqual(ln_Cnt,	lo_QM.Count(),	$"QM:ProcessQ {ln_Ass}: Add");
 					//...............................................
 					var				lt_Ls		= new List<TestClass>();
 					bool			lb_Ok		= true;
@@ -81,7 +81,7 @@ namespace zBxS_ToolSet_UT
 																		}
 											);
 
-					int ln_Tot	= lo_QM.GetCount();
+					int ln_Tot	= lo_QM.Count();
 					Assert.AreEqual(_N,	ln_Tot,	$"QM:ProcessQ {ln_Cnt}: Add");
 					//...............................................
 					ln_Tot = 0;
@@ -121,7 +121,7 @@ namespace zBxS_ToolSet_UT
 																		}
 											);
 
-					int ln_Tot	= lo_QM.GetCount();
+					int ln_Tot	= lo_QM.Count();
 
 					Assert.AreEqual(_N,	ln_Tot,	$"QM:ProcessQ {ln_Cnt}: Add");
 					//...............................................
@@ -133,7 +133,7 @@ namespace zBxS_ToolSet_UT
 																				{
 																					TestClass zz	= lo_QM.Get(i);
 																					if (zz != null)	xx ++;
-																				} while ( lo_QM.GetCount(i) > 0 );
+																				} while ( lo_QM.Count(i) > 0 );
 
 																			Interlocked.Add(ref ln_Tot, xx);
 																		}
