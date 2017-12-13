@@ -8,7 +8,7 @@ namespace BxS_Toolset.ObjectPool
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ObjectPool(Func<T> newObjFnc					,
+				public ObjectPool(Func<T> newObjFnc	,
 													int			maxEntries	= 10		)
 					{
 						this.MaxEntries		= maxEntries;
@@ -54,7 +54,10 @@ namespace BxS_Toolset.ObjectPool
 												lo_Obj	= this._NewObjFnc();
 												this.Count ++;
 											}
-										else	{	lo_Obj	= null;	}
+										else
+											{
+												lo_Obj	= null;
+											}
 									}
 							}
 						//...............................................
