@@ -14,8 +14,7 @@ namespace zBxS_ToolSet_UT
 		{
 			private const int	_N	= 1000;
 
-			private	ToolSet		_TS	= new ToolSet();
-
+			private readonly ToolSet		_TS	= new ToolSet();
 			//...................................................
 
 			//-------------------------------------------------------------------------------------------
@@ -149,6 +148,17 @@ namespace zBxS_ToolSet_UT
 					int	ln_Cnt = 0;
 					//...............................................
 					ln_Cnt ++;
+					QueueManager<TestClass>	e	= null;
+
+					try
+						{
+							e	= new QueueManager<TestClass>(null);
+							Assert.Fail($"QM:Inst {ln_Cnt}: Null");
+						}
+					catch (Exception)
+						{
+							Assert.IsNull(e	, $"QM:Inst {ln_Cnt}: Null");
+						}
 
 					QueueManager<TestClass> w		=	this._TS.CreateQueueManager<TestClass>(-1);
 					QueueManager<TestClass> x		=	this._TS.CreateQueueManager<TestClass>();

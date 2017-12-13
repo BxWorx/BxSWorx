@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset.Queue
 {
@@ -7,14 +8,13 @@ namespace BxS_Toolset.Queue
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public QueueManager(int NoQueues = 3)
+				public QueueManager(	Func<BxSQueue<T>>	newQueFnc			,
+															int								noQueues = 3		)
 					{
-						if			(NoQueues	< 01)		this.MaxQueues	= 01				;
-						else if (NoQueues	> 10)		this.MaxQueues	= 10				;
-						else											this.MaxQueues	= NoQueues	;
+						this.MaxQueues	= noQueues	;
+						this._NewFnc		= newQueFnc	?? throw new ArgumentNullException(nameof(newQueFnc));
 						//.............................................
-						this._Queues	= new Dictionary<	int, BxSQueue<T> >();
-						this._Lock		= new object();
+						this.Setup();
 					}
 
 			#endregion
@@ -22,42 +22,21 @@ namespace BxS_Toolset.Queue
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Dictionary<int, BxSQueue<T>>		_Queues	;
-				private readonly object													_Lock		;
+				private readonly	Func<BxSQueue<T>>							_NewFnc	;
+				private						Dictionary<int, BxSQueue<T>>	_Queues	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public int MaxQueues	{ get; }
+				public int MaxQueues	{ get; private set; }
 				public int QCount			{ get { return	this._Queues.Count; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public int AddQueue(BxSQueue<T> Q, int Level = -1)
-					{
-						int ln_Lev	= -1;
-						//.............................................
-						lock (this._Lock)
-							{
-								if (			this.QCount > this.MaxQueues
-											||	this._Queues.ContainsKey(Level)	)
-									{	return ln_Lev; }
-								//.............................................
-								if ( Level < 0)		ln_Lev	= this.QCount + 1;
-								else	ln_Lev	= Level;
-								//.........................................
-								if ( !this._Queues.TryAdd( ln_Lev, Q ) )
-									ln_Lev	= -1;
-							}
-						//.............................................
-						return	ln_Lev;
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public int Count(int Level = -1)
@@ -144,6 +123,20 @@ namespace BxS_Toolset.Queue
 					{
 						return	(			Level < 0
 											||	Level > this.MaxQueues	) ? 0 : Level;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void Setup()
+					{
+						if			(this.MaxQueues	< 01)		this.MaxQueues	= 01	;
+						else if (this.MaxQueues	> 10)		this.MaxQueues	= 10	;
+						//.............................................
+						this._Queues	= new Dictionary<	int, BxSQueue<T> >();
+
+						for (int i = 0; i <= this.MaxQueues; i++)
+							{
+								this._Queues.Add(	i,	this._NewFnc() );
+							}
 					}
 
 			#endregion

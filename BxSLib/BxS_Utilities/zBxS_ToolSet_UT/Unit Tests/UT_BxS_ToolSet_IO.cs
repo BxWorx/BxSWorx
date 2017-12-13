@@ -59,9 +59,5 @@ namespace zBxS_ToolSet_UT
 					Assert.AreEqual	(lz_Tst	,	lc_Tst										,	$"IO: {ln_Cnt}: Read: Error");
 				}
 
-			//===========================================================================================
-			#region "Local"
-			#endregion
-
 		}
 }

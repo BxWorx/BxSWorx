@@ -6,6 +6,7 @@ using BxS_Toolset.DataContainer;
 using BxS_Toolset.IODisk;
 using BxS_Toolset.Serialize;
 using BxS_Toolset.Queue;
+using BxS_Toolset.ObjectPool;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset
 {
@@ -21,22 +22,18 @@ namespace BxS_Toolset
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				public ObjectPool<TCls>	CreateObjectPool<TCls>(	Func<TCls>	NewObject		,
+																												int					MaxObjects = 10	)
+																	where TCls: class
+					{
+						return	new ObjectPool<TCls>(NewObject, MaxObjects);
+					}
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public QueueManager<TCls>	CreateQueueManager<TCls>(int NoQueues = 3, bool IncludeZeroQue = true)
+				public QueueManager<TCls>	CreateQueueManager<TCls>(int NoQueues = 3)
 																		where TCls: class
 					{
-						var lo_QM	= new QueueManager<TCls>(NoQueues);
-						int ln_St	= 1;
-						int ln_En	= lo_QM.MaxQueues;
-						//.............................................
-						if (IncludeZeroQue)		ln_St = 0;
-						//.............................................
-						for (int i = ln_St; i <= ln_En; i++)
-							{
-								lo_QM.AddQueue(this.CreateQueue<TCls>(), i);
-							}
-						//.............................................
-						return	lo_QM;
+						return	new QueueManager<TCls>( () => new BxSQueue<TCls>() , NoQueues);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -47,7 +44,7 @@ namespace BxS_Toolset
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DataTable<TCls, TKey>	CreateDataTable<TCls, TKey>(	Func<TKey, TCls>	createNew	)
+				public DataTable<TCls, TKey>	CreateDataTable<TCls, TKey>(Func<TKey, TCls>	createNew	)
 																				where TCls: class
 					{
 						return	new DataTable<TCls, TKey>(createNew);

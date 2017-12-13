@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Toolset.ObjectPool
 {
@@ -12,12 +8,15 @@ namespace BxS_Toolset.ObjectPool
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ObjectPool(Func<T> objectGenerator	,
-													int			max = 10					)
+				public ObjectPool(Func<T> newObjFnc					,
+													int			maxEntries	= 10		)
 					{
-						this.MaxEntries				= max;
-						this._objects					= new ConcurrentBag<T>();
-						this._objectGenerator	= objectGenerator	?? throw new ArgumentNullException(nameof(objectGenerator));
+						this.MaxEntries		= maxEntries;
+						this._NewObjFnc		= newObjFnc	?? throw new ArgumentNullException(nameof(newObjFnc));
+						//.............................................
+						this._Objects			= new ConcurrentBag<T>();
+						this._Lock				= new object();
+						this.Count				= 0;
 					}
 
 			#endregion
@@ -25,15 +24,18 @@ namespace BxS_Toolset.ObjectPool
 			//===========================================================================================
 			#region "Properties"
 
-				public int MaxEntries	{ get; set; }
+				public int MaxEntries		{ get; }
+				public int Count				{ get;	private set; }
+				public int ObjectCount	{ get { return	this._Objects.Count; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly ConcurrentBag<T>		_objects;
-				private readonly Func<T>						_objectGenerator;
+				private readonly ConcurrentBag<T>		_Objects		;
+				private readonly Func<T>						_NewObjFnc	;
+				private	readonly object							_Lock				;
 
 			#endregion
 
@@ -42,18 +44,28 @@ namespace BxS_Toolset.ObjectPool
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public T GetObject()
-				{
-					if (this._objects.TryTake(out T item))
-						return item;
-					//...............................................
-					return this._objectGenerator();
-				}
+					{
+						if (!this._Objects.TryTake(out T lo_Obj))
+							{
+								lock (this._Lock)
+									{
+										if (this.Count < this.MaxEntries)
+											{
+												lo_Obj	= this._NewObjFnc();
+												this.Count ++;
+											}
+										else	{	lo_Obj	= null;	}
+									}
+							}
+						//...............................................
+						return	lo_Obj;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void PutObject(T item)
-				{
-					this._objects.Add(item);
-				}
+					{
+						this._Objects.Add(item);
+					}
 
 			#endregion
 
