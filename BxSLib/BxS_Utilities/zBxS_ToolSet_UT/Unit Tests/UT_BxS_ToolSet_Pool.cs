@@ -22,8 +22,8 @@ namespace zBxS_ToolSet_UT
 			[TestMethod]
 			public void UT_ToolSet_Pool_Use()
 				{
-					int ln_Max	= 10;
-					int	ln_Cnt	= 0;
+					const int ln_Max	= 20;
+								int	ln_Cnt	= 0;
 					//...............................................
 					ln_Cnt	++;
 
@@ -46,7 +46,7 @@ namespace zBxS_ToolSet_UT
 													{	Interlocked.Add(ref ln_Skp, 1); }
 												else
 													{
-														x.Run(i);
+														x.Run(i*j);
 														lo_OP.PutObject(x);
 													}
 											}
@@ -98,15 +98,14 @@ namespace zBxS_ToolSet_UT
 				//-----------------------------------------------------------------------------------------
 				private class TestClass
 					{
-						internal 	int			Index { get; set; }
-						public		string	Prop1 { get; set; }
-						internal	int			Count { get { return this._Cnt; } }
-						internal  int     LCount	{ get { return this._lt.Count; } }
+						internal 	int			CheckedIn	{ get; set; }
+						public		string	Prop1			{ get; set; }
+						internal	int			Count			{ get; private set; }
+						internal  int     LCount		{ get { return this._lt.Count; } }
 
 						private readonly	IList<int>	_lt		= new List<int>();
-						private						int					_Cnt	= 0;
 
-						public void Run(int I)	{ Interlocked.Add(ref this._Cnt, 1); this._lt.Add(I);	Thread.Sleep(8); }
+						public void Run(int I)	{ this.Count ++; this._lt.Add(I);	Thread.Sleep(0); }
 					}
 
 			#endregion
