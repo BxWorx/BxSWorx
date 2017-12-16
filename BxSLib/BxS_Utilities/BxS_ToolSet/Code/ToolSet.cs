@@ -22,11 +22,12 @@ namespace BxS_Toolset
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				public ObjectPool<TCls>	CreateObjectPool<TCls>(	Func<TCls>	NewObject		,
-																												int					MaxObjects = 10	)
-																	where TCls: class
+				public ObjectPoolx<TCls>	CreateObjectPool<TCls>(	Func<TCls>	NewObject							,
+																												int						MaxObjects			= 10	,
+																												int						StartupObjects	= 3			)
+																	where TCls: IPoolObject
 					{
-						return	new ObjectPool<TCls>(NewObject, MaxObjects);
+						return	new ObjectPoolx<TCls>(NewObject, MaxObjects, StartupObjects);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

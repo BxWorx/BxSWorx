@@ -27,7 +27,7 @@ namespace zBxS_ToolSet_UT
 					//...............................................
 					ln_Cnt	++;
 
-					ObjectPool<TestClass> lo_OP	= this._TS.CreateObjectPool<TestClass>(	() => new TestClass(), ln_Max );
+					ObjectPoolx<TestClass> lo_OP	= this._TS.CreateObjectPool<TestClass>(	() => new TestClass(), ln_Max, ln_Max );
 					Assert.IsNotNull	(lo_OP,	$"Pool: {ln_Cnt}: Instantiate");
 					//...............................................
 					ln_Cnt	++;
@@ -35,41 +35,55 @@ namespace zBxS_ToolSet_UT
 					int ln_Lop	= 0;
 					int ln_Tot	= 0;
 					int ln_Skp	= 0;
+					int ln_Err	= 0;
 
-					Parallel.For(	0, _N,
-						i =>	{
-										for (int j = 0; j < _O; j++)
-											{
-												Interlocked.Add(ref ln_Lop, 1);
-												TestClass x = lo_OP.GetObject();
-												if (x == null)
-													{	Interlocked.Add(ref ln_Skp, 1); }
-												else
-													{
-														x.Run(i*j);
-														lo_OP.PutObject(x);
-													}
-											}
-									}
-											);
+					Task[] lt_Tasks	= new	Task[_N];
 
-					Assert.AreEqual	(ln_Max	,	lo_OP.MaxEntries			,	$"Pool:Use {ln_Cnt}: Max"		);
+					for (int i = 0; i < _N; i++)
+						{
+							int Idx	= i;
+
+							lt_Tasks[Idx]	= Task.Run(
+																				async () =>
+																					{
+																						for (int j = 0; j < _O; j++)
+																							{
+																								Interlocked.Add(ref ln_Lop, 1);
+																								TestClass x = lo_OP.GetObject();
+																								if (x == null)
+																									{	Interlocked.Add(ref ln_Skp, 1); }
+																								else
+																									{
+																										x.Run(Idx*j);
+																										bool	xx	= await	lo_OP.PutObjectAsync(x).ConfigureAwait(false);
+																										if (!xx)	Interlocked.Add(ref ln_Err, 1);
+																									}
+																							}
+																					}
+																			);
+						}
+
+					Task.WaitAll(lt_Tasks);
+
+					Assert.AreEqual	(ln_Max	,	lo_OP.Max			,	$"Pool:Use {ln_Cnt}: Max"		);
 					Assert.AreEqual	(lo_OP.Count,	lo_OP.ObjectCount	,	$"Pool:Use {ln_Cnt}: Count"	);
 					//...............................................
 					ln_Cnt	++;
 
-					Console.WriteLine($"MaxOb: {lo_OP.MaxEntries.ToString()}"		);
+					Console.WriteLine($"MaxOb: {lo_OP.Max.ToString()}"		);
 					Console.WriteLine($"Objts: {lo_OP.ObjectCount.ToString()}"	);
 					Console.WriteLine($"Count: {lo_OP.Count.ToString()}"				);
 					Console.WriteLine($"Loops: {ln_Lop.ToString()}"							);
 					Console.WriteLine($"Skips: {ln_Skp.ToString()}"							);
+					Console.WriteLine($"Error: {ln_Err.ToString()}"							);
+
 					Console.WriteLine("====");
 
 					for (int i = 0; i < lo_OP.Count; i++)
 						{
 							TestClass x	= lo_OP.GetObject();
-							ln_Tot	+= x.Count;
-							Console.WriteLine( $"{x.Count.ToString()}/{x.LCount.ToString()}");
+							ln_Tot	+= x.LCount;
+							Console.WriteLine( $"{x.LCount.ToString()}/{x.LCount.ToString()}");
 						}
 						Console.WriteLine("-----");
 						Console.WriteLine($"Tot: {ln_Tot.ToString()}");
@@ -86,27 +100,36 @@ namespace zBxS_ToolSet_UT
 					//...............................................
 					ln_Cnt	++;
 
-					ObjectPool<TestClass> lo_OP	= this._TS.CreateObjectPool<TestClass>( () => new TestClass(), 5);
+					ObjectPoolx<TestClass> lo_OP	= this._TS.CreateObjectPool<TestClass>( () => new TestClass(), 5);
 
 					Assert.IsNotNull	(			lo_OP							,	$"Pool: {ln_Cnt}: Instantiate");
-					Assert.AreEqual		(5	,	lo_OP.MaxEntries	,	$"Pool: {ln_Cnt}: Max");
+					Assert.AreEqual		(5	,	lo_OP.Max	,	$"Pool: {ln_Cnt}: Max");
 				}
 
 			//===========================================================================================
 			#region "Local"
 
 				//-----------------------------------------------------------------------------------------
-				private class TestClass
+				private class TestClass : IPoolObject
 					{
-						internal 	int			CheckedIn	{ get; set; }
+						internal 	Boolean	CheckedIn	{ get; set; }
 						public		string	Prop1			{ get; set; }
 						internal	int			Count			{ get; private set; }
 						internal  int     LCount		{ get { return this._lt.Count; } }
 
 						private readonly	IList<int>	_lt		= new List<int>();
 
-						public void Run(int I)	{ this.Count ++; this._lt.Add(I);	Thread.Sleep(0); }
-					}
+						public void Run(int I)	{ this.Count ++; this._lt.Add(I);	Thread.Sleep(10); }
+
+						public async Task<bool> ResetAsync()
+							{
+								bool	lb_Ret	=	await Task<bool>.Run(() => {	this.CheckedIn	= false;
+																															this.Prop1			= string.Empty;
+																															this.Count			= 0;
+																															return	true;										}	).ConfigureAwait(false);
+								return	lb_Ret;
+							}
+			}
 
 			#endregion
 
