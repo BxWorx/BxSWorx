@@ -27,7 +27,7 @@ namespace zBxS_ToolSet_UT
 					//...............................................
 					ln_Cnt	++;
 
-					ObjectPoolx<TestClass> lo_OP	= this._TS.CreateObjectPool<TestClass>(	() => new TestClass(), ln_Max, ln_Max );
+					ObjectPool<TestClass> lo_OP	= this._TS.CreateObjectPool<TestClass>(	() => new TestClass(), ln_Max, ln_Max );
 					Assert.IsNotNull	(lo_OP,	$"Pool: {ln_Cnt}: Instantiate");
 					//...............................................
 					ln_Cnt	++;
@@ -49,13 +49,13 @@ namespace zBxS_ToolSet_UT
 																						for (int j = 0; j < _O; j++)
 																							{
 																								Interlocked.Add(ref ln_Lop, 1);
-																								TestClass x = lo_OP.GetObject();
+																								TestClass x = lo_OP.Acquire();
 																								if (x == null)
 																									{	Interlocked.Add(ref ln_Skp, 1); }
 																								else
 																									{
 																										x.Run(Idx*j);
-																										bool	xx	= await	lo_OP.PutObjectAsync(x).ConfigureAwait(false);
+																										bool	xx	= await	lo_OP.ReturnAsync(x).ConfigureAwait(false);
 																										if (!xx)	Interlocked.Add(ref ln_Err, 1);
 																									}
 																							}
@@ -81,7 +81,7 @@ namespace zBxS_ToolSet_UT
 
 					for (int i = 0; i < lo_OP.Count; i++)
 						{
-							TestClass x	= lo_OP.GetObject();
+							TestClass x	= lo_OP.Acquire();
 							ln_Tot	+= x.LCount;
 							Console.WriteLine( $"{x.LCount.ToString()}/{x.LCount.ToString()}");
 						}
@@ -100,7 +100,7 @@ namespace zBxS_ToolSet_UT
 					//...............................................
 					ln_Cnt	++;
 
-					ObjectPoolx<TestClass> lo_OP	= this._TS.CreateObjectPool<TestClass>( () => new TestClass(), 5);
+					ObjectPool<TestClass> lo_OP	= this._TS.CreateObjectPool<TestClass>( () => new TestClass(), 5);
 
 					Assert.IsNotNull	(			lo_OP							,	$"Pool: {ln_Cnt}: Instantiate");
 					Assert.AreEqual		(5	,	lo_OP.Max	,	$"Pool: {ln_Cnt}: Max");
