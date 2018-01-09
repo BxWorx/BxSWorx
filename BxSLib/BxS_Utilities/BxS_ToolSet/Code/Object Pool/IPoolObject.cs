@@ -4,6 +4,8 @@ namespace BxS_Toolset.ObjectPool
 {
 	public interface IPoolObject
 		{
-		 Task<bool>	ResetAsync();
+			int	Position	{ get; set; }
+
+			Task<bool>	ResetAsync	();
 		}
 }
