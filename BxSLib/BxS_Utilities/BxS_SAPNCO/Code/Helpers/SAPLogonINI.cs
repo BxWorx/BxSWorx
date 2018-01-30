@@ -33,7 +33,7 @@ namespace BxS_SAPNCO.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList<string>	GetEntries()
+				internal IList<string> GetEntries()
 					{
 						return	this._SAPINI.Value.GetEntries();
 					}

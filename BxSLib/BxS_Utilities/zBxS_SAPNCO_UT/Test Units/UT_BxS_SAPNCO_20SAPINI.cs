@@ -20,8 +20,8 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					var				lo_Ini	= new SAPLogonINI();
-					var				lo_Rep	= new DestinationRepository();
+					var	lo_Ini	= new SAPLogonINI();
+					var	lo_Rep	= new DestinationRepository();
 
 					Assert.IsNotNull	(	lo_Ini	,	$"SAPNCO:Repos:SAPINI {ln_Cnt}: INI"		);
 					Assert.IsNotNull	(	lo_Rep	,	$"SAPNCO:Repos:SAPINI {ln_Cnt}: Rep"		);

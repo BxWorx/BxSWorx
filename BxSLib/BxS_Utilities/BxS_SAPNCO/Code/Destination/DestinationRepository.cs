@@ -27,7 +27,7 @@ namespace BxS_SAPNCO.Destination
 			#region "Declarations"
 
 				private readonly Dictionary<string,	Guid>												_Map;
-				private readonly Dictionary<Guid,	string>												_Ref;
+				private readonly Dictionary<Guid	,	string>											_Ref;
 				private readonly Dictionary<Guid	, SMC.RfcConfigParameters>		_Des;
 
 			#endregion
@@ -126,8 +126,8 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnConfigurationChanged(string name, SMC.RfcConfigurationEventArgs e)
 				{
-					SDM.ConfigurationChangeHandler lo_EvntHndlr	= this.ConfigurationChanged;
-					lo_EvntHndlr(name, e);
+					//SDM.ConfigurationChangeHandler lo_EvntHndlr	= this.ConfigurationChanged;
+					//lo_EvntHndlr(name, e);
 				}
 
 			#endregion
