@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="sapnco">
-      <HintPath>..\..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\BxS_SAPConn\BxS_SAPConn.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BxS_SAPConn\BxS_SAPConn.csproj" />
+    <Reference Include="sapnco">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
