@@ -11,8 +11,8 @@ namespace zBxS_SAPNCO_UT
 	[TestClass]
 	public class UT_BxS_SAPNCO
 	{
-		private const string	cz_TestDir	= "Test Resources";
-		private const string	cz_TestNme	= "Saplogon_Fav.xml";
+		//private const string	cz_TestDir	= "Test Resources";
+		//private const string	cz_TestNme	= "Saplogon_Fav.xml";
 		//...................................................
 		//private	static readonly string	_Path					= Directory.GetParent( Directory.GetCurrentDirectory() ).Parent.Parent.FullName;
 		//private	static readonly string	_PathTest			= Path.Combine(_Path		,	cz_TestDir	);
