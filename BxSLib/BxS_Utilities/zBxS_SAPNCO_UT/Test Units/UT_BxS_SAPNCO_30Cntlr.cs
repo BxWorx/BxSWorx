@@ -69,11 +69,12 @@ namespace zBxS_SAPNCO_UT
 					lo_Desto.User			= "DERRICKBINGH";
 					lo_Desto.Password	= "M@@n1234";
 
-					lo_Destx.Client		= "700";
-					lo_Destx.User			= "DERRICKBINGH";
+					lo_Destx.Client			= "700";
+					lo_Destx.User				= "DERRICKBINGH";
+					lo_Destx.SNCLibPath	= "C:\\TEMP\\gx64krb5.DLL";
 
 					Assert.IsTrue(	lo_Desto.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: True" );
-					Assert.IsFalse(	lo_Destx.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: True" );
+					Assert.IsTrue(	lo_Destx.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: True" );
 				}
 
 			//-------------------------------------------------------------------------------------------

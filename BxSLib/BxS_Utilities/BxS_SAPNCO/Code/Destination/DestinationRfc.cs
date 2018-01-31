@@ -22,21 +22,22 @@ namespace BxS_SAPNCO.Destination
 
 				public SMC.RfcCustomDestination	RfcDestination { get; }
 
-				public string Client		{ set { this.RfcDestination.Client		= value; } }
-				public string User			{ set { this.RfcDestination.User			= value; } }
-				public string Password	{ set { this.RfcDestination.Password	= value; } }
+				public string Client			{ set { this.RfcDestination.Client					= value; } }
+				public string User				{ set { this.RfcDestination.User						= value; } }
+				public string Password		{ set { this.RfcDestination.Password				= value; } }
+				public string SNCLibPath	{ set { this.RfcDestination.SncLibraryPath	= value; } }
 
-			#endregion
+		#endregion
 
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-
-
+		//===========================================================================================
+		#region "Methods: Exposed"
 
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Ping()
+
+
+
+		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+		public bool Ping()
 					{
 						try
 							{
