@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 using SDM = SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
 using BxS_SAPNCO.Destination;
 using BxS_SAPNCO.API.DL;
-using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
@@ -16,12 +14,9 @@ namespace BxS_SAPNCO.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DestinationController(bool	autoLoadSAPIni = true)
+				internal DestinationController(DestinationRepository Repository)
 					{
-						this._SAPIniLoaded	= false;
-						this._DestRepos			= new DestinationRepository();
-						//.............................................
-						if (autoLoadSAPIni)		this.LoadSAPINIintoRepository();
+						this._DestRepos	= Repository;
 						this.RegisterRepository();
 					}
 
@@ -30,13 +25,7 @@ namespace BxS_SAPNCO.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private						bool										_SAPIniLoaded;
 				private readonly	DestinationRepository		_DestRepos;
-				//.................................................
-				private readonly	Lazy<SAPLogonINI>				_SAPINI		= new Lazy<SAPLogonINI>
-																																(	() => new SAPLogonINI()
-																																	, LazyThreadSafetyMode
-																																			.ExecutionAndPublication	);
 
 			#endregion
 
@@ -68,21 +57,6 @@ namespace BxS_SAPNCO.API
 						return	this._DestRepos.AddConfig(ID, rfcConfig);
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	void LoadSAPINIintoRepository(bool EventsOff = true)
-					{
-						if (this._SAPIniLoaded)		return;
-						//.............................................
-						bool lb_Eve	= this._DestRepos.ToggleChangeEvent;
-						if (EventsOff)	this._DestRepos.ToggleChangeEvent	= false;
-						//.............................................
-						this._SAPINI.Value.LoadRepository(this._DestRepos);
-						//.............................................
-						if (EventsOff)	this._DestRepos.ToggleChangeEvent	= lb_Eve;
-						this._SAPIniLoaded	= true;
-					}
-
 			#endregion
 
 			//===========================================================================================
@@ -91,7 +65,7 @@ namespace BxS_SAPNCO.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void RegisterRepository()
 					{
-						SDM.RegisterDestinationConfiguration(this._DestRepos);
+						//SDM.RegisterDestinationConfiguration(this._DestRepos);
 					}
 
 			#endregion

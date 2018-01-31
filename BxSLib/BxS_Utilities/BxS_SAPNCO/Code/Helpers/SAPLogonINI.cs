@@ -8,14 +8,14 @@ using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Helpers
 {
-	internal class SAPLogonINI
+	internal static class SAPLogonINI
 		{
 			#region "Declarations"
 
-				private readonly	Lazy<SMC.SapLogonIniConfiguration>	_SAPINI
-														= new Lazy<SMC.SapLogonIniConfiguration>
-															(	() => SMC.SapLogonIniConfiguration.Create()
-																, LazyThreadSafetyMode.ExecutionAndPublication	);
+				private static readonly
+					Lazy<SMC.SapLogonIniConfiguration>	_SAPINI		= new Lazy<SMC.SapLogonIniConfiguration>
+																															(	() => SMC.SapLogonIniConfiguration.Create()
+																																, LazyThreadSafetyMode.ExecutionAndPublication	);
 
 			#endregion
 
@@ -23,25 +23,28 @@ namespace BxS_SAPNCO.Helpers
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void LoadRepository(DestinationRepository destinationRepository)
+				internal static SMC.RfcConfigParameters GetConfigParameters(string ID)
 					{
-						foreach (string lc_ID in this.GetEntries())
+						return	_SAPINI.Value.GetParameters(ID);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal static IList<string>	GetSAPGUIConfigEntries()
+					{
+						return	_SAPINI.Value.GetEntries();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal static void LoadRepository(DestinationRepository destinationRepository)
+					{
+						string[] la_List	= _SAPINI.Value.GetEntries();
+						Array.Sort(la_List);
+						//.............................................
+						foreach (string lc_ID in la_List)
 							{
-								SMC.RfcConfigParameters lo = this.GetParameters(lc_ID);
-								destinationRepository.AddConfig(lc_ID, lo);
+								SMC.RfcConfigParameters lo_RfcCfgParms	= _SAPINI.Value.GetParameters(lc_ID)	?? new SMC.RfcConfigParameters();
+								destinationRepository.AddConfig(lc_ID, lo_RfcCfgParms);
 							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList<string> GetEntries()
-					{
-						return	this._SAPINI.Value.GetEntries();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.RfcConfigParameters GetParameters(string ID)
-					{
-						return	this._SAPINI.Value.GetParameters(ID)	?? new SMC.RfcConfigParameters();
 					}
 
 			#endregion

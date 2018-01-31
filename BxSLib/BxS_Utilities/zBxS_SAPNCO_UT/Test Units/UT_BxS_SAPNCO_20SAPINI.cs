@@ -5,6 +5,7 @@ using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_SAPNCO.Destination;
 using BxS_SAPNCO.Helpers;
+using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
 {
@@ -15,29 +16,29 @@ namespace zBxS_SAPNCO_UT
 			[TestMethod]
 			public void UT_SAPNCO_SapIni()
 				{
-					int						ln_Cnt	= 0;
-					IList<string> lt_Lst;
-					//...............................................
-					ln_Cnt	++;
+					//int						ln_Cnt	= 0;
+					//IList<IDTORefEntry> lt_Lst;
+					////...............................................
+					//ln_Cnt	++;
 
-					var	lo_Ini	= new SAPLogonINI();
-					var	lo_Rep	= new DestinationRepository();
+					//var	lo_Ini	= new SAPLogonINI();
+					//var	lo_Rep	= new DestinationRepository();
 
-					Assert.IsNotNull	(	lo_Ini	,	$"SAPNCO:Repos:SAPINI {ln_Cnt}: INI"		);
-					Assert.IsNotNull	(	lo_Rep	,	$"SAPNCO:Repos:SAPINI {ln_Cnt}: Rep"		);
-					//...............................................
-					ln_Cnt	++;
+					//Assert.IsNotNull	(	lo_Ini	,	$"SAPNCO:Repos:SAPINI {ln_Cnt}: INI"		);
+					//Assert.IsNotNull	(	lo_Rep	,	$"SAPNCO:Repos:SAPINI {ln_Cnt}: Rep"		);
+					////...............................................
+					//ln_Cnt	++;
 
-					lo_Ini.LoadRepository(lo_Rep);
-					lt_Lst	= lo_Ini.GetEntries();
+					//lo_Ini.LoadRepository(lo_Rep);
+					//lt_Lst	= lo_Rep.ReferenceList();
 
-					Assert.AreNotEqual	(0	, lt_Lst.Count	,	$"SAPNCO:Repos:SAPINI  {ln_Cnt}: List1");
-					//...............................................
-					ln_Cnt	++;
+					//Assert.AreNotEqual	(0	, lo_Rep.Count	,	$"SAPNCO:Repos:SAPINI  {ln_Cnt}: List1");
+					////...............................................
+					//ln_Cnt	++;
 
-					SMC.RfcConfigParameters lo_Cn1	= lo_Ini.GetParameters(lt_Lst[1]);
+					//SMC.RfcConfigParameters lo_Cn1	= lo_Rep.GetParameters(lt_Lst[0].Name);
 
-					Assert.AreNotEqual	(0	, lo_Cn1.Count	,	$"SAPNCO:Repos:SAPINI  {ln_Cnt}: List"	);
+					//Assert.AreNotEqual	(0	, lo_Cn1.Count	,	$"SAPNCO:Repos:SAPINI  {ln_Cnt}: List"	);
 				}
 	}
 }

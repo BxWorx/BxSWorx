@@ -32,7 +32,7 @@ namespace zBxS_SAPNCO_UT
 					IDTOConnParameters	lo_DTO		= this._Fac.CreateParameterDTO();
 					IDTOConnParameters	lo_DTO1		= this._Fac.CreateParameterDTO();
 
-					IList<string> y = this._Cnt.GetSAPIniList();
+					IList<string> y = this._Cnt.GetSAPGUIConfigEntries();
 					//this._Cnt.LoadParameters(y[0]	, lo_DTO);
 					//this._Cnt.LoadParameters(y[1]	, lo_DTO1);
 

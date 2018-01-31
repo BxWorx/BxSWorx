@@ -1,7 +1,9 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿//using System;
+//using System.Threading;
+//using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using BxS_SAPNCO.Destination;
-using BxS_SAPNCO.Helpers;
+//using BxS_SAPNCO.Destination;
+//using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
@@ -10,9 +12,10 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public NCOController CreateNCOController(bool LoadSAPIni	= true, bool AutoRegister = true)
+				public NCOController CreateNCOController(	bool	LoadSAPGUIConfig	= true	,
+																									bool	FirstReset				= false		)
 					{
-						return	new NCOController(LoadSAPIni, AutoRegister);
+						return	new NCOController(LoadSAPGUIConfig, FirstReset);
 					}
 
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -31,7 +34,7 @@ namespace BxS_SAPNCO.API
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Private"
 			#endregion
 
 		}

@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
 using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
 {
-	public class DestinationRepository
+	public class DestinationRepositoryxx : SMC.IDestinationConfiguration
 		{
 			#region "Constructors"
 
-				public DestinationRepository()
+				public DestinationRepositoryxx()
 					{
 						this._Map		= new Dictionary<string	, Guid>											();
 						this._Ref		= new Dictionary<Guid		,	string>										();
 						this._Des		= new Dictionary<Guid		, SMC.RfcConfigParameters>	();
+						//.............................................
+						this.ChangeEventActive	= false;
 					}
 
 			#endregion
@@ -32,7 +35,8 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Properties"
 
-				internal int	Count	{ get	{ return	this._Map.Count; }	}
+				internal bool ChangeEventActive	{ get; set; }
+				internal int	Count							{ get	{ return	this._Map.Count; }	}
 
 			#endregion
 
@@ -45,7 +49,7 @@ namespace BxS_SAPNCO.Destination
 
 					}
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.RfcConfigParameters GetParameters(Guid ID)
+				public SMC.RfcConfigParameters GetParametersx(Guid ID)
 					{
 						if (this._Des.TryGetValue(ID, out SMC.RfcConfigParameters lo_Cnf)	)
 							{
@@ -56,10 +60,10 @@ namespace BxS_SAPNCO.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.RfcConfigParameters GetParameters(string ID)
+				public SMC.RfcConfigParameters GetParametersx(string ID)
 					{
 						Guid lg = this.GetAddIDFor(ID);
-						return	this.GetParameters(lg);
+						return	this.GetParametersx(lg);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -88,6 +92,7 @@ namespace BxS_SAPNCO.Destination
 					{
 						this._Des[ID]	= rfcConfig;
 						var lo_E = new SMC.RfcConfigurationEventArgs(SMC.RfcConfigParameters.EventType.CHANGED);
+						this.OnConfigurationChanged("A",lo_E);
 						return	ID;
 					}
 
@@ -112,6 +117,46 @@ namespace BxS_SAPNCO.Destination
 						//.............................................
 						return	lg_Guid;
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Interface"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public event SDM.ConfigurationChangeHandler		ConfigurationChanged;
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.RfcConfigParameters GetParameters(string destinationName)
+					{
+						Guid lg = this.GetAddIDFor(destinationName);
+
+						if (			lg != Guid.Empty
+									&&	this._Des.TryGetValue(lg, out SMC.RfcConfigParameters lo_Cnf)	)
+							{
+								return lo_Cnf;
+							}
+						//.............................................
+						return	new SMC.RfcConfigParameters();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool ChangeEventsSupported()
+					{
+						return	this.ChangeEventActive;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void OnConfigurationChanged(string name, SMC.RfcConfigurationEventArgs e)
+				{
+					string x = name;
+					x = string.Empty;
+
+					SMC.RfcConfigurationEventArgs y = e;
+
+					//SDM.ConfigurationChangeHandler lo_EvntHndlr	= this.ConfigurationChanged;
+					//lo_EvntHndlr(name, e);
+				}
 
 			#endregion
 

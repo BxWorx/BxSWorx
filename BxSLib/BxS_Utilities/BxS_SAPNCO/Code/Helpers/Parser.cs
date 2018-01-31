@@ -10,16 +10,16 @@ namespace BxS_SAPNCO.Helper
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.RfcConfigParameters	Parse(IDTOConnParameters DTO)
+				internal SMC.RfcConfigParameters Parse(IDTOConnParameters DTO)
 					{
-						var lo = new SMC.RfcConfigParameters();
+						var lo_RfcCnfParms	= new SMC.RfcConfigParameters();
 						//.............................................
 						foreach (KeyValuePair<string, string> ls_kvp in DTO.Parameters)
 							{
-								lo[ls_kvp.Key] = ls_kvp.Value;
+								lo_RfcCnfParms[ls_kvp.Key] = ls_kvp.Value;
 							}
 						//.............................................
-						return	lo;
+						return	lo_RfcCnfParms;
 					}
 
 			#endregion
