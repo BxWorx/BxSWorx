@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Code\Destination\DestinationController.cs" />
+    <Compile Remove="Code\Destination\DestinationPool.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BxS_SAPConn\BxS_SAPConn.csproj" />
   </ItemGroup>
 

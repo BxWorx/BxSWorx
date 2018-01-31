@@ -33,7 +33,7 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList<IDTORefEntry> ConnectionReferenceList()
+				internal IList<IDTODestinationSetup> ConnectionReferenceList()
 					{
 						return	this._DestRepos.ReferenceList();
 					}

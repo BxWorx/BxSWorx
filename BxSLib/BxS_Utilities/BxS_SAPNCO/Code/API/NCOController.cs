@@ -19,10 +19,10 @@ namespace BxS_SAPNCO.API
 				public NCOController(	bool	LoadSAPGUIConfig	= true	,
 															bool	FirstReset				= false		)
 					{
-						this._LoadSAPGUICFG		= LoadSAPGUIConfig;
+						this._LoadSAPGUICfg		= LoadSAPGUIConfig;
 						this._FirstReset			= FirstReset;
 						//.............................................
-						this._Started	= false;
+						this._Started			= false;
 					}
 
 			#endregion
@@ -30,14 +30,19 @@ namespace BxS_SAPNCO.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private bool	_Started;
+				private bool						_Started;
 				//.................................................
-				private	readonly	bool	_LoadSAPGUICFG;
+				private	readonly	bool	_LoadSAPGUICfg;
 				private	readonly	bool	_FirstReset;
+				//.................................................
+				private readonly
+					Lazy<DestinationRepository>	_DestRepos		= new Lazy<DestinationRepository>
+																													(	() => new DestinationRepository()
+																														, LazyThreadSafetyMode.ExecutionAndPublication );
 
 				private readonly
-					Lazy<DestinationRepository>	_DestRepos	= new Lazy<DestinationRepository>
-																													(	() => new DestinationRepository()
+					Lazy<IDTOGlobalSetup>				_GlobalSetup	= new Lazy<IDTOGlobalSetup>
+																													(	() => new DTOGlobalSetup()
 																														, LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
@@ -45,7 +50,8 @@ namespace BxS_SAPNCO.API
 			//===========================================================================================
 			#region "Properties"
 
-				public DestinationRepository Repository { get {	return	this._DestRepos.Value; } }
+				public DestinationRepository	Repository	{ get {	return	this._DestRepos		.Value; } }
+				public IDTOGlobalSetup				GlobalSetup	{ get {	return	this._GlobalSetup	.Value; } }
 
 			#endregion
 
@@ -53,59 +59,56 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IDTODestinationSetup CreateDestinationSetupDTO()
+					{
+						return	new DTODestinationSetup();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DestinationRfc GetDestination(SMC.RfcConfigParameters rfcConfig)
 					{
+						foreach (KeyValuePair<string, string> ls_kvp in this._GlobalSetup.Value.Settings)
+							{
+								rfcConfig[ls_kvp.Key]	= ls_kvp.Value;
+							}
+						//.............................................
 						return	new DestinationRfc(SDM.GetDestination(rfcConfig).CreateCustomDestination());
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc GetDestination(Guid ID)
+				public DestinationRfc GetDestination(Guid ID, IDTODestinationSetup Setup = null)
 					{
 						this.Startup();
-						return	this.GetDestination(this._DestRepos.Value.GetParameters(ID));
+						SMC.RfcConfigParameters	lo_rfcConfig	=	this._DestRepos.Value.GetParameters(ID);
+						//.............................................
+						if (Setup != null)
+							{
+								foreach (KeyValuePair<string, string> ls_kvp in Setup.Settings)
+									{
+										lo_rfcConfig[ls_kvp.Key]	= ls_kvp.Value;
+									}
+							}
+						//.............................................
+						return	this.GetDestination(lo_rfcConfig);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc GetDestination(string ID)
+				public DestinationRfc GetDestination(string ID, IDTODestinationSetup Setup = null)
 					{
 						this.Startup();
-						return	this.GetDestination(this._DestRepos.Value.GetParameters(ID));
+						SMC.RfcConfigParameters	lo_rfcConfig	=	this._DestRepos.Value.GetParameters(ID);
+						//.............................................
+						if (Setup != null)
+							{
+								foreach (KeyValuePair<string, string> ls_kvp in Setup.Settings)
+									{
+										lo_rfcConfig[ls_kvp.Key]	= ls_kvp.Value;
+									}
+							}
+						//.............................................
+						return	this.GetDestination(lo_rfcConfig);
 					}
-
-
-				//public Guid GetDestination(string destinationName)
-				//	{
-				//		return	this._DestMngr.Value.GetRfcDestination(destinationName);
-				//	}
-
-				//public bool AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
-				//	{
-				//		return	this._DestRep.Value.AddConfig(ID, rfcConfig);
-				//	}
-
-
-
-
-
-
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public IDTOConnParameters FetchParameters(string ID)
-				//	{
-				//		IDTOConnParameters lo_DTO	= this._ConnFac.CreateParameterDTO();
-				//		this._SAPIni.Value.LoadParameters(ID, lo_DTO);
-				//		return	lo_DTO;
-				//	}
-
-
-
-
-
-
-
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IList<IDTORefEntry> ConnectionReferenceList()
@@ -143,7 +146,7 @@ namespace BxS_SAPNCO.API
 					{
 						if (this._Started)	return;
 						//.............................................
-						if (this._LoadSAPGUICFG)	this.LoadRepositoryFromConfig(this._FirstReset);
+						if (this._LoadSAPGUICfg)	this.LoadRepositoryFromConfig(this._FirstReset);
 						this._Started	= true;
 					}
 

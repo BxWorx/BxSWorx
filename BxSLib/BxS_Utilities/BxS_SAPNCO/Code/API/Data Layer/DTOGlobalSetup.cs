@@ -1,15 +1,18 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
+using System.Collections.Generic;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.Destination
+namespace BxS_SAPNCO.API.DL
 {
-	public class DestinationRfc
+	internal class DTOGlobalSetup : IDTOGlobalSetup
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc( SMC.RfcCustomDestination rfcCustomDestination )
+				public DTOGlobalSetup()
 					{
-						this.RfcDestination	= rfcCustomDestination;
+						this.Settings		= new Dictionary<string, string>();
 					}
 
 			#endregion
@@ -17,30 +20,19 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Properties"
 
-				public SMC.RfcCustomDestination	RfcDestination { get; }
+				public	Dictionary<string, string> Settings { get; }
 
-				public string Client			{ set { this.RfcDestination.Client					= value; } }
-				public string User				{ set { this.RfcDestination.User						= value; } }
-				public string Password		{ set { this.RfcDestination.Password				= value; } }
-				public string SNCLibPath	{ set { this.RfcDestination.SncLibraryPath	= value; } }
+				public	string	SNCLibPath	{ set { this.Settings[SMC.RfcConfigParameters.SncLibraryPath]		= value; } }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Ping()
+				public void Reset()
 					{
-						try
-							{
-								this.RfcDestination.Ping();
-								return	true;
-							}
-						catch (System.Exception)
-							{
-								return	false;
-							}
+						this.Settings.Clear();
 					}
 
 			#endregion

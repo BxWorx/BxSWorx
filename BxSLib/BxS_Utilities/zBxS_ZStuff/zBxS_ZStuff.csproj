@@ -6,6 +6,9 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="DestinationController.cs" />
+    <Compile Remove="DestinationPool.cs" />
+    <Compile Remove="DestinationRepository - Copy.cs" />
     <Compile Remove="UT_BxS_SAPLogon.cs" />
     <Compile Remove="zOld Stuff\Class11.cs" />
     <Compile Remove="zOld Stuff\Class12.cs" />

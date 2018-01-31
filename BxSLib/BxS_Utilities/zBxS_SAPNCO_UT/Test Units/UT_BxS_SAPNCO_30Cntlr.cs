@@ -62,19 +62,23 @@ namespace zBxS_SAPNCO_UT
 					string	lc_ID0		= lt1.FirstOrDefault(s => s.Contains("PWD"));
 					string	lc_ID1		= lt1.FirstOrDefault(s => s.Contains("SSO"));
 
-					DestinationRfc	lo_Desto	= lo_Cntlr1.GetDestination(lc_ID0);
-					DestinationRfc	lo_Destx	= lo_Cntlr1.GetDestination(lc_ID1);
+					IDTOGlobalSetup				lo_SetupG	= lo_Cntlr1.GlobalSetup;
+					IDTODestinationSetup	lo_Setupo	= lo_Cntlr1.CreateDestinationSetupDTO();
 
-					lo_Desto.Client		= "700";
-					lo_Desto.User			= "DERRICKBINGH";
-					lo_Desto.Password	= "M@@n1234";
+					lo_SetupG.SNCLibPath	= "C:\\TEMP\\gx64krb5.DLL";
+					//
+					lo_Setupo.Client		= 700;
+					lo_Setupo.User			= "DERRICKBINGH";
+					lo_Setupo.Password	= "M@@n1234";
+
+					DestinationRfc	lo_Desto	= lo_Cntlr1.GetDestination(lc_ID0, lo_Setupo);
+					DestinationRfc	lo_Destx	= lo_Cntlr1.GetDestination(lc_ID1);
 
 					lo_Destx.Client			= "700";
 					lo_Destx.User				= "DERRICKBINGH";
-					lo_Destx.SNCLibPath	= "C:\\TEMP\\gx64krb5.DLL";
 
-					Assert.IsTrue(	lo_Desto.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: True" );
-					Assert.IsTrue(	lo_Destx.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: True" );
+					Assert.IsTrue	(	lo_Desto.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: PWD" );
+					Assert.IsFalse(	lo_Destx.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: SSO" );
 				}
 
 			//-------------------------------------------------------------------------------------------
