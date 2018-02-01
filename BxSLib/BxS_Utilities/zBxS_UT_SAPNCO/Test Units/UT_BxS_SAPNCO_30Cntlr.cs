@@ -91,7 +91,7 @@ namespace zBxS_SAPNCO_UT
 					lo_Cntlr1.ProcureDestination(lo_Destx);
 
 					Assert.IsTrue	(	lo_Desto.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: PWD" );
-					Assert.IsFalse(	lo_Destx.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: SSO" );
+					Assert.IsTrue(	lo_Destx.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: SSO" );
 				}
 
 			//-------------------------------------------------------------------------------------------
