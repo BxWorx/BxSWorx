@@ -1,4 +1,10 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
+using System.Collections.Generic;
+using System.Security;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
 {
@@ -7,9 +13,9 @@ namespace BxS_SAPNCO.Destination
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc( SMC.RfcCustomDestination rfcCustomDestination )
+				public DestinationRfc( SMC.RfcConfigParameters RfcConfig )
 					{
-						this.RfcDestination	= rfcCustomDestination;
+						this.RfcConfig			= RfcConfig;
 					}
 
 			#endregion
@@ -17,17 +23,39 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Properties"
 
-				public SMC.RfcCustomDestination	RfcDestination { get; }
+				public Guid											SAPGUIID				{ get; set; }
+				public SMC.RfcDestination				RfcDestination	{ get; set; }
+				public SMC.RfcConfigParameters	RfcConfig				{ get;			}
+				//.................................................
+				public string Client			{ set { this.RfcConfig	[ SMC.RfcConfigParameters.Client					]	= value; } }
+				public string User				{ set { this.RfcConfig	[	SMC.RfcConfigParameters.User						]	= value; } }
+				public string Password		{ set { this.RfcConfig	[	SMC.RfcConfigParameters.Password				]	= value; } }
+				public string SNCLibPath	{ set { this.RfcConfig	[	SMC.RfcConfigParameters.SncLibraryPath	]	= value; } }
 
-				public string Client			{ set { this.RfcDestination.Client					= value; } }
-				public string User				{ set { this.RfcDestination.User						= value; } }
-				public string Password		{ set { this.RfcDestination.Password				= value; } }
-				public string SNCLibPath	{ set { this.RfcDestination.SncLibraryPath	= value; } }
+				public SecureString SecurePassword	{ set { this.RfcConfig.SecurePassword	= value; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadConfig(SMC.RfcConfigParameters RFCConfigParams)
+					{
+						foreach (KeyValuePair<string, string> ls_kvp in RFCConfigParams)
+							{
+								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadConfig(IDTOConfigSetupBase DTOConfig)
+					{
+						foreach (KeyValuePair<string, string> ls_kvp in DTOConfig.Settings)
+							{
+								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
+							}
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Ping()

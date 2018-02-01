@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 //.........................................................
-using BxS_SAPConn.API;
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_SAPConn.API;
+using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.Helper
+namespace BxS_SAPNCO.Helpers
 {
 	internal class Parser
 		{
@@ -22,16 +24,16 @@ namespace BxS_SAPNCO.Helper
 						return	lo_RfcCnfParms;
 					}
 
-			#endregion
-
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal void	LoadParameters(string ID, IDTOConnParameters DTO)
+				//internal void LoadConfig(IDTOConfigSetupBase DTOBase, SMC.RfcConfigParameters rfcConfig)
 				//	{
-				//		foreach (KeyValuePair<string, string> ls_kvp in this.GetConfig(ID))
+				//		foreach (KeyValuePair<string, string> ls_kvp in DTOBase.Settings)
 				//			{
-				//				DTO.Parameters.Add(ls_kvp.Key, ls_kvp.Value);
+				//				rfcConfig[ls_kvp.Key]	= ls_kvp.Value;
 				//			}
 				//	}
+
+			#endregion
 
 		}
 }

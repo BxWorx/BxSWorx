@@ -2,20 +2,18 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.DL
 {
-	public interface IDTOGlobalSetup
+	public interface IDTOConfigSetupBase
 		{
 			#region "Properties"
 
 				Dictionary<string,string> Settings { get; }
 
-				string	SNCLibPath	{ set; }
-
 			#endregion
 
-		//===========================================================================================
-		#region "Methods: Exposed"
+			//===========================================================================================
+			#region "Methods: Exposed"
 
-			void Reset();
+				void Reset();
 
 			#endregion
 

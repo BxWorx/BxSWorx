@@ -1,8 +1,9 @@
+using System.Security;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
+//using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_SAPNCO.API;
 using BxS_SAPNCO.API.DL;
@@ -48,11 +49,16 @@ namespace zBxS_SAPNCO_UT
 			[TestMethod]
 			public void UT_SAPNCO_Cntlr_GetDestination()
 				{
+					const string	lz_PWrd				= "M@@n1234";
+					var						lo_SecurePwd	= new SecureString();
+					foreach( char c in lz_PWrd) { lo_SecurePwd.AppendChar(c) ; };
+					//...............................................
 					int	ln_Cnt	= 0;
 					//...............................................
 					ln_Cnt	++;
 
-					var	lo_Cntlr1	= new NCOController();
+					var	lo_Cntlr1			= new NCOController();
+
 					Assert.IsNotNull(	lo_Cntlr1	,	$"SAPNCO:Cntlr:With {ln_Cnt}: Inst1" );
 					//...............................................
 					ln_Cnt	++;
@@ -62,20 +68,27 @@ namespace zBxS_SAPNCO_UT
 					string	lc_ID0		= lt1.FirstOrDefault(s => s.Contains("PWD"));
 					string	lc_ID1		= lt1.FirstOrDefault(s => s.Contains("SSO"));
 
-					IDTOGlobalSetup				lo_SetupG	= lo_Cntlr1.GlobalSetup;
-					IDTODestinationSetup	lo_Setupo	= lo_Cntlr1.CreateDestinationSetupDTO();
+					IDTOConfigSetupGlobal				lo_SetupG	= lo_Cntlr1.GlobalSetup;
+					IDTOConfigSetupDestination	lo_Setupo	= lo_Cntlr1.CreateConfigSetupDestination();
 
 					lo_SetupG.SNCLibPath	= "C:\\TEMP\\gx64krb5.DLL";
 					//
+					DestinationRfc	lo_Desto	= lo_Cntlr1.CreateDestinationRFC(lc_ID0);
+					DestinationRfc	lo_Destx	= lo_Cntlr1.CreateDestinationRFC(lc_ID1);
+
 					lo_Setupo.Client		= 700;
 					lo_Setupo.User			= "DERRICKBINGH";
-					lo_Setupo.Password	= "M@@n1234";
+					//lo_Setupo.Password	= lz_PWrd;
 
-					DestinationRfc	lo_Desto	= lo_Cntlr1.GetDestination(lc_ID0, lo_Setupo);
-					DestinationRfc	lo_Destx	= lo_Cntlr1.GetDestination(lc_ID1);
+					lo_Desto.LoadConfig(lo_Setupo);
+					lo_Desto.SecurePassword	= lo_SecurePwd;
 
-					lo_Destx.Client			= "700";
-					lo_Destx.User				= "DERRICKBINGH";
+					lo_Destx.Client					= "700";
+					lo_Destx.User						= "DERRICKBINGH";
+					lo_Destx.SecurePassword	= lo_SecurePwd;
+
+					lo_Cntlr1.ProcureDestination(lo_Desto);
+					lo_Cntlr1.ProcureDestination(lo_Destx);
 
 					Assert.IsTrue	(	lo_Desto.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: PWD" );
 					Assert.IsFalse(	lo_Destx.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: SSO" );

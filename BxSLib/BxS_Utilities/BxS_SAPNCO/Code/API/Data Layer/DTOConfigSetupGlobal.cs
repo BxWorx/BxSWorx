@@ -5,12 +5,12 @@ using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.DL
 {
-	internal class DTOGlobalSetup : IDTOGlobalSetup
+	internal class DTOConfigSetupGlobal : IDTOConfigSetupGlobal
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTOGlobalSetup()
+				public DTOConfigSetupGlobal()
 					{
 						this.Settings		= new Dictionary<string, string>();
 					}

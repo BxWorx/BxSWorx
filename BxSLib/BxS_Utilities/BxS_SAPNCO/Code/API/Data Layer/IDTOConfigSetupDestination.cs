@@ -2,11 +2,9 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.DL
 {
-	public interface IDTODestinationSetup
+	public interface IDTOConfigSetupDestination : IDTOConfigSetupBase
 		{
 			#region "Properties"
-
-				Dictionary<string,string> Settings { get; }
 
 				int	Client					{ set; }
 				int	IdleTimeout			{ set; }
@@ -22,14 +20,12 @@ namespace BxS_SAPNCO.API.DL
 
 			#endregion
 
-		//===========================================================================================
-		#region "Methods: Exposed"
+			//===========================================================================================
+			#region "Methods: Exposed"
 
-			void Reset();
-
-			void SetSAPGUIasHidden();
-			void SetSAPGUIasUsed();
-			void SetSAPGUIasNotUsed();
+				void SetSAPGUIasHidden();
+				void SetSAPGUIasUsed();
+				void SetSAPGUIasNotUsed();
 
 			#endregion
 

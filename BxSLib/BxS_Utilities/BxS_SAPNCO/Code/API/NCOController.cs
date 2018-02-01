@@ -22,7 +22,7 @@ namespace BxS_SAPNCO.API
 						this._LoadSAPGUICfg		= LoadSAPGUIConfig;
 						this._FirstReset			= FirstReset;
 						//.............................................
-						this._Started			= false;
+						this._Started		= false;
 					}
 
 			#endregion
@@ -41,8 +41,8 @@ namespace BxS_SAPNCO.API
 																														, LazyThreadSafetyMode.ExecutionAndPublication );
 
 				private readonly
-					Lazy<IDTOGlobalSetup>				_GlobalSetup	= new Lazy<IDTOGlobalSetup>
-																													(	() => new DTOGlobalSetup()
+					Lazy<IDTOConfigSetupGlobal>	_GlobalSetup	= new Lazy<IDTOConfigSetupGlobal>
+																													(	() => new DTOConfigSetupGlobal()
 																														, LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
@@ -51,7 +51,7 @@ namespace BxS_SAPNCO.API
 			#region "Properties"
 
 				public DestinationRepository	Repository	{ get {	return	this._DestRepos		.Value; } }
-				public IDTOGlobalSetup				GlobalSetup	{ get {	return	this._GlobalSetup	.Value; } }
+				public IDTOConfigSetupGlobal	GlobalSetup	{ get {	return	this._GlobalSetup	.Value; } }
 
 			#endregion
 
@@ -59,61 +59,59 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTODestinationSetup CreateDestinationSetupDTO()
+				public IDTOConfigSetupDestination CreateConfigSetupDestination()
 					{
-						return	new DTODestinationSetup();
+						return	new	DTOConfigSetupDestination();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc GetDestination(SMC.RfcConfigParameters rfcConfig)
-					{
-						foreach (KeyValuePair<string, string> ls_kvp in this._GlobalSetup.Value.Settings)
-							{
-								rfcConfig[ls_kvp.Key]	= ls_kvp.Value;
-							}
-						//.............................................
-						return	new DestinationRfc(SDM.GetDestination(rfcConfig).CreateCustomDestination());
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc GetDestination(Guid ID, IDTODestinationSetup Setup = null)
+				public DestinationRfc CreateDestinationRFC(Guid ID)
 					{
 						this.Startup();
+						//.............................................
 						SMC.RfcConfigParameters	lo_rfcConfig	=	this._DestRepos.Value.GetParameters(ID);
+						var											lo_DestRfc		= new DestinationRfc(lo_rfcConfig)	{	SAPGUIID = ID	};
 						//.............................................
-						if (Setup != null)
-							{
-								foreach (KeyValuePair<string, string> ls_kvp in Setup.Settings)
-									{
-										lo_rfcConfig[ls_kvp.Key]	= ls_kvp.Value;
-									}
-							}
-						//.............................................
-						return	this.GetDestination(lo_rfcConfig);
+						return	lo_DestRfc;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc GetDestination(string ID, IDTODestinationSetup Setup = null)
+				public DestinationRfc CreateDestinationRFC(string ID)
 					{
 						this.Startup();
-						SMC.RfcConfigParameters	lo_rfcConfig	=	this._DestRepos.Value.GetParameters(ID);
 						//.............................................
-						if (Setup != null)
+						Guid lg = this._DestRepos.Value.GetAddIDFor(ID);
+						//.............................................
+						return	CreateDestinationRFC(lg);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool ProcureDestination(DestinationRfc DestinationRFC)
+					{
+						bool lb_Ret	= true;
+						//.............................................
+						DestinationRFC.LoadConfig(this._GlobalSetup.Value);
+
+						try
 							{
-								foreach (KeyValuePair<string, string> ls_kvp in Setup.Settings)
-									{
-										lo_rfcConfig[ls_kvp.Key]	= ls_kvp.Value;
-									}
+								DestinationRFC.RfcDestination	= SDM.GetDestination(DestinationRFC.RfcConfig);
+							}
+						catch (Exception)
+							{
+								lb_Ret	= false;
 							}
 						//.............................................
-						return	this.GetDestination(lo_rfcConfig);
+						return	lb_Ret;
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IList<IDTORefEntry> ConnectionReferenceList()
 					{
 						this.Startup();
+						//.............................................
 						return	this._DestRepos.Value.ReferenceList();
 					}
 
