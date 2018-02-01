@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 //using SMC	= SAP.Middleware.Connector;
+//MSS_GET_SY_DATE_TIME
 //.........................................................
 using BxS_SAPNCO.API;
 using BxS_SAPNCO.API.DL;
@@ -51,7 +52,7 @@ namespace zBxS_SAPNCO_UT
 				{
 					const string	lz_PWrd				= "M@@n1234";
 					var						lo_SecurePwd	= new SecureString();
-					foreach( char c in lz_PWrd) { lo_SecurePwd.AppendChar(c) ; };
+					foreach( char c in lz_PWrd) { lo_SecurePwd.AppendChar(c) ; }
 					//...............................................
 					int	ln_Cnt	= 0;
 					//...............................................

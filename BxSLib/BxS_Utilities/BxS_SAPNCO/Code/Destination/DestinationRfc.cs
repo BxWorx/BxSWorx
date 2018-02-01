@@ -5,6 +5,7 @@ using System.Security;
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_SAPNCO.API.DL;
+using BxS_SAPNCO.API.Function;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
 {
@@ -15,7 +16,7 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DestinationRfc( SMC.RfcConfigParameters RfcConfig )
 					{
-						this.RfcConfig			= RfcConfig;
+						this.RfcConfig	= RfcConfig;
 					}
 
 			#endregion
@@ -26,6 +27,8 @@ namespace BxS_SAPNCO.Destination
 				public Guid											SAPGUIID				{ get; set; }
 				public SMC.RfcDestination				RfcDestination	{ get; set; }
 				public SMC.RfcConfigParameters	RfcConfig				{ get;			}
+
+				public SMC.RfcRepository				RfcRepository		{	get {	return	this.RfcDestination.Repository; }	}
 				//.................................................
 				public string Client			{ set { this.RfcConfig	[ SMC.RfcConfigParameters.Client					]	= value; } }
 				public string User				{ set { this.RfcConfig	[	SMC.RfcConfigParameters.User						]	= value; } }
@@ -37,7 +40,7 @@ namespace BxS_SAPNCO.Destination
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Setup"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig(SMC.RfcConfigParameters RFCConfigParams)
@@ -56,6 +59,21 @@ namespace BxS_SAPNCO.Destination
 								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
 							}
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Repository"
+
+				public void LoadRfcFunction(IRFCFunction function)
+					{
+						function.RfcFunction	= this.RfcRepository.CreateFunction(function.Name);
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Ping()
