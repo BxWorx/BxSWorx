@@ -5,11 +5,18 @@ namespace BxS_SAPNCO.API.Function
 {
 	public interface IRFCFunction
 		{
+			#region "Properties"
+
+				string							Name						{ get; }
+				SMC.IRfcFunction		RfcFunction			{ get; set; }
+				SMC.RfcDestination	RfcDestination	{ get; set; }
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
-				string	Name	{ get; set; }
-
-				SMC.IRfcFunction	RfcFunction { get; set; }
+				bool	Invoke();
 
 			#endregion
 

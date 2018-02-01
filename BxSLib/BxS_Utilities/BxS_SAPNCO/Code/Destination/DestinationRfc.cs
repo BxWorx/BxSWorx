@@ -28,7 +28,7 @@ namespace BxS_SAPNCO.Destination
 				public SMC.RfcDestination				RfcDestination	{ get; set; }
 				public SMC.RfcConfigParameters	RfcConfig				{ get;			}
 
-				public SMC.RfcRepository				RfcRepository		{	get {	return	this.RfcDestination.Repository; }	}
+				//public SMC.RfcRepository				RfcRepository		{	get {	return	this.RfcDestination.Repository; }	}
 				//.................................................
 				public string Client			{ set { this.RfcConfig	[ SMC.RfcConfigParameters.Client					]	= value; } }
 				public string User				{ set { this.RfcConfig	[	SMC.RfcConfigParameters.User						]	= value; } }
@@ -40,7 +40,7 @@ namespace BxS_SAPNCO.Destination
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Setup"
+			#region "Methods: Exposed: Configuration"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig(SMC.RfcConfigParameters RFCConfigParams)
@@ -63,17 +63,19 @@ namespace BxS_SAPNCO.Destination
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Repository"
+			#region "Methods: Exposed: Repository"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadRfcFunction(IRFCFunction function)
 					{
-						function.RfcFunction	= this.RfcRepository.CreateFunction(function.Name);
+						function.RfcFunction		= this.RfcDestination.Repository.CreateFunction(function.Name);
+						function.RfcDestination	= this.RfcDestination;
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Ping()

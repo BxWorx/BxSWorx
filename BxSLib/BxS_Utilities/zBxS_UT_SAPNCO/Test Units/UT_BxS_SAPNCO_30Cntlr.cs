@@ -3,9 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-//using SMC	= SAP.Middleware.Connector;
-//MSS_GET_SY_DATE_TIME
-//.........................................................
 using BxS_SAPNCO.API;
 using BxS_SAPNCO.API.DL;
 using BxS_SAPNCO.Destination;

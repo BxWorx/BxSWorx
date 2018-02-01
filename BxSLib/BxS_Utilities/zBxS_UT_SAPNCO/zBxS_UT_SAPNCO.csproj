@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Test Units\UT_BxS_SAPNCO.cs" />
     <Compile Include="Test Units\UT_BxS_SAPNCO_10Repos.cs" />
+    <Compile Include="Test Units\UT_BxS_SAPNCO_40RfcFnc.cs" />
     <Compile Include="Test Units\UT_BxS_SAPNCO_20SAPINI.cs" />
     <Compile Include="Test Units\UT_BxS_SAPNCO_30Cntlr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

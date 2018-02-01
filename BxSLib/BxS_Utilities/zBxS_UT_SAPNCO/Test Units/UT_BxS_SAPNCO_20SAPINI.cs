@@ -14,7 +14,7 @@ namespace zBxS_SAPNCO_UT
 	{
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SAPNCO_SapIni()
+			public void UT_SAPNCO_SAPIni()
 				{
 					//int						ln_Cnt	= 0;
 					//IList<IDTORefEntry> lt_Lst;
