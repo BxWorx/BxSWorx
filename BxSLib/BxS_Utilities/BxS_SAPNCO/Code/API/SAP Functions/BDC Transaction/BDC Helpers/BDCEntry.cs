@@ -32,27 +32,6 @@ namespace BxS_SAPNCO.API.SAPFunctions
 						this.Begin				= Begin															? BDCConstants.lz_T	: BDCConstants.lz_F										;
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCEntry(	string	ProgramName	= BDCConstants.lz_E	,
-													string	Dynpro			= BDCConstants.lz_D	,
-													string	Begin				= BDCConstants.lz_F	,
-													string	Field				= BDCConstants.lz_E	,
-													string	Value				= BDCConstants.lz_E		)
-					{
-						this.ProgramName	= ProgramName	;
-						this.FieldName		= Field				;
-						this.FieldValue		= Value				;
-						this.Dynpro				= Dynpro			;
-						this.Begin				= Begin				;
-						//.............................................
-						if (			!this.Begin.Equals(BDCConstants.lz_F)
-									&&	!this.Begin.Equals(BDCConstants.lz_T)
-									&&	!this.Begin.Length.Equals(0))
-							{
-								this.Begin = BDCConstants.lz_T;
-							}
-				}
-
 			#endregion
 
 			//===========================================================================================

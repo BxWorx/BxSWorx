@@ -9,11 +9,13 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTransaction(	IRFCFunction	RfcFunction	,
-																			BDCData				Data					)
+				internal BDCCallTransaction(	IRFCFunction	RfcFunction				,
+																			BDCData				Data							,
+																			BDCCTU_Parameters	CTUParameters		)
 					{
-						this._RFCFunction	= RfcFunction;
-						this._BDCData			= Data;
+						this._RFCFunction		= RfcFunction		;
+						this._BDCData				= Data					;
+						this._CTUParameters	= CTUParameters	;
 					}
 
 			#endregion
@@ -21,8 +23,9 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly IRFCFunction	_RFCFunction	;
-				private readonly BDCData			_BDCData			;
+				private readonly	IRFCFunction				_RFCFunction		;
+				private readonly	BDCData							_BDCData				;
+				private	readonly	BDCCTU_Parameters		_CTUParameters	;
 
 			#endregion
 

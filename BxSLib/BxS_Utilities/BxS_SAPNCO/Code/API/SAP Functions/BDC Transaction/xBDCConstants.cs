@@ -18,10 +18,11 @@ namespace BxS_SAPNCO.API.SAPFunctions
 				internal const char	lz_CTU_L	= 'L'	;
 				internal const char	lz_CTU_S	= 'S'	;
 				internal const char	lz_CTU__	= ' '	;
+				internal const char	lz_CTU_Y	= 'X'	;
 
 				internal const string	LZ_CTU_DisMde	= "AENP";
 				internal const string	LZ_CTU_UpdMde	= "LSA";
-				internal const string	LZ_CTU_Catt		= " NA";
+				internal const string	LZ_CTU_CatMde	= " NA";
 				internal const string	LZ_CTU_YesNo	= " X";
 
 			#endregion

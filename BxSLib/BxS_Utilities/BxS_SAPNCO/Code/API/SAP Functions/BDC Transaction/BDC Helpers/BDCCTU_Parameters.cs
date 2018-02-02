@@ -39,9 +39,21 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCCTU_Parameters(	char	DisplayMode	= BDCConstants.lz_CTU_N )
+				public BDCCTU_Parameters(	char	DisplayMode		= BDCConstants.lz_CTU_N	,
+																	char	UpdateMode		= BDCConstants.lz_CTU_S	,
+																	char	CATTMode			= BDCConstants.lz_CTU__	,
+																	char	DefaultSize		= BDCConstants.lz_CTU_Y	,
+																	char	NoCommit   		= BDCConstants.lz_CTU__	,
+																	char	BatchInputFor	= BDCConstants.lz_CTU__	,
+																	char	BatchInputAft	= BDCConstants.lz_CTU__		)
 					{
-						this.DisplayMode	=	this.CheckDispMde(DisplayMode);
+						this.DisplayMode	=	this.CheckDspMde	(DisplayMode)		;
+						this.UpdateMode		=	this.CheckUpdMde	(UpdateMode)		;
+						this.CATTMode			=	this.CheckCatMde	(CATTMode)			;
+						this.DefaultSize	=	this.CheckYesNo		(DefaultSize)		;
+						this.NoCommit			=	this.CheckYesNo		(NoCommit)			;
+						this.DisplayMode	=	this.CheckYesNo		(BatchInputFor)	;
+						this.DisplayMode	=	this.CheckYesNo		(BatchInputAft)	;
 					}
 
 			#endregion
@@ -49,22 +61,39 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			//===========================================================================================
 			#region "Declarations"
 
-				private	char	_DispMode;
+				private	char	_DspMde	;
+				private	char	_UpdMde	;
+				private	char	_CatMde	;
+				private	char	_DefSze	;
+				private	char	_NoComm	;
+				private	char	_NoBInp	;
+				private	char	_NoBEnd	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	char		DisplayMode		{		get { return	this._DispMode; }		
-																					set	{ this._DispMode = this.CheckDispMde(value); }	}
+				public	char		DisplayMode		{		get { return	this._DspMde; }
+																					set	{ this._DspMde	= this.CheckDspMde	(value); }	}
 				//.................................................
-				public	string	UpdateMode		{ get; set; }
-				public	string	CattMode			{ get; set; }
-				public	string	DefSize				{ get; set; }
-				public	string	NoCommit			{ get; set; }
-				public	string	BatchInputFor	{ get; set; }
-				public	string	BatchInputAft	{ get; set; }
+				public	char		UpdateMode		{		get { return	this._UpdMde; }
+																					set	{ this._UpdMde	= this.CheckUpdMde	(value); }	}
+				//.................................................
+				public	char		CATTMode			{		get { return	this._CatMde; }
+																					set	{ this._CatMde	= this.CheckCatMde	(value); }	}
+				//.................................................
+				public	char		DefaultSize		{		get { return	this._DefSze; }
+																					set	{ this._DefSze	= this.CheckYesNo		(value); }	}
+				//.................................................
+				public	char		NoCommit			{		get { return	this._NoComm; }
+																					set	{ this._NoComm	= this.CheckYesNo		(value); }	}
+				//.................................................
+				public	char		NoBatchInpFor		{		get { return	this._NoBInp; }
+																					set	{ this._NoBInp	= this.CheckYesNo		(value); }	}
+				//.................................................
+				public	char		NoBatchInpAft		{		get { return	this._NoBEnd; }
+																					set	{ this._NoBEnd	= this.CheckYesNo		(value); }	}
 
 			#endregion
 
@@ -72,11 +101,30 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private char CheckDispMde(char checkFor)
+				private char CheckYesNo(char checkFor)
 					{
-						return	this.Check( BDCConstants.LZ_CTU_DisMde, checkFor, BDCConstants.lz_CTU_N);
+						return	this.Check( BDCConstants.LZ_CTU_YesNo	, checkFor, BDCConstants.lz_CTU__ );
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private char CheckDspMde(char checkFor)
+					{
+						return	this.Check( BDCConstants.LZ_CTU_DisMde, checkFor, BDCConstants.lz_CTU_N );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private char CheckUpdMde(char checkFor)
+					{
+						return	this.Check( BDCConstants.LZ_CTU_UpdMde, checkFor, BDCConstants.lz_CTU_S );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private char CheckCatMde(char checkFor)
+					{
+						return	this.Check( BDCConstants.LZ_CTU_CatMde, checkFor, BDCConstants.lz_CTU__ );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private char Check(string valid, char checkfor, char defvalue)
 					{
