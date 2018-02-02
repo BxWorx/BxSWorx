@@ -13,7 +13,6 @@ namespace zBxS_SAPNCO_UT
 	[TestClass]
 	public class UT_BxS_SAPNCO_40RfcFnc
 		{
-
 			private	NCOController								co_Cntlr			;
 			private	DestinationRfc							co_Dest				;
 			private	IDTOConfigSetupDestination	co_Setup			;
@@ -42,7 +41,7 @@ namespace zBxS_SAPNCO_UT
 					for (int i = 0; i < ln_Max; i++)
 						{
 							lt_Fnc.Add(this.co_Cntlr.CreateRfcFunction(lc_FncNme));
-							this.co_Dest.LoadRfcFunction(lt_Fnc[i]);
+							this.co_Dest.CreateRFCFunction(lt_Fnc[i]);
 						}
 
 					for (int i = 0; i < ln_Max; i++)
@@ -77,7 +76,7 @@ namespace zBxS_SAPNCO_UT
 
 					const string	lc_FncNme	= "MSS_GET_SY_DATE_TIME";
 					IRFCFunction	lo_RfcFnc	= this.co_Cntlr.CreateRfcFunction(lc_FncNme);
-					this.co_Dest.LoadRfcFunction(lo_RfcFnc);
+					this.co_Dest.CreateRFCFunction(lo_RfcFnc);
 
 					Assert.IsTrue	( lo_RfcFnc.Invoke()	,	$"SAPNCO:RfcFnc:Invoke {ln_Cnt}: Single" );
 				}

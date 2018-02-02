@@ -57,17 +57,6 @@ namespace BxS_SAPNCO.API
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: RFC Function"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IRFCFunction CreateRfcFunction(string RfcFunctionName)
-					{
-						return	new	RFCFunction(RfcFunctionName);
-					}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Exposed: Destination"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -82,9 +71,7 @@ namespace BxS_SAPNCO.API
 						this.Startup();
 						//.............................................
 						SMC.RfcConfigParameters	lo_rfcConfig	=	this._DestRepos.Value.GetParameters(ID);
-						var											lo_DestRfc		= new DestinationRfc(lo_rfcConfig)	{	SAPGUIID = ID	};
-						//.............................................
-						return	lo_DestRfc;
+						return	new DestinationRfc(lo_rfcConfig)	{	SAPGUIID = ID	};
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -146,6 +133,17 @@ namespace BxS_SAPNCO.API
 				public IList<string>	GetSAPGUIConfigEntries()
 					{
 						return	SAPLogonINI.GetSAPGUIConfigEntries();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Internal: RFC Function"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IRFCFunction CreateRfcFunction(string RfcFunctionName)
+					{
+						return	new	RFCFunction(RfcFunctionName);
 					}
 
 			#endregion

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Security;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.DL
 {
-	internal class DTOConfigSetupDestination : IDTOConfigSetupDestination
+	public class DTOConfigSetupDestination : IDTOConfigSetupDestination
 		{
 			#region "Constructors"
 
@@ -19,8 +20,9 @@ namespace BxS_SAPNCO.API.DL
 			//===========================================================================================
 			#region "Properties"
 
-				public	Dictionary<string, string> Settings { get; }
-
+				public	Dictionary<string, string>	Settings				{ get;				}
+				public	SecureString								SecurePassword	{ get;	set;	}
+				//.................................................
 				public	int	Client					{ set { this.Settings[SMC.RfcConfigParameters.Client]									= value.ToString(); } }
 				public	int IdleTimeout			{ set { this.Settings[SMC.RfcConfigParameters.ConnectionIdleTimeout]	= value.ToString(); } }
 				public	int IdleCheckTime		{ set { this.Settings[SMC.RfcConfigParameters.IdleCheckTime]					= value.ToString(); } }

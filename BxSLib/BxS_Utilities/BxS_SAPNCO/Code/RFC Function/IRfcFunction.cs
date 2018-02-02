@@ -1,20 +1,27 @@
-﻿using System.Collections.Generic;
+﻿//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.DL
+namespace BxS_SAPNCO.API.Function
 {
-	public interface IDTOConfigSetupBase
+	internal interface IRFCFunction
 		{
 			#region "Properties"
 
-				Dictionary<string,string> Settings				{ get;				}
+				string							Name						{ get; }
+				SMC.IRfcFunction		RfcFunction			{ get; set; }
+				SMC.RfcDestination	RfcDestination	{ get; set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void Reset();
+				bool	Invoke();
 
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
 			#endregion
 
 		}

@@ -49,6 +49,8 @@ namespace BxS_SAPNCO.Destination
 							{
 								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
 							}
+						//.............................................
+						this.SecurePassword = RFCConfigParams.SecurePassword;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -60,16 +62,15 @@ namespace BxS_SAPNCO.Destination
 							}
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: Repository"
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadRfcFunction(IRFCFunction function)
+				public void LoadConfig(DTOConfigSetupDestination DTOConfig)
 					{
-						function.RfcFunction		= this.RfcDestination.Repository.CreateFunction(function.Name);
-						function.RfcDestination	= this.RfcDestination;
+						foreach (KeyValuePair<string, string> ls_kvp in DTOConfig.Settings)
+							{
+								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
+							}
+						//.............................................
+						this.SecurePassword = DTOConfig.SecurePassword;
 					}
 
 			#endregion
@@ -89,6 +90,18 @@ namespace BxS_SAPNCO.Destination
 							{
 								return	false;
 							}
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Internal: Repository"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void CreateRFCFunction(IRFCFunction function)
+					{
+						function.RfcFunction		= this.RfcDestination.Repository.CreateFunction(function.Name);
+						function.RfcDestination	= this.RfcDestination;
 					}
 
 			#endregion

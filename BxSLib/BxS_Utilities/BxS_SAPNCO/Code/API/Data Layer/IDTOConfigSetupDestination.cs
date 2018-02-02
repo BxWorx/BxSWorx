@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Security;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.DL
 {
@@ -17,6 +17,8 @@ namespace BxS_SAPNCO.API.DL
 				string	Language	{ set; }
 				string	User			{ set; }
 				string	Password	{ set; }
+
+				SecureString	SecurePassword	{ get;	set;	}
 
 			#endregion
 

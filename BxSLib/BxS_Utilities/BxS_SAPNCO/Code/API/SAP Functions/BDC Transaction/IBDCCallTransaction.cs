@@ -3,9 +3,11 @@ using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.Function
 {
-	public interface IRFCFunction
+	public interface IBDCCallTransaction
 		{
 			#region "Properties"
+
+
 
 				string							Name						{ get; }
 				SMC.IRfcFunction		RfcFunction			{ get; set; }
