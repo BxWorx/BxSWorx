@@ -1,8 +1,10 @@
 ﻿using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_SAPNCO.API.Function;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.Function
+namespace BxS_SAPNCO.API.SAPFunctions
 {
-	internal class BDCCallTransaction : IBDCCallTransaction
+	public class BDCCallTransaction : IBDCCallTransaction
 		{
 			#region "Constructors"
 
@@ -17,7 +19,13 @@ namespace BxS_SAPNCO.API.Function
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly IRFCFunction	_RFCFunction;
+				private const string	lz_T	= "X"			;
+				private const string	lz_F	= " "			;
+				private const string	lz_E	= ""			;
+				private const string	lz_D	= "0000"	;
+				//.................................................
+				private readonly IRFCFunction	_RFCFunction	;
+				private readonly BDCData			_BDCData			;
 
 			#endregion
 
@@ -54,6 +62,66 @@ namespace BxS_SAPNCO.API.Function
 
 			//===========================================================================================
 			#region "Methods: Private"
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDCEntry CreateEntry(	string	ProgramName	= null	,
+																			int			Dynpro			= 0			,
+																			bool		Begin				= false	,
+																			string	Field				= null	,
+																			string	Value				= null		)
+					{
+						var lo_Entry	= new BDCEntry(ProgramName, Dynpro, Begin, Field, Value );
+						return	this.Add(lo_Entry);
+					}
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDCEntry CreateEntry()
+					{
+						return	new BDCEntry();
+					}
+
+
+
+
+
+
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool CreateBDCEntry(	string	ProgramName	= lz_E	,
+													string	Dynpro			= lz_D	,
+													string	Begin				= lz_F	,
+													string	Field				= lz_E	,
+													string	Value				= lz_E		)
+					{
+						var lo_Entry	= new BDCEntry(	ProgramName, Dynpro, Begin, Field, Value );
+						return	this._BDCData.Add(lo_Entry);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool CreateBDCEntry(	string	ProgramName	= lz_E	,
+													int			Dynpro			= 0			,
+													bool		Begin				= false	,
+													string	Field				= lz_E	,
+													string	Value				= lz_E		)
+					{
+						var lo_Entry	= new BDCEntry(	ProgramName, Dynpro, Begin, Field, Value );
+						return	this._BDCData.Add(lo_Entry);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool AddBDCEntry(BDCEntry entry)
+					{
+						return	this._BDCData.Add(entry);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Reset()
+					{
+						this._BDCData.Reset();
+					}
+
 			#endregion
 
 		}

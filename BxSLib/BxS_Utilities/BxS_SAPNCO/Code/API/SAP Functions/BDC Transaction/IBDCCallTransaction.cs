@@ -1,13 +1,14 @@
 ﻿//.........................................................
 using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.Function
+namespace BxS_SAPNCO.API.SAPFunctions
 {
 	public interface IBDCCallTransaction
 		{
 			#region "Properties"
 
-
+				int			Count	{	get;	}
+				BDCData	Data	{ get;	}
 
 				string							Name						{ get; }
 				SMC.IRfcFunction		RfcFunction			{ get; set; }
@@ -18,7 +19,24 @@ namespace BxS_SAPNCO.API.Function
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				bool	Invoke();
+				BDCEntry	CreateBDCEntry	();
+				BDCEntry	CreateBDCEntry	(	string	programName	= null	,
+																		int			dynpro			= 0			,
+																		bool		begin				= false	,
+																		string	field				= null	,
+																		string	value				= null	,
+																		bool		AutoAdd			= true		);
+
+				BDCEntry	CreateBDCEntry	(	string	programName	= null	,
+																		string	dynpro			= null	,
+																		string	begin				= null	,
+																		string	field				= null	,
+																		string	value				= null	,
+																		bool		AutoAdd			= true		);
+				//.................................................
+				bool	AddBDCEntry( BDCEntry	entry );
+				//.................................................
+				void	Reset();
 
 			#endregion
 
