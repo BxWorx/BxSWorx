@@ -27,8 +27,8 @@ namespace BxS_SAPNCO.API.SAPFunctions
 				//							A	Asynchronous
 
 				//	CTU_CATT:	b	No CATT
-				//						N	CATT without individual screen control
-				//						A	CATT with individual screen control
+				//						N	CATT without	individual screen control
+				//						A	CATT with			individual screen control
 
 				//	CTU_DEFSZE/CTU_RAFC/CTU_NOBIM/CTU_NOBEN:	b	No
 				//																						X	Yes
@@ -74,26 +74,45 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			//===========================================================================================
 			#region "Properties"
 
-				public	char		DisplayMode		{		get { return	this._DspMde; }
+				public	char		DisplayMode			{	get { return	this._DspMde; }
 																					set	{ this._DspMde	= this.CheckDspMde	(value); }	}
 				//.................................................
-				public	char		UpdateMode		{		get { return	this._UpdMde; }
+				public	char		UpdateMode			{	get { return	this._UpdMde; }
 																					set	{ this._UpdMde	= this.CheckUpdMde	(value); }	}
 				//.................................................
-				public	char		CATTMode			{		get { return	this._CatMde; }
+				public	char		CATTMode				{	get { return	this._CatMde; }
 																					set	{ this._CatMde	= this.CheckCatMde	(value); }	}
 				//.................................................
-				public	char		DefaultSize		{		get { return	this._DefSze; }
+				public	char		DefaultSize			{	get { return	this._DefSze; }
 																					set	{ this._DefSze	= this.CheckYesNo		(value); }	}
 				//.................................................
-				public	char		NoCommit			{		get { return	this._NoComm; }
+				public	char		NoCommit				{	get { return	this._NoComm; }
 																					set	{ this._NoComm	= this.CheckYesNo		(value); }	}
 				//.................................................
-				public	char		NoBatchInpFor		{		get { return	this._NoBInp; }
+				public	char		NoBatchInpFor		{	get { return	this._NoBInp; }
 																					set	{ this._NoBInp	= this.CheckYesNo		(value); }	}
 				//.................................................
-				public	char		NoBatchInpAft		{		get { return	this._NoBEnd; }
+				public	char		NoBatchInpAft		{	get { return	this._NoBEnd; }
 																					set	{ this._NoBEnd	= this.CheckYesNo		(value); }	}
+
+				//.................................................
+				//.................................................
+
+				public	char	DisplayMode_All			{ get { return	BDCConstants.lz_CTU_A; } }
+				public	char	DisplayMode_Errors	{ get { return	BDCConstants.lz_CTU_E; } }
+				public	char	DisplayMode_BGrnd		{ get { return	BDCConstants.lz_CTU_N; } }
+				public	char	DisplayMode_BGDeb		{ get { return	BDCConstants.lz_CTU_P; } }
+				//.................................................
+				public	char	UpdateMode_Local		{ get { return	BDCConstants.lz_CTU_L; } }
+				public	char	UpdateMode_Sync			{ get { return	BDCConstants.lz_CTU_S; } }
+				public	char	UpdateMode_ASync		{ get { return	BDCConstants.lz_CTU_A; } }
+				//.................................................
+				public	char	CATTMode_None 			{ get { return	BDCConstants.lz_CTU_L; } }
+				public	char	CATTMode_Cntrl			{ get { return	BDCConstants.lz_CTU_S; } }
+				public	char	CATTMode_NoCntrl		{ get { return	BDCConstants.lz_CTU_A; } }
+				//.................................................
+				public	char	Setas_No						{ get { return	BDCConstants.lz_CTU__; } }
+				public	char	Setas_Yes						{ get { return	BDCConstants.lz_CTU_Y; } }
 
 			#endregion
 

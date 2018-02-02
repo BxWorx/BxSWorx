@@ -10,12 +10,13 @@ namespace BxS_SAPNCO.API.SAPFunctions
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCallTransaction(	IRFCFunction	RfcFunction				,
-																			BDCData				Data							,
+																			BDCData						BDCData				,
 																			BDCCTU_Parameters	CTUParameters		)
 					{
 						this._RFCFunction		= RfcFunction		;
-						this._BDCData				= Data					;
-						this._CTUParameters	= CTUParameters	;
+
+						this.BDCData				= BDCData				;
+						this.CTUParameters	= CTUParameters	;
 					}
 
 			#endregion
@@ -24,16 +25,17 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			#region "Declarations"
 
 				private readonly	IRFCFunction				_RFCFunction		;
-				private readonly	BDCData							_BDCData				;
-				private	readonly	BDCCTU_Parameters		_CTUParameters	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	Name	{ get;																	}
-				public	int			Count	{ get	{ return	this._BDCData.Count;	} }
+				public	string						Name						{ get; }
+				public	BDCData						BDCData					{ get; }
+				public	BDCCTU_Parameters	CTUParameters		{ get; }
+
+				public	int	Count	{ get	{ return	this.BDCData.Count;	} }
 
 				//public	SMC.IRfcFunction		RfcFunction			{ get; set; }
 				//public	SMC.RfcDestination	RfcDestination	{ get; set; }
@@ -68,38 +70,27 @@ namespace BxS_SAPNCO.API.SAPFunctions
 																				string	value				= BDCConstants.lz_E	,
 																				bool		autoAdd			= true								)
 					{
-						bool lb_Fail	= false;
-						var lo_Entry	= new BDCEntry(	programName, dynpro, begin, field, value );
-						if (autoAdd)	lb_Fail = !this._BDCData.Add(lo_Entry);
-						if (lb_Fail)	lo_Entry.Reset();
-						return	lo_Entry;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCEntry CreateBDCEntry(	string	programName	= BDCConstants.lz_E	,
-																				string	dynpro			= BDCConstants.lz_D	,
-																				string	begin				= BDCConstants.lz_F	,
-																				string	field				= BDCConstants.lz_E	,
-																				string	value				= BDCConstants.lz_E	,
-																				bool		autoAdd			= true								)
-					{
-						bool lb_Fail	= false;
-						var lo_Entry	= new BDCEntry(	programName, dynpro, begin, field, value );
-						if (autoAdd)	lb_Fail = !this._BDCData.Add(lo_Entry);
-						if (lb_Fail)	lo_Entry.Reset();
+						bool	lb_Fail		= false;
+						var		lo_Entry	= new BDCEntry(	programName, dynpro, begin, field, value );
+						//.............................................
+						if (autoAdd)
+							{	lb_Fail = !this.BDCData.Add(lo_Entry);
+								if (lb_Fail)	lo_Entry.Reset();
+							}
+						//.............................................
 						return	lo_Entry;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddBDCEntry(BDCEntry entry)
 					{
-						return	this._BDCData.Add(entry);
+						return	this.BDCData.Add(entry);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
-						this._BDCData.Reset();
+						this.BDCData.Reset();
 					}
 
 			#endregion

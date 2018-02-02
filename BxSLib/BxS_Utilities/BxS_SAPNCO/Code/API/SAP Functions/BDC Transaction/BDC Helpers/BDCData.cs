@@ -2,15 +2,15 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions
 {
-	internal class BDCData
+	public class BDCData
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCData()
+				public BDCData()
 					{
 						this.DataTable	= new	Dictionary<int, BDCEntry>();
-						this._Index			= 0;
+						this.Reset();
 					}
 
 			#endregion
@@ -35,18 +35,8 @@ namespace BxS_SAPNCO.API.SAPFunctions
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Add(	string	ProgramName	= BDCConstants.lz_E	,
-													string	Dynpro			= BDCConstants.lz_D	,
-													string	Begin				= BDCConstants.lz_F	,
-													string	Field				= BDCConstants.lz_E	,
-													string	Value				= BDCConstants.lz_E		)
-					{
-						return	this.Add(	new BDCEntry(	ProgramName, Dynpro, Begin, Field, Value ) );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Add(	string	ProgramName	= BDCConstants.lz_E	,
-													int			Dynpro			= 0			,
-													bool		Begin				= false	,
+													int			Dynpro			= 0									,
+													bool		Begin				= false							,
 													string	Field				= BDCConstants.lz_E	,
 													string	Value				= BDCConstants.lz_E		)
 					{
@@ -56,9 +46,15 @@ namespace BxS_SAPNCO.API.SAPFunctions
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool	Add(BDCEntry entry)
 					{
+						bool	lb_Ret	= true;
+						//.............................................
 						this._Index ++;
-						this.DataTable.Add(this._Index,	entry);
-						return	true;
+						try
+							{	this.DataTable.Add(this._Index,	entry);	}
+						catch (System.Exception)
+							{	lb_Ret	= false; }
+						//.............................................
+						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
