@@ -7,7 +7,6 @@
 //FNAM	1 Types	FNAM_____4	CHAR	132	0	Field name
 //FVAL	1 Types	BDC_FVAL	CHAR	132	0	BDC field value
 
-
 //CTU_PARAMS
 //	Parameter string for runtime of CALL TRANSACTION USING...
 //DISMODE	1 Types	CTU_MODE	CHAR	1	0	Processing mode for CALL TRANSACTION USING...
@@ -39,8 +38,6 @@
 
 //	CTU_NOBEN
 
-
-
 //BDCMSGCOLL
 //Collecting messages in the SAP System
 
@@ -58,14 +55,10 @@
 //ENV	1 Types	BDC_AKT	CHAR	4	0	Batch input monitoring activity
 //FLDNAME	1 Types	FNAM_____4	CHAR	132	0	Field name
 
-
-
 //RFC_SPAGPA
 //SPA/GPA structure for RFC
 //	PARID	1 Types	MEMORYID	CHAR	20	0	Set/Get parameter ID
 //PARVAL	1 Types		CHAR	255	0	Set/Get Parameter Value (Char 255)
-
-
 
 //	FUNCTION /isdfps/call_transaction.
 //*"----------------------------------------------------------------------
@@ -84,4 +77,3 @@
 //*"      TCODE_ERROR
 //*"      AUTH_ERROR
 //*"      TRANS_ERROR
-

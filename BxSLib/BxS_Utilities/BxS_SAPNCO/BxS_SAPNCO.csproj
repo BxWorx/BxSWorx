@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Code\API\SAP Functions\BDC Transaction\BDC Helpers\xBDCDocumentation.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BxS_SAPConn\BxS_SAPConn.csproj" />
   </ItemGroup>
 

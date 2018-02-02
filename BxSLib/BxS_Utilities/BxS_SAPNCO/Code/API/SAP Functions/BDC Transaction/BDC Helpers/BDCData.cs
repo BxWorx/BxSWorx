@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions
 {
-	public class BDCData
+	internal class BDCData
 		{
 			#region "Constructors"
 
@@ -18,25 +18,15 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			//===========================================================================================
 			#region "Declarations"
 
-				private int	_Index;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private const string	lz_T	= "X"			;
-				private const string	lz_F	= " "			;
-				private const string	lz_E	= ""			;
-				private const string	lz_D	= "0000"	;
+				private int		_Index;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	Dictionary<int, BDCEntry> DataTable		{ get; }
-				public	int												Count				{ get { return	this.DataTable.Count; } }
+				public	Dictionary<int, BDCEntry>		DataTable		{ get; }
+				public	int													Count				{ get { return	this.DataTable.Count; } }
 
 			#endregion
 
@@ -44,31 +34,23 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Add(	string	ProgramName	= lz_E	,
-													string	Dynpro			= lz_D	,
-													string	Begin				= lz_F	,
-													string	Field				= lz_E	,
-													string	Value				= lz_E		)
+				public bool Add(	string	ProgramName	= BDCConstants.lz_E	,
+													string	Dynpro			= BDCConstants.lz_D	,
+													string	Begin				= BDCConstants.lz_F	,
+													string	Field				= BDCConstants.lz_E	,
+													string	Value				= BDCConstants.lz_E		)
 					{
-						return	this.Add(	new BDCEntry(	ProgramName	,
-																						Dynpro			,
-																						Begin				,
-																						Field				,
-																						Value					)	);
+						return	this.Add(	new BDCEntry(	ProgramName, Dynpro, Begin, Field, Value ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Add(	string	ProgramName	= lz_E	,
+				public bool Add(	string	ProgramName	= BDCConstants.lz_E	,
 													int			Dynpro			= 0			,
 													bool		Begin				= false	,
-													string	Field				= lz_E	,
-													string	Value				= lz_E		)
+													string	Field				= BDCConstants.lz_E	,
+													string	Value				= BDCConstants.lz_E		)
 					{
-						return	this.Add(	new BDCEntry(	ProgramName	,
-																						Dynpro			,
-																						Begin				,
-																						Field				,
-																						Value					)	);
+						return	this.Add(	new BDCEntry(	ProgramName, Dynpro, Begin, Field, Value ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
