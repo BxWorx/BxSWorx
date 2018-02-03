@@ -2,21 +2,21 @@
 //.........................................................
 using BxS_SAPNCO.API.Function;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
 	public class BDCCallTransaction : IBDCCallTransaction
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTransaction(	IRFCFunction	RfcFunction				,
-																			BDCData						BDCData				,
-																			BDCCTU_Parameters	CTUParameters		)
+				internal BDCCallTransaction(	IRFCFunction	RfcFunction		,
+																			DTO_CTUParams	dto_CTUParms	,
+																			BDCData						BDCData			)
 					{
-						this._RFCFunction		= RfcFunction		;
+						this._RFCFunction	= RfcFunction		;
+						this.DTO_CTUParms	= dto_CTUParms	;
 
 						this.BDCData				= BDCData				;
-						this.CTUParameters	= CTUParameters	;
 					}
 
 			#endregion
@@ -31,11 +31,11 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			//===========================================================================================
 			#region "Properties"
 
-				public	string						Name						{ get; }
 				public	BDCData						BDCData					{ get; }
-				public	BDCCTU_Parameters	CTUParameters		{ get; }
+				public	DTO_CTUParams		DTO_CTUParms	{ get; }
 
-				public	int	Count	{ get	{ return	this.BDCData.Count;	} }
+				public	string	Name	{ get	{ return	this._RFCFunction.Name	;	} }
+				public	int			Count	{ get	{ return	this.BDCData.Count			;	} }
 
 				//public	SMC.IRfcFunction		RfcFunction			{ get; set; }
 				//public	SMC.RfcDestination	RfcDestination	{ get; set; }

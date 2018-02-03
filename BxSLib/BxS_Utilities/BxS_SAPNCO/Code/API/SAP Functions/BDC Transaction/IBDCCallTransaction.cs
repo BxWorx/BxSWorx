@@ -1,7 +1,7 @@
 ﻿//.........................................................
 using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
 	public interface IBDCCallTransaction
 		{
@@ -9,8 +9,11 @@ namespace BxS_SAPNCO.API.SAPFunctions
 
 				int								Count					{	get; }
 				string						Name					{ get; }
+
+				DTO_CTUParams		DTO_CTUParms	{ get; }
+
+
 				BDCData						BDCData				{ get; }
-				BDCCTU_Parameters	CTUParameters { get; }
 
 				//SMC.IRfcFunction		RfcFunction			{ get; set; }
 				//SMC.RfcDestination	RfcDestination	{ get; set; }
