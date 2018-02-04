@@ -1,34 +1,34 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class DTO_CTUParams
+	public class DTO_SPAEntry
 		{
+			#region "Documentation"
+
+				//	RFC_SPAGPA:	SPA/GPA structure for RFC
+				//
+				//	PARID		1 Types	MEMORYID	CHAR	20	0	Set/Get parameter ID
+				//	PARVAL	1 Types						CHAR	255	0	Set/Get Parameter Value (Char 255)
+
+			#endregion
+
+			//===========================================================================================
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_CTUParams()
+				public DTO_SPAEntry( string memoryID, string memoryValue)
 					{
-						this.DisplayMode		=	BDCConstants.lz_CTU_N	;
-						this.UpdateMode			=	BDCConstants.lz_CTU_A	;
-						this.CATTMode				=	BDCConstants.lz_CTU_F	;
-						this.DefaultSize		=	BDCConstants.lz_CTU_T	;
-						this.NoCommit				=	BDCConstants.lz_CTU_F	;
-						this.NoBatchInpFor	=	BDCConstants.lz_CTU_F	;
-						this.NoBatchInpAft	=	BDCConstants.lz_CTU_F	;
-				}
+						this.MemoryID			=	memoryID		;
+						this.MemoryValue	=	memoryValue	;
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	char	DisplayMode			{	get; set; }
-				public	char	UpdateMode			{	get; set; }
-				public	char	CATTMode				{	get; set; }
-				public	char	DefaultSize			{	get; set; }
-				public	char	NoCommit				{	get; set; }
-				public	char	NoBatchInpFor		{	get; set; }
-				public	char	NoBatchInpAft		{	get; set; }
+				public	string	MemoryID		{	get; set; }
+				public	string	MemoryValue	{	get; set; }
 
 			#endregion
 

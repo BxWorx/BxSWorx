@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class BDCEntry
+	public class DTO_BDCEntry
 		{
 			#region "Documentation"
 
@@ -19,11 +19,11 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCEntry(	string	ProgramName	= BDCConstants.lz_E	,
-													int			Dynpro			= 0									,
-													bool		Begin				= false							,
-													string	Field				= BDCConstants.lz_E	,
-													string	Value				= BDCConstants.lz_E		)
+				public DTO_BDCEntry(	string	ProgramName	= BDCConstants.lz_E	,
+															int			Dynpro			= 0									,
+															bool		Begin				= false							,
+															string	Field				= BDCConstants.lz_E	,
+															string	Value				= BDCConstants.lz_E		)
 					{
 						this.ProgramName	= string.IsNullOrEmpty(ProgramName)	? BDCConstants.lz_E	: ProgramName													;
 						this.FieldName		= string.IsNullOrEmpty(Field)				? BDCConstants.lz_E	: Field																;

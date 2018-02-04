@@ -5,37 +5,6 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
 	public class BDCCTU_Parameters
 		{
-			#region "Documentation"
-
-				//	CTU_PARAMS:	Parameter string for runtime of CALL TRANSACTION USING...
-				//
-				//	DISMODE		1 Types	CTU_MODE		CHAR	1	0	Processing mode for CALL TRANSACTION USING...
-				//	UPDMODE		1 Types	CTU_UPDATE	CHAR	1	0	Update mode for CALL TRANSACTION USING...
-				//	CATTMODE	1 Types	CTU_CATT		CHAR	1	0	CATT mode for CALL TRANSACTION USING...
-				//	DEFSIZE		1 Types	CTU_DEFSZE	CHAR	1	0	Default screen size for CALL TRANSACTION USING...
-				//	RACOMMIT	1 Types	CTU_RAFC		CHAR	1	0	CALL TRANSACTION USING... is not completed by COMMIT
-				//	NOBINPT		1 Types	CTU_NOBIM		CHAR	1	0	SY-BINPT=SPACE for CALL TRANSACTION USING...
-				//	NOBIEND		1 Types	CTU_NOBEN		CHAR	1	0	SY-BINPT=SPACE after data end for CALL TRANSACTION USING...
-
-				//	CTU_MODE:	A	Display all screens
-				//						E	Display Errors
-				//						N	Background processing
-				//						P	Background processing; debugging possible
-
-				//	CTU_UPDATE:	L	Local
-				//							S	Synchronous
-				//							A	Asynchronous
-
-				//	CTU_CATT:	b	No CATT
-				//						N	CATT without	individual screen control
-				//						A	CATT with			individual screen control
-
-				//	CTU_DEFSZE/CTU_RAFC/CTU_NOBIM/CTU_NOBEN:	b	No
-				//																						X	Yes
-
-			#endregion
-
-			//===========================================================================================
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -75,7 +44,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				private	char	_NoBEnd	;
 				//.................................................
 				[Flags]
-				public enum Validate
+				public enum ce_Validate
 					{
 						Non = 0x00,
 						Dsp = 0x01,
@@ -138,7 +107,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Validate IsValid(DTO_CTUParams DTO, bool autoCorrect = true)
+				public ce_Validate IsValid(DTO_CTUParams DTO, bool autoCorrect = true)
 					{
 						if (autoCorrect)
 							{
@@ -152,15 +121,15 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 								return	0;
 							}
 						//.............................................
-						Validate ln_Ret	= Validate.Non;
+						ce_Validate ln_Ret	= ce_Validate.Non;
 
-						if (DTO.DisplayMode		!= CheckDspMde(DTO.DisplayMode)		) ln_Ret |= Validate.Dsp;
-						if (DTO.UpdateMode		!= CheckDspMde(DTO.UpdateMode)		)	ln_Ret |= Validate.Upd;
-						if (DTO.CATTMode			!= CheckDspMde(DTO.CATTMode)			)	ln_Ret |= Validate.Cat;
-						if (DTO.DefaultSize		!= CheckDspMde(DTO.DefaultSize)		)	ln_Ret |= Validate.Sze;
-						if (DTO.NoCommit			!= CheckDspMde(DTO.NoCommit)			)	ln_Ret |= Validate.Com;
-						if (DTO.NoBatchInpFor	!= CheckDspMde(DTO.NoBatchInpFor)	)	ln_Ret |= Validate.BIF;
-						if (DTO.NoBatchInpAft	!= CheckDspMde(DTO.NoBatchInpAft)	)	ln_Ret |= Validate.BIA;
+						if (DTO.DisplayMode		!= CheckDspMde(DTO.DisplayMode)		) ln_Ret |= ce_Validate.Dsp;
+						if (DTO.UpdateMode		!= CheckDspMde(DTO.UpdateMode)		)	ln_Ret |= ce_Validate.Upd;
+						if (DTO.CATTMode			!= CheckDspMde(DTO.CATTMode)			)	ln_Ret |= ce_Validate.Cat;
+						if (DTO.DefaultSize		!= CheckDspMde(DTO.DefaultSize)		)	ln_Ret |= ce_Validate.Sze;
+						if (DTO.NoCommit			!= CheckDspMde(DTO.NoCommit)			)	ln_Ret |= ce_Validate.Com;
+						if (DTO.NoBatchInpFor	!= CheckDspMde(DTO.NoBatchInpFor)	)	ln_Ret |= ce_Validate.BIF;
+						if (DTO.NoBatchInpAft	!= CheckDspMde(DTO.NoBatchInpAft)	)	ln_Ret |= ce_Validate.BIA;
 						//.............................................
 						return	ln_Ret;
 					}
@@ -185,7 +154,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private char CheckYesNo(char checkFor, bool defaultYes = false)
 					{
-						return	this.Check( lz_CTU_YesNo	, checkFor, defaultYes ? BDCConstants.lz_CTU_F : BDCConstants.lz_CTU_T );
+						return	this.Check( lz_CTU_YesNo	, checkFor, defaultYes ?	BDCConstants.lz_CTU_T :
+																																				BDCConstants.lz_CTU_F		);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

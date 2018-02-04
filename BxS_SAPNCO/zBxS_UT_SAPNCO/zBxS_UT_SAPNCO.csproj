@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="Test Units\UT_BxS_SAPNCO.cs" />
     <Compile Include="Test Units\UT_BxS_SAPNCO_10Repos.cs" />
-    <Compile Include="Test Units\UT_BxS_SAPNCO_40RfcCTUParm.cs" />
+    <Compile Include="Test Units\UT_10_CTUParams.cs" />
     <Compile Include="Test Units\UT_BxS_SAPNCO_40RfcFnc.cs" />
     <Compile Include="Test Units\UT_BxS_SAPNCO_20SAPINI.cs" />
     <Compile Include="Test Units\UT_BxS_SAPNCO_30Cntlr.cs" />
@@ -64,10 +64,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BxS_SAPConn\BxS_SAPConn.csproj">
-      <Project>{f0d54b94-efe5-4ff8-9ed3-a19727b311b5}</Project>
-      <Name>BxS_SAPConn</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BxS_SAPNCO\BxS_SAPNCO.csproj">
       <Project>{5def137c-0271-43db-b873-942546f438da}</Project>
       <Name>BxS_SAPNCO</Name>

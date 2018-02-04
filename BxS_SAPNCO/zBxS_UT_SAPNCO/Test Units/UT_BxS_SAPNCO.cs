@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using BxS_SAPNCO.Destination;
-using BxS_SAPConn.API;
+//using BxS_SAPNCO.Destination;
+//using BxS_SAPConn.API;
 using BxS_SAPNCO.API;
-using BxS_SAPNCO.Helpers;
+//using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
 {
@@ -18,7 +18,7 @@ namespace zBxS_SAPNCO_UT
 		//private	static readonly string	_PathTest			= Path.Combine(_Path		,	cz_TestDir	);
 		//private	static readonly string	_TestFullNme	= Path.Combine(_PathTest,	cz_TestNme	);
 
-		private readonly ConnFactory	_Fac	= new ConnFactory();
+		//private readonly ConnFactory	_Fac	= new ConnFactory();
 		private readonly NCOController		_Cnt	= new NCOController();
 
 			//-------------------------------------------------------------------------------------------
@@ -29,16 +29,16 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					IDTOConnParameters	lo_DTO		= this._Fac.CreateParameterDTO();
-					IDTOConnParameters	lo_DTO1		= this._Fac.CreateParameterDTO();
+					//IDTOConnParameters	lo_DTO		= this._Fac.CreateParameterDTO();
+					//IDTOConnParameters	lo_DTO1		= this._Fac.CreateParameterDTO();
 
 					IList<string> y = this._Cnt.GetSAPGUIConfigEntries();
 					//this._Cnt.LoadParameters(y[0]	, lo_DTO);
 					//this._Cnt.LoadParameters(y[1]	, lo_DTO1);
 
 					Assert.AreNotEqual		(0, y.Count										,	$"SAPNCO:INI: {ln_Cnt}: List");
-					Assert.AreNotEqual		(0, lo_DTO.Parameters.Count		,	$"SAPNCO:INI: {ln_Cnt}: Parms 0");
-					Assert.AreNotEqual		(0, lo_DTO1.Parameters.Count	,	$"SAPNCO:INI: {ln_Cnt}: Parms 1");
+					//Assert.AreNotEqual		(0, lo_DTO.Parameters.Count		,	$"SAPNCO:INI: {ln_Cnt}: Parms 0");
+					//Assert.AreNotEqual		(0, lo_DTO1.Parameters.Count	,	$"SAPNCO:INI: {ln_Cnt}: Parms 1");
 				}
 
 			//-------------------------------------------------------------------------------------------

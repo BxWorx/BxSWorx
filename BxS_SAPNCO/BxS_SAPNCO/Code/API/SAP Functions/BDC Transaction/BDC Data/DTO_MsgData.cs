@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class BDCData
+	public class DTO_MsgData
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCData()
+				public DTO_MsgData()
 					{
-						this.DataTable	= new	Dictionary<int, BDCEntry>();
-						this.Reset();
+						this._Data	= new List<DTO_MsgEntry>();
 					}
 
 			#endregion
@@ -18,15 +17,14 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			//===========================================================================================
 			#region "Declarations"
 
-				private int		_Index;
+				private IList<DTO_MsgEntry>		_Data	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	Dictionary<int, BDCEntry>		DataTable		{ get; }
-				public	int													Count				{ get { return	this.DataTable.Count; } }
+				public	int	Count		{ get { return	this._Data.Count; } }
 
 			#endregion
 
@@ -34,34 +32,15 @@ namespace BxS_SAPNCO.API.SAPFunctions
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Add(	string	ProgramName	= BDCConstants.lz_E	,
-													int			Dynpro			= 0									,
-													bool		Begin				= false							,
-													string	Field				= BDCConstants.lz_E	,
-													string	Value				= BDCConstants.lz_E		)
+				public void	Add(DTO_MsgEntry entry)
 					{
-						return	this.Add(	new BDCEntry(	ProgramName, Dynpro, Begin, Field, Value ) );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool	Add(BDCEntry entry)
-					{
-						bool	lb_Ret	= true;
-						//.............................................
-						this._Index ++;
-						try
-							{	this.DataTable.Add(this._Index,	entry);	}
-						catch (System.Exception)
-							{	lb_Ret	= false; }
-						//.............................................
-						return	lb_Ret;
+						this._Data.Add(entry);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Reset()
 					{
-						this.DataTable.Clear();
-						this._Index	= 0;
+						this._Data.Clear();
 					}
 
 			#endregion

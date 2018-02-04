@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BxS_SAPConn\BxS_SAPConn.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="sapnco">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
     </Reference>

@@ -9,14 +9,17 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTransaction(	IRFCFunction	RfcFunction		,
-																			DTO_CTUParams	dto_CTUParms	,
-																			BDCData						BDCData			)
+				internal BDCCallTransaction(	IRFCFunction	RfcFunction	,
+																			DTO_CTUParams	dto_CTUParm	,
+																			DTO_BDCData		dto_BDCData	,
+																			DTO_SPAData		dto_SPAData ,
+																			DTO_MsgData		dto_MsgData		)
 					{
-						this._RFCFunction	= RfcFunction		;
-						this.DTO_CTUParms	= dto_CTUParms	;
-
-						this.BDCData				= BDCData				;
+						this._RFCFunction	= RfcFunction	;
+						this.DTO_CTUParm	= dto_CTUParm	;
+						this.DTO_BDCData	= dto_BDCData	;
+						this.DTO_SPAData	= dto_SPAData	;
+						this.DTO_MsgData	= dto_MsgData	;
 					}
 
 			#endregion
@@ -24,20 +27,23 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IRFCFunction				_RFCFunction		;
+				private readonly	IRFCFunction	_RFCFunction		;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	BDCData						BDCData					{ get; }
-				public	DTO_CTUParams		DTO_CTUParms	{ get; }
+				public	DTO_CTUParams		DTO_CTUParm	{ get; }
+				public	DTO_BDCData			DTO_BDCData	{ get; }
+				public	DTO_SPAData			DTO_SPAData	{ get; }
+				public	DTO_MsgData			DTO_MsgData	{ get; }
 
-				public	string	Name	{ get	{ return	this._RFCFunction.Name	;	} }
-				public	int			Count	{ get	{ return	this.BDCData.Count			;	} }
+				public	string	RFCFunctionName	{ get	{ return	this._RFCFunction.Name	;	} }
+				public	int			BDCDataCount		{ get	{ return	this.DTO_BDCData.Count	;	} }
+				public	int			SPADataCount		{ get	{ return	this.DTO_SPAData.Count	;	} }
+				public	int			MsgDataCount		{ get	{ return	this.DTO_MsgData.Count	;	} }
 
-				//public	SMC.IRfcFunction		RfcFunction			{ get; set; }
 				//public	SMC.RfcDestination	RfcDestination	{ get; set; }
 
 			#endregion
@@ -62,35 +68,55 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						return	lb_Ret;
 					}
 
+
+
+
+
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCEntry CreateBDCEntry(	string	programName	= BDCConstants.lz_E	,
-																				int			dynpro			= 0									,
-																				bool		begin				= false							,
-																				string	field				= BDCConstants.lz_E	,
-																				string	value				= BDCConstants.lz_E	,
-																				bool		autoAdd			= true								)
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_SPAEntry CreateSPAEntry(	string	MemoryID		,
+																						string	MemoryValue	,
+																						bool		autoAdd			= true )
 					{
-						bool	lb_Fail		= false;
-						var		lo_Entry	= new BDCEntry(	programName, dynpro, begin, field, value );
-						//.............................................
-						if (autoAdd)
-							{	lb_Fail = !this.BDCData.Add(lo_Entry);
-								if (lb_Fail)	lo_Entry.Reset();
-							}
+						var	lo_Entry	= new DTO_SPAEntry(	MemoryID, MemoryValue );
+
+						if (autoAdd)	this.DTO_SPAData.Add(lo_Entry);
 						//.............................................
 						return	lo_Entry;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddBDCEntry(BDCEntry entry)
+				public void AddSPAEntry(DTO_SPAEntry entry)
 					{
-						return	this.BDCData.Add(entry);
+						this.DTO_SPAData.Add(entry);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_BDCEntry CreateBDCEntry(	string	programName	= BDCConstants.lz_E	,
+																						int			dynpro			= 0									,
+																						bool		begin				= false							,
+																						string	field				= BDCConstants.lz_E	,
+																						string	value				= BDCConstants.lz_E	,
+																						bool		autoAdd			= true								)
+					{
+						var	lo_Entry	= new DTO_BDCEntry(	programName, dynpro, begin, field, value );
+
+						if (autoAdd)	this.DTO_BDCData.Add(lo_Entry);
+						//.............................................
+						return	lo_Entry;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void AddBDCEntry(DTO_BDCEntry entry)
+					{
+						this.DTO_BDCData.Add(entry);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
-						this.BDCData.Reset();
+						this.DTO_BDCData.Reset();
 					}
 
 			#endregion
