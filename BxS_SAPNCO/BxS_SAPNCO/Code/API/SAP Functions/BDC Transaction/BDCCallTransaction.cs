@@ -117,12 +117,24 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public void Reset()
 					{
 						this.DTO_BDCData.Reset();
+						this.DTO_SPAData.Reset();
+						this.DTO_MsgData.Reset();
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadMessages()
+					{
+						this.DTO_MsgData.Reset();
+						this._RFCFunction.RfcFunction.GetTable()
+
+
+					}
+
 			#endregion
 
 		}
