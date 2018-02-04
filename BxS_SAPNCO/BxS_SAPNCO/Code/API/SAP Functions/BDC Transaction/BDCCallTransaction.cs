@@ -9,17 +9,19 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTransaction(	IRFCFunction	RfcFunction	,
-																			DTO_CTUParams	dto_CTUParm	,
-																			DTO_BDCData		dto_BDCData	,
-																			DTO_SPAData		dto_SPAData ,
-																			DTO_MsgData		dto_MsgData		)
+				internal BDCCallTransaction(	IRFCFunction		RfcFunction	,
+																			DTO_FNCProfile	dto_Profile	,
+																			DTO_CTUParams		dto_CTUParm	,
+																			DTO_BDCData			dto_BDCData	,
+																			DTO_SPAData			dto_SPAData ,
+																			DTO_MsgData			dto_MsgData		)
 					{
 						this._RFCFunction	= RfcFunction	;
+						this._Profile			= dto_Profile	;
 						this.DTO_CTUParm	= dto_CTUParm	;
 						this.DTO_BDCData	= dto_BDCData	;
 						this.DTO_SPAData	= dto_SPAData	;
-						this.DTO_MsgData	= dto_MsgData	;
+						this.MsgData	= dto_MsgData	;
 					}
 
 			#endregion
@@ -27,7 +29,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IRFCFunction	_RFCFunction		;
+				private readonly	IRFCFunction		_RFCFunction	;
+				private readonly	DTO_FNCProfile	_Profile			;
 
 			#endregion
 
@@ -37,12 +40,12 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public	DTO_CTUParams		DTO_CTUParm	{ get; }
 				public	DTO_BDCData			DTO_BDCData	{ get; }
 				public	DTO_SPAData			DTO_SPAData	{ get; }
-				public	DTO_MsgData			DTO_MsgData	{ get; }
+				public	DTO_MsgData			MsgData	{ get; }
 
 				public	string	RFCFunctionName	{ get	{ return	this._RFCFunction.Name	;	} }
 				public	int			BDCDataCount		{ get	{ return	this.DTO_BDCData.Count	;	} }
 				public	int			SPADataCount		{ get	{ return	this.DTO_SPAData.Count	;	} }
-				public	int			MsgDataCount		{ get	{ return	this.DTO_MsgData.Count	;	} }
+				public	int			MsgDataCount		{ get	{ return	this.MsgData.Count	;	} }
 
 				//public	SMC.RfcDestination	RfcDestination	{ get; set; }
 
@@ -67,11 +70,6 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						//.............................................
 						return	lb_Ret;
 					}
-
-
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -118,7 +116,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					{
 						this.DTO_BDCData.Reset();
 						this.DTO_SPAData.Reset();
-						this.DTO_MsgData.Reset();
+						this.MsgData.Reset();
 					}
 
 			#endregion
@@ -129,10 +127,17 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadMessages()
 					{
-						this.DTO_MsgData.Reset();
-						this._RFCFunction.RfcFunction.GetTable()
+						this.MsgData.Reset();
 
+						foreach (SMC.IRfcStructure ls_Msg in this._RFCFunction.RfcFunction.GetTable(this._Profile.TabMsg))
+							{
+								var lo_Msg = new DTO_MsgEntry
+									{
+										TCode	= (string)ls_Msg.GetValue(this._Profile.TabMsg_TCode)
+									};
 
+								this.MsgData.Add(lo_Msg);
+							}
 					}
 
 			#endregion

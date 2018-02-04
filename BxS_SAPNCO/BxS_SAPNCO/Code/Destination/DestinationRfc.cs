@@ -42,6 +42,16 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
 
+				internal void LoadMetadata(IRfcFncProfile profile)
+					{
+						profile.Metadata	= this.
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: Configuration"
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig(SMC.RfcConfigParameters RFCConfigParams)
 					{
