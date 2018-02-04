@@ -6,9 +6,9 @@ namespace BxS_SAPNCO.API.Function
 		{
 			#region "Properties"
 
-				string	FunctionName	{get;}
+				string	FunctionName	{	get; }
 				//.................................................
-				SMC.RfcFunctionMetadata	Metadata		{ get; }
+				SMC.RfcFunctionMetadata		Metadata	{ get; }
 
 			#endregion
 

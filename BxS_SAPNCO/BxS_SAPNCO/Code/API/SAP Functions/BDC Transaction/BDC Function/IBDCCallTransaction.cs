@@ -33,8 +33,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				int			BDCDataCount		{	get; }
 				int			SPADataCount		{	get; }
 				//.................................................
-				DTO_CTUParams	DTO_CTUParm	{ get; }
-				DTO_BDCData		DTO_BDCData	{ get; }
+				string	SAPTransaction	{ get;	set; }
+				bool		SkipFirstScreen	{ get;	set; }
+				//.................................................
+				DTO_CTUParams	CTUParm	{ get; }
+				DTO_BDCData		BDCData	{ get; }
 
 			#endregion
 

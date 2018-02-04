@@ -36,19 +36,19 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	TCode			{	get; set; }
-				public	string	DyName		{	get; set; }
-				public	string	DyNumb		{	get; set; }
-				public	string	MsgType		{	get; set; }
-				public	string	MsgSpra		{	get; set; }
-				public	string	MsgID			{	get; set; }
-				public	string	MsgNr			{	get; set; }
-				public	string	MsgV1			{	get; set; }
-				public	string	MsgV2			{	get; set; }
-				public	string	MsgV3			{	get; set; }
-				public	string	MsgV4			{	get; set; }
-				public	string	Env				{	get; set; }
-				public	string	FldName		{	get; set; }
+				public	string	TCode	{	get; set; }
+				public	string	DynNm	{	get; set; }
+				public	string	DynNo	{	get; set; }
+				public	string	MsgTp	{	get; set; }
+				public	string	MsgLg	{	get; set; }
+				public	string	MsgID	{	get; set; }
+				public	string	MsgNr	{	get; set; }
+				public	string	MsgV1	{	get; set; }
+				public	string	MsgV2	{	get; set; }
+				public	string	MsgV3	{	get; set; }
+				public	string	MsgV4	{	get; set; }
+				public	string	Envir	{	get; set; }
+				public	string	FldNm	{	get; set; }
 
 			#endregion
 

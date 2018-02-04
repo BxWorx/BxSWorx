@@ -9,22 +9,17 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DTO_SPAData()
 					{
-						this._Data	= new List<DTO_SPAEntry>();
+						this.Data	= new List<DTO_SPAEntry>();
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private IList<DTO_SPAEntry>		_Data	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	int	Count		{ get { return	this._Data.Count; } }
+				public	int	Count		{ get { return	this.Data.Count; } }
+
+				public	IList<DTO_SPAEntry>	Data	{ get; }
 
 			#endregion
 
@@ -34,13 +29,13 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Add(DTO_SPAEntry entry)
 					{
-						this._Data.Add(entry);
+						this.Data.Add(entry);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Reset()
 					{
-						this._Data.Clear();
+						this.Data.Clear();
 					}
 
 			#endregion
