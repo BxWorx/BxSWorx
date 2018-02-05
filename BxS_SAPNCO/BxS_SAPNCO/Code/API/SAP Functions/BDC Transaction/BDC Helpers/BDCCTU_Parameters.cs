@@ -3,18 +3,18 @@ using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class BDCCTU_Parameters
+	public class CTU_Parameters
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCCTU_Parameters(	char	DisplayMode			= BDCConstants.lz_CTU_N	,
-																	char	UpdateMode			= BDCConstants.lz_CTU_A	,
-																	char	CATTMode				= BDCConstants.lz_CTU_F	,
-																	char	DefaultSize			= BDCConstants.lz_CTU_T	,
-																	char	NoCommit   			= BDCConstants.lz_CTU_T	,
-																	char	NoBatchInputFor	= BDCConstants.lz_CTU_T	,
-																	char	NoBatchInputAft	= BDCConstants.lz_CTU_T		)
+				public CTU_Parameters(	char	DisplayMode			= BDCConstants.lz_CTU_N	,
+																char	UpdateMode			= BDCConstants.lz_CTU_A	,
+																char	CATTMode				= BDCConstants.lz_CTU_F	,
+																char	DefaultSize			= BDCConstants.lz_CTU_T	,
+																char	NoCommit   			= BDCConstants.lz_CTU_T	,
+																char	NoBatchInputFor	= BDCConstants.lz_CTU_T	,
+																char	NoBatchInputAft	= BDCConstants.lz_CTU_T		)
 					{
 						this.DisplayMode		=	DisplayMode			;
 						this.UpdateMode			=	UpdateMode			;
@@ -44,7 +44,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				private	char	_NoBEnd	;
 				//.................................................
 				[Flags]
-				public enum ce_Validate
+				public enum Ce_Validate
 					{
 						Non = 0x00,
 						Dsp = 0x01,
@@ -107,7 +107,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ce_Validate IsValid(DTO_CTUParams DTO, bool autoCorrect = true)
+				public Ce_Validate IsValid(DTO_CTUParams DTO, bool autoCorrect = true)
 					{
 						if (autoCorrect)
 							{
@@ -121,15 +121,15 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 								return	0;
 							}
 						//.............................................
-						ce_Validate ln_Ret	= ce_Validate.Non;
+						Ce_Validate ln_Ret	= Ce_Validate.Non;
 
-						if (DTO.DisplayMode		!= CheckDspMde(DTO.DisplayMode)		) ln_Ret |= ce_Validate.Dsp;
-						if (DTO.UpdateMode		!= CheckDspMde(DTO.UpdateMode)		)	ln_Ret |= ce_Validate.Upd;
-						if (DTO.CATTMode			!= CheckDspMde(DTO.CATTMode)			)	ln_Ret |= ce_Validate.Cat;
-						if (DTO.DefaultSize		!= CheckDspMde(DTO.DefaultSize)		)	ln_Ret |= ce_Validate.Sze;
-						if (DTO.NoCommit			!= CheckDspMde(DTO.NoCommit)			)	ln_Ret |= ce_Validate.Com;
-						if (DTO.NoBatchInpFor	!= CheckDspMde(DTO.NoBatchInpFor)	)	ln_Ret |= ce_Validate.BIF;
-						if (DTO.NoBatchInpAft	!= CheckDspMde(DTO.NoBatchInpAft)	)	ln_Ret |= ce_Validate.BIA;
+						if (DTO.DisplayMode		!= CheckDspMde(DTO.DisplayMode)		) ln_Ret |= Ce_Validate.Dsp;
+						if (DTO.UpdateMode		!= CheckDspMde(DTO.UpdateMode)		)	ln_Ret |= Ce_Validate.Upd;
+						if (DTO.CATTMode			!= CheckDspMde(DTO.CATTMode)			)	ln_Ret |= Ce_Validate.Cat;
+						if (DTO.DefaultSize		!= CheckDspMde(DTO.DefaultSize)		)	ln_Ret |= Ce_Validate.Sze;
+						if (DTO.NoCommit			!= CheckDspMde(DTO.NoCommit)			)	ln_Ret |= Ce_Validate.Com;
+						if (DTO.NoBatchInpFor	!= CheckDspMde(DTO.NoBatchInpFor)	)	ln_Ret |= Ce_Validate.BIF;
+						if (DTO.NoBatchInpAft	!= CheckDspMde(DTO.NoBatchInpAft)	)	ln_Ret |= Ce_Validate.BIA;
 						//.............................................
 						return	ln_Ret;
 					}

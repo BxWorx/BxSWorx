@@ -10,14 +10,14 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCallTransaction(	IRFCFunction		RfcFunction		,
-																			BDCFncProfile		RfcFncProfile	,
+																			IBDCProfile			RfcFncProfile	,
 																			DTO_CTUParams		dto_CTUParm		,
 																			DTO_BDCData			dto_BDCData		,
 																			DTO_SPAData			dto_SPAData		,
 																			DTO_MsgData			dto_MsgData			)
 					{
-						this._RFCFnc	= RfcFunction		;
-						this._Profle	= RfcFncProfile	;
+						this._RFCFunc	= RfcFunction		;
+						this._Profile	= RfcFncProfile	;
 						//.............................................
 						this.CTUParm	= dto_CTUParm		;
 						this.BDCData	= dto_BDCData		;
@@ -30,12 +30,12 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IRFCFunction			_RFCFnc	;
-				private readonly	BDCFncProfile			_Profle	;
+				private readonly	IRFCFunction		_RFCFunc	;
+				private readonly	IBDCProfile			_Profile	;
 
-				private	readonly	SMC.IRfcStructure	_CTUOpt	;
-				private	readonly	SMC.IRfcTable			_BDCDat	;
-				private	readonly	SMC.IRfcTable			_SPADat	;
+				private	SMC.IRfcStructure		_CTUOpt	;
+				private	SMC.IRfcTable				_BDCDat	;
+				private	SMC.IRfcTable				_SPADat	;
 
 			#endregion
 
@@ -50,7 +50,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public	DTO_SPAData			SPAData	{ get; }
 				public	DTO_MsgData			MsgData	{ get; }
 
-				public	string	RFCFunctionName	{ get	{ return	this._RFCFnc.Name	;	} }
+				public	string	RFCFunctionName	{ get	{ return	this._Profile.FunctionName; } }
 				public	int			BDCDataCount		{ get	{ return	this.BDCData.Count	;	} }
 				public	int			SPADataCount		{ get	{ return	this.SPAData.Count	;	} }
 				public	int			MsgDataCount		{ get	{ return	this.MsgData.Count	;	} }
@@ -68,7 +68,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						try
 							{
 								this.Prologue();
-								this._RFCFnc.Invoke();
+								lb_Ret	=	this._RFCFunc.Invoke(this._Profile.RfcDestination);
 								this.Epilogue();
 							}
 						catch (System.Exception)
@@ -137,14 +137,26 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					{
 						this.MsgData.Reset();
 						//.............................................
+						if (!this._Profile.Ready)
+							{
+								var lo_BDCProfiler	= new BDCProfileConfigurator();
+								lo_BDCProfiler.Configure( this._Profile );
+							}
+						//.............................................
+						this._RFCFunc.RfcFunction		= this._Profile.RFCFunction;
+
+						this._CTUOpt	= this._Profile.CTUStructure;
+						this._BDCDat	= this._Profile.BDCTable;
+						this._SPADat	= this._Profile.SPATable;
+						//.............................................
 						this.PutCTUOptions();
 						this.PutBDCData();
 						this.PutSPAData();
 						//.............................................
-						this._RFCFnc.RfcFunction.SetValue(	this._Profle.ParIdx_TCode		, this.SAPTransaction		)	;
-						this._RFCFnc.RfcFunction.SetValue(	this._Profle.ParIdx_Skip1		, this.SkipFirstScreen	)	;
-						this._RFCFnc.RfcFunction.SetValue(	this._Profle.ParIdx_BDCDat	, this._BDCDat					)	;
-						this._RFCFnc.RfcFunction.SetValue(	this._Profle.ParIdx_CTUOpt	, this._CTUOpt					)	;
+						this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_TCode	, this.SAPTransaction								)	;
+						this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_Skip1	, this.SkipFirstScreen	? "X" : " "	)	;
+						this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_TabBDC	, this._BDCDat											)	;
+						this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_CTUOpt	, this._CTUOpt											)	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -163,8 +175,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 							{
 								this._SPADat.CurrentIndex	= i;
 
-								this._BDCDat.SetValue(	this._Profle.SPADat_MID	, this.SPAData.Data[i].MemoryID			);
-								this._BDCDat.SetValue(	this._Profle.SPADat_Val	, this.SPAData.Data[i].MemoryValue	);
+								this._BDCDat.SetValue(	this._Profile.SPADat_MID	, this.SPAData.Data[i].MemoryID			);
+								this._BDCDat.SetValue(	this._Profile.SPADat_Val	, this.SPAData.Data[i].MemoryValue	);
 							}
 					}
 
@@ -178,46 +190,46 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 							{
 								this._BDCDat.CurrentIndex	= i;
 
-								this._BDCDat.SetValue(this._Profle.BDCDat_Prg, this.BDCData.Data[i].ProgramName );
-								this._BDCDat.SetValue(this._Profle.BDCDat_Dyn, this.BDCData.Data[i].Dynpro			);
-								this._BDCDat.SetValue(this._Profle.BDCDat_Bgn, this.BDCData.Data[i].Begin				);
-								this._BDCDat.SetValue(this._Profle.BDCDat_Fld, this.BDCData.Data[i].FieldName		);
-								this._BDCDat.SetValue(this._Profle.BDCDat_Val, this.BDCData.Data[i].FieldValue	);
+								this._BDCDat.SetValue(this._Profile.BDCDat_Prg, this.BDCData.Data[i].ProgramName	);
+								this._BDCDat.SetValue(this._Profile.BDCDat_Dyn, this.BDCData.Data[i].Dynpro				);
+								this._BDCDat.SetValue(this._Profile.BDCDat_Bgn, this.BDCData.Data[i].Begin				);
+								this._BDCDat.SetValue(this._Profile.BDCDat_Fld, this.BDCData.Data[i].FieldName		);
+								this._BDCDat.SetValue(this._Profile.BDCDat_Val, this.BDCData.Data[i].FieldValue		);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void PutCTUOptions()
 					{
-						this._CTUOpt.SetValue(	this._Profle.CTUOpt_DspMde	,	this.CTUParm.DisplayMode		);
-						this._CTUOpt.SetValue(	this._Profle.CTUOpt_UpdMde	,	this.CTUParm.UpdateMode			);
-						this._CTUOpt.SetValue(	this._Profle.CTUOpt_CATMde	,	this.CTUParm.CATTMode				);
-						this._CTUOpt.SetValue(	this._Profle.CTUOpt_DefSze	,	this.CTUParm.DefaultSize		);
-						this._CTUOpt.SetValue(	this._Profle.CTUOpt_NoComm	,	this.CTUParm.NoCommit				);
-						this._CTUOpt.SetValue(	this._Profle.CTUOpt_NoBtcI	,	this.CTUParm.NoBatchInpFor	);
-						this._CTUOpt.SetValue(	this._Profle.CTUOpt_NoBtcE	,	this.CTUParm.NoBatchInpAft	);
+						this._CTUOpt.SetValue(	this._Profile.CTUOpt_DspMde	,	this.CTUParm.DisplayMode		);
+						this._CTUOpt.SetValue(	this._Profile.CTUOpt_UpdMde	,	this.CTUParm.UpdateMode			);
+						this._CTUOpt.SetValue(	this._Profile.CTUOpt_CATMde	,	this.CTUParm.CATTMode				);
+						this._CTUOpt.SetValue(	this._Profile.CTUOpt_DefSze	,	this.CTUParm.DefaultSize		);
+						this._CTUOpt.SetValue(	this._Profile.CTUOpt_NoComm	,	this.CTUParm.NoCommit				);
+						this._CTUOpt.SetValue(	this._Profile.CTUOpt_NoBtcI	,	this.CTUParm.NoBatchInpFor	);
+						this._CTUOpt.SetValue(	this._Profile.CTUOpt_NoBtcE	,	this.CTUParm.NoBatchInpAft	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void GetMessages()
 					{
-						foreach (SMC.IRfcStructure ls_Msg in this._RFCFnc.RfcFunction.GetTable(this._Profle.ParIdx_TabMsg))
+						foreach (SMC.IRfcStructure ls_Msg in this._RFCFunc.RfcFunction.GetTable(this._Profile.ParIdx_TabMsg))
 							{
 								var lo_Msg = new DTO_MsgEntry
 									{
-										TCode	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										DynNm	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										DynNo	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										MsgTp	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										MsgLg	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										MsgID	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										MsgNr	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										MsgV1	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										MsgV2	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										MsgV3	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										MsgV4	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										Envir	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)	,
-										FldNm	= (string)ls_Msg.GetValue(this._Profle.TabMsg_TCode)
+										TCode	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										DynNm	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										DynNo	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										MsgTp	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										MsgLg	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										MsgID	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										MsgNr	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										MsgV1	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										MsgV2	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										MsgV3	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										MsgV4	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										Envir	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
+										FldNm	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)
 									};
 
 								this.MsgData.Add(lo_Msg);

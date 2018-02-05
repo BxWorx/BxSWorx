@@ -8,6 +8,8 @@ using SDM = SAP.Middleware.Connector.RfcDestinationManager;
 using BxS_SAPNCO.Destination;
 using BxS_SAPNCO.API.DL;
 using BxS_SAPNCO.API.Function;
+using BxS_SAPNCO.API.SAPFunctions;
+using BxS_SAPNCO.API.SAPFunctions.BDC;
 using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
@@ -141,9 +143,29 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Internal: RFC Function"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IRFCFunction CreateRfcFunction(string RfcFunctionName)
+				internal	IBDCCallTransaction	CreateBDCCallTransaction(DestinationRfc destination)
 					{
-						return	new	RFCFunction(RfcFunctionName);
+						IBDCProfile					lo_Profile	= null;
+						var									lo_SAPConst	= new SAPFncConstants();
+						//.............................................
+						destination.TryGetProfile(lo_SAPConst.BDCCallTransaction, out object lo_ProfileObj);
+						if (lo_ProfileObj == null)
+							{
+								lo_Profile	= new BDCFncProfile( destination, lo_SAPConst.BDCCallTransaction );
+								destination.RegisterProfile(lo_Profile);
+								destination.TryGetProfile(lo_SAPConst.BDCCallTransaction, out lo_ProfileObj);
+							}
+						lo_Profile	= (IBDCProfile)lo_ProfileObj;
+						if (lo_Profile == null)		return	null;
+						//.............................................
+						IRFCFunction	lo_RfcFnc		= new RFCFunction();
+
+						var	lo_CTUPrm		= new	DTO_CTUParams	();
+						var	lo_BDCDat		= new	DTO_BDCData		();
+						var	lo_SPADat		= new	DTO_SPAData		();
+						var	lo_MsgDat		= new	DTO_MsgData		();
+						//.............................................
+						return	new BDCCallTransaction( lo_RfcFnc	, lo_Profile, lo_CTUPrm, lo_BDCDat, lo_SPADat, lo_MsgDat );
 					}
 
 			#endregion

@@ -1,15 +1,12 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.Function
+namespace BxS_SAPNCO.API.SAPFunctions
 {
-	internal interface IRfcFncProfile
+	internal class SAPFncConstants
 		{
-			#region "Properties"
+			#region "Declarations: Function Names"
 
-				string	FunctionName	{	get; }
-				//.................................................
-				SMC.RfcDestination				RfcDestination	{ get; }
-				SMC.RfcFunctionMetadata		Metadata				{ get; }
+				internal string	BDCCallTransaction	{ get { return	"/ISDFPS/CALL_TRANSACTION"; } }
 
 			#endregion
 

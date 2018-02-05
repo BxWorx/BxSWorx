@@ -11,14 +11,14 @@ namespace zBxS_SAPNCO_UT
 {
 	[TestClass]
 
-	public class UT_BxS_SAPNCO_10Repos
+	public class UT_20_DestRepos
 	{
 		private const string	cz_A = "A";
 		//...................................................
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SAPNCO_Repos_Instantiate()
+			public void UT_DestRepos_Instantiate()
 				{
 					int	ln_Cnt	= 0;
 					//...............................................
@@ -31,7 +31,7 @@ namespace zBxS_SAPNCO_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SAPNCO_Repos_AddGetGUID()
+			public void UT_DestRepos_AddGetGUID()
 				{
 					int	ln_Cnt	= 0;
 					//...............................................
@@ -53,7 +53,7 @@ namespace zBxS_SAPNCO_UT
 
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
-			public void UT_SAPNCO_Repos_AddConfig()
+			public void UT_DestRepos_AddConfig()
 				{
 					int	ln_Cnt	= 0;
 					//...............................................

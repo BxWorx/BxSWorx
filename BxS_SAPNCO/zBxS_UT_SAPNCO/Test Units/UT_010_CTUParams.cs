@@ -7,7 +7,7 @@ namespace zBxS_SAPNCO_UT
 	[TestClass]
 	public class UT_10_CTUParams
 		{
-			private readonly BDCCTU_Parameters	co_CTUParms	= new	BDCCTU_Parameters();
+			private readonly CTU_Parameters	co_CTUParms	= new	CTU_Parameters();
 			//...................................................
 			private	int	cn_Cnt	= 0;
 
@@ -61,9 +61,9 @@ namespace zBxS_SAPNCO_UT
 				{
 					var	lo_CTU1	= new DTO_CTUParams()	;
 
-					BDCCTU_Parameters.ce_Validate le_Err	;
-					BDCCTU_Parameters.ce_Validate le_OK		;
-					BDCCTU_Parameters.ce_Validate le_All	;
+					CTU_Parameters.Ce_Validate le_Err	;
+					CTU_Parameters.Ce_Validate le_OK		;
+					CTU_Parameters.Ce_Validate le_All	;
 					//...............................................
 					this.cn_Cnt	= 3;
 
@@ -75,15 +75,15 @@ namespace zBxS_SAPNCO_UT
 					lo_CTU1.NoBatchInpFor	= '1'	;
 					lo_CTU1.NoBatchInpAft	= '1'	;
 
-					le_All	=		BDCCTU_Parameters.ce_Validate.BIA | BDCCTU_Parameters.ce_Validate.BIF | BDCCTU_Parameters.ce_Validate.Cat
-										| BDCCTU_Parameters.ce_Validate.Com | BDCCTU_Parameters.ce_Validate.Dsp | BDCCTU_Parameters.ce_Validate.Sze
-										| BDCCTU_Parameters.ce_Validate.Upd;
+					le_All	=		CTU_Parameters.Ce_Validate.BIA | CTU_Parameters.Ce_Validate.BIF | CTU_Parameters.Ce_Validate.Cat
+										| CTU_Parameters.Ce_Validate.Com | CTU_Parameters.Ce_Validate.Dsp | CTU_Parameters.Ce_Validate.Sze
+										| CTU_Parameters.Ce_Validate.Upd;
 
 					le_Err	=	this.co_CTUParms.IsValid(lo_CTU1, false);
 					le_OK		=	this.co_CTUParms.IsValid(lo_CTU1);
 
 					Assert.AreEqual( le_All															, le_Err	,	$"SAPNCO: CTUParams: Val {this.cn_Cnt}: Error"	);
-					Assert.AreEqual( BDCCTU_Parameters.ce_Validate.Non	, le_OK		,	$"SAPNCO: CTUParams: Val {this.cn_Cnt}: OK"			);
+					Assert.AreEqual( CTU_Parameters.Ce_Validate.Non	, le_OK		,	$"SAPNCO: CTUParams: Val {this.cn_Cnt}: OK"			);
 				}
 		}
 }

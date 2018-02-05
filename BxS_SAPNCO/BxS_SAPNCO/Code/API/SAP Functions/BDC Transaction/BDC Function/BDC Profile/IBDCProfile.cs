@@ -1,0 +1,83 @@
+﻿using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using	BxS_SAPNCO.API.Function;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
+{
+	internal interface IBDCProfile : IRfcFncProfile
+		{
+			#region "Properties:  General"
+
+				bool	Ready	{ get; set; }
+
+				SMC.IRfcFunction	RFCFunction		{	get; }
+				SMC.IRfcStructure	CTUStructure	{	get; }
+				SMC.IRfcTable			BDCTable			{	get; }
+				SMC.IRfcTable			SPATable			{	get; }
+
+			#endregion
+			//...................................................
+			#region "Properties:  Indicies"
+
+				#region "Function Parameters"
+
+					int ParIdx_TCode	{ get; set;	}
+					int ParIdx_Skip1	{ get; set;	}
+					int ParIdx_CTUOpt	{ get; set;	}
+					int ParIdx_TabBDC	{ get; set;	}
+					int	ParIdx_TabMsg	{ get; set;	}
+					int ParIdx_TabSPA	{ get; set;	}
+
+				#endregion
+				//.................................................
+				#region "CTUOptions"
+
+					int CTUOpt_DspMde	{ get; set;	}
+					int CTUOpt_UpdMde	{ get; set;	}
+					int CTUOpt_CATMde	{ get; set;	}
+					int CTUOpt_DefSze	{ get; set;	}
+					int CTUOpt_NoComm	{ get; set;	}
+					int CTUOpt_NoBtcI	{ get; set;	}
+					int CTUOpt_NoBtcE	{ get; set;	}
+
+				#endregion
+				//.................................................
+				#region "SPA Data"
+
+					int SPADat_MID	{ get; set;	}
+					int SPADat_Val	{ get; set;	}
+
+				#endregion
+				//.................................................
+				#region "BDC Data"
+
+					int BDCDat_Prg	{ get; set;	}
+					int BDCDat_Dyn	{ get; set;	}
+					int BDCDat_Bgn	{ get; set;	}
+					int BDCDat_Fld	{ get; set;	}
+					int BDCDat_Val	{ get; set;	}
+
+				#endregion
+				//.................................................
+				#region "Messages"
+
+					int TabMsg_TCode	{ get; set;	}
+					int TabMsg_DynNm	{ get; set;	}
+					int TabMsg_DynNo	{ get; set;	}
+					int TabMsg_MsgTp	{ get; set;	}
+					int TabMsg_Lang		{ get; set;	}
+					int TabMsg_MsgID	{ get; set;	}
+					int TabMsg_MsgNo	{ get; set;	}
+					int TabMsg_MsgV1	{ get; set;	}
+					int TabMsg_MsgV2	{ get; set;	}
+					int TabMsg_MsgV3	{ get; set;	}
+					int TabMsg_MsgV4	{ get; set;	}
+					int TabMsg_Envir	{ get; set;	}
+					int TabMsg_Fldnm	{ get; set;	}
+
+				#endregion
+
+			#endregion
+
+		}
+}

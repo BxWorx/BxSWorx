@@ -7,9 +7,8 @@ namespace BxS_SAPNCO.API.Function
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RFCFunction(	string	RfcFncName)
+				internal RFCFunction()
 					{
-						this.Name	= RfcFncName;
 					}
 
 			#endregion
@@ -17,9 +16,7 @@ namespace BxS_SAPNCO.API.Function
 			//===========================================================================================
 			#region "Properties"
 
-				public	string							Name						{ get;			}
-				public	SMC.IRfcFunction		RfcFunction			{ get; set; }
-				public	SMC.RfcDestination	RfcDestination	{ get; set; }
+				public	SMC.IRfcFunction	RfcFunction	{ get; set; }
 
 			#endregion
 
@@ -27,13 +24,13 @@ namespace BxS_SAPNCO.API.Function
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Invoke()
+				public bool Invoke(SMC.RfcDestination	rfcDestination)
 					{
 						bool	lb_Ret	= true;
 						//.............................................
 						try
 							{
-								this.RfcFunction.Invoke(this.RfcDestination);
+								this.RfcFunction.Invoke(rfcDestination);
 							}
 						catch (System.Exception)
 							{
@@ -43,10 +40,6 @@ namespace BxS_SAPNCO.API.Function
 						return	lb_Ret;
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 			#endregion
 
 		}

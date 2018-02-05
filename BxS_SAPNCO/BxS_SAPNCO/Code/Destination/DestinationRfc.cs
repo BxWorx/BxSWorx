@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security;
+using System.Collections.Concurrent;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -17,6 +18,8 @@ namespace BxS_SAPNCO.Destination
 				public DestinationRfc( SMC.RfcConfigParameters RfcConfig )
 					{
 						this.RfcConfig	= RfcConfig;
+						//.............................................
+						this._Profiles	= new	ConcurrentDictionary<string, object>();
 					}
 
 			#endregion
@@ -27,8 +30,6 @@ namespace BxS_SAPNCO.Destination
 				public Guid											SAPGUIID				{ get; set; }
 				public SMC.RfcDestination				RfcDestination	{ get; set; }
 				public SMC.RfcConfigParameters	RfcConfig				{ get;			}
-
-				//public SMC.RfcRepository				RfcRepository		{	get {	return	this.RfcDestination.Repository; }	}
 				//.................................................
 				public string Client			{ set { this.RfcConfig	[ SMC.RfcConfigParameters.Client					]	= value; } }
 				public string User				{ set { this.RfcConfig	[	SMC.RfcConfigParameters.User						]	= value; } }
@@ -42,45 +43,35 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
 
-				internal void LoadMetadata(IRfcFncProfile profile)
-					{
-						profile.Metadata	= this.
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: Configuration"
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig(SMC.RfcConfigParameters RFCConfigParams)
+				public void LoadConfig(SMC.RfcConfigParameters Config)
 					{
-						foreach (KeyValuePair<string, string> ls_kvp in RFCConfigParams)
+						foreach (KeyValuePair<string, string> ls_kvp in Config)
 							{
 								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
 							}
 						//.............................................
-						this.SecurePassword = RFCConfigParams.SecurePassword;
+						this.SecurePassword = Config.SecurePassword;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig(IDTOConfigSetupBase DTOConfig)
+				public void LoadConfig(IDTOConfigSetupBase Config)
 					{
-						foreach (KeyValuePair<string, string> ls_kvp in DTOConfig.Settings)
+						foreach (KeyValuePair<string, string> ls_kvp in Config.Settings)
 							{
 								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig(DTOConfigSetupDestination DTOConfig)
+				public void LoadConfig(DTOConfigSetupDestination Config)
 					{
-						foreach (KeyValuePair<string, string> ls_kvp in DTOConfig.Settings)
+						foreach (KeyValuePair<string, string> ls_kvp in Config.Settings)
 							{
 								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
 							}
 						//.............................................
-						this.SecurePassword = DTOConfig.SecurePassword;
+						this.SecurePassword = Config.SecurePassword;
 					}
 
 			#endregion
@@ -105,13 +96,20 @@ namespace BxS_SAPNCO.Destination
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Internal: Repository"
+			#region "Methods: Internal: Profiles"
+
+				private readonly ConcurrentDictionary<string, object>	_Profiles;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void CreateRFCFunction(IRFCFunction function)
+				internal void	TryGetProfile(string name, out Object profile)
 					{
-						function.RfcFunction		= this.RfcDestination.Repository.CreateFunction(function.Name);
-						function.RfcDestination	= this.RfcDestination;
+						this._Profiles.TryGetValue(name, out profile);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool RegisterProfile(IRfcFncProfile profile)
+					{
+						return	this._Profiles.TryAdd(profile.FunctionName, profile);
 					}
 
 			#endregion

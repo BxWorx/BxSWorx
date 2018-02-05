@@ -7,21 +7,15 @@ namespace BxS_SAPNCO.API.Function
 		{
 			#region "Properties"
 
-				string							Name						{ get; }
 				SMC.IRfcFunction		RfcFunction			{ get; set; }
-				SMC.RfcDestination	RfcDestination	{ get; set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				bool	Invoke();
+				bool	Invoke(SMC.RfcDestination	rfcDestination);
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 			#endregion
 
 		}
