@@ -18,7 +18,7 @@ namespace zBxS_SAPNCO_UT
 			//...................................................
 			public UT_100_BDCTran()
 				{
-					this.co_Dest		= new UT_Destination(1);
+					this.co_Dest		= new UT_Destination(2);
 					this.co_Cntlr		= new NCOController();
 				}
 
@@ -42,7 +42,7 @@ namespace zBxS_SAPNCO_UT
 					Assert.AreEqual( lo_BDCTran0.SAPTransaction	, "0"	,	$"SAPNCO:BDCTran:Indi {ln_Cnt}: 1st" );
 					Assert.AreEqual( lo_BDCTran1.SAPTransaction	, "1"	,	$"SAPNCO:BDCTran:Indi {ln_Cnt}: 2nd" );
 				}
-
+		//C:\ProgramData\SAP\SAPUILandscapeS2A.xml
 			//-------------------------------------------------------------------------------------------
 			[TestMethod]
 			public void UT_BDCTran_Invoke()
@@ -65,11 +65,14 @@ namespace zBxS_SAPNCO_UT
 
 					lo_CTU.TransferImage(lo_BDCTran0.CTUParm);
 
-					lo_BDCTran0.SAPTransaction	= "SM13";
+					lo_BDCTran0.SAPTransaction	= "XD02";
 
-					lo_BDCTran0.CreateBDCEntry("SAPMSM13",1000,true,"BDC_OKCODE", "=ENTER", true);
-					lo_BDCTran0.CreateBDCEntry("SAPMSSY0",0120,true,"BDC_OKCODE", "=&F03"	, true);
-					lo_BDCTran0.CreateBDCEntry("SAPMSM13",1000,true,"BDC_OKCODE", "=BACK"	, true);
+					lo_BDCTran0.CreateBDCEntry("SAPMF02D"	,	0101	,	true	,""						, ""				);
+					lo_BDCTran0.CreateBDCEntry(""					,	0			,	false	,"BDC_OKCODE"	, "/00"			);
+					lo_BDCTran0.CreateBDCEntry(""					,	0			,	false	,"RF02D-KUNNR", "1007084"	);
+					lo_BDCTran0.CreateBDCEntry("SAPMF02D"	,	0110	,	true	,""						, ""				);
+					lo_BDCTran0.CreateBDCEntry(""					,	0			,	false	,"BDC_OKCODE"	, "=UPDA"		);
+					lo_BDCTran0.CreateBDCEntry(""					,	0			,	false	,"KNA1-TELF2"	, "082"			);
 
 					lo_BDCTran0.Invoke();
 

@@ -100,6 +100,8 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public Guid GetAddIDFor(string ID, bool Add = false)
 					{
+						if (ID == null)	return	Guid.NewGuid();
+						//.............................................
 						if (!this._Map.TryGetValue(ID, out Guid lg_Guid))
 							{
 								lg_Guid	= Guid.NewGuid();

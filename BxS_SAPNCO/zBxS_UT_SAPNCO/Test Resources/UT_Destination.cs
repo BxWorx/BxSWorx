@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
@@ -28,7 +29,8 @@ namespace zBxS_SAPNCO_UT
 
 						SAPLogonINI.LoadRepository(this.co_DestRepo);
 
-						this.cc_ID				= SAPLogonINI.GetSAPGUIConfigEntries().FirstOrDefault(s => s.Contains("PWD"));
+						IList<string> lt	= SAPLogonINI.GetSAPGUIConfigEntries();
+						this.cc_ID				= lt.FirstOrDefault(s => s.Contains("PWD"));
 						this.cg						= this.co_DestRepo.GetAddIDFor	(	this.cc_ID	);
 						this.co_rfcConfig	=	this.co_DestRepo.GetParameters(	this.cg			);
 						this.RfcDest			= new DestinationRfc(this.co_rfcConfig);
