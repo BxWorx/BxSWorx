@@ -38,12 +38,12 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DTO_CTUOptions(	char	DisplayMode		=	BDCConstants.lz_CTU_N	,
-															char	UpdateMode		=	BDCConstants.lz_CTU_A	,
-															char	CATTMode			=	BDCConstants.lz_CTU_F	,
-															char	DefaultSize		=	BDCConstants.lz_CTU_F	,
-															char	NoCommit			=	BDCConstants.lz_CTU_F	,
-															char	NoBatchInpFor	=	BDCConstants.lz_CTU_F	,
-															char	NoBatchInpAft	=	BDCConstants.lz_CTU_F		)
+																char	UpdateMode		=	BDCConstants.lz_CTU_A	,
+																char	CATTMode			=	BDCConstants.lz_CTU_F	,
+																char	DefaultSize		=	BDCConstants.lz_CTU_F	,
+																char	NoCommit			=	BDCConstants.lz_CTU_F	,
+																char	NoBatchInpFor	=	BDCConstants.lz_CTU_F	,
+																char	NoBatchInpAft	=	BDCConstants.lz_CTU_F		)
 					{
 						this.DisplayMode		=	DisplayMode		;
 						this.UpdateMode			=	UpdateMode		;

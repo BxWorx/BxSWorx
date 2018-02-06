@@ -34,9 +34,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public	int	SPACount	{ get { return	this.SPAData.Count; } }
 				public	int	MSGCount	{ get { return	this.MSGData.Count; } }
 				//.................................................
-				public	string				SAPTCode		{ get;	set;	}
-				public	string				Skip1st			{ get;	set;	}
-
+				public	string					SAPTCode		{ get;	set;	}
+				public	string					Skip1st			{ get;	set;	}
 				public	DTO_CTUOptions	CTUOptions	{ get;	set;	}
 				//.................................................
 				public	IList<DTO_BDCEntry>	BDCData	{ get; }

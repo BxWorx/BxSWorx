@@ -14,9 +14,11 @@ namespace zBxS_SAPNCO_UT
 		{
 			#region "Declarations"
 
-				private readonly	UT_Destination	co_Dest;
-				private readonly	NCOController		co_Cntlr;
-				private readonly	IBDCProfile			co_Profile;
+				private readonly	UT_Destination					co_Dest;
+				private readonly	NCOController						co_Cntlr;
+				private readonly	IBDCProfile							co_Profile;
+				private readonly	BDC2RfcParser						co_Parser;
+				private readonly	BDCProfileConfigurator	co_PrfCnfg;
 
 			#endregion
 
@@ -26,6 +28,9 @@ namespace zBxS_SAPNCO_UT
 					this.co_Dest		= new UT_Destination(2);
 					this.co_Cntlr		= new NCOController();
 					this.co_Profile	= this.co_Cntlr.GetAddBDCTranProcessorProfile(this.co_Dest.RfcDest);
+					this.co_Parser	= this.co_Cntlr.CreateBDC2RfcParser(this.co_Profile);
+					this.co_PrfCnfg	= this.co_Cntlr.CreateProfileConfigurator();
+					this.co_PrfCnfg.Configure(this.co_Profile);
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -41,12 +46,6 @@ namespace zBxS_SAPNCO_UT
 
 					Assert.IsNotNull(	lo_BDCTran0	,	$"SAPNCO:BDCTran:Inst {ln_Cnt}: 1st" );
 					Assert.IsNotNull(	lo_BDCTran1	,	$"SAPNCO:BDCTran:Inst {ln_Cnt}: 2nd" );
-
-					//lo_BDCTran0.SAPTransaction	= "0";
-					//lo_BDCTran1.SAPTransaction	= "1";
-
-					//Assert.AreEqual( lo_BDCTran0.SAPTransaction	, "0"	,	$"SAPNCO:BDCTran:Indi {ln_Cnt}: 1st" );
-					//Assert.AreEqual( lo_BDCTran1.SAPTransaction	, "1"	,	$"SAPNCO:BDCTran:Indi {ln_Cnt}: 2nd" );
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -57,14 +56,19 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					IBDCCallTransaction	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Dest.RfcDest);
+					DTO_RFCData				lo_RfcData		= this.co_Cntlr.CreateRFCTranData(this.co_Profile);
+					IBDCTranData			lo_TranData		= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
+					IBDCTranProcessor	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Profile);
 
-					this.UpdateCTU				(lo_BDCTran0)	;
-					this.SetupTestBDCData	(lo_BDCTran0	, "1007084"	, "444" )	;
+					this.UpdateCTU						(lo_TranData.CTUOptions)	;
+					this.SetupTestBDCData			(lo_TranData	, "1007084"	, "666" )	;
+					this.co_Parser.ParseFrom	(lo_TranData	,	lo_RfcData);
 
-					lo_BDCTran0.Invoke();
+					lo_BDCTran0.Process(lo_RfcData);
 
-					Assert.AreNotEqual( 0	, lo_BDCTran0.MsgDataCount	, $"SAPNCO:BDCTran:Invoke {ln_Cnt}: Simple" );
+					this.co_Parser.ParseTo(lo_RfcData,lo_TranData);
+
+					Assert.AreNotEqual( 0	, lo_TranData.MSGCount	, $"SAPNCO:BDCTran:Invoke {ln_Cnt}: Simple" );
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -77,19 +81,25 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					lc_Tel	= lo_Rnd.Next(100,1000).ToString();
+												lc_Tel	= lo_Rnd.Next(100,1000).ToString();
+					IList<string>	lt_No		= this.LoadList();
 
-					IList<string>				lt_No				= this.LoadList();
-					IBDCCallTransaction	lo_BDCTran0	= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Dest.RfcDest);
+					DTO_RFCData				lo_RfcData		= this.co_Cntlr.CreateRFCTranData(this.co_Profile);
+					IBDCTranData			lo_TranData		= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
+					IBDCTranProcessor	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Profile);
 
-					this.UpdateCTU(lo_BDCTran0)	;
+					this.UpdateCTU(lo_TranData.CTUOptions)	;
 
 					for (int i = 0; i < lt_No.Count; i++)
 						{
-							lo_BDCTran0.Reset();
-							this.SetupTestBDCData	(lo_BDCTran0	, lt_No[i]	, lc_Tel )	;
-							lo_BDCTran0.Invoke();
-							Assert.AreNotEqual( 0	, lo_BDCTran0.MsgDataCount	, $"SAPNCO:BDCTran:Invoke {ln_Cnt}: Multi {i}" );
+							this.SetupTestBDCData			(lo_TranData	, lt_No[i]	, lc_Tel )	;
+							this.co_Parser.ParseFrom	(lo_TranData	,	lo_RfcData);
+
+							lo_BDCTran0.Process(lo_RfcData);
+
+							this.co_Parser.ParseTo(lo_RfcData,lo_TranData);
+
+							Assert.AreNotEqual( 0	, lo_TranData.MSGCount	, $"SAPNCO:BDCTran:Invoke {ln_Cnt}: Multi {i}" );
 						}
 				}
 
@@ -97,26 +107,46 @@ namespace zBxS_SAPNCO_UT
 			[TestMethod]
 			public void UT_BDCTran_Many()
 				{
-								int	ln_Cnt	=  0;
-								int ln_Tot	=  0;
-					const int ln_Max	= 10;
+					int ln_Cnt = 0;
+					int ln_Tot = 0;
+					const int ln_Max = 10;
+					string	lc_Tel	= "000";
+					var			lo_Rnd	= new Random();
 					//...............................................
-					ln_Cnt	++;
+					ln_Cnt++;
 
-					IList<string> lt_No = this.LoadList();
+												lc_Tel	= lo_Rnd.Next(100,1000).ToString();
+					IList<string> lt_No		= this.LoadList();
 
-					Parallel.Invoke(	() =>	{ if ( this.Task(lt_No[0]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[1]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[2]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[3]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[4]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[5]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[6]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[7]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[8]) )	Interlocked.Increment(ref ln_Tot);	}	,
-														() =>	{ if ( this.Task(lt_No[9]) )	Interlocked.Increment(ref ln_Tot);	}		);
+					Parallel.Invoke(	() => { if (this.Task(lt_No[0]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[1]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[2]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[3]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[4]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[5]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[6]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[7]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[8]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
+														() => { if (this.Task(lt_No[9]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); });
 
-					Assert.AreEqual( ln_Max, ln_Tot	, $"SAPNCO:BDCTran:Many {ln_Cnt}: <>=" );
+					Assert.AreEqual(ln_Max, ln_Tot, $"SAPNCO:BDCTran:Many {ln_Cnt}: <>=");
+			}
+
+			//-------------------------------------------------------------------------------------------
+			private bool Task(string CustNo, string TelNo)
+				{
+					DTO_RFCData				lo_RfcData		= this.co_Cntlr.CreateRFCTranData(this.co_Profile);
+					IBDCTranData			lo_TranData		= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
+					IBDCTranProcessor	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Profile);
+					this.UpdateCTU(lo_TranData.CTUOptions);
+
+					this.SetupTestBDCData			(lo_TranData	, CustNo	, TelNo )	;
+					this.co_Parser.ParseFrom	(lo_TranData	,	lo_RfcData);
+
+					lo_BDCTran0.Process(lo_RfcData);
+
+					this.co_Parser.ParseTo(lo_RfcData,lo_TranData);
+					return	lo_TranData.SuccesStatus;
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -136,31 +166,24 @@ namespace zBxS_SAPNCO_UT
 			}
 
 			//-------------------------------------------------------------------------------------------
-			private bool Task(string CustNo)
+			private void SetupTestBDCData( IBDCTranData BDCTran, string CustNo, string TelNo )
 				{
-					IBDCCallTransaction	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Dest.RfcDest);
-					this.UpdateCTU(lo_BDCTran0)	;
-					this.SetupTestBDCData	(lo_BDCTran0	, CustNo, "888" )	;
-					return	lo_BDCTran0.Invoke();
+					BDCTran.Reset();
+					//...............................................
+					BDCTran.SAPTCode	= "XD02";
+
+					BDCTran.AddBDCData("SAPMF02D"	,	0101	,	true	,""						, ""			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "/00"		);
+					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-KUNNR", CustNo	);
+					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-D0110", "X"			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"USE_ZAV"		, "X"			);
+					BDCTran.AddBDCData("SAPMF02D"	,	0111	,	true	,""						, ""			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "=UPDA"	);
+					BDCTran.AddBDCData(""					,	0			,	false	,"SZA1_D0100-FAX_NUMBER"	, TelNo	);
 				}
 
 			//-------------------------------------------------------------------------------------------
-			private void SetupTestBDCData( IBDCCallTransaction BDCTran, string CustNo, string TelNo )
-				{
-					BDCTran.SAPTransaction	= "XD02";
-
-					BDCTran.CreateBDCEntry("SAPMF02D"	,	0101	,	true	,""						, ""			);
-					BDCTran.CreateBDCEntry(""					,	0			,	false	,"BDC_OKCODE"	, "/00"		);
-					BDCTran.CreateBDCEntry(""					,	0			,	false	,"RF02D-KUNNR", CustNo	);
-					BDCTran.CreateBDCEntry(""					,	0			,	false	,"RF02D-D0110", "X"			);
-					BDCTran.CreateBDCEntry(""					,	0			,	false	,"USE_ZAV"		, "X"			);
-					BDCTran.CreateBDCEntry("SAPMF02D"	,	0111	,	true	,""						, ""			);
-					BDCTran.CreateBDCEntry(""					,	0			,	false	,"BDC_OKCODE"	, "=UPDA"	);
-					BDCTran.CreateBDCEntry(""					,	0			,	false	,"SZA1_D0100-FAX_NUMBER"	, TelNo	);
-				}
-
-			//-------------------------------------------------------------------------------------------
-			private void UpdateCTU( IBDCCallTransaction BDCTran )
+			private void UpdateCTU( DTO_CTUOptions CTUOptions )
 				{
 					var lo_CTU	= new CTU_Parameters();
 
@@ -172,10 +195,8 @@ namespace zBxS_SAPNCO_UT
 					lo_CTU.NoBatchInpFor	= lo_CTU.Setas_No						;
 					lo_CTU.NoBatchInpAft	= lo_CTU.Setas_No 					;
 
-					BDCTran.CTUParm	=	lo_CTU.GetImage();
-
-					// or
-					//lo_CTU.TransferImage(DTO);
+					//CTUOptions	=	lo_CTU.GetImage();
+					lo_CTU.TransferImage(CTUOptions);
 				}
 
 				// Sony GUI Path
@@ -189,5 +210,17 @@ namespace zBxS_SAPNCO_UT
 //2815127
 //2815563
 //2815938
+
+//1007084
+//1800476
+//1802054
+//1802201
+//1810161
+//1810184
+//2012050
+//2035959
+//2800242
+//1800238
+
 			}
 }

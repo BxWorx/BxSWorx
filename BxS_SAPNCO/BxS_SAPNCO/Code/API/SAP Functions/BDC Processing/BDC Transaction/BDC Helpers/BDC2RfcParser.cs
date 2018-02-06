@@ -42,6 +42,9 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void ParseTo(DTO_RFCData RFCTranData, IBDCTranData BDCTranData)
 					{
+						BDCTranData.ProcessedStatus	= RFCTranData.ProcessedStatus	;
+						BDCTranData.SuccesStatus		= RFCTranData.SuccesStatus		;
+						//.................................................
 						this.GetMessages(	RFCTranData.MSGData	,	BDCTranData	);
 					}
 
