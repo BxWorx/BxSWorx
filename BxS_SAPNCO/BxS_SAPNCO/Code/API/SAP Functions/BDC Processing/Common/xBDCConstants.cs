@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions
+﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
 	internal static class BDCConstants
 		{
@@ -21,5 +20,6 @@ namespace BxS_SAPNCO.API.SAPFunctions
 				internal const char	lz_CTU_T	= 'X'	;
 
 			#endregion
+
 		}
 }

@@ -6,7 +6,7 @@ namespace BxS_SAPNCO.API.DL
 		{
 			#region "Properties"
 
-				Dictionary<string,string> Settings				{ get;				}
+				Dictionary<	string,	string>		Settings	{ get;				}
 
 			#endregion
 

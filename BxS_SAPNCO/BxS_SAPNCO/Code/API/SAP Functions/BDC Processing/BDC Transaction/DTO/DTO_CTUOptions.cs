@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class DTO_CTUParams
+	public class DTO_CTUOptions
 		{
 			#region "Documentation"
 
@@ -37,15 +37,21 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_CTUParams()
+				public DTO_CTUOptions(	char	DisplayMode		=	BDCConstants.lz_CTU_N	,
+															char	UpdateMode		=	BDCConstants.lz_CTU_A	,
+															char	CATTMode			=	BDCConstants.lz_CTU_F	,
+															char	DefaultSize		=	BDCConstants.lz_CTU_F	,
+															char	NoCommit			=	BDCConstants.lz_CTU_F	,
+															char	NoBatchInpFor	=	BDCConstants.lz_CTU_F	,
+															char	NoBatchInpAft	=	BDCConstants.lz_CTU_F		)
 					{
-						this.DisplayMode		=	BDCConstants.lz_CTU_N	;
-						this.UpdateMode			=	BDCConstants.lz_CTU_A	;
-						this.CATTMode				=	BDCConstants.lz_CTU_F	;
-						this.DefaultSize		=	BDCConstants.lz_CTU_F	;
-						this.NoCommit				=	BDCConstants.lz_CTU_F	;
-						this.NoBatchInpFor	=	BDCConstants.lz_CTU_F	;
-						this.NoBatchInpAft	=	BDCConstants.lz_CTU_F	;
+						this.DisplayMode		=	DisplayMode		;
+						this.UpdateMode			=	UpdateMode		;
+						this.CATTMode				=	CATTMode			;
+						this.DefaultSize		=	DefaultSize		;
+						this.NoCommit				=	NoCommit			;
+						this.NoBatchInpFor	=	NoBatchInpFor	;
+						this.NoBatchInpAft	=	NoBatchInpAft	;
 					}
 
 			#endregion

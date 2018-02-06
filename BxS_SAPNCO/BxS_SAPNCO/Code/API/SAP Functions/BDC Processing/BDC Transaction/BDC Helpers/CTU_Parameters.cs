@@ -107,7 +107,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Ce_Validate IsValid(DTO_CTUParams DTO, bool autoCorrect = true)
+				public Ce_Validate IsValid(DTO_CTUOptions DTO, bool autoCorrect = true)
 					{
 						if (autoCorrect)
 							{
@@ -135,9 +135,9 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_CTUParams GetImage()
+				public DTO_CTUOptions GetImage()
 					{
-						return	new DTO_CTUParams	{	DisplayMode		= this._DspMde,
+						return	new DTO_CTUOptions	{	DisplayMode		= this._DspMde,
 																				UpdateMode		= this._UpdMde,
 																				CATTMode			= this._CatMde,
 																				DefaultSize		= this._DefSze,
@@ -147,7 +147,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void TransferImage(DTO_CTUParams DTO)
+				public void TransferImage(DTO_CTUOptions DTO)
 					{
 						DTO.DisplayMode		=	this._DspMde;
 						DTO.UpdateMode		=	this._UpdMde;

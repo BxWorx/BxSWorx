@@ -16,7 +16,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						profile.ParIdx_Skip1	= profile.Metadata.TryNameToIndex( "IF_SKIP_FIRST_SCREEN"	);
 						profile.ParIdx_TabBDC	= profile.Metadata.TryNameToIndex( "IT_BDCDATA"						);
 						profile.ParIdx_CTUOpt	= profile.Metadata.TryNameToIndex( "IS_OPTIONS"						);
-						profile.ParIdx_TabMsg	= profile.Metadata.TryNameToIndex( "ET_MSG"								);
+						profile.ParIdx_TabMSG	= profile.Metadata.TryNameToIndex( "ET_MSG"								);
 						profile.ParIdx_TabSPA	= profile.Metadata.TryNameToIndex( "CT_SETGET_PARAMETER"	);
 						//.............................................
 						ls_StruMetadata = profile.Metadata[profile.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata;
@@ -57,7 +57,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 								profile.BDCDat_Val	= ls_StruMetadata.TryNameToIndex( "FVAL"			);
 							}
 						//.............................................
-						ls_StruMetadata = profile.Metadata[profile.ParIdx_TabMsg].ValueMetadataAsTableMetadata.LineType;
+						ls_StruMetadata = profile.Metadata[profile.ParIdx_TabMSG].ValueMetadataAsTableMetadata.LineType;
 
 						if (ls_StruMetadata == null)
 							{	lb_Ret	= false; }

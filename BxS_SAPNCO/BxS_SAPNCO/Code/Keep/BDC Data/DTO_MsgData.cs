@@ -1,37 +1,46 @@
 ﻿using System.Collections.Generic;
-//.........................................................
-using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.DL
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	internal class DTOConfigSetupGlobal : IDTOConfigSetupGlobal
+	public class DTO_MsgData
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTOConfigSetupGlobal()
+				public DTO_MsgData()
 					{
-						this.Settings		= new Dictionary<string, string>();
+						this._Data	= new List<DTO_MSGEntry>();
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Declarations"
 
-				public	Dictionary<string, string> Settings { get; }
-
-				public	string	SNCLibPath	{ set { this.Settings[SMC.RfcConfigParameters.SncLibraryPath]		= value; } }
+				private IList<DTO_MSGEntry>		_Data	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
+				public	int	Count		{ get { return	this._Data.Count; } }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Reset()
+				public void	Add(DTO_MSGEntry entry)
 					{
-						this.Settings.Clear();
+						this._Data.Add(entry);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	Reset()
+					{
+						this._Data.Clear();
 					}
 
 			#endregion

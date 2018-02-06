@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
 	internal class SAPFncConstants
 		{

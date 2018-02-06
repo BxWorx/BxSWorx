@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class DTO_MsgData
+	public class BDCSession
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_MsgData()
+				public BDCSession()
 					{
-						this._Data	= new List<DTO_MsgEntry>();
+						this._Sessions	= new	ConcurrentDictionary<	Guid, DTO_BDCData >();
 					}
 
 			#endregion
@@ -17,14 +18,16 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private IList<DTO_MsgEntry>		_Data	{ get; }
+				private readonly ConcurrentDictionary<	Guid, DTO_BDCData >	_Sessions;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	int	Count		{ get { return	this._Data.Count; } }
+				public	int	Count	{ get { return	this._Sessions.Count; } }
+				//.................................................
+				public	ConcurrentDictionary<	int, DTO_BDCData >	Sessions	{ get {	return	this._Sessions; }	}
 
 			#endregion
 
@@ -32,15 +35,15 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Add(DTO_MsgEntry entry)
+				public void	Add(Guid ID,  DTO_BDCData BDCTransaction)
 					{
-						this._Data.Add(entry);
+						this._Sessions.TryAdd(BDCTransaction);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Reset()
 					{
-						this._Data.Clear();
+						this.Data.Clear();
 					}
 
 			#endregion

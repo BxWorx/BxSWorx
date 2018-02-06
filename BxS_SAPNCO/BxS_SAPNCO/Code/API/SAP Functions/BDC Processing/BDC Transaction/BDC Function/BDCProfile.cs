@@ -23,10 +23,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 
 				public	bool	Ready { get; set;	}
 
-				public	SMC.IRfcFunction		RFCFunction		{	get	{ return	this.Metadata.CreateFunction()																												; } }
-				public	SMC.IRfcStructure		CTUStructure	{	get	{ return	this.Metadata[this.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
-				public	SMC.IRfcTable				BDCTable			{	get	{ return	this.Metadata[this.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
-				public	SMC.IRfcTable				SPATable			{	get	{ return	this.Metadata[this.ParIdx_TabSPA].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				public	SMC.IRfcFunction		RFCFnc	{	get	{ return	this.Metadata.CreateFunction()																												; } }
+				public	SMC.IRfcStructure		CTUStr	{	get	{ return	this.Metadata[this.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
+				public	SMC.IRfcTable				BDCTbl	{	get	{ return	this.Metadata[this.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				public	SMC.IRfcTable				SPATbl	{	get	{ return	this.Metadata[this.ParIdx_TabSPA].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				public	SMC.IRfcTable				MSGTbl	{	get	{ return	this.Metadata[this.ParIdx_TabMSG].ValueMetadataAsTableMetadata.CreateTable()					; } }
 
 			#endregion
 
@@ -39,7 +40,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					public	int ParIdx_Skip1	{ get; set;	}
 					public	int ParIdx_CTUOpt	{ get; set;	}
 					public	int ParIdx_TabBDC	{ get; set;	}
-					public	int	ParIdx_TabMsg	{ get; set;	}
+					public	int	ParIdx_TabMSG	{ get; set;	}
 					public	int ParIdx_TabSPA	{ get; set;	}
 
 				#endregion

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
@@ -15,6 +16,7 @@ namespace zBxS_SAPNCO_UT
 
 				private readonly	UT_Destination	co_Dest;
 				private readonly	NCOController		co_Cntlr;
+				private readonly	IBDCProfile			co_Profile;
 
 			#endregion
 
@@ -23,6 +25,7 @@ namespace zBxS_SAPNCO_UT
 				{
 					this.co_Dest		= new UT_Destination(2);
 					this.co_Cntlr		= new NCOController();
+					this.co_Profile	= this.co_Cntlr.GetAddBDCTranProcessorProfile(this.co_Dest.RfcDest);
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -33,17 +36,17 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					IBDCCallTransaction	lo_BDCTran0		= this.co_Cntlr.CreateBDCCallTransaction(this.co_Dest.RfcDest);
-					IBDCCallTransaction	lo_BDCTran1		= this.co_Cntlr.CreateBDCCallTransaction(this.co_Dest.RfcDest);
+					IBDCTranProcessor	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Profile);
+					IBDCTranProcessor	lo_BDCTran1		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Profile);
 
 					Assert.IsNotNull(	lo_BDCTran0	,	$"SAPNCO:BDCTran:Inst {ln_Cnt}: 1st" );
 					Assert.IsNotNull(	lo_BDCTran1	,	$"SAPNCO:BDCTran:Inst {ln_Cnt}: 2nd" );
 
-					lo_BDCTran0.SAPTransaction	= "0";
-					lo_BDCTran1.SAPTransaction	= "1";
+					//lo_BDCTran0.SAPTransaction	= "0";
+					//lo_BDCTran1.SAPTransaction	= "1";
 
-					Assert.AreEqual( lo_BDCTran0.SAPTransaction	, "0"	,	$"SAPNCO:BDCTran:Indi {ln_Cnt}: 1st" );
-					Assert.AreEqual( lo_BDCTran1.SAPTransaction	, "1"	,	$"SAPNCO:BDCTran:Indi {ln_Cnt}: 2nd" );
+					//Assert.AreEqual( lo_BDCTran0.SAPTransaction	, "0"	,	$"SAPNCO:BDCTran:Indi {ln_Cnt}: 1st" );
+					//Assert.AreEqual( lo_BDCTran1.SAPTransaction	, "1"	,	$"SAPNCO:BDCTran:Indi {ln_Cnt}: 2nd" );
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -54,7 +57,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					IBDCCallTransaction	lo_BDCTran0		= this.co_Cntlr.CreateBDCCallTransaction(this.co_Dest.RfcDest);
+					IBDCCallTransaction	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Dest.RfcDest);
 
 					this.UpdateCTU				(lo_BDCTran0)	;
 					this.SetupTestBDCData	(lo_BDCTran0	, "1007084"	, "444" )	;
@@ -70,14 +73,14 @@ namespace zBxS_SAPNCO_UT
 				{
 					int			ln_Cnt	= 0;
 					string	lc_Tel	= "000";
-					Random	lo_Rnd	= new Random();
+					var			lo_Rnd	= new Random();
 					//...............................................
 					ln_Cnt	++;
 
 					lc_Tel	= lo_Rnd.Next(100,1000).ToString();
 
 					IList<string>				lt_No				= this.LoadList();
-					IBDCCallTransaction	lo_BDCTran0	= this.co_Cntlr.CreateBDCCallTransaction(this.co_Dest.RfcDest);
+					IBDCCallTransaction	lo_BDCTran0	= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Dest.RfcDest);
 
 					this.UpdateCTU(lo_BDCTran0)	;
 
@@ -94,32 +97,32 @@ namespace zBxS_SAPNCO_UT
 			[TestMethod]
 			public void UT_BDCTran_Many()
 				{
-					int	ln_Cnt	=  0;
-					int ln_Max	= 10;
+								int	ln_Cnt	=  0;
+								int ln_Tot	=  0;
+					const int ln_Max	= 10;
 					//...............................................
 					ln_Cnt	++;
 
-					IList<bool>		lt_TF = new List<bool>	(ln_Max);
 					IList<string> lt_No = this.LoadList();
 
-					Parallel.Invoke(	() =>	lt_TF.Add( this.Task(lt_No[0])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[1])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[2])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[3])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[4])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[5])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[6])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[7])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[8])	)	,
-														() =>	lt_TF.Add( this.Task(lt_No[9])	)		);
+					Parallel.Invoke(	() =>	{ if ( this.Task(lt_No[0]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[1]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[2]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[3]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[4]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[5]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[6]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[7]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[8]) )	Interlocked.Increment(ref ln_Tot);	}	,
+														() =>	{ if ( this.Task(lt_No[9]) )	Interlocked.Increment(ref ln_Tot);	}		);
 
-					//Assert.AreEqual( ln_Max, lt_No.Count	, $"SAPNCO:BDCTran:Many {ln_Cnt}: <>=" );
+					Assert.AreEqual( ln_Max, ln_Tot	, $"SAPNCO:BDCTran:Many {ln_Cnt}: <>=" );
 				}
 
 			//-------------------------------------------------------------------------------------------
 			private IList<string> LoadList()
 			{
-					int ln_Max	= 10;
+					const int ln_Max	= 10;
 					return	 new List<string>(ln_Max)	{	"1007084"	,
 																							"1800476"	,
 																							"1802054"	,
@@ -135,7 +138,7 @@ namespace zBxS_SAPNCO_UT
 			//-------------------------------------------------------------------------------------------
 			private bool Task(string CustNo)
 				{
-					IBDCCallTransaction	lo_BDCTran0		= this.co_Cntlr.CreateBDCCallTransaction(this.co_Dest.RfcDest);
+					IBDCCallTransaction	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Dest.RfcDest);
 					this.UpdateCTU(lo_BDCTran0)	;
 					this.SetupTestBDCData	(lo_BDCTran0	, CustNo, "888" )	;
 					return	lo_BDCTran0.Invoke();
@@ -174,6 +177,7 @@ namespace zBxS_SAPNCO_UT
 					// or
 					//lo_CTU.TransferImage(DTO);
 				}
+
 				// Sony GUI Path
 				//C:\ProgramData\SAP\SAPUILandscapeS2A.xml
 

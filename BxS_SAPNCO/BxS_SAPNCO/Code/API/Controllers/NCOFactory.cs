@@ -14,9 +14,5 @@ namespace BxS_SAPNCO.API
 
 			#endregion
 
-			//===========================================================================================
-			#region "Methods: Private"
-			#endregion
-
 		}
 }

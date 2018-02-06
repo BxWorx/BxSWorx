@@ -35,7 +35,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				string	SAPTransaction	{ get;	set; }
 				bool		SkipFirstScreen	{ get;	set; }
 				//.................................................
-				DTO_CTUParams	CTUParm	{ get; set;	}
+				DTO_CTUOptions	CTUParm	{ get; set;	}
 				DTO_BDCData		BDCData	{ get; }
 				DTO_MsgData		MsgData {	get; }
 

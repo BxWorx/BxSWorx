@@ -140,32 +140,51 @@ namespace BxS_SAPNCO.API
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Internal: RFC Function"
+			#region "Methods: Internal: BDC Processing"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	IBDCCallTransaction	CreateBDCCallTransaction(DestinationRfc destination)
+				internal IBDCTranData	CreateBDCTranData(Guid ID)
 					{
-						IBDCProfile					lo_Profile	= null;
-						var									lo_SAPConst	= new SAPFncConstants();
+						return	new BDCTranData(ID);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IBDCProfile	GetAddBDCTranProcessorProfile(DestinationRfc destination)
+					{
+						IBDCProfile	lo_Profile	= null;
+						var					lo_SAPConst	= new SAPFncConstants();
 						//.............................................
 						destination.TryGetProfile(lo_SAPConst.BDCCallTransaction, out object lo_ProfileObj);
+
 						if (lo_ProfileObj == null)
 							{
 								lo_Profile	= new BDCFncProfile( destination, lo_SAPConst.BDCCallTransaction );
 								destination.RegisterProfile(lo_Profile);
 								destination.TryGetProfile(lo_SAPConst.BDCCallTransaction, out lo_ProfileObj);
 							}
-						lo_Profile	= (IBDCProfile)lo_ProfileObj;
-						if (lo_Profile == null)		return	null;
 						//.............................................
-						IRFCFunction	lo_RfcFnc		= new RFCFunction();
+						return	lo_Profile;
+					}
 
-						var	lo_CTUPrm		= new	DTO_CTUParams	();
-						var	lo_BDCDat		= new	DTO_BDCData		();
-						var	lo_SPADat		= new	DTO_SPAData		();
-						var	lo_MsgDat		= new	DTO_MsgData		();
-						//.............................................
-						return	new BDCCallTransaction( lo_RfcFnc	, lo_Profile, lo_CTUPrm, lo_BDCDat, lo_SPADat, lo_MsgDat );
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_RFCData	CreateRFCTranData(	IBDCProfile	profile	,	Guid ID	= default(Guid)	)
+					{
+						return	new DTO_RFCData(ID)	{	CTUOpts	= profile.CTUStr	,
+																					BDCData = profile.BDCTbl	,
+																					SPAData = profile.SPATbl	,
+																					MSGData = profile.MSGTbl		};
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal BDC2RfcParser	CreateBDC2RfcParser(IBDCProfile	profile)
+					{
+						return	new BDC2RfcParser(profile);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IBDCTranProcessor	CreateBDCTransactionProcessor(IBDCProfile profile)
+					{
+						return	new BDCTranProcessor( new RFCFunction()	, profile);
 					}
 
 			#endregion

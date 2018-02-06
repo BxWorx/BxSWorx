@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.DL
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	internal class DTOConfigSetupGlobal : IDTOConfigSetupGlobal
+	public class DTO_RFCData
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTOConfigSetupGlobal()
+				public DTO_RFCData(Guid ID	= default(Guid))
 					{
-						this.Settings		= new Dictionary<string, string>();
+						this.ID		= ID.Equals(Guid.Empty)	?	Guid.NewGuid()	:	ID;
+						//.............................................
+						this.ProcessedStatus	= false;
+						this.SuccesStatus			= false;
 					}
 
 			#endregion
@@ -19,19 +22,30 @@ namespace BxS_SAPNCO.API.DL
 			//===========================================================================================
 			#region "Properties"
 
-				public	Dictionary<string, string> Settings { get; }
-
-				public	string	SNCLibPath	{ set { this.Settings[SMC.RfcConfigParameters.SncLibraryPath]		= value; } }
+				public	Guid	ID	{ get; set; }
+				//.................................................
+				public	bool	ProcessedStatus	{ get; set;	}
+				public	bool	SuccesStatus		{ get; set;	}
+				//.................................................
+				public	string	SAPTCode	{ get;	set; }
+				public	string	Skip1st		{ get;	set; }
+				//.................................................
+				public	SMC.IRfcStructure	CTUOpts	{ get;	set; }
+				public	SMC.IRfcTable			BDCData	{ get;	set; }
+				public	SMC.IRfcTable			SPAData	{ get;	set; }
+				public	SMC.IRfcTable			MSGData	{ get;	set; }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
-						this.Settings.Clear();
+						this.BDCData.Clear();
+						this.SPAData.Clear();
+						this.MSGData.Clear();
 					}
 
 			#endregion

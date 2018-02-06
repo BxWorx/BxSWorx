@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class DTO_MsgEntry
+	public class DTO_MSGEntry
 		{
 			#region "Documentation"
 
@@ -27,8 +27,33 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_MsgEntry()
+				public DTO_MSGEntry(	string	TCode	,
+															string	DynNm	,
+															string	DynNo	,
+															string	MsgTp	,
+															string	MsgLg	,
+															string	MsgID	,
+															string	MsgNr	,
+															string	MsgV1	,
+															string	MsgV2	,
+															string	MsgV3	,
+															string	MsgV4	,
+															string	Envir	,
+															string	FldNm		)
 					{
+						this.TCode	= TCode	;
+						this.DynNm	= DynNm	;
+						this.DynNo	= DynNo	;
+						this.MsgTp	= MsgTp	;
+						this.MsgLg	= MsgLg	;
+						this.MsgID	= MsgID	;
+						this.MsgNr	= MsgNr	;
+						this.MsgV1	= MsgV1	;
+						this.MsgV2	= MsgV2	;
+						this.MsgV3	= MsgV3	;
+						this.MsgV4	= MsgV4	;
+						this.Envir	= Envir	;
+						this.FldNm	=	FldNm	;
 					}
 
 			#endregion

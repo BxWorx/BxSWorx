@@ -1,8 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-//using SMC	= SAP.Middleware.Connector;
-//using SDM = SAP.Middleware.Connector.RfcDestinationManager;
-//.........................................................
 using BxS_SAPNCO.Destination;
 using BxS_SAPNCO.API.Function;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

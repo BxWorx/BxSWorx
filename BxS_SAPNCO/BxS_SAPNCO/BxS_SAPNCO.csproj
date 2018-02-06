@@ -9,18 +9,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\BDCSession.cs" />
+    <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\IBDCSession.cs" />
     <Compile Remove="Code\Destination\DestinationController.cs" />
     <Compile Remove="Code\Destination\DestinationPool.cs" />
+    <Compile Remove="Code\Keep\BDC Data\DTO_BDCData.cs" />
+    <Compile Remove="Code\Keep\BDC Data\DTO_MsgData.cs" />
+    <Compile Remove="Code\Keep\BDC Data\DTO_SPAData.cs" />
+    <Compile Remove="Code\Keep\BDCCallTransaction.cs" />
+    <Compile Remove="Code\Keep\IBDCCallTransaction.cs" />
+    <Compile Remove="Code\Keep\Temp\BDCTranProcessor.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Code\API\SAP Functions\BDC Transaction\BDC Helpers\xBDCDocumentation.txt" />
+    <None Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\BDC Helpers\xBDCDocumentation.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="sapnco">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\API\SAP Functions\BDC Processing\Session\" />
+    <Folder Include="Code\Keep\BDC Data\" />
+    <Folder Include="Code\Keep\BDC Profile\" />
+    <Folder Include="Code\Keep\Temp\" />
   </ItemGroup>
 
 </Project>

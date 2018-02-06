@@ -11,7 +11,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCallTransaction(	IRFCFunction		RfcFunction		,
 																			IBDCProfile			RfcFncProfile	,
-																			DTO_CTUParams		dto_CTUParm		,
+																			DTO_CTUOptions		dto_CTUParm		,
 																			DTO_BDCData			dto_BDCData		,
 																			DTO_SPAData			dto_SPAData		,
 																			DTO_MsgData			dto_MsgData			)
@@ -45,7 +45,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public	string	SAPTransaction	{ get;	set; }
 				public	bool		SkipFirstScreen	{ get;	set; }
 
-				public	DTO_CTUParams		CTUParm	{ get;	set; }
+				public	DTO_CTUOptions		CTUParm	{ get;	set; }
 				public	DTO_BDCData			BDCData	{ get; }
 				public	DTO_SPAData			SPAData	{ get; }
 				public	DTO_MsgData			MsgData	{ get; }
@@ -143,11 +143,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 								lo_BDCProfiler.Configure( this._Profile );
 							}
 						//.............................................
-						this._RFCFunc.RfcFunction		= this._Profile.RFCFunction;
+						this._RFCFunc.RfcFunction		= this._Profile.RFCFnc;
 
-						this._CTUOpt	= this._Profile.CTUStructure;
-						this._BDCDat	= this._Profile.BDCTable;
-						this._SPADat	= this._Profile.SPATable;
+						this._CTUOpt	= this._Profile.CTUStr;
+						this._BDCDat	= this._Profile.BDCTbl;
+						this._SPADat	= this._Profile.SPATbl;
 						//.............................................
 						this.PutCTUOptions();
 						this.PutBDCData();
@@ -215,7 +215,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					{
 						foreach (SMC.IRfcStructure ls_Msg in this._RFCFunc.RfcFunction.GetTable(this._Profile.ParIdx_TabMsg))
 							{
-								var lo_Msg = new DTO_MsgEntry
+								var lo_Msg = new DTO_MSGEntry
 									{
 										TCode	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
 										DynNm	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_DynNm)	,

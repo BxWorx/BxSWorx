@@ -1,5 +1,4 @@
-﻿//.........................................................
-using SMC	= SAP.Middleware.Connector;
+﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.Function
 {

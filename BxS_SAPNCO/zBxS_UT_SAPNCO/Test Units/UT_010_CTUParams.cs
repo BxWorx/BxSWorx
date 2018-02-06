@@ -15,7 +15,7 @@ namespace zBxS_SAPNCO_UT
 			[TestMethod]
 			public void UT_CTU_DTO()
 				{
-					var lo_CTU0	= new DTO_CTUParams();
+					var lo_CTU0	= new DTO_CTUOptions();
 					//...............................................
 					this.cn_Cnt	= 1;
 
@@ -32,7 +32,7 @@ namespace zBxS_SAPNCO_UT
 			[TestMethod]
 			public void UT_CTU_Image()
 				{
-					var	lo_CTU1	= new DTO_CTUParams();
+					var	lo_CTU1	= new DTO_CTUOptions();
 					//...............................................
 					this.cn_Cnt	= 2;
 
@@ -59,7 +59,7 @@ namespace zBxS_SAPNCO_UT
 			[TestMethod]
 			public void UT_CTU_IsValid()
 				{
-					var	lo_CTU1	= new DTO_CTUParams()	;
+					var	lo_CTU1	= new DTO_CTUOptions()	;
 
 					CTU_Parameters.Ce_Validate le_Err	;
 					CTU_Parameters.Ce_Validate le_OK		;

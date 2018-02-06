@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
@@ -7,8 +8,9 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDCData()
+				public DTO_BDCData(Guid ID	= default(Guid))
 					{
+						this.ID		= ID.Equals(Guid.Empty)		?	Guid.NewGuid()	:	ID;
 						this.Data	= new List<DTO_BDCEntry>();
 					}
 
@@ -17,7 +19,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	int	Count	{ get { return	this.Data.Count; } }
+				public	Guid	ID		{ get; }
+				public	int		Count	{ get { return	this.Data.Count; } }
 				//.................................................
 				public	IList<DTO_BDCEntry>	Data	{ get; }
 

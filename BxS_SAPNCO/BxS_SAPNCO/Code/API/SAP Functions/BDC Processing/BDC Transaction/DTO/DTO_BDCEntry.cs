@@ -37,25 +37,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	ProgramName	{ get; private set; }
-				public	string	Dynpro			{ get; private set; }
-				public	string	Begin				{ get; private set; }
-				public	string	FieldName		{ get; private set; }
-				public	string	FieldValue	{ get; private set; }
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				public void Reset()
-					{
-						this.ProgramName	= string.Empty;
-						this.Dynpro				= string.Empty;
-						this.Begin				= string.Empty;
-						this.FieldName		= string.Empty;
-						this.FieldValue		= string.Empty;
-					}
+				public	string	ProgramName	{ get; }
+				public	string	Dynpro			{ get; }
+				public	string	Begin				{ get; }
+				public	string	FieldName		{ get; }
+				public	string	FieldValue	{ get; }
 
 			#endregion
 

@@ -10,10 +10,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 
 				bool	Ready	{ get; set; }
 
-				SMC.IRfcFunction	RFCFunction		{	get; }
-				SMC.IRfcStructure	CTUStructure	{	get; }
-				SMC.IRfcTable			BDCTable			{	get; }
-				SMC.IRfcTable			SPATable			{	get; }
+				SMC.IRfcFunction	RFCFnc	{	get; }
+				SMC.IRfcStructure	CTUStr	{	get; }
+				SMC.IRfcTable			BDCTbl	{	get; }
+				SMC.IRfcTable			SPATbl	{	get; }
+				SMC.IRfcTable			MSGTbl	{	get; }
 
 			#endregion
 			//...................................................
@@ -25,8 +26,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					int ParIdx_Skip1	{ get; set;	}
 					int ParIdx_CTUOpt	{ get; set;	}
 					int ParIdx_TabBDC	{ get; set;	}
-					int	ParIdx_TabMsg	{ get; set;	}
 					int ParIdx_TabSPA	{ get; set;	}
+					int	ParIdx_TabMSG	{ get; set;	}
 
 				#endregion
 				//.................................................
