@@ -135,6 +135,18 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_CTUParams GetImage()
+					{
+						return	new DTO_CTUParams	{	DisplayMode		= this._DspMde,
+																				UpdateMode		= this._UpdMde,
+																				CATTMode			= this._CatMde,
+																				DefaultSize		= this._DefSze,
+																				NoCommit			= this._NoComm,
+																				NoBatchInpFor = this._NoBInp,
+																				NoBatchInpAft	= this._NoBEnd	};
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void TransferImage(DTO_CTUParams DTO)
 					{
 						DTO.DisplayMode		=	this._DspMde;

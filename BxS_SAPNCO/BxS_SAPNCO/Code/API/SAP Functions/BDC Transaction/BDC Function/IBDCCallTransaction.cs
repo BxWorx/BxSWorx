@@ -30,12 +30,14 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				string	RFCFunctionName	{ get; }
 				int			BDCDataCount		{	get; }
 				int			SPADataCount		{	get; }
+				int			MsgDataCount		{	get; }
 				//.................................................
 				string	SAPTransaction	{ get;	set; }
 				bool		SkipFirstScreen	{ get;	set; }
 				//.................................................
-				DTO_CTUParams	CTUParm	{ get; }
+				DTO_CTUParams	CTUParm	{ get; set;	}
 				DTO_BDCData		BDCData	{ get; }
+				DTO_MsgData		MsgData {	get; }
 
 			#endregion
 

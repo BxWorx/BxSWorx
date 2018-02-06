@@ -17,7 +17,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						profile.ParIdx_TabBDC	= profile.Metadata.TryNameToIndex( "IT_BDCDATA"						);
 						profile.ParIdx_CTUOpt	= profile.Metadata.TryNameToIndex( "IS_OPTIONS"						);
 						profile.ParIdx_TabMsg	= profile.Metadata.TryNameToIndex( "ET_MSG"								);
-						profile.ParIdx_TabSPA	= profile.Metadata.TryNameToIndex( "CT_SETGET_PARAMETER"		);
+						profile.ParIdx_TabSPA	= profile.Metadata.TryNameToIndex( "CT_SETGET_PARAMETER"	);
 						//.............................................
 						ls_StruMetadata = profile.Metadata[profile.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata;
 

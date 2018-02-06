@@ -45,7 +45,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public	string	SAPTransaction	{ get;	set; }
 				public	bool		SkipFirstScreen	{ get;	set; }
 
-				public	DTO_CTUParams		CTUParm	{ get; }
+				public	DTO_CTUParams		CTUParm	{ get;	set; }
 				public	DTO_BDCData			BDCData	{ get; }
 				public	DTO_SPAData			SPAData	{ get; }
 				public	DTO_MsgData			MsgData	{ get; }
@@ -218,18 +218,18 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 								var lo_Msg = new DTO_MsgEntry
 									{
 										TCode	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										DynNm	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										DynNo	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										MsgTp	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										MsgLg	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										MsgID	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										MsgNr	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										MsgV1	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										MsgV2	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										MsgV3	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										MsgV4	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										Envir	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)	,
-										FldNm	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_TCode)
+										DynNm	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_DynNm)	,
+										DynNo	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_DynNo)	,
+										MsgTp	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_MsgTp)	,
+										MsgLg	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_Lang)	,
+										MsgID	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_MsgID)	,
+										MsgNr	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_MsgNo)	,
+										MsgV1	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_MsgV1)	,
+										MsgV2	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_MsgV2)	,
+										MsgV3	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_MsgV3)	,
+										MsgV4	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_MsgV4)	,
+										Envir	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_Envir)	,
+										FldNm	= (string)ls_Msg.GetValue(	this._Profile.TabMsg_Fldnm)
 									};
 
 								this.MsgData.Add(lo_Msg);

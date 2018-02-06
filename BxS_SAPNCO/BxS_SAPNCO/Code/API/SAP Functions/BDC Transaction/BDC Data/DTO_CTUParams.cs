@@ -42,10 +42,10 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						this.DisplayMode		=	BDCConstants.lz_CTU_N	;
 						this.UpdateMode			=	BDCConstants.lz_CTU_A	;
 						this.CATTMode				=	BDCConstants.lz_CTU_F	;
-						this.DefaultSize		=	BDCConstants.lz_CTU_T	;
-						this.NoCommit				=	BDCConstants.lz_CTU_T	;
-						this.NoBatchInpFor	=	BDCConstants.lz_CTU_T	;
-						this.NoBatchInpAft	=	BDCConstants.lz_CTU_T	;
+						this.DefaultSize		=	BDCConstants.lz_CTU_F	;
+						this.NoCommit				=	BDCConstants.lz_CTU_F	;
+						this.NoBatchInpFor	=	BDCConstants.lz_CTU_F	;
+						this.NoBatchInpAft	=	BDCConstants.lz_CTU_F	;
 					}
 
 			#endregion
