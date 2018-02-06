@@ -1,31 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 {
 	public interface IBDCSession
 		{
 			#region "Properties"
 
-				public	int	Count	{ get { return	this.Data.Count; } }
+				DTO_SessionOptions	Options	{ get; set; }
+				int									Count		{ get; }
 				//.................................................
-				public	IList<DTO_BDCEntry>	Data	{ get; }
+				ConcurrentDictionary<	Guid, IBDCTranData >	BDCTransactions		{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				void	Process();
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Add(DTO_BDCEntry entry)
-					{
-						this.Data.Add(entry);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Reset()
-					{
-						this.Data.Clear();
-					}
+				void	AddBDCTransaction(IBDCTranData BDCTransaction);
+				void	Reset();
 
 			#endregion
 

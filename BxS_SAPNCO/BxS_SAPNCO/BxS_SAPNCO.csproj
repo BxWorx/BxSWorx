@@ -9,24 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\BDCSession.cs" />
-    <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\IBDCSession.cs" />
     <Compile Remove="Code\Destination\DestinationController.cs" />
     <Compile Remove="Code\Destination\DestinationPool.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\BDC Helpers\xBDCDocumentation.txt" />
+    <None Remove="Code\API\SAP Functions\BDC Processing\BDC Helpers\xBDCDocumentation.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="sapnco">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Code\API\SAP Functions\BDC Processing\Session\" />
   </ItemGroup>
 
 </Project>

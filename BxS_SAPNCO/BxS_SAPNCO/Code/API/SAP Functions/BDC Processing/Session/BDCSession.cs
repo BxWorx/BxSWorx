@@ -1,33 +1,31 @@
 ﻿using System;
 using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 {
-	public class BDCSession
+	public class BDCSession	: IBDCSession
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCSession()
 					{
-						this._Sessions	= new	ConcurrentDictionary<	Guid, DTO_BDCData >();
+						this.BDCTransactions	= new	ConcurrentDictionary<	Guid, IBDCTranData >();
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
-
-				private readonly ConcurrentDictionary<	Guid, DTO_BDCData >	_Sessions;
-
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	int	Count	{ get { return	this._Sessions.Count; } }
+				public	int	Count	{ get { return	this.BDCTransactions.Count; } }
+				public	DTO_SessionOptions	Options	{ get; set; }
 				//.................................................
-				public	ConcurrentDictionary<	int, DTO_BDCData >	Sessions	{ get {	return	this._Sessions; }	}
+				public	ConcurrentDictionary<	Guid, IBDCTranData >	BDCTransactions	{ get;	}
 
 			#endregion
 
@@ -35,15 +33,21 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Add(Guid ID,  DTO_BDCData BDCTransaction)
+				public	void	Process()
 					{
-						this._Sessions.TryAdd(BDCTransaction);
+
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	AddBDCTransaction(IBDCTranData BDCTransaction)
+					{
+						this.BDCTransactions.TryAdd(BDCTransaction.ID, BDCTransaction);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Reset()
 					{
-						this.Data.Clear();
+						this.BDCTransactions.Clear();
 					}
 
 			#endregion
