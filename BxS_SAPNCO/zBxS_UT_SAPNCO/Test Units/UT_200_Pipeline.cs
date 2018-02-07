@@ -49,7 +49,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					var x = new Pipeline<IBDCTranData>(this.co_Progress, this.co_CT, 2);
+					var x = new Pipeline<IBDCTranData>(this.co_Progress, this.co_CT, null, 2);
 
 					Assert.IsNotNull(	x	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
 				}
@@ -64,17 +64,17 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					var x = new Pipeline<IBDCTranData>(this.co_Progress, this.co_CT, ln_Con);
+					var lo_Pipe = new Pipeline<IBDCTranData>(this.co_Progress, this.co_CT, null, ln_Con);
 
 					for (int i = 0; i < ln_Max; i++)
 						{
 							IBDCTranData o = new BDCTranData();
-							bool b	=	x.Post(o);
+							bool b	=	lo_Pipe.Post(o);
 						}
 
-					x.Complete();
+					lo_Pipe.AddingCompleted();
 
-					int y = await x.StartAsync().ConfigureAwait(false);
+					int y = await lo_Pipe.StartAsync().ConfigureAwait(false);
 
 					while (!y.Equals(ln_Con))
 						{
@@ -82,7 +82,7 @@ namespace zBxS_SAPNCO_UT
 						}
 
 					Assert.AreEqual( ln_Con	, y				,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
-					Assert.AreEqual( ln_Max	, x.Count	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
+					Assert.AreEqual( ln_Max	, lo_Pipe.Count	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
 				}
 
 			//-------------------------------------------------------------------------------------------

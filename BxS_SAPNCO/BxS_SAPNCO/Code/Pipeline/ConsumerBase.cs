@@ -8,15 +8,9 @@ namespace BxS_SAPNCO.Helpers
 		{
 			#region "Constructors"
 
-				internal ConsumerBase(	BlockingCollection<T>		queue			,
-																IProgress<int>					progress	,
-																CancellationToken				CT				,
-																int											interval	= 10	)
+				internal ConsumerBase(	OperatingEnvironment<T>	OpEnv )
 					{
-						this._Queue			= queue			;
-						this._Progress	= progress	;
-						this._CT				= CT				;
-						this._Interval	= interval	;
+						this._OpEnv	= OpEnv;
 						//.................................................
 						this.Successful	= new	ConcurrentQueue<T>();
 						this.Faulty			= new	ConcurrentQueue<T>();
@@ -27,11 +21,7 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly BlockingCollection<T>	_Queue			;
-				private readonly IProgress<int>					_Progress		;
-				private readonly int										_Interval		;
-
-				private CancellationToken		_CT	;
+				private	readonly	OperatingEnvironment<T>		_OpEnv;
 
 			#endregion
 
@@ -54,7 +44,7 @@ namespace BxS_SAPNCO.Helpers
 						int	ln_Cnt	= 0;
 						int ln_Int	= 0;
 						//.............................................
-						foreach (T lo_WorkItem in this._Queue.GetConsumingEnumerable(this._CT))
+						foreach (T lo_WorkItem in this._OpEnv.Queue.GetConsumingEnumerable(this._OpEnv.CT))
 							{
 								if (this.Execute(lo_WorkItem))
 									{
@@ -68,14 +58,14 @@ namespace BxS_SAPNCO.Helpers
 								ln_Cnt	++;
 								ln_Int	++;
 
-								if (ln_Int.Equals(this._Interval))
+								if (ln_Int.Equals(this._OpEnv.ProgressInterval))
 									{
 										ln_Int	= 0;
-										this._Progress.Report(ln_Cnt);
+										this._OpEnv.Progress.Report(ln_Cnt);
 									}
 							}
 							//...........................................
-							if (!ln_Int.Equals(0))	this._Progress.Report(ln_Cnt);
+							if (!ln_Int.Equals(0))	this._OpEnv.Progress.Report(ln_Cnt);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

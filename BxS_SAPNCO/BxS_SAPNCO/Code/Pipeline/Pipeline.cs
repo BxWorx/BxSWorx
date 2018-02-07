@@ -12,20 +12,15 @@ namespace BxS_SAPNCO.Helpers
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Pipeline(	IProgress<int>		progress						,
-														CancellationToken	cancellationToken		,
-														int								noOfConsumers	= 1		,
-														int								interval			= 10		)
+				internal Pipeline(	OperatingEnvironment<T>	OpEnv			,
+														Func<IConsumer<T>>			consumer		)
 					{
-						this.co_Progress		= progress					;
-						this.co_CT					= cancellationToken	;
-						this.NoOfConsumers	= noOfConsumers			;
+						this._OpEnv	= OpEnv;
+						this._Consumer					= consumer					;
 						//.............................................
-						this.ct_Tasks		= new	List< Task >();
-						this.co_Q				= new	BlockingCollection<T>();
-						this.ct_Done		= new ConcurrentQueue<T>();
-						this.ct_Proc		= new ConcurrentQueue<T>();
-						//.............................................
+						this._Tasks		= new	List< Task >()					;
+						this.ct_Done	= new ConcurrentQueue<T>()		;
+						this.ct_Proc	= new ConcurrentQueue<T>()		;
 					}
 
 			#endregion
@@ -33,21 +28,20 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Declarations"
 
-				private IList< Task >						ct_Tasks;
-				private BlockingCollection<T>		co_Q;
-				private IProgress<int>					co_Progress;
-				private CancellationToken				co_CT;
+				private	readonly	OperatingEnvironment<T>		_OpEnv;
+				private Func<IConsumer<T>>			_Consumer	;
 				//.................................................
+				private IList< Task >						_Tasks		;
 				private	ConcurrentQueue<T>			ct_Proc;
 				private	ConcurrentQueue<T>			ct_Done;
+				//.................................................
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal int	NoOfConsumers { get;	set; }
-				internal int  Count					{ get { return	this.ct_Proc.Count; } }
+				internal int  Count	{ get { return	this.ct_Proc.Count; } }
 
 			#endregion
 
@@ -55,28 +49,28 @@ namespace BxS_SAPNCO.Helpers
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task<int> StartAsync(int noOfConsumers = 0)
+				internal async Task<int> StartAsync( int noOfConsumers = 0 )
 					{
 						int ln_Ret	= 0;
 						//.............................................
-						if (noOfConsumers > 0)	this.NoOfConsumers	= noOfConsumers;
+						if (noOfConsumers > 0)	this._OpEnv.NoOfConsumers	= noOfConsumers;
 						//.............................................
-						for (int i = 0; i < this.NoOfConsumers; i++)
+						for (int i = 0; i < this._OpEnv.NoOfConsumers; i++)
 							{
-								if (this.co_CT.IsCancellationRequested)		return	0;
+								if (this._OpEnv.CT.IsCancellationRequested)		return	0;
 
-								var lo_Cons	= Task.Run(() => Consumer() );
-								this.ct_Tasks.Add(lo_Cons);
+								var lo_Cons	= Task.Run( () =>    Consumer() );
+								this._Tasks.Add(lo_Cons);
 							}
 						//.............................................
 						Task lo_Task;
 
-						while (!this.ct_Tasks.Count.Equals(0))
+						while (!this._Tasks.Count.Equals(0))
 							{
-								if (this.co_CT.IsCancellationRequested)	break;
+								if (this._OpEnv.CT.IsCancellationRequested)	break;
 
-								lo_Task	= await Task.WhenAny(this.ct_Tasks).ConfigureAwait(false);
-								if (this.ct_Tasks.Remove(lo_Task))	ln_Ret++;
+								lo_Task	= await Task.WhenAny(this._Tasks).ConfigureAwait(false);
+								if (this._Tasks.Remove(lo_Task))	ln_Ret++;
 
 								if (lo_Task.Status.Equals(TaskStatus.RanToCompletion))
 									{
@@ -90,15 +84,15 @@ namespace BxS_SAPNCO.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Post( T entry)
+				internal bool Post( T entry )
 					{
-						return	this.co_Q.TryAdd( entry, 100, this.co_CT );
+						return	this._OpEnv.Queue.TryAdd( entry, 100, this._OpEnv.CT );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Complete()
+				internal void AddingCompleted()
 					{
-						this.co_Q.CompleteAdding();
+						this._OpEnv.Queue.CompleteAdding();
 					}
 
 			#endregion
@@ -108,7 +102,7 @@ namespace BxS_SAPNCO.Helpers
 
 				private void Consumer()
 					{
-						foreach (T lo_WorkItem in this.co_Q.GetConsumingEnumerable(this.co_CT))
+						foreach (T lo_WorkItem in this._OpEnv.Queue.GetConsumingEnumerable(this._OpEnv.CT))
 							{
 								Thread.Sleep(10);
 								this.ct_Proc.Enqueue(lo_WorkItem);

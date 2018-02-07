@@ -62,10 +62,9 @@ namespace zBxS_SAPNCO_UT
 
 					this.UpdateCTU						(lo_TranData.CTUOptions)	;
 					this.SetupTestBDCData			(lo_TranData	, "1007084"	, "666" )	;
+
 					this.co_Parser.ParseFrom	(lo_TranData	,	lo_RfcData);
-
 					lo_BDCTran0.Process(lo_RfcData);
-
 					this.co_Parser.ParseTo(lo_RfcData,lo_TranData);
 
 					Assert.AreNotEqual( 0	, lo_TranData.MSGCount	, $"SAPNCO:BDCTran:Invoke {ln_Cnt}: Simple" );
