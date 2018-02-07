@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using BxS_SAPNCO.API;
+using BxS_SAPNCO.Helpers;
 using BxS_SAPNCO.API.SAPFunctions.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
@@ -59,8 +59,8 @@ namespace zBxS_SAPNCO_UT
 			public async Task UT_Pipeline_Start()
 				{
 								int	ln_Cnt	= 00;
-					const int ln_Max	= 10;
-					const int ln_Con	= 02;
+					const int ln_Max	= 2000;
+					const int ln_Con	= 10;
 					//...............................................
 					ln_Cnt	++;
 
@@ -76,13 +76,75 @@ namespace zBxS_SAPNCO_UT
 
 					int y = await x.StartAsync().ConfigureAwait(false);
 
-					while (!y.Equals(ln_Max))
+					while (!y.Equals(ln_Con))
 						{
 							Thread.Sleep(10);
 						}
 
-					Assert.AreEqual( ln_Max, y ,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
+					Assert.AreEqual( ln_Con	, y				,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
+					Assert.AreEqual( ln_Max	, x.Count	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
 				}
 
+			//-------------------------------------------------------------------------------------------
+			[TestMethod]
+			public void UT_Pipeline_Consumer()
+				{
+								int	ln_Cnt	= 0;
+								int ln_Tot	= 0;
+					const	int	ln_Con	= 122;
+					//...............................................
+					ln_Cnt	++;
+
+					var BC = new BlockingCollection<IBDCTranData>();
+
+					for (int i = 0; i < ln_Con; i++)
+						{
+							BC.Add(new BDCTranData());
+						}
+					BC.CompleteAdding();
+
+					Task[] backgroundTasks = new []
+					{
+						Task<int>.Run(	() => {	var X = new MyConsumer<IBDCTranData>(BC, this.co_Progress, this.co_CT)	;
+																		X.Start();
+																		return	X.TotalProcessed;																													}	)	,
+
+						Task<int>.Run(	() => {	var X = new MyConsumer<IBDCTranData>(BC, this.co_Progress, this.co_CT)	;
+																		X.Start();
+																		return	X.TotalProcessed;																													}	)	,
+
+						Task<int>.Run(	() => {	var X = new MyConsumer<IBDCTranData>(BC, this.co_Progress, this.co_CT)	;
+																		X.Start();
+																		return	X.TotalProcessed;																													}	)
+					};
+
+					Task.WaitAll(backgroundTasks);
+
+					foreach (Task<int> item in backgroundTasks)
+						{
+							ln_Tot += item.Result;
+						}
+
+					Assert.AreEqual	(ln_Con	, ln_Tot		,	$"SAPNCO:Pipeline:Consumer {ln_Cnt}: Tot" );
+					Assert.AreEqual	(0			, BC.Count	,	$"SAPNCO:Pipeline:Consumer {ln_Cnt}: BC"	);
+				}
+
+			//-------------------------------------------------------------------------------------------
+			private class MyConsumer<T> : ConsumerBase<T> where T : class
+				{
+					public MyConsumer(	BlockingCollection<T>	queue			,
+															IProgress<int>				progress	,
+															CancellationToken			CT				,
+															int										interval	= 10	)	: base(queue, progress, CT, interval)
+						{ }
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public override bool Execute(T workItem)
+						{
+							Thread.Sleep(10);
+							return	true;
+						}
+
+				}
 		}
 }

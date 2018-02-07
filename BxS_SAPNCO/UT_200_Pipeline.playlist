@@ -1,1 +1,1 @@
-<Playlist Version="1.0"><Add Test="zBxS_SAPNCO_UT.UT_200_Pipeline.UT_Pipeline_Instantiate" /><Add Test="zBxS_SAPNCO_UT.UT_200_Pipeline.UT_Pipeline_Start" /></Playlist>
+<Playlist Version="1.0"><Add Test="zBxS_SAPNCO_UT.UT_200_Pipeline.UT_Pipeline_Instantiate" /><Add Test="zBxS_SAPNCO_UT.UT_200_Pipeline.UT_Pipeline_Start" /><Add Test="zBxS_SAPNCO_UT.UT_200_Pipeline.UT_Pipeline_Consumer" /></Playlist>

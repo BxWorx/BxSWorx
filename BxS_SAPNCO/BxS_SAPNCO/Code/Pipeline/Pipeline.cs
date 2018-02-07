@@ -5,16 +5,17 @@ using System.Threading;
 using System.Threading.Tasks;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-namespace BxS_SAPNCO.API
+namespace BxS_SAPNCO.Helpers
 {
 	internal class Pipeline<T> where T : class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Pipeline(	IProgress<int>		progress							,
-														CancellationToken	cancellationToken			,
-														int								noOfConsumers	= 1				)
+				internal Pipeline(	IProgress<int>		progress						,
+														CancellationToken	cancellationToken		,
+														int								noOfConsumers	= 1		,
+														int								interval			= 10		)
 					{
 						this.co_Progress		= progress					;
 						this.co_CT					= cancellationToken	;
@@ -22,6 +23,7 @@ namespace BxS_SAPNCO.API
 						//.............................................
 						this.ct_Tasks		= new	List< Task >();
 						this.co_Q				= new	BlockingCollection<T>();
+						this.ct_Done		= new ConcurrentQueue<T>();
 						this.ct_Proc		= new ConcurrentQueue<T>();
 						//.............................................
 					}
@@ -37,6 +39,7 @@ namespace BxS_SAPNCO.API
 				private CancellationToken				co_CT;
 				//.................................................
 				private	ConcurrentQueue<T>			ct_Proc;
+				private	ConcurrentQueue<T>			ct_Done;
 
 			#endregion
 
@@ -44,6 +47,7 @@ namespace BxS_SAPNCO.API
 			#region "Properties"
 
 				internal int	NoOfConsumers { get;	set; }
+				internal int  Count					{ get { return	this.ct_Proc.Count; } }
 
 			#endregion
 
@@ -67,11 +71,19 @@ namespace BxS_SAPNCO.API
 						//.............................................
 						Task lo_Task;
 
-						while (			!this.ct_Tasks.Count.Equals(0)
-										&&	!this.co_CT.IsCancellationRequested	)
+						while (!this.ct_Tasks.Count.Equals(0))
 							{
+								if (this.co_CT.IsCancellationRequested)	break;
+
 								lo_Task	= await Task.WhenAny(this.ct_Tasks).ConfigureAwait(false);
 								if (this.ct_Tasks.Remove(lo_Task))	ln_Ret++;
+
+								if (lo_Task.Status.Equals(TaskStatus.RanToCompletion))
+									{
+										//this.ct_Done.Enqueue(lo_Task.re);
+									}
+								else
+								{ }
 							}
 						//.............................................
 						return	ln_Ret;
@@ -98,7 +110,7 @@ namespace BxS_SAPNCO.API
 					{
 						foreach (T lo_WorkItem in this.co_Q.GetConsumingEnumerable(this.co_CT))
 							{
-								Thread.Sleep(1000);
+								Thread.Sleep(10);
 								this.ct_Proc.Enqueue(lo_WorkItem);
 							}
 					}
