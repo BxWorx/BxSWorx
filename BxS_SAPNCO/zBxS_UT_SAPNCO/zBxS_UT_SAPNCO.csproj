@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test Resources\UT_Destination.cs" />
+    <Compile Include="Test Units\UT_200_Pipeline.cs" />
     <Compile Include="Test Units\UT_100_BDCTran.cs" />
     <Compile Include="Test Units\UT_030_DestRFC.cs" />
     <Compile Include="Test Units\UT_BxS_SAPNCO.cs" />
