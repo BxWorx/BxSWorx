@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
+﻿using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Helpers
 {
-	internal abstract class ConsumerBase<T> : IConsumer<T>
+	internal abstract class ConsumerBase<T,P> : IConsumer<T>	where T:class
+																														where	P:class
 		{
 			#region "Constructors"
 
-				internal ConsumerBase(	OperatingEnvironment<T>	OpEnv )
+				internal ConsumerBase(	OpEnv<T,P>	OpEnv )
 					{
 						this._OpEnv	= OpEnv;
 						//.................................................
@@ -21,7 +20,7 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	OperatingEnvironment<T>		_OpEnv;
+				protected	readonly	OpEnv<T,P>	_OpEnv;
 
 			#endregion
 
@@ -61,11 +60,11 @@ namespace BxS_SAPNCO.Helpers
 								if (ln_Int.Equals(this._OpEnv.ProgressInterval))
 									{
 										ln_Int	= 0;
-										this._OpEnv.Progress.Report(ln_Cnt);
+										this._OpEnv.ProgressHndlr.Report(this._OpEnv.ProgressInfo);
 									}
 							}
 							//...........................................
-							if (!ln_Int.Equals(0))	this._OpEnv.Progress.Report(ln_Cnt);
+							if (!ln_Int.Equals(0))	this._OpEnv.ProgressHndlr.Report(this._OpEnv.ProgressInfo);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

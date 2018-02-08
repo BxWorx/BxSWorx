@@ -35,12 +35,12 @@ namespace BxS_SAPNCO.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_RFCData	CreateRFCTranData(	IBDCProfile	profile	,	Guid ID	= default(Guid)	)
+				internal DTO_RFCData	CreateRFCTranData(	IBDCProfile	profile	)
 					{
-						return	new DTO_RFCData(ID)	{	CTUOpts	= profile.CTUStr	,
-																					BDCData = profile.BDCTbl	,
-																					SPAData = profile.SPATbl	,
-																					MSGData = profile.MSGTbl		};
+						return	new DTO_RFCData()	{	CTUOpts	= profile.CTUStr	,
+																				BDCData = profile.BDCTbl	,
+																				SPAData = profile.SPATbl	,
+																				MSGData = profile.MSGTbl		};
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

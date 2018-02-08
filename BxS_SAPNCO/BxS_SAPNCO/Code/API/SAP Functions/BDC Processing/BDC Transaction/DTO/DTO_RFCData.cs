@@ -1,6 +1,4 @@
-﻿using System;
-//.........................................................
-using SMC	= SAP.Middleware.Connector;
+﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
@@ -9,9 +7,10 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_RFCData(Guid ID	= default(Guid))
+				public DTO_RFCData()
 					{
-						this.ID		= ID.Equals(Guid.Empty)	?	Guid.NewGuid()	:	ID;
+						//Guid ID	= default(Guid)
+						//this.ID		= ID.Equals(Guid.Empty)	?	Guid.NewGuid()	:	ID;
 						//.............................................
 						this.ProcessedStatus	= false;
 						this.SuccesStatus			= false;
@@ -22,7 +21,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	Guid	ID	{ get; set; }
+				//public	Guid	ID	{ get; set; }
 				//.................................................
 				public	bool	ProcessedStatus	{ get; set;	}
 				public	bool	SuccesStatus		{ get; set;	}
@@ -30,10 +29,10 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public	string	SAPTCode	{ get;	set; }
 				public	string	Skip1st		{ get;	set; }
 				//.................................................
-				public	SMC.IRfcStructure	CTUOpts	{ get;	set; }
-				public	SMC.IRfcTable			BDCData	{ get;	set; }
-				public	SMC.IRfcTable			SPAData	{ get;	set; }
-				public	SMC.IRfcTable			MSGData	{ get;	set; }
+				public	SMC.IRfcStructure		CTUOpts	{ get;	set; }
+				public	SMC.IRfcTable				BDCData	{ get;	set; }
+				public	SMC.IRfcTable				SPAData	{ get;	set; }
+				public	SMC.IRfcTable				MSGData	{ get;	set; }
 
 			#endregion
 

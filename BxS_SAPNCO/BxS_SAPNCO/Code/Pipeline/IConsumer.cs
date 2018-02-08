@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Helpers
 {
-	public interface IConsumer<T>		// where T : class
+	public interface IConsumer<T>	where T:class
 		{
 			#region "Properties"
 

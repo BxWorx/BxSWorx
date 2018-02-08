@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
-//.........................................................
-using BxS_SAPNCO.API.SAPFunctions.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Helpers
 {
-	internal class OperatingEnvironment<T>
+	internal class OpEnv<T,P>	where T:class
+														where	P:class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal OperatingEnvironment(	IProgress<int>			progress					,
-																				CancellationToken		cancellationToken	,
-																				BDC2RfcParser				parser						,
-																				int									noOfConsumers			= 01	,
-																				int									interval					= 10		)
+				internal OpEnv(	IProgress<P>				progressHndlr			,
+												P										progressInfo			,
+												CancellationToken		cancellationToken	,
+												int									noOfConsumers			= 01	,
+												int									interval					= 10	,
+												int									queueAddTimeout		= 10		)
 					{
-						this.Progress					= progress					;
+						this.ProgressHndlr		= progressHndlr			;
+						this.ProgressInfo			= progressInfo			;
 						this.CT								= cancellationToken	;
-						this.Parser						= parser						;
 						this.NoOfConsumers		= noOfConsumers			;
 						this.ProgressInterval	= interval					;
+						this.QueueTimeout			= queueAddTimeout		;
 						//.............................................
 						this.Queue	= new	BlockingCollection<T>();
 					}
@@ -31,11 +32,12 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Properties"
 
-				internal	BlockingCollection<T>		Queue			{ get; }
-				internal	BDC2RfcParser						Parser		{ get; }
-				internal	IProgress<int>					Progress	{ get; }
-				internal	CancellationToken				CT				{ get; }
+				internal	BlockingCollection<T>		Queue					{ get; }
+				internal	IProgress<P>						ProgressHndlr	{ get; }
+				internal	CancellationToken				CT						{ get; }
+				internal	P												ProgressInfo	{ get; }
 				//.................................................
+				internal	int	QueueTimeout			{ get;				}
 				internal	int	ProgressInterval	{ get;				}
 				internal	int	NoOfConsumers			{ get;	set;	}
 

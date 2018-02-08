@@ -1,21 +1,23 @@
 ﻿using System;
-using BxS_SAPNCO.API.SAPFunctions.BDC;
 //.........................................................
 using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API
+namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	internal class BDCConsumer<T> : ConsumerBase<T> where T : IBDCTranData
+	internal class BDCConsumer<T,P> : ConsumerBase<T,P>	where T:class
+																											where	P:class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCConsumer( OperatingEnvironment<T> OpEnv	,
-														IBDCTranProcessor				tranProcessor	,
-														DTO_RFCData							dtoRfcData			)	: base(OpEnv)
+				public BDCConsumer( OpEnv<T,P>	OpEnv					,
+														BDC2RfcParser							parser				,
+														IBDCTranProcessor					tranProcessor	,
+														DTO_RFCData								dtoRfcData			)	: base(OpEnv)
 					{
 						this._BDCTran	= tranProcessor	;
 						this._RfcData	= dtoRfcData		;
+						this._Parser	= parser				;
 					}
 
 			#endregion
@@ -23,9 +25,9 @@ namespace BxS_SAPNCO.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	OperatingEnvironment<T>		_OpEnv		;
 				private readonly	IBDCTranProcessor					_BDCTran	;
 				private readonly	DTO_RFCData								_RfcData	;
+				private	readonly	BDC2RfcParser							_Parser		;
 
 			#endregion
 
@@ -37,9 +39,9 @@ namespace BxS_SAPNCO.API
 					{
 						try
 							{
-								this._OpEnv.Parser.ParseFrom	(	workItem				, this._RfcData	);
-								this._BDCTran.Process					(	this._RfcData										);
-								this._OpEnv.Parser.ParseTo		(	this._RfcData	,	workItem				);
+								this._Parser.ParseFrom	(	(IBDCTranData)workItem	, this._RfcData	);
+								this._BDCTran.Process		(	this._RfcData														);
+								this._Parser.ParseTo		(	this._RfcData	,	(IBDCTranData)workItem	);
 
 								this.Successful.Enqueue(workItem);
 

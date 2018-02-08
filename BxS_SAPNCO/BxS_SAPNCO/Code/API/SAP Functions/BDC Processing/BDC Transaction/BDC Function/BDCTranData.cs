@@ -10,7 +10,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCTranData(Guid ID	= default(Guid))
 					{
-						this.ID		= ID.Equals(Guid.Empty)	?	Guid.NewGuid()	:	ID;
+						this.ID	= ID.Equals(Guid.Empty)	?	Guid.NewGuid()	:	ID;
 						//.............................................
 						this.BDCData	= new List<DTO_BDCEntry>();
 						this.SPAData	= new List<DTO_SPAEntry>();

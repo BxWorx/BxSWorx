@@ -22,6 +22,7 @@ namespace zBxS_SAPNCO_UT
 
 				private IProgress<int>		co_Progress;
 				private CancellationToken	co_CT;
+				private UT_Handler				co_Hnd;
 
 
 			#endregion
@@ -31,7 +32,7 @@ namespace zBxS_SAPNCO_UT
 				{
 					this.co_Progress	= new	Progress<int>			();
 					this.co_CT				= new	CancellationToken	();
-
+					this.co_Hnd				= new UT_Handler();
 
 					//this.co_Dest		= new UT_Destination(2);
 					//this.co_Cntlr		= new NCOController();
@@ -49,7 +50,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					var x = new Pipeline<IBDCTranData>(this.co_Progress, this.co_CT, null, 2);
+					var x = new Pipeline<IBDCTranData>(this.co_Hnd.CreateOpEnv(),);
 
 					Assert.IsNotNull(	x	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
 				}
@@ -82,7 +83,7 @@ namespace zBxS_SAPNCO_UT
 						}
 
 					Assert.AreEqual( ln_Con	, y				,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
-					Assert.AreEqual( ln_Max	, lo_Pipe.Count	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
+					Assert.AreEqual( ln_Max	, lo_Pipe.CompletedCount	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -144,6 +145,12 @@ namespace zBxS_SAPNCO_UT
 							Thread.Sleep(10);
 							return	true;
 						}
+
+
+				private OpEnv
+
+
+
 
 				}
 		}

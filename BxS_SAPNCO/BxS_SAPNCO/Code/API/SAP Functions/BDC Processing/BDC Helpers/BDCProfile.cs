@@ -11,8 +11,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCFncProfile(	DestinationRfc destination, string rfcFncName)
-												: base( destination, rfcFncName)
+				internal BDCFncProfile(	DestinationRfc destination	,
+																string					rfcFncName		)	: base( destination, rfcFncName)
 					{
 					}
 

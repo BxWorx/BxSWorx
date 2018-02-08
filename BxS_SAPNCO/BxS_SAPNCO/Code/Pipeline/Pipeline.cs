@@ -1,26 +1,26 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 namespace BxS_SAPNCO.Helpers
 {
-	internal class Pipeline<T> where T : class
+	internal class Pipeline<T,P>	where T:class
+																where	P:class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Pipeline(	OperatingEnvironment<T>	OpEnv			,
-														Func<IConsumer<T>>			consumer		)
+				internal Pipeline(	OpEnv<T,P>				OpEnv					,
+														IConsumerMaker<T>	consumerMaker		)
 					{
-						this._OpEnv	= OpEnv;
-						this._Consumer					= consumer					;
+						this._OpEnv					= OpEnv					;
+						this._ConsumerMaker	= consumerMaker	;
 						//.............................................
-						this._Tasks		= new	List< Task >()					;
-						this.ct_Done	= new ConcurrentQueue<T>()		;
-						this.ct_Proc	= new ConcurrentQueue<T>()		;
+						this._Tasks		= new	List< Task >()						;
+						this._Complt	= new ConcurrentQueue< Task	>()	;
+						this._Faulty	= new ConcurrentQueue< Task >()	;
+						this._Other		= new ConcurrentQueue< Task	>()	;
 					}
 
 			#endregion
@@ -28,12 +28,14 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	OperatingEnvironment<T>		_OpEnv;
-				private Func<IConsumer<T>>			_Consumer	;
+				private	readonly	OpEnv<T,P>					_OpEnv					;
+				private	readonly	IConsumerMaker<T>		_ConsumerMaker	;
 				//.................................................
-				private IList< Task >						_Tasks		;
-				private	ConcurrentQueue<T>			ct_Proc;
-				private	ConcurrentQueue<T>			ct_Done;
+				private readonly IList< Task >						_Tasks	;
+
+				private readonly ConcurrentQueue< Task >	_Complt	;
+				private readonly ConcurrentQueue< Task >	_Faulty	;
+				private readonly ConcurrentQueue< Task >	_Other	;
 				//.................................................
 
 			#endregion
@@ -41,7 +43,9 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Properties"
 
-				internal int  Count	{ get { return	this.ct_Proc.Count; } }
+				internal int  CompletedCount	{ get { return	this._Complt.Count; } }
+				internal int  FaultyCount			{ get { return	this._Faulty.Count; } }
+				internal int  OtherCount			{ get { return	this._Other	.Count; } }
 
 			#endregion
 
@@ -59,8 +63,8 @@ namespace BxS_SAPNCO.Helpers
 							{
 								if (this._OpEnv.CT.IsCancellationRequested)		return	0;
 
-								var lo_Cons	= Task.Run( () =>    Consumer() );
-								this._Tasks.Add(lo_Cons);
+								IConsumer<T> lo_Consumer	= this._ConsumerMaker.CreateConsumer();
+								this._Tasks.Add( Task.Run( () => lo_Consumer.Start() ) );
 							}
 						//.............................................
 						Task lo_Task;
@@ -72,12 +76,9 @@ namespace BxS_SAPNCO.Helpers
 								lo_Task	= await Task.WhenAny(this._Tasks).ConfigureAwait(false);
 								if (this._Tasks.Remove(lo_Task))	ln_Ret++;
 
-								if (lo_Task.Status.Equals(TaskStatus.RanToCompletion))
-									{
-										//this.ct_Done.Enqueue(lo_Task.re);
-									}
-								else
-								{ }
+											if (lo_Task.Status.Equals(TaskStatus.RanToCompletion)	)		{	this._Complt.Enqueue(lo_Task); }
+								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this._Faulty.Enqueue(lo_Task); }
+								else  																													{ this._Other	.Enqueue(lo_Task); }
 							}
 						//.............................................
 						return	ln_Ret;
@@ -86,27 +87,13 @@ namespace BxS_SAPNCO.Helpers
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool Post( T entry )
 					{
-						return	this._OpEnv.Queue.TryAdd( entry, 100, this._OpEnv.CT );
+						return	this._OpEnv.Queue.TryAdd( entry, this._OpEnv.QueueTimeout, this._OpEnv.CT );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void AddingCompleted()
 					{
 						this._OpEnv.Queue.CompleteAdding();
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				private void Consumer()
-					{
-						foreach (T lo_WorkItem in this._OpEnv.Queue.GetConsumingEnumerable(this._OpEnv.CT))
-							{
-								Thread.Sleep(10);
-								this.ct_Proc.Enqueue(lo_WorkItem);
-							}
 					}
 
 			#endregion
