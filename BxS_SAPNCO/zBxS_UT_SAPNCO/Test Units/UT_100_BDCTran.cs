@@ -14,6 +14,7 @@ namespace zBxS_SAPNCO_UT
 		{
 			#region "Declarations"
 
+				private readonly	UT_TestData							co_Data;
 				private readonly	UT_Destination					co_Dest;
 				private readonly	NCOController						co_Cntlr;
 				private readonly	IBDCProfile							co_Profile;
@@ -25,8 +26,10 @@ namespace zBxS_SAPNCO_UT
 			//...................................................
 			public UT_100_BDCTran()
 				{
-					this.co_Dest		= new UT_Destination(2);
-					this.co_Cntlr		= new NCOController();
+					this.co_Data		= new UT_TestData()			;
+					this.co_Dest		= new UT_Destination(2)	;
+					this.co_Cntlr		= new NCOController()		;
+
 					this.co_Profile	= this.co_Cntlr.GetAddBDCTranProcessorProfile(this.co_Dest.RfcDest);
 					this.co_Parser	= this.co_Cntlr.CreateBDC2RfcParser(this.co_Profile);
 					this.co_PrfCnfg	= this.co_Cntlr.CreateProfileConfigurator();
@@ -60,8 +63,8 @@ namespace zBxS_SAPNCO_UT
 					IBDCTranData			lo_TranData		= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
 					IBDCTranProcessor	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Profile);
 
-					this.UpdateCTU						(lo_TranData.CTUOptions)	;
-					this.SetupTestBDCData			(lo_TranData	, "1007084"	, "666" )	;
+					this.co_Data.UpdateCTU				(lo_TranData.CTUOptions)	;
+					this.co_Data.SetupTestBDCData	(lo_TranData	, "1007084"	, "666" )	;
 
 					this.co_Parser.ParseFrom	(lo_TranData	,	lo_RfcData);
 					lo_BDCTran0.Process(lo_RfcData);
@@ -81,18 +84,18 @@ namespace zBxS_SAPNCO_UT
 					ln_Cnt	++;
 
 												lc_Tel	= lo_Rnd.Next(100,1000).ToString();
-					IList<string>	lt_No		= this.LoadList();
+					IList<string>	lt_No		= this.co_Data.LoadList();
 
 					DTO_RFCData				lo_RfcData		= this.co_Cntlr.CreateRFCTranData(this.co_Profile);
 					IBDCTranData			lo_TranData		= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
 					IBDCTranProcessor	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Profile);
 
-					this.UpdateCTU(lo_TranData.CTUOptions)	;
+					this.co_Data.UpdateCTU(lo_TranData.CTUOptions)	;
 
 					for (int i = 0; i < lt_No.Count; i++)
 						{
-							this.SetupTestBDCData			(lo_TranData	, lt_No[i]	, lc_Tel )	;
-							this.co_Parser.ParseFrom	(lo_TranData	,	lo_RfcData);
+							this.co_Data.SetupTestBDCData	(lo_TranData	, lt_No[i]	, lc_Tel )	;
+							this.co_Parser.ParseFrom			(lo_TranData	,	lo_RfcData);
 
 							lo_BDCTran0.Process(lo_RfcData);
 
@@ -115,7 +118,7 @@ namespace zBxS_SAPNCO_UT
 					ln_Cnt++;
 
 												lc_Tel	= lo_Rnd.Next(100,1000).ToString();
-					IList<string> lt_No		= this.LoadList();
+					IList<string> lt_No		= this.co_Data.LoadList();
 
 					Parallel.Invoke(	() => { if (this.Task(lt_No[0]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
 														() => { if (this.Task(lt_No[1]	,	lc_Tel)) Interlocked.Increment(ref ln_Tot); },
@@ -137,89 +140,16 @@ namespace zBxS_SAPNCO_UT
 					DTO_RFCData				lo_RfcData		= this.co_Cntlr.CreateRFCTranData(this.co_Profile);
 					IBDCTranData			lo_TranData		= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
 					IBDCTranProcessor	lo_BDCTran0		= this.co_Cntlr.CreateBDCTransactionProcessor(this.co_Profile);
-					this.UpdateCTU(lo_TranData.CTUOptions);
 
-					this.SetupTestBDCData			(lo_TranData	, CustNo	, TelNo )	;
-					this.co_Parser.ParseFrom	(lo_TranData	,	lo_RfcData);
+					this.co_Data.UpdateCTU(lo_TranData.CTUOptions);
+
+					this.co_Data.SetupTestBDCData	(lo_TranData	, CustNo	, TelNo )	;
+					this.co_Parser.ParseFrom			(lo_TranData	,	lo_RfcData);
 
 					lo_BDCTran0.Process(lo_RfcData);
 
 					this.co_Parser.ParseTo(lo_RfcData,lo_TranData);
 					return	lo_TranData.SuccesStatus;
-				}
-
-			//-------------------------------------------------------------------------------------------
-			private IList<string> LoadList()
-			{
-					const int ln_Max	= 10;
-					return	 new List<string>(ln_Max)	{	"1007084"	,
-																							"1800476"	,
-																							"1802054"	,
-																							"1802201"	,
-																							"1810161"	,
-																							"1810184"	,
-																							"2012050"	,
-																							"2035959"	,
-																							"2800242"	,
-																							"1800238"		};
 			}
-
-			//-------------------------------------------------------------------------------------------
-			private void SetupTestBDCData( IBDCTranData BDCTran, string CustNo, string TelNo )
-				{
-					BDCTran.Reset();
-					//...............................................
-					BDCTran.SAPTCode	= "XD02";
-
-					BDCTran.AddBDCData("SAPMF02D"	,	0101	,	true	,""						, ""			);
-					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "/00"		);
-					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-KUNNR", CustNo	);
-					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-D0110", "X"			);
-					BDCTran.AddBDCData(""					,	0			,	false	,"USE_ZAV"		, "X"			);
-					BDCTran.AddBDCData("SAPMF02D"	,	0111	,	true	,""						, ""			);
-					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "=UPDA"	);
-					BDCTran.AddBDCData(""					,	0			,	false	,"SZA1_D0100-FAX_NUMBER"	, TelNo	);
-				}
-
-			//-------------------------------------------------------------------------------------------
-			private void UpdateCTU( DTO_CTUOptions CTUOptions )
-				{
-					var lo_CTU	= new CTU_Parameters();
-
-					lo_CTU.DisplayMode		= lo_CTU.DisplayMode_BGrnd	;
-					lo_CTU.UpdateMode			= lo_CTU.UpdateMode_ASync		;
-					lo_CTU.CATTMode				= lo_CTU.CATTMode_None			;
-					lo_CTU.DefaultSize		= lo_CTU.Setas_No						;
-					lo_CTU.NoCommit				= lo_CTU.Setas_No						;
-					lo_CTU.NoBatchInpFor	= lo_CTU.Setas_No						;
-					lo_CTU.NoBatchInpAft	= lo_CTU.Setas_No 					;
-
-					//CTUOptions	=	lo_CTU.GetImage();
-					lo_CTU.TransferImage(CTUOptions);
-				}
-
-				// Sony GUI Path
-				//C:\ProgramData\SAP\SAPUILandscapeS2A.xml
-
-//2810415
-//2812552
-//2812860
-//2814664
-//2814665
-//2815127
-//2815563
-//2815938
-
-//1007084
-//1800476
-//1802054
-//1802201
-//1810161
-//1810184
-//2012050
-//2035959
-//2800242
-//1800238
-
-			}
+		}
 }

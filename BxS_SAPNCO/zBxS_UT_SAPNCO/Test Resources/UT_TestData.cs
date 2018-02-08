@@ -1,34 +1,84 @@
-using System;
-using System.Threading;
+using System.Collections.Generic;
 //.........................................................
-using BxS_SAPNCO.Helpers;
+using BxS_SAPNCO.API.SAPFunctions.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
 {
 	//***************************************************************************
 	public class UT_TestData
 		{
-			//-----------------------------------------------------------------------
-			internal Pipeline<IUT_TranData, UT_ProgInfo>	CreatePipeline()
+			//-------------------------------------------------------------------------------------------
+			public void UpdateCTU( DTO_CTUOptions CTUOptions )
 				{
-					OpEnv<IUT_TranData, UT_ProgInfo> lo_Openv	= this.CreateOpEnv();
-					return	new Pipeline<IUT_TranData, UT_ProgInfo>(	lo_Openv, this.CreateConsMaker(lo_Openv) );
+					var lo_CTU	= new CTU_Parameters();
+
+					lo_CTU.DisplayMode		= lo_CTU.DisplayMode_BGrnd	;
+					lo_CTU.UpdateMode			= lo_CTU.UpdateMode_ASync		;
+					lo_CTU.CATTMode				= lo_CTU.CATTMode_None			;
+					lo_CTU.DefaultSize		= lo_CTU.Setas_No						;
+					lo_CTU.NoCommit				= lo_CTU.Setas_No						;
+					lo_CTU.NoBatchInpFor	= lo_CTU.Setas_No						;
+					lo_CTU.NoBatchInpAft	= lo_CTU.Setas_No 					;
+
+					//CTUOptions	=	lo_CTU.GetImage();
+					lo_CTU.TransferImage(CTUOptions);
 				}
 
-			//-----------------------------------------------------------------------
-			internal IConsumerMaker<IUT_TranData>	CreateConsMaker(OpEnv<IUT_TranData,UT_ProgInfo> opEnv)
-				{
-					return	new	UT_ConsMaker(opEnv);
-				}
+			//-------------------------------------------------------------------------------------------
+			public IList<string> LoadList()
+			{
+					const int ln_Max	= 10;
+					return	 new List<string>(ln_Max)	{	"1007084"	,
+																							"1800476"	,
+																							"1802054"	,
+																							"1802201"	,
+																							"1810161"	,
+																							"1810184"	,
+																							"2012050"	,
+																							"2035959"	,
+																							"2800242"	,
+																							"1800238"		};
+			}
 
-			//-----------------------------------------------------------------------
-			internal OpEnv<IUT_TranData,UT_ProgInfo>	CreateOpEnv()
+			//-------------------------------------------------------------------------------------------
+			public void SetupTestBDCData( IBDCTranData BDCTran, string CustNo, string TelNo )
 				{
-					IProgress<UT_ProgInfo>	lo_PH	= new Progress<UT_ProgInfo>();
-					var											lo_PI	= new UT_ProgInfo();
-					var											lo_CT	= new CancellationToken();
+					BDCTran.Reset();
+					//...............................................
+					BDCTran.SAPTCode	= "XD02";
 
-					return	new OpEnv<IUT_TranData, UT_ProgInfo>(lo_PH, lo_PI, lo_CT);
+					BDCTran.AddBDCData("SAPMF02D"	,	0101	,	true	,""						, ""			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "/00"		);
+					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-KUNNR", CustNo	);
+					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-D0110", "X"			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"USE_ZAV"		, "X"			);
+					BDCTran.AddBDCData("SAPMF02D"	,	0111	,	true	,""						, ""			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "=UPDA"	);
+					BDCTran.AddBDCData(""					,	0			,	false	,"SZA1_D0100-FAX_NUMBER"	, TelNo	);
 				}
 		}
 }
+
+//2810415
+//2812552
+//2812860
+//2814664
+//2814665
+//2815127
+//2815563
+//2815938
+
+//1007084
+//1800476
+//1802054
+//1802201
+//1810161
+//1810184
+//2012050
+//2035959
+//2800242
+//1800238
+
+// Sony GUI Path
+//C:\ProgramData\SAP\SAPUILandscapeS2A.xml
+

@@ -39,9 +39,12 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Properties"
 
+
 				internal int  CompletedCount	{ get { return	this.TasksCompleted	.Count; } }
 				internal int  FaultyCount			{ get { return	this.TasksFaulty		.Count; } }
 				internal int  OtherCount			{ get { return	this.TasksOther			.Count; } }
+
+				internal BlockingCollection<T>		Queue						{ get { return	this._OpEnv.Queue; } }
 
 				internal ConcurrentQueue< Task >	TasksCompleted	{ get; }
 				internal ConcurrentQueue< Task >	TasksFaulty			{ get; }
