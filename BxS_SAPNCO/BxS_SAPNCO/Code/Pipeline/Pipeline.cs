@@ -17,10 +17,11 @@ namespace BxS_SAPNCO.Helpers
 						this._OpEnv					= OpEnv					;
 						this._ConsumerMaker	= consumerMaker	;
 						//.............................................
-						this._Tasks		= new	List< Task >()						;
-						this._Complt	= new ConcurrentQueue< Task	>()	;
-						this._Faulty	= new ConcurrentQueue< Task >()	;
-						this._Other		= new ConcurrentQueue< Task	>()	;
+						this._Tasks		= new	List< Task<IConsumer<T>> >()	;
+						//.............................................
+						this.TasksCompleted	= new ConcurrentQueue< Task	>()	;
+						this.TasksFaulty		= new ConcurrentQueue< Task >()	;
+						this.TasksOther			= new ConcurrentQueue< Task	>()	;
 					}
 
 			#endregion
@@ -31,21 +32,20 @@ namespace BxS_SAPNCO.Helpers
 				private	readonly	OpEnv<T,P>					_OpEnv					;
 				private	readonly	IConsumerMaker<T>		_ConsumerMaker	;
 				//.................................................
-				private readonly IList< Task >						_Tasks	;
-
-				private readonly ConcurrentQueue< Task >	_Complt	;
-				private readonly ConcurrentQueue< Task >	_Faulty	;
-				private readonly ConcurrentQueue< Task >	_Other	;
-				//.................................................
+				private readonly IList< Task<IConsumer<T>> >	_Tasks	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal int  CompletedCount	{ get { return	this._Complt.Count; } }
-				internal int  FaultyCount			{ get { return	this._Faulty.Count; } }
-				internal int  OtherCount			{ get { return	this._Other	.Count; } }
+				internal int  CompletedCount	{ get { return	this.TasksCompleted	.Count; } }
+				internal int  FaultyCount			{ get { return	this.TasksFaulty		.Count; } }
+				internal int  OtherCount			{ get { return	this.TasksOther			.Count; } }
+
+				internal ConcurrentQueue< Task >	TasksCompleted	{ get; }
+				internal ConcurrentQueue< Task >	TasksFaulty			{ get; }
+				internal ConcurrentQueue< Task >	TasksOther			{ get; }
 
 			#endregion
 
@@ -63,22 +63,29 @@ namespace BxS_SAPNCO.Helpers
 							{
 								if (this._OpEnv.CT.IsCancellationRequested)		return	0;
 
-								IConsumer<T> lo_Consumer	= this._ConsumerMaker.CreateConsumer();
-								this._Tasks.Add( Task.Run( () => lo_Consumer.Start() ) );
+								this._Tasks.Add(
+									Task<IConsumer<T>>.Run( () =>	{
+																									IConsumer<T> lo_Consumer	= this._ConsumerMaker.CreateConsumer()	;
+																									lo_Consumer.Start();
+																									return	lo_Consumer;
+																								}
+																				 )
+																);
 							}
 						//.............................................
-						Task lo_Task;
+						Task<IConsumer<T>> lo_Task;
 
 						while (!this._Tasks.Count.Equals(0))
 							{
 								if (this._OpEnv.CT.IsCancellationRequested)	break;
 
 								lo_Task	= await Task.WhenAny(this._Tasks).ConfigureAwait(false);
+
 								if (this._Tasks.Remove(lo_Task))	ln_Ret++;
 
-											if (lo_Task.Status.Equals(TaskStatus.RanToCompletion)	)		{	this._Complt.Enqueue(lo_Task); }
-								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this._Faulty.Enqueue(lo_Task); }
-								else  																													{ this._Other	.Enqueue(lo_Task); }
+											if (lo_Task.Status.Equals(TaskStatus.RanToCompletion)	)		{	this.TasksCompleted.Enqueue(lo_Task); }
+								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this.TasksFaulty.Enqueue(lo_Task); }
+								else  																													{ this.TasksOther	.Enqueue(lo_Task); }
 							}
 						//.............................................
 						return	ln_Ret;

@@ -31,8 +31,8 @@ namespace zBxS_SAPNCO_UT
 
 						IList<string> lt	= SAPLogonINI.GetSAPGUIConfigEntries();
 						this.cc_ID				= lt.FirstOrDefault(s => s.Contains("PWD"));
-						this.cg						= this.co_DestRepo.GetAddIDFor	(	this.cc_ID	);
-						this.co_rfcConfig	=	this.co_DestRepo.GetParameters(	this.cg			);
+						this.GuidID				= this.co_DestRepo.GetAddIDFor	(	this.cc_ID	);
+						this.co_rfcConfig	=	this.co_DestRepo.GetParameters(	this.GuidID			);
 						this.RfcDest			= new DestinationRfc(this.co_rfcConfig);
 						this.RfcDest.LoadConfig(this.co_Setup);
 						this.RfcDest.RfcDestination	= SDM.GetDestination(this.RfcDest.RfcConfig);
@@ -45,7 +45,6 @@ namespace zBxS_SAPNCO_UT
 
 				private	const string	lz_PWrd		= "M@@n1234";
 
-				private	readonly	Guid												cg						;
 				private readonly	string											cc_ID					;
 				private readonly	DestinationRepository				co_DestRepo		;
 				private readonly	SMC.RfcConfigParameters			co_rfcConfig	;
@@ -56,6 +55,7 @@ namespace zBxS_SAPNCO_UT
 			//===========================================================================================
 			#region "Properties"
 
+				public Guid						GuidID	{	get;	}
 				public DestinationRfc RfcDest	{	get; set;	}
 
 			#endregion

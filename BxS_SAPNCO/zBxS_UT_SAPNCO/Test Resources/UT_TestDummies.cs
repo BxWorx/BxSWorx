@@ -37,28 +37,41 @@ namespace zBxS_SAPNCO_UT
 			//ииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			public override bool Execute(T workItem)
 				{
+					Thread.Sleep(10);
 					return	true;
 				}
 		}
 
-
 	//***************************************************************************
-	public class UT_ConsMaker	: IConsumerMaker<IUT_TranData>
+	internal class UT_ConsMaker	: IConsumerMaker<IUT_TranData>
 		{
+			public UT_ConsMaker(OpEnv<IUT_TranData,UT_ProgInfo> opEnv)
+				{
+					this._opEnv	= opEnv;
+				}
+
+			private readonly OpEnv<IUT_TranData,UT_ProgInfo> _opEnv;
+
 			public	IConsumer<IUT_TranData>	 CreateConsumer()
 				{
-					return	new UT_Consumer<IUT_TranData, UT_ProgInfo>()
+					return	new UT_Consumer<IUT_TranData, UT_ProgInfo>(this._opEnv);
 				}
 		}
-
 
 	//***************************************************************************
 	public class UT_Handler
 		{
 			//-----------------------------------------------------------------------
-			internal IConsumerMaker<IUT_TranData>	CreateConsMaker()
+			internal Pipeline<IUT_TranData, UT_ProgInfo>	CreatePipeline()
 				{
-					return	new	UT_ConsMaker();
+					OpEnv<IUT_TranData, UT_ProgInfo> lo_Openv	= this.CreateOpEnv();
+					return	new Pipeline<IUT_TranData, UT_ProgInfo>(	lo_Openv, this.CreateConsMaker(lo_Openv) );
+				}
+
+			//-----------------------------------------------------------------------
+			internal IConsumerMaker<IUT_TranData>	CreateConsMaker(OpEnv<IUT_TranData,UT_ProgInfo> opEnv)
+				{
+					return	new	UT_ConsMaker(opEnv);
 				}
 
 			//-----------------------------------------------------------------------
@@ -69,7 +82,6 @@ namespace zBxS_SAPNCO_UT
 					var											lo_CT	= new CancellationToken();
 
 					return	new OpEnv<IUT_TranData, UT_ProgInfo>(lo_PH, lo_PI, lo_CT);
-
 				}
 		}
 }
