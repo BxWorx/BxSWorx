@@ -60,40 +60,25 @@ namespace zBxS_SAPNCO_UT
 
 					for (int i = 0; i < lt_No.Count; i++)
 						{
-
-							this.co_Data.SetupTestBDCData	(lo_TranData	, lt_No[i]	, lc_Tel )	;
-							this.co_Parser.ParseFrom			(lo_TranData	,	lo_RfcData);
-
-							lo_BDCTran0.Process(lo_RfcData);
-
-							this.co_Parser.ParseTo(lo_RfcData,lo_TranData);
-
-							Assert.AreNotEqual( 0	, lo_TranData.MSGCount	, $"SAPNCO:BDCTran:Invoke {ln_Cnt}: Multi {i}" );
-						}
-
-
-
-
-					for (int i = 0; i < ln_Max; i++)
-						{
-							IUT_TranData o = new UT_TranData();
-							bool b	=	lo_Pipe.Post(o);
+							var lo_BDCData	= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
+							this.co_Data.SetupTestBDCData	(lo_BDCData	, lt_No[i]	, lc_Tel ) ;
+							lo_Pipe.Post(lo_BDCData);
 						}
 					lo_Pipe.AddingCompleted();
 
-					int y = await lo_Pipe.StartAsync(ln_Con).ConfigureAwait(false);
+					int ln_ConCnt = await lo_Pipe.StartAsync(ln_Con).ConfigureAwait(false);
 
-					while (!y.Equals(ln_Con))
+					while (!ln_ConCnt.Equals(ln_Con))
 						{
 							Thread.Sleep(10);
 						}
 
-						foreach (Task<IConsumer<IUT_TranData>> lo_Task in lo_Pipe.TasksCompleted)
-							{
-								ln_Tot	+= lo_Task.Result.Successful.Count ;
-							}
+					foreach (Task<IConsumer<IUT_TranData>> lo_Task in lo_Pipe.TasksCompleted)
+						{
+							ln_Tot	+= lo_Task.Result.Successful.Count ;
+						}
 
-					Assert.AreEqual( ln_Con	, y												,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
+					Assert.AreEqual( ln_Con	, ln_ConCnt								,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
 					Assert.AreEqual( ln_Max	, ln_Tot									,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
 					Assert.AreEqual( ln_Con	, lo_Pipe.CompletedCount	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 3rd" );
 				}
