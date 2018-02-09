@@ -30,10 +30,10 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const string	lz_CTU_DisMde	= "AENP";
-				private	const string	lz_CTU_UpdMde	= "LSA";
-				private	const string	lz_CTU_CatMde	= " NA";
-				private	const string	lz_CTU_YesNo	= " X";
+				private	const string	lz_CTU_DisMde	= "AENP"	;
+				private	const string	lz_CTU_UpdMde	= "LSA"		;
+				private	const string	lz_CTU_CatMde	= " NA"		;
+				private	const string	lz_CTU_YesNo	= " X"		;
 				//.................................................
 				private	char	_DspMde	;
 				private	char	_UpdMde	;
@@ -138,12 +138,12 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public DTO_CTUOptions GetImage()
 					{
 						return	new DTO_CTUOptions	{	DisplayMode		= this._DspMde,
-																				UpdateMode		= this._UpdMde,
-																				CATTMode			= this._CatMde,
-																				DefaultSize		= this._DefSze,
-																				NoCommit			= this._NoComm,
-																				NoBatchInpFor = this._NoBInp,
-																				NoBatchInpAft	= this._NoBEnd	};
+																					UpdateMode		= this._UpdMde,
+																					CATTMode			= this._CatMde,
+																					DefaultSize		= this._DefSze,
+																					NoCommit			= this._NoComm,
+																					NoBatchInpFor = this._NoBInp,
+																					NoBatchInpAft	= this._NoBEnd	};
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

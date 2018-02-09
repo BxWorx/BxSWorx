@@ -9,11 +9,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DTO_RFCData()
 					{
-						//Guid ID	= default(Guid)
-						//this.ID		= ID.Equals(Guid.Empty)	?	Guid.NewGuid()	:	ID;
-						//.............................................
-						this.ProcessedStatus	= false;
-						this.SuccesStatus			= false;
+						this.ProcessedStatus	= false	;
+						this.SuccesStatus			= false	;
 					}
 
 			#endregion
@@ -21,8 +18,6 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				//public	Guid	ID	{ get; set; }
-				//.................................................
 				public	bool	ProcessedStatus	{ get; set;	}
 				public	bool	SuccesStatus		{ get; set;	}
 				//.................................................

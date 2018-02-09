@@ -48,8 +48,8 @@ namespace zBxS_SAPNCO_UT
 				{
 								int	ln_Cnt	= 00;
 								int	ln_Tot	= 00;
-					const int ln_Max	= 2000;
-					const int ln_Con	= 20;
+								int ln_Max	= 00;
+					const int ln_Con	= 1;
 								string	lc_Tel	= "000";
 								var			lo_Rnd	= new Random();
 					//...............................................
@@ -57,10 +57,12 @@ namespace zBxS_SAPNCO_UT
 
 					Pipeline<IBDCTranData, BDCProgressInfo> lo_Pipe		=	this.co_Cntlr.CreateBDCPipeline( this.co_Dest.GuidID );
 					IList<string>	lt_No		= this.co_Data.LoadList();
+												lc_Tel	= lo_Rnd.Next(100,1000).ToString();
+												ln_Max	= lt_No.Count;
 
 					for (int i = 0; i < lt_No.Count; i++)
 						{
-							var lo_BDCData	= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
+							IBDCTranData lo_BDCData	= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
 							this.co_Data.SetupTestBDCData	(lo_BDCData	, lt_No[i]	, lc_Tel ) ;
 							lo_Pipe.Post(lo_BDCData);
 						}

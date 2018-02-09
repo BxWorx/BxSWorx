@@ -12,9 +12,9 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 																		BDC2RfcParser														parser	,
 																		IBDCProfile															profile		)
 					{
-						this._OpEnv		= opEnv	;
-						this._Parser	= parser;
-						this._Profile	= profile;
+						this._OpEnv		= opEnv		;
+						this._Parser	= parser	;
+						this._Profile	= profile	;
 					}
 
 			#endregion

@@ -39,7 +39,6 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Properties"
 
-
 				internal int  CompletedCount	{ get { return	this.TasksCompleted	.Count; } }
 				internal int  FaultyCount			{ get { return	this.TasksFaulty		.Count; } }
 				internal int  OtherCount			{ get { return	this.TasksOther			.Count; } }

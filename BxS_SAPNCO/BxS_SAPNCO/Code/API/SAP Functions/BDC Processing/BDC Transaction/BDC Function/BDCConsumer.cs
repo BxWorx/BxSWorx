@@ -10,10 +10,10 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCConsumer( OpEnv<T,P>	OpEnv					,
-														BDC2RfcParser							parser				,
-														IBDCTranProcessor					tranProcessor	,
-														DTO_RFCData								dtoRfcData			)	: base(OpEnv)
+				public BDCConsumer( OpEnv<T,P>					OpEnv					,
+														BDC2RfcParser				parser				,
+														IBDCTranProcessor		tranProcessor	,
+														DTO_RFCData					dtoRfcData			)	: base(OpEnv)
 					{
 						this._BDCTran	= tranProcessor	;
 						this._RfcData	= dtoRfcData		;
@@ -25,9 +25,9 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IBDCTranProcessor					_BDCTran	;
-				private readonly	DTO_RFCData								_RfcData	;
-				private	readonly	BDC2RfcParser							_Parser		;
+				private readonly	IBDCTranProcessor		_BDCTran	;
+				private readonly	DTO_RFCData					_RfcData	;
+				private	readonly	BDC2RfcParser				_Parser		;
 
 			#endregion
 
