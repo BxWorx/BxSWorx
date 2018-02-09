@@ -37,21 +37,9 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_CTUOptions(	char	DisplayMode		=	BDCConstants.lz_CTU_N	,
-																char	UpdateMode		=	BDCConstants.lz_CTU_A	,
-																char	CATTMode			=	BDCConstants.lz_CTU_F	,
-																char	DefaultSize		=	BDCConstants.lz_CTU_F	,
-																char	NoCommit			=	BDCConstants.lz_CTU_F	,
-																char	NoBatchInpFor	=	BDCConstants.lz_CTU_F	,
-																char	NoBatchInpAft	=	BDCConstants.lz_CTU_F		)
+				public DTO_CTUOptions()
 					{
-						this.DisplayMode		=	DisplayMode		;
-						this.UpdateMode			=	UpdateMode		;
-						this.CATTMode				=	CATTMode			;
-						this.DefaultSize		=	DefaultSize		;
-						this.NoCommit				=	NoCommit			;
-						this.NoBatchInpFor	=	NoBatchInpFor	;
-						this.NoBatchInpAft	=	NoBatchInpAft	;
+						this.SetToDefaults();
 					}
 
 			#endregion
@@ -66,6 +54,23 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				public	char	NoCommit				{	get; set; }
 				public	char	NoBatchInpFor		{	get; set; }
 				public	char	NoBatchInpAft		{	get; set; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void SetToDefaults()
+					{
+						this.DisplayMode		=	BDCConstants.lz_CTU_N	;
+						this.UpdateMode			=	BDCConstants.lz_CTU_A	;
+						this.CATTMode				=	BDCConstants.lz_CTU_F	;
+						this.DefaultSize		=	BDCConstants.lz_CTU_F	;
+						this.NoCommit				=	BDCConstants.lz_CTU_F	;
+						this.NoBatchInpFor	=	BDCConstants.lz_CTU_F	;
+						this.NoBatchInpAft	=	BDCConstants.lz_CTU_F	;
+					}
 
 			#endregion
 

@@ -11,7 +11,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC2RfcParser(IBDCProfile profile)
 					{
-						this._Profile	= profile;
+						this._BDCProfile	= profile;
 					}
 
 			#endregion
@@ -19,7 +19,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly IBDCProfile	_Profile;
+				private readonly IBDCProfile	_BDCProfile;
 
 			#endregion
 
@@ -48,25 +48,20 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						this.GetMessages(	RFCTranData.MSGData	,	BDCTranData	);
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PutCTUOptions(DTO_CTUOptions ctuOptions, SMC.IRfcStructure ls_CTUOpt)
+				internal void PutCTUOptions(DTO_CTUOptions ctuOptions, SMC.IRfcStructure ls_CTUOpt)
 					{
-						ls_CTUOpt.SetValue(	this._Profile.CTUOpt_DspMde	,	ctuOptions.DisplayMode		);
-						ls_CTUOpt.SetValue(	this._Profile.CTUOpt_UpdMde	,	ctuOptions.UpdateMode			);
-						ls_CTUOpt.SetValue(	this._Profile.CTUOpt_CATMde	,	ctuOptions.CATTMode				);
-						ls_CTUOpt.SetValue(	this._Profile.CTUOpt_DefSze	,	ctuOptions.DefaultSize		);
-						ls_CTUOpt.SetValue(	this._Profile.CTUOpt_NoComm	,	ctuOptions.NoCommit				);
-						ls_CTUOpt.SetValue(	this._Profile.CTUOpt_NoBtcI	,	ctuOptions.NoBatchInpFor	);
-						ls_CTUOpt.SetValue(	this._Profile.CTUOpt_NoBtcE	,	ctuOptions.NoBatchInpAft	);
+						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_DspMde	,	ctuOptions.DisplayMode		);
+						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_UpdMde	,	ctuOptions.UpdateMode			);
+						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_CATMde	,	ctuOptions.CATTMode				);
+						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_DefSze	,	ctuOptions.DefaultSize		);
+						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_NoComm	,	ctuOptions.NoCommit				);
+						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_NoBtcI	,	ctuOptions.NoBatchInpFor	);
+						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_NoBtcE	,	ctuOptions.NoBatchInpAft	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PutSPAData(IList<DTO_SPAEntry>	spaData, SMC.IRfcTable lt_Data)
+				internal void PutSPAData(IList<DTO_SPAEntry>	spaData, SMC.IRfcTable lt_Data)
 					{
 						lt_Data.Append(spaData.Count);
 						//.............................................
@@ -74,13 +69,13 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 							{
 								lt_Data.CurrentIndex	= i;
 
-								lt_Data.SetValue(	this._Profile.SPADat_MID	, spaData[i].MemoryID			);
-								lt_Data.SetValue(	this._Profile.SPADat_Val	, spaData[i].MemoryValue	);
+								lt_Data.SetValue(	this._BDCProfile.SPADat_MID	, spaData[i].MemoryID			);
+								lt_Data.SetValue(	this._BDCProfile.SPADat_Val	, spaData[i].MemoryValue	);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PutBDCData(IList<DTO_BDCEntry>	bdcData, SMC.IRfcTable lt_Data)
+				internal void PutBDCData(IList<DTO_BDCEntry>	bdcData, SMC.IRfcTable lt_Data)
 					{
 						lt_Data.Append(bdcData.Count);
 						//.............................................
@@ -88,11 +83,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 							{
 								lt_Data.CurrentIndex	= i;
 
-								lt_Data.SetValue(this._Profile.BDCDat_Prg, bdcData[i].ProgramName	);
-								lt_Data.SetValue(this._Profile.BDCDat_Dyn, bdcData[i].Dynpro			);
-								lt_Data.SetValue(this._Profile.BDCDat_Bgn, bdcData[i].Begin				);
-								lt_Data.SetValue(this._Profile.BDCDat_Fld, bdcData[i].FieldName		);
-								lt_Data.SetValue(this._Profile.BDCDat_Val, bdcData[i].FieldValue	);
+								lt_Data.SetValue(this._BDCProfile.BDCDat_Prg, bdcData[i].ProgramName	);
+								lt_Data.SetValue(this._BDCProfile.BDCDat_Dyn, bdcData[i].Dynpro			);
+								lt_Data.SetValue(this._BDCProfile.BDCDat_Bgn, bdcData[i].Begin				);
+								lt_Data.SetValue(this._BDCProfile.BDCDat_Fld, bdcData[i].FieldName		);
+								lt_Data.SetValue(this._BDCProfile.BDCDat_Val, bdcData[i].FieldValue	);
 							}
 					}
 
@@ -101,19 +96,19 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					{
 						foreach (SMC.IRfcStructure ls_Msg in lt_Data)
 							{
-								BDCTran.AddMSGData(	ls_Msg.GetString(	this._Profile.TabMsg_TCode)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_DynNm)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_DynNo)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_MsgTp)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_Lang)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_MsgID)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_MsgNo)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_MsgV1)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_MsgV2)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_MsgV3)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_MsgV4)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_Envir)	,
-																		ls_Msg.GetString(	this._Profile.TabMsg_Fldnm)		);
+								BDCTran.AddMSGData(	ls_Msg.GetString(	this._BDCProfile.TabMsg_TCode)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_DynNm)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_DynNo)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_MsgTp)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_Lang)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_MsgID)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_MsgNo)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_MsgV1)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_MsgV2)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_MsgV3)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_MsgV4)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_Envir)	,
+																		ls_Msg.GetString(	this._BDCProfile.TabMsg_Fldnm)		);
 							}
 					}
 

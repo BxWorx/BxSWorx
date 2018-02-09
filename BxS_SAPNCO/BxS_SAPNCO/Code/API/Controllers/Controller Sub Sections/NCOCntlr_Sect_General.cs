@@ -7,14 +7,14 @@ namespace BxS_SAPNCO.API
 {
 	public partial class NCOController
 		{
-			#region "Methods: Exposed: Pipeline"
+			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private OpEnv<T,P>	CreateOperatingEnvironment<T,P>(	P		progressInfo						,
-																															int	noConsumers				= 1		,
-																															int	progressInterval	= 10	,
-																															int	queueAddTimeout		= 10		)	where T:class
-																																															where P:class
+				private OpEnv<T,P>	CreateOpEnv<T,P>(	P		progressInfo						,
+																							int	noConsumers				= 1		,
+																							int	progressInterval	= 10	,
+																							int	queueAddTimeout		= 10		)	where T:class
+																																							where P:class
 					{
 						IProgress<P>	lo_PH	= new Progress<P>()				;
 						var						lo_CT	= new CancellationToken()	;

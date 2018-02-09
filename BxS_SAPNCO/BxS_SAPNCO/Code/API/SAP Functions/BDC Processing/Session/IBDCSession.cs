@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 {
@@ -10,7 +11,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 				DTO_SessionOptions	Options	{ get; set; }
 				int									Count		{ get; }
 				//.................................................
-				ConcurrentDictionary<	Guid, IBDCTranData >	BDCTransactions		{ get; }
+				ConcurrentQueue<IBDCTranData>	BDCTransactions		{ get; }
 
 			#endregion
 
@@ -19,7 +20,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 
 				void	Process();
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				void	AddBDCTransaction(IBDCTranData BDCTransaction);
+				void	AddBDCTransaction	(IList<IBDCTranData>	bdcTransactions	);
+				void	AddBDCTransaction	(IBDCTranData					bdcTransaction	);
 				void	Reset();
 
 			#endregion

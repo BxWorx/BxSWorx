@@ -52,6 +52,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 								this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_TCode	,	dtoRFCData.SAPTCode	)	;
 								this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_Skip1	, dtoRFCData.Skip1st	)	;
 								this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_CTUOpt	, dtoRFCData.CTUOpts	)	;
+
 								this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_TabSPA	, dtoRFCData.SPAData	)	;
 								this._RFCFunc.RfcFunction.SetValue(	this._Profile.ParIdx_TabBDC	, dtoRFCData.BDCData	)	;
 								//.........................................

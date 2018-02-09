@@ -3,18 +3,20 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 {
 	public class DTO_SessionOptions
 		{
-			#region "Documentation"
-			#endregion
-
-			//===========================================================================================
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_SessionOptions(	int	NoOfConsumers		=	1	,
-																		int TimeInterval		=	0	)
+				public DTO_SessionOptions(	int		NoOfConsumers			=	1			,
+																		int		TimeInterval			=	0			,
+																		int		progressInterval	= 10		,
+																		int		queueTimeout			= 10		,
+																		bool	sequential				= false		)
 					{
-						this.NoOfConsumers	=	NoOfConsumers	;
-						this.TimeInterval	=	TimeInterval	;
+						this.NoOfConsumers		=	NoOfConsumers			;
+						this.PauseTime				=	TimeInterval			;
+						this.ProgressInterval	=	progressInterval	;
+						this.QueueAddTimeout	=	queueTimeout			;
+						this.Sequential				=	sequential				;
 					}
 
 			#endregion
@@ -22,8 +24,12 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 			//===========================================================================================
 			#region "Properties"
 
-				public	int	NoOfConsumers		{	get; set; }
-				public	int	TimeInterval		{	get; set; }
+				public	int	NoOfConsumers			{	get; set; }
+				public	int	PauseTime					{	get; set; }
+				public	int ProgressInterval	{	get; set; }
+				public	int	QueueAddTimeout		{	get; set; }
+				//.................................................
+				public	bool	Sequential	{	get; set; }
 
 			#endregion
 

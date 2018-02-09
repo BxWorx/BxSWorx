@@ -33,7 +33,7 @@ namespace zBxS_SAPNCO_UT
 						this.cc_ID				= lt.FirstOrDefault(s => s.Contains("PWD"));
 						this.GuidID				= this.co_DestRepo.GetAddIDFor	(	this.cc_ID	);
 
-						this.co_rfcConfig	=	this.co_DestRepo.GetParameters(	this.GuidID			);
+						this.co_rfcConfig	=	this.co_DestRepo.GetParameters(	this.GuidID	);
 						this.RfcDest			= new DestinationRfc(this.co_rfcConfig);
 						this.RfcDest.LoadConfig(this.co_Setup);
 						this.RfcDest.RfcDestination	= SDM.GetDestination(this.RfcDest.RfcConfig);
