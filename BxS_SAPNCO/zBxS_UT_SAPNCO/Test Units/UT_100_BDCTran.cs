@@ -30,7 +30,7 @@ namespace zBxS_SAPNCO_UT
 					this.co_Dest		= new UT_Destination(2)	;
 					this.co_Cntlr		= new NCOController()		;
 
-					this.co_Profile	= this.co_Cntlr.GetAddBDCTranProcessorProfile(this.co_Dest.RfcDest);
+					this.co_Profile	= this.co_Cntlr.GetAddBDCProfile(this.co_Dest.RfcDest);
 					this.co_Parser	= this.co_Cntlr.CreateBDC2RfcParser(this.co_Profile);
 					this.co_PrfCnfg	= this.co_Cntlr.CreateProfileConfigurator();
 					this.co_PrfCnfg.Configure(this.co_Profile);

@@ -4,6 +4,7 @@ using System.Security;
 using System.Collections.Concurrent;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+using SDM = SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
 using BxS_SAPNCO.API.DL;
 using BxS_SAPNCO.API.Function;
@@ -15,12 +16,21 @@ namespace BxS_SAPNCO.Destination
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc( SMC.RfcConfigParameters RfcConfig )
+				public DestinationRfc(	SMC.RfcConfigParameters RfcConfig		,
+																IDTOConfigSetupGlobal		globalSetup	= null	)
 					{
-						this.RfcConfig	= RfcConfig;
+						this.RfcConfig	= RfcConfig		;
+						this._GlbSetup	= globalSetup	;
 						//.............................................
 						this._Profiles	= new	ConcurrentDictionary<string, object>();
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private readonly IDTOConfigSetupGlobal	_GlbSetup;
 
 			#endregion
 
@@ -64,7 +74,7 @@ namespace BxS_SAPNCO.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig(DTOConfigSetupDestination Config)
+				public void LoadConfig(IDTOConfigSetupDestination Config)
 					{
 						foreach (KeyValuePair<string, string> ls_kvp in Config.Settings)
 							{
@@ -78,6 +88,25 @@ namespace BxS_SAPNCO.Destination
 
 			//===========================================================================================
 			#region "Methods: Exposed: General"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool Procure()
+					{
+						bool lb_Ret	= true;
+						//.............................................
+						if (this._GlbSetup != null)	this.LoadConfig(this._GlbSetup);
+
+						try
+							{
+								this.RfcDestination	= SDM.GetDestination(this.RfcConfig);
+							}
+						catch (Exception)
+							{
+								lb_Ret	= false;
+							}
+						//.............................................
+						return	lb_Ret;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Ping()

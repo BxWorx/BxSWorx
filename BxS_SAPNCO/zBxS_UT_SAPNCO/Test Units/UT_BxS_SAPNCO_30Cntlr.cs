@@ -22,7 +22,7 @@ namespace zBxS_SAPNCO_UT
 
 					var	lo_Cntlr1	= new NCOController();
 					var	lo_Cntlr2	= new NCOController();
-					var	lo_Cntlr3	= new NCOController(LoadSAPGUIConfig: true, FirstReset: true);
+					var	lo_Cntlr3	= new NCOController(loadSAPGUIConfig: true, firstReset: true);
 
 					Assert.IsNotNull(	lo_Cntlr1	,	$"SAPNCO:Cntlr:With {ln_Cnt}: Inst1" );
 					Assert.IsNotNull(	lo_Cntlr2	,	$"SAPNCO:Cntlr:With {ln_Cnt}: Inst2" );
@@ -80,13 +80,12 @@ namespace zBxS_SAPNCO_UT
 
 					lo_Desto.LoadConfig(lo_Setupo);
 					lo_Desto.SecurePassword	= lo_SecurePwd;
+					lo_Desto.Procure();
 
 					lo_Destx.Client					= "700";
 					lo_Destx.User						= "DERRICKBINGH";
 					lo_Destx.SecurePassword	= lo_SecurePwd;
-
-					lo_Cntlr1.ProcureDestination(lo_Desto);
-					lo_Cntlr1.ProcureDestination(lo_Destx);
+					lo_Destx.Procure();
 
 					Assert.IsTrue	(	lo_Desto.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: PWD" );
 					Assert.IsTrue(	lo_Destx.Ping(),	$"SAPNCO:Cntlr:Ping {ln_Cnt}: SSO" );

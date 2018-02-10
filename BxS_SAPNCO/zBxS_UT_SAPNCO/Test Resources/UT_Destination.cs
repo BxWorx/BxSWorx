@@ -16,16 +16,17 @@ namespace zBxS_SAPNCO_UT
 			#region "Constructors"
 
 				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
-				public UT_Destination( int useSAPGUI = 0 )
+				public UT_Destination( int	useSAPGUI = 0			,
+															 bool autoStart	= true		)
+					{
+						if (autoStart)	this.UT_Destination_Startup(useSAPGUI);
+					}
+
+				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
+				public void UT_Destination_Startup(int useSAPGUI = 0)
 					{
 						this.co_DestRepo	= new	DestinationRepository();
-						this.co_Setup			= new DTOConfigSetupDestination	{	Client		= 700							,
-																																User			= "DERRICKBINGH"	,
-																																Password	= lz_PWrd						};
-
-						if			(useSAPGUI == 0)	this.co_Setup.SetSAPGUIasNotUsed()	;
-						else if	(useSAPGUI == 1)	this.co_Setup.SetSAPGUIasHidden	()	;
-						else if	(useSAPGUI == 2)	this.co_Setup.SetSAPGUIasUsed		()	;
+						this.co_Setup			= this.UT_Destination_User(useSAPGUI);
 
 						SAPLogonINI.LoadRepository(this.co_DestRepo);
 
@@ -39,6 +40,20 @@ namespace zBxS_SAPNCO_UT
 						this.RfcDest.RfcDestination	= SDM.GetDestination(this.RfcDest.RfcConfig);
 					}
 
+				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
+				public IDTOConfigSetupDestination UT_Destination_User(int useSAPGUI = 0)
+					{
+						var	lo_Setup	= new DTOConfigSetupDestination	{	Client		= 700							,
+																														User			= "DERRICKBINGH"	,
+																														Password	= lz_PWrd						};
+
+						if			(useSAPGUI == 0)	lo_Setup.SetSAPGUIasNotUsed	();
+						else if	(useSAPGUI == 1)	lo_Setup.SetSAPGUIasHidden	();
+						else if	(useSAPGUI == 2)	lo_Setup.SetSAPGUIasUsed		();
+
+						return	lo_Setup;
+					}
+
 			#endregion
 
 			//===========================================================================================
@@ -46,17 +61,17 @@ namespace zBxS_SAPNCO_UT
 
 				private	const string	lz_PWrd		= "M@@n1234";
 
-				private readonly	string											cc_ID					;
-				private readonly	DestinationRepository				co_DestRepo		;
-				private readonly	SMC.RfcConfigParameters			co_rfcConfig	;
-				private readonly	IDTOConfigSetupDestination	co_Setup			;
+				private string											cc_ID					;
+				private DestinationRepository				co_DestRepo		;
+				private SMC.RfcConfigParameters			co_rfcConfig	;
+				private IDTOConfigSetupDestination	co_Setup			;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public Guid						GuidID	{	get;	}
+				public Guid						GuidID	{	get; set;	}
 				public DestinationRfc RfcDest	{	get; set;	}
 
 			#endregion

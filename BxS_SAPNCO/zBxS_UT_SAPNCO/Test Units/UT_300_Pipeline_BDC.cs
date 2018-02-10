@@ -38,8 +38,8 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					Pipeline<IBDCTranData, BDCProgressInfo> lo_Pipe		=	this.co_Cntlr.CreateBDCPipeline( this.co_Dest.GuidID );
-					Assert.IsNotNull(	lo_Pipe	,	$"SAPNCO:OpEnv:Inst {ln_Cnt}: 1st" );
+					//Pipeline<IBDCTranData, BDCProgressInfo> lo_Pipe		=	this.co_Cntlr.CreateBDCPipeline( this.co_Dest.GuidID );
+					//Assert.IsNotNull(	lo_Pipe	,	$"SAPNCO:OpEnv:Inst {ln_Cnt}: 1st" );
 				}
 
 			//-------------------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					Pipeline<IBDCTranData, BDCProgressInfo> lo_Pipe		=	this.co_Cntlr.CreateBDCPipeline( this.co_Dest.GuidID );
+					//Pipeline<IBDCTranData, BDCProgressInfo> lo_Pipe		=	this.co_Cntlr.CreateBDCPipeline( this.co_Dest.GuidID );
 					IList<string>	lt_No		= this.co_Data.LoadList();
 												lc_Tel	= lo_Rnd.Next(100,1000).ToString();
 												ln_Max	= lt_No.Count;
@@ -64,25 +64,25 @@ namespace zBxS_SAPNCO_UT
 						{
 							IBDCTranData lo_BDCData	= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
 							this.co_Data.SetupTestBDCData	(lo_BDCData	, lt_No[i]	, lc_Tel ) ;
-							lo_Pipe.Post(lo_BDCData);
+							//lo_Pipe.Post(lo_BDCData);
 						}
-					lo_Pipe.AddingCompleted();
+					//lo_Pipe.AddingCompleted();
 
-					int ln_ConCnt = await lo_Pipe.StartAsync(ln_Con).ConfigureAwait(false);
+					//int ln_ConCnt = await lo_Pipe.StartAsync(ln_Con).ConfigureAwait(false);
 
-					while (!ln_ConCnt.Equals(ln_Con))
-						{
-							Thread.Sleep(10);
-						}
+					//while (!ln_ConCnt.Equals(ln_Con))
+					//	{
+					//		Thread.Sleep(10);
+					//	}
 
-					foreach (Task<IConsumer<IUT_TranData>> lo_Task in lo_Pipe.TasksCompleted)
-						{
-							ln_Tot	+= lo_Task.Result.Successful.Count ;
-						}
+					//foreach (Task<IConsumer<IUT_TranData>> lo_Task in lo_Pipe.TasksCompleted)
+					//	{
+					//		ln_Tot	+= lo_Task.Result.Successful.Count ;
+					//	}
 
-					Assert.AreEqual( ln_Con	, ln_ConCnt								,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
-					Assert.AreEqual( ln_Max	, ln_Tot									,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
-					Assert.AreEqual( ln_Con	, lo_Pipe.CompletedCount	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 3rd" );
+					//Assert.AreEqual( ln_Con	, ln_ConCnt								,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
+					//Assert.AreEqual( ln_Max	, ln_Tot									,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
+					//Assert.AreEqual( ln_Con	, lo_Pipe.CompletedCount	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 3rd" );
 				}
 		}
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
-using BxS_SAPNCO.Destination;
-using BxS_SAPNCO.API.DL;
+using BxS_SAPNCO.API.SAPFunctions.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
@@ -11,13 +10,16 @@ namespace BxS_SAPNCO.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public NCOController(	bool	LoadSAPGUIConfig	= true	,
-															bool	FirstReset				= false		)
+				public NCOController(	bool	loadSAPGUIConfig	= true	,
+															bool	firstReset				= false	,
+															bool	autoLoad					= false		)
 					{
-						this._LoadSAPGUICfg		= LoadSAPGUIConfig;
-						this._FirstReset			= FirstReset;
+						this._LoadSAPGUICfg		= loadSAPGUIConfig;
+						this._FirstReset			= firstReset;
 						//.............................................
 						this._Started		= false;
+						//.............................................
+						if (autoLoad)	this.Startup();
 					}
 
 			#endregion
@@ -30,24 +32,15 @@ namespace BxS_SAPNCO.API
 				private	readonly	bool	_LoadSAPGUICfg;
 				private	readonly	bool	_FirstReset;
 				//.................................................
-				private readonly
-					Lazy<DestinationRepository>	_DestRepos		= new Lazy<DestinationRepository>
-																													(	() => new DestinationRepository()
-																														, LazyThreadSafetyMode.ExecutionAndPublication );
-
-				private readonly
-					Lazy<IDTOConfigSetupGlobal>	_GlobalSetup	= new Lazy<IDTOConfigSetupGlobal>
-																													(	() => new DTOConfigSetupGlobal()
-																														, LazyThreadSafetyMode.ExecutionAndPublication );
+				private	readonly
+					Lazy<SAPFncConstants>		_SAPFncConst
+						= new	Lazy<SAPFncConstants>(	() => new SAPFncConstants()
+																					, LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
-
-				public DestinationRepository	Repository	{ get {	return	this._DestRepos		.Value; } }
-				public IDTOConfigSetupGlobal	GlobalSetup	{ get {	return	this._GlobalSetup	.Value; } }
-
 			#endregion
 
 		}

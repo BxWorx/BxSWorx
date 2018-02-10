@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 //.........................................................
-using BxS_SAPNCO.Destination;
+using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 {
@@ -11,14 +12,21 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCSession(	BDCSessionOpEnv			opEnv		,
-														DTO_SessionOptions	options		)
+				public BDCSession(	BDCOpEnv							opEnv					,
+														DTO_SessionOptions		options				,
+														DTO_BDCSessionHeader	sessionHeader		)
 					{
-						this._OpEnv		= opEnv;
-						this.Options	= options;
+						this._OpEnv					= opEnv					;
+						this.SessionOptions	= options				;
+						this.SessionHeader	= sessionHeader	;
 						//.............................................
-						this.BDCTransactions	= new	ConcurrentQueue<IBDCTranData>	();
-						this._BDCRfcTran			= new	ConcurrentQueue<DTO_RFCData>	();
+						this._Indexer	= 0							;
+						this._Lock		= new object()	;
+
+						this.Transactions	= new	ConcurrentDictionary<int, BDCSessionTran>()	;
+						this._RfcTran			= new	ConcurrentQueue<DTO_RFCData>()							;
+
+						this._RfcHeader					= this._OpEnv.CreateSessionRFCHeader();
 					}
 
 			#endregion
@@ -26,24 +34,26 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 			//===========================================================================================
 			#region "Declarations"
 
-				private	BDCSessionOpEnv	_OpEnv;
-
-				private DTO_RFCSessionHeader						_RfcHeader	;
-				private	ConcurrentQueue<DTO_RFCData>		_RfcTran		;
+				private	int	_Indexer;
+				//.................................................
+				private readonly	BDCOpEnv	_OpEnv;
+				private readonly	object		_Lock	;
+				//.................................................
+				private readonly	DTO_RFCSessionHeader					_RfcHeader	;
+				private readonly	ConcurrentQueue<DTO_RFCData>	_RfcTran		;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	DestinationRfc	Destination		{	get;	}
+				public	bool	IsStarted					{ get { return	this._OpEnv.IsStarted		; } }
+				public	int		TransactionCount	{ get { return	this.Transactions.Count	; } }
 				//.................................................
-				public	int									Count						{ get { return	this.BDCTransactions.Count; } }
-				public	DTO_SessionOptions	Options					{ get; set; }
+				public	DTO_SessionOptions		SessionOptions	{ get; }
+				public  DTO_BDCSessionHeader	SessionHeader		{ get; }
 				//.................................................
-				public  DTO_BDCSessionHeader	SessionHeader	{ get; set; }
-				//.................................................
-				public	ConcurrentQueue<IBDCTranData>		BDCTransactions		{ get;	}
+				public	ConcurrentDictionary<int, BDCSessionTran>		Transactions	{ get;	}
 
 			#endregion
 
@@ -53,30 +63,49 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Process()
 					{
+						this._OpEnv.Start();
+						if (!this.IsStarted)	return;
+						//.............................................
+						this.Parse();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	AddBDCTransaction(IList<IBDCTranData> bdcTransactions)
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	ConfigureUser(IDTOConfigSetupDestination config)
 					{
-						foreach (IBDCTranData item in bdcTransactions)
+						this._OpEnv.Destination.LoadConfig(config);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDCSessionTran	CreateTran(Guid ID = default(Guid))
+					{
+						return	this._OpEnv.CreateSessionBDCTran(ID);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	AddTransaction(IList<BDCSessionTran> transactions)
+					{
+						foreach (BDCSessionTran lo_Tran in transactions)
 							{
-								this.BDCTransactions.Enqueue(item);
+								this.AddTransaction(lo_Tran);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	AddBDCTransaction(IBDCTranData bdcTransaction)
+				public void	AddTransaction(BDCSessionTran transaction)
 					{
-						this.BDCTransactions.Enqueue(bdcTransaction);
+						lock (this._Lock)
+							{
+								Interlocked.Increment(ref this._Indexer);
+								if (!this.Transactions.TryAdd(this._Indexer, transaction))	Interlocked.Decrement(ref this._Indexer);
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Reset()
 					{
-						while(!this.BDCTransactions.IsEmpty)
-							{
-								this.BDCTransactions.TryDequeue(out IBDCTranData lo);
-							}
+						this.ClearRFC();
+						this.Transactions.Clear();
 					}
 
 			#endregion
@@ -84,11 +113,37 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 			//===========================================================================================
 			#region "Methods: Private"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Parse()
 					{
-						
+						this.ClearRFC();
+						//.............................................
+						this._RfcHeader.CTUOpts	= this._OpEnv.Profile.CTUStr;
 						this._OpEnv.Parser.PutCTUOptions(this.SessionHeader.CTUOptions, this._RfcHeader.CTUOpts);
+						//.............................................
+						ICollection<int> lt_Keys	= this.Transactions.Keys;
 
+						if (this.SessionOptions.Sequential)
+							{
+								foreach (int item in lt_Keys)
+									{
+										//if (this.BDCTransactions.TryGetValue(item, out IBDCTranData lo_Tran))
+										//	{
+										//	}
+									}
+							}
+						else
+							{
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void	ClearRFC()
+					{
+						while(!this._RfcTran.IsEmpty)
+							{
+								this._RfcTran.TryDequeue(out DTO_RFCData lo);
+							}
 					}
 
 			#endregion

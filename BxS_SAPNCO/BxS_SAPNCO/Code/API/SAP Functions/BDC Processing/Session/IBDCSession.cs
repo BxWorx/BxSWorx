@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+//.........................................................
+using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 {
@@ -8,20 +10,28 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 		{
 			#region "Properties"
 
-				DTO_SessionOptions	Options	{ get; set; }
-				int									Count		{ get; }
+				DTO_SessionOptions		SessionOptions	{ get; }
+				DTO_BDCSessionHeader	SessionHeader		{	get; }
 				//.................................................
-				ConcurrentQueue<IBDCTranData>	BDCTransactions		{ get; }
+				int		TransactionCount	{ get; }
+				bool	IsStarted					{ get; }
+				//.................................................
+				ConcurrentDictionary< int, BDCSessionTran >		Transactions	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				void	ConfigureUser(IDTOConfigSetupDestination config);
+				//.................................................
 				void	Process();
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				void	AddBDCTransaction	(IList<IBDCTranData>	bdcTransactions	);
-				void	AddBDCTransaction	(IBDCTranData					bdcTransaction	);
+				//.................................................
+				BDCSessionTran	CreateTran(Guid ID = default(Guid));
+
+				void	AddTransaction(	IList<BDCSessionTran>	transactions	);
+				void	AddTransaction(	BDCSessionTran				transaction		);
+				//.................................................
 				void	Reset();
 
 			#endregion
