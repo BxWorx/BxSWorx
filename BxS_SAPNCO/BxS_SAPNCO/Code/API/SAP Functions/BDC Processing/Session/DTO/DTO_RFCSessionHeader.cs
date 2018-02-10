@@ -1,6 +1,6 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 {
 	internal class DTO_RFCSessionHeader
 		{

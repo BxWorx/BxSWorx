@@ -22,11 +22,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 						//.............................................
 						this._Indexer	= 0							;
 						this._Lock		= new object()	;
+						//.............................................
+						this.Transactions	= new	ConcurrentDictionary<int, BDCSessionTran>	();
+						this._RfcTran			= new	ConcurrentQueue<DTO_RFCSessionTran>				();
 
-						this.Transactions	= new	ConcurrentDictionary<int, BDCSessionTran>()	;
-						this._RfcTran			= new	ConcurrentQueue<DTO_RFCData>()							;
-
-						this._RfcHeader					= this._OpEnv.CreateSessionRFCHeader();
+						this._RfcHeader		= this._OpEnv.CreateSessionRFCHeader						();
 					}
 
 			#endregion
@@ -39,8 +39,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 				private readonly	BDCOpEnv	_OpEnv;
 				private readonly	object		_Lock	;
 				//.................................................
-				private readonly	DTO_RFCSessionHeader					_RfcHeader	;
-				private readonly	ConcurrentQueue<DTO_RFCData>	_RfcTran		;
+				private readonly	DTO_RFCSessionHeader								_RfcHeader	;
+				private readonly	ConcurrentQueue<DTO_RFCSessionTran>	_RfcTran		;
 
 			#endregion
 
@@ -53,7 +53,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 				public	DTO_SessionOptions		SessionOptions	{ get; }
 				public  DTO_BDCSessionHeader	SessionHeader		{ get; }
 				//.................................................
-				public	ConcurrentDictionary<int, BDCSessionTran>		Transactions	{ get;	}
+				public	ConcurrentDictionary<int, BDCSessionTran>		Transactions	{ get; }
 
 			#endregion
 
@@ -119,17 +119,21 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 						this.ClearRFC();
 						//.............................................
 						this._RfcHeader.CTUOpts	= this._OpEnv.Profile.CTUStr;
-						this._OpEnv.Parser.PutCTUOptions(this.SessionHeader.CTUOptions, this._RfcHeader.CTUOpts);
+						this._OpEnv.Parser.PutCTUOptions(	this.SessionHeader.CTUOptions	,
+																							this._RfcHeader.CTUOpts					);
 						//.............................................
 						ICollection<int> lt_Keys	= this.Transactions.Keys;
 
 						if (this.SessionOptions.Sequential)
 							{
-								foreach (int item in lt_Keys)
+								foreach (int ln_Key in lt_Keys)
 									{
-										//if (this.BDCTransactions.TryGetValue(item, out IBDCTranData lo_Tran))
-										//	{
-										//	}
+										if (this.Transactions.TryGetValue(ln_Key, out BDCSessionTran lo_BDCTran))
+											{
+												DTO_RFCSessionTran lo_RFCTran	= this._OpEnv.CreateSessionRFCTran();
+												this._OpEnv.Parser.PutBDCData(lo_BDCTran.BDCData, lo_RFCTran.BDCData);
+												this._RfcTran.Enqueue(lo_RFCTran);
+											}
 									}
 							}
 						else
@@ -142,7 +146,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 					{
 						while(!this._RfcTran.IsEmpty)
 							{
-								this._RfcTran.TryDequeue(out DTO_RFCData lo);
+								this._RfcTran.TryDequeue(out DTO_RFCSessionTran lo);
 							}
 					}
 

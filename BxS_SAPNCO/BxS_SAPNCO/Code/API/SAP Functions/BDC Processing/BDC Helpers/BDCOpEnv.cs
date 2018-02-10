@@ -15,15 +15,17 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 														BDC2RfcParser								parser									,
 														BDCProfileConfigurator			configurator						,
 														Func<Guid, BDCSessionTran>	createBDCSessionTran		,
-														Func<DTO_RFCSessionHeader>	createRFCSessionHeader		)
+														Func<DTO_RFCSessionHeader>	createRFCSessionHeader	,
+														Func<DTO_RFCSessionTran>		createRFCSessionTran			)
 					{
-						this.Destination							= destination		;
-						this.Profile									= profile				;
-						this.Parser										= parser				;
-						this.Configurator							= configurator	;
-
+						this.Destination		= destination		;
+						this.Profile				= profile				;
+						this.Parser					= parser				;
+						this.Configurator		= configurator	;
+						//.............................................
 						this.CreateSessionBDCTran		= createBDCSessionTran		;
 						this.CreateSessionRFCHeader	= createRFCSessionHeader	;
+						this.CreateSessionRFCTran		= createRFCSessionTran		;
 						//.............................................
 						this.IsStarted	= false;
 					}
@@ -42,6 +44,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 
 				internal Func<Guid, BDCSessionTran>	CreateSessionBDCTran		{ get; }
 				internal Func<DTO_RFCSessionHeader>	CreateSessionRFCHeader	{ get; }
+				internal Func<DTO_RFCSessionTran>		CreateSessionRFCTran		{ get; }
 
 			#endregion
 

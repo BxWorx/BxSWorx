@@ -18,9 +18,10 @@ namespace BxS_SAPNCO.API
 						BDC2RfcParser						lo_PS	= this.CreateBDC2RfcParser			(lo_PR)		;
 						BDCProfileConfigurator	lo_PC	= this.CreateProfileConfigurator()				;
 
-						return	new BDCOpEnv( lo_DS, lo_PR, lo_PS, lo_PC		,
-																	this.CreateSessionTransaction	,
-																	this.CreateSessionRFCHeader			);
+						return	new BDCOpEnv( lo_DS, lo_PR, lo_PS, lo_PC				,
+																	this.CreateSessionBDCTransaction	,
+																	this.CreateSessionRFCHeader				,
+																	this.CreateSessionRFCTransaction		);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -41,7 +42,9 @@ namespace BxS_SAPNCO.API
 							{
 								lo_Profile	= new BDCFncProfile(	destination																	,
 																									this._SAPFncConst.Value.BDCCallTransaction		);
+
 								destination.RegisterProfile(lo_Profile);
+
 								destination.TryGetProfile(	this._SAPFncConst.Value.BDCCallTransaction	,
 																						out lo_ProfileObj															);
 							}

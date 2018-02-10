@@ -2,12 +2,12 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 {
-	public class BDCSessionOpEnv
+	public class BDCSessionOpEnvxxx
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSessionOpEnv(	DestinationRfc	destination	,
+				internal BDCSessionOpEnvxxx(	DestinationRfc	destination	,
 																	BDC2RfcParser		parser				)
 					{
 						this.Destination	= destination	;
@@ -22,7 +22,6 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 			#region "Declarations"
 
 				private	bool	_IsStarted;
-
 
 			#endregion
 
