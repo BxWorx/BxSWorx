@@ -22,7 +22,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 
 				DTO_CTUOptions	CTUOptions	{ get;	set;	}
 				//.................................................
-				IList<DTO_BDCEntry>	BDCData	{ get; }
+				IList<DTO_BDCData>	BDCData	{ get; }
 				IList<DTO_SPAEntry>	SPAData	{ get; }
 				IList<DTO_MSGEntry>	MSGData	{ get; }
 
@@ -42,7 +42,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 														string	value				= BDCConstants.lz_E		);
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					void	AddBDCData(DTO_BDCEntry entry);
+					void	AddBDCData(DTO_BDCData entry);
 
 				#endregion
 

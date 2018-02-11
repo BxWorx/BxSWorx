@@ -22,37 +22,12 @@ namespace BxS_SAPNCO.API
 					{
 						BDCOpEnv<DTO_SessionProgressInfo> lo_OE	= this.CreateBDCOpEnv(destinationID);
 						//.............................................
-						var lo_SO		= new DTO_SessionOptions	();
-						//.............................................
+						var lo_SO	= new DTO_SessionOptions();
+
 						var lo_SH = new DTO_BDCSessionHeader	{	CTUOptions = new DTO_CTUOptions()	};
 						//.............................................
 						return	new BDCSession(	lo_OE, lo_SO, lo_SH	);
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCSessionTran	CreateSessionBDCTransaction(Guid ID = default(Guid))
-					{
-						return	new	BDCSessionTran(ID);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_RFCSessionHeader	CreateSessionRFCHeader()
-					{
-						return	new	DTO_RFCSessionHeader();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_RFCSessionTran	CreateSessionRFCTransaction()
-					{
-						return	new	DTO_RFCSessionTran();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IProgress<DTO_SessionProgressInfo>	CreateSessionProgressHandler()
-					{
-						return	new Progress<DTO_SessionProgressInfo>();
-					}
-
 
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

@@ -12,7 +12,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 					{
 						this.ID	= ID.Equals(Guid.Empty)	?	Guid.NewGuid()	:	ID;
 						//.............................................
-						this.BDCData	= new List<DTO_BDCEntry>();
+						this.BDCData	= new List<DTO_BDCData>();
 						this.SPAData	= new List<DTO_SPAEntry>();
 						this.MSGData	= new List<DTO_MSGEntry>();
 						//.............................................
@@ -34,7 +34,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 				public	int	SPACount	{ get { return	this.SPAData.Count; } }
 				public	int	MSGCount	{ get { return	this.MSGData.Count; } }
 				//.................................................
-				public	IList<DTO_BDCEntry>	BDCData	{ get; }
+				public	IList<DTO_BDCData>	BDCData	{ get; }
 				public	IList<DTO_SPAEntry>	SPAData	{ get; }
 				public	IList<DTO_MSGEntry>	MSGData	{ get; }
 
@@ -53,11 +53,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 																	string	field				= BDCConstants.lz_E	,
 																	string	value				= BDCConstants.lz_E		)
 						{
-							this.AddBDCData(	new	DTO_BDCEntry(	programName, dynpro, begin, field, value ) );
+							this.AddBDCData(	new	DTO_BDCData(	programName, dynpro, begin, field, value ) );
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void	AddBDCData(DTO_BDCEntry entry)
+					public void	AddBDCData(DTO_BDCData entry)
 						{
 							this.BDCData.Add(entry);
 						}

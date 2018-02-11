@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Code\API\Controllers\Controller Sub Sections\BDC Processing\" />
     <Folder Include="Code\Zkeep\" />
   </ItemGroup>
 

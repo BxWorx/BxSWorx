@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class DTO_BDCEntry
+	public class DTO_BDCData
 		{
 			#region "Documentation"
 
@@ -19,7 +19,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDCEntry(	string	ProgramName	= BDCConstants.lz_E	,
+				public DTO_BDCData(	string	ProgramName	= BDCConstants.lz_E	,
 															int			Dynpro			= 0									,
 															bool		Begin				= false							,
 															string	Field				= BDCConstants.lz_E	,

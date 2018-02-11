@@ -75,7 +75,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void PutBDCData(IList<DTO_BDCEntry>	bdcData, SMC.IRfcTable lt_Data)
+				internal void PutBDCData(IList<DTO_BDCData>	bdcData, SMC.IRfcTable lt_Data)
 					{
 						lt_Data.Append(bdcData.Count);
 						//.............................................

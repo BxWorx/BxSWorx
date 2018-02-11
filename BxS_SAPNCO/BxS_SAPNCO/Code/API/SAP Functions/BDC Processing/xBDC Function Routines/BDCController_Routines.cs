@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 //.........................................................
 using BxS_SAPNCO.Destination;
 using BxS_SAPNCO.API.Function;
@@ -6,23 +7,64 @@ using BxS_SAPNCO.API.SAPFunctions.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
-	public partial class NCOController
+	internal class BDCController_Routines
 		{
-			#region "Methods: Internal: BDC Processing"
+			#region "Declarations"
+
+				private readonly
+					Lazy<BDCOpEnv_Func>		_Funcs
+						= new Lazy<BDCOpEnv_Func>	(	() => new DTOConfigSetupGlobal()
+																								, LazyThreadSafetyMode.ExecutionAndPublication );
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCOpEnv<DTO_SessionProgressInfo>	CreateBDCOpEnv(Guid destID)
+				private BDCOpEnv_Func	Create()
 					{
-						DestinationRfc					lo_DS	= this.CreateDestinationRFC			(destID)	;
-						IBDCProfile							lo_PR	= this.GetAddBDCProfile					(lo_DS)		;
-						BDC2RfcParser						lo_PS	= this.CreateBDC2RfcParser			(lo_PR)		;
-						BDCProfileConfigurator	lo_PC	= this.CreateProfileConfigurator()				;
-
-						return	new BDCOpEnv<DTO_SessionProgressInfo>( lo_DS, lo_PR, lo_PS, lo_PC				,
-																	this.CreateSessionBDCTransaction	,
-																	this.CreateSessionRFCHeader				,
-																	this.CreateSessionRFCTransaction		);
+						return	new BDCOpEnv_Func(	this.CreateSessionBDCTransaction	,
+																				this.CreateSessionRFCHeader				,
+																				this.CreateSessionRFCTransaction	,
+																				this.CreateProgressInfoDTO					);
 					}
+
+			#endregion
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_SessionProgressInfo CreateProgressInfoDTO()
+					{
+						return	new DTO_SessionProgressInfo();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDCSessionTran	CreateSessionBDCTransaction(Guid ID = default(Guid))
+					{
+						return	new	BDCSessionTran(ID);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_RFCSessionHeader	CreateSessionRFCHeader()
+					{
+						return	new	DTO_RFCSessionHeader();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_RFCSessionTran	CreateSessionRFCTransaction()
+					{
+						return	new	DTO_RFCSessionTran();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IProgress<DTO_SessionProgressInfo>	CreateSessionProgressHandler()
+					{
+						return	new Progress<DTO_SessionProgressInfo>();
+					}
+
+
+
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IBDCTranData	CreateBDCTranData(Guid ID)
@@ -84,6 +126,7 @@ namespace BxS_SAPNCO.API
 					{
 						return	new CTU_Parameters();
 					}
+
 
 			#endregion
 
