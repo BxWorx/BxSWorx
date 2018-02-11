@@ -13,8 +13,9 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 				DTO_SessionOptions		SessionOptions	{ get; }
 				DTO_BDCSessionHeader	SessionHeader		{	get; }
 				//.................................................
-				int		TransactionCount	{ get; }
-				bool	IsStarted					{ get; }
+				int		TransactionCount		{ get; }
+				int		RFCTransactionCount	{ get; }
+				bool	IsStarted						{ get; }
 				//.................................................
 				ConcurrentDictionary< int, BDCSessionTran >		Transactions	{ get; }
 

@@ -8,15 +8,15 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Internal: BDC Processing: Pipeline"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Pipeline<IBDCTranData, BDCProgressInfo>	CreateBDCPipeline(OpEnv<IBDCTranData, BDCProgressInfo>	opEnv							,
+				internal Pipeline<IBDCTranData, DTO_SessionProgressInfo>	CreateBDCPipeline(OpEnv<IBDCTranData, DTO_SessionProgressInfo>	opEnv							,
 																																						BDCConsumerMaker											bdcConsumerMaker		)
 					{
-						return	new Pipeline<	IBDCTranData, BDCProgressInfo>(	opEnv	,
+						return	new Pipeline<	IBDCTranData, DTO_SessionProgressInfo>(	opEnv	,
 																																	bdcConsumerMaker	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCConsumerMaker	CreateBDCConsumerMaker(	OpEnv<IBDCTranData, BDCProgressInfo>	opEnv		,
+				internal BDCConsumerMaker	CreateBDCConsumerMaker(	OpEnv<IBDCTranData, DTO_SessionProgressInfo>	opEnv		,
 																													BDC2RfcParser													parser	,
 																													IBDCProfile														profile		)
 					{
@@ -24,13 +24,13 @@ namespace BxS_SAPNCO.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal OpEnv<IBDCTranData, BDCProgressInfo>	CreateBDCOpEnv(	int	noOfConsumers		= 01	,
+				internal OpEnv<IBDCTranData, DTO_SessionProgressInfo>	CreateBDCOpEnv(	int	noOfConsumers		= 01	,
 																																			int	interval				= 10	,
 																																			int	queueAddTimeout	= 10		)
 					{
-						var lo_PI		= new BDCProgressInfo();
+						var lo_PI		= new DTO_SessionProgressInfo();
 
-						return	this.CreateOpEnv< IBDCTranData, BDCProgressInfo >(	lo_PI						,
+						return	this.CreateOpEnv< IBDCTranData, DTO_SessionProgressInfo >(	lo_PI						,
 																																				noOfConsumers		,
 																																				interval				,
 																																				queueAddTimeout		);

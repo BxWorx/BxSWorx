@@ -11,14 +11,14 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Internal: BDC Processing"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCOpEnv	CreateBDCOpEnv(Guid destID)
+				internal BDCOpEnv<DTO_SessionProgressInfo>	CreateBDCOpEnv(Guid destID)
 					{
 						DestinationRfc					lo_DS	= this.CreateDestinationRFC			(destID)	;
 						IBDCProfile							lo_PR	= this.GetAddBDCProfile					(lo_DS)		;
 						BDC2RfcParser						lo_PS	= this.CreateBDC2RfcParser			(lo_PR)		;
 						BDCProfileConfigurator	lo_PC	= this.CreateProfileConfigurator()				;
 
-						return	new BDCOpEnv( lo_DS, lo_PR, lo_PS, lo_PC				,
+						return	new BDCOpEnv<DTO_SessionProgressInfo>( lo_DS, lo_PR, lo_PS, lo_PC				,
 																	this.CreateSessionBDCTransaction	,
 																	this.CreateSessionRFCHeader				,
 																	this.CreateSessionRFCTransaction		);

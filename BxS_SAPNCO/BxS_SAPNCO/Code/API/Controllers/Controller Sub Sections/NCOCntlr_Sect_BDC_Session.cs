@@ -20,7 +20,7 @@ namespace BxS_SAPNCO.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IBDCSession CreateBDCSession(Guid destinationID)
 					{
-						BDCOpEnv lo_OE	= this.CreateBDCOpEnv(destinationID);
+						BDCOpEnv<DTO_SessionProgressInfo> lo_OE	= this.CreateBDCOpEnv(destinationID);
 						//.............................................
 						var lo_SO		= new DTO_SessionOptions	();
 						//.............................................
@@ -46,6 +46,13 @@ namespace BxS_SAPNCO.API
 					{
 						return	new	DTO_RFCSessionTran();
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IProgress<DTO_SessionProgressInfo>	CreateSessionProgressHandler()
+					{
+						return	new Progress<DTO_SessionProgressInfo>();
+					}
+
 
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

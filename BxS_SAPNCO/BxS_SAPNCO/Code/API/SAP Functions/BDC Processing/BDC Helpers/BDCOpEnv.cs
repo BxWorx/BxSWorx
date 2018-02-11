@@ -5,7 +5,7 @@ using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class BDCOpEnv
+	public class BDCOpEnv<P>
 		{
 			#region "Constructors"
 
@@ -14,6 +14,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 														IBDCProfile									profile									,
 														BDC2RfcParser								parser									,
 														BDCProfileConfigurator			configurator						,
+														IProgress<P>								progressHndlr						,
 														Func<Guid, BDCSessionTran>	createBDCSessionTran		,
 														Func<DTO_RFCSessionHeader>	createRFCSessionHeader	,
 														Func<DTO_RFCSessionTran>		createRFCSessionTran			)
@@ -22,6 +23,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						this.Profile				= profile				;
 						this.Parser					= parser				;
 						this.Configurator		= configurator	;
+						this.ProgressHndlr	= progressHndlr	;
 						//.............................................
 						this.CreateSessionBDCTran		= createBDCSessionTran		;
 						this.CreateSessionRFCHeader	= createRFCSessionHeader	;
@@ -41,6 +43,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				internal	BDCProfileConfigurator		Configurator	{	get; }
 				internal	BDC2RfcParser							Parser				{	get; }
 				internal	IBDCProfile								Profile				{	get; }
+				internal	IProgress<P>							ProgressHndlr	{ get; }
 
 				internal Func<Guid, BDCSessionTran>	CreateSessionBDCTran		{ get; }
 				internal Func<DTO_RFCSessionHeader>	CreateSessionRFCHeader	{ get; }

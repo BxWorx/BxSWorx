@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 //.........................................................
 using BxS_SAPNCO.API.SAPFunctions.BDC;
+using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
 {
@@ -39,6 +40,22 @@ namespace zBxS_SAPNCO_UT
 																							"2800242"	,
 																							"1800238"		};
 			}
+		
+
+			//-------------------------------------------------------------------------------------------
+			public void SetupTestBDCData( BDCSessionTran BDCTran, string CustNo, string TelNo )
+				{
+					BDCTran.Reset();
+					//...............................................
+					BDCTran.AddBDCData("SAPMF02D"	,	0101	,	true	,""						, ""			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "/00"		);
+					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-KUNNR", CustNo	);
+					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-D0110", "X"			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"USE_ZAV"		, "X"			);
+					BDCTran.AddBDCData("SAPMF02D"	,	0111	,	true	,""						, ""			);
+					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "=UPDA"	);
+					BDCTran.AddBDCData(""					,	0			,	false	,"SZA1_D0100-FAX_NUMBER"	, TelNo	);
+				}
 
 			//-------------------------------------------------------------------------------------------
 			public void SetupTestBDCData( IBDCTranData BDCTran, string CustNo, string TelNo )

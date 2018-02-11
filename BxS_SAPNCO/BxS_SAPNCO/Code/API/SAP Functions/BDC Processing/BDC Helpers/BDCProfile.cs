@@ -1,7 +1,8 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using	BxS_SAPNCO.API.Function;
 using BxS_SAPNCO.Destination;
+using	BxS_SAPNCO.API.Function;
+using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
@@ -91,6 +92,25 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					public	int TabMsg_Fldnm	{ get; set;	}
 
 				#endregion
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Configure(DTO_RFCSessionHeader DTO)
+					{
+						DTO.CTUOpts	= this.CTUStr;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Configure(DTO_RFCSessionTran DTO)
+					{
+						DTO.BDCData	= this.BDCTbl;
+						DTO.SPAData	= this.SPATbl;
+						DTO.MSGData	= this.MSGTbl;
+					}
 
 			#endregion
 

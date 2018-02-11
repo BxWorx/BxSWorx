@@ -81,10 +81,23 @@ namespace zBxS_SAPNCO_UT
 					IBDCSession lo_Ses0	= this.co_Cntlr.CreateBDCSession(this.cg_GuidID	);
 
 					lo_Ses0.ConfigureUser(this.co_Dest.UT_Destination_User());
-					lo_Ses0.AddTransaction(	lo_Ses0.CreateTran() );
+					lo_Ses0.SessionOptions.Sequential	= true;
+					lo_Ses0.SessionHeader.SAPTCode		= "XD02";
+					lo_Ses0.SessionHeader.Skip1st			= " ";
+
+					BDCSessionTran lo_BdcTran1	= lo_Ses0.CreateTran();
+					BDCSessionTran lo_BdcTran2	= lo_Ses0.CreateTran();
+
+					this.co_Data.SetupTestBDCData( lo_BdcTran1, "1007084", "222" );
+					this.co_Data.SetupTestBDCData( lo_BdcTran2, "1800476", "222" );
+
+					lo_Ses0.AddTransaction(	lo_BdcTran1 );
+					lo_Ses0.AddTransaction(	lo_BdcTran2 );
+
 					lo_Ses0.Process();
 
-					Assert.IsTrue(	lo_Ses0.IsStarted	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.IsTrue		(			lo_Ses0.IsStarted						,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.AreEqual	( 2,	lo_Ses0.RFCTransactionCount	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
 
 			////-------------------------------------------------------------------------------------------

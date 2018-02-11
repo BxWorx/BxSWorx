@@ -8,7 +8,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCConsumerMaker(	OpEnv< IBDCTranData	,	BDCProgressInfo>	opEnv		,
+				internal BDCConsumerMaker(	OpEnv< IBDCTranData	,	DTO_SessionProgressInfo>	opEnv		,
 																		BDC2RfcParser														parser	,
 																		IBDCProfile															profile		)
 					{
@@ -22,7 +22,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	OpEnv<	IBDCTranData	, BDCProgressInfo	>		_OpEnv		;
+				private readonly	OpEnv<	IBDCTranData	, DTO_SessionProgressInfo	>		_OpEnv		;
 				private	readonly	BDC2RfcParser																_Parser		;
 				private	readonly	IBDCProfile																	_Profile	;
 
@@ -42,7 +42,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 																									SPAData = this._Profile.SPATbl	,
 																									MSGData = this._Profile.MSGTbl		};
 
-						return	new BDCConsumer<IBDCTranData,BDCProgressInfo>(this._OpEnv, this._Parser, lo_TranProc, lo_RfcData );
+						return	new BDCConsumer<IBDCTranData,DTO_SessionProgressInfo>(this._OpEnv, this._Parser, lo_TranProc, lo_RfcData );
 					}
 
 			#endregion
