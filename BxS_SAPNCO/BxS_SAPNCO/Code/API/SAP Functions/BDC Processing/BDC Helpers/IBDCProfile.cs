@@ -3,7 +3,7 @@
 using	BxS_SAPNCO.API.Function;
 using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.BDCProcess
 {
 	internal interface IBDCProfile : IRfcFncProfile
 		{

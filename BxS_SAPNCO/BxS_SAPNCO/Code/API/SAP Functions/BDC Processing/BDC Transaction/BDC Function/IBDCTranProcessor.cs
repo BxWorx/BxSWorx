@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.BDCProcess	
 {
-	public interface IBDCTranProcessor
+	internal interface IBDCTranProcessor
 		{
 			#region "Documentation"
 
@@ -34,7 +34,8 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void	Process(DTO_RFCData dtoRFCData);
+				void	Config	( DTO_RFCHeader	Config			);
+				void	Process	( DTO_RFCTran		Transaction	);
 
 			#endregion
 

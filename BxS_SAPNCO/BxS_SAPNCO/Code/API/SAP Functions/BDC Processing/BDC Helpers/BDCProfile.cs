@@ -4,7 +4,7 @@ using BxS_SAPNCO.Destination;
 using	BxS_SAPNCO.API.Function;
 using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.BDCProcess
 {
 	internal class BDCFncProfile	:	RfcFncProfileBase	 ,
 																	IBDCProfile
