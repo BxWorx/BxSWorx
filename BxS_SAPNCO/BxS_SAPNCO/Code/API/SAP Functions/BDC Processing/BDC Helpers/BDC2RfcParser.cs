@@ -49,7 +49,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void PutCTUOptions(DTO_CTUOptions ctuOptions, SMC.IRfcStructure ls_CTUOpt)
+				internal void PutCTUOptions(DTO_CTUParameters ctuOptions, SMC.IRfcStructure ls_CTUOpt)
 					{
 						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_DspMde	,	ctuOptions.DisplayMode		);
 						ls_CTUOpt.SetValue(	this._BDCProfile.CTUOpt_UpdMde	,	ctuOptions.UpdateMode			);

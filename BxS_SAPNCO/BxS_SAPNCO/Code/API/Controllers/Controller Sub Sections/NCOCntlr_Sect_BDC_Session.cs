@@ -24,7 +24,7 @@ namespace BxS_SAPNCO.API
 						//.............................................
 						var lo_SO	= new DTO_SessionOptions();
 
-						var lo_SH = new DTO_BDCSessionHeader	{	CTUOptions = new DTO_CTUOptions()	};
+						var lo_SH = new DTO_SessionHeader	{	CTUOptions = new DTO_CTUParameters()	};
 						//.............................................
 						return	new BDCSession(	lo_OE, lo_SO, lo_SH	);
 					}

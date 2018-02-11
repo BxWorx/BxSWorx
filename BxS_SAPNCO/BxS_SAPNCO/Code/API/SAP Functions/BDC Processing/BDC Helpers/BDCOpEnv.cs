@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
-using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
 using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.BDCProcess
 {
-	public class BDCOpEnv<P>
+	public class BDCOpEnv
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCOpEnv(	DestinationRfc								destination							,
-														IBDCProfile										profile									,
-														BDC2RfcParser									parser									,
-														BDCProfileConfigurator				configurator						,
-														IProgress<P>									progressHndlr						,
-														CancellationTokenSource				CTS											,
-														Func<Guid, BDCSessionTran>		createBDCSessionTran		,
-														Func<DTO_RFCSessionHeader>		createRFCSessionHeader	,
-														Func<DTO_RFCSessionTran>			createRFCSessionTran		,
-														Func<DTO_SessionProgressInfo>	createDTOProgressInfo			)
+				internal BDCOpEnv(	DestinationRfc								destination		,
+														IBDCProfile										profile				,
+														BDC2RfcParser									parser				,
+														BDCProfileConfigurator				configurator	,
+														IProgress<DTO_ProgressInfo>		progressHndlr	,
+														CancellationTokenSource				CTS							)
 					{
 						this.Destination		= destination		;
 						this.Profile				= profile				;
@@ -28,11 +23,6 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						this.Configurator		= configurator	;
 						this.ProgressHndlr	= progressHndlr	;
 						this._CTS						= CTS						;
-						//.............................................
-						this.CreateSessionBDCTran			= createBDCSessionTran		;
-						this.CreateSessionRFCHeader		= createRFCSessionHeader	;
-						this.CreateSessionRFCTran			= createRFCSessionTran		;
-						this.CreateSessionDTOProgInfo	= createDTOProgressInfo		;
 						//.............................................
 						this.IsStarted	= false;
 					}
@@ -56,11 +46,6 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				internal	BDC2RfcParser							Parser				{	get; }
 				internal	IBDCProfile								Profile				{	get; }
 				internal	IProgress<P>							ProgressHndlr	{ get; }
-
-				internal Func<Guid, BDCSessionTran>			CreateSessionBDCTran			{ get; }
-				internal Func<DTO_RFCSessionHeader>			CreateSessionRFCHeader		{ get; }
-				internal Func<DTO_RFCSessionTran>				CreateSessionRFCTran			{ get; }
-				internal Func<DTO_SessionProgressInfo>	CreateSessionDTOProgInfo	{ get; }
 
 			#endregion
 

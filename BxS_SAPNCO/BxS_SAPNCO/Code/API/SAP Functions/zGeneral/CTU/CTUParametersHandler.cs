@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Linq;
+//.........................................................
+using BxS_SAPNCO.BDCProcess;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.CTU
 {
-	public class CTU_Parameters
+	public class CTUParametersHandler
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public CTU_Parameters(	char	DisplayMode			= BDCConstants.lz_CTU_N	,
-																char	UpdateMode			= BDCConstants.lz_CTU_A	,
-																char	CATTMode				= BDCConstants.lz_CTU_F	,
-																char	DefaultSize			= BDCConstants.lz_CTU_T	,
-																char	NoCommit   			= BDCConstants.lz_CTU_T	,
-																char	NoBatchInputFor	= BDCConstants.lz_CTU_T	,
-																char	NoBatchInputAft	= BDCConstants.lz_CTU_T		)
+				public CTUParametersHandler(	char	DisplayMode			= BDCConstants.lz_CTU_N	,
+																			char	UpdateMode			= BDCConstants.lz_CTU_A	,
+																			char	CATTMode				= BDCConstants.lz_CTU_F	,
+																			char	DefaultSize			= BDCConstants.lz_CTU_T	,
+																			char	NoCommit   			= BDCConstants.lz_CTU_T	,
+																			char	NoBatchInputFor	= BDCConstants.lz_CTU_T	,
+																			char	NoBatchInputAft	= BDCConstants.lz_CTU_T		)
 					{
 						this.DisplayMode		=	DisplayMode			;
 						this.UpdateMode			=	UpdateMode			;
@@ -107,7 +109,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Ce_Validate IsValid(DTO_CTUOptions DTO, bool autoCorrect = true)
+				public Ce_Validate IsValid(DTO_CTUParms DTO, bool autoCorrect = true)
 					{
 						if (autoCorrect)
 							{
@@ -135,9 +137,9 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_CTUOptions GetImage()
+				public DTO_CTUParms GetImage()
 					{
-						return	new DTO_CTUOptions	{	DisplayMode		= this._DspMde,
+						return	new DTO_CTUParms	{	DisplayMode		= this._DspMde,
 																					UpdateMode		= this._UpdMde,
 																					CATTMode			= this._CatMde,
 																					DefaultSize		= this._DefSze,
@@ -147,7 +149,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void TransferImage(DTO_CTUOptions DTO)
+				public void TransferImage(DTO_CTUParms DTO)
 					{
 						DTO.DisplayMode		=	this._DspMde;
 						DTO.UpdateMode		=	this._UpdMde;

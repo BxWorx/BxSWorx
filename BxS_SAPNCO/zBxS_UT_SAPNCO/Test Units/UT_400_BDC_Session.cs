@@ -85,8 +85,8 @@ namespace zBxS_SAPNCO_UT
 					lo_Ses0.SessionHeader.SAPTCode		= "XD02";
 					lo_Ses0.SessionHeader.Skip1st			= " ";
 
-					BDCSessionTran lo_BdcTran1	= lo_Ses0.CreateTran();
-					BDCSessionTran lo_BdcTran2	= lo_Ses0.CreateTran();
+					SessionTran lo_BdcTran1	= lo_Ses0.CreateTran();
+					SessionTran lo_BdcTran2	= lo_Ses0.CreateTran();
 
 					this.co_Data.SetupTestBDCData( lo_BdcTran1, "1007084", "222" );
 					this.co_Data.SetupTestBDCData( lo_BdcTran2, "1800476", "222" );

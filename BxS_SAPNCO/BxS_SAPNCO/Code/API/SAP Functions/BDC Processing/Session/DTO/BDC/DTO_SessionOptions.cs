@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
+namespace BxS_SAPNCO.BDCProcess
 {
 	public class DTO_SessionOptions
 		{

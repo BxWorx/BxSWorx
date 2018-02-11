@@ -20,11 +20,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				string				SAPTCode		{ get;	set;	}
 				string				Skip1st			{ get;	set;	}
 
-				DTO_CTUOptions	CTUOptions	{ get;	set;	}
+				DTO_CTUParameters	CTUOptions	{ get;	set;	}
 				//.................................................
 				IList<DTO_BDCData>	BDCData	{ get; }
 				IList<DTO_SPAEntry>	SPAData	{ get; }
-				IList<DTO_MSGEntry>	MSGData	{ get; }
+				IList<DTO_SessionTranMsg>	MSGData	{ get; }
 
 			#endregion
 
@@ -77,7 +77,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 														string	FldNm		);
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					void	AddMSGData(DTO_MSGEntry entry);
+					void	AddMSGData(DTO_SessionTranMsg entry);
 
 				#endregion
 

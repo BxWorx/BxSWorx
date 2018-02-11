@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using BxS_SAPNCO.API.SAPFunctions.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
+namespace BxS_SAPNCO.BDCProcess
 {
-	public class BDCSessionTran
+	public class DTO_SessionTran
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCSessionTran(Guid ID	= default(Guid))
+				public DTO_SessionTran(Guid ID	= default(Guid))
 					{
-						this.ID	= ID.Equals(Guid.Empty)	?	Guid.NewGuid()	:	ID;
+						this.ID	= ID.Equals(Guid.Empty)	?	Guid.NewGuid() : ID;
 						//.............................................
-						this.BDCData	= new List<DTO_BDCData>();
-						this.SPAData	= new List<DTO_SPAEntry>();
-						this.MSGData	= new List<DTO_MSGEntry>();
+						this.BDCData	= new List<	DTO_SessionTranData	>	();
+						this.SPAData	= new List<	DTO_SessionTranSPA	>	();
+						this.MSGData	= new List<	DTO_SessionTranMsg	>	();
 						//.............................................
 						this.ProcessedStatus	= false;
 						this.SuccesStatus			= false;
@@ -30,13 +31,13 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 				public	bool	ProcessedStatus	{ get; set;	}
 				public	bool	SuccesStatus		{ get; set;	}
 				//.................................................
-				public	int	BDCCount	{ get { return	this.BDCData.Count; } }
-				public	int	SPACount	{ get { return	this.SPAData.Count; } }
-				public	int	MSGCount	{ get { return	this.MSGData.Count; } }
+				public	int		BDCCount	{ get { return	this.BDCData.Count; } }
+				public	int		SPACount	{ get { return	this.SPAData.Count; } }
+				public	int		MSGCount	{ get { return	this.MSGData.Count; } }
 				//.................................................
-				public	IList<DTO_BDCData>	BDCData	{ get; }
-				public	IList<DTO_SPAEntry>	SPAData	{ get; }
-				public	IList<DTO_MSGEntry>	MSGData	{ get; }
+				public	IList< DTO_SessionTranData >	BDCData	{ get; }
+				public	IList< DTO_SessionTranSPA	 >	SPAData	{ get; }
+				public	IList< DTO_SessionTranMsg	 >	MSGData	{ get; }
 
 			#endregion
 
@@ -53,11 +54,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 																	string	field				= BDCConstants.lz_E	,
 																	string	value				= BDCConstants.lz_E		)
 						{
-							this.AddBDCData(	new	DTO_BDCData(	programName, dynpro, begin, field, value ) );
+							this.AddBDCData( new	DTO_SessionTranData(	programName, dynpro, begin, field, value ) );
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void	AddBDCData(DTO_BDCData entry)
+					public void	AddBDCData(DTO_SessionTranData entry)
 						{
 							this.BDCData.Add(entry);
 						}
@@ -71,11 +72,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 					public void	AddSPAData(	string	memoryID		,
 																	string	memoryValue		)
 						{
-							this.SPAData.Add(	new DTO_SPAEntry( memoryID, memoryValue ) );
+							this.SPAData.Add(	new DTO_SessionTranSPA( memoryID, memoryValue ) );
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void	AddSPAData(DTO_SPAEntry entry)
+					public void	AddSPAData(DTO_SessionTranSPA entry)
 						{
 							this.SPAData.Add(entry);
 						}
@@ -93,16 +94,16 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
 																	string	MsgV1	,	string	MsgV2	,	string	MsgV3	,	string	MsgV4	,
 																	string	Envir	,	string	FldNm																		)
 						{
-							this.MSGData.Add(	new DTO_MSGEntry( TCode,
-																									DynNm, DynNo,
-																									MsgTp, MsgLg,
-																									MsgID, MsgNr,
-																									MsgV1, MsgV2, MsgV3, MsgV4,
-																									Envir, FldNm								) );
+							this.MSGData.Add(	new DTO_SessionTranMsg( TCode,
+																												DynNm, DynNo,
+																												MsgTp, MsgLg,
+																												MsgID, MsgNr,
+																												MsgV1, MsgV2, MsgV3, MsgV4,
+																												Envir, FldNm								) );
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void	AddMSGData(DTO_MSGEntry entry)
+					public void	AddMSGData(DTO_SessionTranMsg entry)
 						{
 							this.MSGData.Add(entry);
 						}

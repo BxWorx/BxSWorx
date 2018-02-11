@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API.SAPFunctions.BDC
 {
-	public class DTO_MSGEntry
+	public class DTO_SessionTranMsg
 		{
 			#region "Documentation"
 
@@ -27,19 +27,12 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_MSGEntry(	string	TCode	,
-															string	DynNm	,
-															string	DynNo	,
-															string	MsgTp	,
-															string	MsgLg	,
-															string	MsgID	,
-															string	MsgNr	,
-															string	MsgV1	,
-															string	MsgV2	,
-															string	MsgV3	,
-															string	MsgV4	,
-															string	Envir	,
-															string	FldNm		)
+				public DTO_SessionTranMsg(	string	TCode	,
+																		string	DynNm	,	string	DynNo	,
+																		string	MsgTp	,	string	MsgLg	,
+																		string	MsgID	,	string	MsgNr	,
+																		string	MsgV1	,	string	MsgV2	,	string	MsgV3	,	string	MsgV4	,
+																		string	Envir	,	string	FldNm																		)
 					{
 						this.TCode	= TCode	;
 						this.DynNm	= DynNm	;

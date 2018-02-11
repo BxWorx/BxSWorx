@@ -5,16 +5,26 @@ using BxS_SAPNCO.Destination;
 using BxS_SAPNCO.API.Function;
 using BxS_SAPNCO.API.SAPFunctions.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API
+namespace BxS_SAPNCO.BDCProcess
 {
-	internal class BDCController_Routines
+	internal class BDCController_Funcxx
 		{
 			#region "Declarations"
 
 				private readonly
-					Lazy<BDCOpEnv_Func>		_Funcs
-						= new Lazy<BDCOpEnv_Func>	(	() => new DTOConfigSetupGlobal()
+					Lazy<BDCOpFnc>		_Funcs
+						= new Lazy<BDCOpFnc>	(	() => Create()
 																								, LazyThreadSafetyMode.ExecutionAndPublication );
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				internal BDCOpFnc CreateBDCOpEnv()
+					{
+						return	this._Funcs.Value;
+					}
 
 			#endregion
 
@@ -22,21 +32,15 @@ namespace BxS_SAPNCO.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCOpEnv_Func	Create()
+				private BDCOpFnc	Create()
 					{
-						return	new BDCOpEnv_Func(	this.CreateSessionBDCTransaction	,
+						return	new BDCOpFnc(	this.CreateSessionBDCTransaction	,
 																				this.CreateSessionRFCHeader				,
 																				this.CreateSessionRFCTransaction	,
-																				this.CreateProgressInfoDTO					);
+																				this.CreateProgressInfo					);
 					}
 
-			#endregion
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_SessionProgressInfo CreateProgressInfoDTO()
-					{
-						return	new DTO_SessionProgressInfo();
-					}
+				#endregion
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCSessionTran	CreateSessionBDCTransaction(Guid ID = default(Guid))
@@ -69,7 +73,7 @@ namespace BxS_SAPNCO.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IBDCTranData	CreateBDCTranData(Guid ID)
 					{
-						return	new BDCTranData(ID)	{	CTUOptions = new DTO_CTUOptions()	};
+						return	new BDCTranData(ID)	{	CTUOptions = new DTO_CTUParameters()	};
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

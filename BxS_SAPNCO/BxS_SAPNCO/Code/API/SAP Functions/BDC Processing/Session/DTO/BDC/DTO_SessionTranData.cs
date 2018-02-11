@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC
+namespace BxS_SAPNCO.BDCProcess
 {
-	public class DTO_BDCData
+	public class DTO_SessionTranData
 		{
 			#region "Documentation"
 
@@ -19,11 +19,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDCData(	string	ProgramName	= BDCConstants.lz_E	,
-															int			Dynpro			= 0									,
-															bool		Begin				= false							,
-															string	Field				= BDCConstants.lz_E	,
-															string	Value				= BDCConstants.lz_E		)
+				public DTO_SessionTranData(	string	ProgramName	= BDCConstants.lz_E	,
+																		int			Dynpro			= 0									,
+																		bool		Begin				= false							,
+																		string	Field				= BDCConstants.lz_E	,
+																		string	Value				= BDCConstants.lz_E		)
 					{
 						this.ProgramName	= string.IsNullOrEmpty(ProgramName)	? BDCConstants.lz_E	: ProgramName													;
 						this.FieldName		= string.IsNullOrEmpty(Field)				? BDCConstants.lz_E	: Field																;

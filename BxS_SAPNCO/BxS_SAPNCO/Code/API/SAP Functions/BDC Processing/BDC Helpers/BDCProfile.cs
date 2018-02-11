@@ -105,7 +105,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Configure(DTO_RFCSessionTran DTO)
+				public void Configure(DTO_RFCTran DTO)
 					{
 						DTO.BDCData	= this.BDCTbl;
 						DTO.SPAData	= this.SPATbl;

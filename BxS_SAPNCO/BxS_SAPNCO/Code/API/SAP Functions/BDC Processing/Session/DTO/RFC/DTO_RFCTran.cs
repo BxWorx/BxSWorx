@@ -1,13 +1,13 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.SAPFunctions.BDC.Session
+namespace BxS_SAPNCO.BDCProcess
 {
-	internal class DTO_RFCSessionTran
+	internal class DTO_RFCTran
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_RFCSessionTran()
+				internal DTO_RFCTran()
 					{
 						this.ProcessedStatus	= false	;
 						this.SuccesStatus			= false	;

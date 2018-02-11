@@ -14,7 +14,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 						//.............................................
 						this.BDCData	= new List<DTO_BDCData>();
 						this.SPAData	= new List<DTO_SPAEntry>();
-						this.MSGData	= new List<DTO_MSGEntry>();
+						this.MSGData	= new List<DTO_SessionTranMsg>();
 						//.............................................
 						this.ProcessedStatus	= false;
 						this.SuccesStatus			= false;
@@ -36,11 +36,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 				//.................................................
 				public	string					SAPTCode		{ get;	set;	}
 				public	string					Skip1st			{ get;	set;	}
-				public	DTO_CTUOptions	CTUOptions	{ get;	set;	}
+				public	DTO_CTUParameters	CTUOptions	{ get;	set;	}
 				//.................................................
 				public	IList<DTO_BDCData>	BDCData	{ get; }
 				public	IList<DTO_SPAEntry>	SPAData	{ get; }
-				public	IList<DTO_MSGEntry>	MSGData	{ get; }
+				public	IList<DTO_SessionTranMsg>	MSGData	{ get; }
 
 			#endregion
 
@@ -104,11 +104,11 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 																	string	Envir	,
 																	string	FldNm		)
 						{
-							this.MSGData.Add(	new DTO_MSGEntry( TCode, DynNm, DynNo, MsgTp, MsgLg, MsgID, MsgNr, MsgV1, MsgV2, MsgV3, MsgV4, Envir, FldNm) );
+							this.MSGData.Add(	new DTO_SessionTranMsg( TCode, DynNm, DynNo, MsgTp, MsgLg, MsgID, MsgNr, MsgV1, MsgV2, MsgV3, MsgV4, Envir, FldNm) );
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void	AddMSGData(DTO_MSGEntry entry)
+					public void	AddMSGData(DTO_SessionTranMsg entry)
 						{
 							this.MSGData.Add(entry);
 						}

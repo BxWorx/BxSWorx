@@ -85,7 +85,7 @@ namespace BxS_SAPNCO.API.SAPFunctions.BDC
 			#region "Methods: Exposed"
 
 				void Configure(DTO_RFCSessionHeader	DTO);
-				void Configure(DTO_RFCSessionTran		DTO);
+				void Configure(DTO_RFCTran		DTO);
 
 			#endregion
 

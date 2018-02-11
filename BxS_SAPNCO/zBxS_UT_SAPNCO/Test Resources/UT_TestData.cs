@@ -9,7 +9,7 @@ namespace zBxS_SAPNCO_UT
 	public class UT_TestData
 		{
 			//-------------------------------------------------------------------------------------------
-			public void UpdateCTU( DTO_CTUOptions CTUOptions )
+			public void UpdateCTU( DTO_CTUParameters CTUOptions )
 				{
 					var lo_CTU	= new CTU_Parameters();
 
@@ -43,7 +43,7 @@ namespace zBxS_SAPNCO_UT
 		
 
 			//-------------------------------------------------------------------------------------------
-			public void SetupTestBDCData( BDCSessionTran BDCTran, string CustNo, string TelNo )
+			public void SetupTestBDCData( SessionTran BDCTran, string CustNo, string TelNo )
 				{
 					BDCTran.Reset();
 					//...............................................
