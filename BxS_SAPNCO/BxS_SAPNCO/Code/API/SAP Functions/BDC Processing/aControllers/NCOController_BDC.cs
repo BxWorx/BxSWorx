@@ -4,6 +4,7 @@ using BxS_SAPNCO.Common;
 //.........................................................
 using BxS_SAPNCO.Destination;
 using BxS_SAPNCO.Helpers;
+using BxS_SAPNCO.RfcFunction;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -86,23 +87,55 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Methods: Private"
 
-
-
-
-
-				private	PipelineOpEnv<DTO_RFCTran,DTO_ProgressInfo>	CreateBDCPipelineOpEnv(BDCOpEnv Openv)
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private Pipeline< DTO_RFCTran , DTO_ProgressInfo > CreatePipeline(PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo> opEnv)
 					{
-						PipelineOpEnv<DTO_RFCTran,DTO_ProgressInfo> lo = null;
-						//.............................................
-						return	new PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo>( , , , , Openv. );
+						return	new Pipeline< DTO_RFCTran , DTO_ProgressInfo >(opEnv);
 					}
 
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private	PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo>	CreateBDCPipelineOpEnv(BDCOpEnv opEnv)
+				//	{
+				//		PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo > lo = null;
+				//		//.............................................
+				//		return	new PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo>( , , , , opEnv. );
+				//	}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IBDCProfile GetAddBDCProfile(DestinationRfc destination)
+					{
+						IBDCProfile	lo_Profile	= null;
+						//.............................................
+						destination.TryGetProfile(	this._SAPFncConst.Value.BDCCallTransaction
+																			,	out object lo_ProfileObj										);
 
+						if (lo_ProfileObj == null)
+							{
+								lo_Profile	= new BDCFncProfile(	destination
+																								,	this._SAPFncConst.Value.BDCCallTransaction	);
 
+								destination.RegisterProfile(lo_Profile);
 
+								destination.TryGetProfile(	this._SAPFncConst.Value.BDCCallTransaction
+																					,	out lo_ProfileObj														);
+							}
+						//.............................................
+						return	lo_Profile;
+					}
 
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal DTO_CTUParms	CreateCTUParameters()
+				//	{
+				//		return	new DTO_CTUParms();
+				//	}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCOpEnv CreateBDCOpEnv(DestinationRfc	destRFC)
@@ -127,15 +160,31 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private static BDCOpFnc CreateBDCOpFnc()
 					{
-						return	new BDCOpFnc(	CreateSessionTransaction	,
-																	CreateSessionHeader				,
-																	CreateSessionOptions			,
-																	CreateRFCHeader						,
-																	CreateRFCTransaction			,
-																	CreateProgressHandler			,
-																	CreateProgressInfo				,
-																	CreateProfileConfigurator	,
-																	CreateBDCtoRFCParser				);
+						return	new BDCOpFnc(		CreateSessionTransaction
+																	,	CreateSessionHeader
+																	,	CreateSessionOptions
+																	,	CreateRFCHeader
+																	,	CreateRFCTransaction
+																	,	CreateProgressHandler
+																	,	CreateProgressInfo
+																	,	CreateProfileConfigurator
+																	,	CreateBDCtoRFCParser
+																	, CreateTransactionProcessor
+																	,	CreateConsumer
+																																);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private static IConsumer< DTO_RFCTran > CreateConsumer(		PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo >	opEnv
+																																,	IBDCTranProcessor																tranProcessor	)
+					{
+						return	new BDCConsumer< DTO_RFCTran , DTO_ProgressInfo>( opEnv , tranProcessor );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal static IBDCTranProcessor CreateTransactionProcessor( IBDCProfile profile )
+					{
+						return	new BDCTranProcessor( new RFCFunction()	, profile);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

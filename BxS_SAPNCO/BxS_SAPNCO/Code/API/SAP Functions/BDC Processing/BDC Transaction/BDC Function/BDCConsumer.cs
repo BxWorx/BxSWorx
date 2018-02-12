@@ -10,12 +10,10 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCConsumer( PipelineOpEnv<T,P>	OpEnv					,
-														IBDCTranProcessor		tranProcessor	,
-														DTO_RFCTran					dtoRfcData			)	: base(OpEnv)
+				public BDCConsumer(		PipelineOpEnv<T,P>	OpEnv
+														,	IBDCTranProcessor		tranProcessor	)	: base(OpEnv)
 					{
 						this._BDCTran	= tranProcessor	;
-						this._RfcData	= dtoRfcData		;
 					}
 
 			#endregion
@@ -24,7 +22,6 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Declarations"
 
 				private readonly	IBDCTranProcessor		_BDCTran	;
-				private readonly	DTO_RFCTran					_RfcData	;
 
 			#endregion
 
@@ -32,14 +29,12 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public override bool Execute(T workItem)
+				public override bool Execute( T workItem )
 					{
 						try
 							{
 								this._BDCTran.Process( workItem	);
-
 								this.Successful.Enqueue(workItem);
-
 								return	true;
 							}
 						catch (Exception)

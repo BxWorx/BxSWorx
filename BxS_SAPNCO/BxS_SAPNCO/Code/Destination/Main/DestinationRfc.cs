@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 using SMC	= SAP.Middleware.Connector;
 using SDM = SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
-using BxS_SAPNCO.API.Function;
+using BxS_SAPNCO.RfcFunction;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
 {
@@ -135,7 +135,7 @@ namespace BxS_SAPNCO.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool RegisterProfile(IRfcFncProfile profile)
+				internal bool RegisterProfile( IRfcFncProfile profile )
 					{
 						return	this._Profiles.TryAdd(profile.FunctionName, profile);
 					}

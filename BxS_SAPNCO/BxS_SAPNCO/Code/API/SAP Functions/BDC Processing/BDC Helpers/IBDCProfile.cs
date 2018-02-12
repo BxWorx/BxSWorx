@@ -1,6 +1,6 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using	BxS_SAPNCO.API.Function;
+using BxS_SAPNCO.RfcFunction;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {

@@ -14,11 +14,13 @@
     <Compile Remove="Code\Destination\DestinationController.cs" />
     <Compile Remove="Code\Destination\DestinationPool.cs" />
     <Compile Remove="Code\Zkeep\BDCConsumerMaker.cs" />
+    <Compile Remove="Code\Zkeep\BDCController_Func - Copy.cs" />
     <Compile Remove="Code\Zkeep\BDCSessionOpEnv.cs" />
     <Compile Remove="Code\Zkeep\BDCTranData.cs" />
     <Compile Remove="Code\Zkeep\DTO_RFCData.cs" />
     <Compile Remove="Code\Zkeep\IBDCTranData.cs" />
     <Compile Remove="Code\Zkeep\IConsumerMaker.cs" />
+    <Compile Remove="Code\Zkeep\NCOCntlr_Sect_BDC_Pipeline.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,10 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\API\Controllers\Data Layer\" />
     <Folder Include="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\" />
     <Folder Include="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\" />
     <Folder Include="Code\Zkeep\" />
+    <Folder Include="obj\" />
   </ItemGroup>
 
 </Project>

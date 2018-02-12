@@ -1,6 +1,6 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.Function
+namespace BxS_SAPNCO.RfcFunction
 {
 	internal interface IRfcFncProfile
 		{

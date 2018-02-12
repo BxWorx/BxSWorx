@@ -2,7 +2,7 @@
 //.........................................................
 using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.Function
+namespace BxS_SAPNCO.RfcFunction
 {
 	internal class RfcFncProfileBase : IRfcFncProfile
 		{

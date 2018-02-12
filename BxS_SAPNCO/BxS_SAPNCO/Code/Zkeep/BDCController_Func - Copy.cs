@@ -1,6 +1,5 @@
 ﻿using BxS_SAPNCO.Common;
 using BxS_SAPNCO.Destination;
-using BxS_SAPNCO.API.Function;
 using BxS_SAPNCO.CTU;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
