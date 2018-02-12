@@ -22,18 +22,11 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IRFCFunction		_RFCFunc	;
-				private readonly	IBDCProfile			_Profile	;
+				private readonly	IRFCFunction	_RFCFunc	;
+				private readonly	IBDCProfile		_Profile	;
 
 				private	bool	_FncCreated		;
 				private	bool	_IsConfigured	;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
-
-				public	string	RFCFunctionName	{ get	{ return	this._Profile.FunctionName; } }
 
 			#endregion
 

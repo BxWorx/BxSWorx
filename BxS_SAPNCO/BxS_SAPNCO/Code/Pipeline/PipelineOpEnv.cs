@@ -4,21 +4,25 @@ using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Helpers
 {
-	internal class OpEnv<T,P>	where T:class
-														where	P:class
+	internal class PipelineOpEnv<T,P>	where T:class
+																		where	P:class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal OpEnv(	IProgress<P>				progressHndlr			,
-												P										progressInfo			,
-												CancellationToken		cancellationToken	,
-												int									noOfConsumers			= 01	,
-												int									interval					= 10	,
-												int									queueAddTimeout		= 10		)
+				internal PipelineOpEnv( Func< PipelineOpEnv<T,P>, IConsumer<T> >	createConsumer			,
+																Func< P >																	createProgressInfo	,
+
+																IProgress<P>				progressHndlr			,
+																CancellationToken		cancellationToken	,
+																int									noOfConsumers			= 01	,
+																int									interval					= 10	,
+																int									queueAddTimeout		= 10		)
 					{
+						this.CreateConsumer			= createConsumer			;
+						this.CreateProgressInfo	= createProgressInfo	;
+						//.............................................
 						this.ProgressHndlr		= progressHndlr			;
-						this.ProgressInfo			= progressInfo			;
 						this.CT								= cancellationToken	;
 						this.NoOfConsumers		= noOfConsumers			;
 						this.ProgressInterval	= interval					;
@@ -32,10 +36,12 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Properties"
 
+				internal Func< PipelineOpEnv<T,P>, IConsumer<T> >		CreateConsumer			{ get; }
+				internal Func< P >																	CreateProgressInfo	{ get; }
+
 				internal	BlockingCollection<T>		Queue					{ get; }
 				internal	IProgress<P>						ProgressHndlr	{ get; }
 				internal	CancellationToken				CT						{ get; }
-				internal	P												ProgressInfo	{ get; }
 				//.................................................
 				internal	int	QueueTimeout			{ get;				}
 				internal	int	ProgressInterval	{ get;				}

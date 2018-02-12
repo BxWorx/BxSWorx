@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.DL
+namespace BxS_SAPNCO.Destination
 {
-	public interface IDTOConfigSetupBase
+	internal class DTORefEntry : IDTORefEntry
 		{
 			#region "Properties"
 
-				Dictionary<	string,	string>		Settings	{ get;				}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				void Reset();
+				public Guid		ID		{ get; set; }
+				public string	Name	{ get; set; }
 
 			#endregion
 

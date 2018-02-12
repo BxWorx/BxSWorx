@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.BDCProcess	
+namespace BxS_SAPNCO.BDCProcess
 {
 	internal interface IBDCTranProcessor
 		{
@@ -21,13 +21,6 @@ namespace BxS_SAPNCO.BDCProcess
 				//	*"      TCODE_ERROR
 				//	*"      AUTH_ERROR
 				//	*"      TRANS_ERROR
-
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
-
-				string	RFCFunctionName	{ get; }
 
 			#endregion
 

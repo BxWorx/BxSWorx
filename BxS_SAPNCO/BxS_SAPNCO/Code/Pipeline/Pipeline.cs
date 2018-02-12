@@ -11,13 +11,11 @@ namespace BxS_SAPNCO.Helpers
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Pipeline(	OpEnv<T,P>				OpEnv					,
-														IConsumerMaker<T>	consumerMaker		)
+				internal Pipeline(	PipelineOpEnv<T,P>	OpEnv	)
 					{
-						this._OpEnv					= OpEnv					;
-						this._ConsumerMaker	= consumerMaker	;
+						this._OpEnv	= OpEnv	;
 						//.............................................
-						this._Tasks		= new	List< Task<IConsumer<T>> >()	;
+						this._Tasks	= new	List< Task< IConsumer<T> > >()	;
 						//.............................................
 						this.TasksCompleted	= new ConcurrentQueue< Task	>()	;
 						this.TasksFaulty		= new ConcurrentQueue< Task >()	;
@@ -29,10 +27,9 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	OpEnv<T,P>					_OpEnv					;
-				private	readonly	IConsumerMaker<T>		_ConsumerMaker	;
+				private	readonly	PipelineOpEnv<T,P>	_OpEnv;
 				//.................................................
-				private readonly IList< Task<IConsumer<T>> >	_Tasks	;
+				private readonly IList< Task< IConsumer<T> > >	_Tasks	;
 
 			#endregion
 
@@ -43,7 +40,7 @@ namespace BxS_SAPNCO.Helpers
 				internal int  FaultyCount			{ get { return	this.TasksFaulty		.Count; } }
 				internal int  OtherCount			{ get { return	this.TasksOther			.Count; } }
 
-				internal BlockingCollection<T>		Queue						{ get { return	this._OpEnv.Queue; } }
+				internal BlockingCollection< T >	Queue						{ get { return	this._OpEnv.Queue; } }
 
 				internal ConcurrentQueue< Task >	TasksCompleted	{ get; }
 				internal ConcurrentQueue< Task >	TasksFaulty			{ get; }
@@ -67,7 +64,7 @@ namespace BxS_SAPNCO.Helpers
 
 								this._Tasks.Add(
 									Task<IConsumer<T>>.Run( () =>	{
-																									IConsumer<T> lo_Consumer	= this._ConsumerMaker.CreateConsumer()	;
+																									IConsumer<T> lo_Consumer	= this._OpEnv.CreateConsumer(this._OpEnv);
 																									lo_Consumer.Start();
 																									return	lo_Consumer;
 																								}

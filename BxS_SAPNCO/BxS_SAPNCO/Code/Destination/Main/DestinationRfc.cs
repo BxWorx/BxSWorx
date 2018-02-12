@@ -6,7 +6,6 @@ using System.Collections.Concurrent;
 using SMC	= SAP.Middleware.Connector;
 using SDM = SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
-using BxS_SAPNCO.API.DL;
 using BxS_SAPNCO.API.Function;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination

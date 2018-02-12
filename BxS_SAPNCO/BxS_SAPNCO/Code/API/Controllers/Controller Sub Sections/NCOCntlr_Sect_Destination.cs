@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Threading;
-//.........................................................
-using SMC	= SAP.Middleware.Connector;
+using System.Collections.Generic;
 //.........................................................
 using BxS_SAPNCO.Destination;
-using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
@@ -12,36 +9,21 @@ namespace BxS_SAPNCO.API
 		{
 			#region "Section: Destination"
 
-				//=========================================================================================
-				#region "Declarations"
-
-					private readonly
-						Lazy<IDTOConfigSetupGlobal>		_GlobalSetup
-							= new Lazy<IDTOConfigSetupGlobal>	(	() => new DTOConfigSetupGlobal()
-																									, LazyThreadSafetyMode.ExecutionAndPublication );
-					//...............................................
-					private readonly
-						Lazy<DestinationRepository>		_DestRepos
-							= new Lazy<DestinationRepository>	(	() => new DestinationRepository()
-																									, LazyThreadSafetyMode.ExecutionAndPublication );
-
-				#endregion
-
-				//===========================================================================================
-				#region "Properties"
-
-					public DestinationRepository	Repository	{ get {	return	this._DestRepos		.Value; } }
-					public IDTOConfigSetupGlobal	GlobalSetup	{ get {	return	this._GlobalSetup	.Value; } }
-
-				#endregion
-
 				//===========================================================================================
 				#region "Methods"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<IDTORefEntry> ConnectionReferenceList()
+					{
+						this.Startup();
+						//.............................................
+						return	this._Cntlr_Dest.Value.Repository.ReferenceList();
+					}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 					public IDTOConfigSetupDestination CreateConfigSetupDestination()
 						{
-							return	new	DTOConfigSetupDestination();
+							return	this._Cntlr_Dest.Value.CreateConfigSetupDestination();
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -49,10 +31,7 @@ namespace BxS_SAPNCO.API
 						{
 							this.Startup();
 							//.............................................
-							SMC.RfcConfigParameters	lo_rfcConfig	=	this._DestRepos.Value.GetParameters(ID);
-
-							return	new DestinationRfc(	lo_rfcConfig						,
-																					this._GlobalSetup.Value		)	{	SAPGUIID = ID	}	;
+							return	this._Cntlr_Dest.Value.CreateDestinationRFC(ID);
 						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -60,9 +39,7 @@ namespace BxS_SAPNCO.API
 						{
 							this.Startup();
 							//.............................................
-							Guid lg = this._DestRepos.Value.GetAddIDFor(ID);
-							//.............................................
-							return	CreateDestinationRFC(lg);
+							return	this._Cntlr_Dest.Value.CreateDestinationRFC(ID);
 						}
 
 				#endregion

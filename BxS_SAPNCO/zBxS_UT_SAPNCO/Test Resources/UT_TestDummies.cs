@@ -30,7 +30,7 @@ namespace zBxS_SAPNCO_UT
 																										where	P:class
 		{
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
-			internal UT_Consumer( OpEnv<T,P>	OpEnv ): base(OpEnv)
+			internal UT_Consumer( PipelineOpEnv<T,P>	OpEnv ): base(OpEnv)
 				{
 				}
 
@@ -45,12 +45,12 @@ namespace zBxS_SAPNCO_UT
 	//***************************************************************************
 	internal class UT_ConsMaker	: IConsumerMaker<IUT_TranData>
 		{
-			public UT_ConsMaker(OpEnv<IUT_TranData,UT_ProgInfo> opEnv)
+			public UT_ConsMaker(PipelineOpEnv<IUT_TranData,UT_ProgInfo> opEnv)
 				{
 					this._opEnv	= opEnv;
 				}
 
-			private readonly OpEnv<IUT_TranData,UT_ProgInfo> _opEnv;
+			private readonly PipelineOpEnv<IUT_TranData,UT_ProgInfo> _opEnv;
 
 			public	IConsumer<IUT_TranData>	 CreateConsumer()
 				{
@@ -64,24 +64,24 @@ namespace zBxS_SAPNCO_UT
 			//-----------------------------------------------------------------------
 			internal Pipeline<IUT_TranData, UT_ProgInfo>	CreatePipeline()
 				{
-					OpEnv<IUT_TranData, UT_ProgInfo> lo_Openv	= this.CreateOpEnv();
+					PipelineOpEnv<IUT_TranData, UT_ProgInfo> lo_Openv	= this.CreateOpEnv();
 					return	new Pipeline<IUT_TranData, UT_ProgInfo>(	lo_Openv, this.CreateConsMaker(lo_Openv) );
 				}
 
 			//-----------------------------------------------------------------------
-			internal IConsumerMaker<IUT_TranData>	CreateConsMaker(OpEnv<IUT_TranData,UT_ProgInfo> opEnv)
+			internal IConsumerMaker<IUT_TranData>	CreateConsMaker(PipelineOpEnv<IUT_TranData,UT_ProgInfo> opEnv)
 				{
 					return	new	UT_ConsMaker(opEnv);
 				}
 
 			//-----------------------------------------------------------------------
-			internal OpEnv<IUT_TranData,UT_ProgInfo>	CreateOpEnv()
+			internal PipelineOpEnv<IUT_TranData,UT_ProgInfo>	CreateOpEnv()
 				{
 					IProgress<UT_ProgInfo>	lo_PH	= new Progress<UT_ProgInfo>();
 					var											lo_PI	= new UT_ProgInfo();
 					var											lo_CT	= new CancellationToken();
 
-					return	new OpEnv<IUT_TranData, UT_ProgInfo>(lo_PH, lo_PI, lo_CT);
+					return	new PipelineOpEnv<IUT_TranData, UT_ProgInfo>(lo_PH, lo_PI, lo_CT);
 				}
 		}
 }

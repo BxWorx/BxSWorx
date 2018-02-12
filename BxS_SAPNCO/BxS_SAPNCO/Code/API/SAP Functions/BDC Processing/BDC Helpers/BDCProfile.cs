@@ -2,7 +2,6 @@
 //.........................................................
 using BxS_SAPNCO.Destination;
 using	BxS_SAPNCO.API.Function;
-using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -99,9 +98,9 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Configure(DTO_RFCSessionHeader DTO)
+				public void Configure(DTO_RFCHeader	DTO)
 					{
-						DTO.CTUOpts	= this.CTUStr;
+						DTO.CTUParms	= this.CTUStr;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

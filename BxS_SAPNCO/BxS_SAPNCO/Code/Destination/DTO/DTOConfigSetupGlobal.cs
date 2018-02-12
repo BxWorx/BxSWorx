@@ -2,7 +2,7 @@
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.DL
+namespace BxS_SAPNCO.Destination
 {
 	internal class DTOConfigSetupGlobal : IDTOConfigSetupGlobal
 		{

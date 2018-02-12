@@ -7,7 +7,7 @@ namespace BxS_SAPNCO.Helpers
 		{
 			#region "Constructors"
 
-				internal ConsumerBase(	OpEnv<T,P>	OpEnv )
+				internal ConsumerBase(	PipelineOpEnv<T,P>	OpEnv )
 					{
 						this._OpEnv	= OpEnv;
 						//.................................................
@@ -20,7 +20,7 @@ namespace BxS_SAPNCO.Helpers
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	readonly	OpEnv<T,P>	_OpEnv;
+				protected	readonly	PipelineOpEnv<T,P>	_OpEnv;
 
 			#endregion
 
@@ -60,11 +60,16 @@ namespace BxS_SAPNCO.Helpers
 								if (ln_Int.Equals(this._OpEnv.ProgressInterval))
 									{
 										ln_Int	= 0;
-										this._OpEnv.ProgressHndlr.Report(this._OpEnv.ProgressInfo);
+										P	lo_PI	= this._OpEnv.CreateProgressInfo();
+										this._OpEnv.ProgressHndlr.Report(lo_PI);
 									}
 							}
 							//...........................................
-							if (!ln_Int.Equals(0))	this._OpEnv.ProgressHndlr.Report(this._OpEnv.ProgressInfo);
+							if (!ln_Int.Equals(0))
+								{
+									P	lo_PI	= this._OpEnv.CreateProgressInfo();
+									this._OpEnv.ProgressHndlr.Report(lo_PI);
+								}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

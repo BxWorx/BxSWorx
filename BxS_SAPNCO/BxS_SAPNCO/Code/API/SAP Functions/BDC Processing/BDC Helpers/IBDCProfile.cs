@@ -1,7 +1,6 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using	BxS_SAPNCO.API.Function;
-using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -84,8 +83,8 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void Configure(DTO_RFCSessionHeader	DTO);
-				void Configure(DTO_RFCTran		DTO);
+				void Configure(	DTO_RFCHeader	DTO	);
+				void Configure(	DTO_RFCTran		DTO	);
 
 			#endregion
 

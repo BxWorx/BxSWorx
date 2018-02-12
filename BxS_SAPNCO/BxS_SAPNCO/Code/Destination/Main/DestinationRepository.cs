@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_SAPNCO.API.DL;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
 {

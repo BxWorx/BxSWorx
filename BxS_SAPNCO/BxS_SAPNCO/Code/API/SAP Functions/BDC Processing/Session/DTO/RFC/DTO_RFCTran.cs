@@ -18,6 +18,7 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Properties"
 
+				public  int   Reference				{ get; set; }
 				public	bool	ProcessedStatus	{ get; set;	}
 				public	bool	SuccesStatus		{ get; set;	}
 				//.................................................

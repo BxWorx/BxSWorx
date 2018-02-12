@@ -3,7 +3,7 @@ using System.Security;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.DL
+namespace BxS_SAPNCO.Destination
 {
 	public class DTOConfigSetupDestination : IDTOConfigSetupDestination
 		{

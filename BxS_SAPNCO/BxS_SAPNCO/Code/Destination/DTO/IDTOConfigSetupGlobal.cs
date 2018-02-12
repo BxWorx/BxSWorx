@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.API.DL
+namespace BxS_SAPNCO.Destination
 {
 	public interface IDTOConfigSetupGlobal : IDTOConfigSetupBase
 		{

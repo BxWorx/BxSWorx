@@ -29,7 +29,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					OpEnv<IUT_TranData, UT_ProgInfo> x =	this.co_Hnd.CreateOpEnv();
+					PipelineOpEnv<IUT_TranData, UT_ProgInfo> x =	this.co_Hnd.CreateOpEnv();
 					Assert.IsNotNull(	x	,	$"SAPNCO:OpEnv:Inst {ln_Cnt}: 1st" );
 				}
 

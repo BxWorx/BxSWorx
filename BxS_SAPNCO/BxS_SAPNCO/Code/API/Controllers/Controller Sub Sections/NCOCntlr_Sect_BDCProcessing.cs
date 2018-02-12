@@ -1,26 +1,28 @@
-﻿using BxS_SAPNCO.Helpers;
+﻿using System;
+//.........................................................
+using BxS_SAPNCO.BDCProcess;
+using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.API
 {
 	public partial class NCOController
 		{
-			#region "Methods: Private"
+			#region "Methods: Internal: BDC Processing"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Startup()
+				public IBDCSession CreateBDCSession(string destinationID)
 					{
-						if (this._Started)	return;
+						Guid lg_ID	= this._Cntlr_Dest.Value.Repository.GetAddIDFor(destinationID);
 						//.............................................
-						if (this._LoadSAPGUICfg)	this.LoadRepositoryFromConfig(this._FirstReset);
-						this._Started	= true;
+						return	this.CreateBDCSession(lg_ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadRepositoryFromConfig(bool FirstReset = false)
+				public IBDCSession CreateBDCSession(Guid destinationID)
 					{
-						if (FirstReset)	this._Cntlr_Dest.Value.Repository.Reset();
+						DestinationRfc lo_DestRfc = this._Cntlr_Dest.Value.CreateDestinationRFC(destinationID);
 						//.............................................
-						SAPLogonINI.LoadRepository(this._Cntlr_Dest.Value.Repository);
+						return	this._Cntlr_BDC.Value.CreateBDCSession(lo_DestRfc);
 					}
 
 			#endregion
