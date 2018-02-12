@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
 //.........................................................
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 using BxS_SAPNCO.API;
-using BxS_SAPNCO.API.SAPFunctions.BDC;
-using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
+using BxS_SAPNCO.BDCProcess;
+using BxS_SAPNCO.CTU;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
 {
@@ -20,6 +19,8 @@ namespace zBxS_SAPNCO_UT
 				private readonly	UT_Destination	co_Dest		;
 				private readonly	NCOController		co_Cntlr	;
 
+				private readonly	CTUParametersHandler	co_CTUHndlr;
+
 				private readonly	string	cc_ID			;
 				private	readonly	Guid		cg_GuidID	;
 
@@ -28,6 +29,8 @@ namespace zBxS_SAPNCO_UT
 			//...................................................
 			public UT_410_BDC_Session()
 				{
+					this.co_CTUHndlr	= new CTUParametersHandler();
+
 					this.co_Data		= new UT_TestData		()								;
 					this.co_Dest		= new UT_Destination(2, false)				;
 					this.co_Cntlr		= new NCOController	( autoLoad: true );
@@ -39,7 +42,7 @@ namespace zBxS_SAPNCO_UT
 
 			//...................................................
 			[TestMethod]
-			public void UT_400_10_BDCSession_Inst()
+			public void UT_410_10_BDCSession_Inst()
 				{
 					int	ln_Cnt	= 0;
 					//...............................................
@@ -54,7 +57,7 @@ namespace zBxS_SAPNCO_UT
 
 			//...................................................
 			[TestMethod]
-			public void UT_400_11_BDCSession_AddTran()
+			public void UT_410_11_BDCSession_AddTran()
 				{
 					int	ln_Cnt	= 0;
 					//...............................................
@@ -72,7 +75,7 @@ namespace zBxS_SAPNCO_UT
 
 			//...................................................
 			[TestMethod]
-			public void UT_400_20_BDCSession_Startup()
+			public void UT_410_20_BDCSession_Startup()
 				{
 					int	ln_Cnt	= 0;
 					//...............................................
@@ -80,13 +83,16 @@ namespace zBxS_SAPNCO_UT
 
 					IBDCSession lo_Ses0	= this.co_Cntlr.CreateBDCSession(this.cg_GuidID	);
 
-					lo_Ses0.ConfigureUser(this.co_Dest.UT_Destination_User());
+					var x = this.co_Dest.UT_Destination_User(2);
+					lo_Ses0.ConfigureUser(x);
+
 					lo_Ses0.SessionOptions.Sequential	= true;
 					lo_Ses0.SessionHeader.SAPTCode		= "XD02";
 					lo_Ses0.SessionHeader.Skip1st			= " ";
+					lo_Ses0.SessionHeader.CTUParms.DisplayMode	= this.co_CTUHndlr.DisplayMode_All;
 
-					SessionTran lo_BdcTran1	= lo_Ses0.CreateTran();
-					SessionTran lo_BdcTran2	= lo_Ses0.CreateTran();
+					DTO_SessionTran lo_BdcTran1	= lo_Ses0.CreateTran();
+					DTO_SessionTran lo_BdcTran2	= lo_Ses0.CreateTran();
 
 					this.co_Data.SetupTestBDCData( lo_BdcTran1, "1007084", "222" );
 					this.co_Data.SetupTestBDCData( lo_BdcTran2, "1800476", "222" );
@@ -94,7 +100,7 @@ namespace zBxS_SAPNCO_UT
 					lo_Ses0.AddTransaction(	lo_BdcTran1 );
 					lo_Ses0.AddTransaction(	lo_BdcTran2 );
 
-					lo_Ses0.Process();
+					lo_Ses0.ProcessAsync();
 
 					Assert.IsTrue		(			lo_Ses0.IsStarted						,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 					Assert.AreEqual	( 2,	lo_Ses0.RFCTransactionCount	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );

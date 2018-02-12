@@ -6,7 +6,6 @@ using SMC	= SAP.Middleware.Connector;
 using SDM = SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
 using BxS_SAPNCO.Destination;
-using BxS_SAPNCO.API.DL;
 using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT

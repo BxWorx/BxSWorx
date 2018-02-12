@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 //.........................................................
-using BxS_SAPNCO.API.SAPFunctions.BDC;
-using BxS_SAPNCO.API.SAPFunctions.BDC.Session;
+using BxS_SAPNCO.BDCProcess;
+using BxS_SAPNCO.CTU;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
 {
@@ -9,9 +9,9 @@ namespace zBxS_SAPNCO_UT
 	public class UT_TestData
 		{
 			//-------------------------------------------------------------------------------------------
-			public void UpdateCTU( DTO_CTUParameters CTUOptions )
+			public void UpdateCTU( DTO_CTUParms CTUOptions )
 				{
-					var lo_CTU	= new CTU_Parameters();
+					var lo_CTU	= new CTUParametersHandler();
 
 					lo_CTU.DisplayMode		= lo_CTU.DisplayMode_BGrnd	;
 					lo_CTU.UpdateMode			= lo_CTU.UpdateMode_ASync		;
@@ -40,10 +40,9 @@ namespace zBxS_SAPNCO_UT
 																							"2800242"	,
 																							"1800238"		};
 			}
-		
 
 			//-------------------------------------------------------------------------------------------
-			public void SetupTestBDCData( SessionTran BDCTran, string CustNo, string TelNo )
+			public void SetupTestBDCData( DTO_SessionTran BDCTran, string CustNo, string TelNo )
 				{
 					BDCTran.Reset();
 					//...............................................
@@ -57,22 +56,22 @@ namespace zBxS_SAPNCO_UT
 					BDCTran.AddBDCData(""					,	0			,	false	,"SZA1_D0100-FAX_NUMBER"	, TelNo	);
 				}
 
-			//-------------------------------------------------------------------------------------------
-			public void SetupTestBDCData( IBDCTranData BDCTran, string CustNo, string TelNo )
-				{
-					BDCTran.Reset();
-					//...............................................
-					BDCTran.SAPTCode	= "XD02";
+			////-------------------------------------------------------------------------------------------
+			//public void SetupTestBDCData( DTO_SessionTran BDCTran, string CustNo, string TelNo )
+			//	{
+			//		BDCTran.Reset();
+			//		//...............................................
+			//		BDCTran.SAPTCode	= "XD02";
 
-					BDCTran.AddBDCData("SAPMF02D"	,	0101	,	true	,""						, ""			);
-					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "/00"		);
-					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-KUNNR", CustNo	);
-					BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-D0110", "X"			);
-					BDCTran.AddBDCData(""					,	0			,	false	,"USE_ZAV"		, "X"			);
-					BDCTran.AddBDCData("SAPMF02D"	,	0111	,	true	,""						, ""			);
-					BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "=UPDA"	);
-					BDCTran.AddBDCData(""					,	0			,	false	,"SZA1_D0100-FAX_NUMBER"	, TelNo	);
-				}
+			//		BDCTran.AddBDCData("SAPMF02D"	,	0101	,	true	,""						, ""			);
+			//		BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "/00"		);
+			//		BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-KUNNR", CustNo	);
+			//		BDCTran.AddBDCData(""					,	0			,	false	,"RF02D-D0110", "X"			);
+			//		BDCTran.AddBDCData(""					,	0			,	false	,"USE_ZAV"		, "X"			);
+			//		BDCTran.AddBDCData("SAPMF02D"	,	0111	,	true	,""						, ""			);
+			//		BDCTran.AddBDCData(""					,	0			,	false	,"BDC_OKCODE"	, "=UPDA"	);
+			//		BDCTran.AddBDCData(""					,	0			,	false	,"SZA1_D0100-FAX_NUMBER"	, TelNo	);
+				//}
 		}
 }
 

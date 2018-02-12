@@ -1,10 +1,11 @@
-﻿using System;
-using System.Threading;
-using BxS_SAPNCO.Common;
+﻿using System						;
+using System.Threading	;
 //.........................................................
-using BxS_SAPNCO.Destination;
-using BxS_SAPNCO.Helpers;
-using BxS_SAPNCO.RfcFunction;
+using BxS_SAPNCO.Common				;
+using BxS_SAPNCO.CTU					;
+using BxS_SAPNCO.Destination	;
+using BxS_SAPNCO.Helpers			;
+using BxS_SAPNCO.RfcFunction	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -52,32 +53,26 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IBDCProfile GetAddBDCProfile(DestinationRfc destination)
-					{
-						IBDCProfile	lo_Profile	= null;
-						//.............................................
-						destination.TryGetProfile(	this._SAPFncConst.Value.BDCCallTransaction
-																			,	out object lo_ProfileObj										);
-
-						if (lo_ProfileObj == null)
-							{
-								lo_Profile	= new BDCFncProfile(	destination
-																								,	this._SAPFncConst.Value.BDCCallTransaction	);
-
-								destination.RegisterProfile(lo_Profile);
-
-								destination.TryGetProfile(	this._SAPFncConst.Value.BDCCallTransaction
-																					,	out lo_ProfileObj														);
-							}
-						//.............................................
-						return	lo_Profile;
-					}
-
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal DTO_CTUParms	CreateCTUParameters()
+				//internal IBDCProfile GetAddBDCProfile(DestinationRfc destination)
 				//	{
-				//		return	new DTO_CTUParms();
+				//		IBDCProfile	lo_Profile	= null;
+				//		//.............................................
+				//		destination.TryGetProfile(	this._SAPFncConst.Value.BDCCallTransaction
+				//															,	out object lo_ProfileObj										);
+
+				//		if (lo_ProfileObj == null)
+				//			{
+				//				lo_Profile	= new BDCFncProfile(	destination
+				//																				,	this._SAPFncConst.Value.BDCCallTransaction	);
+
+				//				destination.RegisterProfile(lo_Profile);
+
+				//				destination.TryGetProfile(	this._SAPFncConst.Value.BDCCallTransaction
+				//																	,	out lo_ProfileObj														);
+				//			}
+				//		//.............................................
+				//		return	lo_Profile;
 				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -159,7 +154,7 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private static DTO_SessionHeader	CreateSessionHeader()
 					{
-						return	new	DTO_SessionHeader();
+						return	new DTO_SessionHeader	{	CTUParms = CreateCTUParameters() };
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -202,6 +197,12 @@ namespace BxS_SAPNCO.BDCProcess
 				private static IProgress<DTO_ProgressInfo> CreateProgressHandler()
 					{
 						return	new Progress<DTO_ProgressInfo>();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private static DTO_CTUParms	CreateCTUParameters()
+					{
+						return	new DTO_CTUParms();
 					}
 
 			#endregion

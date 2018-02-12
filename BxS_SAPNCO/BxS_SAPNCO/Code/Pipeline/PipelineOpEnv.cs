@@ -2,8 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-//.........................................................
-using BxS_SAPNCO.BDCProcess;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Helpers
 {
@@ -28,8 +26,8 @@ namespace BxS_SAPNCO.Helpers
 						this.ProgressInterval	= progressInterval	;
 						this.QueueTimeout			= queueAddTimeout		;
 						//.............................................
-						this.Queue			= new	BlockingCollection<T>();
-						this.Consumers	= new List<IConsumer<T>>();
+						this.Queue			= new	BlockingCollection<T>	();
+						this.Consumers	= new List< IConsumer<T> >	();
 					}
 
 			#endregion

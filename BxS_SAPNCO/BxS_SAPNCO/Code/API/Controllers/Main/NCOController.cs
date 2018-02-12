@@ -35,17 +35,17 @@ namespace BxS_SAPNCO.API
 				private	readonly	bool	_FirstReset;
 				//.................................................
 				private static readonly
-					Lazy<SAPFncConstants>					_SAPFncConst
+					Lazy<SAPFncConstants>				_SAPFncConst
 						= new	Lazy<SAPFncConstants>				(	() => new SAPFncConstants()
 																								, LazyThreadSafetyMode.ExecutionAndPublication );
 
 				private	readonly
-					Lazy<NCOCntlr_Destination>		_Cntlr_Dest
+					Lazy<NCOCntlr_Destination>	_Cntlr_Dest
 						= new	Lazy<NCOCntlr_Destination>	(	() => new NCOCntlr_Destination()
 																								, LazyThreadSafetyMode.ExecutionAndPublication );
 
 				private	readonly
-					Lazy<NCOController_BDC>		_Cntlr_BDC
+					Lazy<NCOController_BDC>			_Cntlr_BDC
 						= new	Lazy<NCOController_BDC>			(	() => new NCOController_BDC(_SAPFncConst)
 																								, LazyThreadSafetyMode.ExecutionAndPublication );
 

@@ -63,10 +63,10 @@ namespace BxS_SAPNCO.Helpers
 							{
 								if (this._OpEnv.CT.IsCancellationRequested)		return	0;
 
+								IConsumer<T>	lo_CS	= this._OpEnv.Consumers[i];
+
 								this._Tasks.Add(
-									Task<IConsumer<T>>.Run( () =>	{ IConsumer<T>	lo_CS	= this._OpEnv.Consumers[i];
-																									//IBDCTranProcessor	lo_TP	= this._OpEnv.CreateTranProcessor();
-																									//IConsumer<T>			lo_CS	= this._OpEnv.CreateConsumer(this._OpEnv, lo_TP);
+									Task<IConsumer<T>>.Run( () =>	{
 																									lo_CS.Start();
 																									return	lo_CS;
 																								}

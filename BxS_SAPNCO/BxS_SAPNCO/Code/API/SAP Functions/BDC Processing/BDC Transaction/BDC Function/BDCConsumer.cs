@@ -13,7 +13,7 @@ namespace BxS_SAPNCO.BDCProcess
 				public BDCConsumer(		PipelineOpEnv<T,P>	OpEnv
 														,	IBDCTranProcessor		tranProcessor	)	: base(OpEnv)
 					{
-						this._BDCTran	= tranProcessor	;
+						this._TranProcessor	= tranProcessor	;
 					}
 
 			#endregion
@@ -21,7 +21,7 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IBDCTranProcessor		_BDCTran	;
+				private readonly	IBDCTranProcessor		_TranProcessor	;
 
 			#endregion
 
@@ -33,7 +33,7 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						try
 							{
-								this._BDCTran.Process( workItem	);
+								this._TranProcessor.Process( workItem	);
 								this.Successful.Enqueue(workItem);
 								return	true;
 							}

@@ -10,15 +10,22 @@ namespace BxS_SAPNCO.API
 			#region "Section: Destination"
 
 				//===========================================================================================
+				#region "Declarations"
+
+					internal DestinationRepository Repository		{ get { return	this._Cntlr_Dest.Value.Repository; } }
+
+				#endregion
+
+				//===========================================================================================
 				#region "Methods"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IDTORefEntry> ConnectionReferenceList()
-					{
-						this.Startup();
-						//.............................................
-						return	this._Cntlr_Dest.Value.Repository.ReferenceList();
-					}
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public IList<IDTORefEntry> ConnectionReferenceList()
+						{
+							this.Startup();
+							//.............................................
+							return	this._Cntlr_Dest.Value.Repository.ReferenceList();
+						}
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 					public IDTOConfigSetupDestination CreateConfigSetupDestination()

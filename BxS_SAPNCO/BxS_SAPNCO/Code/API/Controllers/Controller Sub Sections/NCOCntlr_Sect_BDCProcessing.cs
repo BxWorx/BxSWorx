@@ -7,7 +7,7 @@ namespace BxS_SAPNCO.API
 {
 	public partial class NCOController
 		{
-			#region "Methods: Internal: BDC Processing"
+			#region "Methods: Exposed: BDC Processing"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IBDCSession CreateBDCSession(string destinationID)

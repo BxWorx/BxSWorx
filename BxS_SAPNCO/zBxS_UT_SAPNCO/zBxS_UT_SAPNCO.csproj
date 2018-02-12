@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test Resources\UT_TestData.cs" />
-    <Compile Include="Test Resources\UT_TestDummies.cs" />
     <Compile Include="Test Resources\UT_Destination.cs" />
     <Compile Include="Test Units\UT_410_BDC_Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
