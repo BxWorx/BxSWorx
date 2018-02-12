@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 //.........................................................
 using BxS_SAPNCO.Destination;
+using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -64,17 +65,22 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Process()
+				public async Task<int> ProcessAsync()
 					{
 						this._RfcHeader	=	this._OpFnc.Value.CreateRFCHeader()	;
-						this._OpEnv.Start();
-						if (!this.IsStarted)	return;
+						if (!this._OpEnv.Start())		return 0;
+
+						for (int i = 0; i < this.SessionOptions.NoOfConsumers; i++)
+							{
+								IBDCTranProcessor				lo_TP	= this._OpFnc.Value.CreateTranProcessor	(this._OpEnv.Profile);
+								IConsumer<DTO_RFCTran>	lo_CS	= this._OpFnc.Value.CreateConsumer			(this._OpEnv.PLOpEnv,lo_TP);
+								this._OpEnv.PLOpEnv.Consumers.Add(lo_CS);
+							}
 						//.............................................
 						this.ParseBDC2RFC();
-						//.............................................
-
-						//.............................................
+						int x = await	this._OpEnv.Pipeline.StartAsync().ConfigureAwait(false);
 						this.ParseRFC2BDC();
+						return	x;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

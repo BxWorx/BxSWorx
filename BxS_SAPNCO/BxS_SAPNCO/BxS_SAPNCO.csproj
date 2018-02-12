@@ -9,7 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\DTO_RFCData.cs" />
+    <Compile Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\**" />
+    <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
+    <EmbeddedResource Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\**" />
+    <EmbeddedResource Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
+    <None Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\**" />
+    <None Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\BDCSessionOpEnv.cs" />
     <Compile Remove="Code\Destination\DestinationController.cs" />
     <Compile Remove="Code\Destination\DestinationPool.cs" />
@@ -34,8 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\" />
-    <Folder Include="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\" />
     <Folder Include="Code\Zkeep\" />
     <Folder Include="obj\" />
   </ItemGroup>

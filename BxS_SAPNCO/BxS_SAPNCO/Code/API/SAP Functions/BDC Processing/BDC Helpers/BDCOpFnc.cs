@@ -22,7 +22,14 @@ namespace BxS_SAPNCO.BDCProcess
 
 													,	Func<		PipelineOpEnv	< DTO_RFCTran , DTO_ProgressInfo>
 																	, IBDCTranProcessor
-																	,	IConsumer	< DTO_RFCTran >												>	createConsumer	)
+																	,	IConsumer	< DTO_RFCTran >													>	createConsumer
+
+													,	Func<		PipelineOpEnv	< DTO_RFCTran , DTO_ProgressInfo >
+																	,	Pipeline			< DTO_RFCTran , DTO_ProgressInfo >	>	createPipeline
+
+													,	Func<		BDCOpEnv
+																	,	PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo >	>	createPLOpEnv
+													)
 					{
 						this.CreateSessionTran					= createSessionTran					;
 						this.CreateSessionHeader				= createSessionHeader				;
@@ -35,6 +42,8 @@ namespace BxS_SAPNCO.BDCProcess
 						this.CreateParser								= createParser							;
 						this.CreateTranProcessor				= createTranProcessor				;
 						this.CreateConsumer							= createConsumer						;
+						this.CreatePipeline							= createPipeline						;
+						this.CreatePLOpEnv							= createPLOpEnv							;
 					}
 
 			#endregion
@@ -54,9 +63,15 @@ namespace BxS_SAPNCO.BDCProcess
 				internal	Func< DTO_ProgressInfo	>							CreateProgressInfo				{ get; }
 				internal	Func< BDCProfileConfigurator >				CreateProfileConfigurator	{ get; }
 				//.................................................
+				internal	Func<		BDCOpEnv
+												,	PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo > >	CreatePLOpEnv		{ get; }
+
+				internal	Func<		PipelineOpEnv	< DTO_RFCTran , DTO_ProgressInfo >
+												,	Pipeline			< DTO_RFCTran , DTO_ProgressInfo >	>	CreatePipeline	{ get; }
+
 				internal	Func<		PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo >
 												, IBDCTranProcessor
-												,	IConsumer	< DTO_RFCTran >												>	CreateConsumer	{ get; }
+												,	IConsumer	< DTO_RFCTran >												>		CreateConsumer	{ get; }
 
 			#endregion
 

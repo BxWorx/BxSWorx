@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 //.........................................................
 using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -26,7 +27,7 @@ namespace BxS_SAPNCO.BDCProcess
 
 				void	ConfigureUser( IDTOConfigSetupDestination config );
 				//.................................................
-				void	Process();
+				Task<int> ProcessAsync();
 				//.................................................
 				DTO_SessionTran	CreateTran( Guid ID = default(Guid) );
 

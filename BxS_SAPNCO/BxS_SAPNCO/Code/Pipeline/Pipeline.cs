@@ -1,6 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+//.........................................................
+using BxS_SAPNCO.BDCProcess;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 namespace BxS_SAPNCO.Helpers
@@ -52,21 +54,21 @@ namespace BxS_SAPNCO.Helpers
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task<int> StartAsync( int noOfConsumers = 0 )
+				internal async Task<int> StartAsync()
 					{
 						int ln_Ret	= 0;
 						//.............................................
-						if (noOfConsumers > 0)	this._OpEnv.NoOfConsumers	= noOfConsumers;
-						//.............................................
-						for (int i = 0; i < this._OpEnv.NoOfConsumers; i++)
+						//for (int i = 0; i < this._OpEnv.NoOfConsumers; i++)
+						for (int i = 0; i < this._OpEnv.Consumers.Count; i++)
 							{
 								if (this._OpEnv.CT.IsCancellationRequested)		return	0;
 
 								this._Tasks.Add(
-									Task<IConsumer<T>>.Run( () =>	{
-																									IConsumer<T> lo_Consumer	= this._OpEnv.CreateConsumer(this._OpEnv);
-																									lo_Consumer.Start();
-																									return	lo_Consumer;
+									Task<IConsumer<T>>.Run( () =>	{ IConsumer<T>	lo_CS	= this._OpEnv.Consumers[i];
+																									//IBDCTranProcessor	lo_TP	= this._OpEnv.CreateTranProcessor();
+																									//IConsumer<T>			lo_CS	= this._OpEnv.CreateConsumer(this._OpEnv, lo_TP);
+																									lo_CS.Start();
+																									return	lo_CS;
 																								}
 																				 )
 																);

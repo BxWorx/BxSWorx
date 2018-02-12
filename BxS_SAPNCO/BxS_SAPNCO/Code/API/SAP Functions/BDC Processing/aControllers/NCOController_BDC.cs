@@ -43,63 +43,10 @@ namespace BxS_SAPNCO.BDCProcess
 						return	new BDCSession(this._OpFnc, lo_OpEnv);
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal Pipeline<IBDCTranData, BDCProgressInfo>	CreateBDCPipelineXX(	Guid	destinationID					,
-				//																																			int		noOfConsumers		= 01	,
-				//																																			int		interval				= 10	,
-				//																																			int		queueAddTimeout	= 10		)
-				//	{
-				//		Destination.DestinationRfc	lo_Dest		= this.CreateDestinationRFC						(destinationID)	;
-				//		IBDCProfile									lo_Prof		= this.GetAddBDCTranProcessorProfile	(lo_Dest)				;
-				//		BDC2RfcParser								lo_Pars		=	this.CreateBDC2RfcParser						(lo_Prof)				;
-				//		//.............................................
-				//		var lo_PI		= new BDCProgressInfo();
-				//		OpEnv<IBDCTranData, BDCProgressInfo>	lo_OE	=	this.CreateOpEnv<IBDCTranData, BDCProgressInfo>( lo_PI						,
-				//																																																									noOfConsumers		,
-				//																																																									interval				,
-				//																																																									queueAddTimeout		);
-				//		var lo_CM		= new BDCConsumerMaker(lo_OE, lo_Pars, lo_Prof);
-				//		//.............................................
-				//		return	new Pipeline<	IBDCTranData, BDCProgressInfo> ( lo_OE, lo_CM );
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal PipelineOpEnv<IBDCTranData, DTO_SessionProgressInfo>	CreateBDCOpEnv(	int	noOfConsumers		= 01	,
-				//																															int	interval				= 10	,
-				//																															int	queueAddTimeout	= 10		)
-				//	{
-				//		var lo_PI		= new DTO_SessionProgressInfo();
-
-				//		return	this.CreatePipelineOpEnv< IBDCTranData, DTO_SessionProgressInfo >(	lo_PI						,
-				//																																noOfConsumers		,
-				//																																interval				,
-				//																																queueAddTimeout		);
-				//	}
-
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Pipeline< DTO_RFCTran , DTO_ProgressInfo > CreatePipeline(PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo> opEnv)
-					{
-						return	new Pipeline< DTO_RFCTran , DTO_ProgressInfo >(opEnv);
-					}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private	PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo>	CreateBDCPipelineOpEnv(BDCOpEnv opEnv)
-				//	{
-				//		PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo > lo = null;
-				//		//.............................................
-				//		return	new PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo>( , , , , opEnv. );
-				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -171,7 +118,23 @@ namespace BxS_SAPNCO.BDCProcess
 																	,	CreateBDCtoRFCParser
 																	, CreateTransactionProcessor
 																	,	CreateConsumer
-																																);
+																	, CreatePipeline
+																	, CreatePLOpEnv
+																);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private static PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo > CreatePLOpEnv( BDCOpEnv opEnv )
+					{
+						return	new PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo>(		opEnv.OpFnc.CreateProgressInfo
+																																				, opEnv.ProgressHndlr
+																																				, opEnv.CTS.Token									);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private static Pipeline< DTO_RFCTran , DTO_ProgressInfo > CreatePipeline( PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo> opEnv)
+					{
+						return	new Pipeline< DTO_RFCTran , DTO_ProgressInfo >(opEnv);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

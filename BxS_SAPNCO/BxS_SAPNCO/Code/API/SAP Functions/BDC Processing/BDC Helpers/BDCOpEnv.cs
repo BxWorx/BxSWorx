@@ -17,20 +17,10 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						this.Destination	= destination		;
 						this.Profile			= profile				;
-						this._OpFnc				= opFnc					;
+						this.OpFnc				= opFnc					;
 						//.............................................
 						this.IsStarted	= false;
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private	readonly	BDCOpFnc	_OpFnc;
-				//.................................................
-				private CancellationTokenSource			_CTS						;
-				private IProgress<DTO_ProgressInfo>	_ProgressHndlr	;
 
 			#endregion
 
@@ -39,13 +29,17 @@ namespace BxS_SAPNCO.BDCProcess
 
 				internal	bool	IsStarted	{ get;	private set; }
 
-				internal	DestinationRfc					Destination		{	get; }
-				internal	IBDCProfile							Profile				{	get; }
+				internal	BDCOpFnc				OpFnc				{	get; }
+				internal	DestinationRfc	Destination	{	get; }
+				internal	IBDCProfile			Profile			{	get; }
 
-				internal	BDCProfileConfigurator	Configurator	{	get; private set;	}
-				internal	BDC2RfcParser						Parser				{	get; private set;	}
+				internal	BDCProfileConfigurator			Configurator	{	get; private set;	}
+				internal	BDC2RfcParser								Parser				{	get; private set;	}
+				internal	CancellationTokenSource			CTS						{	get; private set;	}
+				internal	IProgress<DTO_ProgressInfo>	ProgressHndlr	{	get; private set;	}
 
-				//internal	Pipeline<DTO_RFCTran,DTO_ProgressInfo>	Pipeline	{	get; private set;	}
+				internal	PipelineOpEnv	< DTO_RFCTran , DTO_ProgressInfo >	PLOpEnv		{	get; private set;	}
+				internal	Pipeline			<	DTO_RFCTran , DTO_ProgressInfo >	Pipeline	{	get; private set;	}
 
 			#endregion
 
@@ -55,33 +49,35 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Cancel()
 					{
-						this._CTS?.Cancel();
+						this.CTS?.Cancel();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool Start()
 					{
-						if (!this.IsStarted)
+						if (this.IsStarted)		return	this.IsStarted;
+						//.............................................
+						this.Configurator		= this.OpFnc.CreateProfileConfigurator	();
+						this.Parser					= this.OpFnc.CreateParser								(this.Profile);
+						this.ProgressHndlr	= this.OpFnc.CreateProgressHandler			();
+						this.CTS						= new	CancellationTokenSource						();
+						//.............................................
+						this.PLOpEnv	= this.OpFnc.CreatePLOpEnv(	this );
+						this.Pipeline	= this.OpFnc.CreatePipeline(this.PLOpEnv);
+						//.............................................
+						try
 							{
-								this.Configurator		= this._OpFnc.CreateProfileConfigurator();
-								this.Parser					= this._OpFnc.CreateParser(this.Profile);
-								this._ProgressHndlr	= this._OpFnc.CreateProgressHandler();
-								this._CTS						= new	CancellationTokenSource();
+								if (!this.Destination.Procure())									throw	new Exception();
+								if (!this.Configurator.Configure(	this.Profile ))	throw	new Exception();
 								//.............................................
-								try
-									{
-										if (!this.Destination.Procure())								throw	new Exception();
-										if (!this.Configurator.Configure(this.Profile))	throw	new Exception();
-										//.............................................
-										this.IsStarted	= true;
-									}
-								catch (Exception)
-									{
-										this.Configurator		= null;
-										this.Parser					= null;
-										this._ProgressHndlr	= null;
-										this._CTS						= null;
-									}
+								this.IsStarted	= true;
+							}
+						catch (Exception)
+							{
+								this.Configurator		= null;
+								this.Parser					= null;
+								this.ProgressHndlr	= null;
+								this.CTS						= null;
 							}
 						//.............................................
 						return	this.IsStarted;
