@@ -18,7 +18,7 @@ namespace BxS_SAPNCO.BDCProcess
 																		SessionTran			= CreateSessionTransaction,
 																		SessionHeader		= CreateSessionHeader,
 																		SessionOptions	= CreateSessionOptions,
-																		RFCHeader				= CreateRFCHeader,
+																		//RFCHeader				= CreateRFCHeader,
 																		RFCTran					= CreateRFCTransaction,
 																		ProgressHndlr		= CreateProgressHandler,
 																		ProgressInfo		= CreateProgressInfo,

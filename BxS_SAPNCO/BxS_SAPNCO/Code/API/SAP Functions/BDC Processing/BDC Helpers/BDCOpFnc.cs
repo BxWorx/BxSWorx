@@ -23,7 +23,7 @@ namespace BxS_SAPNCO.BDCProcess
 				//.................................................
 				internal	Func< DTO_SessionHeader >								SessionHeader		{ get; set; }
 				internal	Func< DTO_SessionOptions >							SessionOptions	{ get; set; }
-				internal	Func< DTO_RFCHeader >										RFCHeader				{ get; set; }
+				internal	Func< DTO_RFCHeader >										RFCHeader				{ get	{ return	CreateRFCHeader; } }
 				internal	Func< DTO_RFCTran >											RFCTran					{ get; set; }
 				internal	Func< IProgress<DTO_ProgressInfo> >			ProgressHndlr		{ get; set; }
 				internal	Func< DTO_ProgressInfo	>								ProgressInfo		{ get; set; }
@@ -40,6 +40,13 @@ namespace BxS_SAPNCO.BDCProcess
 												,	IConsumer	< DTO_RFCTran >													>	Consumer	{ get; set; }
 
 			#endregion
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private static DTO_RFCHeader	CreateRFCHeader()
+					{
+						return	new	DTO_RFCHeader();
+					}
 
 		}
 }
