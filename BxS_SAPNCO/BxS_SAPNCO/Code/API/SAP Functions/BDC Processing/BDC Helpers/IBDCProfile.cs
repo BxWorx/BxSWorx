@@ -8,7 +8,7 @@ namespace BxS_SAPNCO.BDCProcess
 		{
 			#region "Properties:  General"
 
-				bool	Ready	{ get; set; }
+				bool	IsReady	{ get; set; }
 
 				SMC.IRfcFunction	RFCFnc	{	get; }
 				SMC.IRfcStructure	CTUStr	{	get; }

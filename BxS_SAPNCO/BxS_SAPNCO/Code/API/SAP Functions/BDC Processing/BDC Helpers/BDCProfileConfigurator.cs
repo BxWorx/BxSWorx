@@ -78,7 +78,7 @@ namespace BxS_SAPNCO.BDCProcess
 								profile.TabMsg_Fldnm	= ls_StruMetadata.TryNameToIndex( "FLDNAME"	);
 							}
 						//.............................................
-						profile.Ready	= lb_Ret;
+						profile.IsReady	= lb_Ret;
 
 						return	lb_Ret;
 					}

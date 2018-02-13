@@ -12,9 +12,9 @@ namespace BxS_SAPNCO.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public NCOController(	bool	loadSAPGUIConfig	= true	,
-															bool	firstReset				= false	,
-															bool	autoLoad					= false		)
+				public NCOController(		bool	loadSAPGUIConfig	= true
+															,	bool	firstReset				= false
+															,	bool	autoLoad					= false	)
 					{
 						this._LoadSAPGUICfg		= loadSAPGUIConfig;
 						this._FirstReset			= firstReset;
@@ -46,7 +46,7 @@ namespace BxS_SAPNCO.API
 
 				private	readonly
 					Lazy<NCOController_BDC>			_Cntlr_BDC
-						= new	Lazy<NCOController_BDC>			(	() => new NCOController_BDC(_SAPFncConst)
+						= new	Lazy<NCOController_BDC>			(	() => new NCOController_BDC()
 																								, LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion

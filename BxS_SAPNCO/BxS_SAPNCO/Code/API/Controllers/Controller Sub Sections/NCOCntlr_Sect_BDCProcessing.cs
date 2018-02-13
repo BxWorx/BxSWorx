@@ -12,7 +12,7 @@ namespace BxS_SAPNCO.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IBDCSession CreateBDCSession(string destinationID)
 					{
-						Guid lg_ID	= this._Cntlr_Dest.Value.Repository.GetAddIDFor(destinationID);
+						Guid lg_ID	= this._Cntlr_Dest.Value.Repository.GetAddIDFor( destinationID );
 						//.............................................
 						return	this.CreateBDCSession(lg_ID);
 					}
@@ -22,7 +22,7 @@ namespace BxS_SAPNCO.API
 					{
 						DestinationRfc lo_DestRfc = this._Cntlr_Dest.Value.CreateDestinationRFC(destinationID);
 						//.............................................
-						return	this._Cntlr_BDC.Value.CreateBDCSession(lo_DestRfc);
+						return	this._Cntlr_BDC.Value.CreateBDCSession( lo_DestRfc , _SAPFncConst.Value.BDCCallTran );
 					}
 
 			#endregion

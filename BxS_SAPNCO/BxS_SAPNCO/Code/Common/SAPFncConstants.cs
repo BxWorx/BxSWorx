@@ -5,8 +5,8 @@ namespace BxS_SAPNCO.Common
 		{
 			#region "Declarations: Function Names"
 
-				internal	string	BDCCallTransaction	{ get { return	"/ISDFPS/CALL_TRANSACTION"; } }
-				internal	string	SAPMsgCompiler			{ get { return	"/ISDFPS/CALL_TRANSACTION"; } }
+				internal	string	BDCCallTran			{ get { return	"/ISDFPS/CALL_TRANSACTION"; } }
+				internal	string	SAPMsgCompiler	{ get { return	"/ISDFPS/CALL_TRANSACTION"; } }
 
 			#endregion
 

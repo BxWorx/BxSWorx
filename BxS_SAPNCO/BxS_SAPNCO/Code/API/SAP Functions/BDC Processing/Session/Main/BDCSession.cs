@@ -51,8 +51,8 @@ namespace BxS_SAPNCO.BDCProcess
 				public	int		TransactionCount			{ get { return	this.Transactions.Count	; } }
 				public	int		RFCTransactionCount		{ get { return	this._OpEnv.PLOpEnv.Queue.Count	; } }
 				//.................................................
-				public  DTO_SessionHeader		SessionHeader		{ get	{ return	this._SessionHeader		?? (this._SessionHeader		= this._OpFnc.Value.CreateSessionHeader()		); } }
-				public	DTO_SessionOptions	SessionOptions	{ get { return	this._SessionOptions	?? (this._SessionOptions	= this._OpFnc.Value.CreateSessionOptions()	); } }
+				public  DTO_SessionHeader		SessionHeader		{ get	{ return	this._SessionHeader		?? (this._SessionHeader		= this._OpFnc.Value.SessionHeader()		); } }
+				public	DTO_SessionOptions	SessionOptions	{ get { return	this._SessionOptions	?? (this._SessionOptions	= this._OpFnc.Value.SessionOptions()	); } }
 				//.................................................
 				public	ConcurrentDictionary< int, DTO_SessionTran >	Transactions	{ get; }
 
@@ -64,15 +64,15 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task<int> ProcessAsync()
 					{
-						this._RfcHeader	=	this._OpFnc.Value.CreateRFCHeader()	;
+						this._RfcHeader	=	this._OpFnc.Value.RFCHeader()	;
 						if (!this._OpEnv.Start())		return 0;
 						this.ParseBDCtoRFCHeader();
 
 						for (int i = 0; i < this.SessionOptions.NoOfConsumers; i++)
 							{
-								IBDCTranProcessor				lo_TP	= this._OpFnc.Value.CreateTranProcessor	(this._OpEnv.Profile);
+								IBDCTranProcessor				lo_TP	= this._OpFnc.Value.TranProcessor	(this._OpEnv.Profile);
 								lo_TP.Config(this._RfcHeader);
-								IConsumer<DTO_RFCTran>	lo_CS	= this._OpFnc.Value.CreateConsumer			(this._OpEnv.PLOpEnv,lo_TP);
+								IConsumer<DTO_RFCTran>	lo_CS	= this._OpFnc.Value.Consumer			(this._OpEnv.PLOpEnv,lo_TP);
 								this._OpEnv.PLOpEnv.Consumers.Add(lo_CS);
 							}
 						//.............................................
@@ -86,13 +86,13 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	ConfigureUser(IDTOConfigSetupDestination config)
 					{
-						this._OpEnv.Destination.LoadConfig(config);
+						this._OpEnv.DestRFC.LoadConfig(config);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DTO_SessionTran CreateTran(Guid ID = default(Guid))
 					{
-						return	this._OpFnc.Value.CreateSessionTran(ID);
+						return	this._OpFnc.Value.SessionTran(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -191,7 +191,7 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ParseTran(int key, DTO_SessionTran BDCTran)
 					{
-						DTO_RFCTran lo_RFCTran	= this._OpFnc.Value.CreateRFCTran();
+						DTO_RFCTran lo_RFCTran	= this._OpFnc.Value.RFCTran();
 						this._OpEnv.Profile.Configure(lo_RFCTran);
 						this._OpEnv.Parser.ParseBDCtoRFC(BDCTran, lo_RFCTran);
 						lo_RFCTran.Reference	= key;

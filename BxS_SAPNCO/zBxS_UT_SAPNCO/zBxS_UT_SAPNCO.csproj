@@ -55,13 +55,16 @@
   <ItemGroup>
     <Compile Include="Test Resources\UT_TestData.cs" />
     <Compile Include="Test Resources\UT_Destination.cs" />
+    <Compile Include="Test Units\UT_900_BDC_Helpers.cs" />
     <Compile Include="Test Units\UT_410_BDC_Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="zKeep\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BxS_SAPNCO\BxS_SAPNCO.csproj">
       <Project>{851910cd-294b-4dd3-8f88-006c99d12e8c}</Project>

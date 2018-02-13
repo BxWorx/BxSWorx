@@ -9,69 +9,35 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCOpFnc(	Func< Guid, DTO_SessionTran	>							createSessionTran
-													,	Func< DTO_SessionHeader >									createSessionHeader
-													,	Func< DTO_SessionOptions >								createSessionOptions
-													,	Func< DTO_RFCHeader >											createRFCHeader
-													,	Func< DTO_RFCTran	>												createRFCTran
-													,	Func< IProgress<DTO_ProgressInfo> >				createProgressHandler
-													,	Func< DTO_ProgressInfo >									createProgressInfo
-													,	Func< BDCProfileConfigurator >						createProfileConfigurator
-													,	Func< IBDCProfile, BDC2RfcParser >				createParser
-													,	Func< IBDCProfile, IBDCTranProcessor	>		createTranProcessor
-
-													,	Func<		PipelineOpEnv	< DTO_RFCTran , DTO_ProgressInfo>
-																	, IBDCTranProcessor
-																	,	IConsumer	< DTO_RFCTran >													>	createConsumer
-
-													,	Func<		PipelineOpEnv	< DTO_RFCTran , DTO_ProgressInfo >
-																	,	Pipeline			< DTO_RFCTran , DTO_ProgressInfo >	>	createPipeline
-
-													,	Func<		BDCOpEnv
-																	,	PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo >	>	createPLOpEnv
-													)
-					{
-						this.CreateSessionTran					= createSessionTran					;
-						this.CreateSessionHeader				= createSessionHeader				;
-						this.CreateSessionOptions				= createSessionOptions			;
-						this.CreateRFCHeader						= createRFCHeader						;
-						this.CreateRFCTran							= createRFCTran							;
-						this.CreateProgressHandler			= createProgressHandler			;
-						this.CreateProgressInfo					= createProgressInfo				;
-						this.CreateProfileConfigurator	= createProfileConfigurator	;
-						this.CreateParser								= createParser							;
-						this.CreateTranProcessor				= createTranProcessor				;
-						this.CreateConsumer							= createConsumer						;
-						this.CreatePipeline							= createPipeline						;
-						this.CreatePLOpEnv							= createPLOpEnv							;
-					}
+				internal BDCOpFnc()
+					{	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	Func< Guid				, DTO_SessionTran >		CreateSessionTran		{ get; }
-				internal	Func< IBDCProfile	, BDC2RfcParser		>		CreateParser				{ get; }
-				internal	Func< IBDCProfile	, IBDCTranProcessor	>	CreateTranProcessor	{ get; }
+				internal	Func< Guid				, DTO_SessionTran >		SessionTran			{ get; set; }
+				internal	Func< IBDCProfile	, BDC2RfcParser		>		Parser					{ get; set; }
+				internal	Func< IBDCProfile	, IBDCTranProcessor	>	TranProcessor		{ get; set; }
 				//.................................................
-				internal	Func< DTO_SessionHeader >							CreateSessionHeader				{ get; }
-				internal	Func< DTO_SessionOptions >						CreateSessionOptions			{ get; }
-				internal	Func< DTO_RFCHeader >									CreateRFCHeader						{ get; }
-				internal	Func< DTO_RFCTran >										CreateRFCTran							{ get; }
-				internal	Func< IProgress<DTO_ProgressInfo> >		CreateProgressHandler			{ get; }
-				internal	Func< DTO_ProgressInfo	>							CreateProgressInfo				{ get; }
-				internal	Func< BDCProfileConfigurator >				CreateProfileConfigurator	{ get; }
+				internal	Func< DTO_SessionHeader >								SessionHeader		{ get; set; }
+				internal	Func< DTO_SessionOptions >							SessionOptions	{ get; set; }
+				internal	Func< DTO_RFCHeader >										RFCHeader				{ get; set; }
+				internal	Func< DTO_RFCTran >											RFCTran					{ get; set; }
+				internal	Func< IProgress<DTO_ProgressInfo> >			ProgressHndlr		{ get; set; }
+				internal	Func< DTO_ProgressInfo	>								ProgressInfo		{ get; set; }
+				internal	Func< BDCProfileConfigurator >					ProfileConfig		{ get; set; }
 				//.................................................
 				internal	Func<		BDCOpEnv
-												,	PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo > >	CreatePLOpEnv		{ get; }
+												,	PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo >	>	PLOpEnv		{ get; set; }
 
 				internal	Func<		PipelineOpEnv	< DTO_RFCTran , DTO_ProgressInfo >
-												,	Pipeline			< DTO_RFCTran , DTO_ProgressInfo >	>	CreatePipeline	{ get; }
+												,	Pipeline			< DTO_RFCTran , DTO_ProgressInfo >	>	Pipeline	{ get; set; }
 
 				internal	Func<		PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo >
 												, IBDCTranProcessor
-												,	IConsumer	< DTO_RFCTran >												>		CreateConsumer	{ get; }
+												,	IConsumer	< DTO_RFCTran >													>	Consumer	{ get; set; }
 
 			#endregion
 

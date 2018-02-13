@@ -11,9 +11,10 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCFncProfile(	DestinationRfc	destination	,
-																string					rfcFncName		)	: base( destination, rfcFncName)
+				internal BDCFncProfile(		DestinationRfc	destRFC
+																,	string					FncName	)	: base( destRFC , FncName )
 					{
+						this.IsReady	= false;
 					}
 
 			#endregion
@@ -21,7 +22,7 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Properties:  General"
 
-				public	bool	Ready { get; set;	}
+				public	bool	IsReady { get; set; }
 
 				public	SMC.IRfcFunction		RFCFnc	{	get	{ return	this.Metadata.CreateFunction()																												; } }
 				public	SMC.IRfcStructure		CTUStr	{	get	{ return	this.Metadata[this.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
@@ -98,17 +99,20 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Configure(DTO_RFCHeader	DTO)
+				public void Configure( DTO_RFCHeader DTO )
 					{
-						DTO.CTUParms	= this.CTUStr;
+						if (this.IsReady)	DTO.CTUParms	= this.CTUStr;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Configure(DTO_RFCTran DTO)
+				public void Configure( DTO_RFCTran DTO )
 					{
-						DTO.BDCData	= this.BDCTbl;
-						DTO.SPAData	= this.SPATbl;
-						DTO.MSGData	= this.MSGTbl;
+						if (this.IsReady)
+							{
+								DTO.BDCData	= this.BDCTbl;
+								DTO.SPAData	= this.SPATbl;
+								DTO.MSGData	= this.MSGTbl;
+							}
 					}
 
 			#endregion
