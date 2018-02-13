@@ -7,10 +7,8 @@ namespace BxS_SAPNCO.RfcFunction
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RFCFunctionBase(		SMC.IRfcFunction		rfcFnc
-																	,	SMC.RfcDestination	rfcDest	)
+				internal RFCFunctionBase( SMC.RfcDestination	rfcDest	)
 					{
-						this._RfcFunction			= rfcFnc	;
 						this._RfcDestination	= rfcDest	;
 					}
 
@@ -19,8 +17,9 @@ namespace BxS_SAPNCO.RfcFunction
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	SMC.IRfcFunction		_RfcFunction;
 				private	readonly	SMC.RfcDestination	_RfcDestination;
+
+				protected	SMC.IRfcFunction	_RfcFunction;
 
 			#endregion
 
@@ -34,7 +33,7 @@ namespace BxS_SAPNCO.RfcFunction
 						//.............................................
 						try
 							{
-								this._RfcFunction.Invoke(this._RfcDestination);
+								this._RfcFunction.Invoke( this._RfcDestination );
 							}
 						catch (System.Exception)
 							{

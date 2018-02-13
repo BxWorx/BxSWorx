@@ -42,9 +42,9 @@ namespace zBxS_SAPNCO_UT
 				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 				public IDTOConfigSetupDestination UT_Destination_User(int useSAPGUI = 0)
 					{
-						var	lo_Setup	= new DTOConfigSetupDestination	{	Client		= 700							,
-																														User			= "DERRICKBINGH"	,
-																														Password	= lz_PWrd						};
+						var	lo_Setup	= new DTOConfigSetupDestination	{		Client		= lz_Clnt
+																														,	User			= lz_User
+																														,	Password	= lz_PWrd	};
 
 						if			(useSAPGUI == 0)	lo_Setup.SetSAPGUIasNotUsed	();
 						else if	(useSAPGUI == 1)	lo_Setup.SetSAPGUIasHidden	();
@@ -58,7 +58,9 @@ namespace zBxS_SAPNCO_UT
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const string	lz_PWrd		= "M@@n1234";
+				private	const int			lz_Clnt	= 700							;
+				private	const string	lz_PWrd	= "M@@n1234"			;
+				private	const string	lz_User	= "DERRICKBINGH"	;
 
 				private string											cc_ID					;
 				private DestinationRepository				co_DestRepo		;

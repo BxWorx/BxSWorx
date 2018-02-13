@@ -7,20 +7,27 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTranProfile(	SMC.IRfcFunction		rfcFnc
+				internal BDCCallTranProfile(	string							fncName
 																		,	SMC.RfcDestination	rfcDest	)
 					{
-						this.RfcFnc		= rfcFnc	;
+						this.FncName	= fncName	;
 						this.RfcDest	= rfcDest	;
 					}
 
 			#endregion
 
 			//===========================================================================================
+			#region "Declarations"
+
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties:  Parameters Indicies"
 
-				internal	SMC.IRfcFunction		RfcFnc	{ get; }
-				internal	SMC.RfcDestination	RfcDest { get; }
+				internal	string										FncName			{ get; }
+				internal	SMC.RfcDestination				RfcDest			{ get; }
+				internal	SMC.RfcFunctionMetadata		FncMetdata	{ get; }
 				//.................................................
 				internal	int	ParIdx_TCode	{ get; set;	}
 				internal	int ParIdx_Skip1	{ get; set;	}

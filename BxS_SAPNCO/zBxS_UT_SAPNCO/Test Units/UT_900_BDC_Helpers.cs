@@ -15,7 +15,8 @@ namespace zBxS_SAPNCO_UT
 		{
 			#region "Declarations"
 
-				private NCOController_BDC	lo_Cntlr;
+				private readonly	NCOController_BDC	lo_Cntlr	;
+				private	readonly	UT_Destination		lo_UTDest	;
 
 			#endregion
 
@@ -23,6 +24,7 @@ namespace zBxS_SAPNCO_UT
 			public UT_900_BDC_Helpers()
 				{
 					this.lo_Cntlr		= new NCOController_BDC();
+					this.lo_UTDest	= new UT_Destination(	2 , true );
 				}
 
 			//...................................................

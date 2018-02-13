@@ -9,15 +9,10 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCTranProcessor(	DestinationRfc	destRFC
-																	,	IRFCFunction	RfcFunction
-																	,	IBDCProfile		RfcFncProfile
-																	,	BDCCallTranProfile	parmIndex	)	: base(parmIndex.RfcFnc, parmIndex.RfcDest)
+				internal BDCTranProcessor( BDCCallTranProfile	profile	)
+									: base(	profile.RfcDest	)
 					{
-						this._ParmIndex	=	parmIndex;
-
-						this._RFCFunc	= RfcFunction		;
-						this._Profile	= RfcFncProfile	;
+						this._Profile	=	profile;
 						//.............................................
 						this._FncCreated		= false	;
 						this._IsConfigured	= false	;
@@ -28,10 +23,7 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	BDCCallTranProfile	_ParmIndex;
-
-				private readonly	IRFCFunction	_RFCFunc	;
-				private readonly	IBDCProfile		_Profile	;
+				private	readonly	BDCCallTranProfile	_Profile;
 
 				private	bool	_FncCreated		;
 				private	bool	_IsConfigured	;
@@ -46,13 +38,21 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						if (!this._FncCreated)
 							{
-								this._RFCFunc.RfcFunction		= this._Profile.RFCFnc;
-								this._FncCreated						= !this._FncCreated;
+								try
+									{
+										this._RfcFunction	= this._Profile.FncMetdata.CreateFunction();
+										this._FncCreated	= !this._FncCreated;
+									}
+								catch (System.Exception)
+									{
+									throw;
+									}
+
 							}
 						//.............................................
-						this._RFCFunc.RfcFunction.SetValue(	this._ParmIndex.ParIdx_TCode	,	Config.SAPTCode	)	;
-						this._RFCFunc.RfcFunction.SetValue(	this._ParmIndex.ParIdx_Skip1	, Config.Skip1st	)	;
-						this._RFCFunc.RfcFunction.SetValue(	this._ParmIndex.ParIdx_CTUOpt	, Config.CTUParms	)	;
+						this._RfcFunction.SetValue(	this._Profile.ParIdx_TCode	,	Config.SAPTCode	)	;
+						this._RfcFunction.SetValue(	this._Profile.ParIdx_Skip1	, Config.Skip1st	)	;
+						this._RfcFunction.SetValue(	this._Profile.ParIdx_CTUOpt	, Config.CTUParms	)	;
 						//.............................................
 						this._IsConfigured	= true;
 					}
@@ -64,11 +64,11 @@ namespace BxS_SAPNCO.BDCProcess
 						//.............................................
 						try
 							{
-								this._RFCFunc.RfcFunction.SetValue(	this._ParmIndex.ParIdx_TabSPA	, Transaction.SPAData	)	;
-								this._RFCFunc.RfcFunction.SetValue(	this._ParmIndex.ParIdx_TabBDC	, Transaction.BDCData	)	;
+								this._RfcFunction.SetValue(	this._Profile.ParIdx_TabSPA	, Transaction.SPAData	)	;
+								this._RfcFunction.SetValue(	this._Profile.ParIdx_TabBDC	, Transaction.BDCData	)	;
 								//.........................................
-								Transaction.SuccesStatus	=	this._RFCFunc.Invoke(this._Profile.RfcDestination);
-								Transaction.MSGData				=	this._RFCFunc.RfcFunction.GetTable(this._ParmIndex.ParIdx_TabMSG);
+								Transaction.SuccesStatus	=	this.Invoke();
+								Transaction.MSGData				=	this._RfcFunction.GetTable( this._Profile.ParIdx_TabMSG );
 							}
 						catch (System.Exception)
 							{
