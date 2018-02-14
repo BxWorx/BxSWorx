@@ -44,79 +44,22 @@ namespace zBxS_SAPNCO_UT
 					Assert.IsNotNull(	lo_PLOpEnv	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
 
-			////...................................................
-			//[TestMethod]
-			//public void UT_910_20_CallTranSetup()
-			//	{
-			//		int	ln_Cnt	= 0;
-			//		//...............................................
-			//		ln_Cnt	++;
+			//...................................................
+			[TestMethod]
+			public void UT_700_20_PLineConsumerOpEnv()
+				{
+					int	ln_Cnt	= 0;
+					//...............................................
+					ln_Cnt	++;
 
-			//		var lo_PF	= new BDCCallTranProfile( this.co_SapCon.BDCCallTran );
-			//		var lo_HD	= new DTO_RFCHeader	();
-			//		var lo_TR	= new DTO_RFCTran		();
+					IProgress<DTO_ProgressInfo> lo_PH	= new Progress<DTO_ProgressInfo>();
+					var CTS	= new CancellationTokenSource();
 
-			//		this.co_UTDest.DestRfc.RegisterProfile(lo_PF);
-			//		var lo_Fnc	= new BDCCallTranProcessor(lo_PF);
+					var lo_PLCOpEnv	= new ConsumerOpEnv<DTO_RFCTran,DTO_ProgressInfo>(
+							this.CreatePI, lo_PH, CTS.Token, 10);
 
-			//		lo_Fnc.Config(lo_HD);
-			//		lo_Fnc.Process(lo_TR);
-			//	}
-
-			////...................................................
-			//[TestMethod]
-			//public void UT_910_30_CallTranInvoke()
-			//	{
-			//		int	ln_Cnt	= 0;
-			//		//...............................................
-			//		ln_Cnt	++;
-
-			//		var lo_PF	= new BDCCallTranProfile( this.co_SapCon.BDCCallTran );
-			//		var lo_FN	= new BDCCallTranProcessor(lo_PF);
-			//		DTO_SessionTran lo_BDCData;
-
-			//		this.co_UTDest.DestRfc.RegisterProfile(lo_PF);
-			//		if (!lo_PF.Ready())	Assert.Fail( $"SAPNCO:CallTran:910/30 {ln_Cnt}: Not Ready" );
-			//		//...............................................
-			//		DTO_CTUParms	ls_CTU			= this.co_UTData.UpdateCTU('A');
-			//		var						lo_RfcHead	= new DTO_RFCHeader	{	CTUParms = lo_PF.GetCTUStr };
-			//		lo_RfcHead.SAPTCode	= "XD02";
-			//		lo_RfcHead.Skip1st	= " ";
-			//		this.co_UTData.PutCTUOptions(ls_CTU,lo_RfcHead.CTUParms);
-			//		//...............................................
-			//		var lo_RfcData	= new DTO_RFCTran	{		BDCData = lo_PF.GetBDCTbl
-			//																				,	SPAData = lo_PF.GetSPATbl
-			//																				,	MSGData = lo_PF.GetMSGTbl	};
-			//		//...............................................
-			//		lo_RfcData.Reset();
-			//		lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "8888" );
-			//		this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_RfcData.BDCData );
-			//		//...............................................
-			//		lo_FN.Config(lo_RfcHead);
-
-			//		lo_FN.Process(lo_RfcData);
-
-			//		Assert.IsTrue	(	lo_RfcData.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-			//		Assert.IsTrue	(	lo_RfcData.SuccesStatus			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-			//		//...............................................
-			//		lo_RfcData.Reset();
-			//		lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "8881" );
-			//		this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_RfcData.BDCData );
-
-			//		lo_FN.Process(lo_RfcData);
-
-			//		Assert.IsTrue	(	lo_RfcData.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-			//		Assert.IsTrue	(	lo_RfcData.SuccesStatus			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-			//		//...............................................
-			//		lo_RfcData.Reset();
-			//		lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "8882" );
-			//		this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_RfcData.BDCData );
-
-			//		lo_FN.Process(lo_RfcData);
-
-			//		Assert.IsTrue	(	lo_RfcData.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-			//		Assert.IsTrue	(	lo_RfcData.SuccesStatus			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-			//	}
+					Assert.IsNotNull(	lo_PLCOpEnv	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+				}
 
 			//...................................................
 			private DTO_ProgressInfo CreatePI()

@@ -10,7 +10,7 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCConsumer(		PipelineOpEnv<T,P>	OpEnv
+				public BDCConsumer(		ConsumerOpEnv<T,P>	OpEnv
 														,	BDCCallTranProcessor		tranProcessor	)	: base(OpEnv)
 					{
 						this._TranProcessor	= tranProcessor	;

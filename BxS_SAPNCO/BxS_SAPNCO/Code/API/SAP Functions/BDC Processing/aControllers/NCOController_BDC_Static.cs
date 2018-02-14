@@ -51,7 +51,8 @@ namespace BxS_SAPNCO.BDCProcess
 				private static IConsumer< DTO_RFCTran > CreateConsumer(		PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo >	opEnv
 																																,	BDCCallTranProcessor																tranProcessor	)
 					{
-						return	new BDCConsumer< DTO_RFCTran , DTO_ProgressInfo>( opEnv , tranProcessor );
+						return	null;
+						//return	new BDCConsumer< DTO_RFCTran , DTO_ProgressInfo>( opEnv , tranProcessor );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

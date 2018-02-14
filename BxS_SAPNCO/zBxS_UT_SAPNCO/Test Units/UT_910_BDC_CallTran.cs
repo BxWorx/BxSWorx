@@ -127,5 +127,20 @@ namespace zBxS_SAPNCO_UT
 					Assert.IsTrue	(	lo_RfcData.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 					Assert.IsTrue	(	lo_RfcData.SuccesStatus			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
+			//...................................................
+			[TestMethod]
+			public void UT_910_40_CallTranConsumer()
+				{
+					int	ln_Cnt	= 0;
+					//...............................................
+					ln_Cnt	++;
+
+					var lo_PF	= new BDCCallTranProfile( this.co_SapCon.BDCCallTran );
+					var lo_FN	= new BDCCallTranProcessor(lo_PF);
+
+
+
+
+				}
 		}
 }

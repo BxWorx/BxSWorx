@@ -7,7 +7,7 @@ namespace BxS_SAPNCO.Pipeline
 		{
 			#region "Constructors"
 
-				internal ConsumerBase(	PipelineOpEnv<T,P>	OpEnv )
+				internal ConsumerBase(	ConsumerOpEnv<T,P>	OpEnv )
 					{
 						this._OpEnv	= OpEnv;
 						//.................................................
@@ -20,7 +20,7 @@ namespace BxS_SAPNCO.Pipeline
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	readonly	PipelineOpEnv<T,P>	_OpEnv;
+				protected	readonly	ConsumerOpEnv<T,P>	_OpEnv;
 
 			#endregion
 
@@ -60,14 +60,14 @@ namespace BxS_SAPNCO.Pipeline
 								if (ln_Int.Equals(this._OpEnv.ProgressInterval))
 									{
 										ln_Int	= 0;
-										P	lo_PI	= this._OpEnv.CreateProgressInfo();
+										P	lo_PI	= this._OpEnv.CreateProgInfo();
 										this._OpEnv.ProgressHndlr.Report(lo_PI);
 									}
 							}
 							//...........................................
 							if (!ln_Int.Equals(0))
 								{
-									P	lo_PI	= this._OpEnv.CreateProgressInfo();
+									P	lo_PI	= this._OpEnv.CreateProgInfo();
 									this._OpEnv.ProgressHndlr.Report(lo_PI);
 								}
 					}

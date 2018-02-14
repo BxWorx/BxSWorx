@@ -53,6 +53,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Test Resources\UT_Pipeline.cs" />
     <Compile Include="Test Resources\UT_TestData.cs" />
     <Compile Include="Test Resources\UT_Destination.cs" />
     <Compile Include="Test Units\UT_800_Destination.cs" />

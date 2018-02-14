@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Pipeline
@@ -13,17 +12,16 @@ namespace BxS_SAPNCO.Pipeline
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ConsumerOpEnv(		Func< P >					createProgressInfo
 																,	IProgress<P>			progressHndlr
-																,	CancellationToken	cancellationToken
+																,	CancellationToken	CT
 																,	int								progressInterval	= 10 )
 					{
-						this.CreateProgressInfo		= createProgressInfo	;
+						this.CreateProgInfo	= createProgressInfo	;
 						//.............................................
 						this.ProgressHndlr		= progressHndlr			;
-						this.CT								= cancellationToken	;
+						this.CT								= CT	;
 						this.ProgressInterval	= progressInterval	;
 						//.............................................
-						this.Queue			= new	BlockingCollection<T>	();
-						this.Consumers	= new List< IConsumer<T> >	();
+						this.Queue	= new	BlockingCollection<T>	();
 					}
 
 			#endregion
@@ -31,13 +29,10 @@ namespace BxS_SAPNCO.Pipeline
 			//===========================================================================================
 			#region "Properties"
 
-				internal Func< P >								CreateProgressInfo	{ get; }
-
-				internal	BlockingCollection<T>		Queue					{ get; }
-				internal	IList<IConsumer<T>>			Consumers			{ get; }
-
-				internal	IProgress<P>						ProgressHndlr	{ get; }
-				internal	CancellationToken				CT						{ get; }
+				internal	Func< P >								CreateProgInfo	{ get; }
+				internal	BlockingCollection<T>		Queue						{ get; }
+				internal	IProgress<P>						ProgressHndlr		{ get; }
+				internal	CancellationToken				CT							{ get; }
 				//.................................................
 				internal	int	ProgressInterval	{ get; }
 
