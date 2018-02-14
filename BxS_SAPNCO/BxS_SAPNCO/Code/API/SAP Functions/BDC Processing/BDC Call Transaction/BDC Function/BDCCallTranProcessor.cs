@@ -32,9 +32,9 @@ namespace BxS_SAPNCO.BDCProcess
 				internal BDCCallTranProcessor( BDCCallTranProfile	profile	)
 									: base(	profile )
 					{
-						this._Profile							=	profile	;
+						this._Profile		=	profile	;
 						//.............................................
-						this._IsHeaderConfigured	= false		;
+						this._IsHeaderConfigured	= false	;
 					}
 
 			#endregion

@@ -5,26 +5,22 @@ using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Pipeline
 {
-	internal class PipelineOpEnv<T,P>	where T:class
+	internal class ConsumerOpEnv<T,P>	where T:class
 																		where	P:class
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal PipelineOpEnv(		Func< P >					createProgressInfo
+				internal ConsumerOpEnv(		Func< P >					createProgressInfo
 																,	IProgress<P>			progressHndlr
 																,	CancellationToken	cancellationToken
-																,	int								noOfConsumers			= 01
-																,	int								progressInterval	= 10
-																,	int								queueAddTimeout		= 10	)
+																,	int								progressInterval	= 10 )
 					{
 						this.CreateProgressInfo		= createProgressInfo	;
 						//.............................................
 						this.ProgressHndlr		= progressHndlr			;
 						this.CT								= cancellationToken	;
-						this.NoOfConsumers		= noOfConsumers			;
 						this.ProgressInterval	= progressInterval	;
-						this.QueueTimeout			= queueAddTimeout		;
 						//.............................................
 						this.Queue			= new	BlockingCollection<T>	();
 						this.Consumers	= new List< IConsumer<T> >	();
@@ -43,9 +39,7 @@ namespace BxS_SAPNCO.Pipeline
 				internal	IProgress<P>						ProgressHndlr	{ get; }
 				internal	CancellationToken				CT						{ get; }
 				//.................................................
-				internal	int	QueueTimeout			{ get;	set;	}
-				internal	int	ProgressInterval	{ get;	set;	}
-				internal	int	NoOfConsumers			{ get;	set;	}
+				internal	int	ProgressInterval	{ get; }
 
 			#endregion
 

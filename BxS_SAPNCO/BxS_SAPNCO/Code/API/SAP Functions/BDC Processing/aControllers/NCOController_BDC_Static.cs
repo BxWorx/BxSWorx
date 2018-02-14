@@ -1,7 +1,7 @@
 ﻿using System	;
 //.........................................................
 using BxS_SAPNCO.CTU					;
-using BxS_SAPNCO.Helpers			;
+using BxS_SAPNCO.Pipeline			;
 using BxS_SAPNCO.RfcFunction	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess

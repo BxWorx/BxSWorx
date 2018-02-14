@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.Helpers
+namespace BxS_SAPNCO.Pipeline
 {
 	internal abstract class ConsumerBase<T,P> : IConsumer<T>	where T:class
 																														where	P:class

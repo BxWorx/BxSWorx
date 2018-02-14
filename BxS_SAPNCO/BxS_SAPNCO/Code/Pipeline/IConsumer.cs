@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.Helpers
+namespace BxS_SAPNCO.Pipeline
 {
 	public interface IConsumer<T>	where T:class
 		{

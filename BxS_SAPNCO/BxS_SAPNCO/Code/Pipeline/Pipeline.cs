@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using BxS_SAPNCO.BDCProcess;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-namespace BxS_SAPNCO.Helpers
+namespace BxS_SAPNCO.Pipeline
 {
 	internal class Pipeline<T,P>	where T:class
 																where	P:class

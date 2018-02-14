@@ -2,7 +2,7 @@
 using System.Threading;
 //.........................................................
 using BxS_SAPNCO.Destination;
-using BxS_SAPNCO.Helpers;
+using BxS_SAPNCO.Pipeline;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {

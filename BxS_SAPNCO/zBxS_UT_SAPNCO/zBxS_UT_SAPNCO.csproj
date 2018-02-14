@@ -56,6 +56,7 @@
     <Compile Include="Test Resources\UT_TestData.cs" />
     <Compile Include="Test Resources\UT_Destination.cs" />
     <Compile Include="Test Units\UT_800_Destination.cs" />
+    <Compile Include="Test Units\UT_700_Pipeline.cs" />
     <Compile Include="Test Units\UT_910_BDC_CallTran.cs" />
     <Compile Include="Test Units\UT_900_BDC_Helpers.cs" />
     <Compile Include="Test Units\UT_410_BDC_Session.cs" />

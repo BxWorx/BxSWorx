@@ -1,6 +1,6 @@
 ﻿using System;
 //.........................................................
-using BxS_SAPNCO.Helpers;
+using BxS_SAPNCO.Pipeline;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {

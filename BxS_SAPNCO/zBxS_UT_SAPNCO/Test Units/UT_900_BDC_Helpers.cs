@@ -46,8 +46,6 @@ namespace zBxS_SAPNCO_UT
 					Assert.IsNotNull(	f			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 
 					DTO_RFCHeader z = x.RFCHeader.Invoke();
-
-
 				}
 
 			//...................................................
