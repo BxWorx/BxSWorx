@@ -70,10 +70,10 @@ namespace BxS_SAPNCO.BDCProcess
 
 						for (int i = 0; i < this.SessionOptions.NoOfConsumers; i++)
 							{
-								IBDCTranProcessor				lo_TP	= this._OpFnc.Value.TranProcessor	(this._OpEnv.Profile);
+								BDCCallTranProcessor				lo_TP	= this._OpFnc.Value.TranProcessor	(this._OpEnv.Profile);
 								lo_TP.Config(this._RfcHeader);
-								IConsumer<DTO_RFCTran>	lo_CS	= this._OpFnc.Value.Consumer			(this._OpEnv.PLOpEnv,lo_TP);
-								this._OpEnv.PLOpEnv.Consumers.Add(lo_CS);
+								//IConsumer<DTO_RFCTran>	lo_CS	= this._OpFnc.Value.Consumer			(this._OpEnv.PLOpEnv,lo_TP);
+								//this._OpEnv.PLOpEnv.Consumers.Add(lo_CS);
 							}
 						//.............................................
 						this.ParseBDCtoRFCTran();

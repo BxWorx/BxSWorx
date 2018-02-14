@@ -38,7 +38,7 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Properties"
 
-				public bool	IsConnected	{ get; private set; }
+				public bool	IsConnected	{ get { return this.Ping(); } }
 				public bool	IsProcured	{ get; private set; }
 				//.................................................
 				public Guid											SAPGUIID				{ get; set; }
@@ -140,7 +140,7 @@ namespace BxS_SAPNCO.Destination
 				internal bool	TryGetProfile<T>(string name, out T profile)
 					{
 						bool lb_Ret	= this._Profiles.TryGetValue(name, out object lo);
-						profile	= lb_Ret ? (T)lo : default(T);
+						profile			= lb_Ret ? (T)lo : default(T);
 						return	lb_Ret;
 					}
 

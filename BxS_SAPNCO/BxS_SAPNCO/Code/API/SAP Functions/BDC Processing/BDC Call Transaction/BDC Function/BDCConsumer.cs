@@ -11,7 +11,7 @@ namespace BxS_SAPNCO.BDCProcess
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCConsumer(		PipelineOpEnv<T,P>	OpEnv
-														,	IBDCTranProcessor		tranProcessor	)	: base(OpEnv)
+														,	BDCCallTranProcessor		tranProcessor	)	: base(OpEnv)
 					{
 						this._TranProcessor	= tranProcessor	;
 					}
@@ -21,7 +21,7 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IBDCTranProcessor		_TranProcessor	;
+				private readonly	BDCCallTranProcessor		_TranProcessor	;
 
 			#endregion
 

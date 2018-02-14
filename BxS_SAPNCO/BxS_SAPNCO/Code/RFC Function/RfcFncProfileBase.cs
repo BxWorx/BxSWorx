@@ -14,7 +14,7 @@ namespace BxS_SAPNCO.RfcFunction
 						this.FunctionName	= functionName;
 						//.............................................
 						this._IsReady	= false;
-						this._Lock	= new object();
+						this._Lock		= new object();
 					}
 
 			#endregion
@@ -49,30 +49,38 @@ namespace BxS_SAPNCO.RfcFunction
 			#region "Methods"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void ReadyProfile()
+				public bool Ready()
 					{
-						if (this.IsReady)		return;
-						//.............................................
-						lock (this._Lock)
+						if (!this.IsReady)
 							{
-								if (this.IsReady)										return;
-								if (this.DestinationRfc == null)		return;
-								if (!this.DestinationRfc.IsProcured)	this.DestinationRfc.Procure();
-								//.........................................
-								if (this.DestinationRfc.IsProcured)
+								lock (this._Lock)
 									{
-										if (this.DestinationRfc.Ping())
+										if (!this.IsReady)
 											{
-												this.SetupProfile();
-												this._IsReady	= true;
+												if (this.DestinationRfc != null)
+													{
+														if (!this.DestinationRfc.IsProcured)
+															{ this.DestinationRfc.Procure(); }
+														//.........................................
+														if (this.DestinationRfc.IsProcured)
+															{
+																if (this.DestinationRfc.Ping())
+																	{
+																		this._IsReady	= this.Setup();
+																	}
+															}
+													}
 											}
 									}
 							}
+						//.............................................
+						return	this.IsReady;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected virtual void SetupProfile()
+				protected virtual bool Setup()
 					{
+						return	true;
 					}
 
 			#endregion

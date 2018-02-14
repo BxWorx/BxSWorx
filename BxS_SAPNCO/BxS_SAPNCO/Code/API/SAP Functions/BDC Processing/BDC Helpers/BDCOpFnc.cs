@@ -19,7 +19,7 @@ namespace BxS_SAPNCO.BDCProcess
 
 				internal	Func< Guid				, DTO_SessionTran >		SessionTran			{ get; set; }
 				internal	Func< IBDCProfile	, BDC2RfcParser		>		Parser					{ get; set; }
-				internal	Func< IBDCProfile	, IBDCTranProcessor	>	TranProcessor		{ get; set; }
+				internal	Func< IBDCProfile	, BDCCallTranProcessor	>	TranProcessor		{ get; set; }
 				//.................................................
 				internal	Func< DTO_SessionHeader >								SessionHeader		{ get; set; }
 				internal	Func< DTO_SessionOptions >							SessionOptions	{ get; set; }
@@ -36,7 +36,7 @@ namespace BxS_SAPNCO.BDCProcess
 												,	Pipeline			< DTO_RFCTran , DTO_ProgressInfo >	>	Pipeline	{ get; set; }
 
 				internal	Func<		PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo >
-												, IBDCTranProcessor
+												, BDCCallTranProcessor
 												,	IConsumer	< DTO_RFCTran >													>	Consumer	{ get; set; }
 
 			#endregion

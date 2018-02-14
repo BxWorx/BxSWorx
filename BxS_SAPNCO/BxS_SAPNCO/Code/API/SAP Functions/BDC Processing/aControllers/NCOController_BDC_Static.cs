@@ -49,13 +49,13 @@ namespace BxS_SAPNCO.BDCProcess
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private static IConsumer< DTO_RFCTran > CreateConsumer(		PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo >	opEnv
-																																,	IBDCTranProcessor																tranProcessor	)
+																																,	BDCCallTranProcessor																tranProcessor	)
 					{
 						return	new BDCConsumer< DTO_RFCTran , DTO_ProgressInfo>( opEnv , tranProcessor );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal static IBDCTranProcessor CreateTransactionProcessor( IBDCProfile profile )
+				internal static BDCCallTranProcessor CreateTransactionProcessor( IBDCProfile profile )
 					{
 						return	null;	//	new BDCTranProcessor( new RFCFunction()	, profile);
 					}

@@ -27,8 +27,12 @@
     <Compile Remove="Code\Zkeep\BDCTranData.cs" />
     <Compile Remove="Code\Zkeep\DTO_RFCData.cs" />
     <Compile Remove="Code\Zkeep\IBDCTranData.cs" />
+    <Compile Remove="Code\Zkeep\IBDCTranProcessor.cs" />
     <Compile Remove="Code\Zkeep\IConsumerMaker.cs" />
+    <Compile Remove="Code\Zkeep\IRfcFunction.cs" />
     <Compile Remove="Code\Zkeep\NCOCntlr_Sect_BDC_Pipeline.cs" />
+    <Compile Remove="Code\Zkeep\RfcFunction.cs" />
+    <Compile Remove="Code\Zkeep\RFCFunctionBase.cs" />
   </ItemGroup>
 
   <ItemGroup>

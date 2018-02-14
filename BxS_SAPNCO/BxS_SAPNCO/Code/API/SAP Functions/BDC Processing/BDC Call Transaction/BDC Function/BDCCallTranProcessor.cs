@@ -1,21 +1,40 @@
-﻿using BxS_SAPNCO.Destination;
-using BxS_SAPNCO.RfcFunction;
+﻿using BxS_SAPNCO.RfcFunction;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
-	internal class BDCTranProcessor	: RFCFunctionBase
-		//: IBDCTranProcessor
+	internal class BDCCallTranProcessor	: RFCFunctionBase
 		{
+			#region "Documentation"
+
+				//	FUNCTION /isdfps/call_transaction.
+				//	*"----------------------------------------------------------------------
+				//	*"  IMPORTING
+				//	*"     VALUE(IF_TCODE)							TYPE	TCODE
+				//	*"     VALUE(IF_SKIP_FIRST_SCREEN)	TYPE	FLAG DEFAULT SPACE
+				//	*"     VALUE(IT_BDCDATA)						TYPE	BDCDATA_TAB OPTIONAL
+				//	*"     VALUE(IS_OPTIONS)						TYPE	CTU_PARAMS OPTIONAL
+				//	*"  EXPORTING
+				//	*"     VALUE(ET_MSG)								TYPE	ETTCD_MSG_TABTYPE
+				//	*"  TABLES
+				//	*"      CT_SETGET_PARAMETER					STRUCTURE	RFC_SPAGPA OPTIONAL
+				//	*"  EXCEPTIONS
+				//	*"      IMPORT_PARA_ERROR
+				//	*"      TCODE_ERROR
+				//	*"      AUTH_ERROR
+				//	*"      TRANS_ERROR
+
+			#endregion
+
+			//===========================================================================================
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCTranProcessor( BDCCallTranProfile	profile	)
-									: base(	profile.RfcDestination )
+				internal BDCCallTranProcessor( BDCCallTranProfile	profile	)
+									: base(	profile )
 					{
-						this._Profile	=	profile;
+						this._Profile							=	profile	;
 						//.............................................
-						this._FncCreated		= false	;
-						this._IsConfigured	= false	;
+						this._IsHeaderConfigured	= false		;
 					}
 
 			#endregion
@@ -25,8 +44,7 @@ namespace BxS_SAPNCO.BDCProcess
 
 				private	readonly	BDCCallTranProfile	_Profile;
 
-				private	bool	_FncCreated		;
-				private	bool	_IsConfigured	;
+				private	bool	_IsHeaderConfigured	;
 
 			#endregion
 
@@ -36,30 +54,20 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Config( DTO_RFCHeader Config )
 					{
-						if (!this._FncCreated)
+						if (this.CreateFunction())
 							{
-								try
-									{
-										this._RfcFunction	= this._Profile.Metadata.CreateFunction();
-										this._FncCreated	= !this._FncCreated;
-									}
-								catch (System.Exception)
-									{
-									throw;
-									}
+								this._RfcFunction.SetValue(	this._Profile.ParIdx_TCode	,	Config.SAPTCode	)	;
+								this._RfcFunction.SetValue(	this._Profile.ParIdx_Skip1	, Config.Skip1st	)	;
+								this._RfcFunction.SetValue(	this._Profile.ParIdx_CTUOpt	, Config.CTUParms	)	;
+								//.............................................
+								this._IsHeaderConfigured	= true;
 							}
-						//.............................................
-						this._RfcFunction.SetValue(	this._Profile.ParIdx_TCode	,	Config.SAPTCode	)	;
-						this._RfcFunction.SetValue(	this._Profile.ParIdx_Skip1	, Config.Skip1st	)	;
-						this._RfcFunction.SetValue(	this._Profile.ParIdx_CTUOpt	, Config.CTUParms	)	;
-						//.............................................
-						this._IsConfigured	= true;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Process( DTO_RFCTran Transaction )
 					{
-						if (!this._IsConfigured)	return;
+						if (!this._IsHeaderConfigured)	return;
 						//.............................................
 						try
 							{

@@ -2,14 +2,16 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.RfcFunction
 {
-	internal class RFCFunctionBase
+	internal abstract class RFCFunctionBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RFCFunctionBase( SMC.RfcDestination	rfcDest	)
+				internal RFCFunctionBase( IRfcFncProfile	profile	)
 					{
-						this._RfcDestination	= rfcDest	;
+						this._Profile			= profile	;
+						//.............................................
+						this._FncCreated	= false		;
 					}
 
 			#endregion
@@ -17,9 +19,10 @@ namespace BxS_SAPNCO.RfcFunction
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	SMC.RfcDestination	_RfcDestination;
+				private	readonly	IRfcFncProfile	_Profile;
 
-				protected	SMC.IRfcFunction	_RfcFunction;
+				protected	bool							_FncCreated		;
+				protected	SMC.IRfcFunction	_RfcFunction	;
 
 			#endregion
 
@@ -33,7 +36,7 @@ namespace BxS_SAPNCO.RfcFunction
 						//.............................................
 						try
 							{
-								this._RfcFunction.Invoke( this._RfcDestination );
+								this._RfcFunction.Invoke( this._Profile.RfcDestination );
 							}
 						catch (System.Exception)
 							{
@@ -41,6 +44,33 @@ namespace BxS_SAPNCO.RfcFunction
 							}
 						//.............................................
 						return	lb_Ret;
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected bool CreateFunction()
+					{
+						if (this._Profile.Ready())
+							{
+								if (!this._FncCreated)
+									{
+										try
+											{
+												this._RfcFunction		= this._Profile.Metadata.CreateFunction();
+												this._FncCreated		= !this._FncCreated;
+											}
+										catch (System.Exception)
+											{
+											throw;
+											}
+									}
+							}
+						//.............................................
+						return	this._FncCreated;
 					}
 
 			#endregion

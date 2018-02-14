@@ -1,4 +1,6 @@
-﻿using BxS_SAPNCO.RfcFunction;
+﻿using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_SAPNCO.RfcFunction;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -23,20 +25,34 @@ namespace BxS_SAPNCO.BDCProcess
 				internal	int	ParIdx_TabMSG	{ get; private set;	}
 				internal	int ParIdx_TabSPA	{ get; private set;	}
 
+				internal	SMC.IRfcStructure		GetCTUStr	{	get	{ return	this.Metadata[this.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
+				internal	SMC.IRfcTable				GetBDCTbl	{	get	{ return	this.Metadata[this.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				internal	SMC.IRfcTable				GetSPATbl	{	get	{ return	this.Metadata[this.ParIdx_TabSPA].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				internal	SMC.IRfcTable				GetMSGTbl	{	get	{ return	this.Metadata[this.ParIdx_TabMSG].ValueMetadataAsTableMetadata.CreateTable()					; } }
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected override void SetupProfile()
+				protected override bool Setup()
 					{
-						this.ParIdx_TCode		= this.Metadata.TryNameToIndex( "IF_TCODE"							);
-						this.ParIdx_Skip1		= this.Metadata.TryNameToIndex( "IF_SKIP_FIRST_SCREEN"	);
-						this.ParIdx_TabBDC	= this.Metadata.TryNameToIndex( "IT_BDCDATA"						);
-						this.ParIdx_CTUOpt	= this.Metadata.TryNameToIndex( "IS_OPTIONS"						);
-						this.ParIdx_TabMSG	= this.Metadata.TryNameToIndex( "ET_MSG"								);
-						this.ParIdx_TabSPA	= this.Metadata.TryNameToIndex( "CT_SETGET_PARAMETER"		);
+						try
+							{
+								this.ParIdx_TCode		= this.Metadata.TryNameToIndex( "IF_TCODE"							);
+								this.ParIdx_Skip1		= this.Metadata.TryNameToIndex( "IF_SKIP_FIRST_SCREEN"	);
+								this.ParIdx_TabBDC	= this.Metadata.TryNameToIndex( "IT_BDCDATA"						);
+								this.ParIdx_CTUOpt	= this.Metadata.TryNameToIndex( "IS_OPTIONS"						);
+								this.ParIdx_TabMSG	= this.Metadata.TryNameToIndex( "ET_MSG"								);
+								this.ParIdx_TabSPA	= this.Metadata.TryNameToIndex( "CT_SETGET_PARAMETER"		);
+
+								return	true;
+							}
+						catch (System.Exception)
+							{
+								return	false;
+							}
 					}
 
 			#endregion

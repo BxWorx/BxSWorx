@@ -18,5 +18,12 @@ namespace BxS_SAPNCO.RfcFunction
 
 			#endregion
 
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				bool	Ready();
+
+			#endregion
+
 		}
 }
