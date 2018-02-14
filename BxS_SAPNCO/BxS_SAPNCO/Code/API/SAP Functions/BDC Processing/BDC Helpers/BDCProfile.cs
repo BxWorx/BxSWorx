@@ -12,7 +12,7 @@ namespace BxS_SAPNCO.BDCProcess
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCFncProfile(		DestinationRfc	destRFC
-																,	string					FncName	)	: base( destRFC , FncName )
+																,	string					FncName	)	: base( FncName )
 					{
 						this.IsReady	= false;
 					}

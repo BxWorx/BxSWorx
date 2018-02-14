@@ -10,7 +10,7 @@ namespace BxS_SAPNCO.BDCProcess
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCTranProcessor( BDCCallTranProfile	profile	)
-									: base(	profile.RfcDest	)
+									: base(	profile.RfcDestination )
 					{
 						this._Profile	=	profile;
 						//.............................................
@@ -40,14 +40,13 @@ namespace BxS_SAPNCO.BDCProcess
 							{
 								try
 									{
-										this._RfcFunction	= this._Profile.FncMetdata.CreateFunction();
+										this._RfcFunction	= this._Profile.Metadata.CreateFunction();
 										this._FncCreated	= !this._FncCreated;
 									}
 								catch (System.Exception)
 									{
 									throw;
 									}
-
 							}
 						//.............................................
 						this._RfcFunction.SetValue(	this._Profile.ParIdx_TCode	,	Config.SAPTCode	)	;

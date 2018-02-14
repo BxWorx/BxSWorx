@@ -65,7 +65,7 @@ namespace BxS_SAPNCO.BDCProcess
 						//.............................................
 						try
 							{
-								if (!this.DestRFC.Procure())		throw	new Exception();
+								//if (!this.DestRFC.Procure())		throw	new Exception();
 
 								BDCProfileConfigurator lo_Cnf	= this.OpFnc.ProfileConfig();
 								if (!lo_Cnf.Configure( this.Profile ))	throw	new Exception();

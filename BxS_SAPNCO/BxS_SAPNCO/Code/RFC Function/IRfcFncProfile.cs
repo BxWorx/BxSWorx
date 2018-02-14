@@ -1,4 +1,6 @@
 ﻿using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.RfcFunction
 {
@@ -7,7 +9,10 @@ namespace BxS_SAPNCO.RfcFunction
 			#region "Properties"
 
 				string	FunctionName	{	get; }
+				bool		IsReady				{ get; }
 				//.................................................
+				DestinationRfc						DestinationRfc	{ get; set; }
+
 				SMC.RfcDestination				RfcDestination	{ get; }
 				SMC.RfcFunctionMetadata		Metadata				{ get; }
 

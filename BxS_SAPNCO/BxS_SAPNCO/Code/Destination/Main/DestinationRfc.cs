@@ -15,12 +15,13 @@ namespace BxS_SAPNCO.Destination
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DestinationRfc(	SMC.RfcConfigParameters RfcConfig		,
-																IDTOConfigSetupGlobal		globalSetup	= null	)
+				public DestinationRfc(	SMC.RfcConfigParameters RfcConfig
+															,	IDTOConfigSetupGlobal		globalSetup	= null )
 					{
 						this.RfcConfig	= RfcConfig		;
 						this._GlbSetup	= globalSetup	;
 						//.............................................
+						this._Lock			= new object();
 						this._Profiles	= new	ConcurrentDictionary<string, object>();
 					}
 
@@ -29,6 +30,7 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Declarations"
 
+				private readonly object									_Lock;
 				private readonly IDTOConfigSetupGlobal	_GlbSetup;
 
 			#endregion
@@ -36,6 +38,9 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Properties"
 
+				public bool	IsConnected	{ get; private set; }
+				public bool	IsProcured	{ get; private set; }
+				//.................................................
 				public Guid											SAPGUIID				{ get; set; }
 				public SMC.RfcDestination				RfcDestination	{ get; set; }
 				public SMC.RfcConfigParameters	RfcConfig				{ get;			}
@@ -64,15 +69,6 @@ namespace BxS_SAPNCO.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig(IDTOConfigSetupBase Config)
-					{
-						foreach (KeyValuePair<string, string> ls_kvp in Config.Settings)
-							{
-								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig(IDTOConfigSetupDestination Config)
 					{
 						foreach (KeyValuePair<string, string> ls_kvp in Config.Settings)
@@ -83,28 +79,40 @@ namespace BxS_SAPNCO.Destination
 						this.SecurePassword = Config.SecurePassword;
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadConfig(IDTOConfigSetupBase Config)
+					{
+						foreach (KeyValuePair<string, string> ls_kvp in Config.Settings)
+							{
+								this.RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
+							}
+					}
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Procure()
+				public void Procure()
 					{
-						bool lb_Ret	= true;
+						if (this.IsProcured)	return;
 						//.............................................
-						if (this._GlbSetup != null)	this.LoadConfig(this._GlbSetup);
+						lock (this._Lock)
+							{
+								if (this.IsProcured)	return;
+								if (this._GlbSetup != null)	this.LoadConfig(this._GlbSetup);
 
-						try
-							{
-								this.RfcDestination	= SDM.GetDestination(this.RfcConfig);
+								try
+									{
+										this.RfcDestination	= SDM.GetDestination(this.RfcConfig);
+										this.IsProcured	= !this.IsProcured;
+									}
+								catch (Exception)
+									{
+										throw;
+									}
 							}
-						catch (Exception)
-							{
-								lb_Ret	= false;
-							}
-						//.............................................
-						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -129,15 +137,18 @@ namespace BxS_SAPNCO.Destination
 				private readonly ConcurrentDictionary<string, object>	_Profiles;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	TryGetProfile(string name, out Object profile)
+				internal bool	TryGetProfile<T>(string name, out T profile)
 					{
-						this._Profiles.TryGetValue(name, out profile);
+						bool lb_Ret	= this._Profiles.TryGetValue(name, out object lo);
+						profile	= lb_Ret ? (T)lo : default(T);
+						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool RegisterProfile( IRfcFncProfile profile )
 					{
-						return	this._Profiles.TryAdd(profile.FunctionName, profile);
+						profile.DestinationRfc	= this;
+						return	this._Profiles.TryAdd( profile.FunctionName , profile );
 					}
 
 			#endregion

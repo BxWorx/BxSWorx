@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\**" />
+    <Compile Remove="Code\API\SAP Functions\BDC Processing\BDC Call Transaction\DTO\**" />
     <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
-    <EmbeddedResource Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\**" />
+    <EmbeddedResource Remove="Code\API\SAP Functions\BDC Processing\BDC Call Transaction\DTO\**" />
     <EmbeddedResource Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
-    <None Remove="Code\API\SAP Functions\BDC Processing\BDC Transaction\DTO\**" />
+    <None Remove="Code\API\SAP Functions\BDC Processing\BDC Call Transaction\DTO\**" />
     <None Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
   </ItemGroup>
 

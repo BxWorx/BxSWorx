@@ -34,9 +34,9 @@ namespace zBxS_SAPNCO_UT
 						this.GuidID				= this.co_DestRepo.GetAddIDFor	(	this.cc_ID	);
 
 						this.co_rfcConfig	=	this.co_DestRepo.GetParameters(	this.GuidID	);
-						this.RfcDest			= new DestinationRfc(this.co_rfcConfig);
-						this.RfcDest.LoadConfig(this.co_Setup);
-						this.RfcDest.RfcDestination	= SDM.GetDestination(this.RfcDest.RfcConfig);
+						this.DestRfc			= new DestinationRfc(this.co_rfcConfig);
+						this.DestRfc.LoadConfig(this.co_Setup);
+						this.DestRfc.RfcDestination	= SDM.GetDestination(this.DestRfc.RfcConfig);
 					}
 
 				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
@@ -73,7 +73,7 @@ namespace zBxS_SAPNCO_UT
 			#region "Properties"
 
 				public Guid						GuidID	{	get; set;	}
-				public DestinationRfc RfcDest	{	get; set;	}
+				public DestinationRfc DestRfc	{	get; set;	}
 
 			#endregion
 
