@@ -36,7 +36,7 @@ namespace zBxS_SAPNCO_UT
 					this.co_Prof		= this.CreateBDCTranProfile();
 					this.co_Tran		= new BDCCallTranProcessor(this.co_Prof);
 					this.co_OpEnv		= this.co_UTPipe.CNOpEnv;
-					this.co_Head		= this.CreateRFCHead(this.co_Prof);
+					//this.co_Head		= this.CreateRFCHead(this.co_Prof);
 				}
 
 			//...................................................
@@ -47,19 +47,18 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					BDCCallTranProfile	x	= this.CreateBDCTranProfile();
-					Assert.IsNotNull(	x					,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.IsNotNull(	this.co_Prof ,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 
-					if (x.Ready())
+					if (this.co_Prof.Ready())
 						{
-							Assert.IsTrue	(	x.IsReady	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-							bool z = this.co_UTDest.DestRfc.TryGetProfile(x.FunctionName, out BDCCallTranProfile y);
+							Assert.IsTrue	(	this.co_Prof.IsReady	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+							bool z = this.co_UTDest.DestRfc.TryGetProfile(this.co_Prof.FunctionName, out BDCCallTranProfile y);
 							Assert.IsTrue	(	y.IsReady	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 						}
 					else
 						{
-							Assert.IsFalse	(	x.IsReady	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-							bool z = this.co_UTDest.DestRfc.TryGetProfile(x.FunctionName, out BDCCallTranProfile y);
+							Assert.IsFalse	(	this.co_Prof.IsReady	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+							bool z = this.co_UTDest.DestRfc.TryGetProfile(this.co_Prof.FunctionName, out BDCCallTranProfile y);
 							Assert.IsFalse	(	y.IsReady	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 						}
 				}
@@ -72,13 +71,23 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					BDCCallTranProfile	lo_PF	= this.CreateBDCTranProfile();
-					var lo_HD		= new DTO_RFCHeader	();
-					var lo_TR		= new DTO_RFCTran		();
-					var lo_Fnc	= new BDCCallTranProcessor(lo_PF);
+					if (!this.co_Prof.Ready())	Assert.Fail( $"SAPNCO:CallTran:910/30 {ln_Cnt}: Not Ready" );
+
+					DTO_RFCHeader lo_HD		= this.CreateRFCHead(this.co_Prof);
+					DTO_RFCTran		lo_TR		= this.CreateRFCData(this.co_Prof);
+					var lo_Fnc	= new BDCCallTranProcessor(this.co_Prof);
+
+					lo_HD.SAPTCode	=	"X";
+					lo_HD.Skip1st		= "X";
+					lo_HD.CTUParms.SetValue(0,"X");
 
 					lo_Fnc.Config(lo_HD);
-					lo_Fnc.Process(lo_TR);
+
+					Assert.AreEqual( "X", lo_Fnc.Header.SAPTCode	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.AreEqual( "X", lo_Fnc.Header.Skip1st		,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.AreEqual( "X", lo_Fnc.Header.CTUParms.GetString(0)	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+
+					//lo_Fnc.Process(lo_TR);
 				}
 
 			//...................................................
@@ -89,44 +98,41 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					BDCCallTranProfile	lo_PF	= this.CreateBDCTranProfile();
-					var lo_FN	= new BDCCallTranProcessor(lo_PF);
+					if (!this.co_Prof.Ready())	Assert.Fail( $"SAPNCO:CallTran:910/30 {ln_Cnt}: Not Ready" );
+
+					DTO_RFCHeader		lo_RfcHead		= this.CreateRFCHead(this.co_Prof);
 					DTO_SessionTran lo_BDCData;
 
-					if (!lo_PF.Ready())	Assert.Fail( $"SAPNCO:CallTran:910/30 {ln_Cnt}: Not Ready" );
+					var lo_FN	= new BDCCallTranProcessor(this.co_Prof);
 					//...............................................
-					DTO_RFCHeader lo_RfcHead	= this.CreateRFCHead(lo_PF);
-					DTO_RFCTran		lo_RfcData	= this.CreateRFCData(lo_PF);
-
 					lo_FN.Config(lo_RfcHead);
 					//...............................................
-					lo_RfcData.Reset();
-					lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "8888" );
-					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_RfcData.BDCData );
+					lo_FN.Reset();
+					lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "7777" );
+					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_FN.Transaction.BDCData );
+
+					lo_FN.Process();
+
+					Assert.IsTrue	(	lo_FN.Transaction.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.IsTrue	(	lo_FN.Transaction.SuccesStatus		,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 					//...............................................
+					lo_FN.Reset();
+					lo_BDCData	= this.co_UTData.SetupTestBDCData( "1800476", "7771" );
+					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_FN.Transaction.BDCData );
 
-					lo_FN.Process(lo_RfcData);
+					lo_FN.Process();
 
-					Assert.IsTrue	(	lo_RfcData.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					Assert.IsTrue	(	lo_RfcData.SuccesStatus			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.IsTrue	(	lo_FN.Transaction.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.IsTrue	(	lo_FN.Transaction.SuccesStatus		,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 					//...............................................
-					lo_RfcData.Reset();
-					lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "8881" );
-					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_RfcData.BDCData );
+					lo_FN.Reset();
+					lo_BDCData	= this.co_UTData.SetupTestBDCData( "1802054", "7772" );
+					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_FN.Transaction.BDCData );
 
-					lo_FN.Process(lo_RfcData);
+					lo_FN.Process();
 
-					Assert.IsTrue	(	lo_RfcData.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					Assert.IsTrue	(	lo_RfcData.SuccesStatus			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					//...............................................
-					lo_RfcData.Reset();
-					lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "8882" );
-					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_RfcData.BDCData );
-
-					lo_FN.Process(lo_RfcData);
-
-					Assert.IsTrue	(	lo_RfcData.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					Assert.IsTrue	(	lo_RfcData.SuccesStatus			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.IsTrue	(	lo_FN.Transaction.ProcessedStatus	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.IsTrue	(	lo_FN.Transaction.SuccesStatus		,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
 
 			//...................................................
@@ -183,7 +189,7 @@ namespace zBxS_SAPNCO_UT
 			//...................................................
 			private	DTO_RFCHeader CreateRFCHead(BDCCallTranProfile	lo_PF)
 				{
-					DTO_CTUParms	ls_CTU			= this.co_UTData.UpdateCTU('N');
+					DTO_CTUParms	ls_CTU			= this.co_UTData.UpdateCTU('A');
 					var						lo_RfcHead	= new DTO_RFCHeader	{	CTUParms = lo_PF.GetCTUStr };
 
 					lo_RfcHead.SAPTCode	= "XD02";

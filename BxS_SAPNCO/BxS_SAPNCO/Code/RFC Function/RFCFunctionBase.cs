@@ -19,7 +19,7 @@ namespace BxS_SAPNCO.RfcFunction
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IRfcFncProfile	_Profile;
+				private		readonly	IRfcFncProfile	_Profile;
 
 				protected	bool							_FncCreated		;
 				protected	SMC.IRfcFunction	_RfcFunction	;

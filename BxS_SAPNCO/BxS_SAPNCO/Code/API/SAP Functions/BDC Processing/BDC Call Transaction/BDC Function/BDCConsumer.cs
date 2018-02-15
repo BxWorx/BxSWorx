@@ -34,7 +34,8 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						try
 							{
-								this._Processor.Process( workItem	);
+								this._Processor.Process();
+								//this._Processor.Process( workItem	);
 								this.Successful.Enqueue(workItem);
 								return	true;
 							}

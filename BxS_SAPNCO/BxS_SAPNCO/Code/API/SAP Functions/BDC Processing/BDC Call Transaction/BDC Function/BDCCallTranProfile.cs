@@ -21,12 +21,12 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Properties:  Parameters Indicies"
 
-				internal	int	ParIdx_TCode	{ get; private set;	}
-				internal	int ParIdx_Skip1	{ get; private set;	}
-				internal	int ParIdx_CTUOpt	{ get; private set;	}
-				internal	int ParIdx_TabBDC	{ get; private set;	}
-				internal	int	ParIdx_TabMSG	{ get; private set;	}
-				internal	int ParIdx_TabSPA	{ get; private set;	}
+				internal	int	ParIdx_TCode		{ get; private set;	}
+				internal	int ParIdx_Skip1		{ get; private set;	}
+				internal	int ParIdx_CTUOpt		{ get; private set;	}
+				internal	int ParIdx_TabBDC		{ get; private set;	}
+				internal	int	ParIdx_TabMSG		{ get; private set;	}
+				internal	int ParIdx_TabSPA		{ get; private set;	}
 
 				internal	SMC.IRfcStructure		GetCTUStr	{	get	{ return	this.Metadata[this.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
 				internal	SMC.IRfcTable				GetBDCTbl	{	get	{ return	this.Metadata[this.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
@@ -37,6 +37,21 @@ namespace BxS_SAPNCO.BDCProcess
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool Configure(BDCCallTranProcessor processor)
+					{
+						if (this.Ready())
+							{
+								processor.Header				= new DTO_RFCHeader	{		CTUParms	= this.GetCTUStr };
+
+								processor.Transaction		=	new DTO_RFCTran		{		BDCData		= this.GetBDCTbl
+																															,	SPAData		= this.GetSPATbl
+																															,	MSGData		= this.GetMSGTbl };
+							}
+						//.............................................
+						return	this.IsReady;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected override bool Setup()

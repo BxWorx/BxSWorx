@@ -1,4 +1,6 @@
-﻿using BxS_SAPNCO.RfcFunction;
+﻿using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_SAPNCO.RfcFunction;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -32,9 +34,9 @@ namespace BxS_SAPNCO.BDCProcess
 				internal BDCCallTranProcessor( BDCCallTranProfile	profile	)
 									: base(	profile )
 					{
-						this._Profile	=	profile	;
+						this._CallProfile		=	profile	;
 						//.............................................
-						this._IsHeaderConfigured	= false	;
+						this._IsConfigured	= false	;
 					}
 
 			#endregion
@@ -42,9 +44,17 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	BDCCallTranProfile	_Profile;
+				private	readonly	BDCCallTranProfile	_CallProfile;
 
-				private	bool	_IsHeaderConfigured	;
+				private	bool	_IsConfigured	;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal	DTO_RFCHeader	Header;
+				internal	DTO_RFCTran		Transaction;
 
 			#endregion
 
@@ -52,39 +62,109 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Config( DTO_RFCHeader Config )
+				internal void Set_SAPTCode(string	TCode)
 					{
-						if (this.CreateFunction())
+						if ( this.Configure() )
 							{
-								this._RfcFunction.SetValue(	this._Profile.ParIdx_TCode	,	Config.SAPTCode	)	;
-								this._RfcFunction.SetValue(	this._Profile.ParIdx_Skip1	, Config.Skip1st	)	;
-								this._RfcFunction.SetValue(	this._Profile.ParIdx_CTUOpt	, Config.CTUParms	)	;
-								//.............................................
-								this._IsHeaderConfigured	= true;
+								this.Header.SAPTCode	= TCode;
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Process( DTO_RFCTran Transaction )
+				internal void Set_Skip1st(string skip = " ")
 					{
-						if (!this._IsHeaderConfigured)	return;
-						//.............................................
-						try
+						if ( this.Configure() )
 							{
-								this._RfcFunction.SetValue(	this._Profile.ParIdx_TabSPA	, Transaction.SPAData	)	;
-								this._RfcFunction.SetValue(	this._Profile.ParIdx_TabBDC	, Transaction.BDCData	)	;
+								this.Header.Skip1st	= skip;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Set_CTU(SMC.IRfcStructure ctuParmsRFC)
+					{
+						if ( this.Configure() )
+							{
+								for (int i = 0; i < ctuParmsRFC.Count; i++)
+									{
+										this.Header.CTUParms.SetValue( i , ctuParmsRFC.GetValue(i) );
+									}
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Config( DTO_RFCHeader Config )
+					{
+						if ( this.Configure() )
+							{
+								this.Set_SAPTCode	( Config.SAPTCode );
+								this.Set_Skip1st	(	Config.Skip1st	);
+								this.Set_CTU			( Config.CTUParms	);
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Process()
+					{
+						if ( this.Configure() )
+							{
+								try
+									{
+										this._RfcFunction.SetValue(	this._CallProfile.ParIdx_TCode	,	this.Header.SAPTCode	)	;
+										this._RfcFunction.SetValue(	this._CallProfile.ParIdx_Skip1	, this.Header.Skip1st		)	;
+										this._RfcFunction.SetValue(	this._CallProfile.ParIdx_CTUOpt	, this.Header.CTUParms	)	;
+										//.........................................
+										this.Transaction.SuccesStatus	=	this.Invoke();
+									}
+								catch (System.Exception)
+									{
+										this.Transaction.SuccesStatus	= false;
+									}
+								finally
+									{
+										this.Transaction.ProcessedStatus	= true;
+									}
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Reset()
+					{
+						this.Transaction.ProcessedStatus	= false;
+						this.Transaction.SuccesStatus			= false;
+						//.........................................
+						this.Transaction.SPAData.Clear();
+						this.Transaction.BDCData.Clear();
+						this.Transaction.MSGData.Clear();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private bool Configure()
+					{
+						if ( !this._IsConfigured )
+							{
+								this._IsConfigured	= this._CallProfile.Configure(this);
 								//.........................................
-								Transaction.SuccesStatus	=	this.Invoke();
-								Transaction.MSGData				=	this._RfcFunction.GetTable( this._Profile.ParIdx_TabMSG );
+								if ( this._IsConfigured )
+									{
+										if ( this.CreateFunction() )
+											{
+												this._RfcFunction.SetValue(	this._CallProfile.ParIdx_TabSPA	, this.Transaction.SPAData	)	;
+												this._RfcFunction.SetValue(	this._CallProfile.ParIdx_TabBDC	, this.Transaction.BDCData	)	;
+												this._RfcFunction.SetValue(	this._CallProfile.ParIdx_TabMSG , this.Transaction.MSGData	)	;
+											}
+										else
+											{
+												this._IsConfigured	= false;
+											}
+									}
 							}
-						catch (System.Exception)
-							{
-								Transaction.SuccesStatus	= false;
-							}
-						finally
-							{
-								Transaction.ProcessedStatus	= true;
-							}
+						//.............................................
+						return	this._IsConfigured;
 					}
 
 			#endregion
