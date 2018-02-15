@@ -1,4 +1,8 @@
+using System;
+//.........................................................
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_SAPNCO.BDCProcess;
 using BxS_SAPNCO.Common;
@@ -17,11 +21,10 @@ namespace zBxS_SAPNCO_UT
 				private	readonly	UT_Pipeline				co_UTPipe	;
 				private readonly	SAPFncConstants		co_SapCon ;
 
-				private readonly BDCCallTranProfile			co_Prof	;
-				private readonly BDCCallTranProcessor		co_Tran	;
-				private readonly DTO_RFCHeader					co_Head	;
+				private readonly	BDCCallTranProfile			co_Prof	;
+				private readonly	BDCCallTranProcessor		co_Tran	;
 
-				private readonly ConsumerOpEnv<DTO_RFCTran, DTO_ProgressInfo> co_OpEnv	;
+				private readonly	ConsumerOpEnv<DTO_RFCTran, DTO_ProgressInfo> co_OpEnv	;
 
 			#endregion
 
@@ -83,11 +86,9 @@ namespace zBxS_SAPNCO_UT
 
 					lo_Fnc.Config(lo_HD);
 
-					Assert.AreEqual( "X", lo_Fnc.Header.SAPTCode	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					Assert.AreEqual( "X", lo_Fnc.Header.Skip1st		,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.AreEqual( "X", lo_Fnc.Header.SAPTCode							,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					Assert.AreEqual( "X", lo_Fnc.Header.Skip1st								,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 					Assert.AreEqual( "X", lo_Fnc.Header.CTUParms.GetString(0)	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-
-					//lo_Fnc.Process(lo_TR);
 				}
 
 			//...................................................
@@ -167,10 +168,6 @@ namespace zBxS_SAPNCO_UT
 					this.co_OpEnv.Queue.Add(lo_DT3);
 
 					this.co_OpEnv.Queue.CompleteAdding();
-
-
-
-
 			}
 
 			//...................................................
@@ -202,7 +199,31 @@ namespace zBxS_SAPNCO_UT
 			//...................................................
 			private BDCCallTranProfile CreateBDCTranProfile()
 				{
-					return	new BDCCallTranProfile( this.co_UTDest.DestRfc , this.co_SapCon.BDCCallTran );
+					var lo_Indexer	= new BDCCallTranIndex();
+					return	new BDCCallTranProfile(		this.co_UTDest.DestRfc
+																					, this.co_SapCon.BDCCallTran
+																					, lo_Indexer
+																					,	this.CreateRfcHead
+																					, this.CreateRfcTran
+																					, this.CreateIndexSetup );
+				}
+
+			//...................................................
+			private BDCCallTranIndexSetup CreateIndexSetup( SMC.RfcFunctionMetadata FncMetadata	)
+				{
+					return	new BDCCallTranIndexSetup( FncMetadata );
+				}
+
+			//...................................................
+			private DTO_RFCHeader CreateRfcHead()
+				{
+					return	new DTO_RFCHeader();
+				}
+
+			//...................................................
+			private DTO_RFCTran CreateRfcTran()
+				{
+					return	new DTO_RFCTran();
 				}
 		}
 }

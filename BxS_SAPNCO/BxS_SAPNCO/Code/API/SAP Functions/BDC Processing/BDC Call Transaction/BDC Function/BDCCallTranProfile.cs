@@ -1,4 +1,6 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_SAPNCO.RfcFunction;
 using BxS_SAPNCO.Destination;
@@ -10,10 +12,22 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTranProfile(	DestinationRfc	destRfc
-																		,	string					functionName )	: base( destRfc , functionName )
+				internal BDCCallTranProfile(	DestinationRfc					destRfc
+																		,	string									functionName
+																		, BDCCallTranIndex				indexer
+																		, Func< DTO_RFCHeader >		createRfcHead
+																		, Func< DTO_RFCTran		>		createRFCTran
+
+																		, Func<		SMC.RfcFunctionMetadata
+																						, BDCCallTranIndexSetup		>		CreateIndexConfigurator	)	: base( destRfc , functionName )
 					{
 						this.DestinationRfc.RegisterProfile(this);
+						//.............................................
+						this.Indexer				= indexer									;
+						this.CreateRfcHead	= createRfcHead						;
+						this.CreateRFCTran	= createRFCTran						;
+						//.............................................
+						this.CreateIdxCnfg	= CreateIndexConfigurator	;
 					}
 
 			#endregion
@@ -21,17 +35,18 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Properties:  Parameters Indicies"
 
-				internal	int	ParIdx_TCode		{ get; private set;	}
-				internal	int ParIdx_Skip1		{ get; private set;	}
-				internal	int ParIdx_CTUOpt		{ get; private set;	}
-				internal	int ParIdx_TabBDC		{ get; private set;	}
-				internal	int	ParIdx_TabMSG		{ get; private set;	}
-				internal	int ParIdx_TabSPA		{ get; private set;	}
+				internal	Func< DTO_RFCHeader >		CreateRfcHead		{ get; }
+				internal	Func< DTO_RFCTran		>		CreateRFCTran		{ get; }
 
-				internal	SMC.IRfcStructure		GetCTUStr	{	get	{ return	this.Metadata[this.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
-				internal	SMC.IRfcTable				GetBDCTbl	{	get	{ return	this.Metadata[this.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
-				internal	SMC.IRfcTable				GetSPATbl	{	get	{ return	this.Metadata[this.ParIdx_TabSPA].ValueMetadataAsTableMetadata.CreateTable()					; } }
-				internal	SMC.IRfcTable				GetMSGTbl	{	get	{ return	this.Metadata[this.ParIdx_TabMSG].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				internal  Func<		SMC.RfcFunctionMetadata
+												,	BDCCallTranIndexSetup		>		CreateIdxCnfg		{ get; }
+				//.................................................
+				internal	BDCCallTranIndex		Indexer		{ get; }
+				//.................................................
+				internal	SMC.IRfcStructure		GetCTUStr	{	get	{ return	this.Metadata[this.Indexer.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
+				internal	SMC.IRfcTable				GetBDCTbl	{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				internal	SMC.IRfcTable				GetSPATbl	{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabSPA].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				internal	SMC.IRfcTable				GetMSGTbl	{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabMSG].ValueMetadataAsTableMetadata.CreateTable()					; } }
 
 			#endregion
 
@@ -43,11 +58,11 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						if (this.Ready())
 							{
-								processor.Header				= new DTO_RFCHeader	{		CTUParms	= this.GetCTUStr };
-
-								processor.Transaction		=	new DTO_RFCTran		{		BDCData		= this.GetBDCTbl
-																															,	SPAData		= this.GetSPATbl
-																															,	MSGData		= this.GetMSGTbl };
+								processor.Header.CTUParms		= this.GetCTUStr;
+								//.........................................
+								processor.Transaction.BDCData		= this.GetBDCTbl;
+								processor.Transaction.SPAData		= this.GetSPATbl;
+								processor.Transaction.MSGData		= this.GetMSGTbl;
 							}
 						//.............................................
 						return	this.IsReady;
@@ -58,13 +73,8 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						try
 							{
-								this.ParIdx_TCode		= this.Metadata.TryNameToIndex( "IF_TCODE"							);
-								this.ParIdx_Skip1		= this.Metadata.TryNameToIndex( "IF_SKIP_FIRST_SCREEN"	);
-								this.ParIdx_TabBDC	= this.Metadata.TryNameToIndex( "IT_BDCDATA"						);
-								this.ParIdx_CTUOpt	= this.Metadata.TryNameToIndex( "IS_OPTIONS"						);
-								this.ParIdx_TabMSG	= this.Metadata.TryNameToIndex( "ET_MSG"								);
-								this.ParIdx_TabSPA	= this.Metadata.TryNameToIndex( "CT_SETGET_PARAMETER"		);
-
+								BDCCallTranIndexSetup lo = this.CreateIdxCnfg( this.Metadata );
+								lo.Configure( this.Indexer );
 								return	true;
 							}
 						catch (System.Exception)

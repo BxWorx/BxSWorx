@@ -4,8 +4,8 @@ using BxS_SAPNCO.Pipeline;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
-	internal class BDCConsumer<T,P> : ConsumerBase<T,P>	where T:DTO_RFCTran
-																											where	P:DTO_ProgressInfo
+	internal class BDCConsumer<T,P> : ConsumerBase<T,P>		where T:DTO_RFCTran
+																												where	P:DTO_ProgressInfo
 		{
 			#region "Constructors"
 
@@ -13,7 +13,7 @@ namespace BxS_SAPNCO.BDCProcess
 				public BDCConsumer(		ConsumerOpEnv<T,P>		OpEnv
 														,	BDCCallTranProcessor	processor )	: base(OpEnv)
 					{
-						this._Processor	= processor;
+						this._Processor		= processor;
 					}
 
 			#endregion
@@ -34,6 +34,8 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						try
 							{
+								this._Processor.Reset();
+								//this._Processor.Transaction;
 								this._Processor.Process();
 								//this._Processor.Process( workItem	);
 								this.Successful.Enqueue(workItem);
