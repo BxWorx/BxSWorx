@@ -147,7 +147,6 @@ namespace BxS_SAPNCO.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool RegisterProfile( IRfcFncProfile profile )
 					{
-						profile.DestinationRfc	= this;
 						return	this._Profiles.TryAdd( profile.FunctionName , profile );
 					}
 

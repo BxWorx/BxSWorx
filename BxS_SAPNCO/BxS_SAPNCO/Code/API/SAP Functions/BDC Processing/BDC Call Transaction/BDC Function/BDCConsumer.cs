@@ -10,10 +10,10 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCConsumer(		ConsumerOpEnv<T,P>	OpEnv
-														,	BDCCallTranProcessor		tranProcessor	)	: base(OpEnv)
+				public BDCConsumer(		ConsumerOpEnv<T,P>		OpEnv
+														,	BDCCallTranProcessor	processor )	: base(OpEnv)
 					{
-						this._TranProcessor	= tranProcessor	;
+						this._Processor	= processor;
 					}
 
 			#endregion
@@ -21,7 +21,8 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	BDCCallTranProcessor		_TranProcessor	;
+				private	readonly	BDCCallTranProcessor	_Processor	;
+				private readonly	DTO_RFCTran						_RFCTran		;
 
 			#endregion
 
@@ -33,7 +34,7 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						try
 							{
-								this._TranProcessor.Process( workItem	);
+								this._Processor.Process( workItem	);
 								this.Successful.Enqueue(workItem);
 								return	true;
 							}

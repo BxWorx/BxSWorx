@@ -1,6 +1,7 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_SAPNCO.RfcFunction;
+using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -9,8 +10,10 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTranProfile( string functionName )	: base( functionName )
+				internal BDCCallTranProfile(	DestinationRfc	destRfc
+																		,	string					functionName )	: base( destRfc , functionName )
 					{
+						this.DestinationRfc.RegisterProfile(this);
 					}
 
 			#endregion

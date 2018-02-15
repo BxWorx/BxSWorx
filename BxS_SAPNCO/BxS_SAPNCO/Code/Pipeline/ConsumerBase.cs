@@ -7,7 +7,7 @@ namespace BxS_SAPNCO.Pipeline
 		{
 			#region "Constructors"
 
-				internal ConsumerBase(	ConsumerOpEnv<T,P>	OpEnv )
+				internal ConsumerBase( ConsumerOpEnv<T,P>	OpEnv )
 					{
 						this._OpEnv	= OpEnv;
 						//.................................................
@@ -43,7 +43,7 @@ namespace BxS_SAPNCO.Pipeline
 						int	ln_Cnt	= 0;
 						int ln_Int	= 0;
 						//.............................................
-						foreach (T lo_WorkItem in this._OpEnv.Queue.GetConsumingEnumerable(this._OpEnv.CT))
+						foreach (T lo_WorkItem in this._OpEnv.Queue.GetConsumingEnumerable( this._OpEnv.CT) )
 							{
 								if (this.Execute(lo_WorkItem))
 									{

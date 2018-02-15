@@ -15,6 +15,7 @@ namespace zBxS_SAPNCO_UT
 
 				private	readonly	UT_Destination		co_UTDest	;
 				private	readonly	UT_TestData				co_UTData	;
+				private	readonly	UT_Pipeline				co_UTPipe	;
 				private readonly	SAPFncConstants		co_SapCon ;
 
 			#endregion
@@ -24,6 +25,7 @@ namespace zBxS_SAPNCO_UT
 				{
 					this.co_SapCon	= new SAPFncConstants();
 					this.co_UTData	= new UT_TestData();
+					this.co_UTPipe	= new UT_Pipeline();
 					this.co_UTDest	= new UT_Destination(	2 , true );
 				}
 
@@ -35,11 +37,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					IProgress<DTO_ProgressInfo> lo_PH	= new Progress<DTO_ProgressInfo>();
-					var CTS	= new CancellationTokenSource();
-
-					var lo_PLOpEnv	= new PipelineOpEnv<DTO_RFCTran,DTO_ProgressInfo>(
-							this.CreatePI, lo_PH, CTS.Token, 2, 20, 20 );
+					PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo> lo_PLOpEnv	= this.co_UTPipe.PLOpEnv;
 
 					Assert.IsNotNull(	lo_PLOpEnv	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
@@ -52,19 +50,9 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					IProgress<DTO_ProgressInfo> lo_PH	= new Progress<DTO_ProgressInfo>();
-					var CTS	= new CancellationTokenSource();
-
-					var lo_PLCOpEnv	= new ConsumerOpEnv<DTO_RFCTran,DTO_ProgressInfo>(
-							this.CreatePI, lo_PH, CTS.Token, 10);
+					ConsumerOpEnv<DTO_RFCTran, DTO_ProgressInfo> lo_PLCOpEnv	= this.co_UTPipe.CNOpEnv;
 
 					Assert.IsNotNull(	lo_PLCOpEnv	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-				}
-
-			//...................................................
-			private DTO_ProgressInfo CreatePI()
-				{
-					return	new DTO_ProgressInfo();
 				}
 		}
 }

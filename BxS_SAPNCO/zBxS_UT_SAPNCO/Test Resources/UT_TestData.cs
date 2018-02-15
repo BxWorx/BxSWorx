@@ -22,16 +22,7 @@ namespace zBxS_SAPNCO_UT
 			//-------------------------------------------------------------------------------------------
 			public void UpdateCTU( DTO_CTUParms CTUOptions, char DispMode	= 'A' )
 				{
-					var lo_CTU	= new CTUParametersHandler();
-
-					lo_CTU.DisplayMode		= DispMode									;
-					lo_CTU.UpdateMode			= lo_CTU.UpdateMode_ASync		;
-					lo_CTU.CATTMode				= lo_CTU.CATTMode_None			;
-					lo_CTU.DefaultSize		= lo_CTU.Setas_No						;
-					lo_CTU.NoCommit				= lo_CTU.Setas_No						;
-					lo_CTU.NoBatchInpFor	= lo_CTU.Setas_No						;
-					lo_CTU.NoBatchInpAft	= lo_CTU.Setas_No 					;
-
+					var lo_CTU	= new CTUParametersHandler	{	DisplayMode	= DispMode };
 					lo_CTU.TransferImage(CTUOptions);
 				}
 

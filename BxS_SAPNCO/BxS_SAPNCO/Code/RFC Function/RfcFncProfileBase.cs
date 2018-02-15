@@ -9,9 +9,11 @@ namespace BxS_SAPNCO.RfcFunction
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncProfileBase(	string	functionName	)
+				internal RfcFncProfileBase(		DestinationRfc	destRfc
+																		,	string					functionName )
 					{
-						this.FunctionName	= functionName;
+						this.DestinationRfc	= destRfc			;
+						this.FunctionName		= functionName;
 						//.............................................
 						this._IsReady	= false;
 						this._Lock		= new object();
@@ -34,7 +36,7 @@ namespace BxS_SAPNCO.RfcFunction
 				public	string	FunctionName	{	get; }
 				public	bool		IsReady				{ get { return	this._IsReady; } }
 				//.................................................
-				public	DestinationRfc						DestinationRfc	{ get; set ; }
+				public	DestinationRfc						DestinationRfc	{ get; }
 
 				public	SMC.RfcDestination				RfcDestination	{ get	{ return	this.DestinationRfc
 																																								.RfcDestination; } }

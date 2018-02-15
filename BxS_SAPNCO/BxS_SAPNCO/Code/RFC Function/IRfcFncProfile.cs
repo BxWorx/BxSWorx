@@ -11,7 +11,7 @@ namespace BxS_SAPNCO.RfcFunction
 				string	FunctionName	{	get; }
 				bool		IsReady				{ get; }
 				//.................................................
-				DestinationRfc						DestinationRfc	{ get; set; }
+				DestinationRfc						DestinationRfc	{ get; }
 
 				SMC.RfcDestination				RfcDestination	{ get; }
 				SMC.RfcFunctionMetadata		Metadata				{ get; }
