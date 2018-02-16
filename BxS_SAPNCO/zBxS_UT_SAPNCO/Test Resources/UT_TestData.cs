@@ -13,8 +13,8 @@ namespace zBxS_SAPNCO_UT
 			//-------------------------------------------------------------------------------------------
 			public DTO_SessionHeader CreateSessionHead(char DispMode	= 'A' )
 				{
-					var lo = new DTO_SessionHeader	{		SAPTCode	= "XD02"
-																						,	Skip1st		= " "			};
+					var lo = new DTO_SessionHeader( new DTO_CTUParms() )	{		SAPTCode	= "XD02"
+																																	,	Skip1st		= " "			};
 					var lo_CTU	= new CTUParametersHandler	{	DisplayMode	= DispMode };
 					lo.CTUParms	= lo_CTU.GetImage();
 					return	lo;
@@ -39,8 +39,17 @@ namespace zBxS_SAPNCO_UT
 			//-------------------------------------------------------------------------------------------
 			public IList<string> LoadList(bool big = false)
 			{
-					if (big)
+				IList<string> lt	= new List<string>()	{		"1007084"	,	"1800476"	,	"1802054"	,	"1802201"	,	"1810161"
+																									,	"1810184"	,	"2012050"	,	"2035959"	,	"2800242"	,	"1800238"
+																					};
+
+				return	lt;
+
+				if (big)
 						{
+							lt.Add()
+
+
 							return	 new List<string>()	{		"1007084"	,	"1800476"	,	"1802054"	,	"1802201"	,	"1810161"
 																						,	"1810184"	,	"2012050"	,	"2035959"	,	"2800242"	,	"1800238"
 																						,	"2810415"	,	"2812552"	,	"2812860"	,	"2814664"	,	"2814665"

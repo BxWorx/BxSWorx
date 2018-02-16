@@ -18,9 +18,6 @@ namespace zBxS_SAPNCO_UT
 
 						this.CNOpEnv	=	new ConsumerOpEnv< DTO_SessionTran , DTO_ProgressInfo >
 																	( this.CreatePI, this.ProgInfo, this.CTS.Token, 10, 10 );
-
-						//this.PLOpEnv	= new PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo>
-						//											( this.CreatePI, this.ProgInfo, this.CTS.Token, 2, 20, 20);
 					}
 
 			#endregion
@@ -37,8 +34,6 @@ namespace zBxS_SAPNCO_UT
 
 				internal IProgress<DTO_ProgressInfo>	ProgInfo	{ get; }
 				internal CancellationTokenSource			CTS				{	get; }
-
-				//internal PipelineOpEnv<DTO_RFCTran,DTO_ProgressInfo>	PLOpEnv		{ get; }
 
 				internal ConsumerOpEnv<		DTO_SessionTran
 																, DTO_ProgressInfo >	CNOpEnv		{ get; }

@@ -7,6 +7,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BxS_SAPNCO.API;
 using BxS_SAPNCO.BDCProcess;
 using BxS_SAPNCO.CTU;
+using BxS_SAPNCO.Common;
+using BxS_SAPNCO.Pipeline;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
 {
@@ -15,17 +17,20 @@ namespace zBxS_SAPNCO_UT
 		{
 			#region "Declarations"
 
-				private readonly	UT_TestData			co_Data		;
-				private readonly	UT_Destination	co_Dest		;
-				private readonly	NCOController		co_Cntlr	;
+				private readonly	SAPFncConstants		co_SapCon ;
+				private readonly	UT_TestData				co_Data		;
+				private readonly	UT_Destination		co_Dest		;
+				private readonly	BDC_OpFnc					co_OpFnc;
+				private	readonly	UT_Pipeline				co_UTPipe	;
 
+				private readonly	BDCCallTranProfile		co_Prof	;
 				private readonly	CTUParametersHandler	co_CTUHndlr;
+
+				private readonly	ConsumerOpEnv<	DTO_SessionTran
+																				, DTO_ProgressInfo >	co_OpEnv	;
 
 				private readonly	string	cc_ID			;
 				private	readonly	Guid		cg_GuidID	;
-
-				private readonly	BDC_OpFnc	co_OpFnc;
-
 
 			#endregion
 
@@ -35,15 +40,14 @@ namespace zBxS_SAPNCO_UT
 				{
 					this.co_CTUHndlr	= new CTUParametersHandler();
 
+					this.co_SapCon	= new SAPFncConstants()								;
+					this.co_UTPipe	= new UT_Pipeline()										;
 					this.co_Data		= new UT_TestData		()								;
-					this.co_Dest		= new UT_Destination(2, false)				;
-					this.co_Cntlr		= new NCOController	( autoLoad: true );
+					this.co_Dest		= new UT_Destination( 1, true)				;
+					this.co_OpFnc		= new BDC_OpFnc()											;
 
-					IList<string> lt	=	this.co_Cntlr.GetSAPGUIConfigEntries();
-					this.cc_ID				= lt.FirstOrDefault(s => s.Contains("PWD"));
-					this.cg_GuidID		= this.co_Cntlr.Repository.GetAddIDFor	(	this.cc_ID	);
-
-					this.co_OpFnc		= new BDC_OpFnc();
+					this.co_OpEnv		= this.co_UTPipe.CNOpEnv			;
+					this.co_Prof		= this.CreateBDCTranProfile()	;
 				}
 
 			//...................................................
@@ -66,20 +70,12 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
+					DTO_SessionHeader lo_HD	= this.co_Data.CreateSessionHead('N');
+
 					var lo_SessOp	= new DTO_SessionOptions();
-					var lo_SessHd	= new 
+					var lo_Parser	= new BDCCallTranParser();
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSession(	BDC_OpFnc						sessionOpFnc
-														, DTO_SessionOptions	sessionOptions
-														, DTO_SessionHeader		sessionHeader
-														,	BDCCallTranParser		parser
-														, BDCCallTranProfile	profile
-														,	ConsumerOpEnv< DTO_SessionTran , DTO_ProgressInfo >		consumerOpEnv	)
-
-
-					IBDCSession lo_Ses0	= this.co_Cntlr.CreateBDCSession( this.cg_GuidID );
-					IBDCSession lo_Ses1	= this.co_Cntlr.CreateBDCSession( this.cc_ID		 );
+					IBDCSession lo_Ses0	= new BDCSession( this.co_OpFnc, lo_SessOp, lo_HD, lo_Parser, this.co_Prof, this.co_OpEnv );
 
 					Assert.IsNotNull(	lo_Ses0	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 					Assert.IsNotNull(	lo_Ses1	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
@@ -136,47 +132,15 @@ namespace zBxS_SAPNCO_UT
 					//Assert.AreEqual	( 2,	lo_Ses0.RFCTransactionCount	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
 
-			////-------------------------------------------------------------------------------------------
-			//[TestMethod]
-			//public async Task UT_300_PipelineBDC_020_Start()
-			//	{
-			//					int	ln_Cnt	= 00;
-			//					int	ln_Tot	= 00;
-			//					int ln_Max	= 00;
-			//		const int ln_Con	= 1;
-			//					string	lc_Tel	= "000";
-			//					var			lo_Rnd	= new Random();
-			//		//...............................................
-			//		ln_Cnt	++;
+			//...................................................
+			private BDCCallTranProfile CreateBDCTranProfile()
+				{
+					var lo_Indexer	= new BDCCallTranIndex();
 
-			//		//Pipeline<IBDCTranData, BDCProgressInfo> lo_Pipe		=	this.co_Cntlr.CreateBDCPipeline( this.co_Dest.GuidID );
-			//		IList<string>	lt_No		= this.co_Data.LoadList();
-			//									lc_Tel	= lo_Rnd.Next(100,1000).ToString();
-			//									ln_Max	= lt_No.Count;
-
-			//		for (int i = 0; i < lt_No.Count; i++)
-			//			{
-			//				IBDCTranData lo_BDCData	= this.co_Cntlr.CreateBDCTranData(Guid.NewGuid());
-			//				this.co_Data.SetupTestBDCData	(lo_BDCData	, lt_No[i]	, lc_Tel ) ;
-			//				//lo_Pipe.Post(lo_BDCData);
-			//			}
-			//		//lo_Pipe.AddingCompleted();
-
-			//		//int ln_ConCnt = await lo_Pipe.StartAsync(ln_Con).ConfigureAwait(false);
-
-			//		//while (!ln_ConCnt.Equals(ln_Con))
-			//		//	{
-			//		//		Thread.Sleep(10);
-			//		//	}
-
-			//		//foreach (Task<IConsumer<IUT_TranData>> lo_Task in lo_Pipe.TasksCompleted)
-			//		//	{
-			//		//		ln_Tot	+= lo_Task.Result.Successful.Count ;
-			//		//	}
-
-			//		//Assert.AreEqual( ln_Con	, ln_ConCnt								,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
-			//		//Assert.AreEqual( ln_Max	, ln_Tot									,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
-			//		//Assert.AreEqual( ln_Con	, lo_Pipe.CompletedCount	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 3rd" );
-			//	}
+					return	new BDCCallTranProfile(		this.co_Dest.DestRfc
+																					, this.co_SapCon.BDCCallTran
+																					, lo_Indexer
+																					, this.co_OpFnc	);
+				}
 		}
 }

@@ -4,6 +4,17 @@ namespace BxS_SAPNCO.BDCProcess
 {
 	public class DTO_SessionHeader
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_SessionHeader(DTO_CTUParms dtoParms)
+					{
+						this.CTUParms	= dtoParms;
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
 
 				public	string				SAPTCode	{ get;	set;	}

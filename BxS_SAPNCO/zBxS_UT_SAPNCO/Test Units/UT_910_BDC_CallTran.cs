@@ -227,10 +227,6 @@ namespace zBxS_SAPNCO_UT
 					Assert.AreEqual( lt.Count	, ln_Tot	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
 				}
 
-					//Assert.AreEqual( ln_Con	, ln_ConCnt								,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
-					//Assert.AreEqual( ln_Max	, ln_Tot									,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
-					//Assert.AreEqual( ln_Con	, lo_Pipe.CompletedCount	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 3rd" );
-
 			//...................................................
 			//...................................................
 			//...................................................
@@ -260,20 +256,13 @@ namespace zBxS_SAPNCO_UT
 			//...................................................
 			private BDCCallTranProfile CreateBDCTranProfile()
 				{
-					BDC_OpFnc	lo_OpFnc = new BDC_OpFnc();
+					var	lo_OpFnc		= new BDC_OpFnc();
 					var lo_Indexer	= new BDCCallTranIndex();
 
 					return	new BDCCallTranProfile(		this.co_UTDest.DestRfc
 																					, this.co_SapCon.BDCCallTran
 																					, lo_Indexer
 																					, lo_OpFnc	);
-
-					//return	new BDCCallTranProfile(		this.co_UTDest.DestRfc
-					//																, this.co_SapCon.BDCCallTran
-					//																, lo_Indexer
-					//																, () => new DTO_RFCHeader()
-					//																, () => new DTO_RFCTran()
-					//																, ( SMC.RfcFunctionMetadata FncMetadata ) => new BDCCallTranIndexSetup(FncMetadata) );
 				}
 		}
 }
