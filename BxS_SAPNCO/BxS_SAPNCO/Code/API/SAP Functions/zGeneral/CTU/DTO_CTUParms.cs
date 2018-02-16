@@ -64,13 +64,13 @@ namespace BxS_SAPNCO.CTU
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void SetToDefaults()
 					{
-						this.DisplayMode		=	BDCConstants.lz_CTU_N	;
-						this.UpdateMode			=	BDCConstants.lz_CTU_A	;
-						this.CATTMode				=	BDCConstants.lz_CTU_F	;
-						this.DefaultSize		=	BDCConstants.lz_CTU_F	;
-						this.NoCommit				=	BDCConstants.lz_CTU_F	;
-						this.NoBatchInpFor	=	BDCConstants.lz_CTU_F	;
-						this.NoBatchInpAft	=	BDCConstants.lz_CTU_F	;
+						this.DisplayMode		=	BDC_Constants.lz_CTU_N	;
+						this.UpdateMode			=	BDC_Constants.lz_CTU_A	;
+						this.CATTMode				=	BDC_Constants.lz_CTU_F	;
+						this.DefaultSize		=	BDC_Constants.lz_CTU_F	;
+						this.NoCommit				=	BDC_Constants.lz_CTU_F	;
+						this.NoBatchInpFor	=	BDC_Constants.lz_CTU_F	;
+						this.NoBatchInpAft	=	BDC_Constants.lz_CTU_F	;
 					}
 
 			#endregion

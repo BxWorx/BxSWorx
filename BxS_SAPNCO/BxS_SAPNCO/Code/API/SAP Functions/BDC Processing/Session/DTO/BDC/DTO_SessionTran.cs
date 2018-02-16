@@ -48,11 +48,11 @@ namespace BxS_SAPNCO.BDCProcess
 				#region "Methods: Exposed: BDC Data"
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void AddBDCData(	string	programName	= BDCConstants.lz_E	,
+					public void AddBDCData(	string	programName	= BDC_Constants.lz_E	,
 																	int			dynpro			= 0									,
 																	bool		begin				= false							,
-																	string	field				= BDCConstants.lz_E	,
-																	string	value				= BDCConstants.lz_E		)
+																	string	field				= BDC_Constants.lz_E	,
+																	string	value				= BDC_Constants.lz_E		)
 						{
 							this.AddBDCData( new	DTO_SessionTranData(	programName, dynpro, begin, field, value ) );
 						}

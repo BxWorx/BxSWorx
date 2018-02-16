@@ -10,13 +10,13 @@ namespace BxS_SAPNCO.CTU
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public CTUParametersHandler(	char	DisplayMode			= BDCConstants.lz_CTU_N	,
-																			char	UpdateMode			= BDCConstants.lz_CTU_A	,
-																			char	CATTMode				= BDCConstants.lz_CTU_F	,
-																			char	DefaultSize			= BDCConstants.lz_CTU_T	,
-																			char	NoCommit   			= BDCConstants.lz_CTU_F	,
-																			char	NoBatchInputFor	= BDCConstants.lz_CTU_F	,
-																			char	NoBatchInputAft	= BDCConstants.lz_CTU_F		)
+				public CTUParametersHandler(	char	DisplayMode			= BDC_Constants.lz_CTU_N	,
+																			char	UpdateMode			= BDC_Constants.lz_CTU_A	,
+																			char	CATTMode				= BDC_Constants.lz_CTU_F	,
+																			char	DefaultSize			= BDC_Constants.lz_CTU_T	,
+																			char	NoCommit   			= BDC_Constants.lz_CTU_F	,
+																			char	NoBatchInputFor	= BDC_Constants.lz_CTU_F	,
+																			char	NoBatchInputAft	= BDC_Constants.lz_CTU_F		)
 					{
 						this.DisplayMode		=	DisplayMode			;
 						this.UpdateMode			=	UpdateMode			;
@@ -87,21 +87,21 @@ namespace BxS_SAPNCO.CTU
 				//.................................................
 				//.................................................
 
-				public	char	DisplayMode_All			{ get { return	BDCConstants.lz_CTU_A; } }
-				public	char	DisplayMode_Errors	{ get { return	BDCConstants.lz_CTU_E; } }
-				public	char	DisplayMode_BGrnd		{ get { return	BDCConstants.lz_CTU_N; } }
-				public	char	DisplayMode_BGDeb		{ get { return	BDCConstants.lz_CTU_P; } }
+				public	char	DisplayMode_All			{ get { return	BDC_Constants.lz_CTU_A; } }
+				public	char	DisplayMode_Errors	{ get { return	BDC_Constants.lz_CTU_E; } }
+				public	char	DisplayMode_BGrnd		{ get { return	BDC_Constants.lz_CTU_N; } }
+				public	char	DisplayMode_BGDeb		{ get { return	BDC_Constants.lz_CTU_P; } }
 				//.................................................
-				public	char	UpdateMode_Local		{ get { return	BDCConstants.lz_CTU_L; } }
-				public	char	UpdateMode_Sync			{ get { return	BDCConstants.lz_CTU_S; } }
-				public	char	UpdateMode_ASync		{ get { return	BDCConstants.lz_CTU_A; } }
+				public	char	UpdateMode_Local		{ get { return	BDC_Constants.lz_CTU_L; } }
+				public	char	UpdateMode_Sync			{ get { return	BDC_Constants.lz_CTU_S; } }
+				public	char	UpdateMode_ASync		{ get { return	BDC_Constants.lz_CTU_A; } }
 				//.................................................
-				public	char	CATTMode_None 			{ get { return	BDCConstants.lz_CTU_F; } }
-				public	char	CATTMode_Cntrl			{ get { return	BDCConstants.lz_CTU_N; } }
-				public	char	CATTMode_NoCntrl		{ get { return	BDCConstants.lz_CTU_A; } }
+				public	char	CATTMode_None 			{ get { return	BDC_Constants.lz_CTU_F; } }
+				public	char	CATTMode_Cntrl			{ get { return	BDC_Constants.lz_CTU_N; } }
+				public	char	CATTMode_NoCntrl		{ get { return	BDC_Constants.lz_CTU_A; } }
 				//.................................................
-				public	char	Setas_No						{ get { return	BDCConstants.lz_CTU_F; } }
-				public	char	Setas_Yes						{ get { return	BDCConstants.lz_CTU_T; } }
+				public	char	Setas_No						{ get { return	BDC_Constants.lz_CTU_F; } }
+				public	char	Setas_Yes						{ get { return	BDC_Constants.lz_CTU_T; } }
 
 			#endregion
 
@@ -168,26 +168,26 @@ namespace BxS_SAPNCO.CTU
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private char CheckYesNo(char checkFor, bool defaultYes = false)
 					{
-						return	this.Check( lz_CTU_YesNo	, checkFor, defaultYes ?	BDCConstants.lz_CTU_T :
-																																				BDCConstants.lz_CTU_F		);
+						return	this.Check( lz_CTU_YesNo	, checkFor, defaultYes ?	BDC_Constants.lz_CTU_T :
+																																				BDC_Constants.lz_CTU_F		);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private char CheckDspMde(char checkFor)
 					{
-						return	this.Check( lz_CTU_DisMde, checkFor, BDCConstants.lz_CTU_N );
+						return	this.Check( lz_CTU_DisMde, checkFor, BDC_Constants.lz_CTU_N );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private char CheckUpdMde(char checkFor)
 					{
-						return	this.Check( lz_CTU_UpdMde, checkFor, BDCConstants.lz_CTU_S );
+						return	this.Check( lz_CTU_UpdMde, checkFor, BDC_Constants.lz_CTU_S );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private char CheckCatMde(char checkFor)
 					{
-						return	this.Check( lz_CTU_CatMde, checkFor, BDCConstants.lz_CTU_F );
+						return	this.Check( lz_CTU_CatMde, checkFor, BDC_Constants.lz_CTU_F );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

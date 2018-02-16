@@ -35,6 +35,7 @@
     <Compile Remove="Code\Zkeep\BDCProfileConfigurator.cs" />
     <Compile Remove="Code\Zkeep\BDCSession.cs" />
     <Compile Remove="Code\Zkeep\BDCSessionOpEnv.cs" />
+    <Compile Remove="Code\Zkeep\BDCSessionOpFnc.cs" />
     <Compile Remove="Code\Zkeep\BDCTranData.cs" />
     <Compile Remove="Code\Zkeep\DTO_RFCData.cs" />
     <Compile Remove="Code\Zkeep\IBDCProfile.cs" />

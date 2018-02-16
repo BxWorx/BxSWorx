@@ -260,14 +260,20 @@ namespace zBxS_SAPNCO_UT
 			//...................................................
 			private BDCCallTranProfile CreateBDCTranProfile()
 				{
+					BDC_OpFnc	lo_OpFnc = new BDC_OpFnc();
 					var lo_Indexer	= new BDCCallTranIndex();
 
 					return	new BDCCallTranProfile(		this.co_UTDest.DestRfc
 																					, this.co_SapCon.BDCCallTran
 																					, lo_Indexer
-																					, () => new DTO_RFCHeader()
-																					, () => new DTO_RFCTran()
-																					, ( SMC.RfcFunctionMetadata FncMetadata ) => new BDCCallTranIndexSetup(FncMetadata) );
+																					, lo_OpFnc	);
+
+					//return	new BDCCallTranProfile(		this.co_UTDest.DestRfc
+					//																, this.co_SapCon.BDCCallTran
+					//																, lo_Indexer
+					//																, () => new DTO_RFCHeader()
+					//																, () => new DTO_RFCTran()
+					//																, ( SMC.RfcFunctionMetadata FncMetadata ) => new BDCCallTranIndexSetup(FncMetadata) );
 				}
 		}
 }

@@ -19,17 +19,17 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_SessionTranData(	string	ProgramName	= BDCConstants.lz_E	,
+				public DTO_SessionTranData(	string	ProgramName	= BDC_Constants.lz_E	,
 																		int			Dynpro			= 0									,
 																		bool		Begin				= false							,
-																		string	Field				= BDCConstants.lz_E	,
-																		string	Value				= BDCConstants.lz_E		)
+																		string	Field				= BDC_Constants.lz_E	,
+																		string	Value				= BDC_Constants.lz_E		)
 					{
-						this.ProgramName	= string.IsNullOrEmpty(ProgramName)	? BDCConstants.lz_E	: ProgramName													;
-						this.FieldName		= string.IsNullOrEmpty(Field)				? BDCConstants.lz_E	: Field																;
-						this.FieldValue		= string.IsNullOrEmpty(Value)				? BDCConstants.lz_E	: Value																;
-						this.Dynpro				= Dynpro.Equals(0)									? BDCConstants.lz_D	: Dynpro.ToString(BDCConstants.lz_D)	;
-						this.Begin				= Begin															? BDCConstants.lz_T	: BDCConstants.lz_F										;
+						this.ProgramName	= string.IsNullOrEmpty(ProgramName)	? BDC_Constants.lz_E	: ProgramName													;
+						this.FieldName		= string.IsNullOrEmpty(Field)				? BDC_Constants.lz_E	: Field																;
+						this.FieldValue		= string.IsNullOrEmpty(Value)				? BDC_Constants.lz_E	: Value																;
+						this.Dynpro				= Dynpro.Equals(0)									? BDC_Constants.lz_D	: Dynpro.ToString(BDC_Constants.lz_D)	;
+						this.Begin				= Begin															? BDC_Constants.lz_T	: BDC_Constants.lz_F										;
 					}
 
 			#endregion

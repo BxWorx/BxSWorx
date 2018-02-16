@@ -15,8 +15,8 @@ namespace BxS_SAPNCO.BDCProcess
 				DTO_SessionHeader		SessionHeader		{	get; }
 				//.................................................
 				int		TransactionCount		{ get; }
-				int		RFCTransactionCount	{ get; }
-				bool	IsStarted						{ get; }
+				//int		RFCTransactionCount	{ get; }
+				//bool	IsStarted						{ get; }
 				//.................................................
 				ConcurrentDictionary< int, DTO_SessionTran >		Transactions	{ get; }
 
@@ -25,7 +25,7 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void	ConfigureUser( IDTOConfigSetupDestination config );
+				//void	ConfigureUser( IDTOConfigSetupDestination config );
 				//.................................................
 				Task<int> ProcessAsync();
 				//.................................................

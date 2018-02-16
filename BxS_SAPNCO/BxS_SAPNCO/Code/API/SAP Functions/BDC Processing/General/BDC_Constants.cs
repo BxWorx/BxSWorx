@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
-	internal static class BDCConstants
+	internal static class BDC_Constants
 		{
 			#region "Declarations"
 

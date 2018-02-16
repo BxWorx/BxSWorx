@@ -15,7 +15,7 @@ namespace BxS_SAPNCO.BDCProcess
 				internal BDCCallTranProfile(	DestinationRfc					destRfc
 																		,	string									functionName
 																		, BDCCallTranIndex				indexer
-																		, BDCSessionOpFnc					opFnc					)	: base( destRfc , functionName )
+																		, BDC_OpFnc					opFnc					)	: base( destRfc , functionName )
 					{
 						this.DestinationRfc.RegisterProfile(this);
 						//.............................................
@@ -29,7 +29,7 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Properties:  Parameters Indicies"
 
 				internal	BDCCallTranIndex		Indexer		{ get; }
-				internal	BDCSessionOpFnc			OpFncts		{ get; }
+				internal	BDC_OpFnc			OpFncts		{ get; }
 				//.................................................
 				internal	SMC.IRfcStructure		GetCTUStr	{	get	{ return	this.Metadata[this.Indexer.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
 				internal	SMC.IRfcTable				GetBDCTbl	{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
@@ -61,7 +61,7 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						try
 							{
-								BDCCallTranIndexSetup lo_IndxCnfg	= this.OpFncts.CreateIdxCnfg( this.Metadata );
+								BDCCallTranIndexSetup lo_IndxCnfg	= this.OpFncts.CreateIndxSetup( this.Metadata );
 								lo_IndxCnfg.Configure( this.Indexer );
 								return	true;
 							}

@@ -24,7 +24,11 @@ namespace zBxS_SAPNCO_UT
 				private readonly	string	cc_ID			;
 				private	readonly	Guid		cg_GuidID	;
 
+				private readonly	BDC_OpFnc	co_OpFnc;
+
+
 			#endregion
+
 
 			//...................................................
 			public UT_410_BDC_Session()
@@ -38,6 +42,20 @@ namespace zBxS_SAPNCO_UT
 					IList<string> lt	=	this.co_Cntlr.GetSAPGUIConfigEntries();
 					this.cc_ID				= lt.FirstOrDefault(s => s.Contains("PWD"));
 					this.cg_GuidID		= this.co_Cntlr.Repository.GetAddIDFor	(	this.cc_ID	);
+
+					this.co_OpFnc		= new BDC_OpFnc();
+				}
+
+			//...................................................
+			[TestMethod]
+			public void UT_410_00_Session_Base()
+				{
+					int	ln_Cnt	= 0;
+					//...............................................
+					ln_Cnt	++;
+
+					DTO_RFCHeader DTO = this.co_OpFnc.CreateRfcHead();
+					Assert.IsNotNull(	DTO	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
 
 			//...................................................
@@ -47,6 +65,18 @@ namespace zBxS_SAPNCO_UT
 					int	ln_Cnt	= 0;
 					//...............................................
 					ln_Cnt	++;
+
+					var lo_SessOp	= new DTO_SessionOptions();
+					var lo_SessHd	= new 
+
+				//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
+				internal BDCSession(	BDC_OpFnc						sessionOpFnc
+														, DTO_SessionOptions	sessionOptions
+														, DTO_SessionHeader		sessionHeader
+														,	BDCCallTranParser		parser
+														, BDCCallTranProfile	profile
+														,	ConsumerOpEnv< DTO_SessionTran , DTO_ProgressInfo >		consumerOpEnv	)
+
 
 					IBDCSession lo_Ses0	= this.co_Cntlr.CreateBDCSession( this.cg_GuidID );
 					IBDCSession lo_Ses1	= this.co_Cntlr.CreateBDCSession( this.cc_ID		 );
@@ -84,7 +114,7 @@ namespace zBxS_SAPNCO_UT
 					IBDCSession lo_Ses0	= this.co_Cntlr.CreateBDCSession(this.cg_GuidID	);
 
 					var x = this.co_Dest.UT_Destination_User(2);
-					lo_Ses0.ConfigureUser(x);
+					//lo_Ses0.ConfigureUser(x);
 
 					lo_Ses0.SessionOptions.Sequential	= true;
 					lo_Ses0.SessionHeader.SAPTCode		= "XD02";
@@ -102,8 +132,8 @@ namespace zBxS_SAPNCO_UT
 
 					lo_Ses0.ProcessAsync();
 
-					Assert.IsTrue		(			lo_Ses0.IsStarted						,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					Assert.AreEqual	( 2,	lo_Ses0.RFCTransactionCount	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					//Assert.IsTrue		(			lo_Ses0.IsStarted						,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					//Assert.AreEqual	( 2,	lo_Ses0.RFCTransactionCount	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
 
 			////-------------------------------------------------------------------------------------------
