@@ -1,8 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-//.........................................................
-using BxS_SAPNCO.BDCProcess;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
 namespace BxS_SAPNCO.Pipeline
@@ -13,9 +12,12 @@ namespace BxS_SAPNCO.Pipeline
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Pipeline(	PipelineOpEnv<T,P>	OpEnv	)
+				internal Pipeline( IList< IConsumer<T> >	consumers
+													, CancellationToken			CT				)
 					{
-						this._OpEnv	= OpEnv	;
+						//this._OpEnv	= OpEnv	;
+						this._Consumers	= consumers	;
+						this._CT				= CT				;
 						//.............................................
 						this._Tasks	= new	List< Task< IConsumer<T> > >()	;
 						//.............................................
@@ -29,10 +31,11 @@ namespace BxS_SAPNCO.Pipeline
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	PipelineOpEnv<T,P>	_OpEnv;
-				//.................................................
-				private readonly IList< Task< IConsumer<T> > >	_Tasks	;
-
+				//private	readonly	PipelineOpEnv<T,P>	_OpEnv;
+				////.................................................
+				private readonly IList< Task< IConsumer<T> > >	_Tasks			;
+				private readonly IList< IConsumer<T> > 					_Consumers	;
+				private	readonly	CancellationToken							_CT					;
 			#endregion
 
 			//===========================================================================================
@@ -42,7 +45,7 @@ namespace BxS_SAPNCO.Pipeline
 				internal int  FaultyCount			{ get { return	this.TasksFaulty		.Count; } }
 				internal int  OtherCount			{ get { return	this.TasksOther			.Count; } }
 
-				internal BlockingCollection< T >	Queue						{ get { return	this._OpEnv.Queue; } }
+				//internal BlockingCollection< T >	Queue						{ get { return	this._OpEnv.Queue; } }
 
 				internal ConcurrentQueue< Task >	TasksCompleted	{ get; }
 				internal ConcurrentQueue< Task >	TasksFaulty			{ get; }
@@ -59,11 +62,11 @@ namespace BxS_SAPNCO.Pipeline
 						int ln_Ret	= 0;
 						//.............................................
 						//for (int i = 0; i < this._OpEnv.NoOfConsumers; i++)
-						for (int i = 0; i < this._OpEnv.Consumers.Count; i++)
+						for (int i = 0; i < this._Consumers.Count; i++)
 							{
-								if (this._OpEnv.CT.IsCancellationRequested)		return	0;
+								if (this._CT.IsCancellationRequested)		return	0;
 
-								IConsumer<T>	lo_CS	= this._OpEnv.Consumers[i];
+								IConsumer<T>	lo_CS	= this._Consumers[i];
 
 								this._Tasks.Add(
 									Task<IConsumer<T>>.Run( () =>	{
@@ -78,31 +81,31 @@ namespace BxS_SAPNCO.Pipeline
 
 						while (!this._Tasks.Count.Equals(0))
 							{
-								if (this._OpEnv.CT.IsCancellationRequested)	break;
+								if (this._CT.IsCancellationRequested)	break;
 
 								lo_Task	= await Task.WhenAny(this._Tasks).ConfigureAwait(false);
 
 								if (this._Tasks.Remove(lo_Task))	ln_Ret++;
 
 											if (lo_Task.Status.Equals(TaskStatus.RanToCompletion)	)		{	this.TasksCompleted.Enqueue(lo_Task); }
-								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this.TasksFaulty.Enqueue(lo_Task); }
-								else  																													{ this.TasksOther	.Enqueue(lo_Task); }
+								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this.TasksFaulty.Enqueue(lo_Task);		}
+								else  																													{ this.TasksOther	.Enqueue(lo_Task);		}
 							}
 						//.............................................
 						return	ln_Ret;
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Post( T entry )
-					{
-						return	this._OpEnv.Queue.TryAdd( entry, this._OpEnv.QueueTimeout, this._OpEnv.CT );
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal bool Post( T entry )
+				//	{
+				//		return	this._OpEnv.Queue.TryAdd( entry, this._OpEnv.QueueTimeout, this._OpEnv.CT );
+				//	}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void AddingCompleted()
-					{
-						this._OpEnv.Queue.CompleteAdding();
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal void AddingCompleted()
+				//	{
+				//		this._OpEnv.Queue.CompleteAdding();
+				//	}
 
 			#endregion
 

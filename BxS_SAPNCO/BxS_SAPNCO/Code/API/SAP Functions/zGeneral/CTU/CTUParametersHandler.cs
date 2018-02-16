@@ -14,7 +14,7 @@ namespace BxS_SAPNCO.CTU
 																			char	UpdateMode			= BDCConstants.lz_CTU_A	,
 																			char	CATTMode				= BDCConstants.lz_CTU_F	,
 																			char	DefaultSize			= BDCConstants.lz_CTU_T	,
-																			char	NoCommit   			= BDCConstants.lz_CTU_T	,
+																			char	NoCommit   			= BDCConstants.lz_CTU_F	,
 																			char	NoBatchInputFor	= BDCConstants.lz_CTU_F	,
 																			char	NoBatchInputAft	= BDCConstants.lz_CTU_F		)
 					{

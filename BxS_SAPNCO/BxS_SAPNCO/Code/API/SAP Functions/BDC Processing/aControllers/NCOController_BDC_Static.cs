@@ -44,7 +44,8 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private static Pipeline< DTO_RFCTran , DTO_ProgressInfo > CreatePipeline( PipelineOpEnv< DTO_RFCTran , DTO_ProgressInfo> opEnv)
 					{
-						return	new Pipeline< DTO_RFCTran , DTO_ProgressInfo >(opEnv);
+						return null;
+						//return	new Pipeline< DTO_RFCTran , DTO_ProgressInfo >(opEnv);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

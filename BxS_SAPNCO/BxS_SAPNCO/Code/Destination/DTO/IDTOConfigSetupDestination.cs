@@ -25,9 +25,9 @@ namespace BxS_SAPNCO.Destination
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void SetSAPGUIasHidden();
-				void SetSAPGUIasUsed();
-				void SetSAPGUIasNotUsed();
+				void SetSAPGUIasHidden	();
+				void SetSAPGUIasUsed		();
+				void SetSAPGUIasNotUsed	();
 
 			#endregion
 

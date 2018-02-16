@@ -1,4 +1,6 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_SAPNCO.RfcFunction;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -36,10 +38,11 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						this._CallProfile		=	profile	;
 						//.............................................
-						this._IsConfigured	= false	;
+						this._IsConfigured	= false						;
+						this._MyID					= Guid.NewGuid()	;
 
-						this.Header					= this._CallProfile.CreateRfcHead();
-						this.Transaction		= this._CallProfile.CreateRFCTran();
+						this.Header					= this._CallProfile.CreateRfcHead()	;
+						this.Transaction		= this._CallProfile.CreateRFCTran()	;
 					}
 
 			#endregion
@@ -50,6 +53,7 @@ namespace BxS_SAPNCO.BDCProcess
 				private	readonly	BDCCallTranProfile	_CallProfile;
 
 				private	bool	_IsConfigured	;
+				private Guid	_MyID					;
 
 			#endregion
 
@@ -154,7 +158,7 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool Configure()
+				internal bool Configure()
 					{
 						if ( !this._IsConfigured )
 							{

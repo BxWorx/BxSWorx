@@ -170,7 +170,7 @@ namespace BxS_SAPNCO.BDCProcess
 						else
 							{	AddParallel(lt_Keys);		}
 
-						this._OpEnv.Pipeline.AddingCompleted();
+						//this._OpEnv.Pipeline.AddingCompleted();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -205,7 +205,7 @@ namespace BxS_SAPNCO.BDCProcess
 						this._OpEnv.Profile.Configure(lo_RFCTran);
 						this._OpEnv.Parser.ParseBDCtoRFC(BDCTran, lo_RFCTran);
 						lo_RFCTran.Reference	= key;
-						this._OpEnv.Pipeline.Post(lo_RFCTran);
+						//this._OpEnv.Pipeline.Post(lo_RFCTran);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

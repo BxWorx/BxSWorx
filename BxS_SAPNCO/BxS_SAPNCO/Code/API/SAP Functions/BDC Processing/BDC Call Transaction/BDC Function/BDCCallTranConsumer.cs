@@ -11,11 +11,16 @@ namespace BxS_SAPNCO.BDCProcess
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCCallTranConsumer(		ConsumerOpEnv<T,P>		OpEnv
+																		, DTO_SessionHeader     header
 																		,	BDCCallTranProcessor	processor
 																		, BDCCallTranParser			parser		)	: base(OpEnv)
 					{
 						this._Processor		= processor ;
 						this._Parser			= parser		;
+						this._Header			= header		;
+						//.............................................
+						this._IsSetup		= false						;
+						this._MyID			= Guid.NewGuid()	;
 					}
 
 			#endregion
@@ -23,8 +28,12 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
+				private Guid	_MyID			;
+				private bool	_IsSetup	;
+				//.................................................
 				private	readonly	BDCCallTranProcessor	_Processor	;
 				private readonly	BDCCallTranParser			_Parser			;
+				private readonly	DTO_SessionHeader     _Header			;
 
 			#endregion
 
@@ -32,17 +41,20 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Configure(DTO_SessionHeader DTO)
-					{
-						if (this._Processor.Ready())
-							this._Parser.Header( DTO , this._Processor.Header );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override bool Execute( T workItem )
 					{
 						try
 							{
+								if (!this._IsSetup)
+									{
+										if (this._Processor.Ready())
+											{
+												this._Parser.Header( this._Header , this._Processor.Header );
+												this._IsSetup	= !this._IsSetup;
+											}
+										if (!this._IsSetup)	return	false;
+									}
+								//.........................................
 								this._Processor.Reset();
 								this._Parser.ParseTran( workItem , this._Processor.Transaction );
 								this._Processor.Process();
