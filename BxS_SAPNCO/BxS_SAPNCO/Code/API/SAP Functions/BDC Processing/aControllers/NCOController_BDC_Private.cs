@@ -11,37 +11,37 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Methods: Private"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IBDCProfile GetAddBDCProfile(	DestinationRfc	destRFC
-																							,	string					FncName	)
-					{
-						IBDCProfile	lo_Profile	= null;
-						//.............................................
-						destRFC.TryGetProfile( FncName , out object lo_ProfileObj	);
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal IBDCProfile GetAddBDCProfile(	DestinationRfc	destRFC
+				//																			,	string					FncName	)
+				//	{
+				//		IBDCProfile	lo_Profile	= null;
+				//		//.............................................
+				//		destRFC.TryGetProfile( FncName , out object lo_ProfileObj	);
 
-						if (lo_ProfileObj == null)
-							{
-								lo_Profile	= this.CreateBDCFncProfile(	destRFC	,	FncName );
-								destRFC.RegisterProfile(lo_Profile);
-								destRFC.TryGetProfile( FncName , out lo_ProfileObj );
-							}
-						//.............................................
-						return	lo_Profile;
-					}
+				//		if (lo_ProfileObj == null)
+				//			{
+				//				lo_Profile	= this.CreateBDCFncProfile(	destRFC	,	FncName );
+				//				destRFC.RegisterProfile(lo_Profile);
+				//				destRFC.TryGetProfile( FncName , out lo_ProfileObj );
+				//			}
+				//		//.............................................
+				//		return	lo_Profile;
+				//	}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCOpEnv CreateBDCOpEnv(	DestinationRfc	destRFC
-																				,	IBDCProfile			profile	)
-					{
-						return	new BDCOpEnv(	destRFC, profile, this._OpFnc.Value	);
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private BDCOpEnv CreateBDCOpEnv(	DestinationRfc	destRFC
+				//																,	IBDCProfile			profile	)
+				//	{
+				//		return	new BDCOpEnv(	destRFC, profile, this._OpFnc.Value	);
+				//	}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IBDCProfile CreateBDCFncProfile(	DestinationRfc	destRFC
-																								,	string					FncName	)
-					{
-						return	new BDCFncProfile( destRFC , FncName );
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private IBDCProfile CreateBDCFncProfile(	DestinationRfc	destRFC
+				//																				,	string					FncName	)
+				//	{
+				//		return	new BDCFncProfile( destRFC , FncName );
+				//	}
 
 			#endregion
 

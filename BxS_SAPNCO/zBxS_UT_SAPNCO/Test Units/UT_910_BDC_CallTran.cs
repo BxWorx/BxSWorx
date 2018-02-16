@@ -184,8 +184,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					IList< IConsumer<DTO_SessionTran> >	lt_consumers = new List<IConsumer<DTO_SessionTran>>();
-					var lo_PL = new Pipeline<DTO_SessionTran, DTO_ProgressInfo>(lt_consumers,this.co_OpEnv.CT);
+					var lo_PL = new Pipeline<DTO_SessionTran, DTO_ProgressInfo>(this.co_OpEnv.CT);
 					var lo_Psr	= new BDCCallTranParser( this.co_Tran.Indexer );
 					DTO_SessionHeader lo_HD	= this.co_UTData.CreateSessionHead('N');
 					//...............................................
@@ -209,14 +208,13 @@ namespace zBxS_SAPNCO_UT
 																																							, lo_HD
 																																							, lo_Tran
 																																							, lo_Psr				);
-
-									lt_consumers.Add(lo_Con);
+									lo_PL.AddConsumer( lo_Con );
 								}
 						}
 
 					int ln_ConCnt = await lo_PL.StartAsync().ConfigureAwait(false);
 
-					while (!ln_ConCnt.Equals(lt_consumers.Count))
+					while (!ln_ConCnt.Equals(lo_PL.ConsumerCount))
 						{
 							Thread.Sleep(10);
 						}
@@ -226,7 +224,7 @@ namespace zBxS_SAPNCO_UT
 							ln_Tot	+= lo_Task.Result.Successful.Count ;
 						}
 
-					Assert.AreEqual( lt.Count	, ln_Tot									,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
+					Assert.AreEqual( lt.Count	, ln_Tot	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
 				}
 
 					//Assert.AreEqual( ln_Con	, ln_ConCnt								,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );

@@ -12,14 +12,12 @@ namespace BxS_SAPNCO.Pipeline
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Pipeline( IList< IConsumer<T> >	consumers
-													, CancellationToken			CT				)
+				internal Pipeline(	CancellationToken	 CT	)
 					{
-						//this._OpEnv	= OpEnv	;
-						this._Consumers	= consumers	;
 						this._CT				= CT				;
 						//.............................................
-						this._Tasks	= new	List< Task< IConsumer<T> > >()	;
+						this._Consumers	= new	List< IConsumer<T> >				()	;
+						this._Tasks			= new	List< Task< IConsumer<T> > >()	;
 						//.............................................
 						this.TasksCompleted	= new ConcurrentQueue< Task	>()	;
 						this.TasksFaulty		= new ConcurrentQueue< Task >()	;
@@ -31,21 +29,20 @@ namespace BxS_SAPNCO.Pipeline
 			//===========================================================================================
 			#region "Declarations"
 
-				//private	readonly	PipelineOpEnv<T,P>	_OpEnv;
-				////.................................................
-				private readonly IList< Task< IConsumer<T> > >	_Tasks			;
-				private readonly IList< IConsumer<T> > 					_Consumers	;
-				private	readonly	CancellationToken							_CT					;
+				private	readonly	CancellationToken		_CT	;
+
+				private readonly IList< Task< IConsumer<T> >	>		_Tasks			;
+				private readonly IList< IConsumer<T>					>		_Consumers	;
+
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
+				internal int  ConsumerCount		{ get { return	this._Consumers			.Count; } }
 				internal int  CompletedCount	{ get { return	this.TasksCompleted	.Count; } }
 				internal int  FaultyCount			{ get { return	this.TasksFaulty		.Count; } }
 				internal int  OtherCount			{ get { return	this.TasksOther			.Count; } }
-
-				//internal BlockingCollection< T >	Queue						{ get { return	this._OpEnv.Queue; } }
 
 				internal ConcurrentQueue< Task >	TasksCompleted	{ get; }
 				internal ConcurrentQueue< Task >	TasksFaulty			{ get; }
@@ -57,11 +54,16 @@ namespace BxS_SAPNCO.Pipeline
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void AddConsumer( IConsumer<T> consumer)
+					{
+						this._Consumers.Add(consumer);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal async Task<int> StartAsync()
 					{
 						int ln_Ret	= 0;
 						//.............................................
-						//for (int i = 0; i < this._OpEnv.NoOfConsumers; i++)
 						for (int i = 0; i < this._Consumers.Count; i++)
 							{
 								if (this._CT.IsCancellationRequested)		return	0;
@@ -94,18 +96,6 @@ namespace BxS_SAPNCO.Pipeline
 						//.............................................
 						return	ln_Ret;
 					}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal bool Post( T entry )
-				//	{
-				//		return	this._OpEnv.Queue.TryAdd( entry, this._OpEnv.QueueTimeout, this._OpEnv.CT );
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal void AddingCompleted()
-				//	{
-				//		this._OpEnv.Queue.CompleteAdding();
-				//	}
 
 			#endregion
 

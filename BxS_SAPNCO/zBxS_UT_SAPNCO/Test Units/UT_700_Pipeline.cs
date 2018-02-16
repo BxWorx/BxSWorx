@@ -37,9 +37,9 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo> lo_PLOpEnv	= this.co_UTPipe.PLOpEnv;
+					//PipelineOpEnv<DTO_RFCTran, DTO_ProgressInfo> lo_PLOpEnv	= this.co_UTPipe.PLOpEnv;
 
-					Assert.IsNotNull(	lo_PLOpEnv	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					//Assert.IsNotNull(	lo_PLOpEnv	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
 
 			//...................................................

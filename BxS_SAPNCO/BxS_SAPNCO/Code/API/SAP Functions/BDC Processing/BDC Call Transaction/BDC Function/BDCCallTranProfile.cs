@@ -15,19 +15,12 @@ namespace BxS_SAPNCO.BDCProcess
 				internal BDCCallTranProfile(	DestinationRfc					destRfc
 																		,	string									functionName
 																		, BDCCallTranIndex				indexer
-																		, Func< DTO_RFCHeader >		createRfcHead
-																		, Func< DTO_RFCTran		>		createRFCTran
-
-																		, Func<		SMC.RfcFunctionMetadata
-																						, BDCCallTranIndexSetup		>		CreateIndexConfigurator	)	: base( destRfc , functionName )
+																		, BDCSessionOpFnc					opFnc					)	: base( destRfc , functionName )
 					{
 						this.DestinationRfc.RegisterProfile(this);
 						//.............................................
-						this.Indexer				= indexer									;
-						this.CreateRfcHead	= createRfcHead						;
-						this.CreateRFCTran	= createRFCTran						;
-						//.............................................
-						this.CreateIdxCnfg	= CreateIndexConfigurator	;
+						this.Indexer	= indexer ;
+						this.OpFncts	= opFnc		;
 					}
 
 			#endregion
@@ -35,13 +28,8 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Properties:  Parameters Indicies"
 
-				internal	Func< DTO_RFCHeader >		CreateRfcHead		{ get; }
-				internal	Func< DTO_RFCTran		>		CreateRFCTran		{ get; }
-
-				internal  Func<		SMC.RfcFunctionMetadata
-												,	BDCCallTranIndexSetup		>		CreateIdxCnfg		{ get; }
-				//.................................................
 				internal	BDCCallTranIndex		Indexer		{ get; }
+				internal	BDCSessionOpFnc			OpFncts		{ get; }
 				//.................................................
 				internal	SMC.IRfcStructure		GetCTUStr	{	get	{ return	this.Metadata[this.Indexer.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
 				internal	SMC.IRfcTable				GetBDCTbl	{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
@@ -73,7 +61,7 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						try
 							{
-								BDCCallTranIndexSetup lo_IndxCnfg	= this.CreateIdxCnfg( this.Metadata );
+								BDCCallTranIndexSetup lo_IndxCnfg	= this.OpFncts.CreateIdxCnfg( this.Metadata );
 								lo_IndxCnfg.Configure( this.Indexer );
 								return	true;
 							}

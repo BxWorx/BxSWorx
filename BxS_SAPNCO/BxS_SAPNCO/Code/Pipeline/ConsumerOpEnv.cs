@@ -38,5 +38,17 @@ namespace BxS_SAPNCO.Pipeline
 
 			#endregion
 
+			//===========================================================================================
+			#region "Properties"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Reset()
+					{
+						foreach (T lo_WorkItem in this.Queue.GetConsumingEnumerable())
+							{ }
+					}
+
+			#endregion
+
 		}
 }

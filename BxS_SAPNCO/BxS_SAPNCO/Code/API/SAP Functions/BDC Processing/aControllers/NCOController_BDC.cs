@@ -19,16 +19,16 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy<BDCOpFnc>	_OpFnc	= new	Lazy<BDCOpFnc>
-																												(	() => CreateBDCOpFnc()
-																													, LazyThreadSafetyMode.ExecutionAndPublication );
+				//private readonly	Lazy<BDCOpFnc>	_OpFnc	= new	Lazy<BDCOpFnc>
+				//																								(	() => CreateBDCOpFnc()
+				//																									, LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	BDCOpFnc	OpFnc	{ get {	return	this._OpFnc.Value; } }
+				//internal	BDCOpFnc	OpFnc	{ get {	return	this._OpFnc.Value; } }
 
 			#endregion
 
@@ -39,10 +39,11 @@ namespace BxS_SAPNCO.BDCProcess
 				internal IBDCSession CreateBDCSession(	DestinationRfc	destRFC
 																							,	string					FncName	)
 					{
-						IBDCProfile	lo_Prof		= this.GetAddBDCProfile	( destRFC	, FncName );
-						BDCOpEnv		lo_OpEnv	= this.CreateBDCOpEnv		( destRFC , lo_Prof	);
-						//.............................................
-						return	new BDCSession(	this._OpFnc	, lo_OpEnv );
+						return	null;
+						//IBDCProfile	lo_Prof		= this.GetAddBDCProfile	( destRFC	, FncName );
+						//BDCOpEnv		lo_OpEnv	= this.CreateBDCOpEnv		( destRFC , lo_Prof	);
+						////.............................................
+						//return	new BDCSession(	this._OpFnc	, lo_OpEnv );
 					}
 
 			#endregion

@@ -11,36 +11,42 @@
   <ItemGroup>
     <Compile Remove="Code\API\SAP Functions\BDC Processing\BDC Call Transaction\DTO\**" />
     <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
+    <Compile Remove="Code\Zkeep\BDC Helpers\**" />
     <EmbeddedResource Remove="Code\API\SAP Functions\BDC Processing\BDC Call Transaction\DTO\**" />
     <EmbeddedResource Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
+    <EmbeddedResource Remove="Code\Zkeep\BDC Helpers\**" />
     <None Remove="Code\API\SAP Functions\BDC Processing\BDC Call Transaction\DTO\**" />
     <None Remove="Code\API\SAP Functions\BDC Processing\Session\DTO\Session\**" />
+    <None Remove="Code\Zkeep\BDC Helpers\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Code\API\SAP Functions\BDC Processing\BDC Helpers\BDCProfileConfigurator.cs" />
     <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\BDCSessionOpEnv.cs" />
     <Compile Remove="Code\Destination\DestinationController.cs" />
     <Compile Remove="Code\Destination\DestinationPool.cs" />
     <Compile Remove="Code\Pipeline\IConsumerOpEnv.cs" />
+    <Compile Remove="Code\Zkeep\BDC2RfcParser.cs" />
     <Compile Remove="Code\Zkeep\BDCConsumerMaker.cs" />
     <Compile Remove="Code\Zkeep\BDCConsumerOpEnv.cs" />
     <Compile Remove="Code\Zkeep\BDCController_Func - Copy.cs" />
+    <Compile Remove="Code\Zkeep\BDCOpEnv.cs" />
+    <Compile Remove="Code\Zkeep\BDCOpFnc.cs" />
+    <Compile Remove="Code\Zkeep\BDCProfile.cs" />
+    <Compile Remove="Code\Zkeep\BDCProfileConfigurator.cs" />
+    <Compile Remove="Code\Zkeep\BDCSession.cs" />
     <Compile Remove="Code\Zkeep\BDCSessionOpEnv.cs" />
     <Compile Remove="Code\Zkeep\BDCTranData.cs" />
     <Compile Remove="Code\Zkeep\DTO_RFCData.cs" />
+    <Compile Remove="Code\Zkeep\IBDCProfile.cs" />
     <Compile Remove="Code\Zkeep\IBDCTranData.cs" />
     <Compile Remove="Code\Zkeep\IBDCTranProcessor.cs" />
     <Compile Remove="Code\Zkeep\IConsumerMaker.cs" />
     <Compile Remove="Code\Zkeep\IConsumerOpEnv.cs" />
     <Compile Remove="Code\Zkeep\IRfcFunction.cs" />
     <Compile Remove="Code\Zkeep\NCOCntlr_Sect_BDC_Pipeline.cs" />
+    <Compile Remove="Code\Zkeep\PipelineOpEnv.cs" />
     <Compile Remove="Code\Zkeep\RfcFunction.cs" />
     <Compile Remove="Code\Zkeep\RFCFunctionBase.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Code\API\SAP Functions\BDC Processing\BDC Helpers\xBDCDocumentation.txt" />
   </ItemGroup>
 
   <ItemGroup>

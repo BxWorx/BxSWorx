@@ -41,8 +41,8 @@ namespace BxS_SAPNCO.BDCProcess
 						this._IsConfigured	= false						;
 						this._MyID					= Guid.NewGuid()	;
 
-						this.Header					= this._CallProfile.CreateRfcHead()	;
-						this.Transaction		= this._CallProfile.CreateRFCTran()	;
+						this.Header					= this._CallProfile.OpFncts.CreateRfcHead()	;
+						this.Transaction		= this._CallProfile.OpFncts.CreateRFCTran()	;
 					}
 
 			#endregion

@@ -35,17 +35,17 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					BDCOpFnc x = this.lo_Cntlr.OpFnc;
-					BDCOpFnc y = this.lo_Cntlr.OpFnc;
+					//BDCOpFnc x = this.lo_Cntlr.OpFnc;
+					//BDCOpFnc y = this.lo_Cntlr.OpFnc;
 
-					Assert.IsNotNull(	x			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					Assert.IsNotNull(	y			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					Assert.AreSame	(	y	,	x	, $"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					//Assert.IsNotNull(	x			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					//Assert.IsNotNull(	y			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					//Assert.AreSame	(	y	,	x	, $"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 
-					DTO_SessionHeader f	= this.lo_Cntlr.OpFnc.SessionHeader();
-					Assert.IsNotNull(	f			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
+					//DTO_SessionHeader f	= this.lo_Cntlr.OpFnc.SessionHeader();
+					//Assert.IsNotNull(	f			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 
-					DTO_RFCHeader z = x.RFCHeader.Invoke();
+					//DTO_RFCHeader z = x.RFCHeader.Invoke();
 				}
 
 			//...................................................
