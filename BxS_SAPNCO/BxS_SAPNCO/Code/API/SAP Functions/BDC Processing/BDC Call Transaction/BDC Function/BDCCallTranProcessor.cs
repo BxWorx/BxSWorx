@@ -59,7 +59,7 @@ namespace BxS_SAPNCO.BDCProcess
 				internal	DTO_RFCHeader		Header				{ get; }
 				internal	DTO_RFCTran			Transaction		{ get; }
 				//.................................................
-				private		BDCCallTranIndex	ProfIdx			{ get { return	this._CallProfile.Indexer; } }
+				internal	BDCCallTranIndex	Indexer			{ get { return	this._CallProfile.Indexer; } }
 
 			#endregion
 
@@ -114,9 +114,9 @@ namespace BxS_SAPNCO.BDCProcess
 							{
 								try
 									{
-										this._RfcFunction.SetValue(	this.ProfIdx.ParIdx_TCode	,	this.Header.SAPTCode	)	;
-										this._RfcFunction.SetValue(	this.ProfIdx.ParIdx_Skip1	, this.Header.Skip1st		)	;
-										this._RfcFunction.SetValue(	this.ProfIdx.ParIdx_CTUOpt	, this.Header.CTUParms	)	;
+										this._RfcFunction.SetValue(	this.Indexer.ParIdx_TCode		,	this.Header.SAPTCode	)	;
+										this._RfcFunction.SetValue(	this.Indexer.ParIdx_Skip1		, this.Header.Skip1st		)	;
+										this._RfcFunction.SetValue(	this.Indexer.ParIdx_CTUOpt	, this.Header.CTUParms	)	;
 										//.........................................
 										this.Transaction.SuccesStatus	=	this.Invoke();
 									}
@@ -129,6 +129,12 @@ namespace BxS_SAPNCO.BDCProcess
 										this.Transaction.ProcessedStatus	= true;
 									}
 							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool Ready()
+					{
+						return	this.Configure();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -158,9 +164,9 @@ namespace BxS_SAPNCO.BDCProcess
 									{
 										if ( this.CreateFunction() )
 											{
-												this._RfcFunction.SetValue(	this.ProfIdx.ParIdx_TabSPA	, this.Transaction.SPAData	)	;
-												this._RfcFunction.SetValue(	this.ProfIdx.ParIdx_TabBDC	, this.Transaction.BDCData	)	;
-												this._RfcFunction.SetValue(	this.ProfIdx.ParIdx_TabMSG	, this.Transaction.MSGData	)	;
+												this._RfcFunction.SetValue(	this.Indexer.ParIdx_TabSPA	, this.Transaction.SPAData	)	;
+												this._RfcFunction.SetValue(	this.Indexer.ParIdx_TabBDC	, this.Transaction.BDCData	)	;
+												this._RfcFunction.SetValue(	this.Indexer.ParIdx_TabMSG	, this.Transaction.MSGData	)	;
 											}
 										else
 											{

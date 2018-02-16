@@ -50,7 +50,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					ConsumerOpEnv<DTO_RFCTran, DTO_ProgressInfo> lo_PLCOpEnv	= this.co_UTPipe.CNOpEnv;
+					ConsumerOpEnv<DTO_SessionTran, DTO_ProgressInfo> lo_PLCOpEnv	= this.co_UTPipe.CNOpEnv;
 
 					Assert.IsNotNull(	lo_PLCOpEnv	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}

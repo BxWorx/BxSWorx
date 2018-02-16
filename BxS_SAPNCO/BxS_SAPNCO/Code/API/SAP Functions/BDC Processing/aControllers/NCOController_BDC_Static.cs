@@ -22,7 +22,7 @@ namespace BxS_SAPNCO.BDCProcess
 																		RFCTran					= CreateRFCTransaction,
 																		ProgressHndlr		= CreateProgressHandler,
 																		ProgressInfo		= CreateProgressInfo,
-																		ProfileConfig		= CreateProfileConfigurator,
+																		//ProfileConfig		= CreateProfileConfigurator,
 																		Parser					= CreateBDCtoRFCParser,
 																		TranProcessor		= CreateTransactionProcessor,
 																		Consumer				= CreateConsumer,
@@ -97,11 +97,11 @@ namespace BxS_SAPNCO.BDCProcess
 						return	new DTO_ProgressInfo();
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private static BDCProfileConfigurator	CreateProfileConfigurator()
-					{
-						return	new BDCProfileConfigurator();
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private static BDCProfileConfigurator	CreateProfileConfigurator()
+				//	{
+				//		return	new BDCProfileConfigurator();
+				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private static BDC2RfcParser CreateBDCtoRFCParser(IBDCProfile	profile)

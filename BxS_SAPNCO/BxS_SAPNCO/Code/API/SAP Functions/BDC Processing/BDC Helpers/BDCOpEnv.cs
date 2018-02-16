@@ -67,8 +67,8 @@ namespace BxS_SAPNCO.BDCProcess
 							{
 								//if (!this.DestRFC.Procure())		throw	new Exception();
 
-								BDCProfileConfigurator lo_Cnf	= this.OpFnc.ProfileConfig();
-								if (!lo_Cnf.Configure( this.Profile ))	throw	new Exception();
+								//BDCProfileConfigurator lo_Cnf	= this.OpFnc.ProfileConfig();
+								//if (!lo_Cnf.Configure( this.Profile ))	throw	new Exception();
 								//.............................................
 								this.IsStarted	= true;
 							}

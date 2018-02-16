@@ -4,16 +4,18 @@ using BxS_SAPNCO.Pipeline;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
-	internal class BDCConsumer<T,P> : ConsumerBase<T,P>		where T:DTO_RFCTran
-																												where	P:DTO_ProgressInfo
+	internal class BDCCallTranConsumer<T,P> : ConsumerBase<T,P>		where T:DTO_SessionTran
+																																where	P:DTO_ProgressInfo
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCConsumer(		ConsumerOpEnv<T,P>		OpEnv
-														,	BDCCallTranProcessor	processor )	: base(OpEnv)
+				public BDCCallTranConsumer(		ConsumerOpEnv<T,P>		OpEnv
+																		,	BDCCallTranProcessor	processor
+																		, BDCCallTranParser			parser		)	: base(OpEnv)
 					{
-						this._Processor		= processor;
+						this._Processor		= processor ;
+						this._Parser			= parser		;
 					}
 
 			#endregion
@@ -22,7 +24,7 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Declarations"
 
 				private	readonly	BDCCallTranProcessor	_Processor	;
-				private readonly	DTO_RFCTran						_RFCTran		;
+				private readonly	BDCCallTranParser			_Parser			;
 
 			#endregion
 
@@ -30,20 +32,25 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Configure(DTO_SessionHeader DTO)
+					{
+						if (this._Processor.Ready())
+							this._Parser.Header( DTO , this._Processor.Header );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override bool Execute( T workItem )
 					{
 						try
 							{
 								this._Processor.Reset();
-								//this._Processor.Transaction;
+								this._Parser.ParseTran( workItem , this._Processor.Transaction );
 								this._Processor.Process();
-								//this._Processor.Process( workItem	);
-								this.Successful.Enqueue(workItem);
+								this._Parser.ParseResults( this._Processor.Transaction , workItem );
 								return	true;
 							}
 						catch (Exception)
 							{
-								this.Faulty.Enqueue(workItem);
 								return	false;
 							}
 					}

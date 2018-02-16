@@ -11,6 +11,16 @@ namespace zBxS_SAPNCO_UT
 	public class UT_TestData
 		{
 			//-------------------------------------------------------------------------------------------
+			public DTO_SessionHeader CreateSessionHead(char DispMode	= 'A' )
+				{
+					var lo = new DTO_SessionHeader	{		SAPTCode	= "XD02"
+																						,	Skip1st		= " "			};
+					var lo_CTU	= new CTUParametersHandler	{	DisplayMode	= DispMode };
+					lo.CTUParms	= lo_CTU.GetImage();
+					return	lo;
+				}
+
+			//-------------------------------------------------------------------------------------------
 			public DTO_CTUParms UpdateCTU(char DispMode	= 'A')
 				{
 					var						lo_CTU	= new CTUParametersHandler();
@@ -20,10 +30,10 @@ namespace zBxS_SAPNCO_UT
 				}
 
 			//-------------------------------------------------------------------------------------------
-			public void UpdateCTU( DTO_CTUParms CTUOptions, char DispMode	= 'A' )
+			public void UpdateCTU( DTO_CTUParms CTUParms, char DispMode	= 'A' )
 				{
 					var lo_CTU	= new CTUParametersHandler	{	DisplayMode	= DispMode };
-					lo_CTU.TransferImage(CTUOptions);
+					lo_CTU.TransferImage(CTUParms);
 				}
 
 			//-------------------------------------------------------------------------------------------

@@ -27,7 +27,7 @@ namespace BxS_SAPNCO.BDCProcess
 				internal	Func< DTO_RFCTran >											RFCTran					{ get; set; }
 				internal	Func< IProgress<DTO_ProgressInfo> >			ProgressHndlr		{ get; set; }
 				internal	Func< DTO_ProgressInfo	>								ProgressInfo		{ get; set; }
-				internal	Func< BDCProfileConfigurator >					ProfileConfig		{ get; set; }
+				//internal	Func< BDCProfileConfigurator >					ProfileConfig		{ get; set; }
 				//.................................................
 				internal	Func<		BDCOpEnv
 												,	PipelineOpEnv	< DTO_RFCTran	,	DTO_ProgressInfo >	>	PLOpEnv		{ get; set; }

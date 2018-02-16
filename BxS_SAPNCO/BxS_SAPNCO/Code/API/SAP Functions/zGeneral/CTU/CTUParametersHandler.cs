@@ -140,12 +140,12 @@ namespace BxS_SAPNCO.CTU
 				public DTO_CTUParms GetImage()
 					{
 						return	new DTO_CTUParms	{	DisplayMode		= this._DspMde,
-																					UpdateMode		= this._UpdMde,
-																					CATTMode			= this._CatMde,
-																					DefaultSize		= this._DefSze,
-																					NoCommit			= this._NoComm,
-																					NoBatchInpFor = this._NoBInp,
-																					NoBatchInpAft	= this._NoBEnd	};
+																				UpdateMode		= this._UpdMde,
+																				CATTMode			= this._CatMde,
+																				DefaultSize		= this._DefSze,
+																				NoCommit			= this._NoComm,
+																				NoBatchInpFor = this._NoBInp,
+																				NoBatchInpAft	= this._NoBEnd	};
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

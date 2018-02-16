@@ -73,8 +73,8 @@ namespace BxS_SAPNCO.BDCProcess
 					{
 						try
 							{
-								BDCCallTranIndexSetup lo = this.CreateIdxCnfg( this.Metadata );
-								lo.Configure( this.Indexer );
+								BDCCallTranIndexSetup lo_IndxCnfg	= this.CreateIdxCnfg( this.Metadata );
+								lo_IndxCnfg.Configure( this.Indexer );
 								return	true;
 							}
 						catch (System.Exception)

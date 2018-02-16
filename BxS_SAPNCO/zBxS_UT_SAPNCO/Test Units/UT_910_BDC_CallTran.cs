@@ -24,7 +24,8 @@ namespace zBxS_SAPNCO_UT
 				private readonly	BDCCallTranProfile			co_Prof	;
 				private readonly	BDCCallTranProcessor		co_Tran	;
 
-				private readonly	ConsumerOpEnv<DTO_RFCTran, DTO_ProgressInfo> co_OpEnv	;
+				private readonly	ConsumerOpEnv<	DTO_SessionTran
+																				, DTO_ProgressInfo >	co_OpEnv	;
 
 			#endregion
 
@@ -39,7 +40,6 @@ namespace zBxS_SAPNCO_UT
 					this.co_Prof		= this.CreateBDCTranProfile();
 					this.co_Tran		= new BDCCallTranProcessor(this.co_Prof);
 					this.co_OpEnv		= this.co_UTPipe.CNOpEnv;
-					//this.co_Head		= this.CreateRFCHead(this.co_Prof);
 				}
 
 			//...................................................
@@ -141,34 +141,51 @@ namespace zBxS_SAPNCO_UT
 			public void UT_910_40_CallTranConsumer()
 				{
 					int	ln_Cnt	= 0;
+					const string lz_Tel	= "6666";
 					//...............................................
 					ln_Cnt	++;
 
-					DTO_SessionTran lo_BDCData	;
-
-					var	lo_Con		= new BDCConsumer<DTO_RFCTran, DTO_ProgressInfo>(this.co_OpEnv, this.co_Tran);
+					var lo_Psr		= new BDCCallTranParser( this.co_Tran.Indexer );
+					var	lo_Con		= new BDCCallTranConsumer< DTO_SessionTran, DTO_ProgressInfo >(	this.co_OpEnv
+																																											, this.co_Tran
+																																											, lo_Psr				);
 
 					Assert.IsNotNull(	lo_Con	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 
-					DTO_RFCHeader lo_HD = this.CreateRFCHead(this.co_Prof);
+					DTO_SessionHeader lo_HD	= this.co_UTData.CreateSessionHead('N');
+					lo_Con.Configure(lo_HD);
 
-					lo_BDCData					= this.co_UTData.SetupTestBDCData( "1007084", "8888" );
-					DTO_RFCTran	lo_DT1	= this.CreateRFCData(this.co_Prof);
-					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_DT1.BDCData );
+					DTO_SessionTran	lo_DT1	= this.co_UTData.SetupTestBDCData( "1007084", lz_Tel );
 					this.co_OpEnv.Queue.Add(lo_DT1);
 
-					lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "8881" );
-					DTO_RFCTran	lo_DT2	= this.CreateRFCData(this.co_Prof);
-					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_DT2.BDCData );
+					DTO_SessionTran	lo_DT2	= this.co_UTData.SetupTestBDCData( "1800476", lz_Tel );
 					this.co_OpEnv.Queue.Add(lo_DT2);
 
-					lo_BDCData	= this.co_UTData.SetupTestBDCData( "1007084", "8882" );
-					DTO_RFCTran	lo_DT3	= this.CreateRFCData(this.co_Prof);
-					this.co_UTData.PutBDCData( lo_BDCData.BDCData	,	lo_DT3.BDCData );
+					DTO_SessionTran	lo_DT3	= this.co_UTData.SetupTestBDCData( "1802054", lz_Tel );
 					this.co_OpEnv.Queue.Add(lo_DT3);
 
 					this.co_OpEnv.Queue.CompleteAdding();
+
+					lo_Con.Start();
+
+					Assert.AreEqual( 3 , lo_Con.TotalProcessed	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
 			}
+
+					//int ln_ConCnt = await lo_Pipe.StartAsync(ln_Con).ConfigureAwait(false);
+
+					//while (!ln_ConCnt.Equals(ln_Con))
+					//	{
+					//		Thread.Sleep(10);
+					//	}
+
+					//foreach (Task<IConsumer<IUT_TranData>> lo_Task in lo_Pipe.TasksCompleted)
+					//	{
+					//		ln_Tot	+= lo_Task.Result.Successful.Count ;
+					//	}
+
+					//Assert.AreEqual( ln_Con	, ln_ConCnt								,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 1st" );
+					//Assert.AreEqual( ln_Max	, ln_Tot									,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 2nd" );
+					//Assert.AreEqual( ln_Con	, lo_Pipe.CompletedCount	,	$"SAPNCO:Pipeline:Inst {ln_Cnt}: 3rd" );
 
 			//...................................................
 			//...................................................

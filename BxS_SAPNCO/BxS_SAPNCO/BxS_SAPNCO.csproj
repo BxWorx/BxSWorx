@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Code\API\SAP Functions\BDC Processing\BDC Helpers\BDCProfileConfigurator.cs" />
     <Compile Remove="Code\API\SAP Functions\BDC Processing\Session\BDCSessionOpEnv.cs" />
     <Compile Remove="Code\Destination\DestinationController.cs" />
     <Compile Remove="Code\Destination\DestinationPool.cs" />

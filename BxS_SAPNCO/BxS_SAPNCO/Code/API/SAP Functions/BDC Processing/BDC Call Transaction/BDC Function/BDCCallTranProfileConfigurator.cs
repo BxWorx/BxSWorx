@@ -7,9 +7,9 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTranIndexSetup( SMC.RfcFunctionMetadata profile )
+				internal BDCCallTranIndexSetup( SMC.RfcFunctionMetadata fncMetadata )
 					{
-						this._Profile		= profile;
+						this._FncMetadata		= fncMetadata;
 					}
 
 			#endregion
@@ -17,7 +17,7 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly SMC.RfcFunctionMetadata	_Profile;
+				private readonly SMC.RfcFunctionMetadata	_FncMetadata;
 
 			#endregion
 
@@ -30,14 +30,14 @@ namespace BxS_SAPNCO.BDCProcess
 						bool	lb_Ret	= true;
 						SMC.RfcStructureMetadata	ls_StruMetadata;
 						//.............................................
-						indexer.ParIdx_TCode	= this._Profile.TryNameToIndex( "IF_TCODE"							);
-						indexer.ParIdx_Skip1	= this._Profile.TryNameToIndex( "IF_SKIP_FIRST_SCREEN"	);
-						indexer.ParIdx_TabBDC	= this._Profile.TryNameToIndex( "IT_BDCDATA"						);
-						indexer.ParIdx_CTUOpt	= this._Profile.TryNameToIndex( "IS_OPTIONS"						);
-						indexer.ParIdx_TabMSG	= this._Profile.TryNameToIndex( "ET_MSG"								);
-						indexer.ParIdx_TabSPA	= this._Profile.TryNameToIndex( "CT_SETGET_PARAMETER"	);
+						indexer.ParIdx_TCode	= this._FncMetadata.TryNameToIndex( "IF_TCODE"							);
+						indexer.ParIdx_Skip1	= this._FncMetadata.TryNameToIndex( "IF_SKIP_FIRST_SCREEN"	);
+						indexer.ParIdx_TabBDC	= this._FncMetadata.TryNameToIndex( "IT_BDCDATA"						);
+						indexer.ParIdx_CTUOpt	= this._FncMetadata.TryNameToIndex( "IS_OPTIONS"						);
+						indexer.ParIdx_TabMSG	= this._FncMetadata.TryNameToIndex( "ET_MSG"								);
+						indexer.ParIdx_TabSPA	= this._FncMetadata.TryNameToIndex( "CT_SETGET_PARAMETER"	);
 						//.............................................
-						ls_StruMetadata = this._Profile[indexer.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata;
+						ls_StruMetadata = this._FncMetadata[indexer.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata;
 
 						if (ls_StruMetadata == null)
 							{	lb_Ret	= false; }
@@ -52,7 +52,7 @@ namespace BxS_SAPNCO.BDCProcess
 								indexer.CTUOpt_NoBtcE = ls_StruMetadata.TryNameToIndex( "NOBIEND"		);
 							}
 						//.............................................
-						ls_StruMetadata = this._Profile[indexer.ParIdx_TabSPA].ValueMetadataAsTableMetadata.LineType;
+						ls_StruMetadata = this._FncMetadata[indexer.ParIdx_TabSPA].ValueMetadataAsTableMetadata.LineType;
 
 						if (ls_StruMetadata == null)
 							{	lb_Ret	= false; }
@@ -62,7 +62,7 @@ namespace BxS_SAPNCO.BDCProcess
 								indexer.SPADat_Val	= ls_StruMetadata.TryNameToIndex( "PARVAL"	);
 							}
 						//.............................................
-						ls_StruMetadata = this._Profile[indexer.ParIdx_TabBDC].ValueMetadataAsTableMetadata.LineType;
+						ls_StruMetadata = this._FncMetadata[indexer.ParIdx_TabBDC].ValueMetadataAsTableMetadata.LineType;
 
 						if (ls_StruMetadata == null)
 							{	lb_Ret	= false; }
@@ -75,7 +75,7 @@ namespace BxS_SAPNCO.BDCProcess
 								indexer.BDCDat_Val	= ls_StruMetadata.TryNameToIndex( "FVAL"			);
 							}
 						//.............................................
-						ls_StruMetadata = this._Profile[indexer.ParIdx_TabMSG].ValueMetadataAsTableMetadata.LineType;
+						ls_StruMetadata = this._FncMetadata[indexer.ParIdx_TabMSG].ValueMetadataAsTableMetadata.LineType;
 
 						if (ls_StruMetadata == null)
 							{	lb_Ret	= false; }
