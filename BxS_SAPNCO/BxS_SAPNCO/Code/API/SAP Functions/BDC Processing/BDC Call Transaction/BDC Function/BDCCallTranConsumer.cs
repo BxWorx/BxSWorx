@@ -12,11 +12,11 @@ namespace BxS_SAPNCO.BDCProcess
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCCallTranConsumer(		ConsumerOpEnv<T,P>		OpEnv
 																		, DTO_SessionHeader     header
-																		,	BDCCallTranProcessor	processor
-																		, BDCCallTranParser			parser		)	: base(OpEnv)
+																		, BDCCallTranProfile		profile
+																		,	BDCCallTranProcessor	processor )	: base(OpEnv)
 					{
 						this._Processor		= processor ;
-						this._Parser			= parser		;
+						this._CallProfile	= profile		;
 						this._Header			= header		;
 						//.............................................
 						this._IsSetup		= false						;
@@ -26,14 +26,21 @@ namespace BxS_SAPNCO.BDCProcess
 			#endregion
 
 			//===========================================================================================
+			#region "Properties"
+
+				private BDCCallTranParser		_Parser { get { return	this._CallProfile.Parser; } }
+
+			#endregion
+
+			//===========================================================================================
 			#region "Declarations"
 
 				private Guid	_MyID			;
 				private bool	_IsSetup	;
 				//.................................................
-				private	readonly	BDCCallTranProcessor	_Processor	;
-				private readonly	BDCCallTranParser			_Parser			;
-				private readonly	DTO_SessionHeader     _Header			;
+				private	readonly	BDCCallTranProfile		_CallProfile	;
+				private	readonly	BDCCallTranProcessor	_Processor		;
+				private readonly	DTO_SessionHeader     _Header				;
 
 			#endregion
 

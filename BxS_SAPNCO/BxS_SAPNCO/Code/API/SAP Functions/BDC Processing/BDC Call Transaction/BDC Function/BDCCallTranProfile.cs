@@ -12,13 +12,15 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTranProfile(	DestinationRfc					destRfc
-																		,	string									functionName
-																		, BDCCallTranIndex				indexer
-																		, BDC_OpFnc					opFnc					)	: base( destRfc , functionName )
+				internal BDCCallTranProfile(	DestinationRfc			destRfc
+																		,	string							functionName
+																		, BDCCallTranIndex		indexer
+																		, BDCCallTranParser		parser
+																		, BDC_OpFnc						opFnc					)	: base( destRfc , functionName )
 					{
-						this.DestinationRfc.RegisterProfile(this);
+						this.DestinationRfc.RegisterProfile( this );
 						//.............................................
+						this.Parser		= parser	;
 						this.Indexer	= indexer ;
 						this.OpFncts	= opFnc		;
 					}
@@ -29,12 +31,13 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Properties:  Parameters Indicies"
 
 				internal	BDCCallTranIndex		Indexer		{ get; }
-				internal	BDC_OpFnc			OpFncts		{ get; }
+				internal	BDCCallTranParser		Parser		{ get; }
+				internal	BDC_OpFnc						OpFncts		{ get; }
 				//.................................................
-				internal	SMC.IRfcStructure		GetCTUStr	{	get	{ return	this.Metadata[this.Indexer.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
-				internal	SMC.IRfcTable				GetBDCTbl	{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
-				internal	SMC.IRfcTable				GetSPATbl	{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabSPA].ValueMetadataAsTableMetadata.CreateTable()					; } }
-				internal	SMC.IRfcTable				GetMSGTbl	{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabMSG].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				internal	SMC.IRfcStructure		GetCTUStr		{	get	{ return	this.Metadata[this.Indexer.ParIdx_CTUOpt].ValueMetadataAsStructureMetadata.CreateStructure()	; } }
+				internal	SMC.IRfcTable				GetBDCTbl		{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabBDC].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				internal	SMC.IRfcTable				GetSPATbl		{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabSPA].ValueMetadataAsTableMetadata.CreateTable()					; } }
+				internal	SMC.IRfcTable				GetMSGTbl		{	get	{ return	this.Metadata[this.Indexer.ParIdx_TabMSG].ValueMetadataAsTableMetadata.CreateTable()					; } }
 
 			#endregion
 

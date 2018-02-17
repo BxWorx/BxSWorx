@@ -19,9 +19,9 @@ namespace BxS_SAPNCO.Pipeline
 						this._Consumers	= new	List< IConsumer<T> >				()	;
 						this._Tasks			= new	List< Task< IConsumer<T> > >()	;
 						//.............................................
-						this.TasksCompleted	= new ConcurrentQueue< Task	>()	;
-						this.TasksFaulty		= new ConcurrentQueue< Task >()	;
-						this.TasksOther			= new ConcurrentQueue< Task	>()	;
+						this.TasksCompleted	= new ConcurrentQueue< Task< IConsumer<T> >>()	;
+						this.TasksFaulty		= new ConcurrentQueue< Task< IConsumer<T> >>()	;
+						this.TasksOther			= new ConcurrentQueue< Task< IConsumer<T> >>()	;
 					}
 
 			#endregion
@@ -40,13 +40,19 @@ namespace BxS_SAPNCO.Pipeline
 			#region "Properties"
 
 				internal int  ConsumerCount		{ get { return	this._Consumers			.Count; } }
-				internal int  CompletedCount	{ get { return	this.TasksCompleted	.Count; } }
-				internal int  FaultyCount			{ get { return	this.TasksFaulty		.Count; } }
-				internal int  OtherCount			{ get { return	this.TasksOther			.Count; } }
 
-				internal ConcurrentQueue< Task >	TasksCompleted	{ get; }
-				internal ConcurrentQueue< Task >	TasksFaulty			{ get; }
-				internal ConcurrentQueue< Task >	TasksOther			{ get; }
+				internal int  TasksCompletedCount		{ get { return	this.TasksCompleted	.Count; } }
+				internal int  TasksFaultyCount			{ get { return	this.TasksFaulty		.Count; } }
+				internal int  TasksOtherCount				{ get { return	this.TasksOther			.Count; } }
+
+				internal int  JobsCompletedSuccesfulCount		{ get { return	this.JobsCompletedSuccessful	(); } }
+				internal int  JobsCompletedFaultyCount			{ get { return	this.JobsCompletedFaulty			(); } }
+				internal int  JobsFaultyCount								{ get { return	this.JobsFaulty								(); } }
+				internal int  JobsOtherCount								{ get { return	this.JobsOther								(); } }
+
+				internal ConcurrentQueue< Task< IConsumer<T> > >	TasksCompleted	{ get; }
+				internal ConcurrentQueue< Task< IConsumer<T> > >	TasksFaulty			{ get; }
+				internal ConcurrentQueue< Task< IConsumer<T> > >	TasksOther			{ get; }
 
 			#endregion
 
@@ -89,12 +95,71 @@ namespace BxS_SAPNCO.Pipeline
 
 								if (this._Tasks.Remove(lo_Task))	ln_Ret++;
 
-											if (lo_Task.Status.Equals(TaskStatus.RanToCompletion)	)		{	this.TasksCompleted.Enqueue(lo_Task); }
-								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this.TasksFaulty.Enqueue(lo_Task);		}
-								else  																													{ this.TasksOther	.Enqueue(lo_Task);		}
+											if (lo_Task.Status.Equals(TaskStatus.RanToCompletion)	)		{	this.TasksCompleted	.Enqueue(lo_Task);	}
+								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this.TasksFaulty		.Enqueue(lo_Task);	}
+								else  																													{ this.TasksOther			.Enqueue(lo_Task);	}
 							}
 						//.............................................
 						return	ln_Ret;
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	int JobsCompletedSuccessful()
+					{
+						int x = 0;
+						//.............................................
+						foreach (Task< IConsumer<T> > item in this.TasksCompleted)
+							{
+								x +=	item.Result.Successful.Count;
+							}
+						//.............................................
+						return	x;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	int JobsCompletedFaulty()
+					{
+						int x = 0;
+						//.............................................
+						foreach (Task< IConsumer<T> > item in this.TasksCompleted)
+							{
+								x +=	item.Result.Faulty.Count;
+							}
+						//.............................................
+						return	x;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	int JobsFaulty()
+					{
+						int x = 0;
+						//.............................................
+						foreach (Task< IConsumer<T> > item in this.TasksCompleted)
+							{
+								x +=	item.Result.Successful	.Count;
+								x +=	item.Result.Faulty			.Count;
+							}
+						//.............................................
+						return	x;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	int JobsOther()
+					{
+						int x = 0;
+						//.............................................
+						foreach (Task< IConsumer<T> > item in this.TasksCompleted)
+							{
+								x +=	item.Result.Successful	.Count;
+								x +=	item.Result.Faulty			.Count;
+							}
+						//.............................................
+						return	x;
 					}
 
 			#endregion

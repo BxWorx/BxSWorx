@@ -33,8 +33,7 @@ namespace BxS_SAPNCO.BDCProcess
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTranProcessor( BDCCallTranProfile	profile	)
-									: base(	profile )
+				internal BDCCallTranProcessor( BDCCallTranProfile	profile	)	: base(	profile )
 					{
 						this._CallProfile		=	profile	;
 						//.............................................

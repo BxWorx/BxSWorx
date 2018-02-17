@@ -18,19 +18,19 @@ namespace BxS_SAPNCO.BDCProcess
 
 						this.CreateSessionTran			= ( Guid ID															) => new DTO_SessionTran( ID = default(Guid) )							;
 						this.CreateIndxSetup				= ( SMC.RfcFunctionMetadata FncMetadata ) => new BDCCallTranIndexSetup( FncMetadata )								;
-						this.CreateBDCPipeline			= ( CancellationToken				CT					)	=> new Pipeline<DTO_SessionTran, DTO_ProgressInfo>( CT )	;
+						this.CreateBDCPipeline			= ( CancellationToken				CT					)	=> new Pipeline< DTO_SessionTran , DTO_ProgressInfo >( CT )	;
 						this.CreateBDCCallTran			= ( BDCCallTranProfile			profile			)	=> new BDCCallTranProcessor( profile )										;
 
 						this.CreateBDCCallConsumer	= (		ConsumerOpEnv<		DTO_SessionTran
 																															, DTO_ProgressInfo >	conOpEnv
 																						, DTO_SessionHeader											sessionHeader
-																						, BDCCallTranProcessor									callTranProcessor
-																						, BDCCallTranParser											parser						)
+																						, BDCCallTranProfile										profile
+																						, BDCCallTranProcessor									callTranProcessor	)
 
 																							=> new BDCCallTranConsumer< DTO_SessionTran , DTO_ProgressInfo>(	conOpEnv
 																																																							, sessionHeader
-																																																							, callTranProcessor
-																																																							, parser						)	;
+																																																							, profile
+																																																							, callTranProcessor	)	;
 					}
 
 			#endregion
@@ -55,8 +55,8 @@ namespace BxS_SAPNCO.BDCProcess
 				internal	Func<		ConsumerOpEnv<	DTO_SessionTran
 																				, DTO_ProgressInfo >
 												,	DTO_SessionHeader
+												, BDCCallTranProfile
 												, BDCCallTranProcessor
-												, BDCCallTranParser
 												, BDCCallTranConsumer<	DTO_SessionTran
 																							, DTO_ProgressInfo > >				CreateBDCCallConsumer	{ get; }
 

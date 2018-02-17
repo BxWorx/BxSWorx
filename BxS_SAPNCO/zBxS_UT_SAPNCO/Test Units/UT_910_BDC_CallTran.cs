@@ -149,11 +149,10 @@ namespace zBxS_SAPNCO_UT
 
 					DTO_SessionHeader lo_HD	= this.co_UTData.CreateSessionHead('N');
 
-					var lo_Psr		= new BDCCallTranParser( this.co_Tran.Indexer );
 					var	lo_Con		= new BDCCallTranConsumer< DTO_SessionTran, DTO_ProgressInfo >(	this.co_OpEnv
 																																											, lo_HD
-																																											, this.co_Tran
-																																											, lo_Psr				);
+																																											, this.co_Prof
+																																											, this.co_Tran	);
 
 					Assert.IsNotNull(	lo_Con	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 
@@ -185,7 +184,6 @@ namespace zBxS_SAPNCO_UT
 					ln_Cnt	++;
 
 					var lo_PL = new Pipeline<DTO_SessionTran, DTO_ProgressInfo>(this.co_OpEnv.CT);
-					var lo_Psr	= new BDCCallTranParser( this.co_Tran.Indexer );
 					DTO_SessionHeader lo_HD	= this.co_UTData.CreateSessionHead('N');
 					//...............................................
 					IList<string> lt = this.co_UTData.LoadList(true);
@@ -206,8 +204,8 @@ namespace zBxS_SAPNCO_UT
 									var	lo_Con	= new BDCCallTranConsumer<	DTO_SessionTran
 																												, DTO_ProgressInfo >(		this.co_OpEnv
 																																							, lo_HD
-																																							, lo_Tran
-																																							, lo_Psr				);
+																																							, this.co_Prof
+																																							, lo_Tran				);
 									lo_PL.AddConsumer( lo_Con );
 								}
 						}
@@ -258,10 +256,12 @@ namespace zBxS_SAPNCO_UT
 				{
 					var	lo_OpFnc		= new BDC_OpFnc();
 					var lo_Indexer	= new BDCCallTranIndex();
+					var lo_Parser		= new BDCCallTranParser( lo_Indexer );
 
 					return	new BDCCallTranProfile(		this.co_UTDest.DestRfc
 																					, this.co_SapCon.BDCCallTran
 																					, lo_Indexer
+																					, lo_Parser
 																					, lo_OpFnc	);
 				}
 		}

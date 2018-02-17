@@ -16,18 +16,19 @@ namespace BxS_SAPNCO.BDCProcess
 				internal BDCSession(	BDC_OpFnc						sessionOpFnc
 														, DTO_SessionOptions	sessionOptions
 														, DTO_SessionHeader		sessionHeader
-														,	BDCCallTranParser		parser
 														, BDCCallTranProfile	profile
-														,	ConsumerOpEnv< DTO_SessionTran , DTO_ProgressInfo >		consumerOpEnv	)
+														,	ConsumerOpEnv<	DTO_SessionTran
+																						, DTO_ProgressInfo >		consumerOpEnv	)
 					{
 						//. locals ....................................
 						this._OpFnc				= sessionOpFnc	;
-						this._Parser			= parser				;
 						this._CallProfile	= profile				;
 						this._ConOpEnv		= consumerOpEnv	;
+
 						//. properties ................................
 						this.SessionOptions		= sessionOptions	;
 						this.SessionHeader		= sessionHeader		;
+
 						//. initialise ................................
 						this.Transactions		= new	ConcurrentDictionary< int, DTO_SessionTran >()	;
 						this._Lock					= new object()	;
@@ -39,45 +40,28 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	object	_Lock	;
-				//.................................................
-				private readonly	BDC_OpFnc						_OpFnc	;
-				private	readonly	BDCCallTranParser		_Parser	;
-
-				private readonly	ConsumerOpEnv< DTO_SessionTran , DTO_ProgressInfo >	_ConOpEnv	;
-				//.................................................
-				//.................................................
-				private		Pipeline< DTO_SessionTran , DTO_ProgressInfo >							_Pipeline ;
-
-
-
-
-
-
-				private readonly	BDCCallTranProfile	_CallProfile		;
-
-
 				private	int	_Indexer;
+
+				private readonly	object	_Lock;
 				//.................................................
+				private readonly	BDC_OpFnc																							_OpFnc				;
+				private readonly	BDCCallTranProfile																		_CallProfile	;
+				private readonly	ConsumerOpEnv< DTO_SessionTran , DTO_ProgressInfo >		_ConOpEnv			;
+				//.................................................
+				private		Pipeline< DTO_SessionTran , DTO_ProgressInfo >								_Pipeline ;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	ConcurrentDictionary< int, DTO_SessionTran >		Transactions	{ get; }
-
-				public	DTO_SessionOptions		SessionOptions	{ get; }
-				public	DTO_SessionHeader			SessionHeader		{ get; }
-
-
-
-
-
-				//public	bool	IsStarted							{ get { return	this._OpEnv.IsStarted		; } }
-				public	int		TransactionCount			{ get { return	this.Transactions.Count	; } }
-				//public	int		RFCTransactionCount		{ get { return	this._OpEnv.PLOpEnv.Queue.Count	; } }
+				public	ConcurrentDictionary< int, DTO_SessionTran >	Transactions		{ get; }
+				public	DTO_SessionOptions														SessionOptions	{ get; }
+				public	DTO_SessionHeader															SessionHeader		{ get; }
 				//.................................................
+				public	int	TransactionCount					{ get { return	this.Transactions.Count											; } }
+				public	int	CompletedSuccessfulCount	{ get { return	this._Pipeline.JobsCompletedSuccesfulCount	; } }
+				public	int	CompletedFaultyCount			{ get { return	this._Pipeline.JobsCompletedFaultyCount			; } }
 
 			#endregion
 
@@ -93,23 +77,23 @@ namespace BxS_SAPNCO.BDCProcess
 						this._Pipeline	= this._OpFnc.CreateBDCPipeline( this._ConOpEnv.CT );
 						this.CreateAddConsumers();
 						//.............................................
-						this._ConOpEnv.Reset();
 						foreach (KeyValuePair<int, DTO_SessionTran> ls_kvp in this.Transactions)
 							{
 								this._ConOpEnv.Queue.TryAdd(ls_kvp.Value);
 							}
+						this._ConOpEnv.Queue.CompleteAdding();
 						//.............................................
 						return	await this._Pipeline.StartAsync().ConfigureAwait(false);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_SessionTran CreateTran(Guid ID = default(Guid))
+				public DTO_SessionTran CreateTran( Guid ID = default(Guid) )
 					{
 						return	this._OpFnc.CreateSessionTran(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	AddTransaction(IList<DTO_SessionTran> transactions)
+				public void	AddTransaction( IList<DTO_SessionTran> transactions )
 					{
 						foreach (DTO_SessionTran lo_Tran in transactions)
 							{
@@ -118,7 +102,7 @@ namespace BxS_SAPNCO.BDCProcess
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	AddTransaction(DTO_SessionTran transaction)
+				public void	AddTransaction( DTO_SessionTran transaction )
 					{
 						lock (this._Lock)
 							{
@@ -150,9 +134,9 @@ namespace BxS_SAPNCO.BDCProcess
 									{
 										BDCCallTranConsumer<DTO_SessionTran, DTO_ProgressInfo> lo_Con
 											=	this._OpFnc.CreateBDCCallConsumer(	this._ConOpEnv
-																															, this.SessionHeader
-																															, lo_Tran
-																															, this._Parser				);
+																													, this.SessionHeader
+																													, this._CallProfile
+																													, lo_Tran							);
 
 										this._Pipeline.AddConsumer(lo_Con);
 									}
@@ -163,10 +147,3 @@ namespace BxS_SAPNCO.BDCProcess
 
 		}
 }
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public void	ConfigureUser(IDTOConfigSetupDestination config)
-				//	{
-				//		this._OpEnv.DestRFC.LoadConfig(config);
-				//	}

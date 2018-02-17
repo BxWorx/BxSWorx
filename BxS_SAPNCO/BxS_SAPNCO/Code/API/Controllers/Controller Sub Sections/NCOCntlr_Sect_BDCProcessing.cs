@@ -22,7 +22,8 @@ namespace BxS_SAPNCO.API
 					{
 						DestinationRfc lo_DestRfc = this._Cntlr_Dest.Value.CreateDestinationRFC(destinationID);
 						//.............................................
-						return	this._Cntlr_BDC.Value.CreateBDCSession( lo_DestRfc , _SAPFncConst.Value.BDCCallTran );
+						return	null;
+						//return	this._Cntlr_BDC.Value.CreateBDCSession( lo_DestRfc , _SAPFncConst.Value.BDCCallTran );
 					}
 
 			#endregion

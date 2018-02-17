@@ -2,8 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//.........................................................
-using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.BDCProcess
 {
@@ -14,9 +12,9 @@ namespace BxS_SAPNCO.BDCProcess
 				DTO_SessionOptions	SessionOptions	{ get; }
 				DTO_SessionHeader		SessionHeader		{	get; }
 				//.................................................
-				int		TransactionCount		{ get; }
-				//int		RFCTransactionCount	{ get; }
-				//bool	IsStarted						{ get; }
+				int	TransactionCount					{ get; }
+				int	CompletedSuccessfulCount	{ get; }
+				int	CompletedFaultyCount			{ get; }
 				//.................................................
 				ConcurrentDictionary< int, DTO_SessionTran >		Transactions	{ get; }
 
@@ -25,8 +23,6 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//void	ConfigureUser( IDTOConfigSetupDestination config );
-				//.................................................
 				Task<int> ProcessAsync();
 				//.................................................
 				DTO_SessionTran	CreateTran( Guid ID = default(Guid) );

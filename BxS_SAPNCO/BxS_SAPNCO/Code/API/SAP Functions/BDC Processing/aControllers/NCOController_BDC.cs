@@ -35,16 +35,16 @@ namespace BxS_SAPNCO.BDCProcess
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IBDCSession CreateBDCSession(	DestinationRfc	destRFC
-																							,	string					FncName	)
-					{
-						return	null;
-						//IBDCProfile	lo_Prof		= this.GetAddBDCProfile	( destRFC	, FncName );
-						//BDCOpEnv		lo_OpEnv	= this.CreateBDCOpEnv		( destRFC , lo_Prof	);
-						////.............................................
-						//return	new BDCSession(	this._OpFnc	, lo_OpEnv );
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal IBDCSession CreateBDCSession(	DestinationRfc	destRFC
+				//																			,	string					FncName	)
+				//	{
+				//		return	null;
+				//		//IBDCProfile	lo_Prof		= this.GetAddBDCProfile	( destRFC	, FncName );
+				//		//BDCOpEnv		lo_OpEnv	= this.CreateBDCOpEnv		( destRFC , lo_Prof	);
+				//		////.............................................
+				//		//return	new BDCSession(	this._OpFnc	, lo_OpEnv );
+				//	}
 
 			#endregion
 

@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-//.........................................................
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using BxS_SAPNCO.API;
 using BxS_SAPNCO.BDCProcess;
-using BxS_SAPNCO.CTU;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_SAPNCO_UT
 {
@@ -17,6 +11,7 @@ namespace zBxS_SAPNCO_UT
 
 				private readonly	NCOController_BDC	lo_Cntlr	;
 				private	readonly	UT_Destination		lo_UTDest	;
+				private readonly	BDC_OpFnc					co_OpFnc;
 
 			#endregion
 
@@ -25,6 +20,8 @@ namespace zBxS_SAPNCO_UT
 				{
 					this.lo_Cntlr		= new NCOController_BDC();
 					this.lo_UTDest	= new UT_Destination(	2 , true );
+
+					this.co_OpFnc		= new BDC_OpFnc()											;
 				}
 
 			//...................................................
@@ -35,26 +32,17 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					//BDCOpFnc x = this.lo_Cntlr.OpFnc;
-					//BDCOpFnc y = this.lo_Cntlr.OpFnc;
-
-					//Assert.IsNotNull(	x			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					//Assert.IsNotNull(	y			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-					//Assert.AreSame	(	y	,	x	, $"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-
-					//DTO_SessionHeader f	= this.lo_Cntlr.OpFnc.SessionHeader();
-					//Assert.IsNotNull(	f			,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
-
-					//DTO_RFCHeader z = x.RFCHeader.Invoke();
+					DTO_RFCHeader DTO = this.co_OpFnc.CreateRfcHead();
+					Assert.IsNotNull(	DTO	,	$"SAPNCO:Session:Inst {ln_Cnt}: 1st" );
 				}
 
-			//...................................................
-			[TestMethod]
-			public void UT_900_20_BDCOpEnv()
-				{
-					int	ln_Cnt	= 0;
-					//...............................................
-					ln_Cnt	++;
-				}
+			////...................................................
+			//[TestMethod]
+			//public void UT_900_20_BDCOpEnv()
+			//	{
+			//		int	ln_Cnt	= 0;
+			//		//...............................................
+			//		ln_Cnt	++;
+			//	}
 		}
 }
