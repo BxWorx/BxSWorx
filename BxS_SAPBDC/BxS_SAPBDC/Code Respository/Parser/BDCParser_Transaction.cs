@@ -11,8 +11,8 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	Parser_BDCTransaction( BDCMain BDCMain )
 					{
-						this._BDCMain				= BDCMain;
-						this._FldIndex		= -1;
+						this._BDCMain		= BDCMain;
+						this._FldIndex	= -1;
 						this._CsrIndex	= -1;
 					}
 

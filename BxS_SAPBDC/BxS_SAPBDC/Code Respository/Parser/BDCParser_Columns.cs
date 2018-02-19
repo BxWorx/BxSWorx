@@ -1,21 +1,42 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal partial class BDCParser
+	internal class Parser_BDCColumns
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	Parser_BDCColumns(	BDCMain							BDCMain
+																		, Func<DTO_BDCColumn>	createColumn )
+					{
+						this._BDCMain				= BDCMain;
+						this._CreateColumn	= createColumn;
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declaration"
+
+				private readonly	BDCMain								_BDCMain			;
+				private readonly	Func<DTO_BDCColumn>		_CreateColumn	;
+
+			#endregion
+
 			//===========================================================================================
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseForColumns( BDCMain BDCMain )
+				internal void ParseForColumns()
 					{
-						for (int c = BDCMain.ColLB; c < BDCMain.ColUB; c++)
+						for ( int c = this._BDCMain.ColLB; c < this._BDCMain.ColUB; c++ )
 							{
 								DTO_BDCColumn x = CreateColumn(c);
 
-								x.Program = BDCMain.Data[BDCMain.BDCHeaderRowRef.Prog,c];
+								x.Program = this._BDCMain.Data[this._BDCMain.BDCHeaderRowRef.Prog,c];
 
-								BDCMain.Columns.Add(x.ColNo , x);
+								this._BDCMain.Columns.Add(x.ColNo , x);
 							}
 					}
 
@@ -27,7 +48,7 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_BDCColumn CreateColumn( int ID )
 					{
-						DTO_BDCColumn lo_DTO		= this._CreateColumn();
+						DTO_BDCColumn lo_DTO	= this._CreateColumn();
 
 						lo_DTO.ColNo	= ID;
 

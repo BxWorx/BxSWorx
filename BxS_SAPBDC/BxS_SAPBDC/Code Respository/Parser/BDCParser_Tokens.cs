@@ -1,10 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal partial class BDCParser
+	internal class Parser_Tokens
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	Parser_Tokens(	BDCMain										BDCMain
+																,	Func<DTO_TokenReference>	createToken	)
+					{
+						this._BDCMain				= BDCMain			;
+						this._CreateToken		= createToken	;
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declaration"
+
+				private readonly	BDCMain										_BDCMain			;
+				private readonly	Func<DTO_TokenReference>	_CreateToken	;
+
+			#endregion
+
 			//"@@EXEC"
 
 			private const string t1	= "<@@PROGRAM>"	;
@@ -14,26 +35,26 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed: Tokens"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task< int > ParseForTokens( BDCMain BDCMain )
+				internal async Task< int > ParseForTokens()
 					{
-						this.LoadTokens( BDCMain );
-						IList< Task	>	lo_Tasks	= new	List< Task >( BDCMain.Tokens.Count );
+						this.LoadTokens();
+						IList< Task	>	lo_Tasks	= new	List< Task >( this._BDCMain.Tokens.Count );
 						//.............................................
-						foreach ( KeyValuePair< string , DTO_TokenReference > ls_kvp in BDCMain.Tokens )
+						foreach ( KeyValuePair< string , DTO_TokenReference > ls_kvp in this._BDCMain.Tokens )
 							{
 								string							lc_ST			= ls_kvp.Key		;
 								DTO_TokenReference	lo_Token	= ls_kvp.Value	;
 
 								lo_Tasks.Add(	Task.Run(	() => {
-																								for ( int r = BDCMain.RowLB; r < BDCMain.RowUB; r++ )
+																								for ( int r = this._BDCMain.RowLB; r < this._BDCMain.RowUB; r++ )
 																									{
-																										for ( int c = BDCMain.ColLB; c < BDCMain.ColUB; c++ )
+																										for ( int c = this._BDCMain.ColLB; c < this._BDCMain.ColUB; c++ )
 																											{
-																												if ( BDCMain.Data[r, c]?.Contains(lc_ST) == true )
+																												if ( this._BDCMain.Data[r, c]?.Contains(lc_ST) == true )
 																													{
 																														lo_Token.Row		= r;
 																														lo_Token.Col		= c;
-																														lo_Token.Value	= BDCMain.Data[ r , c ];
+																														lo_Token.Value	= this._BDCMain.Data[ r , c ];
 
 																														return;
 																													}
@@ -44,7 +65,7 @@ namespace BxS_SAPBDC.Parser
 							}
 
 						await Task.WhenAll(lo_Tasks).ConfigureAwait(false);
-						this.UpdateHeaderRowReference( BDCMain );
+						this.UpdateHeaderRowReference();
 						//.............................................
 						return	lo_Tasks.Count;
 					}
@@ -55,33 +76,33 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadTokens( BDCMain BDCMain )
+				private void LoadTokens()
 					{
-						const string t3	= "<@@DYNSTART>"			;
-						const string t4	= "<@@CURSORBEFORE>	"	;
-						const string t5	= "<@@SPECIALINST>	"	;
-						const string t6	= "<@@OKCODE>"				;
+						foreach (DTO_TokenReference lo_Token in this._BDCMain.Constants.GetTokenList())
+							{
+							}
 
-						BDCMain.Tokens.Add( t1, this.CreateToken(	t1, 0, 0 ) );
-						BDCMain.Tokens.Add( t2, this.CreateToken(	t2, 2, 1 ) );
-						BDCMain.Tokens.Add( t3, this.CreateToken(	t3, 3, 1 ) );
-						BDCMain.Tokens.Add( t4, this.CreateToken(	t4, 4, 1 ) );
-						BDCMain.Tokens.Add( t5, this.CreateToken(	t5, 5, 1 ) );
-						BDCMain.Tokens.Add( t6, this.CreateToken(	t6, 6, 1 ) );
+
+						this._BDCMain.Tokens.Add( t1, this.CreateToken(	t1, 0, 0 ) );
+						this._BDCMain.Tokens.Add( t2, this.CreateToken(	t2, 2, 1 ) );
+						this._BDCMain.Tokens.Add( t3, this.CreateToken(	t3, 3, 1 ) );
+						this._BDCMain.Tokens.Add( t4, this.CreateToken(	t4, 4, 1 ) );
+						this._BDCMain.Tokens.Add( t5, this.CreateToken(	t5, 5, 1 ) );
+						this._BDCMain.Tokens.Add( t6, this.CreateToken(	t6, 6, 1 ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void UpdateHeaderRowReference( BDCMain BDCMain )
+				private	void UpdateHeaderRowReference()
 					{
 						//.............................................
-						if ( BDCMain.Tokens.TryGetValue( t1 , out DTO_TokenReference lo_Token ) )
+						if ( this._BDCMain.Tokens.TryGetValue( t1 , out DTO_TokenReference lo_Token ) )
 							{
-								BDCMain.BDCHeaderRowRef.Prog	= lo_Token.Row;
+								this._BDCMain.BDCHeaderRowRef.Prog	= lo_Token.Row;
 							}
 						//.............................................
-						if ( BDCMain.Tokens.TryGetValue( t2 , out lo_Token ) )
+						if ( this._BDCMain.Tokens.TryGetValue( t2 , out lo_Token ) )
 							{
-								BDCMain.BDCHeaderRowRef.Scrn	= lo_Token.Row;
+								this._BDCMain.BDCHeaderRowRef.Scrn	= lo_Token.Row;
 							}
 					}
 
