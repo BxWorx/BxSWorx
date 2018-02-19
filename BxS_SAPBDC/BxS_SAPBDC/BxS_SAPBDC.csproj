@@ -1,8 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="zKeep\BDCTokenizer.cs" />
+    <Compile Remove="zKeep\BDCTokens.cs" />
+    <Compile Remove="zKeep\Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="zKeep\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BxS_SAPIPC">
+      <HintPath>..\..\BxS_SAPIPC\BxS_SAPIPC\bin\Debug\netcoreapp2.0\BxS_SAPIPC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

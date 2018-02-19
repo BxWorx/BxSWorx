@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Code Repository\zKeep\BDCSession.cs" />
+    <Compile Remove="Code Repository\zKeep\IBDCSession.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code Repository\DTO\" />
+    <Folder Include="Code Repository\zKeep\" />
+  </ItemGroup>
+
+</Project>
