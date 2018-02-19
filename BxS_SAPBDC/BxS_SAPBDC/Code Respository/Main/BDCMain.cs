@@ -11,10 +11,12 @@ namespace BxS_SAPBDC.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCMain(		string[,]							data
-													, DTO_BDCHeaderRowRef		bdcHeaderRowRef	)
+													, DTO_BDCHeaderRowRef		bdcHeaderRowRef
+													, BDC_Constants					constants				)
 					{
 						this.Data							= data							?? throw new Exception();
 						this.BDCHeaderRowRef	= bdcHeaderRowRef		?? throw new Exception();
+						this.Constants				= constants					?? throw new Exception();
 						//.............................................
 						this.Tokens		= new Dictionary< string	, DTO_TokenReference >	();
 						this.Columns	= new Dictionary< int			, DTO_BDCColumn >				();
@@ -37,7 +39,8 @@ namespace BxS_SAPBDC.Parser
 				internal	Dictionary<	string	, DTO_TokenReference >	Tokens						{ get; }
 				internal	Dictionary<	int			, DTO_BDCColumn >				Columns						{ get; }
 
-				internal	DTO_BDCHeaderRowRef													BDCHeaderRowRef		{ get; }
+				internal	DTO_BDCHeaderRowRef		BDCHeaderRowRef		{ get; }
+				internal	BDC_Constants					Constants					{ get; }
 				//.................................................
 				internal	int		RowLB		{ get; private set; }
 				internal	int		RowUB		{ get; private set; }

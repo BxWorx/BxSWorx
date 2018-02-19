@@ -10,6 +10,10 @@ namespace BxS_SAPBDC.Parser
 				internal DTO_BDCColumn()
 					{
 						this.Commands		= new Dictionary<string, string>();
+						//.............................................
+						this.IsFieldIndexColumn	= false;
+						this.DoCursorIndex	= false;
+						this.DoFieldIndex		= false;
 					}
 
 			#endregion
@@ -27,6 +31,13 @@ namespace BxS_SAPBDC.Parser
 				internal	string												Field					{	get; set; }
 				internal	string												Description		{	get; set; }
 				internal	string												Instructions	{	get; set; }
+				//.................................................
+				internal	bool		IsFieldIndexColumn		{	get; set; }
+				internal	bool		IsCursorIndexColumn		{	get; set; }
+				internal	bool		DoOnlyIfValue					{	get; set; }
+				internal	bool		DoCursorIndex					{	get; set; }
+				internal	bool		DoFieldIndex					{	get; set; }
+				//.................................................
 				internal	Dictionary< string, string >	Commands			{	get; set; }
 
 			#endregion

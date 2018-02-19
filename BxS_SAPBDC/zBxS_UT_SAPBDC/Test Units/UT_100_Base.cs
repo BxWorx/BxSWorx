@@ -10,14 +10,15 @@ namespace zBxS_UT_SAPBDC
 		{
 			private	const string lz_ID1	= "<@@PROGRAM>";
 
-			private	readonly	BDCMain			co_BDCMain		;
-			private readonly	BDCParser		co_BDCParser	;
+			private	readonly	BDCMain				co_BDCMain		;
+			private readonly	BDCParser			co_BDCParser	;
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			public UT_100_Base()
 				{
 					this.co_BDCMain			= new BDCMain(	this.CreateData					()
-																						,	new DTO_BDCHeaderRowRef	()	);
+																						,	new DTO_BDCHeaderRowRef	()
+																						, new BDC_Constants				()	);
 
 					this.co_BDCParser		= new BDCParser(	() => new DTO_TokenReference()
 																							, () => new DTO_BDCColumn			()	);

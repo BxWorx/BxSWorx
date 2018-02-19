@@ -13,7 +13,7 @@ namespace BxS_SAPBDC.Parser
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Declarations"
 
 				internal enum BDCOld_RowNo
 					{
@@ -49,6 +49,20 @@ namespace BxS_SAPBDC.Parser
 				internal const	string	cz_Cmd_SubCsrIdx    = "@@SUBC";
 				internal const	string	cz_Cmd_ValFldIdx    = "@@INDEX";
 				internal const	string	cz_Cmd_ValCsrIdx    = "@@CSRIDX";
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal	string	FldName_OKCode			{ get { return cz_Cmd_OKCode; } }
+				internal	string	FldName_Cursor			{ get { return cz_Cmd_Cursor; } }
+				internal	string	FldName_Subscreen		{ get { return cz_Cmd_SubScr; } }
+
+				internal	string	FldValue_Psuedo			{ get { return cz_Sym_PsuedoAction	; } }
+				internal	string	FldValue_Clear			{ get { return cz_Sym_ClearFld			;	} }
+
+				internal	string	IndexSubstitute			{ get { return cz_Sub_Token	;	} }
 
 			#endregion
 
