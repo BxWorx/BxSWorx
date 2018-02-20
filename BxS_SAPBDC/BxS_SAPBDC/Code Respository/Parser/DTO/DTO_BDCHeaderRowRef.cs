@@ -23,6 +23,10 @@ namespace BxS_SAPBDC.Parser
 				public int Strt	{ get; set; }
 				public int OKCd	{ get; set; }
 				public int Curs	{ get; set; }
+				public int Subs	{ get; set; }
+				public int FldN	{ get; set; }
+				public int Desc	{ get; set; }
+				public int Inst	{ get; set; }
 
 			#endregion
 		}

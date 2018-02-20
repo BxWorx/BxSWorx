@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 //.........................................................
-using BxS_SAPIPC.BDCData;
+using					BxS_SAPIPC.BDCData;
+using static	BxS_SAPBDC.Parser.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
@@ -98,14 +99,12 @@ namespace BxS_SAPBDC.Parser
 						//.............................................
 						if (column.DynBegin)
 							{
-								bdcTran.AddBDCData( this.CompileBDCScreen(	column.Program
-																													, column.ScreenNo ) );
+								bdcTran.AddBDCData( this.CompileBDCScreen( column.Program	, column.ScreenNo ) );
 							}
 						//.............................................
 						if ( !column.OKCode.Equals( string.Empty ) )
 							{
-								bdcTran.AddBDCData(	this.CompileBDCField(		this._BDCMain.Constants.FldName_OKCode
-																													, column.OKCode														) );
+								bdcTran.AddBDCData(	this.CompileBDCField(	cz_SAP_OKCode	, column.OKCode	) );
 							}
 						//.............................................
 						if ( !column.Cursor.Equals( string.Empty ) )
@@ -118,26 +117,23 @@ namespace BxS_SAPBDC.Parser
 
 										if ( column.DoCursorIndex )
 											{
-												lc_CsrFld	=	column.Cursor.Replace(	this._BDCMain.Constants.IndexSubstitute
-																													,	this._FldIndex.ToString()						);
+												lc_CsrFld	=	column.Cursor.Replace( cz_Sub_Token	,	this._FldIndex.ToString()	);
 											}
 										else
 											{
 												lc_CsrFld	= column.Cursor;
 											}
 
-										bdcTran.AddBDCData( this.CompileBDCField(		this._BDCMain.Constants.FldName_Cursor
-																															, lc_CsrFld																) );
+										bdcTran.AddBDCData( this.CompileBDCField(	cz_SAP_Cursor	, lc_CsrFld	) );
 									}
 							}
 						//.............................................
 						if ( !column.Subscreen.Equals(string.Empty) )
 							{
-								bdcTran.AddBDCData( this.CompileBDCField(		this._BDCMain.Constants.FldName_Subscreen
-																													, column.Subscreen													) );
+								bdcTran.AddBDCData( this.CompileBDCField(	cz_SAP_SubScr	, column.Subscreen ) );
 							}
 						//.............................................
-						if ( !value.Equals( this._BDCMain.Constants.FldValue_Psuedo ) )
+						if ( !value.Equals( cz_Sym_ActionCol ) )
 							{
 								if ( column.DoFieldIndex && this._FldIndex.Equals(-1) )
 									{ }
@@ -147,23 +143,20 @@ namespace BxS_SAPBDC.Parser
 
 										if ( column.DoFieldIndex )
 											{
-												lc_Fld	=	column.Field.Replace(		this._BDCMain.Constants.IndexSubstitute
-																												,	this._FldIndex.ToString()						);
+												lc_Fld	=	column.Field.Replace(	cz_Sub_Token , this._FldIndex.ToString() );
 											}
 										else
 											{
 												lc_Fld	= column.Field;
 											}
 
-										if ( value.Equals( this._BDCMain.Constants.FldValue_Clear ) )
+										if ( value.Equals( cz_Sym_ClearFld ) )
 											{
-												bdcTran.AddBDCData( this.CompileBDCField(		lc_Fld
-																																	, string.Empty	) );
+												bdcTran.AddBDCData( this.CompileBDCField(	lc_Fld , string.Empty	) );
 											}
 										else
 											{
-												bdcTran.AddBDCData( this.CompileBDCField(		lc_Fld
-																																	, value					) );
+												bdcTran.AddBDCData( this.CompileBDCField( lc_Fld , value ) );
 											}
 									}
 							}

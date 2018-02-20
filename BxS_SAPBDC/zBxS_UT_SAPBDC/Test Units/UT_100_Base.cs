@@ -1,27 +1,50 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 //.........................................................
-using BxS_SAPBDC.Parser;
+using					BxS_SAPBDC.Parser;
+using static	BxS_SAPBDC.Parser.BDC_Constants;
 //••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_UT_SAPBDC
 {
 	[TestClass]
 	public class UT_100_Base
 		{
-			private	const string lz_ID1	= "<@@PROGRAM>";
-
-			private	readonly	BDCMain				co_BDCMain		;
-			private readonly	BDCParser			co_BDCParser	;
+			private	readonly	BDCMain							co_BDCMain		;
+			private readonly	Parser_BDCTokens		co_Tokens	;
+			private readonly	Parser_BDCColumns		co_Column	;
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			public UT_100_Base()
 				{
-					this.co_BDCMain			= new BDCMain(	this.CreateData					()
-																						,	new DTO_BDCHeaderRowRef	()
-																						, new BDC_Constants				()	);
+					this.co_BDCMain	= new BDCMain						(		this.CreateData					()
+																										,	new DTO_BDCHeaderRowRef	()	);
 
-					this.co_BDCParser		= new BDCParser(	() => new DTO_TokenReference()
-																							, () => new DTO_BDCColumn			()	);
+					this.co_Tokens	= new Parser_BDCTokens	(		this.co_BDCMain
+																										, () => new DTO_TokenReference() );
+
+					this.co_Column	= new Parser_BDCColumns	(		this.co_BDCMain
+																										, () => new DTO_BDCColumn() );
+				}
+
+			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
+			[TestMethod]
+			public void UT_100_00_Regex()
+				{
+					const	string	z1	= "asdasda(1)";
+
+					var			r1	= new Regex(@"\((.*?)\)");
+					bool		q1  = r1.IsMatch(z1);
+					string	a1	= r1.Replace(z1, "<@@>");
+
+					string y = string.Empty;
+					string x	= $"{cz_Cmd_Prefix}{cz_Token_Prog};{cz_Token_Crsr};<OKcode>";
+
+					bool by = Regex.IsMatch(y, cz_Cmd_Prefix, RegexOptions.IgnoreCase);
+
+					bool b1 = Regex.IsMatch(x, cz_Cmd_Prefix, RegexOptions.IgnoreCase);
+					bool b2 = Regex.IsMatch(x, cz_Token_Crsr, RegexOptions.IgnoreCase);
+					bool b3 = Regex.IsMatch(x, cz_Token_OKCd, RegexOptions.IgnoreCase);
 				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
@@ -36,10 +59,11 @@ namespace zBxS_UT_SAPBDC
 			[TestMethod]
 			public void UT_100_20_ParseForTokens()
 				{
-					Task t = Task.Run( () => this.co_BDCParser.ParseForTokens( this.co_BDCMain ));
+					Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
 					t.Wait();
 
-					this.co_BDCMain.Tokens.TryGetValue( lz_ID1	, out DTO_TokenReference lo_Token );
+					this.co_BDCMain.Tokens.TryGetValue( cz_Token_Prog	, out DTO_TokenReference lo_Token );
+
 					Assert.IsNotNull	(			lo_Token			, ""	);
 					Assert.AreNotEqual( 0 , lo_Token.Row	, ""	);
 				}
@@ -48,9 +72,9 @@ namespace zBxS_UT_SAPBDC
 			[TestMethod]
 			public void UT_100_30_ParseForColumns()
 				{
-					Task t = Task.Run( () => this.co_BDCParser.ParseForTokens( this.co_BDCMain ));
+					Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
 					t.Wait();
-					this.co_BDCParser.ParseForColumns( this.co_BDCMain );
+					this.co_Column.ParseForColumns();
 					Assert.AreNotEqual( 0 , this.co_BDCMain.Columns.Count	, ""	);
 				}
 
@@ -63,8 +87,10 @@ namespace zBxS_UT_SAPBDC
 				{
 					string[,]	lt_Data	= new string[2,2];
 
-					lt_Data[1,1]	= lz_ID1;
-					lt_Data[0,1]	= "<@@OKCODE>	";
+					lt_Data[1,1]	= cz_Cmd_Prefix + cz_Token_Prog;
+					lt_Data[0,1]	= cz_Cmd_Prefix + cz_Token_OKCd;
+					lt_Data[0,0]	= cz_Cmd_Prefix + "<Headerend>[9];<Execute>[D]";
+					lt_Data[1,0]	= cz_Cmd_Prefix + "<messages>[3]";
 
 					return	lt_Data;
 				}

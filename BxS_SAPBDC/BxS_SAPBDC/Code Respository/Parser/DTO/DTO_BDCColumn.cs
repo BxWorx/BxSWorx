@@ -11,9 +11,21 @@ namespace BxS_SAPBDC.Parser
 					{
 						this.Commands		= new Dictionary<string, string>();
 						//.............................................
-						this.IsFieldIndexColumn	= false;
-						this.DoCursorIndex	= false;
-						this.DoFieldIndex		= false;
+						this.DynBegin			= false					;
+						this.ScreenNo			= 0							;
+						this.Program			= string.Empty	;
+						this.OKCode				= string.Empty	;
+						this.Cursor				= string.Empty	;
+						this.Subscreen		= string.Empty	;
+						this.Field				= string.Empty	;
+						this.Description	= string.Empty	;
+						this.Instructions	= string.Empty	;
+						//.............................................
+						this.IsFieldIndexColumn		= false	;
+						this.IsCursorIndexColumn	= false	;
+						this.DoCursorIndex				= false	;
+						this.DoFieldIndex					= false	;
+						this.DoOnlyIfValue				= false	;
 					}
 
 			#endregion
@@ -21,16 +33,16 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int														ColNo					{	get; set; }
-				internal	string												Program				{	get; set; }
-				internal	ushort												ScreenNo			{	get; set; }
-				internal	bool													DynBegin			{	get; set; }
-				internal	string												OKCode				{	get; set; }
-				internal	string												Cursor				{	get; set; }
-				internal	string												Subscreen			{	get; set; }
-				internal	string												Field					{	get; set; }
-				internal	string												Description		{	get; set; }
-				internal	string												Instructions	{	get; set; }
+				internal	int			ColNo					{	get; set; }
+				internal	string	Program				{	get; set; }
+				internal	ushort	ScreenNo			{	get; set; }
+				internal	bool		DynBegin			{	get; set; }
+				internal	string	OKCode				{	get; set; }
+				internal	string	Cursor				{	get; set; }
+				internal	string	Subscreen			{	get; set; }
+				internal	string	Field					{	get; set; }
+				internal	string	Description		{	get; set; }
+				internal	string	Instructions	{	get; set; }
 				//.................................................
 				internal	bool		IsFieldIndexColumn		{	get; set; }
 				internal	bool		IsCursorIndexColumn		{	get; set; }
