@@ -129,6 +129,7 @@ namespace BxS_SAPBDC.Parser
 						this._BDCMain.Tokens.Add(	cz_Token_Exec , this.CreateToken( cz_Token_Exec ,	-1 ,  4 ) );
 						this._BDCMain.Tokens.Add(	cz_Token_Data , this.CreateToken( cz_Token_Data ,	-1 ,  6 ) );
 						this._BDCMain.Tokens.Add(	cz_Token_HdrE , this.CreateToken( cz_Token_HdrE ,	 9 , -1 ) );
+						this._BDCMain.Tokens.Add(	cz_Token_XCfg	, this.CreateToken( cz_Token_XCfg	,	-1 , -1 ) );
 						//.............................................
 						this._BDCMain.Tokens.Add(	cz_Instr_Post , this.CreateToken( cz_Instr_Post ,	-1 , -1 ) );
 					}

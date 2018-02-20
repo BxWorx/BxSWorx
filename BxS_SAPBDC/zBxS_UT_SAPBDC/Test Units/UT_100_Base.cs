@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 //.........................................................
+using					BxS_SAPBDC.Helpers;
 using					BxS_SAPBDC.Parser;
 using static	BxS_SAPBDC.Parser.BDC_Constants;
 //••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -10,13 +11,16 @@ namespace zBxS_UT_SAPBDC
 	[TestClass]
 	public class UT_100_Base
 		{
-			private	readonly	BDCMain							co_BDCMain		;
-			private readonly	Parser_BDCTokens		co_Tokens	;
-			private readonly	Parser_BDCColumns		co_Column	;
-
+			private	readonly	BDCMain							co_BDCMain	;
+			private readonly	Parser_BDCTokens		co_Tokens		;
+			private readonly	Parser_BDCColumns		co_Column		;
+			private readonly	Parser_BDCConfig		co_Config		;
+			private readonly	ObjSerializer				co_ObjSer		;
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			public UT_100_Base()
 				{
+					this.co_ObjSer	= new	ObjSerializer();
+
 					this.co_BDCMain	= new BDCMain						(		this.CreateData					()
 																										,	new DTO_BDCHeaderRowRef	()	);
 
@@ -25,6 +29,9 @@ namespace zBxS_UT_SAPBDC
 
 					this.co_Column	= new Parser_BDCColumns	(		this.co_BDCMain
 																										, () => new DTO_BDCColumn() );
+
+					this.co_Config	= new Parser_BDCConfig	(		this.co_BDCMain
+																										, new ObjSerializer() );
 				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
@@ -53,6 +60,9 @@ namespace zBxS_UT_SAPBDC
 				{
 					var x	= new DTO_TokenReference();
 					Assert.IsNotNull( x , "xxxx" );
+
+					DTO_BDCXMLConfig y = this.CreateXMLConfig();
+					Assert.IsNotNull( y , "xxxx" );
 				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
@@ -63,9 +73,15 @@ namespace zBxS_UT_SAPBDC
 					t.Wait();
 
 					this.co_BDCMain.Tokens.TryGetValue( cz_Token_Prog	, out DTO_TokenReference lo_Token );
-
 					Assert.IsNotNull	(			lo_Token			, ""	);
 					Assert.AreNotEqual( 0 , lo_Token.Row	, ""	);
+
+					this.co_BDCMain.Tokens.TryGetValue( cz_Token_XCfg	, out DTO_TokenReference lo_XML );
+					Assert.IsNotNull	(	lo_XML	, ""	);
+
+					string	lc_XML = lo_XML.Value.Replace(cz_Cmd_Prefix,"");
+					DTO_BDCXMLConfig XMLConfig	= this.co_ObjSer.DeSerialize<DTO_BDCXMLConfig>( lc_XML );
+					Assert.IsNotNull	(	XMLConfig	, ""	);
 				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
@@ -79,18 +95,45 @@ namespace zBxS_UT_SAPBDC
 				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
+			[TestMethod]
+			public void UT_100_40_ParseConfig()
+				{
+					Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
+					t.Wait();
+					Assert.IsTrue			( this.co_Config.Parse()	, "" );
+					Assert.IsNotNull	( this.co_BDCMain.XMLConfig , ""	);
+				}
+
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
+			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
+
+			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
+			private DTO_BDCXMLConfig CreateXMLConfig()
+				{
+					return	new DTO_BDCXMLConfig
+						{
+								GUID				= "76b37787-47c1-45b2-a9a2-72f548c6191d"
+							,	SAPTCode		= "XD02"
+							,	PauseTime		= "1"
+							, CTU_UpdMode	= "A"
+							, CTU_DefSize	= "X"
+							, CTU_DisMode	= "A"
+						};
+				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			private string[,] CreateData()
 				{
-					string[,]	lt_Data	= new string[2,2];
+					string XMLConfig	= this.co_ObjSer.Serialize( this.CreateXMLConfig() );
 
-					lt_Data[1,1]	= cz_Cmd_Prefix + cz_Token_Prog;
-					lt_Data[0,1]	= cz_Cmd_Prefix + cz_Token_OKCd;
+					string[,]	lt_Data	= new string[3,2];
+
 					lt_Data[0,0]	= cz_Cmd_Prefix + "<Headerend>[9];<Execute>[D]";
+					lt_Data[0,1]	= cz_Cmd_Prefix + cz_Token_OKCd;
 					lt_Data[1,0]	= cz_Cmd_Prefix + "<messages>[3]";
+					lt_Data[1,1]	= cz_Cmd_Prefix + cz_Token_Prog;
+					lt_Data[2,0]	= cz_Cmd_Prefix + XMLConfig;
 
 					return	lt_Data;
 				}

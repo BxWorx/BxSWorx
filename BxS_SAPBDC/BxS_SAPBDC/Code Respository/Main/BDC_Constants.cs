@@ -45,6 +45,9 @@ namespace BxS_SAPBDC.Parser
 
 				internal const	string	cz_Sym_ActionCol	= "@@";
 				internal const	string	cz_Sym_ClearFld		= "@@[]";
+		
+
+
 
 				//.................................................
 				internal const	string	cz_SAP_OKCode		= "BDC_OKCODE";
@@ -61,10 +64,12 @@ namespace BxS_SAPBDC.Parser
 				internal	const	string	cz_Token_Desc		=	"<DESCRIPTION>"		;
 				internal	const	string	cz_Token_Inst		=	"<INSTRUCTIONS>"	;
 
-				internal	const	string	cz_Token_Msgs		=	"<MESSAGES>"	;
-				internal	const	string	cz_Token_Exec		=	"<EXECUTE>"		;
+				internal	const	string	cz_Token_Msgs		=	"<MESSAGES>"		;
+				internal	const	string	cz_Token_Exec		=	"<EXECUTE>"			;
 				internal	const	string	cz_Token_HdrE		=	"<HEADEREND>"		;
 				internal	const	string	cz_Token_Data		=	"<DATASTART>"		;
+
+				internal const	string	cz_Token_XCfg		= "</DTO_BDCXMLConfig>";
 				//.................................................
 				internal	const	string	cz_Instr_Post				=	"@@POST"		;
 				internal	const	string	cz_Instr_Exec				=	"@@EXEC"		;

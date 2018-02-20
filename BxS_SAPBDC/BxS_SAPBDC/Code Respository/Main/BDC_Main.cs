@@ -11,7 +11,7 @@ namespace BxS_SAPBDC.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCMain(		string[,]							data
-													, DTO_BDCHeaderRowRef		bdcHeaderRowRef )
+													, DTO_BDCHeaderRowRef		bdcHeaderRowRef	)
 					{
 						this.Data							= data							?? throw new Exception();
 						this.BDCHeaderRowRef	= bdcHeaderRowRef		?? throw new Exception();
@@ -38,6 +38,7 @@ namespace BxS_SAPBDC.Parser
 				internal	Dictionary<	int			, DTO_BDCColumn >				Columns						{ get; }
 
 				internal	DTO_BDCHeaderRowRef		BDCHeaderRowRef		{ get; }
+				internal	DTO_BDCXMLConfig			XMLConfig					{ get; set; }
 				//.................................................
 				internal	int		RowLB		{ get; private set; }
 				internal	int		RowUB		{ get; private set; }
@@ -52,6 +53,13 @@ namespace BxS_SAPBDC.Parser
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Process()
+					{
+
+
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DTO_SessionTranData CreateBDCData()
