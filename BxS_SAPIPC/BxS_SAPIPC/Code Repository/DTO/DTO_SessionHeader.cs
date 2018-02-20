@@ -1,4 +1,5 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPIPC.BDCData
 {
 	public class DTO_SessionHeader
@@ -16,6 +17,8 @@ namespace BxS_SAPIPC.BDCData
 			//===========================================================================================
 			#region "Properties"
 
+				public	Guid					ID				{ get;	set;	}
+				public	string				Name			{ get;	set;	}
 				public	string				SAPTCode	{ get;	set;	}
 				public	string				Skip1st		{ get;	set;	}
 				public	DTO_CTUParms	CTUParms	{ get;	set;	}

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 //.............................................
-using static BxS_SAPBDC.Parser.BDC_Constants;
+using					BxS_SAPBDC.Helpers;
+using static	BxS_SAPBDC.Parser.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
@@ -12,10 +13,12 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	Parser_BDCTokens(		BDCMain										BDCMain
+				internal	Parser_BDCTokens(		BDC_Processor										BDCMain
+																		,	ObjSerializer							serializer
 																		,	Func<DTO_TokenReference>	createToken	)
 					{
 						this._BDCMain				= BDCMain			;
+						this._Serializer		= serializer	;
 						this._CreateToken		= createToken	;
 						//.............................................
 						this.IsReady	= false;
@@ -26,7 +29,8 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	BDCMain										_BDCMain			;
+				private readonly	BDC_Processor										_BDCMain			;
+				private readonly	ObjSerializer							_Serializer		;
 				private readonly	Func<DTO_TokenReference>	_CreateToken	;
 
 			#endregion
@@ -42,7 +46,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed: Tokens"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task< int > ParseForTokens()
+				internal async Task< bool > ParseForTokens()
 					{
 						this.LoadTokens();
 						IList< Task	>	lo_Tasks	= new	List< Task >( this._BDCMain.Tokens.Count );
@@ -58,9 +62,12 @@ namespace BxS_SAPBDC.Parser
 						await Task.WhenAll(lo_Tasks).ConfigureAwait(false);
 						//.............................................
 						this.UpdateHeaderRowReference();
-						this.CheckStatus();
+						if ( this.CheckStatus() )
+							{
+								this.Epilogue();
+							}
 						//.............................................
-						return	lo_Tasks.Count;
+						return	this.IsReady;
 					}
 
 			#endregion
@@ -94,7 +101,22 @@ namespace BxS_SAPBDC.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CheckStatus()
+				private void Epilogue()
+					{
+						if ( this._BDCMain.Tokens.TryGetValue( cz_Token_XCfg , out DTO_TokenReference token ) )
+							{
+								this._BDCMain.XMLConfig
+									= this._Serializer
+										.DeSerialize<DTO_BDCXMLConfig>(	token.Value.Replace( cz_Cmd_Prefix , ""	) );
+							}
+						//.............................................
+						if ( this._BDCMain.Tokens.TryGetValue( cz_Token_DataCol , out token ) )
+							{
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private bool CheckStatus()
 					{
 						this.IsReady	= true;
 						//.............................................
@@ -110,6 +132,8 @@ namespace BxS_SAPBDC.Parser
 							{
 								this.IsReady	= false;
 							}
+						//.............................................
+						return	this.IsReady;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -125,11 +149,11 @@ namespace BxS_SAPBDC.Parser
 						this.AddZDTONTokenDefault( cz_Token_Desc	,	ZDTON_RowNo.Description		);
 						this.AddZDTONTokenDefault( cz_Token_Inst	,	ZDTON_RowNo.Instructions	);
 						//.............................................
-						this._BDCMain.Tokens.Add(	cz_Token_Msgs , this.CreateToken( cz_Token_Msgs ,	-1 ,  2 ) );
-						this._BDCMain.Tokens.Add(	cz_Token_Exec , this.CreateToken( cz_Token_Exec ,	-1 ,  4 ) );
-						this._BDCMain.Tokens.Add(	cz_Token_Data , this.CreateToken( cz_Token_Data ,	-1 ,  6 ) );
-						this._BDCMain.Tokens.Add(	cz_Token_HdrE , this.CreateToken( cz_Token_HdrE ,	 9 , -1 ) );
-						this._BDCMain.Tokens.Add(	cz_Token_XCfg	, this.CreateToken( cz_Token_XCfg	,	-1 , -1 ) );
+						this._BDCMain.Tokens.Add(	cz_Token_MsgCol		, this.CreateToken( cz_Token_MsgCol		,	-1 ,  2 ) );
+						this._BDCMain.Tokens.Add(	cz_Token_ExeCol		, this.CreateToken( cz_Token_ExeCol		,	-1 ,  4 ) );
+						this._BDCMain.Tokens.Add(	cz_Token_DataCol	, this.CreateToken( cz_Token_DataCol	,	-1 ,  6 ) );
+						this._BDCMain.Tokens.Add(	cz_Token_DataRow	, this.CreateToken( cz_Token_DataRow	,	10 , -1 ) );
+						this._BDCMain.Tokens.Add(	cz_Token_XCfg			, this.CreateToken( cz_Token_XCfg			,	-1 , -1 ) );
 						//.............................................
 						this._BDCMain.Tokens.Add(	cz_Instr_Post , this.CreateToken( cz_Instr_Post ,	-1 , -1 ) );
 					}

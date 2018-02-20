@@ -11,27 +11,24 @@ namespace zBxS_UT_SAPBDC
 	[TestClass]
 	public class UT_100_Base
 		{
-			private	readonly	BDCMain							co_BDCMain	;
+			private	readonly	BDC_Processor							co_BDCMain	;
 			private readonly	Parser_BDCTokens		co_Tokens		;
 			private readonly	Parser_BDCColumns		co_Column		;
-			private readonly	Parser_BDCConfig		co_Config		;
 			private readonly	ObjSerializer				co_ObjSer		;
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			public UT_100_Base()
 				{
 					this.co_ObjSer	= new	ObjSerializer();
 
-					this.co_BDCMain	= new BDCMain						(		this.CreateData					()
+					this.co_BDCMain	= new BDC_Processor						(		this.CreateData					()
 																										,	new DTO_BDCHeaderRowRef	()	);
 
 					this.co_Tokens	= new Parser_BDCTokens	(		this.co_BDCMain
+																										, new ObjSerializer()
 																										, () => new DTO_TokenReference() );
 
 					this.co_Column	= new Parser_BDCColumns	(		this.co_BDCMain
 																										, () => new DTO_BDCColumn() );
-
-					this.co_Config	= new Parser_BDCConfig	(		this.co_BDCMain
-																										, new ObjSerializer() );
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
@@ -82,6 +79,7 @@ namespace zBxS_UT_SAPBDC
 					string	lc_XML = lo_XML.Value.Replace(cz_Cmd_Prefix,"");
 					DTO_BDCXMLConfig XMLConfig	= this.co_ObjSer.DeSerialize<DTO_BDCXMLConfig>( lc_XML );
 					Assert.IsNotNull	(	XMLConfig	, ""	);
+					Assert.IsNotNull	( this.co_BDCMain.XMLConfig , ""	);
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
@@ -92,16 +90,6 @@ namespace zBxS_UT_SAPBDC
 					t.Wait();
 					this.co_Column.ParseForColumns();
 					Assert.AreNotEqual( 0 , this.co_BDCMain.Columns.Count	, ""	);
-				}
-
-			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
-			[TestMethod]
-			public void UT_100_40_ParseConfig()
-				{
-					Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
-					t.Wait();
-					Assert.IsTrue			( this.co_Config.Parse()	, "" );
-					Assert.IsNotNull	( this.co_BDCMain.XMLConfig , ""	);
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии

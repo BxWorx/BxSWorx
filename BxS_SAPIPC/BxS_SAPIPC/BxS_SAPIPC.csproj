@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="Code Repository\zKeep\BDCSession.cs" />
+    <Compile Remove="Code Repository\zKeep\DTO_SessionXMLConfig.cs" />
     <Compile Remove="Code Repository\zKeep\IBDCSession.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code Repository\DTO\" />
     <Folder Include="Code Repository\zKeep\" />
   </ItemGroup>
 

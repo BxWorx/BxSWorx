@@ -10,7 +10,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	Parser_BDCColumns(	BDCMain							BDCMain
+				internal	Parser_BDCColumns(	BDC_Processor					BDCMain
 																		, Func<DTO_BDCColumn>	createColumn )
 					{
 						this._BDCMain				= BDCMain;
@@ -26,7 +26,7 @@ namespace BxS_SAPBDC.Parser
 
 				private	readonly	Regex		_Regex;
 
-				private readonly	BDCMain								_BDCMain			;
+				private readonly	BDC_Processor								_BDCMain			;
 				private readonly	Func<DTO_BDCColumn>		_CreateColumn	;
 
 			#endregion
@@ -37,7 +37,7 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void ParseForColumns()
 					{
-						for ( int c = this._BDCMain.ColDataStart; c <= this._BDCMain.ColDataEnd; c++ )
+						for ( int c = this._BDCMain.ColDataStart; c <= this._BDCMain.ColUB; c++ )
 							{
 								DTO_BDCColumn lo_Col	= CreateColumn(c);
 								//.........................................
@@ -61,6 +61,7 @@ namespace BxS_SAPBDC.Parser
 								if ( this.InterpretColumn( lo_Col ) )
 									{
 										this._BDCMain.Columns.Add(lo_Col.ColNo , lo_Col);
+										this._BDCMain.ColDataEnd	= lo_Col.ColNo;
 									}
 							}
 					}

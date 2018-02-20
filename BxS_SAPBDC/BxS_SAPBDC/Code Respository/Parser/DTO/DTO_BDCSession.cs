@@ -5,12 +5,16 @@ using BxS_SAPIPC.BDCData;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal class BDCMain
+	internal class DTO_BDCSession
 		{
 			#region "Constructors"
 
+				internal DTO_BDCSession()
+					{
+					}
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCMain(		string[,]							data
+				internal DTO_BDCSession(		string[,]							data
 													, DTO_BDCHeaderRowRef		bdcHeaderRowRef	)
 					{
 						this.Data							= data							?? throw new Exception();
@@ -32,7 +36,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Properties"
 
 				internal	string[,]			Data		{ get; }
-				internal	BDC_Session		Session	{ get; }
+				internal	BDC_Processor		Session	{ get; }
 				//.................................................
 				internal	Dictionary<	string	, DTO_TokenReference >	Tokens						{ get; }
 				internal	Dictionary<	int			, DTO_BDCColumn >				Columns						{ get; }
@@ -40,14 +44,13 @@ namespace BxS_SAPBDC.Parser
 				internal	DTO_BDCHeaderRowRef		BDCHeaderRowRef		{ get; }
 				internal	DTO_BDCXMLConfig			XMLConfig					{ get; set; }
 				//.................................................
-				internal	int		RowLB		{ get; private set; }
-				internal	int		RowUB		{ get; private set; }
-				internal	int		ColLB		{ get; private set; }
-				internal	int		ColUB		{ get; private set; }
+				internal	int		RowLB		{ get; set; }
+				internal	int		RowUB		{ get; set; }
+				internal	int		ColLB		{ get; set; }
+				internal	int		ColUB		{ get; set; }
 
-				internal	int		ColDataStart	{ get; private set; }
-				internal	int		ColDataEnd		{ get; private set; }
-				internal	int		RowHdrEnd			{ get; private set; }
+				internal	int		ColDataStart	{ get; set; }
+				internal	int		ColDataEnd		{ get; set; }
 
 			#endregion
 
@@ -55,11 +58,13 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Process()
+				internal void AddToken(DTO_TokenReference token)
 					{
-
-
+						this.Tokens.Add( token.Token , token );
 					}
+
+
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DTO_SessionTranData CreateBDCData()

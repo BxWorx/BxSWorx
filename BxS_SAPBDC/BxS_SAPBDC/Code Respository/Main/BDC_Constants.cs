@@ -42,34 +42,30 @@ namespace BxS_SAPBDC.Parser
 				internal const	string	cz_Sub_Token			= "(@@)";
 				internal const	string	cz_Sub_ABAPTrue		= "X";
 
-
 				internal const	string	cz_Sym_ActionCol	= "@@";
 				internal const	string	cz_Sym_ClearFld		= "@@[]";
-		
-
-
 
 				//.................................................
 				internal const	string	cz_SAP_OKCode		= "BDC_OKCODE";
 				internal const	string	cz_SAP_Cursor		= "BDC_CURSOR";
 				internal const	string	cz_SAP_SubScr		= "BDC_SUBSCR";
 				//.................................................
-				internal	const	string	cz_Token_Prog		=	"<PROGRAMNAME>"		;
-				internal	const	string	cz_Token_Scrn		=	"<SCREENNO>"			;
-				internal	const	string	cz_Token_Begn		=	"<SCREENSTART>"		;
-				internal	const	string	cz_Token_OKCd		=	"<OKCODE>"				;
-				internal	const	string	cz_Token_Crsr		=	"<CURSORBEFORE>"	;
-				internal	const	string	cz_Token_Subs		=	"<SUBSCREEN>"			;
-				internal	const	string	cz_Token_FNme		=	"<FIELDNAME>"			;
-				internal	const	string	cz_Token_Desc		=	"<DESCRIPTION>"		;
-				internal	const	string	cz_Token_Inst		=	"<INSTRUCTIONS>"	;
+				internal	const	string	cz_Token_Prog			=	"<PROGRAMNAME>"				;
+				internal	const	string	cz_Token_Scrn			=	"<SCREENNO>"					;
+				internal	const	string	cz_Token_Begn			=	"<SCREENSTART>"				;
+				internal	const	string	cz_Token_OKCd			=	"<OKCODE>"						;
+				internal	const	string	cz_Token_Crsr			=	"<CURSORBEFORE>"			;
+				internal	const	string	cz_Token_Subs			=	"<SUBSCREEN>"					;
+				internal	const	string	cz_Token_FNme			=	"<FIELDNAME>"					;
+				internal	const	string	cz_Token_Desc			=	"<DESCRIPTION>"				;
+				internal	const	string	cz_Token_Inst			=	"<INSTRUCTIONS>"			;
 
-				internal	const	string	cz_Token_Msgs		=	"<MESSAGES>"		;
-				internal	const	string	cz_Token_Exec		=	"<EXECUTE>"			;
-				internal	const	string	cz_Token_HdrE		=	"<HEADEREND>"		;
-				internal	const	string	cz_Token_Data		=	"<DATASTART>"		;
+				internal	const	string	cz_Token_MsgCol		=	"<MESSAGES>"					;
+				internal	const	string	cz_Token_ExeCol		=	"<EXECUTE>"						;
+				internal	const	string	cz_Token_DataCol	=	"<DATASTARTCOL>"			;
+				internal	const	string	cz_Token_DataRow	=	"<DATASTARTROW>"			;
 
-				internal const	string	cz_Token_XCfg		= "</DTO_BDCXMLConfig>";
+				internal const	string	cz_Token_XCfg			= "</DTO_BDCXMLConfig>"	;
 				//.................................................
 				internal	const	string	cz_Instr_Post				=	"@@POST"		;
 				internal	const	string	cz_Instr_Exec				=	"@@EXEC"		;

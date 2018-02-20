@@ -9,9 +9,11 @@
 
   <ItemGroup>
     <Compile Remove="Code Respository\Parser\DTO\DTO_BDCXMLConfig1.cs" />
+    <Compile Remove="zKeep\BDCParser.cs" />
     <Compile Remove="zKeep\BDCTokenizer.cs" />
     <Compile Remove="zKeep\BDCTokens.cs" />
     <Compile Remove="zKeep\DTO_BDCXMLConfig1.cs" />
+    <Compile Remove="zKeep\Parser_BDCConfig.cs" />
     <Compile Remove="zKeep\Program.cs" />
   </ItemGroup>
 

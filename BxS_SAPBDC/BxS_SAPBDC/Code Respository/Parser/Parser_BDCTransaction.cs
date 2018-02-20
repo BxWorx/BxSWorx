@@ -10,7 +10,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	Parser_BDCTransaction( BDCMain BDCMain )
+				internal	Parser_BDCTransaction( BDC_Processor BDCMain )
 					{
 						this._BDCMain		= BDCMain;
 						this._FldIndex	= -1;
@@ -22,7 +22,7 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private readonly	BDCMain	_BDCMain	;
+				private readonly	BDC_Processor	_BDCMain	;
 
 				private	int		_FldIndex	;
 				private	int		_CsrIndex	;
