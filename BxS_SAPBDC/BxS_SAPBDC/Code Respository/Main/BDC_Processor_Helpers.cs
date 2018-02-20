@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 //.........................................................
 using static	BxS_SAPBDC.Parser.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal partial class BDC_Processor
+	public partial class BDC_Processor
 		{
-
-			//===========================================================================================
 			#region "Declarations"
 
 				private readonly	Func<DTO_TokenReference>	_CreateToken	;
@@ -26,17 +27,75 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void SetupProcessBoundaries()
+				private async Task< bool > ParseForTokens( DTO_BDCSession dto , string[,] data )
 					{
-						this.RowLB		= this.Data.GetLowerBound(0);
-						this.RowUB		= this.Data.GetUpperBound(0)	+ 1;
+						this.LoadTokens( dto );
+
+						IList< Task	>	lo_Tasks	= new	List< Task >( dto.Tokens.Count );
 						//.............................................
-						this.ColLB		= this.Data.GetLowerBound(1);
-						this.ColUB		= this.Data.GetUpperBound(1)	+ 1;
+						foreach ( KeyValuePair< string , DTO_TokenReference > ls_kvp in dto.Tokens )
+							{
+								string							lc_ST			= ls_kvp.Key		;
+								DTO_TokenReference	lo_Token	= ls_kvp.Value	;
+
+								lo_Tasks.Add(	Task.Run(	() =>
+									{
+										for ( int r = dto.RowLB; r < dto.RowUB; r++ )
+											{
+												for ( int c = dto.ColLB; c < dto.ColUB; c++ )
+													{
+														if ( data[r,c] != null )
+															{
+																if ( Regex.IsMatch( data[r,c] , cz_Cmd_Prefix , RegexOptions.IgnoreCase ) )
+																	{
+																		if ( Regex.IsMatch( data[r,c] , lc_ST , RegexOptions.IgnoreCase ) )
+																			{
+																				lo_Token.Row		= r;
+																				lo_Token.Col		= c;
+																				lo_Token.Value	= data[r,c];
+
+																				return;
+																			}
+																	}
+															}
+													}
+											}
+									} )	);
+							}
+
+						await Task.WhenAll(lo_Tasks).ConfigureAwait(false);
+						//.............................................
+						return	this.UpdateHeaderRowReference( dto );
 					}
-				
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	bool UpdateHeaderRowReference( DTO_BDCSession dto )
+					{
+						dto.BDCHeaderRowRef.Prog	= dto.Tokens.TryGetValue( cz_Token_Prog , out DTO_TokenReference lo_Token ) ? lo_Token.Row : -1 ;
 
+						dto.BDCHeaderRowRef.Scrn	= dto.Tokens.TryGetValue( cz_Token_Scrn , out lo_Token ) ? lo_Token.Row : -1 ;
+						dto.BDCHeaderRowRef.Strt	= dto.Tokens.TryGetValue( cz_Token_Begn , out lo_Token ) ? lo_Token.Row : -1 ;
+						dto.BDCHeaderRowRef.OKCd	= dto.Tokens.TryGetValue( cz_Token_OKCd , out lo_Token ) ? lo_Token.Row : -1 ;
+						dto.BDCHeaderRowRef.Curs	= dto.Tokens.TryGetValue( cz_Token_Crsr , out lo_Token ) ? lo_Token.Row : -1 ;
+						dto.BDCHeaderRowRef.Subs	= dto.Tokens.TryGetValue( cz_Token_Subs , out lo_Token ) ? lo_Token.Row : -1 ;
+						dto.BDCHeaderRowRef.FldN	= dto.Tokens.TryGetValue( cz_Token_FNme , out lo_Token ) ? lo_Token.Row : -1 ;
+						dto.BDCHeaderRowRef.Desc	= dto.Tokens.TryGetValue( cz_Token_Desc , out lo_Token ) ? lo_Token.Row : -1 ;
+						dto.BDCHeaderRowRef.Inst	= dto.Tokens.TryGetValue( cz_Token_Inst , out lo_Token ) ? lo_Token.Row : -1 ;
+						//.............................................
+						if (		dto.BDCHeaderRowRef.Prog.Equals(-1)
+								||	dto.BDCHeaderRowRef.Scrn.Equals(-1)
+								||	dto.BDCHeaderRowRef.Strt.Equals(-1)
+								||	dto.BDCHeaderRowRef.OKCd.Equals(-1)
+								||	dto.BDCHeaderRowRef.Curs.Equals(-1)
+								||	dto.BDCHeaderRowRef.Subs.Equals(-1)
+								||	dto.BDCHeaderRowRef.FldN.Equals(-1)
+								||	dto.BDCHeaderRowRef.Desc.Equals(-1)
+								||	dto.BDCHeaderRowRef.Inst.Equals(-1) )
+
+							{	return	false	; }
+						else
+							{	return	true	; }
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadTokens( DTO_BDCSession dto )

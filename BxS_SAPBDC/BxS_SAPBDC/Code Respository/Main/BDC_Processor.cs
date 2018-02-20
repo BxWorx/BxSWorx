@@ -1,9 +1,10 @@
-﻿//.........................................................
+﻿using System.Threading.Tasks;
+//.........................................................
 using BxS_SAPIPC.BDCData;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal partial class BDC_Processor
+	public partial class BDC_Processor
 		{
 			#region "Constructors"
 
@@ -26,7 +27,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IPC_BDCSession Process( string[,] data )
+				public async Task< IPC_BDCSession > Process( string[,] data )
 					{
 						IPC_BDCSession	lo_IPCSession	= IPC_Controller.CreateSession();
 
@@ -38,8 +39,12 @@ namespace BxS_SAPBDC.Parser
 								,	ColUB		= data.GetUpperBound(1)	+ 1
 							};
 						//.............................................
-						this.LoadTokens(lo_BDCSession);
-
+						if ( await this.ParseForTokens( lo_BDCSession , data ).ConfigureAwait(false) )
+							{
+								
+							}
+						else
+							{	return	null; }
 						//.............................................
 						return	lo_IPCSession;
 					}
