@@ -20,4 +20,10 @@
     <ProjectReference Include="..\BxS_SAPBDC\BxS_SAPBDC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="BxS_SAPIPC">
+      <HintPath>..\..\BxS_SAPIPC\BxS_SAPIPC\bin\Debug\netcoreapp2.0\BxS_SAPIPC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

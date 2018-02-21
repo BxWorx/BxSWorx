@@ -5,18 +5,16 @@ using static	BxS_SAPBDC.Parser.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal class Parser_BDCColumns
+	public class BDC_Processor_Columns
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	Parser_BDCColumns(	BDC_Processor					BDCMain
-																		, Func<DTO_BDCColumn>	createColumn )
+				internal BDC_Processor_Columns(	Func<DTO_BDCColumn>	createColumn )
 					{
-						this._BDCMain				= BDCMain;
 						this._CreateColumn	= createColumn;
 						//.............................................
-						this._Regex		= new	Regex(@"\((.*?)\)");
+						this._Regex	= new	Regex(@"\((.*?)\)");
 					}
 
 			#endregion
@@ -24,9 +22,7 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private	readonly	Regex		_Regex;
-
-				private readonly	BDC_Processor								_BDCMain			;
+				private	readonly	Regex									_Regex				;
 				private readonly	Func<DTO_BDCColumn>		_CreateColumn	;
 
 			#endregion
@@ -35,35 +31,47 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseForColumns()
+				internal bool Process( DTO_BDCSession dto , string[,] data )
 					{
-						for ( int c = this._BDCMain.ColDataStart; c <= this._BDCMain.ColUB; c++ )
+						bool	lb_Ret	= false;
+						//.............................................
+						for ( int c = dto.ColDataStart; c <= dto.ColUB; c++ )
 							{
 								DTO_BDCColumn lo_Col	= CreateColumn(c);
 								//.........................................
 								lo_Col.ColNo		=	c	;
 								lo_Col.ScreenNo	=	0	;
 								//.........................................
-								lo_Col.Program			=		this._BDCMain.Data[ this._BDCMain.BDCHeaderRowRef.Prog , c ];
-								lo_Col.DynBegin			= !	this._BDCMain.Data[ this._BDCMain.BDCHeaderRowRef.Strt , c ].Equals(string.Empty);
-								lo_Col.OKCode				=		this._BDCMain.Data[ this._BDCMain.BDCHeaderRowRef.OKCd , c ];
-								lo_Col.Cursor				=		this._BDCMain.Data[ this._BDCMain.BDCHeaderRowRef.Curs , c ];
-								lo_Col.Subscreen		=		this._BDCMain.Data[ this._BDCMain.BDCHeaderRowRef.Subs , c ];
-								lo_Col.Field				=		this._BDCMain.Data[ this._BDCMain.BDCHeaderRowRef.FldN , c ];
-								lo_Col.Description	=		this._BDCMain.Data[ this._BDCMain.BDCHeaderRowRef.Desc , c ];
-								lo_Col.Instructions	=		this._BDCMain.Data[ this._BDCMain.BDCHeaderRowRef.Inst , c ];
-								//.........................................
-								if ( ushort.TryParse( this._BDCMain.Data[this._BDCMain.BDCHeaderRowRef.Scrn, c] , out ushort ln_SN ) )
+								try
 									{
-										lo_Col.ScreenNo	= ln_SN;
+										lo_Col.Program			=		data[ dto.BDCHeaderRowRef.Prog , c ];
+										lo_Col.DynBegin			=		data[ dto.BDCHeaderRowRef.Strt , c ]?.Equals(string.Empty) == false;
+										lo_Col.OKCode				=		data[ dto.BDCHeaderRowRef.OKCd , c ];
+										lo_Col.Cursor				=		data[ dto.BDCHeaderRowRef.Curs , c ];
+										lo_Col.Subscreen		=		data[ dto.BDCHeaderRowRef.Subs , c ];
+										lo_Col.Field				=		data[ dto.BDCHeaderRowRef.FldN , c ];
+										lo_Col.Description	=		data[ dto.BDCHeaderRowRef.Desc , c ];
+										lo_Col.Instructions	=		data[ dto.BDCHeaderRowRef.Inst , c ];
+										//.........................................
+										if ( ushort.TryParse( data[dto.BDCHeaderRowRef.Scrn, c] , out ushort ln_SN ) )
+											{
+												lo_Col.ScreenNo	= ln_SN;
+											}
+										//.........................................
+										if ( this.InterpretColumn( lo_Col ) )
+											{
+												dto.Columns.Add( lo_Col.ColNo , lo_Col );
+												dto.ColDataEnd	= lo_Col.ColNo;
+												lb_Ret	= true;
+											}
 									}
-								//.........................................
-								if ( this.InterpretColumn( lo_Col ) )
+								catch (Exception)
 									{
-										this._BDCMain.Columns.Add(lo_Col.ColNo , lo_Col);
-										this._BDCMain.ColDataEnd	= lo_Col.ColNo;
+										throw;
 									}
 							}
+						//.............................................
+						return	lb_Ret;
 					}
 
 			#endregion
@@ -87,14 +95,30 @@ namespace BxS_SAPBDC.Parser
 								return	false;
 							}
 						//.............................................
-						column.DoFieldIndex					= Regex.IsMatch( column.Instructions , cz_Instr_SubFldIdx	, RegexOptions.IgnoreCase )	;
-						column.DoCursorIndex				= Regex.IsMatch( column.Instructions , cz_Instr_SubCsrIdx	, RegexOptions.IgnoreCase )	;
-						column.DoOnlyIfValue				= Regex.IsMatch( column.Instructions , cz_Instr_DoIf			, RegexOptions.IgnoreCase )	;
-						column.IsFieldIndexColumn		= Regex.IsMatch( column.Instructions , cz_Instr_ValFldIdx	, RegexOptions.IgnoreCase )	;
-						column.IsCursorIndexColumn	= Regex.IsMatch( column.Instructions , cz_Instr_ValCsrIdx	, RegexOptions.IgnoreCase )	;
+						if ( !string.IsNullOrEmpty( column.Instructions ) )
+							{
+								column.DoFieldIndex					= Regex.IsMatch( column.Instructions , cz_Instr_SubFldIdx	, RegexOptions.IgnoreCase )	;
+								column.DoCursorIndex				= Regex.IsMatch( column.Instructions , cz_Instr_SubCsrIdx	, RegexOptions.IgnoreCase )	;
+								column.DoOnlyIfValue				= Regex.IsMatch( column.Instructions , cz_Instr_DoIf			, RegexOptions.IgnoreCase )	;
+								column.IsFieldIndexColumn		= Regex.IsMatch( column.Instructions , cz_Instr_ValFldIdx	, RegexOptions.IgnoreCase )	;
+								column.IsCursorIndexColumn	= Regex.IsMatch( column.Instructions , cz_Instr_ValCsrIdx	, RegexOptions.IgnoreCase )	;
+							}
 						//.............................................
-						if ( column.DoFieldIndex	)		column.Field	= this._Regex.Replace( column.Field		, cz_Sub_Token );
-						if ( column.DoCursorIndex	)		column.Cursor	= this._Regex.Replace( column.Cursor	, cz_Sub_Token );
+						if ( column.DoFieldIndex	)
+							{
+								if ( !string.IsNullOrEmpty( column.Field ) )
+									{
+										column.Field	= this._Regex.Replace( column.Field	, cz_Sub_Token );
+									}
+							}
+						//.............................................
+						if ( column.DoCursorIndex	)
+							{
+								if ( !string.IsNullOrEmpty( column.Cursor ) )
+									{
+										column.Cursor	= this._Regex.Replace( column.Cursor , cz_Sub_Token );
+									}
+							}
 						//.............................................
 						return	true;
 					}

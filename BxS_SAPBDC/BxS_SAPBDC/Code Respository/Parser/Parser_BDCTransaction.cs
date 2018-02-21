@@ -55,21 +55,24 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDC_Transaction ProcessTransactionData( IList<int> rows )
 					{
-						BDC_Transaction x = this._BDCMain.CreateTransaction();
+						return	null;
+						//BDC_Transaction x = this._BDCMain.CreateTransaction();
 
-						for ( int i = 0; i < rows.Count; i++ )
-							{
-								foreach ( KeyValuePair< int , DTO_BDCColumn > ls_kvp in this._BDCMain.Columns )
-									{
-										this.CompileBDCEntries( x , ls_kvp.Value , this._BDCMain.Data[i,ls_kvp.Key] );
-									}
-							}
-						//.............................................
-						return	x;
+						//for ( int i = 0; i < rows.Count; i++ )
+						//	{
+						//		foreach ( KeyValuePair< int , DTO_BDCColumn > ls_kvp in this._BDCMain.Columns )
+						//			{
+						//				this.CompileBDCEntries( x , ls_kvp.Value , this._BDCMain.Data[i,ls_kvp.Key] );
+						//			}
+						//	}
+						////.............................................
+						//return	x;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CompileBDCEntries( BDC_Transaction bdcTran , DTO_BDCColumn column , string value )
+				private void CompileBDCEntries(		BDC_Transaction bdcTran
+																				, DTO_BDCColumn		column
+																				, string					value		)
 					{
 						if ( column.DoOnlyIfValue && value.Equals(string.Empty) )
 								{
@@ -165,24 +168,26 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_SessionTranData CompileBDCScreen( string program , int screenNo )
 					{
-						DTO_SessionTranData lo_BDCData	= this._BDCMain.CreateBDCData();
-						//.............................................
-						lo_BDCData.ProgramName	= program;
-						lo_BDCData.Dynpro				= screenNo.ToString("0000");
-						lo_BDCData.Begin				= "X";
-						//.............................................
-						return	lo_BDCData;
+						return	null;
+						//DTO_SessionTranData lo_BDCData	= this._BDCMain.CreateBDCData();
+						////.............................................
+						//lo_BDCData.ProgramName	= program;
+						//lo_BDCData.Dynpro				= screenNo.ToString("0000");
+						//lo_BDCData.Begin				= "X";
+						////.............................................
+						//return	lo_BDCData;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_SessionTranData CompileBDCField( string field , string value )
 					{
-						DTO_SessionTranData lo_BDCData	= this._BDCMain.CreateBDCData();
-						//.............................................
-						lo_BDCData.FieldName	= field;
-						lo_BDCData.FieldValue	=	value;
-						//.............................................
-						return	lo_BDCData;
+						return	null;
+						//DTO_SessionTranData lo_BDCData	= this._BDCMain.CreateBDCData();
+						////.............................................
+						//lo_BDCData.FieldName	= field;
+						//lo_BDCData.FieldValue	=	value;
+						////.............................................
+						//return	lo_BDCData;
 					}
 
 			#endregion

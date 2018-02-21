@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
@@ -11,30 +12,40 @@ namespace zBxS_UT_SAPBDC
 	[TestClass]
 	public class UT_100_Base
 		{
-			private	readonly	BDC_Processor							co_BDCMain	;
-			private readonly	Parser_BDCTokens		co_Tokens		;
-			private readonly	Parser_BDCColumns		co_Column		;
-			private readonly	ObjSerializer				co_ObjSer		;
+			private readonly	ObjSerializer						co_ObjSer				;
+			private	readonly	BDC_Processor						co_Proc					;
+			private readonly	BDC_Processor_Tokens		co_Proc_Tokens	;
+			private readonly	BDC_Processor_Columns		co_Proc_Columns	;
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			public UT_100_Base()
 				{
-					this.co_ObjSer	= new	ObjSerializer();
+					this.co_ObjSer				= new	ObjSerializer();
 
-					this.co_BDCMain	= new BDC_Processor						(		this.CreateData					()
-																										,	new DTO_BDCHeaderRowRef	()	);
+					this.co_Proc_Tokens		= new BDC_Processor_Tokens	(		new ObjSerializer()
+																															, () => new DTO_TokenReference() );
 
-					this.co_Tokens	= new Parser_BDCTokens	(		this.co_BDCMain
-																										, new ObjSerializer()
-																										, () => new DTO_TokenReference() );
+					this.co_Proc_Columns	= new BDC_Processor_Columns	(	() => new DTO_BDCColumn() );
 
-					this.co_Column	= new Parser_BDCColumns	(		this.co_BDCMain
-																										, () => new DTO_BDCColumn() );
-				}
+					//this.co_Proc					= new BDC_Processor					(		this.co_Proc_Tokens
+					//																										, this.co_Proc_Columns
+					//																										, () => new DTO_BDCSession()
+					//																										, () => new DTO_BDCHeaderRowRef()	);
+			}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			[TestMethod]
 			public void UT_100_00_Regex()
 				{
+					const string	t0	= "<Execute>";
+					const string	t7	= "<Col>";
+					const string	t8	= "<datastartCol>";
+					const string	t9	= ";";
+					const	string	t1	= "<ExEcute>[d];<datastartCol>[F]";
+
+					Match m = Regex.Match(t1, $"{t0}(.*){t9}?",RegexOptions.IgnoreCase);
+					Match n = Regex.Match(t1, $"{t8}(.*){t9}?",RegexOptions.IgnoreCase);
+					Match o = Regex.Match(t1, $"{t7}(.*){t9}?",RegexOptions.IgnoreCase);
+
 					const	string	z1	= "asdasda(1)";
 
 					var			r1	= new Regex(@"\((.*?)\)");
@@ -60,36 +71,44 @@ namespace zBxS_UT_SAPBDC
 
 					DTO_BDCXMLConfig y = this.CreateXMLConfig();
 					Assert.IsNotNull( y , "xxxx" );
+
+					DTO_BDCSession lo_Session	= this.CreateBDCSession();
+					Assert.IsNotNull( lo_Session , "xxxx" );
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			[TestMethod]
 			public void UT_100_20_ParseForTokens()
 				{
-					Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
+					DTO_BDCSession	lo_Session	= this.CreateBDCSession();
+					string[,]				lt_Data			= this.CreateData();
+
+					Task t = Task.Run( () => this.co_Proc_Tokens.Process( lo_Session , lt_Data ));
 					t.Wait();
 
-					this.co_BDCMain.Tokens.TryGetValue( cz_Token_Prog	, out DTO_TokenReference lo_Token );
-					Assert.IsNotNull	(			lo_Token			, ""	);
-					Assert.AreNotEqual( 0 , lo_Token.Row	, ""	);
-
-					this.co_BDCMain.Tokens.TryGetValue( cz_Token_XCfg	, out DTO_TokenReference lo_XML );
-					Assert.IsNotNull	(	lo_XML	, ""	);
-
-					string	lc_XML = lo_XML.Value.Replace(cz_Cmd_Prefix,"");
-					DTO_BDCXMLConfig XMLConfig	= this.co_ObjSer.DeSerialize<DTO_BDCXMLConfig>( lc_XML );
-					Assert.IsNotNull	(	XMLConfig	, ""	);
-					Assert.IsNotNull	( this.co_BDCMain.XMLConfig , ""	);
+					Assert.IsNotNull(			lo_Session.XMLConfig		, ""	);
+					Assert.AreEqual	(10	,	lo_Session.RowDataStart	, ""	);
+					Assert.AreEqual	( 3	,	lo_Session.ColDataMsgs	, ""	);
+					Assert.AreEqual	( 9	,	lo_Session.ColDataStart	, ""	);
+					Assert.AreEqual	(	4	,	lo_Session.ColDataExec	, ""	);
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			[TestMethod]
 			public void UT_100_30_ParseForColumns()
 				{
-					Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
+					DTO_BDCSession	lo_Session	= this.CreateBDCSession();
+					string[,]				lt_Data			= this.CreateData();
+
+					Task t = Task.Run( () => this.co_Proc_Tokens.Process( lo_Session , lt_Data ));
 					t.Wait();
-					this.co_Column.ParseForColumns();
-					Assert.AreNotEqual( 0 , this.co_BDCMain.Columns.Count	, ""	);
+
+					bool lb = this.co_Proc_Columns.Process( lo_Session , lt_Data );
+
+					//Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
+					//t.Wait();
+					//this.co_Column.ParseForColumns();
+					//Assert.AreNotEqual( 0 , this.co_BDCMain.Columns.Count	, ""	);
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
@@ -111,14 +130,20 @@ namespace zBxS_UT_SAPBDC
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
+			private DTO_BDCSession CreateBDCSession()
+				{
+					return	new DTO_BDCSession( new DTO_BDCHeaderRowRef() );
+				}
+
+			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			private string[,] CreateData()
 				{
 					string XMLConfig	= this.co_ObjSer.Serialize( this.CreateXMLConfig() );
 
-					string[,]	lt_Data	= new string[3,2];
+					string[,]	lt_Data	= new string[10,10];
 
-					lt_Data[0,0]	= cz_Cmd_Prefix + "<Headerend>[9];<Execute>[D]";
-					lt_Data[0,1]	= cz_Cmd_Prefix + cz_Token_OKCd;
+					lt_Data[0,0]	= cz_Cmd_Prefix + "<DATASTARTCOL>[0];<Execute>[D]";
+					lt_Data[0,1]	= cz_Cmd_Prefix + cz_Token_OKCd[4];
 					lt_Data[1,0]	= cz_Cmd_Prefix + "<messages>[3]";
 					lt_Data[1,1]	= cz_Cmd_Prefix + cz_Token_Prog;
 					lt_Data[2,0]	= cz_Cmd_Prefix + XMLConfig;
@@ -127,40 +152,3 @@ namespace zBxS_UT_SAPBDC
 				}
 		}
 }
-
-//		Program Name: 		SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0	SAPMILO0
-//"<?xml version=""1.0"" encoding=""utf-16""?>
-//<BDCXMLConfig>
-//  <GUID>76b37787-47c1-45b2-a9a2-72f548c6191d</GUID>
-//  <SessionID>XX1</SessionID>
-//  <IsActive>X</IsActive>
-//  <SAPTCode>IL02</SAPTCode>
-//  <PauseTime>0</PauseTime>
-//  <Active_Column>$D$9</Active_Column>
-//  <Msg_Column>$B$9</Msg_Column>
-//  <CTU_DisMode>N</CTU_DisMode>
-//  <CTU_UpdMode>A</CTU_UpdMode>
-//  <CTU_DefSize>X</CTU_DefSize>
-//  <IsProtected>X</IsProtected>
-//  <Password>xSAPtor</Password>
-//</BDCXMLConfig>"		Screen Number: 		1110	1110	1110	2100	2100	2100	2100	2100	2100	2100	2100	2100	2100
-//		Screen Start: 		X			X			X		X				
-//		BDC OK CODE: 		/00			=PA			=T\03		=BU				
-//		BDC CURSOR: 		IFLO-TPLNR			IFLO-PLTXT					SCRN_GSOA_FLOC-ZZCSITE				
-//		BDC SUBSCREEN:						SAPLITO0                                1052SUB_0102A	SAPLITO0                                1062SUB_0102B	SAPLITO0                                1052SUB_0102A	SAPLITO0                                1062SUB_0102B	SAPLXTOB                                4000CNTRL_FLOC				
-//		Field Name: 		IFLO-TPLNR	RILO0-ALKEY	RILO0-TPLKZ	IFLO-PLTXT	ITOB-BUKRS	ITOB-IWERK	ITOB-BUKRS	ITOB-IWERK	SCRN_GSOA_FLOC-ZZCSITE	SCRN_GSOA_FLOC-ZZSLDIS	SCRN_GSOA_FLOC-ZZDIST	SCRN_GSOA_FLOC-ZZTTIME_DAY	SCRN_GSOA_FLOC-ZZTTIME_TIME
-//		Description: 														
-//Messages		Special Instructions														
-//		X		300000000082	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 46	5	KM	22	00:00:00
-//		x		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
-//		X		300000000083	1	DD000	test	ZA20	ZA10	ZA20	ZA10	TEST STORE 47	5	KM	22	00:00:00
