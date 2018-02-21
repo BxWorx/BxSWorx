@@ -1,13 +1,13 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPIPC.BDCData
+namespace BxS_SAPExcel.Excel
 {
-	public class DTO_ExcelWorksheet
+	public class DTO_WBWSManifest
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_ExcelWorksheet()
+				internal DTO_WBWSManifest()
 					{
 					}
 
@@ -18,11 +18,7 @@ namespace BxS_SAPIPC.BDCData
 
 				public	string	WBID					{ get;	set;	}
 				public	string	WSID					{ get;	set;	}
-				public	string	WSNo					{ get;	set;	}
 				public	string	UsedAddress		{ get;	set;	}
-				//.................................................
-				public	string[,]	WSData			{ get; set;	}
-				public	object[,]	WSCells			{ get; set;	}
 
 			#endregion
 

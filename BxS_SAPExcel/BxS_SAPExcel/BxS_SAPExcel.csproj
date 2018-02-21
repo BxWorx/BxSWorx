@@ -100,6 +100,9 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="BxS_SAPIPC">
+      <HintPath>..\..\BxS_SAPIPC\BxS_SAPIPC\bin\Debug\netcoreapp2.0\BxS_SAPIPC.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -156,16 +159,18 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="BxSSAPtor.cs">
+    <Compile Include="Code Respository\Excel\DTO\DTO_Manifest.cs" />
+    <Compile Include="Code Respository\Excel\Controllers\ExcelHandler.cs" />
+    <Compile Include="Code Respository\UI\BxSSAPtor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="BxSSAPtor.Designer.cs">
+    <Compile Include="Code Respository\UI\BxSSAPtor.Designer.cs">
       <DependentUpon>BxSSAPtor.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="BxSSAPtor.resx">
+    <EmbeddedResource Include="Code Respository\UI\BxSSAPtor.resx">
       <DependentUpon>BxSSAPtor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -208,7 +213,7 @@
     <ManifestKeyFile>BxS_SAPExcel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>FC9924AFDB4557243AFF6740AB9D9D7A8849064F</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F9A3B85DC906DD59313F918483320A9FC787A6DC</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
