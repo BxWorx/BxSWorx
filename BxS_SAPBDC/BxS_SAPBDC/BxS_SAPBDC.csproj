@@ -14,19 +14,21 @@
     <Compile Remove="zKeep\BDCTokens.cs" />
     <Compile Remove="zKeep\BDC_Processor1.cs" />
     <Compile Remove="zKeep\DTO_BDCXMLConfig1.cs" />
+    <Compile Remove="zKeep\ObjSerializer.cs" />
     <Compile Remove="zKeep\Parser_BDCConfig.cs" />
     <Compile Remove="zKeep\Parser_BDCTokens.cs" />
     <Compile Remove="zKeep\Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="BxS_SAPIPC">
-      <HintPath>..\..\BxS_SAPIPC\BxS_SAPIPC\bin\Debug\netcoreapp2.0\BxS_SAPIPC.dll</HintPath>
-    </Reference>
+    <Folder Include="Code Respository\Helpers\" />
+    <Folder Include="zKeep\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="zKeep\" />
+    <Reference Include="BxS_SAPIPX">
+      <HintPath>..\..\BxS_SAPIPX\BxS_SAPIPX\bin\Debug\netstandard2.0\BxS_SAPIPX.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

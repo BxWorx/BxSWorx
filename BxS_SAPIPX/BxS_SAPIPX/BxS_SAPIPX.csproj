@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Code Repository\zKeep\BDC\**" />
+    <EmbeddedResource Remove="Code Repository\zKeep\BDC\**" />
+    <None Remove="Code Repository\zKeep\BDC\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Code Repository\zKeep\BDC_Session.cs" />
+    <Compile Remove="Code Repository\zKeep\BDC_Transaction.cs" />
+    <Compile Remove="Code Repository\zKeep\Class1.cs" />
+    <Compile Remove="Code Repository\zKeep\DTO_SessionXMLConfig.cs" />
+    <Compile Remove="Code Repository\zKeep\IBDCSession.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code Repository\zKeep\" />
+  </ItemGroup>
+
+</Project>

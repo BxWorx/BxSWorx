@@ -1,13 +1,59 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+//.........................................................
 using Microsoft.Office.Interop.Excel;
 //.........................................................
-using BxS_SAPIPC.BDCData;
+using BxS_SAPIPX.Helpers;
+using BxS_SAPIPX.Main;
+using BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPExcel.Excel
+namespace BxS_SAPExcel.Main
 {
 	internal class ExcelHandler
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ExcelHandler()
+					{
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				internal readonly Lazy<IO>
+					_IO							=		new	Lazy<IO>						( () => IPC_Controller.CreateIO()						);
+
+				internal readonly Lazy<Parser_WSDTO>
+					_WSDTOParser		=		new	Lazy<Parser_WSDTO>	( () => IPC_Controller.CreateWSDTOParser()	);
+
+				internal readonly Lazy<ObjSerializer>
+					_ObjSerialiser	=		new	Lazy<ObjSerializer>	( () => IPC_Controller.CreateSerialiser()		);
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal string GetStatusbar()
+					{
+						return	Globals.ThisAddIn.Application.StatusBar;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void WriteStatusbar( Object msg )
+					{
+						Globals.ThisAddIn.Application.StatusBar = msg;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_ExcelWorksheet CreateWSDTO()
+					{
+						return IPC_Controller.CreateWorksheetDTO();
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IList<DTO_WBWSManifest> WBWSManifest()

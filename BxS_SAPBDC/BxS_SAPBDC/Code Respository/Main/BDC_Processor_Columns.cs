@@ -35,7 +35,7 @@ namespace BxS_SAPBDC.Parser
 					{
 						bool	lb_Ret	= false;
 						//.............................................
-						for ( int c = dto.ColDataStart; c <= dto.ColUB; c++ )
+						for ( int c = dto.ColDataStart; c < dto.ColUB; c++ )
 							{
 								DTO_BDCColumn lo_Col	= CreateColumn(c);
 								//.........................................

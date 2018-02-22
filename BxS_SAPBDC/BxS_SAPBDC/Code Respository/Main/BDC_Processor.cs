@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 //.........................................................
-using BxS_SAPIPC.BDCData;
+using BxS_SAPIPX.BDCData;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	public partial class BDC_Processor
+	public class BDC_Processor
 		{
 			#region "Constructors"
 

@@ -60,6 +60,7 @@ namespace BxS_SAPBDC.Parser
 				internal	const	string	cz_Token_Desc			=	"<DESCRIPTION>"				;
 				internal	const	string	cz_Token_Inst			=	"<INSTRUCTIONS>"			;
 
+				internal	const	string	cz_Token_IDCol		=	"<TRANID>"						;
 				internal	const	string	cz_Token_MsgCol		=	"<MESSAGES>"					;
 				internal	const	string	cz_Token_ExeCol		=	"<EXECUTE>"						;
 				internal	const	string	cz_Token_DataCol	=	"<DATASTARTCOL>"			;

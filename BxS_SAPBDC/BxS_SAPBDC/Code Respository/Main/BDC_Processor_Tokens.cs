@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 //.........................................................
-using					BxS_SAPBDC.Helpers;
+using					BxS_SAPIPX.Helpers;
 using static	BxS_SAPBDC.Parser.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
@@ -80,11 +80,11 @@ namespace BxS_SAPBDC.Parser
 							{
 								if ( this.ExtractXMLConfig( dto ) )
 									{
-										this.ExtractBDCTokenValues( dto );
-										this.ExtractSpecificTokenValues( dto );
-
-										return	true;
 									}
+									this.ExtractBDCTokenValues( dto );
+									this.ExtractSpecificTokenValues( dto );
+
+									return	true;
 							}
 						//.............................................
 						return	false;
@@ -137,6 +137,7 @@ namespace BxS_SAPBDC.Parser
 						dto.AddToken( this.CreateToken( cz_Token_Desc	,	(int)ZDTON_RowNo.Description	)	);
 						dto.AddToken( this.CreateToken( cz_Token_Inst	,	(int)ZDTON_RowNo.Instructions	)	);
 						//.............................................
+						dto.AddToken( this.CreateToken( cz_Token_IDCol		,	-1 ,  0 ) );
 						dto.AddToken( this.CreateToken( cz_Token_MsgCol		,	-1 ,  2 ) );
 						dto.AddToken( this.CreateToken( cz_Token_ExeCol		,	-1 ,  4 ) );
 						dto.AddToken( this.CreateToken( cz_Token_DataCol	,	-1 ,  6 ) );
@@ -176,10 +177,12 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ExtractSpecificTokenValues( DTO_BDCSession dto )
 					{
-						dto.RowDataStart	= this.ExtractTokenValue( dto , cz_Token_DataRow	, true	);
+						dto.RowDataStart	= this.ExtractTokenValue( dto , cz_Token_IDCol		, false	);
 						dto.ColDataStart	= this.ExtractTokenValue( dto , cz_Token_DataCol	, false	);
 						dto.ColDataExec		= this.ExtractTokenValue( dto , cz_Token_ExeCol		, false	);
 						dto.ColDataMsgs		= this.ExtractTokenValue( dto , cz_Token_MsgCol		, false	);
+
+						dto.RowDataStart	= this.ExtractTokenValue( dto , cz_Token_DataRow	, true	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="BxS_SAPIPC">
-      <HintPath>..\..\BxS_SAPIPC\BxS_SAPIPC\bin\Debug\netcoreapp2.0\BxS_SAPIPC.dll</HintPath>
+    <Reference Include="BxS_SAPIPX">
+      <HintPath>..\..\BxS_SAPIPX\BxS_SAPIPX\bin\Debug\netstandard2.0\BxS_SAPIPX.dll</HintPath>
     </Reference>
   </ItemGroup>
 
