@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPIPX.Excel
 {
-	public class BDCSession_Parser
+	internal class BDCSession_Parser
 		{
 			#region "Constructors"
 
@@ -18,7 +18,7 @@ namespace BxS_SAPIPX.Excel
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Parse1Dto2D( DTO_BDCSessionRequest DTO , bool resetSource = true )
+				internal void Parse1Dto2D( DTO_BDCSessionRequest DTO , bool resetSource = true )
 					{
 						int[]	lt_UB = new int[2];
 						int[]	lt_LB = new int[2];
@@ -47,7 +47,7 @@ namespace BxS_SAPIPX.Excel
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Parse2Dto1D( DTO_BDCSessionRequest DTO, bool resetSource = true )
+				internal void Parse2Dto1D( DTO_BDCSessionRequest DTO, bool resetSource = true )
 					{
 						DTO.RowLB	= DTO.WSCells.GetLowerBound(0);
 						DTO.RowUB	= DTO.WSCells.GetUpperBound(0);

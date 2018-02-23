@@ -1,36 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 //.........................................................
 using Microsoft.Office.Interop.Excel;
 //.........................................................
-using BxS_SAPIPX.Helpers;
 using BxS_SAPIPX.Main;
 using BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPExcel.Main
 {
-	internal class ExcelHandler
+	internal class ExcelHandler_BDCSession
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ExcelHandler()
-					{
-					}
+				internal ExcelHandler_BDCSession()
+					{	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				internal readonly Lazy<IO>
-					_IO							=		new	Lazy<IO>						( () => IPC_Controller.CreateIO()						);
+				internal readonly Lazy<IIPX_Controller>
 
-				internal readonly Lazy<Parser_WSDTO>
-					_WSDTOParser		=		new	Lazy<Parser_WSDTO>	( () => IPC_Controller.CreateWSDTOParser()	);
-
-				internal readonly Lazy<ObjSerializer>
-					_ObjSerialiser	=		new	Lazy<ObjSerializer>	( () => IPC_Controller.CreateSerialiser()		);
+					_IPXCntlr		= new Lazy<IIPX_Controller>	( ()=>	IPX_Controller.Instance
+																													, LazyThreadSafetyMode
+																															.ExecutionAndPublication );
 
 			#endregion
 
@@ -38,47 +34,19 @@ namespace BxS_SAPExcel.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal string GetStatusbar()
+				internal DTO_BDCSessionRequest CreateBDCSessionRequest()
 					{
-						return	Globals.ThisAddIn.Application.StatusBar;
+						return	this._IPXCntlr.Value.CreateBDCSessionRequest();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void WriteStatusbar( Object msg )
+				internal DTO_BDCSessionResult CreateBDCSessionResult()
 					{
-						Globals.ThisAddIn.Application.StatusBar = msg;
+						return	this._IPXCntlr.Value.CreateBDCSessionResult();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_ExcelWorksheet CreateWSDTO()
-					{
-						return IPC_Controller.CreateWorksheetDTO();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList<DTO_WBWSManifest> WBWSManifest()
-					{
-						IList<DTO_WBWSManifest>	lt_List		= new List<DTO_WBWSManifest>();
-						//.............................................
-						foreach ( Workbook lo_WB in Globals.ThisAddIn.Application.Workbooks )
-							{
-								foreach ( Worksheet lo_WS in lo_WB.Worksheets )
-									{
-										var lo = new DTO_WBWSManifest	{
-																										WBID				= lo_WB.Name,
-																										WSID				= lo_WS.Name,
-																										UsedAddress = lo_WS.UsedRange.Address
-																									};
-
-										lt_List.Add( lo );
-									}
-							}
-						//.............................................
-						return	lt_List;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void LoadWSActive( DTO_ExcelWorksheet wsDTO )
+				internal void LoadWSActive( DTO_BDCSessionRequest wsDTO )
 					{
 						Worksheet lo_WS	= this.GetWS();
 
@@ -90,7 +58,7 @@ namespace BxS_SAPExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void LoadWSCells( DTO_ExcelWorksheet wsDTO )
+				internal void LoadWSCells( DTO_BDCSessionRequest wsDTO )
 					{
 						Worksheet lo_WS	= this.GetWS( wsDTO.WBID , wsDTO.WSID );
 						if (lo_WS == null)	return;

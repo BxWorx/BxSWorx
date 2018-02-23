@@ -12,7 +12,7 @@ namespace BxS_SAPExcel
 		{
 			#region "Declarations"
 
-				internal ExcelHandler		_ExcelHndlr;
+				internal ExcelHandler_BDCSession		_ExcelHndlr;
 
 			#endregion
 
@@ -22,14 +22,14 @@ namespace BxS_SAPExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxSSAPtor_Load( object sender , RibbonUIEventArgs e )
 					{
-						this._ExcelHndlr	= new	ExcelHandler();
+						this._ExcelHndlr	= new	ExcelHandler_BDCSession();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
 						int x =	await Task.Run( () => {
-																		DTO_ExcelWorksheet lo_WS = this._ExcelHndlr.CreateWSDTO();
+																		DTO_ExcelWorksheet lo_WS = this._ExcelHndlr.CreateBDCSessionRequest();
 																		this._ExcelHndlr.LoadWSActive( lo_WS );
 																		this._ExcelHndlr._WSDTOParser.Value.Parse2Dto1D( lo_WS );
 																		string lc_XML	=	this._ExcelHndlr._ObjSerialiser.Value.Serialize( lo_WS );
@@ -46,7 +46,7 @@ namespace BxS_SAPExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Button2_Click( object sender , RibbonControlEventArgs e )
 					{
-						IList<Main.DTO_WBWSManifest> x = this._ExcelHndlr.WBWSManifest();
+						IList<Main.DTO_ExcelAppManifest> x = this._ExcelHndlr.WBWSManifest();
 					}
 
 			#endregion

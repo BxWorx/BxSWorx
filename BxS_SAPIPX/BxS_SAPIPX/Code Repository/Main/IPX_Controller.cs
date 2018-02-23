@@ -1,38 +1,102 @@
-﻿using BxS_SAPIPX.Excel;
+﻿using System;
+using System.Threading;
+//.........................................................
+using BxS_SAPIPX.BDCData;
+using BxS_SAPIPX.Excel;
 using BxS_SAPIPX.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPIPX.Main
 {
-	public static class IPX_Controller
+	public class IPX_Controller : IIPX_Controller
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public static IIPX_Controller Instance
+					{
+						get { return _Instance.Value; }
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IPX_Controller()
+					{	}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private	static readonly	Lazy<IIPX_Controller>		_Instance
+						= new Lazy<IIPX_Controller>( ()=>	new IPX_Controller()
+																							, LazyThreadSafetyMode.ExecutionAndPublication );
+				//.................................................
+				private readonly	Lazy<IO>								_IO					= new Lazy<IO>
+																																		( ()=>	new IO()
+																																						,	LazyThreadSafetyMode.ExecutionAndPublication );
+
+				private readonly	Lazy<ObjSerializer>			_Seriliser	= new Lazy<ObjSerializer>
+																																		( ()=>	new ObjSerializer()
+																																						,	LazyThreadSafetyMode.ExecutionAndPublication );
+
+				private readonly	Lazy<BDCSession_Parser>	_Parser			= new Lazy<BDCSession_Parser>
+																																		( ()=>	new BDCSession_Parser()
+																																						,	LazyThreadSafetyMode.ExecutionAndPublication );
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IO CreateIO()
+				public void Parse1Dto2D( DTO_BDCSessionRequest DTO	, bool resetSource = true )
 					{
-						return	new IO();
+						this._Parser.Value.Parse1Dto2D( DTO , resetSource );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static BDCSession_Parser CreateWSDTOParser()
+				public void Parse2Dto1D( DTO_BDCSessionRequest DTO	, bool resetSource = true )
 					{
-						return	new BDCSession_Parser();
+						this._Parser.Value.Parse2Dto1D( DTO , resetSource );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static ObjSerializer CreateSerialiser()
+				public string Serialize<T>(T classObject)
 					{
-						return	new ObjSerializer();
+						return	this._Seriliser.Value.Serialize(classObject);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static DTO_BDCSessionResult CreateBDCSessionResult()
+				public T DeSerialize<T>	(string xmlString)
+					{
+						return	this._Seriliser.Value.DeSerialize<T>(xmlString);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void WriteFile(string FullPathFileName, string DataString)
+					{
+						this._IO.Value.WriteFile(FullPathFileName,DataString);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public string ReadFile(string FullPathFileName)
+					{
+						return	this._IO.Value.ReadFile(FullPathFileName);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_CTUParms CreateCTUParms()
+					{
+						return	new	DTO_CTUParms();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_BDCSessionResult CreateBDCSessionResult()
 					{
 						return	new DTO_BDCSessionResult();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static DTO_BDCSessionRequest CreateWorksheetDTO()
+				public DTO_BDCSessionRequest CreateBDCSessionRequest()
 					{
 						return	new DTO_BDCSessionRequest();
 					}

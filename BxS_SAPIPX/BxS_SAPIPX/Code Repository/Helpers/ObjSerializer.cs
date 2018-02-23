@@ -7,7 +7,7 @@ using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPIPX.Helpers
 {
-	public class ObjSerializer
+	internal class ObjSerializer
 		{
 			#region "Constructors"
 
@@ -21,76 +21,77 @@ namespace BxS_SAPIPX.Helpers
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public string Serialize<T>(T classObject)
-						{
-							var	lt_Types	= new List<Type>();
-							return	this.Serialize(classObject, lt_Types);
-						}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal string Serialize<T>( T classObject )
+					{
+						var	lt_Types	= new List<Type>();
+						return	this.Serialize(classObject, lt_Types);
+					}
 
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public string Serialize<T>(	T						classObject	,
-																			List<Type>	knownTypes		)
-						{
-							var lo_XWSettings = new XmlWriterSettings
-								{	Indent							= true	,
-									OmitXmlDeclaration	= true	,
-									NewLineOnAttributes	= true		};
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal string Serialize<T>(		T						classObject
+																			,	List<Type>	knownTypes	)
+					{
+						var lo_XWSettings		= new XmlWriterSettings	{
+																														Indent							= true
+																													,	OmitXmlDeclaration	= true
+																													,	NewLineOnAttributes	= true
+																												};
 
-							var lo_StrBld	= new StringBuilder();
+						var lo_StrBld	= new StringBuilder();
 
-							using (var lo_XMLWriter = XmlWriter.Create(lo_StrBld, lo_XWSettings))
-								{
-									var lo_XMLSer	= new DataContractSerializer(typeof(T), knownTypes);
+						using (var lo_XMLWriter = XmlWriter.Create(lo_StrBld, lo_XWSettings))
+							{
+								var lo_XMLSer	= new DataContractSerializer(typeof(T), knownTypes);
 
-									lo_XMLSer.WriteObject(lo_XMLWriter, classObject);
-									lo_XMLWriter.Flush();
+								lo_XMLSer.WriteObject(lo_XMLWriter, classObject);
+								lo_XMLWriter.Flush();
 
-									return	lo_StrBld.ToString();
-								}
-						}
+								return	lo_StrBld.ToString();
+							}
+					}
 
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public T DeSerialize<T>(string xmlString)
-						{
-							var	lt_Types	= new List<Type>();
-							return	this.DeSerialize<T>(	xmlString	:	xmlString	,
-																						knownTypes: lt_Types		);
-						}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal T DeSerialize<T>( string xmlString )
+					{
+						var	lt_Types	= new List<Type>();
+						return	this.DeSerialize<T>(	xmlString	:	xmlString	,
+																					knownTypes: lt_Types		);
+					}
 
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public T DeSerialize<T>(	string			xmlString		,
-																		List<Type>	knownTypes		)
-						{
-							using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
-								{
-									var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
-									return (T)lo_serializer.ReadObject(lo_XMLReader);
-								}
-						}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal T DeSerialize<T>(	string			xmlString
+																	,	List<Type>	knownTypes	)
+					{
+						using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
+							{
+								var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
+								return (T)lo_serializer.ReadObject(lo_XMLReader);
+							}
+					}
 
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void DeSerialize<T>(	string			xmlString		,
-																			ref T				classObject		)
-						{
-							var	lt_Types	= new List<Type>();
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void DeSerialize<T>(		string	xmlString
+																			,	ref T		classObject	)
+					{
+						var	lt_Types	= new List<Type>();
 
-							this.DeSerialize(			xmlString		,
-																ref classObject	,
-																		lt_Types			);
-						}
+						this.DeSerialize(			xmlString		,
+															ref classObject	,
+																	lt_Types			);
+					}
 
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void DeSerialize<T>(	string			xmlString		,
-																			ref T				classObject	,
-																			List<Type>	knownTypes		)
-						{
-							using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
-								{
-									var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
-									classObject	= (T)lo_serializer.ReadObject(lo_XMLReader);
-								}
-						}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void DeSerialize<T>(		string			xmlString
+																			,	ref T				classObject
+																			,	List<Type>	knownTypes	)
+					{
+						using (var lo_XMLReader = XmlReader.Create(new StringReader(xmlString)))
+							{
+								var lo_serializer = new DataContractSerializer(typeof(T), knownTypes);
+								classObject	= (T)lo_serializer.ReadObject(lo_XMLReader);
+							}
+					}
 
 			#endregion
 

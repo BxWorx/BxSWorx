@@ -3,7 +3,7 @@ using System.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPIPX.Helpers
 {
-	public class IO
+	internal class IO
 		{
 			#region "Constructors"
 
@@ -18,7 +18,7 @@ namespace BxS_SAPIPX.Helpers
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void DeleteFile(string fullPathName)
+				internal void DeleteFile(string fullPathName)
 					{
 						try
 							{
@@ -32,19 +32,19 @@ namespace BxS_SAPIPX.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public string PathFileCombine(string path, string fileName)
+				internal string PathFileCombine(string path, string fileName)
 					{
 						return	Path.Combine( path,	fileName );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool FileExists(string fullPathName)
+				internal bool FileExists(string fullPathName)
 					{
 						return	File.Exists(fullPathName);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void WriteFile(string FullPathFileName, string DataString)
+				internal void WriteFile(string FullPathFileName, string DataString)
 					{
 						using (var lo_SW = new StreamWriter(FullPathFileName, false))
 							{
@@ -53,7 +53,7 @@ namespace BxS_SAPIPX.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public string ReadFile(string FullPathFileName)
+				internal string ReadFile(string FullPathFileName)
 					{
 						var lo_FS	= new FileStream(FullPathFileName, FileMode.Open);
 
@@ -64,7 +64,7 @@ namespace BxS_SAPIPX.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<string> ReadTextFile(string FullPathFileName, bool includeBlankLines = true)
+				internal IList<string> ReadTextFile(string FullPathFileName, bool includeBlankLines = true)
 					{
 						IList<string>	lt_List	= new List<string>();
 						var						lo_FS		= new FileStream(FullPathFileName, FileMode.Open);

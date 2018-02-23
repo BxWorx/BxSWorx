@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-using SMC	= SAP.Middleware.Connector;
+//using SMC	= SAP.Middleware.Connector;
 
 namespace BxSWorxAPI.Controllers
 {
@@ -14,7 +14,9 @@ namespace BxSWorxAPI.Controllers
 				public ValuesController()
 					{
 
-					var _SAPINI		= SMC.SapLogonIniConfiguration.Create();
+					var x = new ClassLibrary1.Class1();
+
+					//var _SAPINI		= SMC.SapLogonIniConfiguration.Create();
 
 
 						//this._NCOCntlr	= new NCOController( true, false , true);
