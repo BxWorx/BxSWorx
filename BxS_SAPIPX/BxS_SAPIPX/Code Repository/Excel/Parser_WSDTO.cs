@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-//.........................................................
-using BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPIPX.Excel
 {
-	public class Parser_WSDTO
+	public class BDCSession_Parser
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Parser_WSDTO()
+				internal BDCSession_Parser()
 					{
 					}
 
@@ -20,7 +18,7 @@ namespace BxS_SAPIPX.Excel
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Parse1Dto2D( DTO_ExcelWorksheet DTO , bool resetSource = true )
+				public void Parse1Dto2D( DTO_BDCSessionRequest DTO , bool resetSource = true )
 					{
 						int[]	lt_UB = new int[2];
 						int[]	lt_LB = new int[2];
@@ -49,7 +47,7 @@ namespace BxS_SAPIPX.Excel
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Parse2Dto1D( DTO_ExcelWorksheet DTO, bool resetSource = true )
+				public void Parse2Dto1D( DTO_BDCSessionRequest DTO, bool resetSource = true )
 					{
 						DTO.RowLB	= DTO.WSCells.GetLowerBound(0);
 						DTO.RowUB	= DTO.WSCells.GetUpperBound(0);

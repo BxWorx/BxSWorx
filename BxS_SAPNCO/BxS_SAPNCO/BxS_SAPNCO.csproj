@@ -51,14 +51,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="sapnco">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
-    </Reference>
+    <Folder Include="Code\Zkeep\" />
+    <Folder Include="obj\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\Zkeep\" />
-    <Folder Include="obj\" />
+    <Reference Include="sapnco">
+      <HintPath>..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,40 +1,32 @@
-﻿using BxS_SAPIPX.Excel;
-using BxS_SAPIPX.Helpers;
+﻿using System.Collections.Generic;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_SAPNCO.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPIPX.Main
+namespace BxS_SAPNCO.API
 {
-	public static class IPC_Controller
+	public partial class NCOController
 		{
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: Configuration"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IO CreateIO()
+				public void LoadSAPGUIConfig(bool FirstReset = false)
 					{
-						return	new IO();
+						this.LoadRepositoryFromConfig(FirstReset);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static Parser_WSDTO CreateWSDTOParser()
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.RfcConfigParameters GetConfigParameters(string ID)
 					{
-						return	new Parser_WSDTO();
+						return	SAPLogonINI.GetConfigParameters(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static ObjSerializer CreateSerialiser()
+				public IList<string>	GetSAPGUIConfigEntries()
 					{
-						return	new ObjSerializer();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static DTO_BDCSessionResult CreateBDCSessionResult()
-					{
-						return	new DTO_BDCSessionResult();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static DTO_ExcelWorksheet CreateWorksheetDTO()
-					{
-						return	new DTO_ExcelWorksheet();
+						return	SAPLogonINI.GetSAPGUIConfigEntries();
 					}
 
 			#endregion

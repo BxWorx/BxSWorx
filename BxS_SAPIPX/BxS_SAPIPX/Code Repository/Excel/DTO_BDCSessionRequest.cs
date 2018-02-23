@@ -5,14 +5,14 @@ using System.Security;
 namespace BxS_SAPIPX.Excel
 {
 	[DataContract()]
-	public class DTO_ExcelWorksheet
+	public class DTO_BDCSessionRequest
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_ExcelWorksheet()
+				internal DTO_BDCSessionRequest()
 					{
-						this.WSData1D	= new	Dictionary<string, string>();
+						this.WSData1D	= new	Dictionary< string , string >();
 					}
 
 			#endregion
