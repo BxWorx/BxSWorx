@@ -35,11 +35,11 @@ namespace BxS_SAPIPX.Excel
 				[DataMember]	public	int			ColLB	{ get; set;	}
 				[DataMember]	public	int			ColUB	{ get; set;	}
 
-				[DataMember]	public	Dictionary< string, string >	WSData1D	{ get; set; }
+				[DataMember]	public	Dictionary< string , string >	WSData1D	{ get; set; }
 				[DataMember]	public	SecureString									Pwrd			{ get; set; }
 				//.................................................
-				public	string[,]	WSData		{ get; set;	}
-				public	object[,]	WSCells		{ get; set;	}
+											public	string[,]		WSData	{ get; set;	}
+											public	object[,]		WSCells	{ get; set;	}
 
 			#endregion
 
