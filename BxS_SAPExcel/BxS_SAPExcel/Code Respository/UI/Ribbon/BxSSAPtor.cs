@@ -12,7 +12,8 @@ namespace BxS_SAPExcel
 		{
 			#region "Declarations"
 
-				internal ExcelHandler_BDCSession		_ExcelHndlr;
+				internal Handler_Excel	_HndlrExcel	;
+				internal Handler_BDC		_HndlrBDC		;
 
 			#endregion
 
@@ -22,31 +23,33 @@ namespace BxS_SAPExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxSSAPtor_Load( object sender , RibbonUIEventArgs e )
 					{
-						this._ExcelHndlr	= new	ExcelHandler_BDCSession();
+						this._HndlrExcel	= new	Handler_Excel();
+						this._HndlrBDC		= new	Handler_BDC();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
-						int x =	await Task.Run( () => {
-																		DTO_ExcelWorksheet lo_WS = this._ExcelHndlr.CreateBDCSessionRequest();
-																		this._ExcelHndlr.LoadWSActive( lo_WS );
-																		this._ExcelHndlr._WSDTOParser.Value.Parse2Dto1D( lo_WS );
-																		string lc_XML	=	this._ExcelHndlr._ObjSerialiser.Value.Serialize( lo_WS );
-																		DTO_ExcelWorksheet X = this._ExcelHndlr._ObjSerialiser.Value.DeSerialize<DTO_ExcelWorksheet>( lc_XML );
-																		this._ExcelHndlr._WSDTOParser.Value.Parse1Dto2D( X );
-																		this._ExcelHndlr._IO.Value.WriteFile($@"C:\Temp\BxSWorx\{lo_WS.WSID}.xml",lc_XML);
-																		this._ExcelHndlr.WriteStatusbar( lo_WS.RowUB.ToString() );
+						await Task.Run( () => {
+																		DTO_BDCSessionRequest lo_WS		= this._HndlrBDC.CreateBDCSessionRequest();
+																		//.....................
+																		this._HndlrExcel.GetWSActive( lo_WS );
+																		this._HndlrExcel.LoadWSCells( lo_WS );
+																		this._HndlrBDC.WriteDataXML( lo_WS );
+																		//.....................
+																		this._HndlrExcel.WriteStatusbar( lo_WS.RowUB.ToString() );
 																		Thread.Sleep(300);
-																		this._ExcelHndlr.WriteStatusbar(false);
-																		return	X.RowUB;
+																		this._HndlrExcel.ResetStatusBar();
 																	} ).ConfigureAwait(false);
 					}
+
+				//DTO_ExcelWorksheet X = this._HndlrExcel._ObjSerialiser.Value.DeSerialize<DTO_ExcelWorksheet>( lc_XML );
+				//this._HndlrExcel._WSDTOParser.Value.Parse1Dto2D( X );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Button2_Click( object sender , RibbonControlEventArgs e )
 					{
-						IList<Main.DTO_ExcelAppManifest> x = this._ExcelHndlr.WBWSManifest();
+						IList<Main.DTO_ExcelAppManifest> x = this._HndlrExcel.WBWSManifest();
 					}
 
 			#endregion

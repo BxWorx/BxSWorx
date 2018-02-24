@@ -159,9 +159,9 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="Code Respository\Excel\Controllers\ExcelHandler_Application.cs" />
+    <Compile Include="Code Respository\Excel\Controllers\Handler_Excel.cs" />
     <Compile Include="Code Respository\Excel\DTO\DTO_ExcelAppManifest.cs" />
-    <Compile Include="Code Respository\Excel\Controllers\ExcelHandler_BDCSession.cs" />
+    <Compile Include="Code Respository\Excel\Controllers\Handler_BDC.cs" />
     <Compile Include="Code Respository\UI\Ribbon\BxSSAPtor.cs">
       <SubType>Component</SubType>
     </Compile>
