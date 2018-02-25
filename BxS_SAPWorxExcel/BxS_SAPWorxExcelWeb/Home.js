@@ -33,8 +33,8 @@
 						loadSampleData();
 
 						// Add a click event handler for the highlight button.
-						$('#highlight-button')	.click(hightlightHighestValue);
-						$('#sapnco-button')			.click(sapncoSystemList);
+						$('#highlight-button').click(hightlightHighestValue);
+						$('#sapnco-button').click(GetWSData);
 				});
 		};
 
@@ -86,6 +86,31 @@
 								);
 		}
 
+		//.............................................................................................
+		function GetWSData() {
+			// Run a batch operation against the Excel object model
+			Excel.run(
+				function (ctx) {
+
+					var lo_WS = ctx.workbook.worksheets.getActiveWorksheet();
+					var lo_UR = lo_WS.getUsedRangeOrNullObject().load("values, rowCount, columnCount");
+
+					return ctx.sync()
+						.then(function () {
+
+							if (lo_UR != null) {
+								var t;
+								for (var r = 0; r < lo_UR.rowCount; r++) {
+									for (var c = 0; c < lo_UR.columnCount; c++) {
+										t = t + lo_UR.values[r][c];
+									}
+								}
+							}
+						}).then(ctx.sync);
+
+				}
+			).catch(errorHandler);
+		}
 		//.............................................................................................
 		function hightlightHighestValue() {
 				// Run a batch operation against the Excel object model
