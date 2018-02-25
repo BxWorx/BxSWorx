@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Security;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPIPX.Excel
 {
-	[DataContract()]
 	public class DTO_SessionRequestRaw
 		{
 			#region "Constructors"
@@ -20,24 +18,23 @@ namespace BxS_SAPIPX.Excel
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public	string	SAPID					{ get; set; }
-				[DataMember]	public	string	Client				{ get; set; }
-				[DataMember]	public	string	User					{ get; set; }
-				[DataMember]	public	string	Lang					{ get; set; }
+				public	string	SAPID					{ get; set; }
+				public	string	Client				{ get; set; }
+				public	string	User					{ get; set; }
+				public	string	Lang					{ get; set; }
 
-				[DataMember]	public	string	WBID					{ get; set; }
-				[DataMember]	public	string	WSID					{ get; set;	}
-				[DataMember]	public	string	WSNo					{ get; set;	}
-				[DataMember]	public	string	UsedAddress		{ get; set;	}
+				public	string	WBID					{ get; set; }
+				public	string	WSID					{ get; set;	}
+				public	string	WSNo					{ get; set;	}
+				public	string	UsedAddress		{ get; set;	}
 				//.................................................
-				[DataMember]	public	int			RowLB	{ get; set;	}
-				[DataMember]	public	int			RowUB	{ get; set;	}
-				[DataMember]	public	int			ColLB	{ get; set;	}
-				[DataMember]	public	int			ColUB	{ get; set;	}
+				public	int			RowLB	{ get; set;	}
+				public	int			RowUB	{ get; set;	}
+				public	int			ColLB	{ get; set;	}
+				public	int			ColUB	{ get; set;	}
 
-				[DataMember]	public	Dictionary< string , string >	WSData	{ get; set; }
-				[DataMember]	public	SecureString									Pwrd			{ get; set; }
-				//.................................................
+				public	Dictionary< string , string >	WSData	{ get; set; }
+				public	SecureString									Pwrd		{ get; set; }
 
 			#endregion
 

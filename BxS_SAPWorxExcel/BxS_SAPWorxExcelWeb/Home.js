@@ -92,13 +92,17 @@
 			Excel.run(
 				function (ctx) {
 
+
+
+
+					var lc_WB = ctx.workbook.load("name")
 					var lo_WS = ctx.workbook.worksheets.getActiveWorksheet();
-					var lo_UR = lo_WS.getUsedRangeOrNullObject().load("values, rowCount, columnCount");
+					var lo_UR = lo_WS.getUsedRangeOrNullObject().load("values, rowCount, columnCount, address");
 
 					return ctx.sync()
 						.then(function () {
 
-							if (lo_UR != null) {
+							if (lo_UR !== null) {
 								var t;
 								for (var r = 0; r < lo_UR.rowCount; r++) {
 									for (var c = 0; c < lo_UR.columnCount; c++) {

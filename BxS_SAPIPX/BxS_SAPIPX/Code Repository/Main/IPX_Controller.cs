@@ -100,6 +100,12 @@ namespace BxS_SAPIPX.Main
 						return	new DTO_BDCSessionRequest();
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_SessionRequestRaw CreateRawSessionRequest()
+					{
+						return	new DTO_SessionRequestRaw();
+					}
+
 			#endregion
 
 		}

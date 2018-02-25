@@ -7,6 +7,7 @@ namespace BxS_SAPIPX.Main
 		{
 			#region "Methods: Exposed"
 
+				DTO_SessionRequestRaw		CreateRawSessionRequest();
 				DTO_BDCSessionRequest		CreateBDCSessionRequest();
 				DTO_BDCSessionResult		CreateBDCSessionResult();
 				DTO_CTUParms						CreateCTUParms();
