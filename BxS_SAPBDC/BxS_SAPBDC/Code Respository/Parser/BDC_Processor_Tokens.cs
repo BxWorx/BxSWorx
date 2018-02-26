@@ -13,10 +13,12 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Processor_Tokens(	ObjSerializer							serializer
-																			,	Func<DTO_TokenReference>	createToken )
+				//internal BDC_Processor_Tokens(	ObjSerializer							serializer
+				//															,	Func<DTO_TokenReference>	createToken )
+
+				internal BDC_Processor_Tokens(	Func<DTO_TokenReference>	createToken )
 					{
-						this._Serializer		= serializer	;
+						//this._Serializer		= serializer	;
 						this._CreateToken		= createToken	;
 					}
 
@@ -26,7 +28,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Declarations"
 
 				private readonly	Func<DTO_TokenReference>	_CreateToken	;
-				private readonly	ObjSerializer							_Serializer		;
+				//private readonly	ObjSerializer							_Serializer		;
 
 			#endregion
 
@@ -78,9 +80,9 @@ namespace BxS_SAPBDC.Parser
 						//.............................................
 						if ( this.UpdateHeaderRowReference( dto ) )
 							{
-								if ( this.ExtractXMLConfig( dto ) )
-									{
-									}
+								//if ( this.ExtractXMLConfig( dto ) )
+								//	{
+								//	}
 									this.ExtractBDCTokenValues( dto );
 									this.ExtractSpecificTokenValues( dto );
 
@@ -247,25 +249,25 @@ namespace BxS_SAPBDC.Parser
 						return	string.Empty;
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool ExtractXMLConfig( DTO_BDCSession dto )
-					{
-						if ( dto.Tokens.TryGetValue( cz_Token_XCfg , out DTO_TokenReference token ) )
-							{
-								try
-									{
-										dto.XMLConfig	= this._Serializer
-																			.DeSerialize< DTO_BDCXMLConfig >(	token.Value );
-										return	true;
-									}
-								catch (Exception)
-									{
-										return	false;
-									}
-							}
-						//.............................................
-						return	false;
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private bool ExtractXMLConfig( DTO_BDCSession dto )
+				//	{
+				//		if ( dto.Tokens.TryGetValue( cz_Token_XCfg , out DTO_TokenReference token ) )
+				//			{
+				//				try
+				//					{
+				//						dto.XMLConfig	= this._Serializer
+				//															.DeSerialize< DTO_BDCXMLConfig >(	token.Value );
+				//						return	true;
+				//					}
+				//				catch (Exception)
+				//					{
+				//						return	false;
+				//					}
+				//			}
+				//		//.............................................
+				//		return	false;
+				//	}
 
 			#endregion
 

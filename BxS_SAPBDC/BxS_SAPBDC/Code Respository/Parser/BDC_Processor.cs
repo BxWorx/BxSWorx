@@ -12,12 +12,14 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Processor(		BDC_Processor_Tokens						processor_Tokens
 																,	BDC_Processor_Columns						processor_Columns
+																, BDC_Processor_Transaction				processor_Transaction
 																,	Func< DTO_BDCHeaderRowRef		>		createRowRef
 																,	Func<		DTO_BDCHeaderRowRef
-																				, DTO_BDCSession			>		createSession )
+																				, DTO_BDCSession			>		createSession					)
 					{
-						this._Process_Tokens	= processor_Tokens	;
-						this._Process_Columns	= processor_Columns	;
+						this._Process_Tokens	= processor_Tokens			;
+						this._Process_Columns	= processor_Columns			;
+						this._Process_Trans		= processor_Transaction	;
 						//.............................................
 						this._CreateRowRef		= createRowRef	;
 						this._CreateSession		= createSession	;
@@ -28,8 +30,9 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly BDC_Processor_Tokens		_Process_Tokens;
-				private readonly BDC_Processor_Columns	_Process_Columns;
+				private readonly BDC_Processor_Tokens				_Process_Tokens		;
+				private readonly BDC_Processor_Columns			_Process_Columns	;
+				private readonly BDC_Processor_Transaction	_Process_Trans		;
 				//.................................................
 				private readonly	Func<	DTO_BDCHeaderRowRef>										_CreateRowRef		;
 				private readonly	Func<	DTO_BDCHeaderRowRef , DTO_BDCSession>		_CreateSession	;
