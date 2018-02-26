@@ -106,6 +106,18 @@ namespace BxS_SAPIPX.Main
 						return	new DTO_SessionRequestRaw();
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_BDCSessionRequestSAP CreateBDCSessionRequestSAP()
+					{
+						return	new DTO_BDCSessionRequestSAP();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_BDCSessionRequestHeader CreateBDCSessionRequestHeader()
+					{
+						return	new DTO_BDCSessionRequestHeader();
+					}
+
 			#endregion
 
 		}

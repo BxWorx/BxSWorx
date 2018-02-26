@@ -6,7 +6,8 @@
 
 		// The initialize function must be run each time a new page is loaded.
 		Office.initialize = function (reason) {
-				$(document).ready(function () {
+			$(document).ready(function () {
+
 						// Initialize the FabricUI notification mechanism and hide it
 						var element = document.querySelector('.ms-MessageBanner');
 						messageBanner = new fabric.MessageBanner(element);
@@ -68,6 +69,7 @@
 					{
 						url: '../../api/GetSystemList',
 						type: 'GET',
+						//data: JSON.
 						//data: JSON.stringify(dataToPassToService),
 						contentType: 'application/json;charset=utf-8'
 					}
@@ -92,10 +94,7 @@
 			Excel.run(
 				function (ctx) {
 
-
-
-
-					var lc_WB = ctx.workbook.load("name")
+					//var lc_WB = ctx.workbook.load("name");
 					var lo_WS = ctx.workbook.worksheets.getActiveWorksheet();
 					var lo_UR = lo_WS.getUsedRangeOrNullObject().load("values, rowCount, columnCount, address");
 
@@ -103,18 +102,28 @@
 						.then(function () {
 
 							if (lo_UR !== null) {
-								var t;
+
+								var x = JSON.stringify(lo_UR.values);
+
+
+								var lo_DT = new Array(lo_UR.rowCount);
+
 								for (var r = 0; r < lo_UR.rowCount; r++) {
+
+									lo_DT[r] = new Array(lo_UR.columnCount);
+
 									for (var c = 0; c < lo_UR.columnCount; c++) {
-										t = t + lo_UR.values[r][c];
+										lo_DT[r][c] = lo_UR.values[r][c];
 									}
 								}
+
 							}
 						}).then(ctx.sync);
 
 				}
 			).catch(errorHandler);
 		}
+
 		//.............................................................................................
 		function hightlightHighestValue() {
 				// Run a batch operation against the Excel object model
