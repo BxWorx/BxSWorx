@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 //.........................................................
 using static	BxS_SAPBDC.BDC.BDC_Constants;
@@ -12,9 +13,9 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Processor_Tokens(	BDC_Processor_Cfg	BDCConfig )
+				internal BDC_Processor_Tokens( Lazy< BDC_Processor_Factory > factory )
 					{
-						this._BDCCnfg	= BDCConfig;
+						this._Factory	= factory;
 					}
 
 			#endregion
@@ -22,7 +23,7 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	BDC_Processor_Cfg		_BDCCnfg;
+				private	readonly	Lazy< BDC_Processor_Factory >		_Factory;
 
 			#endregion
 
@@ -76,7 +77,7 @@ namespace BxS_SAPBDC.Parser
 							{
 								if ( !this.ExtractXMLConfig( dto ) )
 									{
-										dto.XMLConfig	= this._BDCCnfg.CreateDTOXMLCfg();
+										dto.XMLConfig	= this._Factory.Value.CreateDTOXMLCfg();
 									}
 									this.ExtractBDCTokenValues( dto );
 									this.ExtractSpecificTokenValues( dto );
@@ -124,30 +125,37 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadTokens( DTO_BDCSession dto )
 					{
-						dto.AddToken( this.CreateToken( cz_Token_Prog	, (int)ZDTON_RowNo.ProgName			)	);
-						dto.AddToken( this.CreateToken( cz_Token_Scrn	,	(int)ZDTON_RowNo.DynProNo			)	);
-						dto.AddToken( this.CreateToken( cz_Token_Begn	,	(int)ZDTON_RowNo.DynBegin			)	);
-						dto.AddToken( this.CreateToken( cz_Token_OKCd	,	(int)ZDTON_RowNo.OKCode				)	);
-						dto.AddToken( this.CreateToken( cz_Token_Crsr	,	(int)ZDTON_RowNo.Cursor				)	);
-						dto.AddToken( this.CreateToken( cz_Token_Subs	,	(int)ZDTON_RowNo.SubScreen		)	);
-						dto.AddToken( this.CreateToken( cz_Token_FNme	,	(int)ZDTON_RowNo.FieldName		)	);
-						dto.AddToken( this.CreateToken( cz_Token_Desc	,	(int)ZDTON_RowNo.Description	)	);
-						dto.AddToken( this.CreateToken( cz_Token_Inst	,	(int)ZDTON_RowNo.Instructions	)	);
+						this.AddToken( dto, cz_Token_Prog	, (int)ZDTON_RowNo.ProgName			);
+						this.AddToken( dto, cz_Token_Scrn	,	(int)ZDTON_RowNo.DynProNo			);
+						this.AddToken( dto, cz_Token_Begn	,	(int)ZDTON_RowNo.DynBegin			);
+						this.AddToken( dto, cz_Token_OKCd	,	(int)ZDTON_RowNo.OKCode				);
+						this.AddToken( dto, cz_Token_Crsr	,	(int)ZDTON_RowNo.Cursor				);
+						this.AddToken( dto, cz_Token_Subs	,	(int)ZDTON_RowNo.SubScreen		);
+						this.AddToken( dto, cz_Token_FNme	,	(int)ZDTON_RowNo.FieldName		);
+						this.AddToken( dto, cz_Token_Desc	,	(int)ZDTON_RowNo.Description	);
+						this.AddToken( dto, cz_Token_Inst	,	(int)ZDTON_RowNo.Instructions	);
 						//.............................................
-						dto.AddToken( this.CreateToken( cz_Token_IDCol		,	-1 ,  0 ) );
-						dto.AddToken( this.CreateToken( cz_Token_MsgCol		,	-1 ,  2 ) );
-						dto.AddToken( this.CreateToken( cz_Token_ExeCol		,	-1 ,  4 ) );
-						dto.AddToken( this.CreateToken( cz_Token_DataCol	,	-1 ,  6 ) );
-						dto.AddToken( this.CreateToken( cz_Token_DataRow	,	10 , -1 ) );
-						dto.AddToken( this.CreateToken( cz_Token_XCfg			,	-1 , -1 ) );
+						this.AddToken( dto, cz_Token_IDCol		,	-1 ,  0 );
+						this.AddToken( dto, cz_Token_MsgCol		,	-1 ,  2 );
+						this.AddToken( dto, cz_Token_ExeCol		,	-1 ,  4 );
+						this.AddToken( dto, cz_Token_DataCol	,	-1 ,  6 );
+						this.AddToken( dto, cz_Token_DataRow	,	10 , -1 );
+						this.AddToken( dto, cz_Token_XCfg			,	-1 , -1 );
 						//.............................................
-						dto.AddToken( this.CreateToken( cz_Instr_Post	,	-1 , -1 ) );
+						this.AddToken( dto, cz_Instr_Post	,	-1 , -1 );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void AddToken( DTO_BDCSession dto , string token, int row, int col = -1 )
+					{
+						DTO_TokenReference lo_Token	= this.CreateToken( token, row, col );
+						dto.Tokens.Add( lo_Token.Token, lo_Token );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_TokenReference CreateToken( string token, int row, int col = -1 )
 					{
-						DTO_TokenReference lo_DTO		= this._BDCCnfg.CreateDTOToken();
+						DTO_TokenReference lo_DTO		= this._Factory.Value.CreateDTOToken();
 
 						lo_DTO.Token	= token;
 						lo_DTO.Row		= row;
@@ -251,7 +259,7 @@ namespace BxS_SAPBDC.Parser
 							{
 								try
 									{
-										dto.XMLConfig	= this._BDCCnfg.IPXController
+										dto.XMLConfig	= this._Factory.Value.IPXController
 																			.DeSerialize< DTO_BDCXMLConfig >(	token.Value );
 										return	true;
 									}

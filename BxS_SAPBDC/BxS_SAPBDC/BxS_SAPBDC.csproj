@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Code Respository\Parser\BDC_Processor_Cfg.cs" />
     <Compile Remove="Code Respository\Parser\DTO\DTO_BDCXMLConfig1.cs" />
     <Compile Remove="zKeep\BDCParser.cs" />
     <Compile Remove="zKeep\BDCTokenizer.cs" />
     <Compile Remove="zKeep\BDCTokens.cs" />
     <Compile Remove="zKeep\BDC_Processor1.cs" />
+    <Compile Remove="zKeep\BDC_Processor_Cfg.cs" />
     <Compile Remove="zKeep\DTO_BDCXMLConfig1.cs" />
     <Compile Remove="zKeep\ObjSerializer.cs" />
     <Compile Remove="zKeep\Parser_BDCConfig.cs" />

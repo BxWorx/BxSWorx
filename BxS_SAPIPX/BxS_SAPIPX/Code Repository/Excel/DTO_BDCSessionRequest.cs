@@ -29,6 +29,7 @@ namespace BxS_SAPIPX.Excel
 				[DataMember]	public	string	WSID					{ get; set;	}
 				[DataMember]	public	string	WSNo					{ get; set;	}
 				[DataMember]	public	string	UsedAddress		{ get; set;	}
+				[DataMember]	public	bool		IsTest				{ get; set;	}
 				//.................................................
 				[DataMember]	public	int			RowLB	{ get; set;	}
 				[DataMember]	public	int			RowUB	{ get; set;	}

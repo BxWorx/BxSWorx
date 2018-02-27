@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 //.........................................................
 using BxS_SAPBDC.BDC;
-using BxS_SAPBDC.Main;
 using BxS_SAPIPX.Excel;
 using BxS_SAPIPX.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -13,9 +12,9 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Processor(	BDC_Processor_Cfg	BDCConfig )
+				internal BDC_Processor(	Lazy< BDC_Processor_Factory >	factory )
 					{
-						this._BDCCnfg	= BDCConfig;
+						this._Factory	= factory;
 					}
 
 			#endregion
@@ -23,18 +22,7 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly BDC_Processor_Cfg	_BDCCnfg;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
-
-				private IIPX_Controller						_IPX { get { return	this._BDCCnfg.IPXController					; } }
-				//.................................................
-				private BDC_Processor_Tokens			_Tkn { get { return	this._BDCCnfg.TokenProcessor				; } }
-				private BDC_Processor_Columns			_Col { get { return	this._BDCCnfg.ColumnProcessor				; } }
-				private BDC_Processor_Transaction	_Trn { get { return	this._BDCCnfg.TransactionProcessor	; } }
+				private	readonly	Lazy< BDC_Processor_Factory >		_Factory;
 
 			#endregion
 
@@ -44,27 +32,36 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task< BDC_Session > Process( DTO_BDCSessionRequest DTORequest )
 					{
-						BDC_Session			lo_BDCSession	= this._BDCCnfg.CreateBDCSession();
+						BDC_Processor_Tokens			lo_Tkn	= this._Factory.Value.GetTokenProcessor().Value				;
+						BDC_Processor_Columns			lo_Col	= this._Factory.Value.GetColumnProcessor().Value			;
+						BDC_Processor_Groups			lo_Grp	= this._Factory.Value.GetGroupProcessor().Value				;
+						BDC_Processor_Transaction	lo_Trn	= this._Factory.Value.GetTransactionProcessor().Value	;
+
+						BDC_Session								lo_BDC	= this._Factory.Value.CreateBDCSession();
 						//.............................................
-						DTO_BDCSession	lo_DTOSession	= this._BDCCnfg.CreateDTOSession();
+						DTO_BDCSession	lo_DTOSession	= this._Factory.Value.CreateDTOSession();
 
-						if ( await this._Tkn.Process( lo_DTOSession , DTORequest.WSData ).ConfigureAwait(false) )
+						if ( await lo_Tkn.Process( lo_DTOSession , DTORequest.WSData ).ConfigureAwait(false) )
 							{
-								if ( this._Col.Process( lo_DTOSession , DTORequest.WSData ) )
+								if ( lo_Col.Process( lo_DTOSession , DTORequest.WSData ) )
 									{
-										int x = await	this._Trn.Process( lo_DTOSession, DTORequest.WSData ).ConfigureAwait(false);
-
-										if (x.Equals(0))
+										if ( !lo_Grp.Process( lo_DTOSession, DTORequest.WSData ).Equals(0) )
 											{
 
-											}
+								//		int x = await	this._Trn.Process( lo_DTOSession, DTORequest.WSData ).ConfigureAwait(false);
 
+								//		if (x.Equals(0))
+								//			{
+
+								//			}
+
+											}
 									}
 							}
 						else
 							{	return	null; }
 						//.............................................
-						return	lo_BDCSession;
+						return	lo_BDC;
 					}
 
 			#endregion

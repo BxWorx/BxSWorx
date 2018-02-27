@@ -12,13 +12,11 @@ namespace zBxS_UT_SAPBDC
 	[TestClass]
 	public class UT_100_Base
 		{
-			private readonly	IBDC_Controller			co_Cntlr;
-			private	readonly	BDC_Processor_Cfg		co_ProcCfg			;
+			private readonly	IBDC_Controller		co_Cntlr;
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			public UT_100_Base()
 				{
 					this.co_Cntlr		= new BDC_Controller();
-					this.co_ProcCfg	= BDC_Processor_Cfg.Instance;
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
@@ -55,49 +53,70 @@ namespace zBxS_UT_SAPBDC
 			[TestMethod]
 			public void UT_100_10_Base()
 				{
-					DTO_TokenReference x	= this.co_ProcCfg.CreateDTOToken();
+					DTO_TokenReference x	= BDC_Processor_Factory.Instance.CreateDTOToken();
 					Assert.IsNotNull( x , "xxxx" );
 
-					DTO_BDCXMLConfig y = this.co_ProcCfg.CreateDTOXMLCfg();
+					DTO_BDCXMLConfig y = BDC_Processor_Factory.Instance.CreateDTOXMLCfg();
 					Assert.IsNotNull( y , "xxxx" );
 
-					DTO_BDCSession z	= this.co_ProcCfg.CreateDTOSession();
+					DTO_BDCSession z	= BDC_Processor_Factory.Instance.CreateDTOSession();
 					Assert.IsNotNull( z , "xxxx" );
+
+					BDC_Processor c = this.co_Cntlr.CreateBDCProcessor();
+					Assert.IsNotNull( c , "xxxx" );
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			[TestMethod]
 			public void UT_100_20_ParseForTokens()
 				{
-					DTO_BDCSession	lo_Session	= this.co_ProcCfg.CreateDTOSession();
+					DTO_BDCSession	lo_Session	= BDC_Processor_Factory.Instance.CreateDTOSession();
 					string[,]				lt_Data			= this.CreateData();
 
-					Task t = Task.Run( () => this.co_ProcCfg.TokenProcessor.Process( lo_Session , lt_Data ));
+					Lazy< BDC_Processor_Tokens > lo_Token = BDC_Processor_Factory.Instance.GetTokenProcessor();
+
+					Task t = Task.Run( () => lo_Token.Value.Process( lo_Session , lt_Data ));
 					t.Wait();
 
 					Assert.IsNotNull(			lo_Session.XMLConfig		, ""	);
 					Assert.AreEqual	(10	,	lo_Session.RowDataStart	, ""	);
 					Assert.AreEqual	( 3	,	lo_Session.ColDataMsgs	, ""	);
-					Assert.AreEqual	( 9	,	lo_Session.ColDataStart	, ""	);
+					Assert.AreEqual	( 0	,	lo_Session.ColDataStart	, ""	);
 					Assert.AreEqual	(	4	,	lo_Session.ColDataExec	, ""	);
+
+					DTO_BDCSession	lo_Session1	= BDC_Processor_Factory.Instance.CreateDTOSession();
+					string[,]				lt_Data1			= this.CreateData();
+
+					BDC_Processor_Tokens	lo_Token1 = BDC_Processor_Factory.Instance.GetTokenProcessor().Value;
+
+					Task t1 = Task.Run( () => lo_Token1.Process( lo_Session1 , lt_Data1 ));
+					t1.Wait();
+
+					Assert.IsNotNull(			lo_Session1.XMLConfig			, ""	);
+					Assert.AreEqual	(10	,	lo_Session1.RowDataStart	, ""	);
+					Assert.AreEqual	( 3	,	lo_Session1.ColDataMsgs		, ""	);
+					Assert.AreEqual	( 0	,	lo_Session1.ColDataStart	, ""	);
+					Assert.AreEqual	(	4	,	lo_Session1.ColDataExec		, ""	);
+
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			[TestMethod]
 			public void UT_100_30_ParseForColumns()
 				{
-					DTO_BDCSession	lo_Session	= this.co_ProcCfg.CreateDTOSession();
+					DTO_BDCSession	lo_Session	= BDC_Processor_Factory.Instance.CreateDTOSession();
 					string[,]				lt_Data			= this.CreateData();
 
-					Task t = Task.Run( () => this.co_ProcCfg.ColumnProcessor.Process( lo_Session , lt_Data ));
+					BDC_Processor_Tokens		lo_Token	= BDC_Processor_Factory.Instance.GetTokenProcessor().Value;
+					BDC_Processor_Columns		lo_Cols		= BDC_Processor_Factory.Instance.GetColumnProcessor().Value;
+
+					Task t1 = Task.Run( () => lo_Token.Process( lo_Session , lt_Data ));
+					t1.Wait();
+
+					Task t = Task.Run( () => lo_Cols.Process( lo_Session , lt_Data ));
 					t.Wait();
 
-					//bool lb = this.co_Proc_Columns.Process( lo_Session , lt_Data );
-
-					//Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
-					//t.Wait();
-					//this.co_Column.ParseForColumns();
-					//Assert.AreNotEqual( 0 , this.co_BDCMain.Columns.Count	, ""	);
+					Assert.AreNotEqual	(0	,	lo_Session.Columns.Count	, ""	);
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
@@ -150,11 +169,11 @@ namespace zBxS_UT_SAPBDC
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии
 			private string[,] CreateData()
 				{
-					string XMLConfig	= this.co_ProcCfg.IPXController.Serialize( this.CreateXMLConfig() );
+					string XMLConfig	= BDC_Processor_Factory.Instance.IPXController.Serialize( this.CreateXMLConfig() );
 
 					string[,]	lt_Data	= new string[10,10];
 
-					lt_Data[0,0]	= cz_Cmd_Prefix + "<DATASTARTCOL>[9];<Execute>[D]";
+					lt_Data[0,0]	= cz_Cmd_Prefix + "<DATASTARTCOL>[0];<Execute>[D]";
 					lt_Data[0,1]	= cz_Cmd_Prefix + cz_Token_OKCd[4];
 					lt_Data[1,0]	= cz_Cmd_Prefix + "<messages>[3]";
 					lt_Data[1,1]	= cz_Cmd_Prefix + cz_Token_Prog;

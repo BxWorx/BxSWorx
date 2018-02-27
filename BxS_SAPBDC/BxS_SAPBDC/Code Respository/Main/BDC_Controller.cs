@@ -1,4 +1,7 @@
-﻿using BxS_SAPBDC.Parser;
+﻿using System;
+using System.Threading;
+//.........................................................
+using BxS_SAPBDC.Parser;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Main
 {
@@ -13,15 +16,23 @@ namespace BxS_SAPBDC.Main
 			#endregion
 
 			//===========================================================================================
+			#region "Declarations"
+
+				private readonly Lazy< BDC_Processor_Factory >	_BDCFactory	=	new Lazy< BDC_Processor_Factory >
+					(		()=>	BDC_Processor_Factory.Instance
+						,	LazyThreadSafetyMode.ExecutionAndPublication );
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Processor CreateBDCProcessor()
-					{
-						return	new BDC_Processor( BDC_Processor_Cfg.Instance );
-					}
+				public BDC_Processor CreateBDCProcessor()=>	new BDC_Processor( this._BDCFactory );
 
 			#endregion
 
 		}
 }
+
+

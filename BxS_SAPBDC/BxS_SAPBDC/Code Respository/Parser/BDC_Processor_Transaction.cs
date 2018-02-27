@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 //.........................................................
 using					BxS_SAPBDC.BDC;
@@ -11,9 +12,9 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	BDC_Processor_Transaction(	BDC_Processor_Cfg	BDCConfig )
+				internal	BDC_Processor_Transaction(	Lazy< BDC_Processor_Factory > factory )
 					{
-						this._BDCCnfg	= BDCConfig;
+						this._Factory	= factory;
 						//.............................................
 						this._FldIndex	= -1;
 						this._CsrIndex	= -1;
@@ -24,7 +25,7 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private	readonly BDC_Processor_Cfg	_BDCCnfg;
+				private	readonly Lazy< BDC_Processor_Factory > 	_Factory;
 				//.................................................
 				private	int		_FldIndex	;
 				private	int		_CsrIndex	;
@@ -177,7 +178,7 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_SessionTranData CompileBDCScreen( string program , int screenNo )
 					{
-						DTO_SessionTranData lo_BDCData	= this._BDCCnfg.CreateDTOTranData();
+						DTO_SessionTranData lo_BDCData	= this._Factory.Value.CreateDTOTranData();
 						//.............................................
 						lo_BDCData.ProgramName	= program;
 						lo_BDCData.Dynpro				= screenNo.ToString("0000");
@@ -189,7 +190,7 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_SessionTranData CompileBDCField( string field , string value )
 					{
-						DTO_SessionTranData lo_BDCData	= this._BDCCnfg.CreateDTOTranData();
+						DTO_SessionTranData lo_BDCData	= this._Factory.Value.CreateDTOTranData();
 						//.............................................
 						lo_BDCData.FieldName	= field;
 						lo_BDCData.FieldValue	=	value;

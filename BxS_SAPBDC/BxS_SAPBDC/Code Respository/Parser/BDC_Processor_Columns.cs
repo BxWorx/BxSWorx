@@ -10,9 +10,9 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Processor_Columns(	BDC_Processor_Cfg	BDCConfig )
+				internal BDC_Processor_Columns(	Lazy< BDC_Processor_Factory > factory )
 					{
-						this._BDCCnfg	= BDCConfig;
+						this._Factory	= factory;
 						//.............................................
 						this._Regex	= new	Regex(@"\((.*?)\)");
 					}
@@ -22,8 +22,8 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private	readonly	BDC_Processor_Cfg	_BDCCnfg	;
-				private	readonly	Regex							_Regex		;
+				private	readonly	Lazy< BDC_Processor_Factory >		_Factory	;
+				private	readonly	Regex														_Regex		;
 
 			#endregion
 
@@ -126,7 +126,7 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_BDCColumn CreateColumn( int ID )
 					{
-						DTO_BDCColumn lo_DTO	= this._BDCCnfg.CreateDTOColumn();
+						DTO_BDCColumn lo_DTO	= this._Factory.Value.CreateDTOColumn();
 
 						lo_DTO.ColNo	= ID;
 
