@@ -1,13 +1,15 @@
 ﻿using System;
+//.........................................................
+using BxS_SAPIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPIPX.BDCData
+namespace BxS_SAPBDC.BDC
 {
 	public class DTO_SessionHeader
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_SessionHeader(DTO_CTUParms dtoParms)
+				public DTO_SessionHeader( DTO_CTUParms dtoParms )
 					{
 						this.CTUParms	= dtoParms;
 					}

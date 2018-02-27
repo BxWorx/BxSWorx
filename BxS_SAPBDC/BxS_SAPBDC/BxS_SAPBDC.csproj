@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Code Respository\Helpers\" />
     <Folder Include="zKeep\" />
   </ItemGroup>
 

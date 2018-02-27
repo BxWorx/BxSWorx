@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 //.........................................................
-using BxS_SAPIPX.BDCData;
+using BxS_SAPBDC.BDC;
+using BxS_SAPBDC.Main;
+using BxS_SAPIPX.Excel;
+using BxS_SAPIPX.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
@@ -10,19 +13,9 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Processor(		BDC_Processor_Tokens						processor_Tokens
-																,	BDC_Processor_Columns						processor_Columns
-																, BDC_Processor_Transaction				processor_Transaction
-																,	Func< DTO_BDCHeaderRowRef		>		createRowRef
-																,	Func<		DTO_BDCHeaderRowRef
-																				, DTO_BDCSession			>		createSession					)
+				internal BDC_Processor(	BDC_Processor_Cfg	BDCConfig )
 					{
-						this._Process_Tokens	= processor_Tokens			;
-						this._Process_Columns	= processor_Columns			;
-						this._Process_Trans		= processor_Transaction	;
-						//.............................................
-						this._CreateRowRef		= createRowRef	;
-						this._CreateSession		= createSession	;
+						this._BDCCnfg	= BDCConfig;
 					}
 
 			#endregion
@@ -30,12 +23,18 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly BDC_Processor_Tokens				_Process_Tokens		;
-				private readonly BDC_Processor_Columns			_Process_Columns	;
-				private readonly BDC_Processor_Transaction	_Process_Trans		;
+				private	readonly BDC_Processor_Cfg	_BDCCnfg;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				private IIPX_Controller						_IPX { get { return	this._BDCCnfg.IPXController					; } }
 				//.................................................
-				private readonly	Func<	DTO_BDCHeaderRowRef>										_CreateRowRef		;
-				private readonly	Func<	DTO_BDCHeaderRowRef , DTO_BDCSession>		_CreateSession	;
+				private BDC_Processor_Tokens			_Tkn { get { return	this._BDCCnfg.TokenProcessor				; } }
+				private BDC_Processor_Columns			_Col { get { return	this._BDCCnfg.ColumnProcessor				; } }
+				private BDC_Processor_Transaction	_Trn { get { return	this._BDCCnfg.TransactionProcessor	; } }
 
 			#endregion
 
@@ -43,21 +42,29 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task< IPC_BDCSession > Process( DTO_ExcelWorksheet wsDTO )
+				public async Task< BDC_Session > Process( DTO_BDCSessionRequest DTORequest )
 					{
-						DTO_BDCSession	lo_BDCSession	= this._CreateSession( this._CreateRowRef() );
-						IPC_BDCSession	lo_IPCSession	= IPC_Controller.CreateSessionDTO();
+						BDC_Session			lo_BDCSession	= this._BDCCnfg.CreateBDCSession();
 						//.............................................
-						if ( await this._Process_Tokens.Process( lo_BDCSession , wsDTO.WSData ).ConfigureAwait(false) )
+						DTO_BDCSession	lo_DTOSession	= this._BDCCnfg.CreateDTOSession();
+
+						if ( await this._Tkn.Process( lo_DTOSession , DTORequest.WSData ).ConfigureAwait(false) )
 							{
-								if ( this._Process_Columns.Process( lo_BDCSession , wsDTO.WSData ) )
+								if ( this._Col.Process( lo_DTOSession , DTORequest.WSData ) )
 									{
+										int x = await	this._Trn.Process( lo_DTOSession, DTORequest.WSData ).ConfigureAwait(false);
+
+										if (x.Equals(0))
+											{
+
+											}
+
 									}
 							}
 						else
 							{	return	null; }
 						//.............................................
-						return	lo_IPCSession;
+						return	lo_BDCSession;
 					}
 
 			#endregion

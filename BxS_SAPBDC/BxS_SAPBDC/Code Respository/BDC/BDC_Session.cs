@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPBDC.API
+namespace BxS_SAPBDC.BDC
 {
 	public class BDC_Session
 		{
@@ -31,9 +31,9 @@ namespace BxS_SAPBDC.API
 			//===========================================================================================
 			#region "Properties"
 
-				public	ConcurrentDictionary< int, BDC_Transaction >	Transactions		{ get; }
 				public	DTO_SessionOptions														SessionOptions	{ get; }
 				public	DTO_SessionHeader															SessionHeader		{ get; }
+				public	ConcurrentDictionary< int, BDC_Transaction >	Transactions		{ get; }
 				//.................................................
 				public	int	TransactionCount	{ get { return	this.Transactions.Count	; } }
 

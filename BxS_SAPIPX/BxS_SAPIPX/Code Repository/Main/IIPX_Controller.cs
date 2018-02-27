@@ -1,4 +1,4 @@
-﻿using BxS_SAPIPX.BDCData;
+﻿using BxS_SAPIPX.BDC;
 using BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPIPX.Main

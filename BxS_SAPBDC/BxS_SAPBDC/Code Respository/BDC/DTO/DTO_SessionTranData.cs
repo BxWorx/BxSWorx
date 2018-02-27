@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPIPX.BDCData
+namespace BxS_SAPBDC.BDC
 {
 	public class DTO_SessionTranData
 		{
@@ -19,17 +19,17 @@ namespace BxS_SAPIPX.BDCData
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_SessionTranData(	string	ProgramName	= BDC_Constants.lz_E	,
-																		int			Dynpro			= 0									,
-																		bool		Begin				= false							,
-																		string	Field				= BDC_Constants.lz_E	,
-																		string	Value				= BDC_Constants.lz_E		)
+				public DTO_SessionTranData(		string	ProgramName	= BDC_Constants.cz_Val_Empty
+																		,	int			Dynpro			= 0
+																		,	bool		Begin				= false
+																		,	string	Field				= BDC_Constants.cz_Val_Empty
+																		,	string	Value				= BDC_Constants.cz_Val_Empty	)
 					{
-						this.ProgramName	= string.IsNullOrEmpty(ProgramName)	? BDC_Constants.lz_E	: ProgramName													;
-						this.FieldName		= string.IsNullOrEmpty(Field)				? BDC_Constants.lz_E	: Field																;
-						this.FieldValue		= string.IsNullOrEmpty(Value)				? BDC_Constants.lz_E	: Value																;
-						this.Dynpro				= Dynpro.Equals(0)									? BDC_Constants.lz_D	: Dynpro.ToString(BDC_Constants.lz_D)	;
-						this.Begin				= Begin															? BDC_Constants.lz_T	: BDC_Constants.lz_F										;
+						this.ProgramName	= string.IsNullOrEmpty(ProgramName)	? BDC_Constants.cz_Val_Empty	: ProgramName																	;
+						this.FieldName		= string.IsNullOrEmpty(Field)				? BDC_Constants.cz_Val_Empty	: Field																				;
+						this.FieldValue		= string.IsNullOrEmpty(Value)				? BDC_Constants.cz_Val_Empty	: Value																				;
+						this.Dynpro				= Dynpro.Equals(0)									? BDC_Constants.cz_Val_Scrn0	: Dynpro.ToString(BDC_Constants.cz_Val_Scrn0)	;
+						this.Begin				= Begin															? BDC_Constants.cz_Val_True		: BDC_Constants.cz_Val_False									;
 					}
 
 			#endregion

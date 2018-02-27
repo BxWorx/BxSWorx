@@ -1,5 +1,4 @@
-﻿using BxS_SAPIPX.Excel;
-using BxS_SAPBDC.API;
+﻿using BxS_SAPBDC.Parser;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Main
 {
@@ -7,7 +6,7 @@ namespace BxS_SAPBDC.Main
 		{
 			#region "Methods: Exposed"
 
-				BDC_Session	Process( DTO_BDCSessionRequest BDCRequest );
+				BDC_Processor CreateBDCProcessor();
 
 			#endregion
 

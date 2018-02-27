@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 //.........................................................
-using					BxS_SAPIPX.BDCData;
-using static	BxS_SAPBDC.Parser.BDC_Constants;
+using					BxS_SAPBDC.BDC;
+using static	BxS_SAPBDC.BDC.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
@@ -11,8 +11,10 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	BDC_Processor_Transaction()
+				internal	BDC_Processor_Transaction(	BDC_Processor_Cfg	BDCConfig )
 					{
+						this._BDCCnfg	= BDCConfig;
+						//.............................................
 						this._FldIndex	= -1;
 						this._CsrIndex	= -1;
 					}
@@ -22,6 +24,8 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declaration"
 
+				private	readonly BDC_Processor_Cfg	_BDCCnfg;
+				//.................................................
 				private	int		_FldIndex	;
 				private	int		_CsrIndex	;
 
@@ -33,11 +37,8 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal async Task< int > Process( DTO_BDCSession dto , string[,] data )
 					{
-
-					int X = Task.Run( () => this.co_Proc_Tokens.Process( lo_Session , lt_Data ));
-					t.Wait();
-
-
+					int X = await Task.Run( () => 3 ).ConfigureAwait(false);
+					return	X;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -176,26 +177,24 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_SessionTranData CompileBDCScreen( string program , int screenNo )
 					{
-						return	null;
-						//DTO_SessionTranData lo_BDCData	= this._BDCMain.CreateBDCData();
-						////.............................................
-						//lo_BDCData.ProgramName	= program;
-						//lo_BDCData.Dynpro				= screenNo.ToString("0000");
-						//lo_BDCData.Begin				= "X";
-						////.............................................
-						//return	lo_BDCData;
+						DTO_SessionTranData lo_BDCData	= this._BDCCnfg.CreateDTOTranData();
+						//.............................................
+						lo_BDCData.ProgramName	= program;
+						lo_BDCData.Dynpro				= screenNo.ToString("0000");
+						lo_BDCData.Begin				= "X";
+						//.............................................
+						return	lo_BDCData;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_SessionTranData CompileBDCField( string field , string value )
 					{
-						return	null;
-						//DTO_SessionTranData lo_BDCData	= this._BDCMain.CreateBDCData();
-						////.............................................
-						//lo_BDCData.FieldName	= field;
-						//lo_BDCData.FieldValue	=	value;
-						////.............................................
-						//return	lo_BDCData;
+						DTO_SessionTranData lo_BDCData	= this._BDCCnfg.CreateDTOTranData();
+						//.............................................
+						lo_BDCData.FieldName	= field;
+						lo_BDCData.FieldValue	=	value;
+						//.............................................
+						return	lo_BDCData;
 					}
 
 			#endregion

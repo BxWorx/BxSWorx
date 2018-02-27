@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPIPX.BDC
+namespace BxS_SAPBDC.BDC
 {
 	public class BDC_Transaction
 		{
@@ -47,11 +47,11 @@ namespace BxS_SAPIPX.BDC
 				#region "Methods: Exposed: BDC Data"
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void AddBDCData(	string	programName	= BDC_Constants.lz_E	,
-																	int			dynpro			= 0									,
-																	bool		begin				= false							,
-																	string	field				= BDC_Constants.lz_E	,
-																	string	value				= BDC_Constants.lz_E		)
+					public void AddBDCData(		string	programName	= BDC_Constants.cz_Val_Empty
+																	,	int			dynpro			= 0
+																	,	bool		begin				= false
+																	,	string	field				= BDC_Constants.cz_Val_Empty
+																	,	string	value				= BDC_Constants.cz_Val_Empty	)
 						{
 							this.AddBDCData( new	DTO_SessionTranData(	programName, dynpro, begin, field, value ) );
 						}

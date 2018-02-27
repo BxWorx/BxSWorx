@@ -1,6 +1,6 @@
 ﻿using BxS_SAPIPX.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPIPX.BDCData
+namespace BxS_SAPIPX.BDC
 {
 	public class DTO_CTUParms
 		{

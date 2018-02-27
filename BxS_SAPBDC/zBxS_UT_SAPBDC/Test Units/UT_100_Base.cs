@@ -3,35 +3,23 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 //.........................................................
+using					BxS_SAPBDC.Main;
 using					BxS_SAPBDC.Parser;
-using         BxS_SAPIPX.BDCData;
-using         BxS_SAPIPX.Helpers;
-using static	BxS_SAPBDC.Parser.BDC_Constants;
+using static	BxS_SAPBDC.BDC.BDC_Constants;
 //••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace zBxS_UT_SAPBDC
 {
 	[TestClass]
 	public class UT_100_Base
 		{
-			private readonly	ObjSerializer						co_ObjSer				;
-			private	readonly	BDC_Processor						co_Proc					;
-			private readonly	BDC_Processor_Tokens		co_Proc_Tokens	;
-			private readonly	BDC_Processor_Columns		co_Proc_Columns	;
+			private readonly	IBDC_Controller			co_Cntlr;
+			private	readonly	BDC_Processor_Cfg		co_ProcCfg			;
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			public UT_100_Base()
 				{
-					this.co_ObjSer				= IPC_Controller.CreateSerialiser();
-
-					this.co_Proc_Tokens		= new BDC_Processor_Tokens	(		this.co_ObjSer
-																															, () => new DTO_TokenReference() );
-
-					this.co_Proc_Columns	= new BDC_Processor_Columns	(	() => new DTO_BDCColumn() );
-
-					this.co_Proc					= new BDC_Processor					(		this.co_Proc_Tokens
-																															, this.co_Proc_Columns
-																															, ()															=> new DTO_BDCHeaderRowRef()
-																															, ( DTO_BDCHeaderRowRef lo_Ref )	=> new DTO_BDCSession( lo_Ref )	);
-			}
+					this.co_Cntlr		= new BDC_Controller();
+					this.co_ProcCfg	= BDC_Processor_Cfg.Instance;
+				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			[TestMethod]
@@ -67,24 +55,24 @@ namespace zBxS_UT_SAPBDC
 			[TestMethod]
 			public void UT_100_10_Base()
 				{
-					var x	= new DTO_TokenReference();
+					DTO_TokenReference x	= this.co_ProcCfg.CreateDTOToken();
 					Assert.IsNotNull( x , "xxxx" );
 
-					DTO_BDCXMLConfig y = this.CreateXMLConfig();
+					DTO_BDCXMLConfig y = this.co_ProcCfg.CreateDTOXMLCfg();
 					Assert.IsNotNull( y , "xxxx" );
 
-					DTO_BDCSession lo_Session	= this.CreateBDCSession();
-					Assert.IsNotNull( lo_Session , "xxxx" );
+					DTO_BDCSession z	= this.co_ProcCfg.CreateDTOSession();
+					Assert.IsNotNull( z , "xxxx" );
 				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			[TestMethod]
 			public void UT_100_20_ParseForTokens()
 				{
-					DTO_BDCSession	lo_Session	= this.CreateBDCSession();
+					DTO_BDCSession	lo_Session	= this.co_ProcCfg.CreateDTOSession();
 					string[,]				lt_Data			= this.CreateData();
 
-					Task t = Task.Run( () => this.co_Proc_Tokens.Process( lo_Session , lt_Data ));
+					Task t = Task.Run( () => this.co_ProcCfg.TokenProcessor.Process( lo_Session , lt_Data ));
 					t.Wait();
 
 					Assert.IsNotNull(			lo_Session.XMLConfig		, ""	);
@@ -98,13 +86,13 @@ namespace zBxS_UT_SAPBDC
 			[TestMethod]
 			public void UT_100_30_ParseForColumns()
 				{
-					DTO_BDCSession	lo_Session	= this.CreateBDCSession();
+					DTO_BDCSession	lo_Session	= this.co_ProcCfg.CreateDTOSession();
 					string[,]				lt_Data			= this.CreateData();
 
-					Task t = Task.Run( () => this.co_Proc_Tokens.Process( lo_Session , lt_Data ));
+					Task t = Task.Run( () => this.co_ProcCfg.ColumnProcessor.Process( lo_Session , lt_Data ));
 					t.Wait();
 
-					bool lb = this.co_Proc_Columns.Process( lo_Session , lt_Data );
+					//bool lb = this.co_Proc_Columns.Process( lo_Session , lt_Data );
 
 					//Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
 					//t.Wait();
@@ -116,10 +104,10 @@ namespace zBxS_UT_SAPBDC
 			[TestMethod]
 			public void UT_100_40_ParseXML()
 				{
-					DTO_ExcelWorksheet lo_WS	= this.GetWSDTO();
+					//DTO_ExcelWorksheet lo_WS	= this.GetWSDTO();
 
-					Task t = Task.Run( () => this.co_Proc.Process( lo_WS ));
-					t.Wait();
+					//Task t = Task.Run( () => this.co_Proc.Process( lo_WS ));
+					//t.Wait();
 
 					//Task t = Task.Run( () => this.co_Tokens.ParseForTokens());
 					//t.Wait();
@@ -131,19 +119,19 @@ namespace zBxS_UT_SAPBDC
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 
-			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
-			private DTO_ExcelWorksheet GetWSDTO()
-				{
-					DTO_ExcelWorksheet	lo_WS;
-					IO									lo_IO	= IPC_Controller.CreateIO();
-					ObjSerializer				lo_SR	= IPC_Controller.CreateSerialiser();
-					WSDTOParser					lo_PS	= IPC_Controller.CreateWSDTOParser();
+			////จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
+			//private DTO_ExcelWorksheet GetWSDTO()
+			//	{
+			//		DTO_ExcelWorksheet	lo_WS;
+			//		IO									lo_IO	= IPC_Controller.CreateIO();
+			//		ObjSerializer				lo_SR	= IPC_Controller.CreateSerialiser();
+			//		WSDTOParser					lo_PS	= IPC_Controller.CreateWSDTOParser();
 
-					string x = lo_IO.ReadFile(@"C:\Temp\BxSWorx\xx.xml");
-					lo_WS = lo_SR.DeSerialize<DTO_ExcelWorksheet>( x );
-					lo_PS.Parse1Dto2D(lo_WS);
-					return	lo_WS;
-				}
+			//		string x = lo_IO.ReadFile(@"C:\Temp\BxSWorx\xx.xml");
+			//		lo_WS = lo_SR.DeSerialize<DTO_ExcelWorksheet>( x );
+			//		lo_PS.Parse1Dto2D(lo_WS);
+			//		return	lo_WS;
+			//	}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			private DTO_BDCXMLConfig CreateXMLConfig()
@@ -160,19 +148,13 @@ namespace zBxS_UT_SAPBDC
 				}
 
 			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
-			private DTO_BDCSession CreateBDCSession()
-				{
-					return	new DTO_BDCSession( new DTO_BDCHeaderRowRef() );
-				}
-
-			//จจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจจ
 			private string[,] CreateData()
 				{
-					string XMLConfig	= this.co_ObjSer.Serialize( this.CreateXMLConfig() );
+					string XMLConfig	= this.co_ProcCfg.IPXController.Serialize( this.CreateXMLConfig() );
 
 					string[,]	lt_Data	= new string[10,10];
 
-					lt_Data[0,0]	= cz_Cmd_Prefix + "<DATASTARTCOL>[0];<Execute>[D]";
+					lt_Data[0,0]	= cz_Cmd_Prefix + "<DATASTARTCOL>[9];<Execute>[D]";
 					lt_Data[0,1]	= cz_Cmd_Prefix + cz_Token_OKCd[4];
 					lt_Data[1,0]	= cz_Cmd_Prefix + "<messages>[3]";
 					lt_Data[1,1]	= cz_Cmd_Prefix + cz_Token_Prog;

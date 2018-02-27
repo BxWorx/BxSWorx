@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 //.........................................................
-using					BxS_SAPIPX.Helpers;
-using static	BxS_SAPBDC.Parser.BDC_Constants;
+using static	BxS_SAPBDC.BDC.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
@@ -13,13 +12,9 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal BDC_Processor_Tokens(	ObjSerializer							serializer
-				//															,	Func<DTO_TokenReference>	createToken )
-
-				internal BDC_Processor_Tokens(	Func<DTO_TokenReference>	createToken )
+				internal BDC_Processor_Tokens(	BDC_Processor_Cfg	BDCConfig )
 					{
-						//this._Serializer		= serializer	;
-						this._CreateToken		= createToken	;
+						this._BDCCnfg	= BDCConfig;
 					}
 
 			#endregion
@@ -27,8 +22,7 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Func<DTO_TokenReference>	_CreateToken	;
-				//private readonly	ObjSerializer							_Serializer		;
+				private	readonly	BDC_Processor_Cfg		_BDCCnfg;
 
 			#endregion
 
@@ -80,9 +74,10 @@ namespace BxS_SAPBDC.Parser
 						//.............................................
 						if ( this.UpdateHeaderRowReference( dto ) )
 							{
-								//if ( this.ExtractXMLConfig( dto ) )
-								//	{
-								//	}
+								if ( !this.ExtractXMLConfig( dto ) )
+									{
+										dto.XMLConfig	= this._BDCCnfg.CreateDTOXMLCfg();
+									}
 									this.ExtractBDCTokenValues( dto );
 									this.ExtractSpecificTokenValues( dto );
 
@@ -152,7 +147,7 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_TokenReference CreateToken( string token, int row, int col = -1 )
 					{
-						DTO_TokenReference lo_DTO		= this._CreateToken();
+						DTO_TokenReference lo_DTO		= this._BDCCnfg.CreateDTOToken();
 
 						lo_DTO.Token	= token;
 						lo_DTO.Row		= row;
@@ -249,25 +244,25 @@ namespace BxS_SAPBDC.Parser
 						return	string.Empty;
 					}
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private bool ExtractXMLConfig( DTO_BDCSession dto )
-				//	{
-				//		if ( dto.Tokens.TryGetValue( cz_Token_XCfg , out DTO_TokenReference token ) )
-				//			{
-				//				try
-				//					{
-				//						dto.XMLConfig	= this._Serializer
-				//															.DeSerialize< DTO_BDCXMLConfig >(	token.Value );
-				//						return	true;
-				//					}
-				//				catch (Exception)
-				//					{
-				//						return	false;
-				//					}
-				//			}
-				//		//.............................................
-				//		return	false;
-				//	}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private bool ExtractXMLConfig( DTO_BDCSession dto )
+					{
+						if ( dto.Tokens.TryGetValue( cz_Token_XCfg , out DTO_TokenReference token ) )
+							{
+								try
+									{
+										dto.XMLConfig	= this._BDCCnfg.IPXController
+																			.DeSerialize< DTO_BDCXMLConfig >(	token.Value );
+										return	true;
+									}
+								catch (Exception)
+									{
+										return	false;
+									}
+							}
+						//.............................................
+						return	false;
+					}
 
 			#endregion
 

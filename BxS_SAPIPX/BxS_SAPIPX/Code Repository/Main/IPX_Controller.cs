@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
-using BxS_SAPIPX.BDCData;
+using BxS_SAPIPX.BDC;
 using BxS_SAPIPX.Excel;
 using BxS_SAPIPX.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -26,17 +26,21 @@ namespace BxS_SAPIPX.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	static readonly	Lazy<IIPX_Controller>	_Instance		= new Lazy<IIPX_Controller>(	()=>	new IPX_Controller()
-																																															, LazyThreadSafetyMode.ExecutionAndPublication	);
+				private	static readonly	Lazy<IIPX_Controller>	_Instance		= new Lazy<IIPX_Controller>
+					(		()=>	new IPX_Controller()
+						, LazyThreadSafetyMode.ExecutionAndPublication );
 				//.................................................
-				private readonly	Lazy<IO>								_IO					= new Lazy<IO>( ()=>	new IO()
-																																						,	LazyThreadSafetyMode.ExecutionAndPublication										);
+				private readonly	Lazy<IO>	_IO		= new Lazy<IO>
+					(		()=>	new IO()
+						,	LazyThreadSafetyMode.ExecutionAndPublication );
 				//.................................................
-				private readonly	Lazy<ObjSerializer>			_Seriliser	= new Lazy<ObjSerializer>( ()=>	new ObjSerializer()
-																																												,	LazyThreadSafetyMode.ExecutionAndPublication				);
+				private readonly	Lazy<ObjSerializer>	_Seriliser	= new Lazy<ObjSerializer>
+					(		()=>	new ObjSerializer()
+						,	LazyThreadSafetyMode.ExecutionAndPublication );
 				//.................................................
-				private readonly	Lazy<BDCSession_Parser>	_Parser			= new Lazy<BDCSession_Parser>( ()=>	new BDCSession_Parser()
-																																														,	LazyThreadSafetyMode.ExecutionAndPublication		);
+				private readonly	Lazy<BDCSession_Parser>	_Parser	= new Lazy<BDCSession_Parser>
+					(		()=>	new BDCSession_Parser()
+						,	LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
 
@@ -82,6 +86,8 @@ namespace BxS_SAPIPX.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DTO_CTUParms CreateCTUParms()
 					{

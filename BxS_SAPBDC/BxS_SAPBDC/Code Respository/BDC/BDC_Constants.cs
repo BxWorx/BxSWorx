@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPBDC.Parser
+namespace BxS_SAPBDC.BDC
 {
 	internal class BDC_Constants
 		{
@@ -33,6 +33,11 @@ namespace BxS_SAPBDC.Parser
 
 			//===========================================================================================
 			#region "Declarations"
+
+				internal const	string	cz_Val_True				= "X"			;
+				internal const	string	cz_Val_False			= " "			;
+				internal const	string	cz_Val_Empty			= ""			;
+				internal const	string	cz_Val_Scrn0			= "0000"	;
 
 				internal const	string	cz_Cmd_Prefix			= "<<@>>";
 

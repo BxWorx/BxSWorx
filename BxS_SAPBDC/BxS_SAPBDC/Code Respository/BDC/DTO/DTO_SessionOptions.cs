@@ -1,5 +1,5 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPIPX.BDCData
+namespace BxS_SAPBDC.BDC
 {
 	public class DTO_SessionOptions
 		{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 //.........................................................
-using static	BxS_SAPBDC.Parser.BDC_Constants;
+using static	BxS_SAPBDC.BDC.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
@@ -10,9 +10,9 @@ namespace BxS_SAPBDC.Parser
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Processor_Columns(	Func<DTO_BDCColumn>	createColumn )
+				internal BDC_Processor_Columns(	BDC_Processor_Cfg	BDCConfig )
 					{
-						this._CreateColumn	= createColumn;
+						this._BDCCnfg	= BDCConfig;
 						//.............................................
 						this._Regex	= new	Regex(@"\((.*?)\)");
 					}
@@ -22,8 +22,8 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private	readonly	Regex									_Regex				;
-				private readonly	Func<DTO_BDCColumn>		_CreateColumn	;
+				private	readonly	BDC_Processor_Cfg	_BDCCnfg	;
+				private	readonly	Regex							_Regex		;
 
 			#endregion
 
@@ -126,7 +126,7 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_BDCColumn CreateColumn( int ID )
 					{
-						DTO_BDCColumn lo_DTO	= this._CreateColumn();
+						DTO_BDCColumn lo_DTO	= this._BDCCnfg.CreateDTOColumn();
 
 						lo_DTO.ColNo	= ID;
 
