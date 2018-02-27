@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 //.........................................................
 using BxS_SAPBDC.BDC;
 using BxS_SAPIPX.Excel;
-using BxS_SAPIPX.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
@@ -36,8 +35,6 @@ namespace BxS_SAPBDC.Parser
 						BDC_Processor_Columns			lo_Col	= this._Factory.Value.GetColumnProcessor().Value			;
 						BDC_Processor_Groups			lo_Grp	= this._Factory.Value.GetGroupProcessor().Value				;
 						BDC_Processor_Transaction	lo_Trn	= this._Factory.Value.GetTransactionProcessor().Value	;
-
-						BDC_Session								lo_BDC	= this._Factory.Value.CreateBDCSession();
 						//.............................................
 						DTO_BDCSession	lo_DTOSession	= this._Factory.Value.CreateDTOSession();
 
@@ -47,27 +44,13 @@ namespace BxS_SAPBDC.Parser
 									{
 										if ( !lo_Grp.Process( lo_DTOSession, DTORequest.WSData ).Equals(0) )
 											{
-
-								//		int x = await	this._Trn.Process( lo_DTOSession, DTORequest.WSData ).ConfigureAwait(false);
-
-								//		if (x.Equals(0))
-								//			{
-
-								//			}
-
+												return	await	lo_Trn.Process( lo_DTOSession, DTORequest.WSData ).ConfigureAwait(false);
 											}
 									}
 							}
-						else
-							{	return	null; }
 						//.............................................
-						return	lo_BDC;
+						return	null;
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 
 			#endregion
 

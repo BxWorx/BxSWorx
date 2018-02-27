@@ -36,10 +36,11 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task< int > Process( DTO_BDCSession dto , string[,] data )
+				internal async Task< BDC_Session > Process( DTO_BDCSession dto , string[,] data )
 					{
-					int X = await Task.Run( () => 3 ).ConfigureAwait(false);
-					return	X;
+						BDC_Session	lo_BDCSession	= this._Factory.Value.CreateBDCSession();
+						int X = await Task.Run( () => 3 ).ConfigureAwait(false);
+						return	lo_BDCSession;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
