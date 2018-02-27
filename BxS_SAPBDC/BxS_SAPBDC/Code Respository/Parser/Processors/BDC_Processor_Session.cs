@@ -1,40 +1,39 @@
 ﻿using System;
 //.........................................................
-using BxS_SAPIPX.BDCData;
+using					BxS_SAPBDC.BDC;
+using static	BxS_SAPBDC.BDC.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPBDC.BDC
+namespace BxS_SAPBDC.Parser
 {
-	public class DTO_SessionHeader
+	internal class BDC_Processor_Session
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_SessionHeader( DTO_CTUParms dtoParms )
+				internal	BDC_Processor_Session(	Lazy< BDC_Processor_Factory > factory )
 					{
-						this.CTUParms	= dtoParms;
+						this._Factory	= factory;
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Declaration"
 
-				public	Guid					ID				{ get;	set;	}
-				public	string				Name			{ get;	set;	}
-				public	string				SAPTCode	{ get;	set;	}
-				public	string				Skip1st		{ get;	set;	}
-				public	DTO_CTUParms	CTUParms	{ get;	set;	}
+				private	readonly Lazy< BDC_Processor_Factory > 	_Factory;
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: Columns"
 
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void	Reset()
-						{
-							this.CTUParms.SetToDefaults();
-						}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool Process( BDC_Session	Session , DTO_BDCProfile dto )
+					{
+						bool	lb_Ret	= true;
+						//.............................................
+						return	lb_Ret;
+					}
 
 			#endregion
 

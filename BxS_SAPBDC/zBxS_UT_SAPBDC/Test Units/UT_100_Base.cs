@@ -59,7 +59,7 @@ namespace zBxS_UT_SAPBDC
 					DTO_BDCXMLConfig y = BDC_Processor_Factory.Instance.CreateDTOXMLCfg();
 					Assert.IsNotNull( y , "xxxx" );
 
-					DTO_BDCSession z	= BDC_Processor_Factory.Instance.CreateDTOSession();
+					DTO_BDCProfile z	= BDC_Processor_Factory.Instance.CreateDTOSession();
 					Assert.IsNotNull( z , "xxxx" );
 
 					BDC_Processor c = this.co_Cntlr.CreateBDCProcessor();
@@ -70,7 +70,7 @@ namespace zBxS_UT_SAPBDC
 			[TestMethod]
 			public void UT_100_20_ParseForTokens()
 				{
-					DTO_BDCSession	lo_Session	= BDC_Processor_Factory.Instance.CreateDTOSession();
+					DTO_BDCProfile	lo_Session	= BDC_Processor_Factory.Instance.CreateDTOSession();
 					string[,]				lt_Data			= this.CreateData();
 
 					Lazy< BDC_Processor_Tokens > lo_Token = BDC_Processor_Factory.Instance.GetTokenProcessor();
@@ -84,7 +84,7 @@ namespace zBxS_UT_SAPBDC
 					Assert.AreEqual	( 0	,	lo_Session.ColDataStart	, ""	);
 					Assert.AreEqual	(	4	,	lo_Session.ColDataExec	, ""	);
 
-					DTO_BDCSession	lo_Session1	= BDC_Processor_Factory.Instance.CreateDTOSession();
+					DTO_BDCProfile	lo_Session1	= BDC_Processor_Factory.Instance.CreateDTOSession();
 					string[,]				lt_Data1			= this.CreateData();
 
 					BDC_Processor_Tokens	lo_Token1 = BDC_Processor_Factory.Instance.GetTokenProcessor().Value;
@@ -104,7 +104,7 @@ namespace zBxS_UT_SAPBDC
 			[TestMethod]
 			public void UT_100_30_ParseForColumns()
 				{
-					DTO_BDCSession	lo_Session	= BDC_Processor_Factory.Instance.CreateDTOSession();
+					DTO_BDCProfile	lo_Session	= BDC_Processor_Factory.Instance.CreateDTOSession();
 					string[,]				lt_Data			= this.CreateData();
 
 					BDC_Processor_Tokens		lo_Token	= BDC_Processor_Factory.Instance.GetTokenProcessor().Value;

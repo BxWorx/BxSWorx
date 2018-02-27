@@ -36,49 +36,30 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task< BDC_Session > Process( DTO_BDCSession dto , string[,] data )
+				internal int Process( BDC_Session	Session , DTO_BDCProfile dto , string[,] data )
 					{
-						BDC_Session	lo_BDCSession	= this._Factory.Value.CreateBDCSession();
-						int X = await Task.Run( () => 3 ).ConfigureAwait(false);
-						return	lo_BDCSession;
-					}
+						foreach ( KeyValuePair< int , List< int > > ls_KvpRow in dto.TranRows )
+							{
+								BDC_Transaction lo_BDCTran	= this._Factory.Value.CreateBDCTransaction();
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseTransaction()
-					{
-						//BDCTransaction x = BDCMain.CreateTransaction();
+								for ( int r = 0; r < ls_KvpRow.Value.Count; r++ )
+									{
+										foreach ( KeyValuePair< int , DTO_BDCColumn > ls_KvpCol in dto.Columns )
+											{
+												this.CompileBDCEntries( lo_BDCTran , ls_KvpCol.Value , data[r,ls_KvpCol.Key] );
+											}
+									}
 
-						//for (int c = BDCMain.ColLB; c < BDCMain.ColUB; c++)
-						//	{
-						//		DTO_BDCColumn x = CreateColumn(c);
-
-						//		x.Program = BDCMain.Data[BDCMain.BDCHeaderRowRef.Prog,c];
-
-						//		BDCMain.Columns.Add(x.ColNo , x);
-						//	}
+								Session.AddTransaction( lo_BDCTran );
+							}
+						//.............................................
+						return	Session.TransactionCount;
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Transaction ProcessTransactionData( IList<int> rows )
-					{
-						return	null;
-						//BDC_Transaction x = this._BDCMain.CreateTransaction();
-
-						//for ( int i = 0; i < rows.Count; i++ )
-						//	{
-						//		foreach ( KeyValuePair< int , DTO_BDCColumn > ls_kvp in this._BDCMain.Columns )
-						//			{
-						//				this.CompileBDCEntries( x , ls_kvp.Value , this._BDCMain.Data[i,ls_kvp.Key] );
-						//			}
-						//	}
-						////.............................................
-						//return	x;
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void CompileBDCEntries(		BDC_Transaction bdcTran
@@ -90,7 +71,8 @@ namespace BxS_SAPBDC.Parser
 									return;
 								}
 						//.............................................
-						if ( column.IsFieldIndexColumn || column.IsCursorIndexColumn )
+						if (		column.IsFieldIndexColumn
+								||	column.IsCursorIndexColumn )
 							{
 								if ( int.TryParse( value, out int ln_Idx ) )
 									{

@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 //.........................................................
-using BxS_SAPBDC.BDC;
-using BxS_SAPIPX.Excel;
+using					BxS_SAPBDC.BDC;
+using static	BxS_SAPBDC.BDC.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	public class BDC_Processor
+	internal class BDC_Processor_Groups
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Processor(	Lazy< BDC_Processor_Factory >	factory )
+				internal	BDC_Processor_Groups(	Lazy< BDC_Processor_Factory > factory )
 					{
 						this._Factory	= factory;
 					}
@@ -19,37 +19,51 @@ namespace BxS_SAPBDC.Parser
 			#endregion
 
 			//===========================================================================================
-			#region "Declarations"
+			#region "Declaration"
 
-				private	readonly	Lazy< BDC_Processor_Factory >		_Factory;
+				private	readonly Lazy< BDC_Processor_Factory > 	_Factory;
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task< BDC_Session > Process( DTO_BDCSessionRequest DTORequest )
+				internal int Process( DTO_BDCProfile dto , string[,] data )
 					{
-						BDC_Processor_Tokens			lo_Tkn	= this._Factory.Value.GetTokenProcessor().Value				;
-						BDC_Processor_Columns			lo_Col	= this._Factory.Value.GetColumnProcessor().Value			;
-						BDC_Processor_Groups			lo_Grp	= this._Factory.Value.GetGroupProcessor().Value				;
-						BDC_Processor_Transaction	lo_Trn	= this._Factory.Value.GetTransactionProcessor().Value	;
-						//.............................................
-						DTO_BDCSession	lo_DTOSession	= this._Factory.Value.CreateDTOSession();
+						bool	lb_New	= true	;
+						int   ln_TNo	= 0			;
 
-						if ( await lo_Tkn.Process( lo_DTOSession , DTORequest.WSData ).ConfigureAwait(false) )
+						List< int >	lt_GroupRows	= null;
+						//.............................................
+						for ( int r = dto.RowDataStart; r < dto.RowUB; r++ )
 							{
-								if ( lo_Col.Process( lo_DTOSession , DTORequest.WSData ) )
+								if ( !data[r,dto.ColDataExec].Equals(string.Empty)	)
 									{
-										if ( !lo_Grp.Process( lo_DTOSession, DTORequest.WSData ).Equals(0) )
+										if (lb_New)
 											{
-												return	await	lo_Trn.Process( lo_DTOSession, DTORequest.WSData ).ConfigureAwait(false);
+												lt_GroupRows	= new	List<int>();
+												ln_TNo	++;
+												lb_New	= false;
+											}
+
+										lt_GroupRows.Add(r);
+
+										if (		dto.ColDataExec.Equals(0)
+												||	data[r,dto.ColDataPost].Contains( cz_Instr_Exec )	)
+											{
+												dto.TranRows.Add( ln_TNo, lt_GroupRows );
+												lb_New	= true;
+
+												if ( dto.IsTest )
+													{
+														break;
+													}
 											}
 									}
 							}
 						//.............................................
-						return	null;
+						return	ln_TNo;
 					}
 
 			#endregion

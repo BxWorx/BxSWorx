@@ -57,13 +57,15 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				internal	BDC_Session		CreateBDCSession	()=>	new BDC_Session()	;
+				internal	BDC_Session				CreateBDCSession			()=>	new BDC_Session()	;
+				internal	BDC_Transaction		CreateBDCTransaction	( Guid ID	= default( Guid ) )=>	new BDC_Transaction( ID )	;
 				//.................................................
-				internal	DTO_BDCSession			CreateDTOSession	()=>	new DTO_BDCSession( new DTO_BDCHeaderRowRef() )	;
-				internal	DTO_TokenReference	CreateDTOToken		()=>	new DTO_TokenReference()												;
-				internal	DTO_BDCColumn				CreateDTOColumn		()=>	new DTO_BDCColumn()															;
-				internal	DTO_BDCXMLConfig		CreateDTOXMLCfg		()=>	new DTO_BDCXMLConfig()													;
-				//.................................................
+				internal	DTO_TokenReference		CreateDTOToken		()=>	new DTO_TokenReference()												;
+
+				internal	DTO_BDCProfile				CreateDTOSession	()=>	new DTO_BDCProfile( new DTO_BDCHeaderRowRef() )	;
+				internal	DTO_BDCColumn					CreateDTOColumn		()=>	new DTO_BDCColumn()															;
+				internal	DTO_BDCXMLConfig			CreateDTOXMLCfg		()=>	new DTO_BDCXMLConfig()													;
+
 				internal	DTO_SessionTranData		CreateDTOTranData	()=>	new DTO_SessionTranData()	;
 				//.................................................
 				internal	Lazy< BDC_Processor_Tokens >				GetTokenProcessor				()=> this._Proc_Tkns	;

@@ -31,7 +31,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task< bool > Process( DTO_BDCSession dto , string[,] data )
+				internal async Task< bool > Process( DTO_BDCProfile dto , string[,] data )
 					{
 						dto.RowLB		= data.GetLowerBound(0)			;
 						dto.RowUB		= data.GetUpperBound(0)	+ 1	;
@@ -94,7 +94,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	bool UpdateHeaderRowReference( DTO_BDCSession dto )
+				private	bool UpdateHeaderRowReference( DTO_BDCProfile dto )
 					{
 						dto.BDCHeaderRowRef.Prog	= dto.Tokens.TryGetValue( cz_Token_Prog , out DTO_TokenReference lo_Token ) ? lo_Token.Row : -1 ;
 
@@ -123,7 +123,7 @@ namespace BxS_SAPBDC.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadTokens( DTO_BDCSession dto )
+				private void LoadTokens( DTO_BDCProfile dto )
 					{
 						this.AddToken( dto, cz_Token_Prog	, (int)ZDTON_RowNo.ProgName			);
 						this.AddToken( dto, cz_Token_Scrn	,	(int)ZDTON_RowNo.DynProNo			);
@@ -146,7 +146,7 @@ namespace BxS_SAPBDC.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void AddToken( DTO_BDCSession dto , string token, int row, int col = -1 )
+				private void AddToken( DTO_BDCProfile dto , string token, int row, int col = -1 )
 					{
 						DTO_TokenReference lo_Token	= this.CreateToken( token, row, col );
 						dto.Tokens.Add( lo_Token.Token, lo_Token );
@@ -166,7 +166,7 @@ namespace BxS_SAPBDC.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ExtractBDCTokenValues( DTO_BDCSession dto )
+				private void ExtractBDCTokenValues( DTO_BDCProfile dto )
 					{
 						this.ExtractTokenValue( dto , cz_Token_Prog , true	);
 						this.ExtractTokenValue( dto , cz_Token_Scrn	,	true	);
@@ -180,7 +180,7 @@ namespace BxS_SAPBDC.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ExtractSpecificTokenValues( DTO_BDCSession dto )
+				private void ExtractSpecificTokenValues( DTO_BDCProfile dto )
 					{
 						dto.RowDataStart	= this.ExtractTokenValue( dto , cz_Token_IDCol		, false	);
 						dto.ColDataStart	= this.ExtractTokenValue( dto , cz_Token_DataCol	, false	);
@@ -191,7 +191,7 @@ namespace BxS_SAPBDC.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private int ExtractTokenValue( DTO_BDCSession dto , string tokenID , bool setRow = true )
+				private int ExtractTokenValue( DTO_BDCProfile dto , string tokenID , bool setRow = true )
 					{
 						if ( !dto.Tokens.TryGetValue( tokenID , out DTO_TokenReference token ) )
 							{ return	0; }
@@ -253,7 +253,7 @@ namespace BxS_SAPBDC.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool ExtractXMLConfig( DTO_BDCSession dto )
+				private bool ExtractXMLConfig( DTO_BDCProfile dto )
 					{
 						if ( dto.Tokens.TryGetValue( cz_Token_XCfg , out DTO_TokenReference token ) )
 							{

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal class DTO_BDCSession
+	internal class DTO_BDCProfile
 		{
 			#region "Constructors"
 
-				internal DTO_BDCSession(	DTO_BDCHeaderRowRef	bdcHeaderRowRef	)
+				internal DTO_BDCProfile( DTO_BDCHeaderRowRef	bdcHeaderRowRef	)
 					{
 						this.BDCHeaderRowRef	= bdcHeaderRowRef		?? throw new Exception();
 						//.............................................
