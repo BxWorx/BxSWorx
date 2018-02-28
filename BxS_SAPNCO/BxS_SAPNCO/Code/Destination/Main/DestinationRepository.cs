@@ -61,9 +61,9 @@ namespace BxS_SAPNCO.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IDTORefEntry> ReferenceList()
+				public IList<IDTO_SAPSystemReference> ReferenceList()
 					{
-						IList<IDTORefEntry>	lt_List	= new List<IDTORefEntry>(this.Count);
+						IList<IDTO_SAPSystemReference>	lt_List	= new List<IDTO_SAPSystemReference>(this.Count);
 						//.............................................
 						foreach (KeyValuePair<Guid, string> ls_kvp in this._Ref)
 							{

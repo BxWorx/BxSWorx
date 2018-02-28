@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
+using BxS_SAPBDC.BDC;
 using BxS_SAPBDC.Parser;
+using BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Main
 {
@@ -29,6 +31,13 @@ namespace BxS_SAPBDC.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDC_Parser CreateBDCParser	()=>	new BDC_Parser( this._BDCFactory );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDC_Session ProcessRequest( DTO_BDCSessionRequest DTORequest )
+					{
+						BDC_Parser LO = this.CreateBDCParser();
+						return	LO.Process( DTORequest );
+					}
 
 			#endregion
 

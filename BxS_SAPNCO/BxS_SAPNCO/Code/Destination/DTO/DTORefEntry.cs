@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
 {
-	internal class DTORefEntry : IDTORefEntry
+	internal class DTORefEntry : IDTO_SAPSystemReference
 		{
 			#region "Properties"
 

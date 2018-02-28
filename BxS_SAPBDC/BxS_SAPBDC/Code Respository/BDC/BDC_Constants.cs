@@ -75,6 +75,16 @@ namespace BxS_SAPBDC.BDC
 
 				internal	const	string	cz_Token_SAPTCode	=	"<SAPTCODE>"	;
 				internal	const	string	cz_Token_Skip1st	=	"<SKIP1ST>"		;
+
+				internal	const	string	cz_Token_xProg			=	"Program Name"	;
+				internal	const	string	cz_Token_xScrn			=	"Screen Number"	;
+				internal	const	string	cz_Token_xBegn			=	"Screen Start"	;
+				internal	const	string	cz_Token_xOKCd			=	"BDC OK CODE"		;
+				internal	const	string	cz_Token_xCrsr			=	"BDC CURSOR"		;
+				internal	const	string	cz_Token_xSubs			=	"BDC SUBSCREEN"	;
+				internal	const	string	cz_Token_xFNme			=	"Field Name"		;
+				internal	const	string	cz_Token_xDesc			=	"Description"		;
+				internal	const	string	cz_Token_xInst			=	"Special Instructions"	;
 				//.................................................
 				internal	const	string	cz_Instr_Post				=	"@@POST"		;
 				internal	const	string	cz_Instr_Exec				=	"@@EXEC"		;

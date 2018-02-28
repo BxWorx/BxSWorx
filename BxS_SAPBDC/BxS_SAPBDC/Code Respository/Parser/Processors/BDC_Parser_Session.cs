@@ -29,7 +29,7 @@ namespace BxS_SAPBDC.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	Process(	DTO_BDCSessionRequest dtoRequest
-															,	DTO_ParserProfile				dtoProfile
+															,	DTO_ParserProfile			dtoProfile
 															, BDC_Session						Session			)
 					{
 						Session.SessionHeader.Client		= dtoRequest.Client;

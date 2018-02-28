@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPNCO.Destination
 {
-	public interface IDTORefEntry
+	public interface IDTO_SAPSystemReference
 		{
 			#region "Properties"
 

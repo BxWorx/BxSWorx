@@ -128,7 +128,7 @@ namespace zBxS_UT_SAPBDC
 					BDC_Parser	lo_Psr	= this.co_Cntlr.CreateBDCParser();
 					BDC_Session	lo_Ssn	= lo_Psr.Process( lo_BDC );
 
-					//Assert.AreNotEqual( 0 , this.co_BDCMain.Columns.Count	, ""	);
+					Assert.AreEqual( 5 , lo_Ssn.TransactionCount	, ""	);
 				}
 
 			//иииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииии

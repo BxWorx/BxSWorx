@@ -20,7 +20,7 @@ namespace BxS_SAPNCO.API
 				#region "Methods"
 
 					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public IList<IDTORefEntry> ConnectionReferenceList()
+					public IList<IDTO_SAPSystemReference> ConnectionReferenceList()
 						{
 							this.Startup();
 							//.............................................

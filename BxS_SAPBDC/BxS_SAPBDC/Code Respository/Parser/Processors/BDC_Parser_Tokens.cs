@@ -34,21 +34,7 @@ namespace BxS_SAPBDC.Parser
 															,	DTO_ParserProfile			dtoProfile )
 					{
 						if (dtoRequest.WSData == null)	return;
-						//.............................................
-						dtoProfile.RowLB		= dtoRequest.WSData.GetLowerBound(0)	;
-						dtoProfile.RowUB		= dtoRequest.WSData.GetUpperBound(0)	;
-						dtoProfile.ColLB		= dtoRequest.WSData.GetLowerBound(1)	;
-						dtoProfile.ColUB		= dtoRequest.WSData.GetUpperBound(1)	;
-						//.............................................
-						// Search for DATAROWSTART token to lessen remainder of search rows as all token should be
-						// in header section
-						//
-						DTO_ParserToken lo_DataRowToken	= this._Factory.Value.CreateDTOToken( cz_Token_DataRow );
-						lo_DataRowToken.Col	= -1;
-						lo_DataRowToken.Row	= 10;
-
-						this.UpdateToken( lo_DataRowToken , dtoRequest , dtoProfile.RowLB , dtoProfile.RowUB , dtoProfile.ColLB , dtoProfile.ColUB );
-						dtoProfile.RowDataStart	= lo_DataRowToken.Row;
+						this.Prepare( dtoRequest , dtoProfile );
 						//.............................................
 						this.LoadTokens( dtoProfile );
 
@@ -61,10 +47,6 @@ namespace BxS_SAPBDC.Parser
 																	, dtoProfile.ColLB
 																	, dtoProfile.ColUB						);
 							}
-						//.............................................
-						// Add the DATAROWSTART token
-						//
-						dtoProfile.Tokens.Add( lo_DataRowToken.ID, lo_DataRowToken );
 						//.............................................
 						if ( this.UpdateHeaderRowReference( dtoProfile ) )
 							{
@@ -80,13 +62,51 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void UpdateToken(		DTO_ParserToken					token
+				private	void Prepare(		DTO_BDCSessionRequest dtoRequest
+															,	DTO_ParserProfile			dtoProfile )
+					{
+						//.............................................
+						// Calculate Excel to array offsets
+						//
+						string[]	lt_Addr = dtoRequest.UsedAddress.Split(':');
+						string[]	lt_TLft = lt_Addr[0].Split('$');
+						int				ln_Col	= 0;
+
+						foreach (char lc_Char in lt_TLft[1])
+							{
+							ln_Col += (lc_Char - 64);
+							}
+						dtoProfile.OffsetCol	= ln_Col - 1;
+
+						if ( int.TryParse( lt_TLft[2], out int ln_Row ) )
+							{
+								ln_Row --;
+							}
+						dtoProfile.OffsetRow	= ln_Row;
+						//.............................................
+						// Calculate data array bounds
+						//
+						dtoProfile.RowLB		= dtoRequest.WSData.GetLowerBound(0)	;
+						dtoProfile.RowUB		= dtoRequest.WSData.GetUpperBound(0)	;
+						dtoProfile.ColLB		= dtoRequest.WSData.GetLowerBound(1)	;
+						dtoProfile.ColUB		= dtoRequest.WSData.GetUpperBound(1)	;
+						//.............................................
+						// Search for DATAROWSTART token to lessen remainder of search rows as all token should be
+						// in header section
+						//
+						DTO_ParserToken lo_DataRowToken	=	this.CreateToken( cz_Token_DataRow , 10 , -1 , cz_Token_xInst );
+
+						this.UpdateToken( lo_DataRowToken , dtoRequest , dtoProfile.RowLB , dtoProfile.RowUB , dtoProfile.ColLB , dtoProfile.ColUB );
+						dtoProfile.RowDataStart	= lo_DataRowToken.Row;
+						if (lo_DataRowToken.FoundAlt)	dtoProfile.RowDataStart ++;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void UpdateToken(		DTO_ParserToken				token
 																	,	DTO_BDCSessionRequest dtoRequest
 																	, int fromRow , int toRow
 																	, int fromCol , int toCol						)
 					{
-						bool	lb_Found	= false;
-						//.............................................
 						for ( int r = fromRow; r < toRow; r++ )
 							{
 								for ( int c = fromCol; c < toCol; c++ )
@@ -100,16 +120,44 @@ namespace BxS_SAPBDC.Parser
 																token.Row		= r;
 																token.Col		= c;
 																token.Value	= dtoRequest.WSData[r,c].Replace( cz_Cmd_Prefix , "" );
-
-																lb_Found	= true;
+																token.Found	= true;
 															}
 													}
 											}
 
-										if (lb_Found)	break;
+										if (token.Found)	break;
 									}
 
-								if (lb_Found)	break;
+								if (token.Found)	break;
+							}
+
+						if (token.Found)	return;
+						//.............................................
+						// Search for alternate token if supplied and original not found
+						//
+						if ( !token.AltID.Equals(string.Empty) )
+							{
+								for ( int r = fromRow; r < toRow; r++ )
+									{
+										for ( int c = fromCol; c < toCol; c++ )
+											{
+												if ( dtoRequest.WSData[r,c] != null )
+													{
+														if ( Regex.IsMatch( dtoRequest.WSData[r,c] , token.AltID , RegexOptions.IgnoreCase ) )
+															{
+																token.Row				= r;
+																token.Col				= c;
+																token.Value			= dtoRequest.WSData[r,c].Replace( cz_Cmd_Prefix , "" );
+																token.Found			= true;
+																token.FoundAlt	= true;
+															}
+													}
+
+												if (token.Found)	break;
+											}
+
+										if (token.Found)	break;
+									}
 							}
 					}
 
@@ -145,15 +193,15 @@ namespace BxS_SAPBDC.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadTokens( DTO_ParserProfile dtoProfile )
 					{
-						this.AddToken( dtoProfile, cz_Token_Prog	, (int)ZDTON_RowNo.ProgName			);
-						this.AddToken( dtoProfile, cz_Token_Scrn	,	(int)ZDTON_RowNo.DynProNo			);
-						this.AddToken( dtoProfile, cz_Token_Begn	,	(int)ZDTON_RowNo.DynBegin			);
-						this.AddToken( dtoProfile, cz_Token_OKCd	,	(int)ZDTON_RowNo.OKCode				);
-						this.AddToken( dtoProfile, cz_Token_Crsr	,	(int)ZDTON_RowNo.Cursor				);
-						this.AddToken( dtoProfile, cz_Token_Subs	,	(int)ZDTON_RowNo.SubScreen		);
-						this.AddToken( dtoProfile, cz_Token_FNme	,	(int)ZDTON_RowNo.FieldName		);
-						this.AddToken( dtoProfile, cz_Token_Desc	,	(int)ZDTON_RowNo.Description	);
-						this.AddToken( dtoProfile, cz_Token_Inst	,	(int)ZDTON_RowNo.Instructions	);
+						this.AddToken( dtoProfile, cz_Token_Prog	, (int)ZDTON_RowNo.ProgName			, -1	, cz_Token_xProg	);
+						this.AddToken( dtoProfile, cz_Token_Scrn	,	(int)ZDTON_RowNo.DynProNo			, -1	, cz_Token_xScrn	);
+						this.AddToken( dtoProfile, cz_Token_Begn	,	(int)ZDTON_RowNo.DynBegin			, -1	, cz_Token_xBegn	);
+						this.AddToken( dtoProfile, cz_Token_OKCd	,	(int)ZDTON_RowNo.OKCode				, -1	, cz_Token_xOKCd	);
+						this.AddToken( dtoProfile, cz_Token_Crsr	,	(int)ZDTON_RowNo.Cursor				, -1	, cz_Token_xCrsr	);
+						this.AddToken( dtoProfile, cz_Token_Subs	,	(int)ZDTON_RowNo.SubScreen		, -1	, cz_Token_xSubs	);
+						this.AddToken( dtoProfile, cz_Token_FNme	,	(int)ZDTON_RowNo.FieldName		, -1	, cz_Token_xFNme	);
+						this.AddToken( dtoProfile, cz_Token_Desc	,	(int)ZDTON_RowNo.Description	, -1	, cz_Token_xDesc	);
+						this.AddToken( dtoProfile, cz_Token_Inst	,	(int)ZDTON_RowNo.Instructions	, -1	, cz_Token_xInst	);
 						//.............................................
 						this.AddToken( dtoProfile, cz_Token_IDCol		,	-1 ,  2 );
 						this.AddToken( dtoProfile, cz_Token_MsgCol	,	-1 ,  1 );
@@ -168,31 +216,33 @@ namespace BxS_SAPBDC.Parser
 				private void AddToken(	DTO_ParserProfile	dtoProfile
 															, string						token
 															, int								row
-															, int								col = -1		)
+															, int								col = -1
+															, string						AltID	= "" )
 					{
-						DTO_ParserToken lo_Token	= this.CreateToken( token, row, col );
-						dtoProfile.Tokens.Add( lo_Token.ID, lo_Token );
+						DTO_ParserToken lo_DTO	= this.CreateToken( token , row , col , AltID );
+						dtoProfile.Tokens.Add( lo_DTO.ID, lo_DTO );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_ParserToken CreateToken(	string	token
-																						, int			row
-																						, int			col = -1 )
+				private DTO_ParserToken CreateToken(	string						token
+																						, int								row
+																						, int								col = -1
+																						, string						AltID	= "" )
 					{
-						DTO_ParserToken lo_DTO		= this._Factory.Value.CreateDTOToken();
-
-						lo_DTO.ID	= token;
-						lo_DTO.Row		= row;
-						lo_DTO.Col		= col;
-						lo_DTO.Value	=	token;
-
+						DTO_ParserToken lo_DTO	= this._Factory.Value.CreateDTOToken( token );
+						//.............................................
+						lo_DTO.Row		= row		;
+						lo_DTO.Col		= col		;
+						lo_DTO.Value	=	token	;
+						lo_DTO.AltID	= AltID	;
+						//.............................................
 						return	lo_DTO;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ExtractBDCTokenValues( DTO_ParserProfile dtoProfile )
 					{
-						this.ExtractTokenValue( dtoProfile , cz_Token_Prog , true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_Prog	, true	);
 						this.ExtractTokenValue( dtoProfile , cz_Token_Scrn	,	true	);
 						this.ExtractTokenValue( dtoProfile , cz_Token_Begn	,	true	);
 						this.ExtractTokenValue( dtoProfile , cz_Token_OKCd	,	true	);
@@ -324,24 +374,3 @@ namespace BxS_SAPBDC.Parser
 
 		}
 }
-
-
-
-						////.............................................
-						//// Calculate Excel to array offsets
-						////
-						//string[]	lt_Addr = DTO.UsedAddress.Split(':');
-						//string[]	lt_TLft = lt_Addr[0].Split('$');
-						//int				ln_Col	= 0;
-
-						//foreach (char lc_Char in lt_TLft[1])
-						//	{
-						//	ln_Col += (lc_Char - 64);
-						//	}
-						//DTO.OffsetCol	= ln_Col - 1;
-
-						//if ( int.TryParse( lt_TLft[2], out int ln_Row ) )
-						//	{
-						//		ln_Row --;
-						//	}
-						//DTO.OffsetRow	= ln_Row;

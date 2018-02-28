@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 //.........................................................
 using BxS_SAPBDC.BDC;
 using BxS_SAPIPX.Excel;
@@ -16,7 +15,7 @@ namespace BxS_SAPBDC.Parser
 						this._Factory	= factory;
 						//.............................................
 						this._Tkn	= factory.Value.GetTokenParser()				;
-						this._Col	= factory.Value.GetColumnParser()			;
+						this._Col	= factory.Value.GetColumnParser()				;
 						this._Grp	= factory.Value.GetGroupParser()				;
 						this._Trn	= factory.Value.GetTransactionParser()	;
 						this._Ssn	= factory.Value.GetSessionParser()			;

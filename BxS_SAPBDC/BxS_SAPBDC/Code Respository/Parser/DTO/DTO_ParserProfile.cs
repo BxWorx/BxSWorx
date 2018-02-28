@@ -26,11 +26,11 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Properties"
 
-				internal	Dictionary<	string	, DTO_ParserToken >	Tokens		{ get; }
+				internal	Dictionary<	string	, DTO_ParserToken >		Tokens		{ get; }
 				internal	Dictionary<	int			, DTO_ParserColumn >	Columns		{ get; }
-				internal	Dictionary<	int			, List< int > >		TranRows	{ get; }
+				internal	Dictionary<	int			, List< int > >				TranRows	{ get; }
 				//.................................................
-				internal	DTO_ParserHeaderRowRef		BDCHeaderRowRef		{ get; }
+				internal	DTO_ParserHeaderRowRef	BDCHeaderRowRef		{ get; }
 				internal	DTO_ParserXMLConfig			XMLConfig					{ get; set; }
 				//.................................................
 				internal	bool	IsTest	{ get; set; }
@@ -47,6 +47,9 @@ namespace BxS_SAPBDC.Parser
 				internal	int		ColExec				{ get; set; }
 				internal	int		ColPost				{ get; set; }
 				internal	int		ColMsgs				{ get; set; }
+
+				internal	int		OffsetRow		{ get; set; }
+				internal	int		OffsetCol		{ get; set; }
 
 			#endregion
 

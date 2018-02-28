@@ -40,7 +40,7 @@ namespace zBxS_SAPNCO_UT
 					//...............................................
 					ln_Cnt	++;
 
-					IList<BxS_SAPNCO.Destination.IDTORefEntry> x = this._NCOCntlr.ConnectionReferenceList();
+					IList<BxS_SAPNCO.Destination.IDTO_SAPSystemReference> x = this._NCOCntlr.ConnectionReferenceList();
 
 					Assert.AreNotEqual( 0, x	,	$"SAPNCO:Cntlr:Inst {ln_Cnt}: 1st" );
 				}
