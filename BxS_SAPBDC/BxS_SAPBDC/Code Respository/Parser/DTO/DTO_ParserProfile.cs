@@ -3,17 +3,22 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal class DTO_BDCProfile
+	internal class DTO_ParserProfile
 		{
 			#region "Constructors"
 
-				internal DTO_BDCProfile( DTO_BDCHeaderRowRef	bdcHeaderRowRef	)
+				internal DTO_ParserProfile( DTO_ParserHeaderRowRef	bdcHeaderRowRef	)
 					{
 						this.BDCHeaderRowRef	= bdcHeaderRowRef		?? throw new Exception();
 						//.............................................
-						this.Tokens		= new Dictionary< string	, DTO_TokenReference >	();
-						this.Columns	= new Dictionary< int			, DTO_BDCColumn >				();
-						this.TranRows	= new Dictionary< int			, List< int > >					();
+						this.Tokens		= new Dictionary< string	, DTO_ParserToken >	();
+						this.Columns	= new Dictionary< int			, DTO_ParserColumn >	();
+						this.TranRows	= new Dictionary< int			, List< int > >		();
+						//.............................................
+						this.RowLB	= -1;
+						this.RowUB	= -1;
+						this.ColLB	= -1;
+						this.ColUB	= -1;
 					}
 
 			#endregion
@@ -21,12 +26,12 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Properties"
 
-				internal	Dictionary<	string	, DTO_TokenReference >	Tokens		{ get; }
-				internal	Dictionary<	int			, DTO_BDCColumn >				Columns		{ get; }
-				internal	Dictionary<	int			, List< int > >					TranRows	{ get; }
+				internal	Dictionary<	string	, DTO_ParserToken >	Tokens		{ get; }
+				internal	Dictionary<	int			, DTO_ParserColumn >	Columns		{ get; }
+				internal	Dictionary<	int			, List< int > >		TranRows	{ get; }
 				//.................................................
-				internal	DTO_BDCHeaderRowRef		BDCHeaderRowRef		{ get; }
-				internal	DTO_BDCXMLConfig			XMLConfig					{ get; set; }
+				internal	DTO_ParserHeaderRowRef		BDCHeaderRowRef		{ get; }
+				internal	DTO_ParserXMLConfig			XMLConfig					{ get; set; }
 				//.................................................
 				internal	bool	IsTest	{ get; set; }
 
@@ -38,9 +43,10 @@ namespace BxS_SAPBDC.Parser
 				internal	int		RowDataStart	{ get; set; }
 				internal	int		ColDataStart	{ get; set; }
 				internal	int		ColDataEnd		{ get; set; }
-				internal	int		ColDataExec		{ get; set; }
-				internal	int		ColDataPost		{ get; set; }
-				internal	int		ColDataMsgs		{ get; set; }
+				internal	int		ColID					{ get; set; }
+				internal	int		ColExec				{ get; set; }
+				internal	int		ColPost				{ get; set; }
+				internal	int		ColMsgs				{ get; set; }
 
 			#endregion
 

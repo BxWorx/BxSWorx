@@ -6,7 +6,7 @@ namespace BxS_SAPBDC.Main
 		{
 			#region "Methods: Exposed"
 
-				BDC_Processor CreateBDCProcessor();
+				BDC_Parser CreateBDCParser();
 
 			#endregion
 

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.BDC
 {
-	public class BDC_Transaction
+	public class BDC_SessionTransaction
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Transaction(Guid ID	= default(Guid))
+				public BDC_SessionTransaction(Guid ID	= default(Guid))
 					{
 						this.ID	= ID.Equals(Guid.Empty)	?	Guid.NewGuid() : ID;
 						//.............................................

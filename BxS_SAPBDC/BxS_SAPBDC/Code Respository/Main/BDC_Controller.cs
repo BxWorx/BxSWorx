@@ -18,8 +18,8 @@ namespace BxS_SAPBDC.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy< BDC_Processor_Factory >	_BDCFactory	=	new Lazy< BDC_Processor_Factory >
-					(		()=>	BDC_Processor_Factory.Instance
+				private readonly Lazy< BDC_Parser_Factory >	_BDCFactory	=	new Lazy< BDC_Parser_Factory >
+					(		()=>	BDC_Parser_Factory.Instance
 						,	LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
@@ -28,7 +28,7 @@ namespace BxS_SAPBDC.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Processor CreateBDCProcessor()=>	new BDC_Processor( this._BDCFactory );
+				public BDC_Parser CreateBDCParser	()=>	new BDC_Parser( this._BDCFactory );
 
 			#endregion
 

@@ -89,40 +89,12 @@ namespace BxS_SAPIPX.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_CTUParms CreateCTUParms()
-					{
-						return	new	DTO_CTUParms();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDCSessionResult CreateBDCSessionResult()
-					{
-						return	new DTO_BDCSessionResult();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDCSessionRequest CreateBDCSessionRequest()
-					{
-						return	new DTO_BDCSessionRequest();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_SessionRequestRaw CreateRawSessionRequest()
-					{
-						return	new DTO_SessionRequestRaw();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDCSessionRequestSAP CreateBDCSessionRequestSAP()
-					{
-						return	new DTO_BDCSessionRequestSAP();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDCSessionRequestHeader CreateBDCSessionRequestHeader()
-					{
-						return	new DTO_BDCSessionRequestHeader();
-					}
+				public DTO_CTUParms									CreateCTUParms								()=>	new	DTO_CTUParms()								;
+				public DTO_BDCSessionResult					CreateBDCSessionResult				()=>	new DTO_BDCSessionResult()				;
+				public DTO_BDCSessionRequest				CreateBDCSessionRequest				()=>	new DTO_BDCSessionRequest()				;
+				public DTO_SessionRequestRaw				CreateRawSessionRequest				()=>	new DTO_SessionRequestRaw()				;
+				public DTO_BDCSessionRequestSAP			CreateBDCSessionRequestSAP		()=>	new DTO_BDCSessionRequestSAP()		;
+				public DTO_BDCSessionRequestHeader	CreateBDCSessionRequestHeader	()=>	new DTO_BDCSessionRequestHeader()	;
 
 			#endregion
 

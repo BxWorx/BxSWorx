@@ -72,6 +72,9 @@ namespace BxS_SAPBDC.BDC
 				internal	const	string	cz_Token_DataRow	=	"<DATASTARTROW>"			;
 
 				internal const	string	cz_Token_XCfg			= "</DTO_BDCXMLConfig>"	;
+
+				internal	const	string	cz_Token_SAPTCode	=	"<SAPTCODE>"	;
+				internal	const	string	cz_Token_Skip1st	=	"<SKIP1ST>"		;
 				//.................................................
 				internal	const	string	cz_Instr_Post				=	"@@POST"		;
 				internal	const	string	cz_Instr_Exec				=	"@@EXEC"		;

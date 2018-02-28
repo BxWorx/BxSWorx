@@ -2,12 +2,12 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal class DTO_BDCColumn
+	internal class DTO_ParserColumn
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_BDCColumn()
+				internal DTO_ParserColumn()
 					{
 						this.Commands		= new Dictionary<string, string>();
 						//.............................................

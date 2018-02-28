@@ -28,7 +28,7 @@ namespace BxS_SAPBDC.BDC
 						this.ProgramName	= string.IsNullOrEmpty(ProgramName)	? BDC_Constants.cz_Val_Empty	: ProgramName																	;
 						this.FieldName		= string.IsNullOrEmpty(Field)				? BDC_Constants.cz_Val_Empty	: Field																				;
 						this.FieldValue		= string.IsNullOrEmpty(Value)				? BDC_Constants.cz_Val_Empty	: Value																				;
-						this.Dynpro				= Dynpro.Equals(0)									? BDC_Constants.cz_Val_Scrn0	: Dynpro.ToString(BDC_Constants.cz_Val_Scrn0)	;
+						this.Dynpro				= Dynpro.Equals(0)									? BDC_Constants.cz_Val_Empty	: Dynpro.ToString(BDC_Constants.cz_Val_Scrn0)	;
 						this.Begin				= Begin															? BDC_Constants.cz_Val_True		: BDC_Constants.cz_Val_False									;
 					}
 

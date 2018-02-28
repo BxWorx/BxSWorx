@@ -20,7 +20,7 @@ namespace BxS_SAPIPX.Excel
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public	string	SAPID					{ get; set; }
+				[DataMember]	public	string	SAPSysID			{ get; set; }
 				[DataMember]	public	string	Client				{ get; set; }
 				[DataMember]	public	string	User					{ get; set; }
 				[DataMember]	public	string	Lang					{ get; set; }

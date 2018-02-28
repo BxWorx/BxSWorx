@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 //.........................................................
+using					BxS_SAPIPX.Excel;
 using static	BxS_SAPBDC.BDC.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	public class BDC_Processor_Columns
+	public class BDC_Parser_Columns
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Processor_Columns(	Lazy< BDC_Processor_Factory > factory )
+				internal BDC_Parser_Columns(	Lazy< BDC_Parser_Factory > factory )
 					{
 						this._Factory	= factory;
 						//.............................................
@@ -22,7 +23,7 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private	readonly	Lazy< BDC_Processor_Factory >		_Factory	;
+				private	readonly	Lazy< BDC_Parser_Factory >		_Factory	;
 				private	readonly	Regex														_Regex		;
 
 			#endregion
@@ -31,38 +32,39 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Process( DTO_BDCProfile dto , string[,] data )
+				internal void	Process(	DTO_BDCSessionRequest dtoRequest
+															,	DTO_ParserProfile				dtoProfile )
 					{
-						bool	lb_Ret	= false;
+						if (dtoRequest.WSData == null)	return;
 						//.............................................
-						for ( int c = dto.ColDataStart; c < dto.ColUB; c++ )
+						for ( int c = dtoProfile.ColDataStart; c < dtoProfile.ColUB; c++ )
 							{
-								DTO_BDCColumn lo_Col	= CreateColumn(c);
+								DTO_ParserColumn lo_Col	= CreateColumn(c);
 								//.........................................
 								lo_Col.ColNo		=	c	;
 								lo_Col.ScreenNo	=	0	;
 								//.........................................
 								try
 									{
-										lo_Col.Program			=		data[ dto.BDCHeaderRowRef.Prog , c ];
-										lo_Col.DynBegin			=		data[ dto.BDCHeaderRowRef.Strt , c ]?.Equals(string.Empty) == false;
-										lo_Col.OKCode				=		data[ dto.BDCHeaderRowRef.OKCd , c ];
-										lo_Col.Cursor				=		data[ dto.BDCHeaderRowRef.Curs , c ];
-										lo_Col.Subscreen		=		data[ dto.BDCHeaderRowRef.Subs , c ];
-										lo_Col.Field				=		data[ dto.BDCHeaderRowRef.FldN , c ];
-										lo_Col.Description	=		data[ dto.BDCHeaderRowRef.Desc , c ];
-										lo_Col.Instructions	=		data[ dto.BDCHeaderRowRef.Inst , c ];
+										lo_Col.Program				=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Prog , c ] ?? "";
+										lo_Col.OKCode					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.OKCd , c ] ?? "";
+										lo_Col.Cursor					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Curs , c ] ?? "";
+										lo_Col.Subscreen			=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Subs , c ] ?? "";
+										lo_Col.Field					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.FldN , c ] ?? "";
+										lo_Col.Description		=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Desc , c ] ?? "";
+										lo_Col.Instructions		=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Inst , c ] ?? "";
 										//.........................................
-										if ( ushort.TryParse( data[dto.BDCHeaderRowRef.Scrn, c] , out ushort ln_SN ) )
+										lo_Col.DynBegin				=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Strt , c ]?.Equals(string.Empty) == false;
+										//.........................................
+										if ( ushort.TryParse( dtoRequest.WSData[dtoProfile.BDCHeaderRowRef.Scrn, c] , out ushort ln_SN ) )
 											{
 												lo_Col.ScreenNo	= ln_SN;
 											}
 										//.........................................
 										if ( this.InterpretColumn( lo_Col ) )
 											{
-												dto.Columns.Add( lo_Col.ColNo , lo_Col );
-												dto.ColDataEnd	= lo_Col.ColNo;
-												lb_Ret	= true;
+												dtoProfile.Columns.Add( lo_Col.ColNo , lo_Col );
+												dtoProfile.ColDataEnd	= lo_Col.ColNo;
 											}
 									}
 								catch (Exception)
@@ -70,8 +72,6 @@ namespace BxS_SAPBDC.Parser
 										throw;
 									}
 							}
-						//.............................................
-						return	lb_Ret;
 					}
 
 			#endregion
@@ -80,7 +80,7 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool InterpretColumn( DTO_BDCColumn column )
+				private bool InterpretColumn( DTO_ParserColumn column )
 					{
 						if (		string.IsNullOrEmpty( column.Program			)
 								&&	string.IsNullOrEmpty( column.OKCode				)
@@ -124,9 +124,9 @@ namespace BxS_SAPBDC.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_BDCColumn CreateColumn( int ID )
+				private DTO_ParserColumn CreateColumn( int ID )
 					{
-						DTO_BDCColumn lo_DTO	= this._Factory.Value.CreateDTOColumn();
+						DTO_ParserColumn lo_DTO	= this._Factory.Value.CreateDTOColumn();
 
 						lo_DTO.ColNo	= ID;
 

@@ -10,12 +10,16 @@ namespace BxS_SAPBDC.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session()
+				internal BDC_Session(		DTO_SessionOptions	options
+															,	DTO_SessionHeader		header	)
 					{
+						this.SessionOptions	= options	;
+						this.SessionHeader	= header	;
+						//.............................................
 						this._Lock			= new object()	;
 						this._Indexer		= 0							;
 						//.............................................
-						this.Transactions		= new	ConcurrentDictionary< int, BDC_Transaction >()	;
+						this.Transactions		= new	ConcurrentDictionary< int, BDC_SessionTransaction >()	;
 					}
 
 			#endregion
@@ -33,7 +37,7 @@ namespace BxS_SAPBDC.BDC
 
 				public	DTO_SessionOptions														SessionOptions	{ get; }
 				public	DTO_SessionHeader															SessionHeader		{ get; }
-				public	ConcurrentDictionary< int, BDC_Transaction >	Transactions		{ get; }
+				public	ConcurrentDictionary< int, BDC_SessionTransaction >	Transactions		{ get; }
 				//.................................................
 				public	int	TransactionCount	{ get { return	this.Transactions.Count	; } }
 
@@ -43,16 +47,16 @@ namespace BxS_SAPBDC.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	AddTransaction( IList< BDC_Transaction > transactions )
+				public void	AddTransaction( IList< BDC_SessionTransaction > transactions )
 					{
-						foreach (BDC_Transaction lo_Tran in transactions)
+						foreach (BDC_SessionTransaction lo_Tran in transactions)
 							{
 								this.AddTransaction(lo_Tran);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	AddTransaction( BDC_Transaction transaction )
+				public void	AddTransaction( BDC_SessionTransaction transaction )
 					{
 						lock (this._Lock)
 							{

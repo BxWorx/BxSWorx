@@ -1,16 +1,16 @@
 ﻿using System;
 //.........................................................
-using					BxS_SAPBDC.BDC;
-using static	BxS_SAPBDC.BDC.BDC_Constants;
+using	BxS_SAPBDC.BDC;
+using	BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPBDC.Parser
 {
-	internal class BDC_Processor_Session
+	internal class BDC_Parser_Session
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	BDC_Processor_Session(	Lazy< BDC_Processor_Factory > factory )
+				internal	BDC_Parser_Session(	Lazy< BDC_Parser_Factory > factory )
 					{
 						this._Factory	= factory;
 					}
@@ -20,7 +20,7 @@ namespace BxS_SAPBDC.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private	readonly Lazy< BDC_Processor_Factory > 	_Factory;
+				private	readonly Lazy< BDC_Parser_Factory > 	_Factory;
 
 			#endregion
 
@@ -28,11 +28,19 @@ namespace BxS_SAPBDC.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Process( BDC_Session	Session , DTO_BDCProfile dto )
+				internal void	Process(	DTO_BDCSessionRequest dtoRequest
+															,	DTO_ParserProfile				dtoProfile
+															, BDC_Session						Session			)
 					{
-						bool	lb_Ret	= true;
-						//.............................................
-						return	lb_Ret;
+						Session.SessionHeader.Client		= dtoRequest.Client;
+						Session.SessionHeader.Lang			= dtoRequest.Lang;
+						Session.SessionHeader.Name			= dtoRequest.WSID;
+						Session.SessionHeader.Pwrd			= dtoRequest.Pwrd;
+						Session.SessionHeader.SAPSysID	= dtoRequest.SAPSysID;
+						Session.SessionHeader.User			= dtoRequest.User;
+
+						Session.SessionHeader.SAPTCode	= dtoProfile.XMLConfig.SAPTCode	;
+						Session.SessionHeader.Skip1st		= dtoProfile.XMLConfig.Skip1st	;
 					}
 
 			#endregion
