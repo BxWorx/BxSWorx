@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_WorxIPX.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.Destination
+namespace BxS_WorxDestination.Main
 {
-	public class DestinationRepository
+	internal class DestinationRepository
 		{
 			#region "Constructors"
 
-				public DestinationRepository()
+				internal DestinationRepository()
 					{
 						this._Map		= new Dictionary<string	, Guid>											();
 						this._Ref		= new Dictionary<Guid		,	string>										();
@@ -61,14 +63,14 @@ namespace BxS_SAPNCO.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IDTO_SAPSystemReference> ReferenceList()
+				public IList<DTO_SAPSystemReference> ReferenceList()
 					{
-						IList<IDTO_SAPSystemReference>	lt_List	= new List<IDTO_SAPSystemReference>(this.Count);
+						IList<DTO_SAPSystemReference>	lt_List	= new List<DTO_SAPSystemReference>(this.Count);
 						//.............................................
 						foreach (KeyValuePair<Guid, string> ls_kvp in this._Ref)
 							{
-								lt_List.Add( new DTO_SAPSystemReference{ ID		= ls_kvp.Key		,
-																							Name	= ls_kvp.Value		} );
+								lt_List.Add( new DTO_SAPSystemReference{	ID			= ls_kvp.Key
+																												,	SAPName	= ls_kvp.Value	} );
 							}
 						//.............................................
 						return	lt_List;

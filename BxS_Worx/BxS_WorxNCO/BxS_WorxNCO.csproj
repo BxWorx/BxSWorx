@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="sapnco">
+      <HintPath>..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Import Project="..\BxS_WorxDestination\BxS_WorxDestination.projitems" Label="Shared" />
+
+  <Import Project="..\BxS_WorxUtils\BxS_WorxUtils.projitems" Label="Shared" />
+
+  <Import Project="..\BxS_WorxIPX\BxS_WorxIPX.projitems" Label="Shared" />
+
+</Project>

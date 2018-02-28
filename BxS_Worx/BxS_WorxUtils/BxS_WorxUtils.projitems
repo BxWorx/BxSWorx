@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>35d1fbf4-ca63-4c10-9b17-9a755a9f72ec</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>BxS_WorxUtils</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Code Respository\Helpers\IO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code Respository\Helpers\Serializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code Respository\Pipeline\ConsumerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code Respository\Pipeline\ConsumerOpEnv.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code Respository\Pipeline\IConsumer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code Respository\Pipeline\Pipeline.cs" />
+  </ItemGroup>
+</Project>

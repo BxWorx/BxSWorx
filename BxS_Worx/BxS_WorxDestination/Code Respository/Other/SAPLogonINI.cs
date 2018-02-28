@@ -3,16 +3,14 @@ using System.Threading;
 using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_SAPNCO.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.Helpers
+namespace BxS_WorxDestination.Main
 {
-	internal static class SAPLogonINI
+	internal class SAPLogonINI
 		{
 			#region "Declarations"
 
-				private static readonly
+				private readonly
 					Lazy<SMC.SapLogonIniConfiguration>	_SAPINI		= new Lazy<SMC.SapLogonIniConfiguration>
 																															(	() => SMC.SapLogonIniConfiguration.Create()
 																																, LazyThreadSafetyMode.ExecutionAndPublication	);
@@ -23,19 +21,19 @@ namespace BxS_SAPNCO.Helpers
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal static SMC.RfcConfigParameters GetConfigParameters(string ID)
+				internal SMC.RfcConfigParameters GetConfigParameters(string ID)
 					{
 						return	_SAPINI.Value.GetParameters(ID);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal static IList<string>	GetSAPGUIConfigEntries()
+				internal IList<string>	GetSAPGUIConfigEntries()
 					{
 						return	_SAPINI.Value.GetEntries();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal static void LoadRepository( DestinationRepository destinationRepository )
+				internal void LoadRepository( DestinationRepository destinationRepository )
 					{
 						string[] la_List	= _SAPINI.Value.GetEntries();
 						Array.Sort(la_List);

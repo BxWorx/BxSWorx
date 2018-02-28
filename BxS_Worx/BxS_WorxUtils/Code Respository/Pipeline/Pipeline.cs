@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-namespace BxS_SAPNCO.Pipeline
+namespace BxS_WorxUtils.Pipeline
 {
 	internal class Pipeline<T,P>	where T:class
 																where	P:class

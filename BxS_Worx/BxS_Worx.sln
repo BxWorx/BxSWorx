@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BxS_WorxUtils", "BxS_WorxUtils\BxS_WorxUtils.shproj", "{35D1FBF4-CA63-4C10-9B17-9A755A9F72EC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BxS_WorxDestination", "BxS_WorxDestination\BxS_WorxDestination.shproj", "{CC2B2AAC-C67D-4D2E-897E-80D14E235050}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_WorxNCO", "BxS_WorxNCO\BxS_WorxNCO.csproj", "{24DC545A-740B-4102-9AC2-33BED9C7938C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BxS_WorxIPX", "BxS_WorxIPX\BxS_WorxIPX.shproj", "{0C42E524-350D-465E-ADBD-553C545D0109}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		BxS_WorxIPX\BxS_WorxIPX.projitems*{0c42e524-350d-465e-adbd-553c545d0109}*SharedItemsImports = 13
+		BxS_WorxUtils\BxS_WorxUtils.projitems*{35d1fbf4-ca63-4c10-9b17-9a755a9f72ec}*SharedItemsImports = 13
+		BxS_WorxDestination\BxS_WorxDestination.projitems*{cc2b2aac-c67d-4d2e-897e-80d14e235050}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24DC545A-740B-4102-9AC2-33BED9C7938C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24DC545A-740B-4102-9AC2-33BED9C7938C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24DC545A-740B-4102-9AC2-33BED9C7938C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24DC545A-740B-4102-9AC2-33BED9C7938C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E2ACF5D-18BF-4B07-A250-FBA78BE08306}
+	EndGlobalSection
+EndGlobal

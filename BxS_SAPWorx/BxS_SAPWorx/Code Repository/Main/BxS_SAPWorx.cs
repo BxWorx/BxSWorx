@@ -1,47 +1,46 @@
-﻿using System;
-using System.Threading;
-//.........................................................
-using BxS_SAPBDC.BDC;
-using BxS_SAPBDC.Parser;
-using BxS_SAPIPX.Excel;
+﻿//.........................................................
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPBDC.Main
+namespace BxS_SAPWorx.Main
 {
-	public class BDC_Controller : IBDC_Controller
+	public class BxS_SAPWorx : IBxS_SAPWorx
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Controller()
-					{}
+				internal BxS_SAPWorx()
+					{
+						//. DI ........................................
+
+						//. locals ....................................
+
+						//. properties ................................
+
+						//. initialise ................................
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
+			#endregion
 
-				private readonly Lazy< BDC_Parser_Factory >	_BDCFactory	=	new Lazy< BDC_Parser_Factory >
-					(		()=>	BDC_Parser_Factory.Instance
-						,	LazyThreadSafetyMode.ExecutionAndPublication );
-
+			//===========================================================================================
+			#region "Properties"
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Parser CreateBDCParser	()=>	new BDC_Parser( this._BDCFactory );
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Session ProcessRequest( DTO_BDCSessionRequest DTORequest )
+				public void	Reset()
 					{
-						BDC_Parser lo_Parser	= this.CreateBDCParser();
-						return	lo_Parser.Process( DTORequest );
 					}
 
 			#endregion
 
+			//===========================================================================================
+			#region "Methods: Private"
+			#endregion
+
 		}
 }
-
-

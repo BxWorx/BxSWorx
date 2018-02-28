@@ -1,47 +1,40 @@
-﻿using System;
-using System.Threading;
+﻿using System.Collections.Generic;
 //.........................................................
-using BxS_SAPBDC.BDC;
-using BxS_SAPBDC.Parser;
-using BxS_SAPIPX.Excel;
+using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPBDC.Main
+namespace BxS_WorxDestination.DTO
 {
-	public class BDC_Controller : IBDC_Controller
+	internal class DTOConfigSetupGlobal : IDTOConfigSetupGlobal
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Controller()
-					{}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private readonly Lazy< BDC_Parser_Factory >	_BDCFactory	=	new Lazy< BDC_Parser_Factory >
-					(		()=>	BDC_Parser_Factory.Instance
-						,	LazyThreadSafetyMode.ExecutionAndPublication );
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Parser CreateBDCParser	()=>	new BDC_Parser( this._BDCFactory );
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Session ProcessRequest( DTO_BDCSessionRequest DTORequest )
+				internal DTOConfigSetupGlobal()
 					{
-						BDC_Parser lo_Parser	= this.CreateBDCParser();
-						return	lo_Parser.Process( DTORequest );
+						this.Settings		= new Dictionary<string, string>();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				public	Dictionary<string, string> Settings { get; }
+
+				public	string	SNCLibPath	{ set { this.Settings[SMC.RfcConfigParameters.SncLibraryPath]		= value; } }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Reset()
+					{
+						this.Settings.Clear();
 					}
 
 			#endregion
 
 		}
 }
-
-
