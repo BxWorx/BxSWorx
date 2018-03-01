@@ -2,11 +2,9 @@
 using System.Threading;
 using System.Collections.Generic;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_WorxDestination.DTO;
-using BxS_WorxDestination.API;
 using BxS_WorxIPX.API.Destination;
+using BxS_WorxDestination.API.Destination;
+using BxS_WorxDestination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.Main
 {
@@ -15,13 +13,18 @@ namespace BxS_WorxDestination.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Controller( bool autoLoadSAPINI = true )
+				internal Controller()
 					{
-						if (autoLoadSAPINI)
-							{
-								this.LoadSAPINI();
-							}
 					}
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal Controller( bool autoLoadSAPINI = true )
+				//	{
+				//		if (autoLoadSAPINI)
+				//			{
+				//				this.LoadSAPINI();
+				//			}
+				//	}
 
 			#endregion
 
@@ -29,7 +32,7 @@ namespace BxS_WorxDestination.Main
 			#region "Declarations"
 
 				private readonly	Lazy<Repository>						_DestRepos
-						= new Lazy<Repository>	(		() => new Repository()
+						= new Lazy<Repository>	(		() => new Repository(	( Guid ID )	=>	new Destination( ID ) )
 																			, LazyThreadSafetyMode.ExecutionAndPublication );
 				//...............................................
 				private readonly	Lazy<IConfigSetupGlobal>		_GlobalSetup
@@ -85,38 +88,28 @@ namespace BxS_WorxDestination.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDestination GetDestination( string ID )
 					{
-						Guid										lg						= this._DestRepos.Value.GetAddIDFor( ID , true );
-						SMC.RfcConfigParameters	lo_rfcConfig	=	this._DestRepos.Value.GetParameters(lg);
-						//.............................................
-						return	GetDestinationRFC(lg);
-
-								SMC.RfcConfigParameters lo_RfcCfgParms	= _SAPINI.Value.GetParameters(lc_ID)	?? new SMC.RfcConfigParameters();
-								destinationRepository.AddConfig(lc_ID, lo_RfcCfgParms);
-
-
-
-
+						return	this._DestRepos.Value.GetDestination( ID );
 					}
-
-
-
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool LoadSAPINI()
+				public IDestination GetDestination(Guid ID)
 					{
-						try
-							{
-								this._SAPINI.Value.LoadRepository( this._DestRepos.Value );
-								return	true;
-							}
-						catch
-							{
-								return	false;
-							}
+						return	this._DestRepos.Value.GetDestination( ID );
 					}
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public bool LoadSAPINI()
+				//	{
+				//		try
+				//			{
+				//				this._SAPINI.Value.LoadRepository( this._DestRepos.Value );
+				//				return	true;
+				//			}
+				//		catch
+				//			{
+				//				return	false;
+				//			}
+				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
@@ -124,33 +117,14 @@ namespace BxS_WorxDestination.Main
 						this._DestRepos.Value.Reset();
 					}
 
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDestination GetDestination(Guid ID)
-					{
-						SMC.RfcConfigParameters	lo_rfcConfig	=	this._DestRepos.Value.GetParameters(ID);
-						//.............................................
-						return	new DestinationRfc(		ID
-																				,	lo_rfcConfig
-																				,	this._GlobalSetup.Value	);
-					}
-
-
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDTOConfigSetupDestination CreateConfigSetupDestination()
-					{
-						return	new	DTOConfigSetupDestination();
-					}
-
-
-
+				public IConfigSetupDestination	CreateDestinationSetup	()=>	new ConfigSetupDestination()	;
+				public IConfigSetupGlobal				CreateGlobalSetup				()=>	new ConfigSetupGlobal()				;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private ISAPSystemReference CreateSAPSysRef(	Guid		id
@@ -161,7 +135,7 @@ namespace BxS_WorxDestination.Main
 						return	lo;
 					}
 
-			#endregion
+		#endregion
 
 		}
 }

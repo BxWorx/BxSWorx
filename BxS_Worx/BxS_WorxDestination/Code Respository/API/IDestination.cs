@@ -3,7 +3,7 @@ using System.Security;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using BxS_WorxIPX.API.Destination;
+using BxS_WorxDestination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.API.Destination
 {

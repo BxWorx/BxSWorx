@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BxS_WorxDestination.API.Destination;
 //.........................................................
 using BxS_WorxIPX.API.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

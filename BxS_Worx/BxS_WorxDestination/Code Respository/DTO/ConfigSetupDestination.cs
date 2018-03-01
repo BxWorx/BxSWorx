@@ -5,14 +5,14 @@ using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxIPX.API.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxDestination.DTO
+namespace BxS_WorxDestination.Config
 {
-	internal class DTOConfigSetupDestination : IConfigSetupDestination
+	internal class ConfigSetupDestination : IConfigSetupDestination
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTOConfigSetupDestination()
+				internal ConfigSetupDestination()
 					{
 						this.Settings		= new Dictionary<string, string>();
 					}

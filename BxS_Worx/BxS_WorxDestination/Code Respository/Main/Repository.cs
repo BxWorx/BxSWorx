@@ -18,7 +18,8 @@ namespace BxS_WorxDestination.Main
 						this.SAPSystems	= new Dictionary< Guid , string >();
 						//.............................................
 						this._Map		= new Dictionary<string	, Guid>											();
-						this._Des		= new Dictionary<Guid		, SMC.RfcConfigParameters>	();
+						//this._Des		= new Dictionary< Guid		, SMC.RfcConfigParameters>	();
+						this._Desx	= new Dictionary< Guid , IDestination >								();
 						//.............................................
 						this._Lock	= new	object();
 					}
@@ -33,9 +34,9 @@ namespace BxS_WorxDestination.Main
 																															(	() => SMC.SapLogonIniConfiguration.Create()
 																																, LazyThreadSafetyMode.ExecutionAndPublication	);
 				//.................................................
-				private readonly Dictionary<string,	Guid>												_Map;
-				private readonly Dictionary<Guid	, SMC.RfcConfigParameters>		_Des;
-				private readonly Dictionary< Guid	, IDestination >							_Desx;
+				private readonly Dictionary< string	,	Guid >					_Map;
+				private readonly Dictionary< Guid		, IDestination >	_Desx;
+				//private readonly Dictionary<Guid	, SMC.RfcConfigParameters>		_Des;
 				//.................................................
 				private	readonly Func< Guid , IDestination >	_CreateDestination;
 				private readonly object	_Lock;
@@ -89,9 +90,10 @@ namespace BxS_WorxDestination.Main
 										{
 											if ( this.SAPSystems.TryGetValue( ID , out string lc_SAPID ) )
 												{
-													IDestination x = this._CreateDestination( ID );
+													IDestination lo_Dest = this._CreateDestination( ID );
 													SMC.RfcConfigParameters lo_RfcCfgParms	= this._SAPINI.Value.GetParameters(lc_SAPID)	?? new SMC.RfcConfigParameters();
-													x.LoadConfig( lo_RfcCfgParms );
+													lo_Dest.LoadConfig( lo_RfcCfgParms );
+													this._Desx.Add( lo_Dest.SAPGUIID , lo_Dest );
 												}
 											else
 												{

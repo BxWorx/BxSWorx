@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Security;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
-using SDM = SAP.Middleware.Connector.RfcDestinationManager;
+using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
-using BxS_WorxIPX.API.Destination;
 using BxS_WorxIPX.Destination;
+using BxS_WorxDestination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.API.Destination
 {
@@ -58,11 +58,6 @@ namespace BxS_WorxDestination.API.Destination
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
 
-
-
-
-
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig( SMC.RfcConfigParameters Config )
 					{
@@ -104,26 +99,27 @@ namespace BxS_WorxDestination.API.Destination
 					{
 						if ( !this.IsProcured )
 							{
+								//.............................................
+								lock (this._Lock)
+									{
+										if ( !this.IsProcured )
+											{
+												if ( this._GlbSetup != null )	this.LoadConfig(this._GlbSetup);
 
+												try
+													{
+														this.NCODestination	= SDM.GetDestination( this._RfcConfig );
+														this.IsProcured			= !this.IsProcured;
+													}
+												catch (Exception)
+													{
+														throw;
+													}
+											}
+									}
 							}
 						//.............................................
 						return	this.IsProcured;
-						////.............................................
-						//lock (this._Lock)
-						//	{
-						//		if (this.IsProcured)	return;
-						//		if (this._GlbSetup != null)	this.LoadConfig(this._GlbSetup);
-
-						//		try
-						//			{
-						//				this.NCODestination	= SDM.GetDestination(this.RfcConfig);
-						//				this.IsProcured			= !this.IsProcured;
-						//			}
-						//		catch (Exception)
-						//			{
-						//				throw;
-						//			}
-						//	}
 					}
 
 		public void LoadConfig(IConfigSetupGlobal Config)

@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Code Respository\Other\**" />
+    <EmbeddedResource Remove="Code Respository\Other\**" />
+    <None Remove="Code Respository\Other\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Code Respository\DTO\IDTOConfigSetupBase.cs" />
     <Compile Remove="Code Respository\DTO\IDTOConfigSetupDestination.cs" />
     <Compile Remove="Code Respository\DTO\IDTOConfigSetupGlobal.cs" />

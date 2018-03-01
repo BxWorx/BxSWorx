@@ -6,4 +6,8 @@
 
   <Import Project="..\BxS_xWorxIPX\BxS_xWorxIPX.projitems" Label="Shared" />
 
+  <ItemGroup>
+    <ProjectReference Include="..\BxS_WorxDestination\BxS_WorxDestination.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@ using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxIPX.API.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxDestination.DTO
+namespace BxS_WorxDestination.Config
 {
 	internal class ConfigSetupGlobal : IConfigSetupGlobal
 		{
