@@ -1,12 +1,12 @@
-﻿using BxS_WorxIPX.Destination;
+﻿using BXSDest	= BxS_WorxDestination.API.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.Destination
+namespace BxS_Worx.API
 {
-	public interface IConfigSetupGlobal : IConfigSetupBase
+	public static class Controller
 		{
-			#region "Properties"
+			#region "Methods: Exposed: Destination"
 
-				string	SNCLibPath	{ set; }
+				public static	BXSDest.IController	BxSDestController	{ get { return	BXSDest.Factory.Controller(); } }
 
 			#endregion
 

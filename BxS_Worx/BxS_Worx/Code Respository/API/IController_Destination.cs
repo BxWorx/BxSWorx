@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-//.........................................................
-using BxS_WorxDestination.API.Destination;
+﻿using BXSDest	= BxS_WorxDestination.API.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.API
 {
-	public interface IController_Destination
+	public interface IController
 		{
 			#region "Methods: Exposed: Destination"
 
-				IList<ISAPSystemReference>	GetSAPSystems();
-				IDestination								GetDestination( Guid ID );
-				IDestination								GetDestination( string ID );
+				BXSDest.IController	BxSDestController	{ get; }
 
 			#endregion
 

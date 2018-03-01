@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\IBDCSessionRequest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Code Repository\Destination\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Interfaces\Destination\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Code Repository\" />
   </ItemGroup>
 </Project>

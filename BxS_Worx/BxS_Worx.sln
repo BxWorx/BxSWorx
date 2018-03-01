@@ -13,11 +13,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BxS_xWorxBDCParser", "BxS_x
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BxS_WorxDestination", "BxS_WorxDestination\BxS_WorxDestination.csproj", "{7F7CC90D-D394-49B5-8939-F1F2AC0CA369}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_Worx", "BxS_Worx\BxS_Worx.csproj", "{AF4C2089-7C67-4E5B-882B-DC40031A3D73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BxS_Worx", "BxS_Worx\BxS_Worx.csproj", "{AF4C2089-7C67-4E5B-882B-DC40031A3D73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_zWorx_UT_Destination", "BxS_zWorx_UT_Destination\BxS_zWorx_UT_Destination.csproj", "{4A1DD209-3E1C-4305-A86E-3BF6DF7E8BB0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BxS_zWorx_UnitTests", "BxS_zWorx_UnitTests", "{ED64A9B4-FEC1-450C-8E00-C3572F8D449D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BxS_aWorx_Completed", "BxS_aWorx_Completed", "{B747CC8B-5AF7-4206-9882-15DD9CDE0E0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxS_zWorx_UT_Worx", "BxS_zWorx_UT_Worx\BxS_zWorx_UT_Worx.csproj", "{A8509440-B802-499E-BC49-76AEB3A599F4}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -46,12 +50,18 @@ Global
 		{4A1DD209-3E1C-4305-A86E-3BF6DF7E8BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A1DD209-3E1C-4305-A86E-3BF6DF7E8BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A1DD209-3E1C-4305-A86E-3BF6DF7E8BB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8509440-B802-499E-BC49-76AEB3A599F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8509440-B802-499E-BC49-76AEB3A599F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8509440-B802-499E-BC49-76AEB3A599F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8509440-B802-499E-BC49-76AEB3A599F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{7F7CC90D-D394-49B5-8939-F1F2AC0CA369} = {B747CC8B-5AF7-4206-9882-15DD9CDE0E0A}
 		{4A1DD209-3E1C-4305-A86E-3BF6DF7E8BB0} = {ED64A9B4-FEC1-450C-8E00-C3572F8D449D}
+		{A8509440-B802-499E-BC49-76AEB3A599F4} = {ED64A9B4-FEC1-450C-8E00-C3572F8D449D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E2ACF5D-18BF-4B07-A250-FBA78BE08306}

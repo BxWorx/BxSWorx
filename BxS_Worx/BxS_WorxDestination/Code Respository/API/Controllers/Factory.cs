@@ -1,13 +1,15 @@
-﻿using System;
+﻿using BxS_WorxDestination.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.Destination
+namespace BxS_WorxDestination.API.Main
 {
-	public interface ISAPSystemReference
+	public static class Factory
 		{
 			#region "Properties"
 
-				Guid		ID			{ get; set; }
-				string	SAPName	{ get; set; }
+				public static IController Controller()
+					{
+						return	new Controller();
+					}
 
 			#endregion
 
