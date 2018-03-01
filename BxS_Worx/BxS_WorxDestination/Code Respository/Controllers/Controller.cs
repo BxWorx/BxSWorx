@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Collections.Generic;
 //.........................................................
-using BxS_WorxIPX.API.Destination;
 using BxS_WorxDestination.API.Destination;
 using BxS_WorxDestination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -14,48 +13,32 @@ namespace BxS_WorxDestination.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Controller()
-					{
-					}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal Controller( bool autoLoadSAPINI = true )
-				//	{
-				//		if (autoLoadSAPINI)
-				//			{
-				//				this.LoadSAPINI();
-				//			}
-				//	}
+					{	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy<Repository>						_DestRepos
-						= new Lazy<Repository>	(		() => new Repository(	( Guid ID )	=>	new Destination( ID ) )
-																			, LazyThreadSafetyMode.ExecutionAndPublication );
+				private readonly Lazy<Repository>
+					_DestRepos		= new Lazy<Repository>
+						(	() => new Repository(	( Guid ID )	=>	new Destination( ID ) )
+							, LazyThreadSafetyMode.ExecutionAndPublication
+						);
+
 				//...............................................
-				private readonly	Lazy<IConfigSetupGlobal>		_GlobalSetup
-						= new Lazy<IConfigSetupGlobal>	(	() => new ConfigSetupGlobal()
-																								, LazyThreadSafetyMode.ExecutionAndPublication );
-				//...............................................
-				//private readonly	Lazy<SAPLogonINI>						_SAPINI
-				//		= new Lazy<SAPLogonINI>	(	() => new SAPLogonINI()
-				//																				, LazyThreadSafetyMode.ExecutionAndPublication );
-				//private readonly
-				//	Lazy<SMC.SapLogonIniConfiguration>	_SAPINI		= new Lazy<SMC.SapLogonIniConfiguration>
-				//																											(	() => SMC.SapLogonIniConfiguration.Create()
-				//																												, LazyThreadSafetyMode.ExecutionAndPublication	);
+				private readonly Lazy<IConfigSetupGlobal>
+					_GlobalSetup	= new Lazy<IConfigSetupGlobal>
+						(	() => new ConfigSetupGlobal()
+							, LazyThreadSafetyMode.ExecutionAndPublication
+						);
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal Repository	Repository	{ get {	return	this._DestRepos		.Value; } }
-				internal IConfigSetupGlobal	GlobalSetup	{ get {	return	this._GlobalSetup	.Value; } }
-
-				public int Count => this._DestRepos.Value.Count;
+				public int	LoadedSystemCount { get { return	this._DestRepos.Value.Count ; } }
 
 			#endregion
 
@@ -71,11 +54,11 @@ namespace BxS_WorxDestination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// List of SAP systems requested only
+				// List of only requested SAP systems
 				//
 				public IList<ISAPSystemReference> GetSAPSystems()
 					{
-						IList<ISAPSystemReference>	lt_List	= new List<ISAPSystemReference>(this.Count);
+						IList<ISAPSystemReference>	lt_List	= new List<ISAPSystemReference>(this.LoadedSystemCount);
 						//.............................................
 						foreach ( KeyValuePair< Guid , string > ls_kvp in this._DestRepos.Value.SAPSystems )
 							{
@@ -88,38 +71,38 @@ namespace BxS_WorxDestination.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDestination GetDestination( string ID )
 					{
-						return	this._DestRepos.Value.GetDestination( ID );
+						IDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						lo.LoadConfig( this._GlobalSetup.Value );
+						return	lo;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDestination GetDestination(Guid ID)
 					{
-						return	this._DestRepos.Value.GetDestination( ID );
+						IDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						lo.LoadConfig( this._GlobalSetup.Value );
+						return	lo;
 					}
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public bool LoadSAPINI()
-				//	{
-				//		try
-				//			{
-				//				this._SAPINI.Value.LoadRepository( this._DestRepos.Value );
-				//				return	true;
-				//			}
-				//		catch
-				//			{
-				//				return	false;
-				//			}
-				//	}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadGlobalConfig( IConfigSetupGlobal config )
+					{
+						foreach (KeyValuePair<string, string> ls_kvp in config.Settings )
+							{
+								this._GlobalSetup.Value.Settings[ls_kvp.Key]	= ls_kvp.Value;
+							}
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
 						this._DestRepos.Value.Reset();
+						this._GlobalSetup.Value.Settings.Clear();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IConfigSetupDestination	CreateDestinationSetup	()=>	new ConfigSetupDestination()	;
-				public IConfigSetupGlobal				CreateGlobalSetup				()=>	new ConfigSetupGlobal()				;
+				public IConfigSetupDestination	CreateDestinationConfig	()=>	new ConfigSetupDestination()	;
+				public IConfigSetupGlobal				CreateGlobalConfig			()=>	new ConfigSetupGlobal()				;
 
 			#endregion
 

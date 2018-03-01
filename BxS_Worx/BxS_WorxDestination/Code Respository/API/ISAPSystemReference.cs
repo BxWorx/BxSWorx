@@ -1,15 +1,13 @@
 ﻿using System;
-//.........................................................
-using BxS_WorxIPX.API.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxDestination.Main
+namespace BxS_WorxDestination.API.Destination
 {
-	internal class SAPSystemReference : ISAPSystemReference
+	public interface ISAPSystemReference
 		{
 			#region "Properties"
 
-				public Guid		ID			{ get; set; }
-				public string	SAPName	{ get; set; }
+				Guid		ID			{ get; set; }
+				string	SAPName	{ get; set; }
 
 			#endregion
 

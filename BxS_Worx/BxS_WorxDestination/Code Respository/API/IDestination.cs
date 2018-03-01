@@ -29,9 +29,9 @@ namespace BxS_WorxDestination.API.Destination
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
 
-				void LoadConfig( SMC.RfcConfigParameters	Config );
-				void LoadConfig( IConfigSetupDestination	Config );
-				void LoadConfig( IConfigSetupGlobal				Config );
+				void LoadConfig( SMC.RfcConfigParameters	config );
+				void LoadConfig( IConfigSetupDestination	config );
+				void LoadConfig( IConfigSetupGlobal				config );
 
 			#endregion
 

@@ -15,11 +15,10 @@ namespace BxS_WorxDestination.Main
 				internal Repository( Func< Guid , IDestination >	createDestination  )
 					{
 						this._CreateDestination	= createDestination;
-						this.SAPSystems	= new Dictionary< Guid , string >();
 						//.............................................
-						this._Map		= new Dictionary<string	, Guid>											();
-						//this._Des		= new Dictionary< Guid		, SMC.RfcConfigParameters>	();
-						this._Desx	= new Dictionary< Guid , IDestination >								();
+						this.SAPSystems	= new Dictionary< Guid		, string >									()	;
+						this._Map				= new Dictionary< string	, Guid >										()	;
+						this._Des				= new Dictionary< Guid		, SMC.RfcConfigParameters >	()	;
 						//.............................................
 						this._Lock	= new	object();
 					}
@@ -29,16 +28,16 @@ namespace BxS_WorxDestination.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly
-					Lazy<SMC.SapLogonIniConfiguration>	_SAPINI		= new Lazy<SMC.SapLogonIniConfiguration>
-																															(	() => SMC.SapLogonIniConfiguration.Create()
-																																, LazyThreadSafetyMode.ExecutionAndPublication	);
+				private readonly Lazy<SMC.SapLogonIniConfiguration>
+					_SAPINI		= new Lazy<SMC.SapLogonIniConfiguration>
+						(	() => SMC.SapLogonIniConfiguration.Create()
+							, LazyThreadSafetyMode.ExecutionAndPublication	);
 				//.................................................
-				private readonly Dictionary< string	,	Guid >					_Map;
-				private readonly Dictionary< Guid		, IDestination >	_Desx;
-				//private readonly Dictionary<Guid	, SMC.RfcConfigParameters>		_Des;
+				private readonly Dictionary< string	,	Guid >										_Map;
+				private readonly Dictionary< Guid		, SMC.RfcConfigParameters >	_Des;
 				//.................................................
 				private	readonly Func< Guid , IDestination >	_CreateDestination;
+				//.................................................
 				private readonly object	_Lock;
 
 			#endregion
@@ -82,18 +81,16 @@ namespace BxS_WorxDestination.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IDestination GetDestination( Guid ID )
 					{
-						if ( !this._Desx.TryGetValue( ID , out IDestination lo_Cnf ) )
+						if ( !this._Des.TryGetValue( ID , out SMC.RfcConfigParameters lo_Cnf ) )
 							{
 							lock ( this._Lock )
 								{
-									if ( !this._Desx.TryGetValue(ID, out lo_Cnf)	)
+									if ( !this._Des.TryGetValue(ID, out lo_Cnf)	)
 										{
 											if ( this.SAPSystems.TryGetValue( ID , out string lc_SAPID ) )
 												{
-													IDestination lo_Dest = this._CreateDestination( ID );
-													SMC.RfcConfigParameters lo_RfcCfgParms	= this._SAPINI.Value.GetParameters(lc_SAPID)	?? new SMC.RfcConfigParameters();
-													lo_Dest.LoadConfig( lo_RfcCfgParms );
-													this._Desx.Add( lo_Dest.SAPGUIID , lo_Dest );
+													lo_Cnf	= this._SAPINI.Value.GetParameters(lc_SAPID)	?? new SMC.RfcConfigParameters();
+													this._Des.Add( ID , lo_Cnf );
 												}
 											else
 												{
@@ -103,59 +100,24 @@ namespace BxS_WorxDestination.Main
 								}
 							}
 						//.............................................
-						return lo_Cnf;
+						IDestination	lo_Des = this._CreateDestination( ID );
+						lo_Des.LoadConfig( lo_Cnf );
+						return lo_Des;
 					}
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public SMC.RfcConfigParameters GetParameters(Guid ID)
-				//	{
-				//		if (this._Des.TryGetValue(ID, out SMC.RfcConfigParameters lo_Cnf)	)
-				//			{
-				//				return lo_Cnf;
-				//			}
-				//		//.............................................
-				//		return	new SMC.RfcConfigParameters();
-				//	}
+			#endregion
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public SMC.RfcConfigParameters GetParameters(string ID)
-				//	{
-				//		Guid lg = this.GetAddIDFor(ID);
-				//		return	this.GetParameters(lg);
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public Guid AddConfig(string ID, SMC.RfcConfigParameters rfcConfig)
-				//	{
-				//		return	this.AddConfig(	this.GetAddIDFor(ID, true)	,
-				//														rfcConfig											);
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public Guid AddConfig(Guid ID, SMC.RfcConfigParameters rfcConfig)
-				//	{
-				//		this._Des[ID]	= rfcConfig;
-				//		var lo_E = new SMC.RfcConfigurationEventArgs(SMC.RfcConfigParameters.EventType.CHANGED);
-				//		return	ID;
-				//	}
+			//===========================================================================================
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public string GetNameFor(Guid ID)
+				private string GetNameFor(Guid ID)
 					{
 						return	this.SAPSystems[ID] ?? string.Empty;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public Guid GetAddIDFor(string ID, bool Add = false)
+				private Guid GetAddIDFor(string ID, bool Add = false)
 					{
 						if (ID == null)	return	Guid.Empty;
 						//.............................................

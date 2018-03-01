@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxDestination.DTO
+namespace BxS_WorxDestination.API.Destination
 {
-	public interface IDTOConfigSetupBase
+	internal class SAPSystemReference : ISAPSystemReference
 		{
 			#region "Properties"
 
-				Dictionary<	string,	string>		Settings	{ get;				}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				void Reset();
+				public Guid		ID			{ get; set; }
+				public string	SAPName	{ get; set; }
 
 			#endregion
 

@@ -5,25 +5,22 @@ using System.Security;
 using SMC	= SAP.Middleware.Connector;
 using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
-using BxS_WorxIPX.Destination;
 using BxS_WorxDestination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.API.Destination
 {
-	internal class Destination : IDestination
+	public class Destination : IDestination
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-//																,	IConfigSetupGlobal			globalSetup	= null )
-//																,	SMC.RfcConfigParameters RfcConfig )
 				internal Destination(	Guid ID )
 					{
-						this.SAPGUIID		= ID					;
-						//this._RfcConfig	= RfcConfig		;
-//						this._GlbSetup	= globalSetup	;
+						this.SAPGUIID		= ID	;
 						//.............................................
-						this._Lock	= new object();
+						this._RfcConfig	=	new SMC.RfcConfigParameters();
+						this._Lock			= new object();
+						this.IsProcured	= false;
 					}
 
 			#endregion
@@ -31,9 +28,8 @@ namespace BxS_WorxDestination.API.Destination
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly object										_Lock;
-				private readonly IConfigSetupGlobal				_GlbSetup;
-				private readonly SMC.RfcConfigParameters	_RfcConfig;
+				private readonly object										_Lock				;
+				private readonly SMC.RfcConfigParameters	_RfcConfig	;
 
 			#endregion
 
@@ -59,34 +55,25 @@ namespace BxS_WorxDestination.API.Destination
 			#region "Methods: Exposed: Configuration"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( SMC.RfcConfigParameters Config )
+				public void LoadConfig( SMC.RfcConfigParameters config )
 					{
-						foreach (KeyValuePair<string, string> ls_kvp in Config)
-							{
-								this._RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
-							}
+						this.UpdateConfig( config );
 						//.............................................
-						this.SecurePassword = Config.SecurePassword;
+						this.SecurePassword = config.SecurePassword;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( IConfigSetupDestination Config )
+				public void LoadConfig(IConfigSetupGlobal config)
 					{
-						foreach (KeyValuePair<string, string> ls_kvp in Config.Settings)
-							{
-								this._RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
-							}
-						//.............................................
-						this.SecurePassword = Config.SecurePassword;
+						this.UpdateConfig( config.Settings );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig(IConfigSetupBase Config)
+				public void LoadConfig( IConfigSetupDestination config )
 					{
-						foreach (KeyValuePair<string, string> ls_kvp in Config.Settings)
-							{
-								this._RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
-							}
+						this.UpdateConfig( config.Settings );
+						//.............................................
+						this.SecurePassword = config.SecurePassword;
 					}
 
 			#endregion
@@ -104,8 +91,6 @@ namespace BxS_WorxDestination.API.Destination
 									{
 										if ( !this.IsProcured )
 											{
-												if ( this._GlbSetup != null )	this.LoadConfig(this._GlbSetup);
-
 												try
 													{
 														this.NCODestination	= SDM.GetDestination( this._RfcConfig );
@@ -121,13 +106,6 @@ namespace BxS_WorxDestination.API.Destination
 						//.............................................
 						return	this.IsProcured;
 					}
-
-		public void LoadConfig(IConfigSetupGlobal Config)
-			{
-			}
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Ping()
@@ -148,7 +126,21 @@ namespace BxS_WorxDestination.API.Destination
 						return	lb_Ret;
 					}
 
-		#endregion
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void UpdateConfig( Dictionary< string , string> settings )
+					{
+						foreach (KeyValuePair<string, string> ls_kvp in settings)
+							{
+								this._RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
+							}
+					}
+
+			#endregion
 
 		}
 }

@@ -3,12 +3,18 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_WorxDestination.API.Destination;
 using BxS_WorxDestination.Config;
-using BxS_WorxIPX.API.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.Main
 {
 	public interface IController
 		{
+			#region "Properties"
+
+				int LoadedSystemCount	{ get; }
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
 				IList< string >								GetSAPINIList();
@@ -16,11 +22,13 @@ namespace BxS_WorxDestination.Main
 				//.................................................
 				IDestination	GetDestination( Guid ID )		;
 				IDestination	GetDestination( string ID )	;
-
-				IConfigSetupDestination		CreateDestinationSetup()	;
-				IConfigSetupGlobal				CreateGlobalSetup()				;
 				//.................................................
-				void Reset()			;
+				void LoadGlobalConfig( IConfigSetupGlobal config );
+				//.................................................
+				IConfigSetupDestination		CreateDestinationConfig()	;
+				IConfigSetupGlobal				CreateGlobalConfig()			;
+				//.................................................
+				void Reset();
 
 			#endregion
 

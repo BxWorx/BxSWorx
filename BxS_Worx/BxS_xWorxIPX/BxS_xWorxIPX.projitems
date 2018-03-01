@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Code Repository\Destination\IConfigSetupBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\IBDCSessionResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\IBDCSessionRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\Destination\ISAPSystemReference.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Interfaces\Destination\" />
   </ItemGroup>
 </Project>
