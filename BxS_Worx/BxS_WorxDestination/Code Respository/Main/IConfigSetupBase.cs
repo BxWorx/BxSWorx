@@ -1,12 +1,19 @@
-﻿using BxS_WorxIPX.Destination;
+﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.Config
 {
-	public interface IConfigSetupGlobal : IConfigSetupBase
+	public interface IConfigSetupBase
 		{
 			#region "Properties"
 
-				string	SNCLibPath	{ set; }
+				Dictionary<	string,	string>		Settings	{ get; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				void Reset();
 
 			#endregion
 

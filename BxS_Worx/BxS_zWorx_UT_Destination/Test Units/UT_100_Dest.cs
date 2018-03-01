@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using BxS_WorxDestination.Main;
-using BxS_WorxDestination.Config;
 using BxS_WorxDestination.API.Destination;
+using BxS_WorxDestination.API.Main;
+using BxS_WorxDestination.API.Config;
 
 namespace BxS_zWorx_UT_Destination.Test_Units
 {

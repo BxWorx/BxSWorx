@@ -15,12 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Code Respository\DTO\IDTOConfigSetupBase.cs" />
-    <Compile Remove="Code Respository\DTO\IDTOConfigSetupDestination.cs" />
-    <Compile Remove="Code Respository\DTO\IDTOConfigSetupGlobal.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="sapnco">
       <HintPath>..\..\..\..\..\..\Program Files\SAP\SAP_DotNetConnector3_Net40_x64\sapnco.dll</HintPath>
       <Private></Private>
@@ -45,7 +39,5 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
-  <Import Project="..\BxS_xWorxIPX\BxS_xWorxIPX.projitems" Label="Shared" />
 
 </Project>

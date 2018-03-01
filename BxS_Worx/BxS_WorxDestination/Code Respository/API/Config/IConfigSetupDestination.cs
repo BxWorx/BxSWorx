@@ -1,8 +1,8 @@
 ﻿using System.Security;
 //.........................................................
-using BxS_WorxIPX.Destination;
+using BxS_WorxDestination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxDestination.Config
+namespace BxS_WorxDestination.API.Config
 {
 	public interface IConfigSetupDestination : IConfigSetupBase
 		{

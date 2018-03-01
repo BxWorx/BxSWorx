@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 //.........................................................
 using BxS_WorxDestination.API.Destination;
-using BxS_WorxDestination.Config;
+using BxS_WorxDestination.API.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxDestination.Main
+namespace BxS_WorxDestination.API.Main
 {
 	public interface IController
 		{

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_WorxDestination.API.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.Config
 {

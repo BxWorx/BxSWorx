@@ -5,7 +5,7 @@ using System.Security;
 using SMC	= SAP.Middleware.Connector;
 using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
-using BxS_WorxDestination.Config;
+using BxS_WorxDestination.API.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.API.Destination
 {
