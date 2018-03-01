@@ -33,7 +33,7 @@ namespace BxS_WorxDestination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void LoadRepository( DestinationRepository destinationRepository )
+				internal void LoadRepository( Repository destinationRepository )
 					{
 						string[] la_List	= _SAPINI.Value.GetEntries();
 						Array.Sort(la_List);

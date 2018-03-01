@@ -2,10 +2,12 @@
 using System.Security;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_WorxIPX.API.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxDestination.DTO
 {
-	internal class DTOConfigSetupDestination : IDTOConfigSetupDestination
+	internal class DTOConfigSetupDestination : IConfigSetupDestination
 		{
 			#region "Constructors"
 

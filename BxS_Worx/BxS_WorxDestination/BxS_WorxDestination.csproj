@@ -4,12 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="..\BxS_xWorxIPX\BxS_xWorxIPX.projitems" Label="Shared" />
-
-  <Import Project="..\BxS_xWorxUtilities\BxS_xWorxUtilities.projitems" Label="Shared" />
-
   <ItemGroup>
-    <Compile Remove="Code Repository\API\Destination\Main\ISAPSystemReference.cs" />
+    <Compile Remove="Code Respository\DTO\IDTOConfigSetupBase.cs" />
+    <Compile Remove="Code Respository\DTO\IDTOConfigSetupDestination.cs" />
+    <Compile Remove="Code Respository\DTO\IDTOConfigSetupGlobal.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,5 +16,7 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
+
+  <Import Project="..\BxS_xWorxIPX\BxS_xWorxIPX.projitems" Label="Shared" />
 
 </Project>

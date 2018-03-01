@@ -1,42 +1,47 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Threading;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_WorxIPX.API.Destination;
+using BxS_SAPBDC.BDC;
+using BxS_SAPBDC.Parser;
+using BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxDestination.DTO
+namespace BxS_SAPBDC.Main
 {
-	internal class ConfigSetupGlobal : IConfigSetupGlobal
+	public class BDC_Controller : IBDC_Controller
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ConfigSetupGlobal()
-					{
-						this.Settings		= new Dictionary<string, string>();
-					}
+				public BDC_Controller()
+					{}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Declarations"
 
-				public	Dictionary<string, string> Settings { get; }
-
-				public	string	SNCLibPath	{ set { this.Settings[ SMC.RfcConfigParameters.SncLibraryPath ]	= value; } }
+				private readonly Lazy< BDC_Parser_Factory >	_BDCFactory	=	new Lazy< BDC_Parser_Factory >
+					(		()=>	BDC_Parser_Factory.Instance
+						,	LazyThreadSafetyMode.ExecutionAndPublication );
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Reset()
+				public BDC_Parser CreateBDCParser	()=>	new BDC_Parser( this._BDCFactory );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDC_Session ProcessRequest( DTO_BDCSessionRequest DTORequest )
 					{
-						this.Settings.Clear();
+						BDC_Parser lo_Parser	= this.CreateBDCParser();
+						return	lo_Parser.Process( DTORequest );
 					}
 
 			#endregion
 
 		}
 }
+
+

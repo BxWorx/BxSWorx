@@ -1,39 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_WorxIPX.API.Destination;
+using	BxS_SAPBDC.BDC;
+using	BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxDestination.DTO
+namespace BxS_SAPBDC.Parser
 {
-	internal class ConfigSetupGlobal : IConfigSetupGlobal
+	internal class BDC_Parser_Session
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ConfigSetupGlobal()
+				internal	BDC_Parser_Session(	Lazy< BDC_Parser_Factory > factory )
 					{
-						this.Settings		= new Dictionary<string, string>();
+						this._Factory	= factory;
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Declaration"
 
-				public	Dictionary<string, string> Settings { get; }
-
-				public	string	SNCLibPath	{ set { this.Settings[ SMC.RfcConfigParameters.SncLibraryPath ]	= value; } }
+				private	readonly Lazy< BDC_Parser_Factory > 	_Factory;
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Reset()
+				internal void	Process(	DTO_BDCSessionRequest dtoRequest
+															,	DTO_ParserProfile			dtoProfile
+															, BDC_Session						Session			)
 					{
-						this.Settings.Clear();
+						Session.SessionHeader.Client		= dtoRequest.Client;
+						Session.SessionHeader.Lang			= dtoRequest.Lang;
+						Session.SessionHeader.Name			= dtoRequest.WSID;
+						Session.SessionHeader.Pwrd			= dtoRequest.Pwrd;
+						Session.SessionHeader.SAPSysID	= dtoRequest.SAPSysID;
+						Session.SessionHeader.User			= dtoRequest.User;
+
+						Session.SessionHeader.SAPTCode	= dtoProfile.XMLConfig.SAPTCode	;
+						Session.SessionHeader.Skip1st		= dtoProfile.XMLConfig.Skip1st	;
 					}
 
 			#endregion
