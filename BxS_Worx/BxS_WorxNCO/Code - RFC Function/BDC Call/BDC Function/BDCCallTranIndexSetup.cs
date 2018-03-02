@@ -1,6 +1,6 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.BDCProcess
+namespace BxS_WorxNCO.BDCCall
 {
 	internal class BDCCallTranIndexSetup
 		{

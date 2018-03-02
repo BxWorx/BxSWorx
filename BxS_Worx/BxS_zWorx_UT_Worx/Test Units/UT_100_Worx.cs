@@ -15,10 +15,9 @@ namespace BxS_zWorx_UT_Worx
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Worx_10_Instantiate()
 				{
-					var x = BxS_Worx.API.Controller.BxSDestController;
+					//var x = BxS_Worx.API.Controller.BxSDestController;
 
-					Assert.IsNotNull	( x , "" );
-					Assert.IsNotNull	( y	, "" );
+					//Assert.IsNotNull	( x , "" );
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
