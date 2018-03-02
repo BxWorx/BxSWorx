@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPNCO.Common
+namespace BxS_WorxNCO.RfcFunction.Common
 {
-	internal class SAPFncConstants
+	internal class SAPRfcFncConstants
 		{
 			#region "Declarations: Function Names"
 

@@ -16,7 +16,15 @@ namespace BxS_WorxNCO.RfcFunction.Common
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal RfcFncController( IRfcDestination rfcDestination )
 					{
-						this.RfcDestination	= rfcDestination;
+						this.RfcDestination		= rfcDestination;
+						//.............................................
+						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>
+																			(	() =>		new	RfcFncManager( this.RfcDestination )
+																							, LazyThreadSafetyMode.ExecutionAndPublication );
+						//.............................................
+						this._SAPRfcFncConst	= new Lazy<SAPRfcFncConstants>
+																			(	()=>		new SAPRfcFncConstants()
+																							, LazyThreadSafetyMode.ExecutionAndPublication	);
 					}
 
 			#endregion
@@ -24,10 +32,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy<IRfcFncManager>
-					_RfcFncMngr		= new Lazy<IRfcFncManager>
-						(		() => new RfcFncManager()
-							, LazyThreadSafetyMode.ExecutionAndPublication	);
+				private readonly Lazy<IRfcFncManager>				_RfcFncMngr			;
+				private readonly Lazy<SAPRfcFncConstants>		_SAPRfcFncConst	;
 
 			#endregion
 
@@ -44,7 +50,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public	BDCCallTranProcessor CreateBDCCallFunction()
 				{
-					return	new BDCCallTranProcessor();
+					return	new BDCCallTranProcessor( this._SAPRfcFncConst.Value.BDCCallTran );
 				}
 
 			#endregion

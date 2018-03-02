@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Code - RFC Function\BDC Call\BDC Function\BDCCallTranConsumer.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDCCallHeader.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDCCallTran.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDC_Constants.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDC_OpFnc.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranConsumer.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDCCallHeader.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDCCallTran.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC_Constants.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC_OpFnc.cs" />
     <Compile Remove="Code - RFC Function\Keep\BDCCallTranConsumer.cs" />
     <Compile Remove="Code - RFC Function\Keep\BDCCallTranParser.cs" />
   </ItemGroup>

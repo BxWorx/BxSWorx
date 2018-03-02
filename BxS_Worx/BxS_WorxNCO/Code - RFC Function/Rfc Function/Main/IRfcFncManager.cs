@@ -6,7 +6,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 		{
 			#region "Properties"
 
-				SMC.RfcRepository	NCORepository { get; set; }
+				SMC.RfcRepository	NCORepository { get; }
 
 			#endregion
 

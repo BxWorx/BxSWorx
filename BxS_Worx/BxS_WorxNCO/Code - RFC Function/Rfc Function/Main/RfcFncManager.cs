@@ -2,6 +2,8 @@
 using System.Collections.Concurrent;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_WorxNCO.Destination.API.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
@@ -10,8 +12,10 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncManager()
+				internal RfcFncManager( IRfcDestination rfcDestination )
 					{
+						this.NCORepository	= rfcDestination.NCODestination.Repository;
+						//.............................................
 						this._RfcFncProfiles	= new ConcurrentDictionary< string , IRfcFncProfile >();
 					}
 
@@ -29,7 +33,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 				public	bool	UseRoundtrip	{ get; set; }
 				//.................................................
-				public	SMC.RfcRepository				NCORepository			{ get; set; }
+				public	SMC.RfcRepository				NCORepository			{ get; }
 				public	SMC.RfcLookupErrorList	NCOLookupErrors		{ get; private set; }
 
 			#endregion
