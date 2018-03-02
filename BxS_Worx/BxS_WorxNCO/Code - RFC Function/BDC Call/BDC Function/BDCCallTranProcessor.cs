@@ -2,11 +2,12 @@
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using BxS_WorxNCO.RfcFunction;
+using BxS_WorxNCO.RfcFunction.Common;
+using BxS_WorxNCO.BDCCall;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCCall
+namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCallTranProcessor	: RFCFunctionBase
+	internal class BDCCallTranProcessor	: RfcFncBase
 		{
 			#region "Documentation"
 
@@ -33,9 +34,10 @@ namespace BxS_WorxNCO.BDCCall
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTranProcessor( BDCCallTranProfile	profile	)	: base(	profile )
+				//internal BDCCallTranProcessor( BDCCallTranProfile	profile	)	: base(	profile )
+				internal BDCCallTranProcessor( string	name )	: base(	name )
 					{
-						this._CallProfile		=	profile	;
+						//this._CallProfile		=	profile	;
 						//.............................................
 						this._IsConfigured	= false						;
 						this._MyID					= Guid.NewGuid()	;

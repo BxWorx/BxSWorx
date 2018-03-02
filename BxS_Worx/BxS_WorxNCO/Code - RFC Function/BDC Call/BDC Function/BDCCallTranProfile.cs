@@ -12,14 +12,11 @@ namespace BxS_WorxNCO.BDCCall
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTranProfile(	DestinationRfc			destRfc
-																		,	string							functionName
+				internal BDCCallTranProfile(	string							functionName
 																		, BDCCallTranIndex		indexer
 																		, BDCCallTranParser		parser
-																		, BDC_OpFnc						opFnc					)	: base( destRfc , functionName )
+																		, BDC_OpFnc						opFnc					)	: base( functionName )
 					{
-						this.DestinationRfc.RegisterProfile( this );
-						//.............................................
 						this.Parser		= parser	;
 						this.Indexer	= indexer ;
 						this.OpFncts	= opFnc		;

@@ -26,7 +26,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_200_RfcFnc_10_Instantiate()
 				{
-					IRfcFunctionPool	lo	= new RfcFunctionPool();
+					IRfcFncManager	lo	= new RfcFncManager();
 					Assert.IsNotNull	( lo , "" );
 				}
 
@@ -34,7 +34,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_200_RfcFnc_20_MetaData()
 				{
-					IRfcFunctionPool		p = new RfcFunctionPool();
+					IRfcFncManager		p = new RfcFncManager();
 					IRfcDestination			x = this.GetSAPDestLoggedOn();
 					//...............................................
 					p.NCORepository	= x.NCODestination.Repository;

@@ -2,19 +2,21 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
-	internal interface IRfcFunctionPool
+	internal interface IRfcFncBase
 		{
 			#region "Properties"
 
-				SMC.RfcRepository	NCORepository { get; set; }
+				string	SAPFunctionName	{ get; }
+
+				IRfcFncProfile		Profile					{ get; set; }
+				SMC.IRfcFunction	NCORfcFunction	{ get; set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void RegisterFunction( string name );
-				bool FetchMetadata();
+				bool	Invoke( SMC.RfcCustomDestination rfcDest );
 
 			#endregion
 

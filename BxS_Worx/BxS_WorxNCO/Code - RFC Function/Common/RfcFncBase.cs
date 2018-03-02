@@ -2,16 +2,14 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
-	internal abstract class RfcFunctionBase
+	internal abstract class RfcFncBase : IRfcFncBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFunctionBase( IRfcFncProfile	profile	)
+				internal RfcFncBase( string	SAPFunctionName	)
 					{
-						this._Profile			= profile	;
-						//.............................................
-						this._FncCreated	= false		;
+						this.SAPFunctionName	= SAPFunctionName;
 					}
 
 			#endregion
@@ -19,10 +17,17 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Declarations"
 
-				private		readonly	IRfcFncProfile	_Profile;
+				protected	bool	_FncCreated		;
 
-				protected	bool							_FncCreated		;
-				protected	SMC.IRfcFunction	_RfcFunction	;
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				public	string	SAPFunctionName		{ get; }
+
+				public	IRfcFncProfile		Profile						{ get; set; }
+				public	SMC.IRfcFunction	NCORfcFunction		{ get; set; }
 
 			#endregion
 
@@ -36,40 +41,13 @@ namespace BxS_WorxNCO.RfcFunction.Common
 						//.............................................
 						try
 							{
-								if ( this.CreateFunction() )
-									{
-										this._RfcFunction.Invoke( rfcDest );
-										lb_Ret	= true;
-									}
+								this.NCORfcFunction.Invoke( rfcDest );
+								lb_Ret	= true;
 							}
 						catch
 							{	}
 						//.............................................
 						return	lb_Ret;
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected bool CreateFunction()
-					{
-						if (!this._FncCreated)
-							{
-								try
-									{
-										//this._RfcFunction		= this._Profile.Metadata.CreateFunction();
-										this._FncCreated		= !this._FncCreated;
-									}
-								catch (System.Exception)
-									{
-									throw;
-									}
-							}
-						//.............................................
-						return	this._FncCreated;
 					}
 
 			#endregion

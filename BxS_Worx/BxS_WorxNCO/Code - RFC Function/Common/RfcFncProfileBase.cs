@@ -31,10 +31,6 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 				public	string	FunctionName	{	get; }
 				public	bool		IsReady				{ get { return	this._IsReady; } }
-				//.................................................
-				//public	SMC.RfcFunctionMetadata		Metadata				{ get { return 	this.RfcDestination
-				//																																				.Repository
-				//																																					.GetFunctionMetadata( this.FunctionName ); } }
 
 			#endregion
 

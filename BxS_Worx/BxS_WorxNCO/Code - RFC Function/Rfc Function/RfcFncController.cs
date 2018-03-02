@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Threading;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_WorxNCO.Destination.API.Destination;
+using BxS_WorxNCO.RfcFunction.BDCTran;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
-	internal class RfcFunctionPool : IRfcFunctionPool
+	internal class RfcFncController : IRfcFncController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFunctionPool()
+				internal RfcFncController( IRfcDestination rfcDestination )
 					{
-						this._Functions		= new ConcurrentDictionary< string , string >();
+						this.RfcDestination	= rfcDestination;
 					}
 
 			#endregion
@@ -20,15 +24,17 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	ConcurrentDictionary< string , string >	_Functions;
+				private readonly Lazy<IRfcFncManager>
+					_RfcFncMngr		= new Lazy<IRfcFncManager>
+						(		() => new RfcFncManager()
+							, LazyThreadSafetyMode.ExecutionAndPublication	);
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	SMC.RfcRepository				NCORepository			{ get; set; }
-				public	SMC.RfcLookupErrorList	NCOLookupErrors		{ get; private set; }
+				public	IRfcDestination	RfcDestination	{ get; }
 
 			#endregion
 
@@ -36,31 +42,9 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Methods"
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void RegisterFunction( string name )
+			public	BDCCallTranProcessor CreateBDCCallFunction()
 				{
-					this._Functions.TryAdd( name , name );
-				}
-
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public bool FetchMetadata()
-				{
-					string[] lt_Fnc	= new string[	this._Functions.Keys.Count ];
-					string[] lt_Str	= new string[] {};
-					string[] lt_Tbl	= new string[] {};
-					string[] lt_Cls	= new string[] {};
-
-					this._Functions.Keys.CopyTo( lt_Fnc , 0 );
-					//...............................................
-					try
-						{
-							this.NCORepository.UseRoundtripOptimization	= true;
-							this.NCOLookupErrors = this.NCORepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls );
-							return	this.NCOLookupErrors == null ;
-						}
-					catch (Exception)
-						{
-							return	false;
-						}
+					return	new BDCCallTranProcessor();
 				}
 
 			#endregion

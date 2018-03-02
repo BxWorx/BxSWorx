@@ -16,15 +16,12 @@
 
   <ItemGroup>
     <Compile Remove="Code - RFC Function\BDC Call\BDC Function\BDCCallTranConsumer.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDC Function\BDCCallTranIndex.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDC Function\BDCCallTranIndexSetup.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDC Function\BDCCallTranParser.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDC Function\BDCCallTranProcessor.cs" />
-    <Compile Remove="Code - RFC Function\BDC Call\BDC Function\BDCCallTranProfile.cs" />
     <Compile Remove="Code - RFC Function\BDC Call\BDCCallHeader.cs" />
     <Compile Remove="Code - RFC Function\BDC Call\BDCCallTran.cs" />
     <Compile Remove="Code - RFC Function\BDC Call\BDC_Constants.cs" />
     <Compile Remove="Code - RFC Function\BDC Call\BDC_OpFnc.cs" />
+    <Compile Remove="Code - RFC Function\Keep\BDCCallTranConsumer.cs" />
+    <Compile Remove="Code - RFC Function\Keep\BDCCallTranParser.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code - RFC Function\BDC Call\BDC Function\" />
+    <Folder Include="Code - RFC Function\Keep\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
