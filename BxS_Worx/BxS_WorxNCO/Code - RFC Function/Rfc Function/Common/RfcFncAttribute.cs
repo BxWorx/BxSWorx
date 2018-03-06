@@ -1,12 +1,14 @@
-﻿//using BXSDest	= BxS_WorxDestination.API.Main;
+﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.API
+namespace BxS_WorxNCO.RfcFunction.Common
 {
-	public interface IController
+	[	AttributeUsageAttribute(	AttributeTargets.Property
+														,	AllowMultiple = false			)	]
+	internal class SAPFncParmNameAttribute : Attribute
 		{
-			#region "Methods: Exposed: Destination"
+			#region "Properties"
 
-				//BXSDest.IController	BxSDestController	{ get; }
+				public	string	SAPName	{	get; set; }
 
 			#endregion
 

@@ -13,8 +13,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void RegisterFunction		( IRfcFncProfile	rfcFncProfile );
-				bool PrepareRfcFunction	( IRfcFncBase			rfcFunc );
+				void RegisterFunction	( IRfcFncProfile	rfcFncProfile );
+				bool PrepareFunction	( IRfcFncBase			rfcFunc );
 
 			#endregion
 

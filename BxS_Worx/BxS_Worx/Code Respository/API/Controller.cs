@@ -1,4 +1,4 @@
-﻿using BXSDest	= BxS_WorxDestination.API.Main;
+﻿//using BXSDest	= BxS_WorxDestination.API.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.API
 {
@@ -6,7 +6,7 @@ namespace BxS_Worx.API
 		{
 			#region "Methods: Exposed: Destination"
 
-				public static	BXSDest.IController	BxSDestController	{ get { return	BXSDest.Factory.Controller(); } }
+				//public static	BXSDest.IController	BxSDestController	{ get { return	BXSDest.Factory.Controller(); } }
 
 			#endregion
 

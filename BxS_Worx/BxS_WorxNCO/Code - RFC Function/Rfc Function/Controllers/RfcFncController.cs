@@ -5,7 +5,7 @@ using System.Threading;
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API.Destination;
-using BxS_WorxNCO.RfcFunction.BDCTran;
+//using BxS_WorxNCO.RfcFunction.BDCTran;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
@@ -47,11 +47,14 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Methods"
 
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public	BDCCallTranProcessor CreateBDCCallFunction()
-				{
-					return	new BDCCallTranProcessor( this._SAPRfcFncConst.Value.BDCCallTran );
-				}
+//			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+//			public	BDCCallTranProcessor CreateBDCCallFunction()
+//				{
+//					return null;
+
+////					this._RfcFncMngr.Value.RegisterFunction();
+//					//return	new BDCCallTranProcessor( this._SAPRfcFncConst.Value.BDCCallTran );
+//				}
 
 			#endregion
 

@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranConsumer.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranProcessor.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranProfile.cs" />
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDCCallHeader.cs" />
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDCCallTran.cs" />
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC_Constants.cs" />
