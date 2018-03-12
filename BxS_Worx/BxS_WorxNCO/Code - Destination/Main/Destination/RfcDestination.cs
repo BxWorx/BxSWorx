@@ -40,14 +40,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				public bool	IsConnected	{ get { return this.Ping(); } }
 				public bool	IsProcured	{ get; private set; }
 				//.................................................
-				public Guid											SAPGUIID				{ get; }
-				public SMC.RfcDestination				NCODestination	{ get; private set; }
+				public Guid									SAPGUIID				{ get; }
+				public SMC.RfcDestination		NCODestination	{ get; private set; }
 
-				public SMC.RfcRepository NCOReository
-					{	get	{	try		{	return	this.NCODestination.Repository; }
-									catch	{	return	null;														}
-								}
-					}
+				public SMC.RfcRepository		NCORepository	{	get	{	try		{	return	this.Procure()	?	this.NCODestination.Repository : null;	}
+																													catch	{	return	null;	}																										}
+																									}
 				//.................................................
 				public string Client			{ set { this._RfcConfig	[ SMC.RfcConfigParameters.Client			]	= value; } }
 				public string Language		{ set { this._RfcConfig	[ SMC.RfcConfigParameters.Language		]	= value; } }
@@ -105,10 +103,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 														this.NCODestination	= SDM.GetDestination( this._RfcConfig );
 														this.IsProcured			= !this.IsProcured;
 													}
-												catch (Exception)
-													{
-														throw;
-													}
+												catch	{	}
 											}
 									}
 							}

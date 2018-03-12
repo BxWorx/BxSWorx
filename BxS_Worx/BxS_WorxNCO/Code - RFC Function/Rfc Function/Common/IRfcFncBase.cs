@@ -8,7 +8,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 				string	SAPFunctionName	{ get; }
 
-				IRfcFncProfile		Profile					{ get; set; }
+				IRfcFncProfile		Profile					{ get; }
 				SMC.IRfcFunction	NCORfcFunction	{ get; set; }
 
 			#endregion

@@ -1,4 +1,6 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
@@ -17,7 +19,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	bool	_FncCreated		;
+				protected	bool	_FncCreated	;
 
 			#endregion
 
@@ -26,7 +28,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 				public	string	SAPFunctionName		{ get; }
 
-				public	IRfcFncProfile		Profile						{ get; set; }
+				public	IRfcFncProfile		Profile						{ get; protected set; }
 				public	SMC.IRfcFunction	NCORfcFunction		{ get; set; }
 
 			#endregion
@@ -44,8 +46,10 @@ namespace BxS_WorxNCO.RfcFunction.Common
 								this.NCORfcFunction.Invoke( rfcDest );
 								lb_Ret	= true;
 							}
-						catch
-							{	}
+						catch ( Exception ex )
+							{
+								throw new System.Exception( "NCO invoke error" , ex );
+							}
 						//.............................................
 						return	lb_Ret;
 					}

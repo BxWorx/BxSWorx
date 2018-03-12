@@ -2,12 +2,12 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCCall
 {
-	internal class BDCCallParmIndex : RfcFncProfileBase
+	internal class BDCCall_Profile : RfcFncProfile
 		{
 			#region "Function Parameters"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallParmIndex( string FncName )	: base( FncName )
+				internal BDCCall_Profile( string FncName )	: base( FncName )
 					{
 					}
 

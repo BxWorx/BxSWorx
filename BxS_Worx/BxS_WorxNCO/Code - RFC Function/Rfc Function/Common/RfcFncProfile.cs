@@ -2,16 +2,17 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
-	internal abstract class RfcFncProfileBase : IRfcFncProfile
+	internal abstract class RfcFncProfile : IRfcFncProfile
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncProfileBase(	string	functionName )
+				internal RfcFncProfile(	string	functionName )
 					{
 						this.FunctionName		= functionName;
 						//.............................................
-						this._IsReady	= false;
+						this.IsReady	= false;
+						//.............................................
 						this._Lock		= new object();
 					}
 
@@ -19,8 +20,6 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 			//===========================================================================================
 			#region "Declarations"
-
-				protected bool _IsReady;
 
 				private readonly object		_Lock;
 
@@ -30,7 +29,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Properties"
 
 				public	string	FunctionName	{	get; }
-				public	bool		IsReady				{ get { return	this._IsReady; } }
+				public	bool		IsReady				{ get;	protected set; }
 
 			#endregion
 

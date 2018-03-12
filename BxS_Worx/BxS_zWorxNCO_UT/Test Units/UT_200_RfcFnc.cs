@@ -30,6 +30,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcDestination	lo_D	= this.GetSAPDest();
 					IRfcFncManager	lo_M	= new RfcFncManager( lo_D );
 
+					Assert.IsNotNull	( lo_D , "" );
 					Assert.IsNotNull	( lo_M , "" );
 				}
 
@@ -42,9 +43,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcDestination	lo_DS = this.GetSAPDestLoggedOn();
 					IRfcFncManager	lo_FM = new RfcFncManager( lo_DS );
 					//...............................................
-					var lo_PI0	= new BDCCallParmIndex( lz_FNme );
+					var lo_PR0	= new BDCCall_Profile( lz_FNme );
 					var lo_FN1	= new myRfcFnc( lz_FNme );
-					lo_FM.RegisterFunction	( lo_PI0 );
+					lo_FM.RegisterProfile	( lo_PR0 );
 					lo_FM.PrepareFunction		( lo_FN1 );
 					//...............................................
 

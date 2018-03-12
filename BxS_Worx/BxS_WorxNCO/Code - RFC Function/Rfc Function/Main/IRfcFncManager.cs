@@ -13,7 +13,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void RegisterFunction	( IRfcFncProfile	rfcFncProfile );
+				void RegisterProfile	( IRfcFncProfile	rfcFncProfile );
 				bool PrepareFunction	( IRfcFncBase			rfcFunc );
 
 				void LoadFncParmIndex<T>( T fncParmIndex );
