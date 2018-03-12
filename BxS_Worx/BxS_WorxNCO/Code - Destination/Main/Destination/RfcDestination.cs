@@ -42,6 +42,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				//.................................................
 				public Guid											SAPGUIID				{ get; }
 				public SMC.RfcDestination				NCODestination	{ get; private set; }
+
+				public SMC.RfcRepository NCOReository
+					{	get	{	try		{	return	this.NCODestination.Repository; }
+									catch	{	return	null;														}
+								}
+					}
 				//.................................................
 				public string Client			{ set { this._RfcConfig	[ SMC.RfcConfigParameters.Client			]	= value; } }
 				public string Language		{ set { this._RfcConfig	[ SMC.RfcConfigParameters.Language		]	= value; } }

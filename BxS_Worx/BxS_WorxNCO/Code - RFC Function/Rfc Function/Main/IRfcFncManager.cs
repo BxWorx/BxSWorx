@@ -16,6 +16,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 				void RegisterFunction	( IRfcFncProfile	rfcFncProfile );
 				bool PrepareFunction	( IRfcFncBase			rfcFunc );
 
+				void LoadFncParmIndex<T>( T fncParmIndex );
+
 			#endregion
 
 		}

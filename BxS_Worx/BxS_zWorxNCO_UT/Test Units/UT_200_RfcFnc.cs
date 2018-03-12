@@ -5,6 +5,7 @@ using SMC = SAP.Middleware.Connector;
 using BxS_WorxNCO.Destination.API.Destination;
 
 using BxS_WorxNCO.RfcFunction.Common;
+using BxS_WorxNCO.BDCCall;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
@@ -26,45 +27,50 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_200_RfcFnc_10_Instantiate()
 				{
-					IRfcFncManager	lo	= new RfcFncManager();
-					Assert.IsNotNull	( lo , "" );
+					IRfcDestination	lo_D	= this.GetSAPDest();
+					IRfcFncManager	lo_M	= new RfcFncManager( lo_D );
+
+					Assert.IsNotNull	( lo_M , "" );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_200_RfcFnc_20_MetaData()
 				{
-					IRfcFncManager		p = new RfcFncManager();
-					IRfcDestination			x = this.GetSAPDestLoggedOn();
-					//...............................................
-					p.NCORepository	= x.NCODestination.Repository;
+					const string lz_FNme	= "/ISDFPS/CALL_TRANSACTION";
 
-					p.RegisterFunction( "/ISDFPS/CALL_TRANSACTION"		);
-					p.RegisterFunction( "RFC_CALL_TRANSACTION_USING"	);
+					IRfcDestination	lo_DS = this.GetSAPDestLoggedOn();
+					IRfcFncManager	lo_FM = new RfcFncManager( lo_DS );
 					//...............................................
-					Assert.IsTrue	(	p.FetchMetadata()	, "" );
-					p.RegisterFunction( "xxxx"	);
+					var lo_PI0	= new BDCCallParmIndex( lz_FNme );
+					var lo_FN1	= new myRfcFnc( lz_FNme );
+					lo_FM.RegisterFunction	( lo_PI0 );
+					lo_FM.PrepareFunction		( lo_FN1 );
 					//...............................................
-					Assert.IsFalse	(	p.FetchMetadata()	, "" );
+
+					//Assert.IsTrue	(	lo_FM.FetchMetadata()	, "" );
+					//lo_FM.RegisterFunction( "xxxx"	);
+					////...............................................
+					//Assert.IsFalse	(	lo_FM.FetchMetadata()	, "" );
 			}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			private IRfcDestination GetSAPDestLoggedOn()
+			private IRfcDestination GetSAPDestLoggedOn( bool DoLogonCheck = false )
 				{
 					IRfcDestination lo_Dest =	this.GetSAPDest();
 					//...............................................
-					lo_Dest.Client			= "700";
-					lo_Dest.User				= "DERRICKBINGH";
-					lo_Dest.Password		= "M@@n4321";
-					lo_Dest.LogonCheck	= false;
+					lo_Dest.Client			= "700"						;
+					lo_Dest.User				= "DERRICKBINGH"	;
+					lo_Dest.Password		= "M@@n4321"			;
+					lo_Dest.LogonCheck	= DoLogonCheck		;
 					//...............................................
-					Assert.IsTrue	(	lo_Dest.Procure()		, "" );
-					Assert.IsTrue	(	lo_Dest.IsConnected	, "" );
+					Assert.IsTrue	(	lo_Dest.Procure()		, "" )	;
+					Assert.IsTrue	(	lo_Dest.IsConnected	, "" )	;
 					//...............................................
-					return	lo_Dest;
+					return	lo_Dest	;
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -76,5 +82,20 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					//...............................................
 					return	lo_Dest;
 				}
+
+		//
+
+		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+		private class myRfcFnc : RfcFncBase
+			{
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal myRfcFnc( string FNme ) : base( FNme )
+					{
+					}
+			}
+
+		//
+
 		}
 }

@@ -1,5 +1,4 @@
-﻿using SMC	= SAP.Middleware.Connector;
-//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
 	internal interface IRfcFncProfile

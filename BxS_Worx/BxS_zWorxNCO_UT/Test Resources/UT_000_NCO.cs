@@ -21,7 +21,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			internal IRfcDestination GetSAPDest()
 				{
 					IList< string > lt_Ini	=	this.DestController.GetSAPINIList();
-					string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("PWD") );
+					string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("PWD)") );
 					if (lc_ID == null)	return	null;
 					//...............................................
 					IRfcDestination lo_Dest = this.DestController.GetDestination( lc_ID );

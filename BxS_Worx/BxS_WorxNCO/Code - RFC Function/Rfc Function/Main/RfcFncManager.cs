@@ -33,8 +33,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Properties"
 
-				public	bool	UseRoundtrip	{	get	{ return	this.NCORepository.UseRoundtripOptimization;					}
-																			set {					this.NCORepository.UseRoundtripOptimization = value;	} }
+				public	bool	UseRoundtrip	{	get;	set; }
 				//.................................................
 				public	SMC.RfcRepository				NCORepository			{ get; }
 				public	SMC.RfcLookupErrorList	NCOLookupErrors		{ get; private set; }
@@ -45,13 +44,34 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Methods"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadFncParmIndex<T>( T fncParmIndex )
+					{
+						if ( this.FetchMetadata() )
+							{
+								foreach ( PropertyInfo lo_PI in	fncParmIndex.GetType().GetProperties() )
+									{
+										string lc_PName	= lo_PI.Name;
+										object[] att		= lo_PI.GetCustomAttributes(	typeof( SAPFncParmNameAttribute )
+																																, true														);
+
+										var			xx	= (SAPFncParmNameAttribute)att[0];
+										string indx = xx.SAPName;
+									}
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool PrepareFunction( IRfcFncBase rfcFunc )
 					{
-						if ( this._RfcFncProfiles.TryGetValue( rfcFunc.SAPFunctionName, out IRfcFncProfile lo_Prof ))
+						if ( this._RfcFncProfiles.TryGetValue(	rfcFunc.SAPFunctionName
+																									, out IRfcFncProfile lo_Prof ))
 							{
 								if ( this.FetchMetadata() )
 									{
 										rfcFunc.NCORfcFunction	= this.NCORepository.CreateFunction( rfcFunc.SAPFunctionName );
+
+										this.LoadFncParmIndex(lo_Prof);
+
 										rfcFunc.Profile					= lo_Prof;
 									}
 							}
@@ -64,6 +84,11 @@ namespace BxS_WorxNCO.RfcFunction.Common
 						this._RfcFncProfiles.TryAdd( rfcFncProfile.FunctionName , rfcFncProfile );
 					}
 
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool FetchMetadata( string fncName = default(string) )
 					{
@@ -75,7 +100,6 @@ namespace BxS_WorxNCO.RfcFunction.Common
 								return	true;
 							}
 						//...............................................
-						//...............................................
 						string[] lt_Str		= new string[] {};
 						string[] lt_Tbl		= new string[] {};
 						string[] lt_Cls		= new string[] {};
@@ -85,24 +109,12 @@ namespace BxS_WorxNCO.RfcFunction.Common
 						//...............................................
 						try
 							{
-								this.NCOLookupErrors = this.NCORepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls );
+								this.NCORepository.UseRoundtripOptimization = this.UseRoundtrip;
+								this.NCOLookupErrors	= this.NCORepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls );
 								return	this.NCOLookupErrors == null ;
 							}
-						catch (Exception)
-							{
-								return	false;
-							}
-					}
-
-				private void Xx<T>(T index) where T: class
-					{
-						foreach ( PropertyInfo lo_PI in	index.GetType().GetProperties() )
-							{
-								string lc_PName	= lo_PI.Name;
-								object[] att = lo_PI.GetCustomAttributes( typeof(SAPFncParmNameAttribute),true );
-
-
-							}
+						catch
+							{	return	false; }
 					}
 
 			#endregion

@@ -24,6 +24,7 @@ namespace BxS_WorxNCO.Destination.API.Destination
 				bool	IsConnected		{ get; }
 				//.................................................
 				SMC.RfcDestination	NCODestination	{ get; }
+				SMC.RfcRepository		NCORepository		{ get; }
 
 			#endregion
 

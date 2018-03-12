@@ -2,8 +2,18 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCCall
 {
-	internal class BDCCallParmIndex
+	internal class BDCCallParmIndex : RfcFncProfileBase
 		{
+			#region "Function Parameters"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal BDCCallParmIndex( string FncName )	: base( FncName )
+					{
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Function Parameters"
 
 				[SAPFncParmNameAttribute(SAPName = "IF_TCODE"							)]	public	int ParIdx_TCode	{ get; set;	}
