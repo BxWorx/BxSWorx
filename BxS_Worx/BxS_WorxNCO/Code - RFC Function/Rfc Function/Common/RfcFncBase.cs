@@ -9,9 +9,9 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncBase( string	SAPFunctionName	)
+				internal RfcFncBase( IRfcFncProfile profile	)
 					{
-						this.SAPFunctionName	= SAPFunctionName;
+						this.Profile	= profile;
 					}
 
 			#endregion
@@ -28,7 +28,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 				public	string	SAPFunctionName		{ get; }
 
-				public	IRfcFncProfile		Profile						{ get; protected set; }
+				public	IRfcFncProfile		Profile						{ get; }
 				public	SMC.IRfcFunction	NCORfcFunction		{ get; set; }
 
 			#endregion

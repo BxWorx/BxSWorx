@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Reflection;
-//using System.Threading.Tasks;
 using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
@@ -20,6 +19,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 						this._RfcDestination	= rfcDestination	?? throw new ArgumentException("IRfcDestination is null");
 						//.............................................
 						this.UseRoundtrip			= true;
+						this._IsDirty					= false;
 						this._RfcFncProfiles	= new ConcurrentDictionary< string , IRfcFncProfile >();
 					}
 
@@ -28,6 +28,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Declarations"
 
+				private bool	_IsDirty;
+				//.................................................
 				private	readonly	IRfcDestination																		_RfcDestination;
 				private readonly	ConcurrentDictionary< string , IRfcFncProfile >		_RfcFncProfiles;
 
@@ -47,56 +49,54 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Methods"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadFncParmIndex<T>( T fncParmIndex )
-					{
-						if ( this.FetchMetadata() )
-							{
-								foreach ( PropertyInfo lo_PI in	fncParmIndex.GetType().GetProperties() )
-									{
-										var y =	(SAPFncParmNameAttribute) Attribute.GetCustomAttribute(lo_PI,typeof( SAPFncParmNameAttribute ));
-										if (y != null)
-											{
-												var x = this._RfcDestination.NCORepository.
-											}
-										//lo_PI.SetValue(lo_PI, this.NCORepository. )
-										//y.SAPName
-										//LO_PO
-
-
-										//string lc_PName	= lo_PI.Name;
-										//object[] att		= lo_PI.GetCustomAttributes(	typeof( SAPFncParmNameAttribute )
-										//																						, true														);
-
-										//var			xx	= (SAPFncParmNameAttribute)att[0];
-										//string indx = xx.SAPName;
-									}
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool PrepareFunction( IRfcFncBase rfcFunc )
-					{
-						if ( this._RfcFncProfiles.TryGetValue(	rfcFunc.SAPFunctionName
-																									, out IRfcFncProfile lo_Prof ))
-							{
-								if ( this.FetchMetadata() )
-									{
-										rfcFunc.NCORfcFunction	= this.NCORepository.CreateFunction( rfcFunc.SAPFunctionName );
-
-										this.LoadFncParmIndex(lo_Prof);
-
-									}
-							}
-						return	true;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void RegisterProfile( IRfcFncProfile rfcFncProfile , bool loadMetadata = false )
 					{
 						this._RfcFncProfiles.TryAdd( rfcFncProfile.FunctionName , rfcFncProfile );
-						if (loadMetadata)
+						this._IsDirty	= true;
+						//.............................................
+						if ( loadMetadata )
 							{
+								if ( this.FetchMetadata() )
+									{
+										this.UpdateProfiles();
+									}
 							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public ProfileType GetProfile<ProfileType>( string rfcFncName )
+					{
+						this._RfcFncProfiles.TryGetValue(	rfcFncName	, out IRfcFncProfile lo_Prof );
+						return	(ProfileType) lo_Prof;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.IRfcFunction GetFunction( string rfcFncName )
+					{
+						try
+							{
+								return	this.NCORepository.CreateFunction( rfcFncName );
+							}
+						catch (Exception)
+							{
+							throw;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool UpdateProfiles()
+					{
+						bool lb_Ret	= true;
+						//...............................................
+						if ( this.FetchMetadata() )
+							{
+								foreach ( KeyValuePair< string , IRfcFncProfile > lo_Prof in this._RfcFncProfiles )
+									{
+										if ( ! this.UpdateProfileMetadata( lo_Prof.Value ) )	lb_Ret	= false;
+									}
+							}
+						//...............................................
+						return	lb_Ret;
 					}
 
 			#endregion
@@ -105,58 +105,75 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool FetchMetadata( string fncName = default(string) )
+				private bool UpdateProfileMetadata( IRfcFncProfile lo_Prof )
 					{
-						bool	lb_Ret	= true;
-						//...............................................
-						//
-						if (		!	string.IsNullOrEmpty(fncName)
-								&&	!	this.NCORepository.CachedFunctionMetadata.FindIndex( (s)=> s.Equals(fncName) ).Equals(0) )
-							{
-								return	true;
-							}
-						//...............................................
-						string[] lt_Str		= new string[] {};
-						string[] lt_Tbl		= new string[] {};
-						string[] lt_Cls		= new string[] {};
-						//...............................................
-						string[] lt_Fnc	= new string[	this._RfcFncProfiles.Count ];
-						this._RfcFncProfiles.Keys.CopyTo( lt_Fnc , 0 );
-						//...............................................
+						string	lc_StrName	= string.Empty;
+						int			ln_PIndx		= 0;
+
+						SMC.RfcStructureMetadata	ls_StruMetadata	= null;
+						//.............................................
+						if ( lo_Prof.IsReady )	return	true;
+						//.............................................
 						try
 							{
-								this.NCORepository.UseRoundtripOptimization = this.UseRoundtrip;
-								this.NCOLookupErrors	= this.NCORepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls );
-
-								foreach ( KeyValuePair< string , IRfcFncProfile > lo_Prof in this._RfcFncProfiles )
+								SMC.RfcFunctionMetadata lo_FncMetdata	= this._RfcDestination.NCORepository.GetFunctionMetadata( lo_Prof.FunctionName );
+								//.........................................
+								// Collect indicies for function parameters, structure fields
+								//
+								foreach ( PropertyInfo lo_PI in	lo_Prof.GetType().GetProperties() )
 									{
-										try
-											{
-												SMC.RfcFunctionMetadata ZZ = this._RfcDestination.NCORepository.GetFunctionMetadata( lo_Prof.Key );
+										var lo_CP	=	(SAPFncAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPFncAttribute ) );
 
-												foreach ( PropertyInfo lo_PI in	lo_Prof.GetType().GetProperties() )
+										if ( lo_CP != null )
+											{
+												if ( lo_CP.Stru?.Equals(0) == false )
 													{
-														var y =	(SAPFncParmNameAttribute) Attribute.GetCustomAttribute(lo_PI,typeof( SAPFncParmNameAttribute ));
-														if (y != null)
+														if ( !lc_StrName.Equals( lo_CP.Stru ) )
 															{
-																int x = ZZ.TryNameToIndex(y.SAPName);
-																lo_PI.SetValue( lo_PI , x );
+																lc_StrName	= lo_CP.Stru;
+																ls_StruMetadata	= this._RfcDestination.NCORepository.GetStructureMetadata( lc_StrName );
 															}
+														ln_PIndx	= ls_StruMetadata.TryNameToIndex( lo_CP.Name );
+													}
+												else
+													{
+														ln_PIndx	= lo_FncMetdata.TryNameToIndex( lo_CP.Name );
 													}
 
+												lo_PI.SetValue( lo_Prof , ln_PIndx );
 											}
-										catch (Exception)
-											{
-
-											throw;
-											}
-
-
+									}
+								//.........................................
+								lo_Prof.IsReady	= true;
 							}
-						catch
-							{	return	false; }
+						catch	{	}
+						//.............................................
+						return	lo_Prof.IsReady;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private bool FetchMetadata()
+					{
+						if ( this._IsDirty )
+							{
+								string[] lt_Str		= new string[] {};
+								string[] lt_Tbl		= new string[] {};
+								string[] lt_Cls		= new string[] {};
+								//...............................................
+								string[] lt_Fnc	= new string[	this._RfcFncProfiles.Count ];
+								this._RfcFncProfiles.Keys.CopyTo( lt_Fnc , 0 );
+								//...............................................
+								try
+									{
+										this.NCORepository.UseRoundtripOptimization = this.UseRoundtrip;
+										this.NCOLookupErrors	= this.NCORepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls );
+										this._IsDirty	= false;
+									}
+								catch
+									{	}
+							}
 						//...............................................
-						return	lb_Ret;
+						return	! this._IsDirty;
 					}
 
 			#endregion

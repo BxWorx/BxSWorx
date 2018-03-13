@@ -7,7 +7,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Properties"
 
 				string	FunctionName	{	get; }
-				bool		IsReady				{ get; }
+				bool		IsReady				{ get; set; }
 
 			#endregion
 

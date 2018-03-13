@@ -4,11 +4,12 @@ namespace BxS_WorxNCO.RfcFunction.Common
 {
 	[	AttributeUsageAttribute(	AttributeTargets.Property
 														,	AllowMultiple = false			)	]
-	internal class SAPFncParmNameAttribute : Attribute
+	internal class SAPFncAttribute : Attribute
 		{
 			#region "Properties"
 
-				public	string	SAPName	{	get; set; }
+				public	string	Stru	{	get; set; }
+				public	string	Name	{	get; set; }
 
 			#endregion
 

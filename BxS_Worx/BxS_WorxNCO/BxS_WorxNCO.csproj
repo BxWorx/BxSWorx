@@ -16,14 +16,18 @@
 
   <ItemGroup>
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranConsumer.cs" />
-    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranProcessor.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranIndex.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranIndexSetup.cs" />
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCallTranProfile.cs" />
+    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC Function\BDCCall_Function.cs" />
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDCCallHeader.cs" />
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDCCallTran.cs" />
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC_Constants.cs" />
     <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC_OpFnc.cs" />
     <Compile Remove="Code - RFC Function\Keep\BDCCallTranConsumer.cs" />
     <Compile Remove="Code - RFC Function\Keep\BDCCallTranParser.cs" />
+    <Compile Remove="zKeep\BDCCallTranIndex.cs" />
+    <Compile Remove="zKeep\BDCCallTranIndexSetup.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +39,7 @@
 
   <ItemGroup>
     <Folder Include="Code - RFC Function\Keep\" />
+    <Folder Include="zKeep\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

@@ -7,7 +7,7 @@ using BxS_WorxNCO.BDCCall;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCallTranProcessor	: RfcFncBase
+	internal class BDCCall_Function	: RfcFncBase
 		{
 			#region "Documentation"
 
@@ -34,16 +34,15 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal BDCCallTranProcessor( BDCCallTranProfile	profile	)	: base(	profile )
-				internal BDCCallTranProcessor( string	name )	: base(	name )
+				internal BDCCall_Function( BDCCall_Profile	profile	)	: base(	profile )
 					{
-						//this._CallProfile		=	profile	;
+						this._CallProfile		=	profile	;
 						//.............................................
 						this._IsConfigured	= false						;
 						this._MyID					= Guid.NewGuid()	;
 
-						this.Header					= this._CallProfile.OpFncts.CreateRfcHead()	;
-						this.Transaction		= this._CallProfile.OpFncts.CreateRFCTran()	;
+						//this.Header					= this._CallProfile.OpFncts.CreateRfcHead()	;
+						//this.Transaction		= this._CallProfile.OpFncts.CreateRFCTran()	;
 					}
 
 			#endregion
@@ -51,7 +50,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	BDCCallTranProfile	_CallProfile;
+				private	readonly	BDCCall_Profile	_CallProfile;
 
 				private	bool	_IsConfigured	;
 				private Guid	_MyID					;
@@ -60,6 +59,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 			//===========================================================================================
 			#region "Properties"
+
+				internal	SMC.IRfcStructure	CTU	{ get { return	this.NCORfcFunction.GetStructure(  }}
+
 
 				internal	BDCCallHeader		Header				{ get; }
 				internal	BDCCallTran			Transaction		{ get; }

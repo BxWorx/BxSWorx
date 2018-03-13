@@ -13,10 +13,12 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void RegisterProfile	( IRfcFncProfile	rfcFncProfile );
-				bool PrepareFunction	( IRfcFncBase			rfcFunc );
-
-				void LoadFncParmIndex<T>( T fncParmIndex );
+				void RegisterProfile	( IRfcFncProfile	rfcFncProfile  , bool loadMetadata = false );
+				//.................................................
+				ProfileType				GetProfile<ProfileType>	( string rfcFncName );
+				SMC.IRfcFunction	GetFunction							( string rfcFncName );
+				//.................................................
+				bool UpdateProfiles();
 
 			#endregion
 
