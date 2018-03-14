@@ -15,6 +15,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 				void RegisterProfile	( IRfcFncProfile	rfcFncProfile  , bool loadMetadata = false );
 				//.................................................
+				bool							ProfileExists						( string rfcFncName );
 				ProfileType				GetProfile<ProfileType>	( string rfcFncName );
 				SMC.IRfcFunction	GetFunction							( string rfcFncName );
 				//.................................................

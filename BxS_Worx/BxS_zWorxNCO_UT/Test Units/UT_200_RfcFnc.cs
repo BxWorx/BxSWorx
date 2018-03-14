@@ -4,7 +4,7 @@ using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API.Destination;
 using BxS_WorxNCO.RfcFunction.Common;
-using BxS_WorxNCO.BDCCall;
+using BxS_WorxNCO.RfcFunction.BDCTran;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
@@ -26,7 +26,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_200_RfcFnc_10_Instantiate()
 				{
-					IRfcDestination	lo_D	= this.GetSAPDest();
+					IRfcDestination	lo_D	= this.co_NCO.GetSAPDest();
 					IRfcFncManager	lo_M	= new RfcFncManager( lo_D );
 
 					Assert.IsNotNull	( lo_D , "" );
@@ -82,7 +82,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			private IRfcDestination GetSAPDestLoggedOn( bool DoLogonCheck = false )
 				{
-					IRfcDestination lo_Dest =	this.GetSAPDest();
+					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
 					//...............................................
 					lo_Dest.Client			= "700"						;
 					lo_Dest.User				= "DERRICKBINGH"	;
@@ -93,16 +93,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.IsTrue	(	lo_Dest.IsConnected	, "" )	;
 					//...............................................
 					return	lo_Dest	;
-				}
-
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			private IRfcDestination GetSAPDest()
-				{
-					IRfcDestination lo_Dest = this.co_NCO.GetSAPDest();
-					//...............................................
-					Assert.IsNotNull	( lo_Dest	, "" );
-					//...............................................
-					return	lo_Dest;
 				}
 
 		//

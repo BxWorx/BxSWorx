@@ -1,7 +1,7 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API.Destination;
-//using BxS_WorxNCO.RfcFunction.BDCTran;
+using BxS_WorxNCO.RfcFunction.BDCTran;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
@@ -16,7 +16,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//BDCCallTranProcessor CreateBDCCallFunction();
+				BDCCall_Function	CreateBDCCallFunction();
 
 			#endregion
 

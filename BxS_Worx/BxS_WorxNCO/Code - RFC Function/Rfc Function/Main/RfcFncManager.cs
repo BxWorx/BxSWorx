@@ -51,8 +51,11 @@ namespace BxS_WorxNCO.RfcFunction.Common
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void RegisterProfile( IRfcFncProfile rfcFncProfile , bool loadMetadata = false )
 					{
-						this._RfcFncProfiles.TryAdd( rfcFncProfile.FunctionName , rfcFncProfile );
-						this._IsDirty	= true;
+						rfcFncProfile.RfcDestination	= this._RfcDestination.NCODestination;
+						if ( this._RfcFncProfiles.TryAdd( rfcFncProfile.FunctionName , rfcFncProfile ) )
+							{
+								this._IsDirty	= true;
+							}
 						//.............................................
 						if ( loadMetadata )
 							{
@@ -61,6 +64,12 @@ namespace BxS_WorxNCO.RfcFunction.Common
 										this.UpdateProfiles();
 									}
 							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool ProfileExists( string rfcFncName )
+					{
+						return	this._RfcFncProfiles.ContainsKey( rfcFncName );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

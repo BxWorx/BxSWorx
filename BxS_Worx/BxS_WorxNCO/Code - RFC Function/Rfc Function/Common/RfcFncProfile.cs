@@ -30,6 +30,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 				public	string	FunctionName	{	get; }
 				public	bool		IsReady				{ get; set; }
+				//.................................................
+				public	SMC.RfcCustomDestination	RfcDestination	{ get; set; }
 
 			#endregion
 

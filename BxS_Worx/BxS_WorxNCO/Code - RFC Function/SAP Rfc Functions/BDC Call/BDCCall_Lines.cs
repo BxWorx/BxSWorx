@@ -1,13 +1,13 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCCall
+namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCallTran
+	internal class BDCCall_Lines
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCallTran()
+				internal BDCCall_Lines()
 					{
 						this.ProcessedStatus	= false	;
 						this.SuccesStatus			= false	;
@@ -34,6 +34,9 @@ namespace BxS_WorxNCO.BDCCall
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
+						this.ProcessedStatus	= false;
+						this.SuccesStatus			= false;
+						//.............................................
 						this.BDCData.Clear();
 						this.SPAData.Clear();
 						this.MSGData.Clear();

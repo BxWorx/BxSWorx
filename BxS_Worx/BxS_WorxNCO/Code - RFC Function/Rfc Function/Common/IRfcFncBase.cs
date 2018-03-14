@@ -1,4 +1,6 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
@@ -7,7 +9,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Properties"
 
 				string	SAPFunctionName	{ get; }
-
+				Guid		MyID						{	get; }
+				//.................................................
 				IRfcFncProfile		Profile					{ get; }
 				SMC.IRfcFunction	NCORfcFunction	{ get; set; }
 

@@ -12,6 +12,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 				internal RfcFncBase( IRfcFncProfile profile	)
 					{
 						this.Profile	= profile;
+						//.............................................
+						this.MyID	= Guid.NewGuid();
 					}
 
 			#endregion
@@ -27,7 +29,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Properties"
 
 				public	string	SAPFunctionName		{ get; }
-
+				public	Guid		MyID							{	get; }
+				//.................................................
 				public	IRfcFncProfile		Profile						{ get; }
 				public	SMC.IRfcFunction	NCORfcFunction		{ get; set; }
 

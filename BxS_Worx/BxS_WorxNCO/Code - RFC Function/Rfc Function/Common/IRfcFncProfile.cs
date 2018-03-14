@@ -8,11 +8,9 @@ namespace BxS_WorxNCO.RfcFunction.Common
 
 				string	FunctionName	{	get; }
 				bool		IsReady				{ get; set; }
+				//.................................................
+				SMC.RfcCustomDestination	RfcDestination	{ get; set; }
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
 			#endregion
 
 		}

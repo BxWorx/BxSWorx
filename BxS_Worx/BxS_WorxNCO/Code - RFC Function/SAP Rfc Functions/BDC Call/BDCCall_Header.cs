@@ -1,8 +1,8 @@
 ﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCCall
+namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCallHeader
+	internal class BDCCall_Header
 		{
 			#region "Properties"
 

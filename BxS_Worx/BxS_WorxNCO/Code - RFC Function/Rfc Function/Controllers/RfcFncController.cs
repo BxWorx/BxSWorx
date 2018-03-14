@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
+//using System.Collections.Concurrent;
 using System.Threading;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
+//using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API.Destination;
-//using BxS_WorxNCO.RfcFunction.BDCTran;
+using BxS_WorxNCO.RfcFunction.BDCTran;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
@@ -47,14 +47,19 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Methods"
 
-//			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-//			public	BDCCallTranProcessor CreateBDCCallFunction()
-//				{
-//					return null;
-
-////					this._RfcFncMngr.Value.RegisterFunction();
-//					//return	new BDCCallTranProcessor( this._SAPRfcFncConst.Value.BDCCallTran );
-//				}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	BDCCall_Function CreateBDCCallFunction()
+					{
+						if ( ! this._RfcFncMngr.Value.ProfileExists( this._SAPRfcFncConst.Value.BDCCallTran ) )
+							{
+								var	lo_Prof	= new BDCCall_Profile( this._SAPRfcFncConst.Value.BDCCallTran );
+								this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
+							}
+						//.............................................
+						var lo_Fnc	= new BDCCall_Function( this._RfcFncMngr.Value.GetProfile<BDCCall_Profile>( this._SAPRfcFncConst.Value.BDCCallTran ) );
+						//.............................................
+						return	lo_Fnc;
+					}
 
 			#endregion
 

@@ -1,6 +1,6 @@
 ﻿using BxS_WorxNCO.RfcFunction.Common;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCCall
+namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
 	internal class BDCCall_Profile : RfcFncProfile
 		{
