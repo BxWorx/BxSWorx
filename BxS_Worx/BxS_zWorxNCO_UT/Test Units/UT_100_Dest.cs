@@ -61,7 +61,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lo_Dest.User			= "DERRICKBINGH";
 					lo_Dest.Password	= "M@@n4321";
 					//...............................................
-					Assert.IsTrue(	lo_Dest.Procure()		, "" );
+					//Assert.IsTrue(	lo_Dest.Procure()		, "" );
 					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
 				}
 
@@ -82,7 +82,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lc_Pwd.MakeReadOnly();
 					lo_Dest.SecurePassword	= lc_Pwd;
 					//...............................................
-					Assert.IsTrue(	lo_Dest.Procure()		, "" );
+					//Assert.IsTrue(	lo_Dest.Procure()		, "" );
+					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
 					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
 				}
 

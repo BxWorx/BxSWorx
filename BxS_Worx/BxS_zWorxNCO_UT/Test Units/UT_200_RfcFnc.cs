@@ -11,6 +11,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_200_RfcFnc
 		{
+			private	const string cz_FNme	= "/ISDFPS/CALL_TRANSACTION";
 			private readonly	UT_000_NCO	co_NCO;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -37,16 +38,14 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_200_RfcFnc_20_MetaData()
 				{
-					const string lz_FNme	= "/ISDFPS/CALL_TRANSACTION";
-
-					IRfcDestination	lo_DS	= this.GetSAPDestLoggedOn();
+					IRfcDestination	lo_DS	= this.co_NCO.GetSAPDestLoggedOn();
 					IRfcFncManager	lo_FM = new RfcFncManager( lo_DS );
 					//...............................................
-					var lo_PR0	= new BDCCall_Profile( lz_FNme );
+					BDCCall_Profile lo_PR0	= this.CreateBDCCallProfile();
 					lo_FM.RegisterProfile	( lo_PR0 );
 					//...............................................
-					BDCCall_Profile lo_PR1	= lo_FM.GetProfile<BDCCall_Profile>( lz_FNme );
-					BDCCall_Profile lo_PR2	= lo_FM.GetProfile<BDCCall_Profile>( lz_FNme );
+					BDCCall_Profile lo_PR1	= lo_FM.GetProfile<BDCCall_Profile>( cz_FNme );
+					BDCCall_Profile lo_PR2	= lo_FM.GetProfile<BDCCall_Profile>( cz_FNme );
 
 					Assert.AreEqual	( lo_PR1 , lo_PR2 ,	"" );
 					//...............................................
@@ -67,8 +66,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					var lo_FN1	= new MyRfcFnc( lo_PR1 );
 					var lo_FN2	= new MyRfcFnc( lo_PR2 );
 
-					lo_FN1.NCORfcFunction = lo_FM.GetFunction( lz_FNme );
-					lo_FN2.NCORfcFunction = lo_FM.GetFunction( lz_FNme );
+					//var x = lo_FN1.GetNCORfcFunction();
+
+					Assert.IsNotNull	( lo_FN1.NCORfcFunction , "" );
+					Assert.IsNotNull	( lo_FN2.NCORfcFunction , "" );
 
 					Assert.AreNotEqual	( lo_FN1.NCORfcFunction	, lo_FN2.NCORfcFunction	,	"" );
 
@@ -79,21 +80,16 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			private IRfcDestination GetSAPDestLoggedOn( bool DoLogonCheck = false )
-				{
-					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
-					//...............................................
-					lo_Dest.Client			= "700"						;
-					lo_Dest.User				= "DERRICKBINGH"	;
-					lo_Dest.Password		= "M@@n4321"			;
-					lo_Dest.LogonCheck	= DoLogonCheck		;
-					//...............................................
-					Assert.IsTrue	(	lo_Dest.Procure()		, "" )	;
-					Assert.IsTrue	(	lo_Dest.IsConnected	, "" )	;
-					//...............................................
-					return	lo_Dest	;
-				}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private BDCCall_Profile CreateBDCCallProfile()
+					{
+						IRfcDestination	lo_DS	= this.co_NCO.GetSAPDestLoggedOn();
+
+						return	new BDCCall_Profile(	cz_FNme
+																				, lo_DS
+																				, ()=>	new BDCCall_Header()
+																				, ()=>	new BDCCall_Lines	() );
+					}
 
 		//
 

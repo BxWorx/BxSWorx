@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -14,6 +15,9 @@ namespace BxS_WorxNCO.RfcFunction.Common
 						this.Profile	= profile;
 						//.............................................
 						this.MyID	= Guid.NewGuid();
+
+						this._NCORfcFunction	= new Lazy< SMC.IRfcFunction >( ()=>	this.Profile.CreateRfcFunction()
+																																			, LazyThreadSafetyMode.ExecutionAndPublication );
 					}
 
 			#endregion
@@ -21,18 +25,19 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	bool	_FncCreated	;
+				private readonly Lazy< SMC.IRfcFunction > _NCORfcFunction;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	SAPFunctionName		{ get; }
-				public	Guid		MyID							{	get; }
+				public	Guid	MyID	{	get; }
 				//.................................................
-				public	IRfcFncProfile		Profile						{ get; }
-				public	SMC.IRfcFunction	NCORfcFunction		{ get; set; }
+				public	IRfcFncProfile		Profile					{ get; }
+				public	SMC.IRfcFunction	NCORfcFunction	{ get { return	this._NCORfcFunction.Value	; } }
+				//.................................................
+				private	SMC.RfcCustomDestination	NCODestination	{ get { return	this.Profile.NCODestination	; } }
 
 			#endregion
 
@@ -40,13 +45,14 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Invoke( SMC.RfcCustomDestination rfcDest )
+				public bool Invoke()
 					{
 						bool	lb_Ret	= false;
 						//.............................................
 						try
 							{
-								this.NCORfcFunction.Invoke( rfcDest );
+								this.Profile.ReadyProfile();
+								this._NCORfcFunction.Value.Invoke( this.NCODestination );
 								lb_Ret	= true;
 							}
 						catch ( Exception ex )

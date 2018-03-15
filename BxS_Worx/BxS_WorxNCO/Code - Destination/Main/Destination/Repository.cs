@@ -20,6 +20,9 @@ namespace BxS_WorxNCO.Destination.Main
 						this._Map				= new Dictionary< string	, Guid >										()	;
 						this._Des				= new Dictionary< Guid		, SMC.RfcConfigParameters >	()	;
 						//.............................................
+						this._SAPINI		= new Lazy<SMC.SapLogonIniConfiguration>(		() => SMC.SapLogonIniConfiguration.Create()
+																																			, LazyThreadSafetyMode.ExecutionAndPublication	);
+						//.............................................
 						this._Lock	= new	object();
 					}
 
@@ -28,10 +31,7 @@ namespace BxS_WorxNCO.Destination.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy<SMC.SapLogonIniConfiguration>
-					_SAPINI		= new Lazy<SMC.SapLogonIniConfiguration>
-						(	() => SMC.SapLogonIniConfiguration.Create()
-							, LazyThreadSafetyMode.ExecutionAndPublication	);
+				private readonly Lazy< SMC.SapLogonIniConfiguration >						_SAPINI;
 				//.................................................
 				private readonly Dictionary< string	,	Guid >										_Map;
 				private readonly Dictionary< Guid		, SMC.RfcConfigParameters >	_Des;

@@ -2,14 +2,23 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
-	internal interface IRfcFncProfile
+	public interface IRfcFncProfile
 		{
 			#region "Properties"
 
 				string	FunctionName	{	get; }
 				bool		IsReady				{ get; set; }
 				//.................................................
-				SMC.RfcCustomDestination	RfcDestination	{ get; set; }
+				SMC.RfcCustomDestination	NCODestination	{ get; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods"
+
+				void ReadyProfile();
+				//.................................................
+				SMC.IRfcFunction	CreateRfcFunction();
 
 			#endregion
 

@@ -22,8 +22,6 @@ namespace BxS_WorxIPX.API.BDC
 
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
-
-
 			#endregion
 
 		}

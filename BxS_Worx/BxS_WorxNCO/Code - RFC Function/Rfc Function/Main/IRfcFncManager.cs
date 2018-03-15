@@ -17,7 +17,6 @@ namespace BxS_WorxNCO.RfcFunction.Common
 				//.................................................
 				bool							ProfileExists						( string rfcFncName );
 				ProfileType				GetProfile<ProfileType>	( string rfcFncName );
-				SMC.IRfcFunction	GetFunction							( string rfcFncName );
 				//.................................................
 				bool UpdateProfiles();
 

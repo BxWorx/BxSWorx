@@ -8,18 +8,17 @@ namespace BxS_WorxNCO.RfcFunction.Common
 		{
 			#region "Properties"
 
-				string	SAPFunctionName	{ get; }
 				Guid		MyID						{	get; }
 				//.................................................
 				IRfcFncProfile		Profile					{ get; }
-				SMC.IRfcFunction	NCORfcFunction	{ get; set; }
+				SMC.IRfcFunction	NCORfcFunction	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				bool	Invoke( SMC.RfcCustomDestination rfcDest );
+				bool	Invoke();
 
 			#endregion
 

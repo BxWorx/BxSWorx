@@ -14,9 +14,11 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: BDC Call Transaction"
 
-				BDCCall_Function	CreateBDCCallFunction();
+				//.................................................
+				BDCCall_Function	CreateBDCCallFunction	();
+				//.................................................
 
 			#endregion
 

@@ -42,8 +42,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lo_Dest.User				= "DERRICKBINGH"	;
 					lo_Dest.Password		= "M@@n4321"			;
 					lo_Dest.LogonCheck	= DoLogonCheck		;
+					lo_Dest.UseSAPGui		= "2";
 					//...............................................
-					Assert.IsTrue	(	lo_Dest.Procure()		, "" )	;
+					//Assert.IsTrue	(	lo_Dest.Procure()		, "" )	;
 					Assert.IsTrue	(	lo_Dest.IsConnected	, "" )	;
 					//...............................................
 					return	lo_Dest	;

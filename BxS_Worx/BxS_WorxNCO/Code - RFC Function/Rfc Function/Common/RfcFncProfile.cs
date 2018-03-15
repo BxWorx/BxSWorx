@@ -1,4 +1,6 @@
 ﻿using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_WorxNCO.Destination.API.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Common
 {
@@ -7,9 +9,11 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncProfile(	string	functionName )
+				internal RfcFncProfile(		string					functionName
+																,	IRfcDestination rfcDestination )
 					{
-						this.FunctionName		= functionName;
+						this.FunctionName			= functionName;
+						this._RfcDestination	= rfcDestination;
 						//.............................................
 						this.IsReady	= false;
 						//.............................................
@@ -21,7 +25,8 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly object		_Lock;
+				private		readonly	object						_Lock;
+				protected	readonly	IRfcDestination		_RfcDestination;
 
 			#endregion
 
@@ -31,7 +36,7 @@ namespace BxS_WorxNCO.RfcFunction.Common
 				public	string	FunctionName	{	get; }
 				public	bool		IsReady				{ get; set; }
 				//.................................................
-				public	SMC.RfcCustomDestination	RfcDestination	{ get; set; }
+				public	SMC.RfcCustomDestination	NCODestination	{ get { return	this._RfcDestination.NCODestination; } }
 
 			#endregion
 
@@ -39,9 +44,18 @@ namespace BxS_WorxNCO.RfcFunction.Common
 			#region "Methods"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected virtual bool Setup()
+				public void ReadyProfile()
 					{
-						return	true;
+						if ( ! this.IsReady )
+							{
+								this._RfcDestination.LoadRfcFunctionProfileMetadata( this );
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.IRfcFunction	CreateRfcFunction()
+					{
+						return	this._RfcDestination.CreateRfcFunction( this.FunctionName );
 					}
 
 			#endregion

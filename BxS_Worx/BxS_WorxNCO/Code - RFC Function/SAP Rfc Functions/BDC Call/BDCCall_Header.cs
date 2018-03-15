@@ -7,7 +7,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Properties"
 
 				internal	string	SAPTCode	{ get;	set; }
-				internal	string	Skip1st		{ get;	set; }
+				internal	bool		Skip1st		{ get;	set; }
 				//.................................................
 				internal	SMC.IRfcStructure		CTUParms	{ get;	set; }
 
