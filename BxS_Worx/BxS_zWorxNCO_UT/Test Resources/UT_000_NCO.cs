@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using BxS_WorxNCO.Destination.API.Main;
-using BxS_WorxNCO.Destination.API.Destination;
+using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Main;
 
 namespace BxS_zWorx_UT_Destination.Test_Units
@@ -14,10 +13,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_000_NCO()
 				{
-					this.DestController	= new Controller();
+					this.DestController	= new DestinationController();
 				}
 
-			internal IController DestController { get; }
+			internal IDestinationController DestController { get; }
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			internal IRfcDestination GetSAPDest()

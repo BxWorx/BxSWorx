@@ -2,8 +2,8 @@
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using BxS_WorxNCO.Destination.API.Destination;
-using BxS_WorxNCO.RfcFunction.Common;
+using BxS_WorxNCO.Destination.API;
+using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.RfcFunction.BDCTran;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units

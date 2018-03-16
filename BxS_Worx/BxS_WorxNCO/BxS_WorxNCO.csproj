@@ -9,20 +9,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Code - Destination\Other\**" />
-    <EmbeddedResource Remove="Code - Destination\Other\**" />
-    <None Remove="Code - Destination\Other\**" />
+    <Compile Remove="Code - 02_Destination\Other\**" />
+    <EmbeddedResource Remove="Code - 02_Destination\Other\**" />
+    <None Remove="Code - 02_Destination\Other\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDCCallTranProfile.cs" />
-    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC_Constants.cs" />
-    <Compile Remove="Code - RFC Function\SAP Rfc Functions\BDC Call\BDC_OpFnc.cs" />
-    <Compile Remove="Code - RFC Function\Keep\BDCCallTranConsumer.cs" />
-    <Compile Remove="Code - RFC Function\Keep\BDCCallTranParser.cs" />
+    <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDCCallTranProfile.cs" />
+    <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDC_OpFnc.cs" />
+    <Compile Remove="zKeep\BDCCallTranConsumer.cs" />
     <Compile Remove="zKeep\BDCCallTranIndex.cs" />
     <Compile Remove="zKeep\BDCCallTranIndexSetup.cs" />
+    <Compile Remove="zKeep\BDCCallTranParser.cs" />
     <Compile Remove="zKeep\BDCCallTranProfile.cs" />
+    <Compile Remove="zKeep\BDC_OpFnc.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code - RFC Function\Keep\" />
     <Folder Include="zKeep\" />
     <Folder Include="Properties\" />
   </ItemGroup>

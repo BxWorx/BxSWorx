@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using BxS_WorxNCO.Destination.API.Config;
-using BxS_WorxNCO.Destination.API.Destination;
+using BxS_WorxNCO.Destination.API;
 
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
