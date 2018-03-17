@@ -4,23 +4,23 @@ using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxUtils.Pipeline
 {
-	internal class ConsumerOpEnv<T,P>
+	internal class ConsumerOpEnv< T , P >
 		{
 			#region "Constructors"
 
-				internal ConsumerOpEnv(	Func<P>								createProgressInfo
-															,	IProgress<P>					progressHndlr
+				internal ConsumerOpEnv(	Func< P >							createProgressInfo
+															,	IProgress< P >				progressHndlr
 															,	CancellationToken			CT
 															,	int										queueAddTimeout		= 10
 															,	int										progressInterval	= 10 )
 					{
-						this.CreateProgInfo		= createProgressInfo	;
-						this.ProgressHndlr		= progressHndlr				;
-						this.CT								= CT									;
-						this.ProgressInterval	= progressInterval		;
-						this.QueueTimeout			= queueAddTimeout			;
+						this.CreateProgInfo			= createProgressInfo	;
+						this.ProgressHndlr			= progressHndlr				;
+						this.CT									= CT									;
+						this.ProgressInterval		= progressInterval		;
+						this.QueueTimeout				= queueAddTimeout			;
 						//.............................................
-						this.Queue		= new	BlockingCollection<T>	();
+						this.Queue	= new	BlockingCollection< T >	();
 					}
 
 			#endregion
@@ -30,7 +30,7 @@ namespace BxS_WorxUtils.Pipeline
 
 				internal	Func< P >								CreateProgInfo	{ get	; }
 				internal	BlockingCollection<T>		Queue						{ get	; }
-				internal	IProgress<P>						ProgressHndlr		{ get	; }
+				internal	IProgress< P >					ProgressHndlr		{ get	; }
 				internal	CancellationToken				CT							{ get	; }
 				//.................................................
 				internal	int	QueueTimeout			{ get	; }
@@ -44,7 +44,7 @@ namespace BxS_WorxUtils.Pipeline
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Reset()
 					{
-						foreach (T lo_WorkItem in this.Queue.GetConsumingEnumerable())
+						foreach ( T lo_WorkItem in this.Queue.GetConsumingEnumerable() )
 							{ }
 					}
 

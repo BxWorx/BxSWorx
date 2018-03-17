@@ -15,13 +15,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					{
 						this.RfcDestination		= rfcDestination	?? throw new ArgumentException("IRfcDestination is null");
 						//.............................................
+						this._LazyMode				= LazyThreadSafetyMode.ExecutionAndPublication;
+
 						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>
-																			(	() =>		new	RfcFncManager( this.RfcDestination )
-																							, LazyThreadSafetyMode.ExecutionAndPublication );
+																			(	() =>		new	RfcFncManager( this.RfcDestination ) , this._LazyMode );
 
 						this._SAPRfcFncConst	= new Lazy<SAPRfcFncConstants>
-																			(	()=>		new SAPRfcFncConstants()
-																							, LazyThreadSafetyMode.ExecutionAndPublication );
+																			(	()=>		new SAPRfcFncConstants() , this._LazyMode );
 					}
 
 			#endregion
@@ -29,6 +29,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
+				private readonly LazyThreadSafetyMode				_LazyMode				;
 				private readonly Lazy<IRfcFncManager>				_RfcFncMngr			;
 				private readonly Lazy<SAPRfcFncConstants>		_SAPRfcFncConst	;
 
@@ -57,7 +58,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 								this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
 							}
 						//.............................................
-						return	this._RfcFncMngr.Value.GetProfile<BDCCall_Profile>( this._SAPRfcFncConst.Value.BDCCallTran );
+						return	this._RfcFncMngr.Value.GetProfile< BDCCall_Profile >( this._SAPRfcFncConst.Value.BDCCallTran );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

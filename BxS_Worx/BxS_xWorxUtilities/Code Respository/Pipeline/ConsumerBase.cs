@@ -2,17 +2,17 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxUtils.Pipeline
 {
-	internal abstract class ConsumerBase<T,P> : IConsumer<T>	where T:class
-																														where	P:class
+	internal abstract class ConsumerBase< T , P >	: IConsumer< T >	where T:class
+																																where	P:class
 		{
 			#region "Constructors"
 
-				internal ConsumerBase( ConsumerOpEnv<T,P>	OpEnv )
+				internal ConsumerBase( ConsumerOpEnv< T , P >	OpEnv )
 					{
 						this._OpEnv	= OpEnv;
 						//.................................................
-						this.Successful	= new	ConcurrentQueue<T>();
-						this.Faulty			= new	ConcurrentQueue<T>();
+						this.Successful	= new	ConcurrentQueue< T >();
+						this.Faulty			= new	ConcurrentQueue< T >();
 					}
 
 			#endregion
@@ -20,7 +20,7 @@ namespace BxS_WorxUtils.Pipeline
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	readonly	ConsumerOpEnv<T,P>	_OpEnv;
+				protected	readonly	ConsumerOpEnv< T , P >	_OpEnv;
 
 			#endregion
 
@@ -43,37 +43,37 @@ namespace BxS_WorxUtils.Pipeline
 						int	ln_Cnt	= 0;
 						int ln_Int	= 0;
 						//.............................................
-						foreach (T lo_WorkItem in this._OpEnv.Queue.GetConsumingEnumerable( this._OpEnv.CT) )
+						foreach ( T lo_WorkItem in this._OpEnv.Queue.GetConsumingEnumerable( this._OpEnv.CT ) )
 							{
-								if (this.Execute(lo_WorkItem))
+								if ( this.Execute( lo_WorkItem ) )
 									{
-										this.Successful.Enqueue(lo_WorkItem);
+										this.Successful.Enqueue( lo_WorkItem );
 									}
 								else
 									{
-										this.Faulty.Enqueue(lo_WorkItem);
+										this.Faulty.Enqueue( lo_WorkItem );
 									}
 								//.........................................
 								ln_Cnt	++;
 								ln_Int	++;
 
-								if (ln_Int.Equals(this._OpEnv.ProgressInterval))
+								if ( ln_Int.Equals( this._OpEnv.ProgressInterval ) )
 									{
 										ln_Int	= 0;
 										P	lo_PI	= this._OpEnv.CreateProgInfo();
-										this._OpEnv.ProgressHndlr.Report(lo_PI);
+										this._OpEnv.ProgressHndlr.Report( lo_PI );
 									}
 							}
 							//...........................................
-							if (!ln_Int.Equals(0))
+							if ( ! ln_Int.Equals(0) )
 								{
 									P	lo_PI	= this._OpEnv.CreateProgInfo();
-									this._OpEnv.ProgressHndlr.Report(lo_PI);
+									this._OpEnv.ProgressHndlr.Report( lo_PI );
 								}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public virtual bool Execute(T workItem)
+				public virtual bool Execute( T workItem )
 					{
 						return	false;
 					}

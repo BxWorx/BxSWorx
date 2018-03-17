@@ -17,7 +17,7 @@ namespace BxS_WorxIPX.API.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	DTO_BDC_Header	SessionHeader		{ get; }
+				public	DTO_BDC_Header															SessionHeader		{ get; }
 				public	ConcurrentDictionary< int, DTO_BDC_Trans >	Transactions	{ get; }
 
 			#endregion
