@@ -1,23 +1,34 @@
-﻿using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_WorxNCO.Destination.API;
+﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Config
 {
-	internal class ConfigSetupGlobal : ConfigSetupBase , IConfigSetupGlobal
+	internal abstract class ConfigSetupBase : IConfigSetupBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ConfigSetupGlobal()
-					{	}
+				internal ConfigSetupBase()
+					{
+						this.Settings		= new Dictionary< string , string >();
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	SNCLibPath	{ set { this.Settings[ SMC.RfcConfigParameters.SncLibraryPath ]	= value; } }
+				public	Dictionary< string , string > Settings { get; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Reset()
+					{
+						this.Settings.Clear();
+					}
 
 			#endregion
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security;
+﻿using System.Security;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -7,23 +6,19 @@ using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Config
 {
-	internal class ConfigSetupDestination : IConfigSetupDestination
+	internal class ConfigSetupDestination : ConfigSetupBase , IConfigSetupDestination
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ConfigSetupDestination()
-					{
-						this.Settings		= new Dictionary<string, string>();
-					}
+					{	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	Dictionary<string, string>	Settings	{ get;	}
-				//.................................................
 				public	SecureString	SecurePassword	{ get; set;	}
 				//.................................................
 				public	int IdleTimeout			{ set { this.Settings[SMC.RfcConfigParameters.ConnectionIdleTimeout]						= value.ToString(); } }
@@ -43,12 +38,6 @@ namespace BxS_WorxNCO.Destination.Config
 
 			//===========================================================================================
 			#region "Properties"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Reset()
-					{
-						this.Settings.Clear();
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void SetSAPGUIasHidden()

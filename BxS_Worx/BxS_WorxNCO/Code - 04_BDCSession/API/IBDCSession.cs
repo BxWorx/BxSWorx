@@ -1,16 +1,17 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 //.........................................................
-using BxS_WorxNCO.Destination.API;
+using BxS_WorxIPX.API.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Destination.Main.Destination
+namespace BxS_WorxNCO.BDCSession.API
 {
-	internal class SAPSystemReference : ISAPSystemReference
+	public interface IBDCSession
 		{
-			#region "Properties"
+			#region "Methods: Exposed"
 
-				public Guid		ID			{ get; set; }
-				public string	SAPName	{ get; set; }
-				public bool		IsSSO		{ get; set; }
+				void				ConfigureOperation		( DTO_BDC_SessionConfig	dto );
+				Task<bool>	Process_SessionAsync	( DTO_BDC_Session				dto );
+
+				void CancelProcessing();
 
 			#endregion
 

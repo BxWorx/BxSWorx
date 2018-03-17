@@ -13,7 +13,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal RfcFncController( IRfcDestination rfcDestination )
 					{
-						this.RfcDestination		= rfcDestination;
+						this.RfcDestination		= rfcDestination	?? throw new ArgumentException("IRfcDestination is null");
 						//.............................................
 						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>
 																			(	() =>		new	RfcFncManager( this.RfcDestination )

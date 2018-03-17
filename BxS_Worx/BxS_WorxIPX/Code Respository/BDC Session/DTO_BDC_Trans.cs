@@ -1,23 +1,33 @@
-﻿using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_WorxNCO.Destination.API;
+﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Destination.Config
+namespace BxS_WorxIPX.API.BDC
 {
-	internal class ConfigSetupGlobal : ConfigSetupBase , IConfigSetupGlobal
+	public class DTO_BDC_Trans
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ConfigSetupGlobal()
-					{	}
+				public DTO_BDC_Trans()
+					{
+						this.BDCData	= new List<	DTO_BDC_Data >();
+						this.SPAData	= new List<	DTO_BDC_SPA >	();
+						this.MSGData	= new List<	DTO_BDC_Msg >	();
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	SNCLibPath	{ set { this.Settings[ SMC.RfcConfigParameters.SncLibraryPath ]	= value; } }
+				public	Guid	ID	{ get; }
+				//.................................................
+				public	bool	Processed		{ get; set;	}
+				public	bool	Successful	{ get; set;	}
+				//.................................................
+				public	IList< DTO_BDC_Data >	BDCData	{ get; }
+				public	IList< DTO_BDC_SPA	>	SPAData	{ get; }
+				public	IList< DTO_BDC_Msg	>	MSGData	{ get; }
 
 			#endregion
 

@@ -11,8 +11,16 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\IBDCSessionResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\IBDCSessionRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\NCO Side\BDC_Session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\NCO Side\BDC_SessionTransaction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\NCO Side\DTO_SessionHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\NCO Side\DTO_SessionTranData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\NCO Side\DTO_SessionTranMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\NCO Side\DTO_SessionTranSPA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\NCO Side\IBDC_NCOSessionRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Code Repository\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Interfaces\BDC Session\Source Side\" />
   </ItemGroup>
 </Project>

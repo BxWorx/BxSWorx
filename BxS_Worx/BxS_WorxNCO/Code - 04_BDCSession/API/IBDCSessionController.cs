@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Destination.Main.Destination
+namespace BxS_WorxNCO.BDCSession.API
 {
-	internal class SAPSystemReference : ISAPSystemReference
+	public interface IBDCSessionController
 		{
-			#region "Properties"
+			#region "Methods: Exposed"
 
-				public Guid		ID			{ get; set; }
-				public string	SAPName	{ get; set; }
-				public bool		IsSSO		{ get; set; }
+				IList< ISAPSystemReference >	GetSAPSystems();
+
+				IBDCSession	CreateBDCSession( Guid destinationID );
 
 			#endregion
 

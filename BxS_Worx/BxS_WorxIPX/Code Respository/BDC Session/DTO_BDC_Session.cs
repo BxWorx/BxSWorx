@@ -1,23 +1,24 @@
-﻿using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_WorxNCO.Destination.API;
+﻿using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Destination.Config
+namespace BxS_WorxIPX.API.BDC
 {
-	internal class ConfigSetupGlobal : ConfigSetupBase , IConfigSetupGlobal
+	public class DTO_BDC_Session
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ConfigSetupGlobal()
-					{	}
+				public DTO_BDC_Session()
+					{
+						this.Transactions		= new	ConcurrentDictionary< int, DTO_BDC_Trans >()	;
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	SNCLibPath	{ set { this.Settings[ SMC.RfcConfigParameters.SncLibraryPath ]	= value; } }
+				public	DTO_BDC_Header	SessionHeader		{ get; }
+				public	ConcurrentDictionary< int, DTO_BDC_Trans >	Transactions	{ get; }
 
 			#endregion
 

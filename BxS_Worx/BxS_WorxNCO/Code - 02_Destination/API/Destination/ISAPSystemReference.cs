@@ -8,6 +8,7 @@ namespace BxS_WorxNCO.Destination.API
 
 				Guid		ID			{ get; set; }
 				string	SAPName	{ get; set; }
+				bool		IsSSO		{ get; set; }
 
 			#endregion
 

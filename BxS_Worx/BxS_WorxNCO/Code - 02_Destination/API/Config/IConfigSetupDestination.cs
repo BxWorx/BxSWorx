@@ -8,7 +8,6 @@ namespace BxS_WorxNCO.Destination.API
 		{
 			#region "Properties"
 
-				int	Client					{ set; }
 				int	IdleTimeout			{ set; }
 				int	IdleCheckTime		{ set; }
 				int	MaxPoolWaitTime	{ set; }
@@ -17,6 +16,7 @@ namespace BxS_WorxNCO.Destination.API
 				int	PoolSize				{ set; }
 				int	RepoIdleTimeout	{ set; }
 
+				int			Client		{ set; }
 				string	Language	{ set; }
 				string	User			{ set; }
 				string	Password	{ set; }
