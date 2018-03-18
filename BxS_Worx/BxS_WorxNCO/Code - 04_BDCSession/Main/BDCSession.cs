@@ -15,14 +15,14 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSession( IRfcFncController fncCntlr )
+				internal BDCSession(	IRfcFncController			fncCntlr
+														,	DTO_BDC_SessionConfig	config		)
 					{
 						this._Cntlr_Fnc	= fncCntlr;
+						this._Config		= config	;
 						//.............................................
-						this._IsReady		= false;
-
-						this._Queue	= new	BlockingCollection< DTO_BDC_Trans >();
-						this._Tasks	= new List< Task<int> >();
+						this._Queue		= new	BlockingCollection< DTO_BDC_Trans >();
+						this._Tasks		= new List< Task<int> >();
 					}
 
 			#endregion
@@ -32,16 +32,21 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				private	readonly	Guid	_DestID;
 				//.................................................
-				private readonly	IRfcFncController				_Cntlr_Fnc;
-				private 	DTO_BDC_SessionConfig		_Config;
+				private readonly	IRfcFncController											_Cntlr_Fnc;
+				private readonly	IList< Task<int> >										_Tasks;
+				private readonly	BlockingCollection< DTO_BDC_Trans >		_Queue;
 				//.................................................
-				private bool							_IsReady;
+				private	DTO_BDC_SessionConfig			_Config;
+				private CancellationTokenSource		_CTS;
 
+			#endregion
 
-				internal	CancellationTokenSource								_CTS;
-				internal	BlockingCollection< DTO_BDC_Trans >		_Queue;
+			//===========================================================================================
+			#region "Properties"
 
-				private readonly IList< Task<int>	>	_Tasks;
+				internal ConcurrentQueue< Task< int > >	TasksCompleted	{ get; }
+				internal ConcurrentQueue< Task< int >	>	TasksFaulty			{ get; }
+				internal ConcurrentQueue< Task< int >	>	TasksOther			{ get; }
 
 			#endregion
 
@@ -58,25 +63,39 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Process supplied BDC session
+				// Returns no of tasks that ran
 				//
 				public async Task< int > Process_SessionAsync( DTO_BDC_Session dto )
 					{
+						int	ln_Ret	= 0;
 						this._CTS		=	new CancellationTokenSource();
 
-						for (int i = 0; i < length; i++)
+						for ( int i = 0; i < this._Config.ConsumersNo; i++ )
 							{
-
+								if ( this._CTS.IsCancellationRequested )	break;
+								this._Tasks.Add(	Task<int>.Run(	()=> this.Consumer()	)	);
 							}
-
-						
-
-
-						this.LoadConsumers();
+						//.............................................
+						if ( this._CTS.IsCancellationRequested )	return	0;
 						this.LoadQueue( dto );
+						//.............................................
+						Task< int > lo_Task;
 
+						while ( ! this._Tasks.Count.Equals(0) )
+							{
+								if ( this._CTS.IsCancellationRequested )	break;
 
+								lo_Task		= await Task.WhenAny( this._Tasks ).ConfigureAwait( false );
+
+								if ( this._Tasks.Remove( lo_Task ) )	ln_Ret++;
+
+											if (lo_Task.Status.Equals(TaskStatus.RanToCompletion)	)		{	this.TasksCompleted	.Enqueue(lo_Task);	}
+								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this.TasksFaulty		.Enqueue(lo_Task);	}
+								else  																													{ this.TasksOther			.Enqueue(lo_Task);	}
+							}
+						//.............................................
 						this._CTS		=	null;
-						return	await Task.Run( ()=> 1 ).ConfigureAwait(false);
+						return	ln_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -96,24 +115,20 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadConsumers()
-					{
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Consumer()
+				private int Consumer()
 					{
 						BDCCall_Function	lo_Func		= this._Cntlr_Fnc.CreateBDCCallFunction();
 						BDCCall_Header		lo_Head		= lo_Func.CreateBDCCallHeader();
 						BDCCall_Lines			lo_Line		= lo_Func.CreateBDCCallLines();
-
+						int								ln_Cnt		= 0;
+						//.............................................
 						foreach ( DTO_BDC_Trans lo_WorkItem in this._Queue.GetConsumingEnumerable( this._CTS.Token ) )
 							{
 								lo_Line.Reset();
 								//.........................................
 								lo_Line.BDCData.Append( lo_WorkItem.BDCData.Count );
 
-								for (int i = 0; i < lo_WorkItem.BDCData.Count; i++)
+								for ( int i = 0; i < lo_WorkItem.BDCData.Count; i++ )
 									{
 										lo_Line.BDCData.CurrentIndex	= i;
 
@@ -126,7 +141,7 @@ namespace BxS_WorxNCO.BDCSession.API
 								//.........................................
 								lo_Line.SPAData.Append( lo_WorkItem.SPAData.Count );
 
-								for (int i = 0; i < lo_WorkItem.SPAData.Count; i++)
+								for ( int i = 0; i < lo_WorkItem.SPAData.Count; i++ )
 									{
 										lo_Line.SPAData.CurrentIndex	= i;
 
@@ -135,27 +150,20 @@ namespace BxS_WorxNCO.BDCSession.API
 									}
 								//.........................................
 								lo_Func.Process( lo_Line );
-								//.........................................
+								ln_Cnt ++;
 							}
+						//.........................................
+						return	ln_Cnt;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadQueue( DTO_BDC_Session dto )
 					{
-						foreach (KeyValuePair<int, DTO_BDC_Trans> item in dto.Transactions)
+						foreach ( KeyValuePair< int , DTO_BDC_Trans > ls_kvp in dto.Transactions )
 							{
-								this._Queue.Add( item.Value );
+								this._Queue.Add( ls_kvp.Value );
 							}
 						this._Queue.CompleteAdding();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool SetupDestination()
-					{
-						if ( this._IsReady )	return	this._IsReady;
-						//.............................................
-						//.............................................
-						return	this._IsReady;
 					}
 
 			#endregion

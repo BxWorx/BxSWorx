@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Main;
 using BxS_WorxNCO.RfcFunction.Main;
+using BxS_WorxIPX.API.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
 {
@@ -50,10 +51,18 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				public	IBDCSession	CreateBDCSession( Guid destinationID )
 					{
-						IRfcDestination		lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
-						IRfcFncController lo_F	= new RfcFncController( lo_D );
+						IRfcDestination				lo_D			= this._Cntlr_Dst.Value.GetDestination( destinationID );
+						IRfcFncController			lo_F			= new RfcFncController( lo_D );
+
+						DTO_BDC_SessionConfig	lo_Config	= new DTO_BDC_SessionConfig {		IsSequential			= true
+																																					, ConsumersMax			= 1
+																																					,	ConsumersNo				= 1
+																																					,	PauseTime					= 0
+																																					, ConsumerThreshold	= 0
+																																					, ProgressInterval	= 10
+																																					, QueueAddTimeout		= 0		};
 						//.............................................
-						return	new BDCSession( lo_F );
+						return	new BDCSession( lo_F , lo_Config );
 					}
 
 			#endregion

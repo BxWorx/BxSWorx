@@ -5,12 +5,15 @@ namespace BxS_WorxIPX.API.BDC
 		{
 			#region "Properties"
 
-				public	int	NoOfConsumers			{	get; set; }
-				public	int	PauseTime					{	get; set; }
-				public	int ProgressInterval	{	get; set; }
-				public	int	QueueAddTimeout		{	get; set; }
+				public	bool	IsSequential		{	get; set; }
 				//.................................................
-				public	bool	Sequential	{	get; set; }
+				public	int		ConsumersNo				{	get; set; }
+				public	int		ConsumersMax			{	get; set; }
+				public  int		ConsumerThreshold	{	get; set; }
+				//.................................................
+				public	int		PauseTime					{	get; set; }
+				public	int		ProgressInterval	{	get; set; }
+				public	int		QueueAddTimeout		{	get; set; }
 
 			#endregion
 
