@@ -54,7 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test Resources\UT_000_NCO.cs" />
-    <Compile Include="Test Units\UT_300_BDCall.cs" />
+    <Compile Include="Test Units\UT_400_BDCSession.cs" />
+    <Compile Include="Test Units\UT_300_BDCCall.cs" />
     <Compile Include="Test Units\UT_200_RfcFnc.cs" />
     <Compile Include="Test Units\UT_100_Dest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

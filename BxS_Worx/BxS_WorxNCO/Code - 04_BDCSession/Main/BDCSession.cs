@@ -30,8 +30,6 @@ namespace BxS_WorxNCO.BDCSession.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Guid	_DestID;
-				//.................................................
 				private readonly	IRfcFncController											_Cntlr_Fnc;
 				private readonly	IList< Task<int> >										_Tasks;
 				private readonly	BlockingCollection< DTO_BDC_Trans >		_Queue;
@@ -69,14 +67,18 @@ namespace BxS_WorxNCO.BDCSession.API
 					{
 						int	ln_Ret	= 0;
 						this._CTS		=	new CancellationTokenSource();
-
+						//.............................................
 						for ( int i = 0; i < this._Config.ConsumersNo; i++ )
 							{
 								if ( this._CTS.IsCancellationRequested )	break;
 								this._Tasks.Add(	Task<int>.Run(	()=> this.Consumer()	)	);
 							}
 						//.............................................
-						if ( this._CTS.IsCancellationRequested )	return	0;
+						if ( this._CTS.IsCancellationRequested )
+							{
+								this._CTS	= null;
+								return	0;
+							}
 						this.LoadQueue( dto );
 						//.............................................
 						Task< int > lo_Task;
@@ -89,9 +91,9 @@ namespace BxS_WorxNCO.BDCSession.API
 
 								if ( this._Tasks.Remove( lo_Task ) )	ln_Ret++;
 
-											if (lo_Task.Status.Equals(TaskStatus.RanToCompletion)	)		{	this.TasksCompleted	.Enqueue(lo_Task);	}
-								else	if (lo_Task.Status.Equals(TaskStatus.Faulted				)	)		{	this.TasksFaulty		.Enqueue(lo_Task);	}
-								else  																													{ this.TasksOther			.Enqueue(lo_Task);	}
+											if ( lo_Task.Status.Equals(TaskStatus.RanToCompletion )	)		{	this.TasksCompleted	.Enqueue(lo_Task);	}
+								else	if ( lo_Task.Status.Equals(TaskStatus.Faulted					)	)		{	this.TasksFaulty		.Enqueue(lo_Task);	}
+								else  																														{ this.TasksOther			.Enqueue(lo_Task);	}
 							}
 						//.............................................
 						this._CTS		=	null;
@@ -103,10 +105,7 @@ namespace BxS_WorxNCO.BDCSession.API
 				//
 				public void CancelProcessing()
 					{
-						if ( this._CTS != null )
-							{
-								this._CTS.Cancel();
-							}
+						this._CTS?.Cancel();
 					}
 
 			#endregion

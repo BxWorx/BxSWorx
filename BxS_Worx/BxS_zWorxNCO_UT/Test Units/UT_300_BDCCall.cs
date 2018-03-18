@@ -11,13 +11,13 @@ using BxS_WorxNCO.Destination.API;
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
 	[TestClass]
-	public class UT_300_BDCall
+	public class UT_300_BDCCall
 		{
 			private	const			string			cz_FNme	= "/ISDFPS/CALL_TRANSACTION";
 			private readonly	UT_000_NCO	co_NCO;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public UT_300_BDCall()
+			public UT_300_BDCCall()
 				{
 					this.co_NCO	= new	UT_000_NCO();
 					//...............................................
