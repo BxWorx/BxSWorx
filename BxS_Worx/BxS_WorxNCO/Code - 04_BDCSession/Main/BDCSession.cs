@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 //.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
 using BxS_WorxIPX.API.BDC;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.RfcFunction.BDCTran;
@@ -18,11 +20,11 @@ namespace BxS_WorxNCO.BDCSession.API
 				internal BDCSession(	IRfcFncController			fncCntlr
 														,	DTO_BDC_SessionConfig	config		)
 					{
-						this._Cntlr_Fnc		= fncCntlr;
-						this._OpConfig		= config	;
+						this._FncCntlr	= fncCntlr	;
+						this._OpConfig	= config		;
 						//.............................................
-						this._Queue		= new	BlockingCollection< DTO_BDC_Trans >();
-						this._Tasks		= new List< Task<int> >();
+						this._Queue			= new	BlockingCollection< DTO_BDC_Trans >();
+						this._Consumers	= new List< Task<int> >();
 						//.............................................
 						this.TasksCompleted	= new ConcurrentQueue< Task< int > >();
 						this.TasksFaulty		= new ConcurrentQueue< Task< int > >();
@@ -34,13 +36,17 @@ namespace BxS_WorxNCO.BDCSession.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IRfcFncController											_Cntlr_Fnc;
-				private readonly	IList< Task<int> >										_Tasks;
+				private readonly	IRfcFncController				_FncCntlr;
+				private	readonly	DTO_BDC_SessionConfig		_OpConfig;
+				//.................................................
+				private readonly	IList< Task<int> >										_Consumers;
 				private readonly	BlockingCollection< DTO_BDC_Trans >		_Queue;
 				//.................................................
 				private	IConfigSetupDestination		_DestConfig;
-				private	DTO_BDC_SessionConfig			_OpConfig;
 				private CancellationTokenSource		_CTS;
+				//.................................................
+				private	BDCCall_Profile	_Profile;
+				private	BDCCall_Header	_Header	;
 
 			#endregion
 
@@ -69,53 +75,46 @@ namespace BxS_WorxNCO.BDCSession.API
 				//
 				public void ConfigureOperation( DTO_BDC_SessionConfig dto )
 					{
-						this._OpConfig	= dto;
+						this._OpConfig.IsSequential				= dto.IsSequential			;
+						//.................................................
+						this._OpConfig.ConsumersNo				= dto.ConsumersNo				;
+						this._OpConfig.ConsumersMax				= dto.ConsumersMax			;
+						this._OpConfig.ConsumerThreshold	= dto.ConsumerThreshold	;
+						//.................................................
+						this._OpConfig.PauseTime					= dto.PauseTime					;
+						this._OpConfig.ProgressInterval		= dto.ProgressInterval	;
+						this._OpConfig.QueueAddTimeout		= dto.QueueAddTimeout		;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Process supplied BDC session
 				// Returns no of Transactions processesed
 				//
-				public async Task< int > Process_SessionAsync( DTO_BDC_Session dto )
+				public async Task<int> Process_SessionAsync( DTO_BDC_Session dto )
 					{
-						int	ln_Tsk	= 0;
 						int	ln_Ret	= 0;
+
+						int	ln_Tsk	= 0;
 						this._CTS		=	new CancellationTokenSource();
 						this.SetupDestination();
+
+
+
+
+
+						this.BDCConsumer_LoadHDR( dto.Header );
+						this.BDCConsumer_LoadCTU( dto.Header.CTUParms	);
 						//.............................................
-						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
+						this.CreateConsumerPool();
+
+						if ( ! this._CTS.IsCancellationRequested )
 							{
-								if ( this._CTS.IsCancellationRequested )	break;
-								this._Tasks.Add( Task<int>.Run(	()=> this.Consumer( dto.SessionHeader ) ) );
+								this.LoadQueue( dto.Trans );
+								ln_Ret	=	await ProcessConsumerResultsAsync().ConfigureAwait(false);
 							}
 						//.............................................
-						if ( this._CTS.IsCancellationRequested )
-							{
-								this._CTS	= null;
-								return	0;
-							}
+						this._CTS	=	null;
 
-						this.LoadQueue( dto );
-						//.............................................
-						Task< int > lo_Task;
-
-						while ( ! this._Tasks.Count.Equals(0) )
-							{
-								if ( this._CTS.IsCancellationRequested )	break;
-
-								lo_Task		= await Task.WhenAny( this._Tasks ).ConfigureAwait( false );
-
-								if ( this._Tasks.Remove( lo_Task ) )	ln_Tsk ++;
-
-											if ( lo_Task.Status.Equals(TaskStatus.RanToCompletion )	)		{	this.TasksCompleted	.Enqueue(lo_Task); }
-								else	if ( lo_Task.Status.Equals(TaskStatus.Faulted					)	)		{	this.TasksFaulty		.Enqueue(lo_Task); }
-								else  																														{ this.TasksOther			.Enqueue(lo_Task); }
-
-								ln_Ret	+= lo_Task.Result;
-							}
-
-						this._CTS		=	null;
-						//.............................................
 						return	ln_Ret;
 					}
 
@@ -135,63 +134,75 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupDestination()
 					{
-						this._Cntlr_Fnc.RfcDestination.LoadConfig	( this._DestConfig );
-						this._Cntlr_Fnc.RegisterBDCCallProfile		( true );
+						this._FncCntlr.RfcDestination.LoadConfig	( this._DestConfig );
+						this._FncCntlr.RegisterBDCCallProfile		( true );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private int Consumer( DTO_BDC_Header dtoHead  )
+				private async Task<int> ProcessConsumerResultsAsync()
 					{
-						int								ln_Cnt		= 0;
-						BDCCall_Function	lo_Func		= this._Cntlr_Fnc.CreateBDCCallFunction();
-						BDCCall_Header		lo_Head		= lo_Func.CreateBDCCallHeader( true );
-						BDCCall_Lines			lo_Line		= lo_Func.CreateBDCCallLines();
+						int	ln_Ret	= 0;
+						Task< int > lo_Task;
 						//.............................................
-						BDCCall_Profile lo_Prof = lo_Func.MyProfile.Value;
+						while ( ! this._Consumers.Count.Equals(0) )
+							{
+								if ( this._CTS.IsCancellationRequested )	break;
 
-						lo_Head.SAPTCode	= dtoHead.SAPTCode;
-						lo_Head.Skip1st		= dtoHead.Skip1st;
+								lo_Task		= await Task.WhenAny( this._Consumers ).ConfigureAwait( false );
 
-						lo_Head.CTUParms[ lo_Prof.CTUOpt_DspMde ].SetValue( dtoHead.CTUParms.DisplayMode		);
-						lo_Head.CTUParms[ lo_Prof.CTUOpt_UpdMde ].SetValue( dtoHead.CTUParms.UpdateMode			);
-						lo_Head.CTUParms[ lo_Prof.CTUOpt_CATMde ].SetValue( dtoHead.CTUParms.CATTMode				);
-						lo_Head.CTUParms[ lo_Prof.CTUOpt_DefSze ].SetValue( dtoHead.CTUParms.DefaultSize		);
-						lo_Head.CTUParms[ lo_Prof.CTUOpt_NoComm ].SetValue( dtoHead.CTUParms.NoCommit				);
-						lo_Head.CTUParms[ lo_Prof.CTUOpt_NoBtcI ].SetValue( dtoHead.CTUParms.NoBatchInpFor	);
-						lo_Head.CTUParms[ lo_Prof.CTUOpt_NoBtcE ].SetValue( dtoHead.CTUParms.NoBatchInpAft	);
+								if ( ! this._Consumers.Remove( lo_Task ) )
+									{
 
-						lo_Func.Config( lo_Head );
+									}
+
+											if ( lo_Task.Status.Equals(TaskStatus.RanToCompletion )	)		{	this.TasksCompleted	.Enqueue(lo_Task); }
+								else	if ( lo_Task.Status.Equals(TaskStatus.Faulted					)	)		{	this.TasksFaulty		.Enqueue(lo_Task); }
+								else  																														{ this.TasksOther			.Enqueue(lo_Task); }
+
+								ln_Ret	+= lo_Task.Result;
+							}
+						return	ln_Ret;
+					}
+
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void CreateConsumerPool()
+					{
+						this._Consumers.Clear();
 						//.............................................
+						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
+							{
+								if ( this._CTS.IsCancellationRequested )
+									{ break; }
+								else
+									{
+										this._Consumers.Add( Task<int>.Run(	()=> this.Consumer() ) );
+									}
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private int Consumer()
+					{
+						int	ln_Cnt	= 0;
+
+						BDCCall_Function	lo_Func			= this._FncCntlr.CreateBDCCallFunction();
+						BDCCall_Lines			lo_BDCData	=	this._Profile.CreateBDCCallLines();
+						//.............................................
+						lo_Func.Config( this._Header );
+
 						foreach ( DTO_BDC_Trans lo_WorkItem in this._Queue.GetConsumingEnumerable( this._CTS.Token ) )
 							{
-								lo_Line.Reset();
+								lo_BDCData.Reset();
 								//.........................................
-								lo_Line.BDCData.Append( lo_WorkItem.BDCData.Count );
-
-								for ( int i = 0; i < lo_WorkItem.BDCData.Count; i++ )
-									{
-										lo_Line.BDCData.CurrentIndex	= i;
-
-										lo_Line.BDCData.SetValue( lo_Func.MyProfile.Value.BDCDat_Prg , lo_WorkItem.BDCData[i].ProgramName );
-										lo_Line.BDCData.SetValue( lo_Func.MyProfile.Value.BDCDat_Dyn , lo_WorkItem.BDCData[i].Dynpro			);
-										lo_Line.BDCData.SetValue( lo_Func.MyProfile.Value.BDCDat_Bgn , lo_WorkItem.BDCData[i].Begin				);
-										lo_Line.BDCData.SetValue( lo_Func.MyProfile.Value.BDCDat_Fld , lo_WorkItem.BDCData[i].FieldName		);
-										lo_Line.BDCData.SetValue( lo_Func.MyProfile.Value.BDCDat_Val , lo_WorkItem.BDCData[i].FieldValue	);
-									}
-								//.........................................
-								lo_Line.SPAData.Append( lo_WorkItem.SPAData.Count );
-
-								for ( int i = 0; i < lo_WorkItem.SPAData.Count; i++ )
-									{
-										lo_Line.SPAData.CurrentIndex	= i;
-
-										lo_Line.SPAData.SetValue( lo_Func.MyProfile.Value.SPADat_MID , lo_WorkItem.SPAData[i].MemoryID		);
-										lo_Line.SPAData.SetValue( lo_Func.MyProfile.Value.SPADat_Val , lo_WorkItem.SPAData[i].MemoryValue	);
-									}
+								this.BDCConsumer_LoadBDC( lo_BDCData.BDCData , lo_WorkItem.BDCData );
+								this.BDCConsumer_LoadSPA( lo_BDCData.SPAData	,	lo_WorkItem.SPAData );
 								//.........................................
 								try
 									{
-										lo_Func.Process( lo_Line );
+										lo_Func.Process( lo_BDCData );
 									}
 								catch (System.Exception)
 									{
@@ -207,9 +218,63 @@ namespace BxS_WorxNCO.BDCSession.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadQueue( DTO_BDC_Session dto )
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void BDCConsumer_LoadHDR( DTO_BDC_Header dtoHead )
 					{
-						foreach ( DTO_BDC_Trans lo_Tran in dto.Transactions )
+						this._Header.SAPTCode	= dtoHead.SAPTCode	;
+						this._Header.Skip1st	= dtoHead.Skip1st		;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void BDCConsumer_LoadCTU( DTO_BDC_CTU ctuParms )
+					{
+						this._Header.CTUParms[ this._Profile.CTUOpt_DspMde ].SetValue( ctuParms.DisplayMode		);
+						this._Header.CTUParms[ this._Profile.CTUOpt_UpdMde ].SetValue( ctuParms.UpdateMode		);
+						this._Header.CTUParms[ this._Profile.CTUOpt_CATMde ].SetValue( ctuParms.CATTMode			);
+						this._Header.CTUParms[ this._Profile.CTUOpt_DefSze ].SetValue( ctuParms.DefaultSize		);
+						this._Header.CTUParms[ this._Profile.CTUOpt_NoComm ].SetValue( ctuParms.NoCommit			);
+						this._Header.CTUParms[ this._Profile.CTUOpt_NoBtcI ].SetValue( ctuParms.NoBatchInpFor	);
+						this._Header.CTUParms[ this._Profile.CTUOpt_NoBtcE ].SetValue( ctuParms.NoBatchInpAft	);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void BDCConsumer_LoadSPA(	SMC.IRfcTable SPATable , IList< DTO_BDC_SPA > SPASrce )
+					{
+						SPATable.Append( SPASrce.Count );
+
+						for ( int i = 0; i < SPASrce.Count; i++ )
+							{
+								SPATable.CurrentIndex	= i;
+								//.........................................
+								SPATable.SetValue( this._Profile.SPADat_MID , SPASrce[i].MemoryID		);
+								SPATable.SetValue( this._Profile.SPADat_Val , SPASrce[i].MemoryValue	);
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void BDCConsumer_LoadBDC(	SMC.IRfcTable BDCTable , IList< DTO_BDC_Data > BDCSrce )
+					{
+						BDCTable.Append( BDCSrce.Count );
+
+						for ( int i = 0; i < BDCSrce.Count; i++ )
+							{
+								BDCTable.CurrentIndex	= i;
+								//.........................................
+								BDCTable.SetValue( this._Profile.BDCDat_Prg , BDCSrce[i].ProgramName	);
+								BDCTable.SetValue( this._Profile.BDCDat_Dyn , BDCSrce[i].Dynpro				);
+								BDCTable.SetValue( this._Profile.BDCDat_Bgn , BDCSrce[i].Begin				);
+								BDCTable.SetValue( this._Profile.BDCDat_Fld , BDCSrce[i].FieldName		);
+								BDCTable.SetValue( this._Profile.BDCDat_Val , BDCSrce[i].FieldValue		);
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadQueue( ConcurrentQueue<DTO_BDC_Trans> queue )
+					{
+						foreach ( DTO_BDC_Trans lo_Tran in queue )
 							{
 								this._Queue.Add( lo_Tran );
 							}

@@ -70,7 +70,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					int ln_ConCnt = await lo_BDCSess.Process_SessionAsync( lo_SessDTO ).ConfigureAwait(false);
 
-					while (!ln_ConCnt.Equals(lo_SessDTO.Transactions.Count))
+					while (!ln_ConCnt.Equals(lo_SessDTO.Trans.Count))
 						{
 							Thread.Sleep(10);
 						}
@@ -108,10 +108,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadBDCData( DTO_BDC_Session dto , int NoOfTrans = 1 )
 					{
-						dto.SessionHeader.SAPTCode	= "XD03";
-						dto.SessionHeader.Skip1st		= false;
+						dto.Header.SAPTCode	= "XD03";
+						dto.Header.Skip1st		= false;
 
-						DTO_BDC_CTU lo_CTU = dto.SessionHeader.CTUParms;
+						DTO_BDC_CTU lo_CTU = dto.Header.CTUParms;
 
 						lo_CTU.DisplayMode	= 'N';
 						lo_CTU.UpdateMode		= 'A';
@@ -134,7 +134,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 								lo_Trn.AddBDCData( "SAPMF02D" ,  110 , true , "BDC_OKCODE" , "=PF03" );
 								//.............................................
-								dto.Transactions.TryAdd( lo_Trn.TranNo , lo_Trn);
+								dto.Trans.TryAdd( lo_Trn.TranNo , lo_Trn);
 							}
 					}
 		}

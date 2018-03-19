@@ -9,9 +9,9 @@ namespace BxS_WorxIPX.API.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public DTO_BDC_Session( DTO_BDC_Header header )
 					{
-						this.SessionHeader	= header;
+						this.Header	= header;
 						//.............................................
-						this.Transactions		= new	ConcurrentQueue< DTO_BDC_Trans >();
+						this.Trans	= new	ConcurrentQueue< DTO_BDC_Trans >();
 					}
 
 			#endregion
@@ -19,8 +19,8 @@ namespace BxS_WorxIPX.API.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	DTO_BDC_Header										SessionHeader	{ get; }
-				public	ConcurrentQueue< DTO_BDC_Trans >	Transactions	{ get; }
+				public	DTO_BDC_Header										Header	{ get; }
+				public	ConcurrentQueue< DTO_BDC_Trans >	Trans		{ get; }
 
 			#endregion
 
@@ -28,7 +28,7 @@ namespace BxS_WorxIPX.API.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_Trans	CreateTransDTO	( int No = 0 )=>	new DTO_BDC_Trans( No );
+				public DTO_BDC_Trans	CreateTransDTO( int No = 0 )=>	new DTO_BDC_Trans( No );
 
 			#endregion
 
