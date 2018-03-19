@@ -19,8 +19,8 @@ namespace BxS_WorxIPX.API.BDC
 			#region "Properties"
 
 				public	string	ProgramName	{ get; set; }
-				public	int			Dynpro			{ get; set; }
-				public	bool		Begin				{ get; set; }
+				public	string	Dynpro			{ get; set; }
+				public	string	Begin				{ get; set; }
 				public	string	FieldName		{ get; set; }
 				public	string	FieldValue	{ get; set; }
 

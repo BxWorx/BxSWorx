@@ -36,7 +36,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				public	bool	UseRoundtrip	{	get;	set; }
 				//.................................................
-				public	SMC.RfcRepository				NCORepository			{ get { return this._RfcDestination.NCORepository; } }
+				public	SMC.RfcRepository	NCORepository	{ get { return this._RfcDestination.NCORepository; } }
 
 			#endregion
 

@@ -34,6 +34,17 @@ namespace BxS_WorxIPX.API.BDC
 			#endregion
 
 			//===========================================================================================
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_BDC_CTU()
+					{
+						this.Reset();
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
 
 				public	char	DisplayMode			{	get; set; }
@@ -46,5 +57,21 @@ namespace BxS_WorxIPX.API.BDC
 
 			#endregion
 
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Reset()
+					{
+						this.DisplayMode		=	IPX_Constants.lz_CTU_N	;
+						this.UpdateMode			=	IPX_Constants.lz_CTU_A	;
+						this.CATTMode				=	IPX_Constants.lz_CTU_F	;
+						this.DefaultSize		=	IPX_Constants.lz_CTU_F	;
+						this.NoCommit				=	IPX_Constants.lz_CTU_F	;
+						this.NoBatchInpFor	=	IPX_Constants.lz_CTU_F	;
+						this.NoBatchInpAft	=	IPX_Constants.lz_CTU_F	;
+					}
+
+			#endregion
 		}
 }

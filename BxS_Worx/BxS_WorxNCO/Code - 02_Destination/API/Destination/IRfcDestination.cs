@@ -35,7 +35,7 @@ namespace BxS_WorxNCO.Destination.API
 			//===========================================================================================
 			#region "Methods: Exposed: Rfc Functions"
 
-				void RegisterRfcFunctionForMetadata( string fncName , bool triggerFetch = false );
+				void RegisterRfcFunctionForMetadata( string fncName , bool loadMetaData = false );
 				bool LoadRfcFunctionProfileMetadata( IRfcFncProfile lo_Prof );
 				//.................................................
 				SMC.IRfcStructure	CreateRfcStructure( string strName );

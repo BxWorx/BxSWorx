@@ -14,6 +14,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed: BDC Call Transaction"
 
+				void							RegisterBDCCallProfile( bool loadMetaData = false );
 				BDCCall_Profile		GetAddBDCCallProfile	();
 				BDCCall_Function	CreateBDCCallFunction	();
 				//.................................................

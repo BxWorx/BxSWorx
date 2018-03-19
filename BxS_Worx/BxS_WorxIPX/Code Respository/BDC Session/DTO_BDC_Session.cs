@@ -11,7 +11,7 @@ namespace BxS_WorxIPX.API.BDC
 					{
 						this.SessionHeader	= header;
 						//.............................................
-						this.Transactions		= new	ConcurrentDictionary< int, DTO_BDC_Trans >();
+						this.Transactions		= new	ConcurrentQueue< DTO_BDC_Trans >();
 					}
 
 			#endregion
@@ -19,8 +19,8 @@ namespace BxS_WorxIPX.API.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	DTO_BDC_Header															SessionHeader	{ get; }
-				public	ConcurrentDictionary< int, DTO_BDC_Trans >	Transactions	{ get; }
+				public	DTO_BDC_Header										SessionHeader	{ get; }
+				public	ConcurrentQueue< DTO_BDC_Trans >	Transactions	{ get; }
 
 			#endregion
 

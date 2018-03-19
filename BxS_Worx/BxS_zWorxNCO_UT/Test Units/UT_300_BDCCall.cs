@@ -80,8 +80,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Lines			lo_Lines	= lo_Prof.CreateBDCCallLines()	;
 
 					lo_Head.SAPTCode		= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_NoBtcI ].SetValue( BDCCall_Constants.lz_F );
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_N );
+					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_A );
 
 					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
 					//...............................................

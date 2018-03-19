@@ -23,6 +23,10 @@ namespace BxS_WorxNCO.BDCSession.API
 						//.............................................
 						this._Queue		= new	BlockingCollection< DTO_BDC_Trans >();
 						this._Tasks		= new List< Task<int> >();
+						//.............................................
+						this.TasksCompleted	= new ConcurrentQueue< Task< int > >();
+						this.TasksFaulty		= new ConcurrentQueue< Task< int > >();
+						this.TasksOther			= new ConcurrentQueue< Task< int > >();
 					}
 
 			#endregion
@@ -70,10 +74,11 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Process supplied BDC session
-				// Returns no of tasks that ran
+				// Returns no of Transactions processesed
 				//
 				public async Task< int > Process_SessionAsync( DTO_BDC_Session dto )
 					{
+						int	ln_Tsk	= 0;
 						int	ln_Ret	= 0;
 						this._CTS		=	new CancellationTokenSource();
 						this.SetupDestination();
@@ -81,7 +86,7 @@ namespace BxS_WorxNCO.BDCSession.API
 						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
 							{
 								if ( this._CTS.IsCancellationRequested )	break;
-								this._Tasks.Add(	Task<int>.Run(	()=> this.Consumer()	)	);
+								this._Tasks.Add( Task<int>.Run(	()=> this.Consumer( dto.SessionHeader ) ) );
 							}
 						//.............................................
 						if ( this._CTS.IsCancellationRequested )
@@ -89,6 +94,7 @@ namespace BxS_WorxNCO.BDCSession.API
 								this._CTS	= null;
 								return	0;
 							}
+
 						this.LoadQueue( dto );
 						//.............................................
 						Task< int > lo_Task;
@@ -99,14 +105,17 @@ namespace BxS_WorxNCO.BDCSession.API
 
 								lo_Task		= await Task.WhenAny( this._Tasks ).ConfigureAwait( false );
 
-								if ( this._Tasks.Remove( lo_Task ) )	ln_Ret++;
+								if ( this._Tasks.Remove( lo_Task ) )	ln_Tsk ++;
 
 											if ( lo_Task.Status.Equals(TaskStatus.RanToCompletion )	)		{	this.TasksCompleted	.Enqueue(lo_Task); }
 								else	if ( lo_Task.Status.Equals(TaskStatus.Faulted					)	)		{	this.TasksFaulty		.Enqueue(lo_Task); }
 								else  																														{ this.TasksOther			.Enqueue(lo_Task); }
+
+								ln_Ret	+= lo_Task.Result;
 							}
-						//.............................................
+
 						this._CTS		=	null;
+						//.............................................
 						return	ln_Ret;
 					}
 
@@ -126,16 +135,32 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupDestination()
 					{
-						this._Cntlr_Fnc.RfcDestination.LoadConfig( this._DestConfig );
+						this._Cntlr_Fnc.RfcDestination.LoadConfig	( this._DestConfig );
+						this._Cntlr_Fnc.RegisterBDCCallProfile		( true );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private int Consumer()
+				private int Consumer( DTO_BDC_Header dtoHead  )
 					{
-						BDCCall_Function	lo_Func		= this._Cntlr_Fnc.CreateBDCCallFunction();
-						BDCCall_Header		lo_Head		= lo_Func.CreateBDCCallHeader();
-						BDCCall_Lines			lo_Line		= lo_Func.CreateBDCCallLines();
 						int								ln_Cnt		= 0;
+						BDCCall_Function	lo_Func		= this._Cntlr_Fnc.CreateBDCCallFunction();
+						BDCCall_Header		lo_Head		= lo_Func.CreateBDCCallHeader( true );
+						BDCCall_Lines			lo_Line		= lo_Func.CreateBDCCallLines();
+						//.............................................
+						BDCCall_Profile lo_Prof = lo_Func.MyProfile.Value;
+
+						lo_Head.SAPTCode	= dtoHead.SAPTCode;
+						lo_Head.Skip1st		= dtoHead.Skip1st;
+
+						lo_Head.CTUParms[ lo_Prof.CTUOpt_DspMde ].SetValue( dtoHead.CTUParms.DisplayMode		);
+						lo_Head.CTUParms[ lo_Prof.CTUOpt_UpdMde ].SetValue( dtoHead.CTUParms.UpdateMode			);
+						lo_Head.CTUParms[ lo_Prof.CTUOpt_CATMde ].SetValue( dtoHead.CTUParms.CATTMode				);
+						lo_Head.CTUParms[ lo_Prof.CTUOpt_DefSze ].SetValue( dtoHead.CTUParms.DefaultSize		);
+						lo_Head.CTUParms[ lo_Prof.CTUOpt_NoComm ].SetValue( dtoHead.CTUParms.NoCommit				);
+						lo_Head.CTUParms[ lo_Prof.CTUOpt_NoBtcI ].SetValue( dtoHead.CTUParms.NoBatchInpFor	);
+						lo_Head.CTUParms[ lo_Prof.CTUOpt_NoBtcE ].SetValue( dtoHead.CTUParms.NoBatchInpAft	);
+
+						lo_Func.Config( lo_Head );
 						//.............................................
 						foreach ( DTO_BDC_Trans lo_WorkItem in this._Queue.GetConsumingEnumerable( this._CTS.Token ) )
 							{
@@ -164,8 +189,18 @@ namespace BxS_WorxNCO.BDCSession.API
 										lo_Line.SPAData.SetValue( lo_Func.MyProfile.Value.SPADat_Val , lo_WorkItem.SPAData[i].MemoryValue	);
 									}
 								//.........................................
-								lo_Func.Process( lo_Line );
-								ln_Cnt ++;
+								try
+									{
+										lo_Func.Process( lo_Line );
+									}
+								catch (System.Exception)
+									{
+									throw;
+									}
+								finally
+									{
+										ln_Cnt ++;
+									}
 							}
 						//.........................................
 						return	ln_Cnt;
@@ -174,10 +209,11 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadQueue( DTO_BDC_Session dto )
 					{
-						foreach ( KeyValuePair< int , DTO_BDC_Trans > ls_kvp in dto.Transactions )
+						foreach ( DTO_BDC_Trans lo_Tran in dto.Transactions )
 							{
-								this._Queue.Add( ls_kvp.Value );
+								this._Queue.Add( lo_Tran );
 							}
+						//.............................................
 						this._Queue.CompleteAdding();
 					}
 

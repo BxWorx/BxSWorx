@@ -67,7 +67,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 				public SecureString SecurePassword	{ set { this._RfcConfig.SecurePassword	= value; } }
 				//.................................................
-				public bool	LogonCheck	{ set { this._RfcConfig	[	SMC.RfcConfigParameters.LogonCheck	]	= value ? "1":"0" ; } }
+				public bool	LogonCheck	{ set { this._RfcConfig	[	SMC.RfcConfigParameters.LogonCheck	]	= value ? "1" : "0" ; } }
 				public bool OptimiseMetadataFetch	{ set { this._OptMetadata	= value; } }
 
 			#endregion
@@ -121,12 +121,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void RegisterRfcFunctionForMetadata( string fncName , bool triggerFetch = false )
+				public void RegisterRfcFunctionForMetadata( string fncName , bool loadMetaData = false )
 					{
 						this._Fncs.Add( fncName );
 						this._MetadataIsDirty	= true;
 
-						if ( triggerFetch )
+						if ( loadMetaData )
 							{
 								this.FetchMetadata();
 							}

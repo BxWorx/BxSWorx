@@ -22,6 +22,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 						this._SAPRfcFncConst	= new Lazy<SAPRfcFncConstants>
 																			(	()=>		new SAPRfcFncConstants() , this._LazyMode );
+						//.............................................
+						this._Lock	= new object();
 					}
 
 			#endregion
@@ -33,6 +35,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				private readonly Lazy<IRfcFncManager>				_RfcFncMngr			;
 				private readonly Lazy<SAPRfcFncConstants>		_SAPRfcFncConst	;
 
+				private readonly	object	_Lock;
+
 			#endregion
 
 			//===========================================================================================
@@ -43,20 +47,32 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#endregion
 
 			//===========================================================================================
-			#region "Methods"
+			#region "Methods: Exposed: BDC Call"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void RegisterBDCCallProfile( bool loadMetaData = false )
+					{
+						if ( ! this._RfcFncMngr.Value.ProfileExists( this._SAPRfcFncConst.Value.BDCCallTran ) )
+							{
+								lock (this._Lock)
+									{
+										if ( ! this._RfcFncMngr.Value.ProfileExists( this._SAPRfcFncConst.Value.BDCCallTran ) )
+											{
+												var	lo_Prof	= new BDCCall_Profile(	this._SAPRfcFncConst.Value.BDCCallTran
+																													,	this.RfcDestination
+																													,	()=>	new BDCCall_Header()
+																													,	()=>	new	BDCCall_Lines	()							);
+
+												this._RfcFncMngr.Value.RegisterProfile( lo_Prof , loadMetaData );
+											}
+									}
+							}
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCCall_Profile GetAddBDCCallProfile()
 					{
-						if ( ! this._RfcFncMngr.Value.ProfileExists( this._SAPRfcFncConst.Value.BDCCallTran ) )
-							{
-								var	lo_Prof	= new BDCCall_Profile(	this._SAPRfcFncConst.Value.BDCCallTran
-																									,	this.RfcDestination
-																									,	()=>	new BDCCall_Header()
-																									,	()=>	new	BDCCall_Lines	()							);
-
-								this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
-							}
+						this.RegisterBDCCallProfile();
 						//.............................................
 						return	this._RfcFncMngr.Value.GetProfile< BDCCall_Profile >( this._SAPRfcFncConst.Value.BDCCallTran );
 					}

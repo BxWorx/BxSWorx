@@ -58,8 +58,8 @@ namespace BxS_WorxIPX.API.BDC
 						DTO_BDC_Data lo_Data = this.CreateDataDTO();
 
 						lo_Data.ProgramName		= programName;
-						lo_Data.Dynpro				= dynpro;
-						lo_Data.Begin					= begin;
+						lo_Data.Dynpro				= dynpro.ToString(IPX_Constants.cz_DefDyn);
+						lo_Data.Begin					= begin ? IPX_Constants.cz_True : IPX_Constants.cz_False ;
 						lo_Data.FieldName			= field;
 						lo_Data.FieldValue		= value;
 
