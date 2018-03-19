@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using BxS_WorxIPX.API.BDC;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.RfcFunction.BDCTran;
+using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
 {
@@ -18,8 +18,8 @@ namespace BxS_WorxNCO.BDCSession.API
 				internal BDCSession(	IRfcFncController			fncCntlr
 														,	DTO_BDC_SessionConfig	config		)
 					{
-						this._Cntlr_Fnc	= fncCntlr;
-						this._Config		= config	;
+						this._Cntlr_Fnc		= fncCntlr;
+						this._OpConfig		= config	;
 						//.............................................
 						this._Queue		= new	BlockingCollection< DTO_BDC_Trans >();
 						this._Tasks		= new List< Task<int> >();
@@ -34,7 +34,8 @@ namespace BxS_WorxNCO.BDCSession.API
 				private readonly	IList< Task<int> >										_Tasks;
 				private readonly	BlockingCollection< DTO_BDC_Trans >		_Queue;
 				//.................................................
-				private	DTO_BDC_SessionConfig			_Config;
+				private	IConfigSetupDestination		_DestConfig;
+				private	DTO_BDC_SessionConfig			_OpConfig;
 				private CancellationTokenSource		_CTS;
 
 			#endregion
@@ -54,9 +55,17 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Configure the BDC session operating environment
 				//
+				public void ConfigureDestination( IConfigSetupDestination dto )
+					{
+						this._DestConfig	= dto;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				// Configure the BDC session operating environment
+				//
 				public void ConfigureOperation( DTO_BDC_SessionConfig dto )
 					{
-						this._Config	= dto;
+						this._OpConfig	= dto;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -67,8 +76,9 @@ namespace BxS_WorxNCO.BDCSession.API
 					{
 						int	ln_Ret	= 0;
 						this._CTS		=	new CancellationTokenSource();
+						this.SetupDestination();
 						//.............................................
-						for ( int i = 0; i < this._Config.ConsumersNo; i++ )
+						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
 							{
 								if ( this._CTS.IsCancellationRequested )	break;
 								this._Tasks.Add(	Task<int>.Run(	()=> this.Consumer()	)	);
@@ -91,9 +101,9 @@ namespace BxS_WorxNCO.BDCSession.API
 
 								if ( this._Tasks.Remove( lo_Task ) )	ln_Ret++;
 
-											if ( lo_Task.Status.Equals(TaskStatus.RanToCompletion )	)		{	this.TasksCompleted	.Enqueue(lo_Task);	}
-								else	if ( lo_Task.Status.Equals(TaskStatus.Faulted					)	)		{	this.TasksFaulty		.Enqueue(lo_Task);	}
-								else  																														{ this.TasksOther			.Enqueue(lo_Task);	}
+											if ( lo_Task.Status.Equals(TaskStatus.RanToCompletion )	)		{	this.TasksCompleted	.Enqueue(lo_Task); }
+								else	if ( lo_Task.Status.Equals(TaskStatus.Faulted					)	)		{	this.TasksFaulty		.Enqueue(lo_Task); }
+								else  																														{ this.TasksOther			.Enqueue(lo_Task); }
 							}
 						//.............................................
 						this._CTS		=	null;
@@ -112,6 +122,12 @@ namespace BxS_WorxNCO.BDCSession.API
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void SetupDestination()
+					{
+						this._Cntlr_Fnc.RfcDestination.LoadConfig( this._DestConfig );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private int Consumer()

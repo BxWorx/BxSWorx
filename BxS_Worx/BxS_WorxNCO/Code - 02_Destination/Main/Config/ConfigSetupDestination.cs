@@ -28,11 +28,12 @@ namespace BxS_WorxNCO.Destination.Config
 				public	int PoolIdleTimeout { set { this.Settings[SMC.RfcConfigParameters.PoolIdleTimeout]									= value.ToString(); } }
 				public	int PoolSize				{ set { this.Settings[SMC.RfcConfigParameters.PoolSize]													= value.ToString(); } }
 				public	int RepoIdleTimeout	{ set { this.Settings[SMC.RfcConfigParameters.RepositoryConnectionIdleTimeout]	= value.ToString(); } }
-
-				public	int			Client			{ set { this.Settings[SMC.RfcConfigParameters.Client]		= value.ToString(); } }
-				public	string	Language		{ set { this.Settings[SMC.RfcConfigParameters.Language]	= value; } }
-				public	string	User				{ set { this.Settings[SMC.RfcConfigParameters.User]			= value; } }
-				public	string	Password		{ set { this.Settings[SMC.RfcConfigParameters.Password]	= value; } }
+				//.................................................
+				public	int			Client				{ set { this.Settings[SMC.RfcConfigParameters.Client]			= value.ToString(); } }
+				public	string	Language			{ set { this.Settings[SMC.RfcConfigParameters.Language]		= value; } }
+				public	string	User					{ set { this.Settings[SMC.RfcConfigParameters.User]				= value; } }
+				public	string	Password			{ set { this.Settings[SMC.RfcConfigParameters.Password]		= value; } }
+				public	bool		DoLogonCheck	{ set { this.Settings[SMC.RfcConfigParameters.LogonCheck]	= value ? "X" : " "; } }
 
 			#endregion
 

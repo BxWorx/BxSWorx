@@ -8,18 +8,19 @@ namespace BxS_WorxNCO.Destination.API
 		{
 			#region "Properties"
 
-				int	IdleTimeout			{ set; }
-				int	IdleCheckTime		{ set; }
-				int	MaxPoolWaitTime	{ set; }
-				int	PeakConnLimit		{ set; }
-				int	PoolIdleTimeout	{ set; }
-				int	PoolSize				{ set; }
-				int	RepoIdleTimeout	{ set; }
-
-				int			Client		{ set; }
-				string	Language	{ set; }
-				string	User			{ set; }
-				string	Password	{ set; }
+				int	IdleTimeout				{ set; }
+				int	IdleCheckTime			{ set; }
+				int	MaxPoolWaitTime		{ set; }
+				int	PeakConnLimit			{ set; }
+				int	PoolIdleTimeout		{ set; }
+				int	PoolSize					{ set; }
+				int	RepoIdleTimeout		{ set; }
+				//.................................................
+				int			Client				{ set; }
+				string	Language			{ set; }
+				string	User					{ set; }
+				string	Password			{ set; }
+				bool		DoLogonCheck	{ set; }
 
 				SecureString	SecurePassword	{ get;	set;	}
 

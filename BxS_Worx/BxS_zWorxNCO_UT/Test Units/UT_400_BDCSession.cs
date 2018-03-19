@@ -1,258 +1,132 @@
-﻿using System.Collections.Concurrent;
-using System.Threading;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 //.........................................................
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using BxS_WorxNCO.RfcFunction.BDCTran;
-using BxS_WorxNCO.RfcFunction.Main;
+using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.Destination.API;
+using BxS_WorxIPX.API.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
 	[TestClass]
-	public class UT_400_BDCall
+	public class UT_400_BDCSession
 		{
-			private	const			string			cz_FNme	= "/ISDFPS/CALL_TRANSACTION";
-			private readonly	UT_000_NCO	co_NCO;
+			private readonly	IBDCSessionController	co_Ctlr;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public UT_400_BDCall()
+			public UT_400_BDCSession()
 				{
-					this.co_NCO	= new	UT_000_NCO();
+					this.co_Ctlr	= new BDCSessionController();
 					//...............................................
-					Assert.IsNotNull	( this.co_NCO									, "" );
-					Assert.IsNotNull	( this.co_NCO.DestController	, "" );
+					Assert.IsNotNull( this.co_Ctlr , "" );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_10_Instantiate()
+			public void UT_400_BCDSess_10_Instantiate()
 				{
-					BDCCall_Profile lo_Prof	= this.CreateBDCCallProfile();
-					var							lo_Fnc0	= new BDCCall_Function( lo_Prof );
+					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
+					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
+					IBDCSession							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
 
-					BDCCall_Header	lo_Head		= lo_Fnc0.CreateBDCCallHeader()	;
-					BDCCall_Lines		lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
-
-					Assert.IsNotNull	( lo_Fnc0		, "" );
-					Assert.IsNotNull	( lo_Head		, "" );
-					Assert.IsNotNull	( lo_Lines	, "" );
-
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_NCO.GetSAPDest() );
-					BDCCall_Function	lo_Fnc1	= lo_FCnt.CreateBDCCallFunction();
-
-					Assert.IsNotNull	( lo_Fnc1 , "" );
+					Assert.IsNotNull	( lo_DestCfg , "bbb" );
+					Assert.IsNotNull	( lo_SessCfg , "bbb" );
+					Assert.IsNotNull	( lo_BDCSess , "bbb" );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_20_Basics()
+			public void UT_400_BCDSess_20_Configure()
 				{
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_NCO.GetSAPDestLoggedOn( true ) );
+					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
+					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
+					IBDCSession							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
+					//...............................................
+					lo_DestCfg.Client			= 700						;
+					lo_DestCfg.User				= "DERRICKBINGH"	;
+					lo_DestCfg.Password		= "M@@n4321"			;
 
-					BDCCall_Function	lo_Fnc0	= lo_FCnt.CreateBDCCallFunction();
+					lo_DestCfg.SetSAPGUIasUsed();
 					//...............................................
-					BDCCall_Header	lo_Head	= lo_Fnc0.CreateBDCCallHeader( true )	;
-					Assert.IsNotNull	( lo_Head.CTUParms	, "" );
-					//...............................................
-					BDCCall_Lines		lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
-					Assert.IsNotNull	( lo_Lines.BDCData	, "" );
-					Assert.IsNotNull	( lo_Lines.MSGData	, "" );
-					Assert.IsNotNull	( lo_Lines.SPAData	, "" );
-					//...............................................
-					try	{
-								lo_Fnc0.Invoke();
-								Assert.Fail("");
-							}
-					catch
-							{	}
+					lo_BDCSess.ConfigureOperation( lo_SessCfg );
+					lo_BDCSess.ConfigureDestination( lo_DestCfg );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_30_Process()
+			public void UT_400_BCDSess_30_Process()
 				{
-					IRfcFncController	lo_FCnt		= new RfcFncController( this.co_NCO.GetSAPDestLoggedOn( true ) );
-					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
-					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
-					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
-					BDCCall_Lines			lo_Lines	= lo_Prof.CreateBDCCallLines()	;
-
-					lo_Head.SAPTCode		= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_NoBtcI ].SetValue( BDCCall_Constants.lz_F );
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_N );
-
-					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
+					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
+					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
+					IBDCSession							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
 					//...............................................
-					try	{
-								lo_Fnc0.Config	( lo_Head );
-								lo_Fnc0.Process	( lo_Lines );
+					lo_DestCfg.Client			= 700						;
+					lo_DestCfg.User				= "DERRICKBINGH"	;
+					lo_DestCfg.Password		= "M@@n4321"			;
 
-								Assert.IsTrue ( lo_Lines.ProcessedStatus	, "a" );
-								Assert.IsTrue ( lo_Lines.SuccesStatus			, "b" );
-							}
-					catch
-							{
-								Assert.Fail("NCO Process failed");
-							}
-				}
-
-			[TestMethod]
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_40_Many()
-				{
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_NCO.GetSAPDestLoggedOn( true ) );
-
-					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
-					BDCCall_Header		lo_Head		= lo_Fnc0.CreateBDCCallHeader( true )	;
-					BDCCall_Lines			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
-
-					lo_Head.SAPTCode	= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_NoBtcI ].SetValue( BDCCall_Constants.lz_F );
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_N );
-
-					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
-					lo_Fnc0.Config	( lo_Head );
+					lo_DestCfg.SetSAPGUIasUsed();
 					//...............................................
-								int ln_Cnt	= 00;
-					const int ln_No		= 05;
-
-					for (int i = 0; i < ln_No; i++)
-						{
-							try	{
-										lo_Fnc0.Process	( lo_Lines );
-										if (lo_Lines.SuccesStatus) ln_Cnt ++;
-									}
-							catch
-									{	}
-						}
-					Assert.AreEqual	( ln_No	, ln_Cnt	, "a" );
-				}
-
-			[TestMethod]
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_50_Multiple()
-				{
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_NCO.GetSAPDestLoggedOn( true ) );
-
-					BDCCall_Profile	lo_Prof	= lo_FCnt.GetAddBDCCallProfile();
-					BDCCall_Header	lo_Head	= lo_Prof.CreateBDCCallHeader( true )	;
+					lo_BDCSess.ConfigureOperation		( lo_SessCfg );
+					lo_BDCSess.ConfigureDestination	( lo_DestCfg );
 					//...............................................
-					lo_Head.SAPTCode	= "XD03";
-					lo_Head.CTUParms[ lo_Prof.CTUOpt_NoBtcI ].SetValue( BDCCall_Constants.lz_F			);
-					lo_Head.CTUParms[ lo_Prof.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_N	);
-					//...............................................
-					const int ln_Trn	= 100;
-					const	int ln_Tsk	= 05;
-					int ln_Tal	= 00;
-					var lo_BC		= new BlockingCollection<BDCCall_Lines>( ln_Trn );
+					DTO_BDC_Session lo_SessDTO = this.co_Ctlr.CreateSessionDTO();
+					this.LoadBDCData( lo_SessDTO );
 
-					for (int i = 0; i < ln_Trn; i++)
-						{
-							BDCCall_Lines	lo_Lines	= lo_Prof.CreateBDCCallLines();
-							this.LoadBDCData( lo_Lines	, lo_Prof );
-							lo_BC.Add( lo_Lines );
-						}
-
-					lo_BC.CompleteAdding();
-					//...............................................
-					var myTasks	= new Task[ln_Tsk];
-
-					for (int i = 0; i < ln_Tsk; i++)
-						{
-							myTasks[i]	= Task.Factory.StartNew
-								(	()=>	{
-													BDCCall_Function	lo_Fnc	= lo_FCnt.CreateBDCCallFunction();
-													lo_Fnc.Config( lo_Head );
-													foreach (BDCCall_Lines lo_WorkItem in lo_BC.GetConsumingEnumerable() )
-														{
-															lo_Fnc.Process( lo_WorkItem );
-															if ( lo_WorkItem.SuccesStatus )	Interlocked.Increment( ref ln_Tal );
-														}
-												}
-								);
-						}
-					Task.WaitAll( myTasks );
-
-					Assert.AreEqual	( ln_Trn	, ln_Tal	, "a" );
+					Task.Run( ()=> lo_BDCSess.Process_SessionAsync( lo_SessDTO ) );
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadBDCData( BDCCall_Lines dtoLines, BDCCall_Profile bdcFnc )
+				private string GetSAPID()
 					{
-						dtoLines.BDCData.Append(4);
+						IList< string > lt_Ini	=	this.co_Ctlr.GetSAPINIList();
+						string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("PWD)") );
 
-						dtoLines.BDCData.CurrentIndex	= 0;
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Prg	, "SAPMF02D"		);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Dyn	, "0101"				);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Bgn	, "X"						);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "BDC_OKCODE"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "/00"   				);
-
-						dtoLines.BDCData.CurrentIndex	= 1;
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "RF02D-KUNNR"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "1000000"			);
-
-						dtoLines.BDCData.CurrentIndex	= 2;
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "RF02D-D0110"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "X"			);
-
-						dtoLines.BDCData.CurrentIndex	= 3;
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Prg	, "SAPMF02D"		);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Dyn	, "0110"				);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Bgn	, "X"						);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "BDC_OKCODE"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "=PF03"				);
+						Assert.IsNotNull	( lc_ID	, "" );
+						return	lc_ID;
 					}
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private void LoadBDCDataNoBInp( BDCCall_Header dtoHead , BDCCall_Lines dtoLines, BDCCall_Function bdcFnc )
-				//	{
-				//		dtoHead.SAPTCode	= "XD03";
-				//		dtoHead.CTUParms[ bdcFnc.MyProfile.Value.CTUOpt_NoBtcI ].SetValue( BDCCall_Constants.lz_T );
-				//		//...............................................
-				//		dtoLines.BDCData.Append(5);
-
-				//		dtoLines.BDCData.CurrentIndex	= 0;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Prg	, "SAPMF02D"		);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Dyn	, "7101"				);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Bgn	, "X"						);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "BDC_OKCODE"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "=ENTR"					);
-
-				//		dtoLines.BDCData.CurrentIndex	= 1;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "RF02D-KUNNR"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "1000000"			);
-
-				//		dtoLines.BDCData.CurrentIndex	= 2;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Prg	, "SAPMF02D"		);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Dyn	, "7000"				);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Bgn	, "X"						);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "BDC_OKCODE"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "=PF03"				);
-
-				//		dtoLines.BDCData.CurrentIndex	= 3;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "BDC_CURSOR"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "RF02D-KUNNR"	);
-
-				//		dtoLines.BDCData.CurrentIndex	= 4;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "BDC_SUBSCR"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "SAPLSZA1                                0300ADDRESS"			);
-				//	}
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCCall_Profile CreateBDCCallProfile()
+				private void LoadBDCData( DTO_BDC_Session dto )
 					{
-						IRfcDestination	lo_DS	= this.co_NCO.GetSAPDestLoggedOn();
+						dto.SessionHeader.SAPTCode	= "XD03";
+						dto.SessionHeader.Skip1st		= true;
 
-						return	new BDCCall_Profile(	cz_FNme
-																				, lo_DS
-																				, ()=>	new BDCCall_Header()
-																				, ()=>	new BDCCall_Lines	() );
+						DTO_BDC_CTU lo_CTU = dto.SessionHeader.CTUParms;
+
+						lo_CTU.DisplayMode	= 'A';
+						lo_CTU.UpdateMode		= 'A';
+						//.............................................
+						DTO_BDC_Trans lo_Trn		= dto.CreateTransDTO(1);
+
+						DTO_BDC_Data lo_D1	=	lo_Trn.CreateDataDTO();
+
+						lo_D1.ProgramName	= "SAPMF02D";
+						lo_D1.Dynpro			= 101;
+						lo_D1.Begin				= true;
+						lo_D1.FieldName		= "BDC_OKCODE";
+						lo_D1.FieldValue	=	"/00";
+
+						lo_Trn.BDCData.Add( lo_D1 );
+						//.............................................
+						lo_Trn.AddBDCData( field: "RF02D-KUNNR" , value: "1000000"	);
+						lo_Trn.AddBDCData( field: "RF02D-D0110" , value: "X"				);
+						//.............................................
+						DTO_BDC_Data lo_D2	=	lo_Trn.CreateDataDTO();
+
+						lo_D2.ProgramName	= "SAPMF02D";
+						lo_D2.Dynpro			= 110;
+						lo_D2.Begin				= true;
+						lo_D2.FieldName		= "BDC_OKCODE";
+						lo_D2.FieldValue	=	"=PF03";
+
+						lo_Trn.BDCData.Add( lo_D2 );
+						//.............................................
+						dto.Transactions.TryAdd( lo_Trn.TranNo , lo_Trn);
 					}
 		}
 }

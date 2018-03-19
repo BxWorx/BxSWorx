@@ -65,6 +65,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\BxS_WorxIPX\BxS_WorxIPX.csproj">
+      <Project>{4CCEF63B-9093-448A-B73F-E55EC11B5138}</Project>
+      <Name>BxS_WorxIPX</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BxS_WorxNCO\BxS_WorxNCO.csproj">
       <Project>{3a72c61f-98be-4b4a-b1e0-172e96d7b91a}</Project>
       <Name>BxS_WorxNCO</Name>

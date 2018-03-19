@@ -12,6 +12,7 @@ namespace BxS_WorxNCO.Destination.Main
 		{
 			#region "Constructors"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Repository( Func< Guid , IRfcDestination >	createDestination  )
 					{
 						this._CreateDestination	= createDestination;
@@ -37,7 +38,7 @@ namespace BxS_WorxNCO.Destination.Main
 				private readonly Dictionary< string	,	Guid >										_Map;
 				private readonly Dictionary< Guid		, SMC.RfcConfigParameters >	_Des;
 				//.................................................
-				private	readonly Func< Guid , IRfcDestination >	_CreateDestination;
+				private	readonly Func< Guid , IRfcDestination >									_CreateDestination;
 				//.................................................
 				private readonly object	_Lock;
 
@@ -103,6 +104,7 @@ namespace BxS_WorxNCO.Destination.Main
 						//.............................................
 						IRfcDestination	lo_Des = this._CreateDestination( ID );
 						lo_Des.LoadConfig( lo_Cnf );
+						//.............................................
 						return lo_Des;
 					}
 
@@ -112,13 +114,14 @@ namespace BxS_WorxNCO.Destination.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private string GetNameFor(Guid ID)
+				private string GetNameFor( Guid ID )
 					{
 						return	this.SAPSystems[ID] ?? string.Empty;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Guid GetAddIDFor(string ID, bool Add = false)
+				private Guid GetAddIDFor(		string	ID
+																	, bool		Add = false)
 					{
 						if (ID == null)	return	Guid.Empty;
 						//.............................................

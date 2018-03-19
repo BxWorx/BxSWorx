@@ -19,13 +19,18 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			internal IDestinationController DestController { get; }
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal IRfcDestination GetSAPDest()
+			internal string GetSAPID()
 				{
 					IList< string > lt_Ini	=	this.DestController.GetSAPINIList();
 					string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("PWD)") );
-					if (lc_ID == null)	return	null;
-					//...............................................
-					IRfcDestination lo_Dest = this.DestController.GetDestination( lc_ID );
+					Assert.IsNotNull	( lc_ID	, "" );
+					return	lc_ID;
+				}
+
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			internal IRfcDestination GetSAPDest()
+				{
+					IRfcDestination lo_Dest = this.DestController.GetDestination( this.GetSAPID() );
 					//...............................................
 					Assert.IsNotNull	( lo_Dest	, "" );
 					//...............................................
@@ -43,7 +48,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lo_Dest.LogonCheck	= DoLogonCheck		;
 					lo_Dest.UseSAPGui		= "2";
 					//...............................................
-					//Assert.IsTrue	(	lo_Dest.Procure()		, "" )	;
 					Assert.IsTrue	(	lo_Dest.IsConnected	, "" )	;
 					//...............................................
 					return	lo_Dest	;

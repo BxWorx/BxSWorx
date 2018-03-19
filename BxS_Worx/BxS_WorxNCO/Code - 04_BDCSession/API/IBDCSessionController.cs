@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
+using BxS_WorxIPX.API.BDC;
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
@@ -9,9 +10,15 @@ namespace BxS_WorxNCO.BDCSession.API
 		{
 			#region "Methods: Exposed"
 
+				IList< string >								GetSAPINIList();
 				IList< ISAPSystemReference >	GetSAPSystems();
+				IConfigSetupDestination				CreateDestinationConfig();
+				//.................................................
+				DTO_BDC_Session					CreateSessionDTO();
+				DTO_BDC_SessionConfig		CreateSessionConfig();
 
-				IBDCSession	CreateBDCSession( Guid destinationID );
+				IBDCSession		CreateBDCSession( string	destinationID );
+				IBDCSession		CreateBDCSession( Guid		destinationID );
 
 			#endregion
 

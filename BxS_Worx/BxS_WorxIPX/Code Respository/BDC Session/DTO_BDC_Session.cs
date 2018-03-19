@@ -7,9 +7,11 @@ namespace BxS_WorxIPX.API.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_Session()
+				public DTO_BDC_Session( DTO_BDC_Header header )
 					{
-						this.Transactions		= new	ConcurrentDictionary< int, DTO_BDC_Trans >()	;
+						this.SessionHeader	= header;
+						//.............................................
+						this.Transactions		= new	ConcurrentDictionary< int, DTO_BDC_Trans >();
 					}
 
 			#endregion
@@ -17,8 +19,16 @@ namespace BxS_WorxIPX.API.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	DTO_BDC_Header															SessionHeader		{ get; }
-				public	ConcurrentDictionary< int, DTO_BDC_Trans >	Transactions		{ get; }
+				public	DTO_BDC_Header															SessionHeader	{ get; }
+				public	ConcurrentDictionary< int, DTO_BDC_Trans >	Transactions	{ get; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_BDC_Trans	CreateTransDTO	( int No = 0 )=>	new DTO_BDC_Trans( No );
 
 			#endregion
 

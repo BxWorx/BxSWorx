@@ -15,13 +15,14 @@ namespace BxS_WorxNCO.Destination.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DestinationController()
 					{
+						this._LazyMode		= LazyThreadSafetyMode.ExecutionAndPublication;
+						//.............................................
 						this._DestRepos		= new Lazy<Repository>
 																			(		()=>	new Repository(	( Guid ID )	=>	new RfcDestination( ID ) )
-																				, LazyThreadSafetyMode.ExecutionAndPublication											);
+																				, this._LazyMode );
 						//.............................................
 						this._GlobalSetup	= new Lazy<IConfigSetupGlobal>
-																			(		()=>	new ConfigSetupGlobal()
-																				, LazyThreadSafetyMode.ExecutionAndPublication	);
+																			(		()=>	new ConfigSetupGlobal() , this._LazyMode	);
 					}
 
 			#endregion
@@ -29,8 +30,9 @@ namespace BxS_WorxNCO.Destination.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy<Repository>						_DestRepos;
-				private readonly Lazy<IConfigSetupGlobal>		_GlobalSetup;
+				private readonly	LazyThreadSafetyMode				_LazyMode;
+				private readonly	Lazy<Repository>						_DestRepos;
+				private readonly	Lazy<IConfigSetupGlobal>		_GlobalSetup;
 
 			#endregion
 
@@ -57,7 +59,7 @@ namespace BxS_WorxNCO.Destination.Main
 				//
 				public IList<ISAPSystemReference> GetSAPSystems()
 					{
-						IList<ISAPSystemReference>	lt_List	= new List<ISAPSystemReference>(this.LoadedSystemCount);
+						IList<ISAPSystemReference>	lt_List		= new List<ISAPSystemReference>(this.LoadedSystemCount);
 						//.............................................
 						foreach ( KeyValuePair< Guid , string > ls_kvp in this._DestRepos.Value.SAPSystems )
 							{

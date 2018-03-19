@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxIPX.API.BDC;
+using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
 {
@@ -8,9 +9,10 @@ namespace BxS_WorxNCO.BDCSession.API
 		{
 			#region "Methods: Exposed"
 
-				void				ConfigureOperation		( DTO_BDC_SessionConfig	dto );
-				Task< int >	Process_SessionAsync	( DTO_BDC_Session				dto );
-
+				void					ConfigureOperation		( DTO_BDC_SessionConfig		dto );
+				void					ConfigureDestination	( IConfigSetupDestination	dto );
+				Task< int >		Process_SessionAsync	( DTO_BDC_Session					dto );
+				//.................................................
 				void CancelProcessing();
 
 			#endregion
