@@ -5,29 +5,29 @@ using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.BDCSession.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCSession.Parser
+namespace BxS_WorxNCO.Main
 {
-	internal sealed class BDC_Parser_Factory
+	internal class BDC_Factoryx
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal static BDC_Parser_Factory Instance
+				internal static BDC_Factoryx Instance
 					{
 						get { return _Instance.Value; }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Parser_Factory()
+				private BDC_Factoryx()
 					{
 						this._LazyMode	= LazyThreadSafetyMode.ExecutionAndPublication;
 						//.............................................
-						this._Proc_Tkns		=	new Lazy< BDC_Parser_Tokens				>	(	()=>	new BDC_Parser_Tokens				( _Instance ) , this._LazyMode );
-						this._Proc_Cols		=	new Lazy< BDC_Parser_Columns			>	(	()=>	new BDC_Parser_Columns			(	_Instance ) , this._LazyMode );
-						this._Proc_Grps		=	new Lazy< BDC_Parser_Groups				>	(	()=>	new BDC_Parser_Groups				(	_Instance ) , this._LazyMode );
-						this._Proc_Tran		=	new Lazy< BDC_Parser_Transaction	>	(	()=>	new BDC_Parser_Transaction	( _Instance ) , this._LazyMode );
-						this._Proc_Sesn		=	new Lazy< BDC_Parser_Session			>	(	()=>	new BDC_Parser_Session			( _Instance ) , this._LazyMode );
-						this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , this._LazyMode );
+						this._Proc_Tkns	=	new Lazy< BDC_Parser_Tokens				>	(	()=>	new BDC_Parser_Tokens				( _Instance ) , this._LazyMode );
+						this._Proc_Cols	=	new Lazy< BDC_Parser_Columns			>	(	()=>	new BDC_Parser_Columns			(	_Instance ) , this._LazyMode );
+						this._Proc_Grps	=	new Lazy< BDC_Parser_Groups				>	(	()=>	new BDC_Parser_Groups				(	_Instance ) , this._LazyMode );
+						this._Proc_Tran	=	new Lazy< BDC_Parser_Transaction	>	(	()=>	new BDC_Parser_Transaction	( _Instance ) , this._LazyMode );
+						this._Proc_Sesn	=	new Lazy< BDC_Parser_Session			>	(	()=>	new BDC_Parser_Session			( _Instance ) , this._LazyMode );
+						this._Proc_Dest	=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , this._LazyMode );
 				}
 
 			#endregion
@@ -35,8 +35,9 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private	static readonly	Lazy< BDC_Parser_Factory >	_Instance
-					= new Lazy< BDC_Parser_Factory >(	()=>	new BDC_Parser_Factory() , LazyThreadSafetyMode.ExecutionAndPublication );
+				private	static readonly	Lazy< BDC_Factory >	_Instance
+					= new Lazy< BDC_Factory >(	()=>	new BDC_Factory()
+																					, LazyThreadSafetyMode.ExecutionAndPublication );
 				//.................................................
 				private readonly	Lazy< BDC_Parser_Tokens				>	_Proc_Tkns;
 				private readonly	Lazy< BDC_Parser_Columns			>	_Proc_Cols;

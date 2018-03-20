@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using					BxS_SAPIPX.Excel;
-using static	BxS_SAPBDC.BDC.BDC_Constants;
+using static BxS_WorxNCO.BDCSession.Parser.BDC_Parser_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
-	internal class BDC_Parser_Groups
+	internal class BDC_Parser_Groups : BDC_Parser_Base
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	BDC_Parser_Groups(	Lazy< BDC_Parser_Factory > factory )
+				internal	BDC_Parser_Groups(	Lazy< BDC_Parser_Factory > factory ) : base( factory )
 					{
-						this._Factory	= factory;
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declaration"
-
-				private	readonly Lazy< BDC_Parser_Factory > 	_Factory;
 
 			#endregion
 
@@ -29,8 +20,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	DTO_BDCSessionRequest		dtoRequest
-															,	DTO_ParserProfile				dtoProfile )
+				internal void	Process(	DTO_ParserRequest	dtoRequest
+															,	DTO_ParserProfile	dtoProfile )
 					{
 						if (dtoRequest.WSData == null)	return;
 						//.............................................

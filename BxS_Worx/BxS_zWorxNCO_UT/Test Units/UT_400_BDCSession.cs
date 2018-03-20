@@ -125,7 +125,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						//.............................................
 						for (int i = 0; i < NoOfTrans; i++)
 							{
-								DTO_BDC_Trans lo_Trn	= dto.CreateTransDTO(i+1);
+								DTO_BDC_Transaction lo_Trn	= dto.CreateTransDTO(i+1);
 								DTO_BDC_Data	lo_D1		=	lo_Trn.CreateDataDTO();
 
 								lo_D1.ProgramName	= "SAPMF02D";

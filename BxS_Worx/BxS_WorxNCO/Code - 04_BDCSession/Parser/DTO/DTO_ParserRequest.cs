@@ -15,6 +15,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Properties"
 
+				internal	string	UsedAddress	{ get; set;	}
+
 				internal	string[,]		WSData	{ get; set;	}
 
 			#endregion

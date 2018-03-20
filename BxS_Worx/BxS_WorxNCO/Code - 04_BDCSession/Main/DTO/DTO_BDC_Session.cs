@@ -1,8 +1,10 @@
 ﻿using System.Collections.Concurrent;
+//.........................................................
+using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.DTO
 {
-	internal class DTO_BDC_Session
+	public class DTO_BDC_Session
 		{
 			#region "Constructors"
 
@@ -11,7 +13,7 @@ namespace BxS_WorxNCO.BDCSession.DTO
 					{
 						this.Header	= header;
 						//.............................................
-						this.Trans	= new	ConcurrentQueue< DTO_BDC_Trans >();
+						this.Trans	= new	ConcurrentQueue< DTO_BDC_Transaction >();
 					}
 
 			#endregion
@@ -19,8 +21,11 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			//===========================================================================================
 			#region "Properties"
 
-				public	DTO_BDC_Header										Header	{ get; }
-				public	ConcurrentQueue< DTO_BDC_Trans >	Trans		{ get; }
+				internal	IConfigSetupDestination		DestConfig		{ get; set; }
+				internal	DTO_BDC_SessionConfig			SessionConfig	{ get; set; }
+
+				internal	DTO_BDC_Header													Header	{ get; }
+				internal	ConcurrentQueue< DTO_BDC_Transaction >	Trans		{ get; }
 
 			#endregion
 
@@ -28,7 +33,7 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_Trans	CreateTransDTO( int No = 0 )=>	new DTO_BDC_Trans( No );
+				internal DTO_BDC_Transaction	CreateTransDTO( int No = 0 )=>	new DTO_BDC_Transaction( No );
 
 			#endregion
 

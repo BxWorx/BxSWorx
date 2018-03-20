@@ -20,6 +20,11 @@ namespace BxS_WorxNCO.BDCSession.API
 				IBDCSession		CreateBDCSession( string	destinationID );
 				IBDCSession		CreateBDCSession( Guid		destinationID );
 
+
+
+				
+				DTO_BDC_Session ParseRequest( IBDCSessionRequest bdcSessionRequest );
+
 			#endregion
 
 		}

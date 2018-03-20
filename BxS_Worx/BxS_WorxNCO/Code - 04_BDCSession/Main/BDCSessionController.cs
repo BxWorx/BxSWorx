@@ -8,6 +8,7 @@ using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Main;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.Destination.Config;
+using BxS_WorxNCO.BDCSession.Parser;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -22,6 +23,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 						//.............................................
 						this._Cntlr_Dst		= new Lazy<IDestinationController>(	()=>		new DestinationController()
 																																				, this._LazyMode							);
+
+						this._ParserFactory		= new Lazy< BDC_Parser_Factory >	(	()=>	BDC_Parser_Factory.Instance );
+						this._Parser					= new Lazy< BDC_Parser				 >	(	()=>	new BDC_Parser( this._ParserFactory ) );
 					}
 
 			#endregion
@@ -29,8 +33,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	LazyThreadSafetyMode						_LazyMode;
+				private readonly	LazyThreadSafetyMode						_LazyMode	;
+				//.................................................
 				private readonly	Lazy< IDestinationController >	_Cntlr_Dst;
+				//.................................................
+				private readonly	Lazy< BDC_Parser >					_Parser				;
+				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory;
 
 			#endregion
 
@@ -106,6 +114,14 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
 						return	this.CreateBDCSession( lo_D );
+					}
+		
+			
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public DTO_BDC_Session ParseRequest( IBDCSessionRequest bdcSessionRequest )
+					{
+
 					}
 
 			#endregion

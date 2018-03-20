@@ -7,20 +7,20 @@ using BxS_WorxNCO.BDCSession.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
-	public class BDC_Parser
+	internal class BDC_Parser : BDC_Parser_Base
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Parser( Lazy< BDC_Parser_Factory >	factory )
+				internal BDC_Parser( Lazy< BDC_Parser_Factory >	factory ) : base( factory )
 					{
-						this._Factory	= factory;
-						//.............................................
 						this._Tkn	= factory.Value.GetTokenParser()				;
 						this._Col	= factory.Value.GetColumnParser()				;
 						this._Grp	= factory.Value.GetGroupParser()				;
 						this._Trn	= factory.Value.GetTransactionParser()	;
 						this._Ssn	= factory.Value.GetSessionParser()			;
+						this._Des	= factory.Value.GetDestinationParser()	;
+
 					}
 
 			#endregion
@@ -28,13 +28,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy< BDC_Parser_Factory >			_Factory;
-				//.................................................
 				private	readonly	Lazy< BDC_Parser_Tokens >				_Tkn;
 				private	readonly	Lazy< BDC_Parser_Columns >			_Col;
 				private	readonly	Lazy< BDC_Parser_Groups >				_Grp;
 				private	readonly	Lazy< BDC_Parser_Transaction >	_Trn;
 				private	readonly	Lazy< BDC_Parser_Session >			_Ssn;
+				private	readonly	Lazy< BDC_Parser_Destination >	_Des;
 
 			#endregion
 
@@ -42,17 +41,21 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_Session Process( IBDCSessionRequest DTORequest )
+				internal DTO_BDC_Session Process( IBDCSessionRequest bdcSessionRequest )
 					{
+						DTO_ParserRequest	lo_DTOSessReq	= this.Parse1Dto2D( bdcSessionRequest );
+						//.............................................
 						DTO_BDC_Session		lo_BDCSession		= this._Factory.Value.CreateBDCSession();
 						DTO_ParserProfile	lo_DTOProfile		= this._Factory.Value.CreateDTOProfile();
-						DTO_ParserRequest	lo_SessReq			= this.Parse1Dto2D( DTORequest )				;
 						//.............................................
-						this._Tkn.Value.Process( DTORequest	,	lo_DTOProfile	);
-						this._Col.Value.Process( DTORequest	,	lo_DTOProfile	);
-						this._Grp.Value.Process( DTORequest	,	lo_DTOProfile	);
-						this._Trn.Value.Process( DTORequest	, lo_DTOProfile	, lo_BDCSession );
-						this._Ssn.Value.Process( DTORequest	, lo_DTOProfile	, lo_BDCSession );
+						this._Tkn.Value.Process( lo_DTOSessReq	,	lo_DTOProfile	);
+						this._Col.Value.Process( lo_DTOSessReq	,	lo_DTOProfile	);
+						this._Grp.Value.Process( lo_DTOSessReq	,	lo_DTOProfile	);
+
+						this._Trn.Value.Process( lo_DTOSessReq	, lo_DTOProfile	, lo_BDCSession );
+
+						this._Ssn.Value.Process( lo_DTOProfile			, lo_BDCSession );
+						this._Des.Value.Process( bdcSessionRequest	, lo_BDCSession );
 						//.............................................
 						return	lo_BDCSession;
 					}
@@ -63,7 +66,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_ParserRequest Parse1Dto2D( IBDCSessionRequest DTO )
+				private DTO_ParserRequest Parse1Dto2D( IBDCSessionRequest DTO )
 					{
 						DTO_ParserRequest	lo_SessReq	= this._Factory.Value.CreateDTOSessReq();
 						//.............................................
@@ -75,7 +78,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						lt_LB[0] =	DTO.RowLB;
 						lt_LB[1] =	DTO.ColLB;
 
-						lo_SessReq.WSData	= (string[,])Array.CreateInstance( typeof(string) , lt_UB, lt_LB );
+						lo_SessReq.WSData	= ( string[,] ) Array.CreateInstance( typeof( string ) , lt_UB, lt_LB );
 						//.............................................
 						int	ln_Row	= 0;
 						int ln_Col	= 0;

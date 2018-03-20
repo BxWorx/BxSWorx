@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using					BxS_SAPBDC.BDC;
-using					BxS_SAPIPX.Excel;
-using static	BxS_SAPBDC.BDC.BDC_Constants;
+using BxS_WorxNCO.BDCSession.DTO;
+
+using static	BxS_WorxNCO.Main								.NCO_Constants;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants;
+using static	BxS_WorxNCO.BDCSession.Parser		.BDC_Parser_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
-	internal class BDC_Parser_Transaction
+	internal class BDC_Parser_Transaction : BDC_Parser_Base
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	BDC_Parser_Transaction(	Lazy< BDC_Parser_Factory > factory )
+				internal	BDC_Parser_Transaction(	Lazy< BDC_Parser_Factory > factory ) : base( factory )
 					{
-						this._Factory	= factory;
-						//.............................................
 						this._FldIndex	= -1;
 						this._CsrIndex	= -1;
 					}
@@ -25,8 +25,6 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private	readonly Lazy< BDC_Parser_Factory > 	_Factory;
-				//.................................................
 				private	int		_FldIndex	;
 				private	int		_CsrIndex	;
 
@@ -36,15 +34,15 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	DTO_BDCSessionRequest dtoRequest
-															,	DTO_ParserProfile				dtoProfile
-															, BDC_Session						Session			)
+				internal void	Process(	DTO_ParserRequest	dtoRequest
+															,	DTO_ParserProfile	dtoProfile
+															, DTO_BDC_Session		Session			)
 					{
 						if (dtoRequest.WSData == null)	return;
 						//.............................................
 						foreach ( KeyValuePair< int , List< int > > ls_KvpRow in dtoProfile.TranRows )
 							{
-								BDC_SessionTransaction lo_BDCTran	= this._Factory.Value.CreateBDCSessionTransaction();
+								DTO_BDC_Transaction lo_BDCTran	= this._Factory.Value.CreateBDCSessionTransaction();
 								//.........................................
 								for ( int r = 0; r < ls_KvpRow.Value.Count; r++ )
 									{
@@ -56,7 +54,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 											}
 									}
 								//.........................................
-								Session.AddTransaction( lo_BDCTran );
+								Session.Trans.Enqueue( lo_BDCTran );
 							}
 					}
 
@@ -66,7 +64,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CompileBDCEntries(		BDC_SessionTransaction bdcTran
+				private void CompileBDCEntries(		DTO_BDC_Transaction bdcTran
 																				, DTO_ParserColumn		column
 																				, string					value		)
 					{
@@ -163,21 +161,21 @@ namespace BxS_WorxNCO.BDCSession.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_SessionTranData CompileBDCScreen( string program , int screenNo )
+				private DTO_BDC_Data CompileBDCScreen( string program , int screenNo )
 					{
-						DTO_SessionTranData lo_BDCData	= this._Factory.Value.CreateDTOSessionTranData();
+						DTO_BDC_Data lo_BDCData	= this._Factory.Value.CreateDTOBDCData();
 						//.............................................
 						lo_BDCData.ProgramName	= program;
-						lo_BDCData.Dynpro				= screenNo.ToString("0000");
-						lo_BDCData.Begin				= "X";
+						lo_BDCData.Dynpro				= screenNo.ToString( cz_DefDyn );
+						lo_BDCData.Begin				= cz_True;
 						//.............................................
 						return	lo_BDCData;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_SessionTranData CompileBDCField( string field , string value )
+				private DTO_BDC_Data CompileBDCField( string field , string value )
 					{
-						DTO_SessionTranData lo_BDCData	= this._Factory.Value.CreateDTOSessionTranData();
+						DTO_BDC_Data lo_BDCData	= this._Factory.Value.CreateDTOBDCData();
 						//.............................................
 						lo_BDCData.FieldName	= field;
 						lo_BDCData.FieldValue	=	value;

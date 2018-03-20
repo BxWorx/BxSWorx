@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 //.........................................................
-using BxS_WorxIPX.API.BDC;
+using static	BxS_WorxNCO.Main							.NCO_Constants;
+using static	BxS_WorxNCO.BDCSession.Parser	.BDC_Parser_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
-	public class BDC_Parser_Columns
+	internal class BDC_Parser_Columns : BDC_Parser_Base
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Parser_Columns(	Lazy< BDC_Parser_Factory > factory )
+				internal BDC_Parser_Columns(	Lazy< BDC_Parser_Factory > factory ) : base( factory )
 					{
-						this._Factory	= factory;
-						//.............................................
 						this._Regex	= new	Regex(@"\((.*?)\)");
 					}
 
@@ -22,8 +21,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				private	readonly	Lazy< BDC_Parser_Factory >		_Factory	;
-				private	readonly	Regex														_Regex		;
+				private	readonly	Regex	_Regex;
 
 			#endregion
 
@@ -31,8 +29,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	IBDCSessionRequest dtoRequest
-															,	DTO_ParserProfile				dtoProfile )
+				internal void	Process(	DTO_ParserRequest	dtoRequest
+															,	DTO_ParserProfile	dtoProfile )
 					{
 						if (dtoRequest.WSData == null)	return;
 						//.............................................
@@ -45,13 +43,13 @@ namespace BxS_WorxNCO.BDCSession.Parser
 								//.........................................
 								try
 									{
-										lo_Col.Program				=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Prog , c ] ?? "";
-										lo_Col.OKCode					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.OKCd , c ] ?? "";
-										lo_Col.Cursor					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Curs , c ] ?? "";
-										lo_Col.Subscreen			=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Subs , c ] ?? "";
-										lo_Col.Field					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.FldN , c ] ?? "";
-										lo_Col.Description		=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Desc , c ] ?? "";
-										lo_Col.Instructions		=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Inst , c ] ?? "";
+										lo_Col.Program				=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Prog , c ] ?? cz_Null;
+										lo_Col.OKCode					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.OKCd , c ] ?? cz_Null;
+										lo_Col.Cursor					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Curs , c ] ?? cz_Null;
+										lo_Col.Subscreen			=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Subs , c ] ?? cz_Null;
+										lo_Col.Field					=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.FldN , c ] ?? cz_Null;
+										lo_Col.Description		=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Desc , c ] ?? cz_Null;
+										lo_Col.Instructions		=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Inst , c ] ?? cz_Null;
 										//.........................................
 										lo_Col.DynBegin				=	dtoRequest.WSData[ dtoProfile.BDCHeaderRowRef.Strt , c ]?.Equals(string.Empty) == false;
 										//.........................................
@@ -96,18 +94,18 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						if ( !string.IsNullOrEmpty( column.Instructions ) )
 							{
-								column.DoFieldIndex					= Regex.IsMatch( column.Instructions , BDC_Parser_Constants.cz_Instr_SubFldIdx	, RegexOptions.IgnoreCase )	;
-								column.DoCursorIndex				= Regex.IsMatch( column.Instructions , BDC_Parser_Constants.cz_Instr_SubCsrIdx	, RegexOptions.IgnoreCase )	;
-								column.DoOnlyIfValue				= Regex.IsMatch( column.Instructions , BDC_Parser_Constants.cz_Instr_DoIf			, RegexOptions.IgnoreCase )	;
-								column.IsFieldIndexColumn		= Regex.IsMatch( column.Instructions , BDC_Parser_Constants.cz_Instr_ValFldIdx	, RegexOptions.IgnoreCase )	;
-								column.IsCursorIndexColumn	= Regex.IsMatch( column.Instructions , BDC_Parser_Constants.cz_Instr_ValCsrIdx	, RegexOptions.IgnoreCase )	;
+								column.DoFieldIndex					= Regex.IsMatch( column.Instructions , cz_Instr_SubFldIdx	, RegexOptions.IgnoreCase )	;
+								column.DoCursorIndex				= Regex.IsMatch( column.Instructions , cz_Instr_SubCsrIdx	, RegexOptions.IgnoreCase )	;
+								column.DoOnlyIfValue				= Regex.IsMatch( column.Instructions , cz_Instr_DoIf			, RegexOptions.IgnoreCase )	;
+								column.IsFieldIndexColumn		= Regex.IsMatch( column.Instructions , cz_Instr_ValFldIdx	, RegexOptions.IgnoreCase )	;
+								column.IsCursorIndexColumn	= Regex.IsMatch( column.Instructions , cz_Instr_ValCsrIdx	, RegexOptions.IgnoreCase )	;
 							}
 						//.............................................
 						if ( column.DoFieldIndex	)
 							{
 								if ( !string.IsNullOrEmpty( column.Field ) )
 									{
-										column.Field	= this._Regex.Replace( column.Field	, BDC_Parser_Constants.cz_Sub_Token );
+										column.Field	= this._Regex.Replace( column.Field	, cz_Sub_Token );
 									}
 							}
 						//.............................................
@@ -115,7 +113,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 							{
 								if ( !string.IsNullOrEmpty( column.Cursor ) )
 									{
-										column.Cursor	= this._Regex.Replace( column.Cursor , BDC_Parser_Constants.cz_Sub_Token );
+										column.Cursor	= this._Regex.Replace( column.Cursor , cz_Sub_Token );
 									}
 							}
 						//.............................................

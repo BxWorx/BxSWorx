@@ -2,29 +2,20 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 //.........................................................
-using BxS_WorxIPX.API.BDC;
-
-using BxS_WorxNCO.Main;
-using BxS_WorxNCO.RfcFunction.BDCTran;
+using static BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants;
+using static BxS_WorxNCO.BDCSession.Parser		.BDC_Parser_Constants;
+using static BxS_WorxNCO.Main									.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
-	internal class BDC_Parser_Tokens
+	internal class BDC_Parser_Tokens : BDC_Parser_Base
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Parser_Tokens( Lazy< BDC_Parser_Factory > factory )
+				internal BDC_Parser_Tokens( Lazy< BDC_Parser_Factory > factory ) : base( factory )
 					{
-						this._Factory	= factory;
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private	readonly	Lazy< BDC_Parser_Factory >		_Factory;
 
 			#endregion
 
@@ -32,8 +23,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	IBDCSessionRequest	dtoRequest
-															,	DTO_ParserProfile		dtoProfile )
+				internal void	Process(	DTO_ParserRequest	dtoRequest
+															,	DTO_ParserProfile	dtoProfile )
 					{
 						if (dtoRequest.WSData == null)	return;
 						this.Prepare( dtoRequest , dtoProfile );
@@ -64,8 +55,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void Prepare(		IBDCSessionRequest	dtoRequest
-															,	DTO_ParserProfile		dtoProfile )
+				private	void Prepare(		DTO_ParserRequest	dtoRequest
+															,	DTO_ParserProfile	dtoProfile )
 					{
 						//.............................................
 						// Calculate Excel to array offsets
@@ -96,7 +87,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						// Search for DATAROWSTART token to lessen remainder of search rows as all token should be
 						// in header section
 						//
-						DTO_ParserToken lo_DataRowToken	=	this.CreateToken( BDC_Parser_Constants.cz_Token_DataRow , 10 , -1 , BDC_Parser_Constants.cz_Token_xInst );
+						DTO_ParserToken lo_DataRowToken	=	this.CreateToken( cz_Token_DataRow , 10 , -1 , cz_Token_xInst );
 
 						this.UpdateToken( lo_DataRowToken , dtoRequest , dtoProfile.RowLB , dtoProfile.RowUB , dtoProfile.ColLB , dtoProfile.ColUB );
 						dtoProfile.RowDataStart	= lo_DataRowToken.Row;
@@ -104,10 +95,10 @@ namespace BxS_WorxNCO.BDCSession.Parser
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void UpdateToken(		DTO_ParserToken			token
-																	,	IBDCSessionRequest	dtoRequest
+				private	void UpdateToken(		DTO_ParserToken		token
+																	,	DTO_ParserRequest	dtoRequest
 																	, int fromRow , int toRow
-																	, int fromCol , int toCol						)
+																	, int fromCol , int toCol				)
 					{
 						for ( int r = fromRow; r < toRow; r++ )
 							{
@@ -115,13 +106,13 @@ namespace BxS_WorxNCO.BDCSession.Parser
 									{
 										if ( dtoRequest.WSData[r,c] != null )
 											{
-												if ( Regex.IsMatch( dtoRequest.WSData[r,c] , BDC_Parser_Constants.cz_Cmd_Prefix , RegexOptions.IgnoreCase ) )
+												if ( Regex.IsMatch( dtoRequest.WSData[r,c] , cz_Cmd_Prefix , RegexOptions.IgnoreCase ) )
 													{
 														if ( Regex.IsMatch( dtoRequest.WSData[r,c] , token.ID , RegexOptions.IgnoreCase ) )
 															{
 																token.Row		= r;
 																token.Col		= c;
-																token.Value	= dtoRequest.WSData[r,c].Replace( BDC_Parser_Constants.cz_Cmd_Prefix , "" );
+																token.Value	= dtoRequest.WSData[r,c].Replace( cz_Cmd_Prefix , "" );
 																token.Found	= true;
 															}
 													}
@@ -149,7 +140,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 															{
 																token.Row				= r;
 																token.Col				= c;
-																token.Value			= dtoRequest.WSData[r,c].Replace( BDC_Parser_Constants.cz_Cmd_Prefix , "" );
+																token.Value			= dtoRequest.WSData[r,c].Replace( cz_Cmd_Prefix , "" );
 																token.Found			= true;
 																token.FoundAlt	= true;
 															}
@@ -166,16 +157,16 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	bool UpdateHeaderRowReference( DTO_ParserProfile dtoProfile )
 					{
-						dtoProfile.BDCHeaderRowRef.Prog	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_Prog , out DTO_ParserToken lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.Prog	= dtoProfile.Tokens.TryGetValue( cz_Token_Prog , out DTO_ParserToken lo_Token ) ? lo_Token.Row : -1 ;
 
-						dtoProfile.BDCHeaderRowRef.Scrn	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_Scrn , out lo_Token ) ? lo_Token.Row : -1 ;
-						dtoProfile.BDCHeaderRowRef.Strt	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_Begn , out lo_Token ) ? lo_Token.Row : -1 ;
-						dtoProfile.BDCHeaderRowRef.OKCd	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_OKCd , out lo_Token ) ? lo_Token.Row : -1 ;
-						dtoProfile.BDCHeaderRowRef.Curs	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_Crsr , out lo_Token ) ? lo_Token.Row : -1 ;
-						dtoProfile.BDCHeaderRowRef.Subs	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_Subs , out lo_Token ) ? lo_Token.Row : -1 ;
-						dtoProfile.BDCHeaderRowRef.FldN	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_FNme , out lo_Token ) ? lo_Token.Row : -1 ;
-						dtoProfile.BDCHeaderRowRef.Desc	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_Desc , out lo_Token ) ? lo_Token.Row : -1 ;
-						dtoProfile.BDCHeaderRowRef.Inst	= dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_Inst , out lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.Scrn	= dtoProfile.Tokens.TryGetValue( cz_Token_Scrn , out lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.Strt	= dtoProfile.Tokens.TryGetValue( cz_Token_Begn , out lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.OKCd	= dtoProfile.Tokens.TryGetValue( cz_Token_OKCd , out lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.Curs	= dtoProfile.Tokens.TryGetValue( cz_Token_Crsr , out lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.Subs	= dtoProfile.Tokens.TryGetValue( cz_Token_Subs , out lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.FldN	= dtoProfile.Tokens.TryGetValue( cz_Token_FNme , out lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.Desc	= dtoProfile.Tokens.TryGetValue( cz_Token_Desc , out lo_Token ) ? lo_Token.Row : -1 ;
+						dtoProfile.BDCHeaderRowRef.Inst	= dtoProfile.Tokens.TryGetValue( cz_Token_Inst , out lo_Token ) ? lo_Token.Row : -1 ;
 						//.............................................
 						if (		dtoProfile.BDCHeaderRowRef.Prog.Equals(-1)
 								||	dtoProfile.BDCHeaderRowRef.Scrn.Equals(-1)
@@ -195,23 +186,23 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadTokens( DTO_ParserProfile dtoProfile )
 					{
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_Prog	, (int)BDC_Parser_Constants.ZDTON_RowNo.ProgName			, -1	, BDC_Parser_Constants.cz_Token_xProg	);
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_Scrn	,	(int)BDC_Parser_Constants.ZDTON_RowNo.DynProNo			, -1	, BDC_Parser_Constants.cz_Token_xScrn	);
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_Begn	,	(int)BDC_Parser_Constants.ZDTON_RowNo.DynBegin			, -1	, BDC_Parser_Constants.cz_Token_xBegn	);
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_OKCd	,	(int)BDC_Parser_Constants.ZDTON_RowNo.OKCode				, -1	, BDC_Parser_Constants.cz_Token_xOKCd	);
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_Crsr	,	(int)BDC_Parser_Constants.ZDTON_RowNo.Cursor				, -1	, BDC_Parser_Constants.cz_Token_xCrsr	);
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_Subs	,	(int)BDC_Parser_Constants.ZDTON_RowNo.SubScreen			, -1	, BDC_Parser_Constants.cz_Token_xSubs	);
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_FNme	,	(int)BDC_Parser_Constants.ZDTON_RowNo.FieldName			, -1	, BDC_Parser_Constants.cz_Token_xFNme	);
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_Desc	,	(int)BDC_Parser_Constants.ZDTON_RowNo.Description		, -1	, BDC_Parser_Constants.cz_Token_xDesc	);
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_Inst	,	(int)BDC_Parser_Constants.ZDTON_RowNo.Instructions	, -1	, BDC_Parser_Constants.cz_Token_xInst	);
+						this.AddToken( dtoProfile, cz_Token_Prog	, (int)ZDTON_RowNo.ProgName			, -1	, cz_Token_xProg	);
+						this.AddToken( dtoProfile, cz_Token_Scrn	,	(int)ZDTON_RowNo.DynProNo			, -1	, cz_Token_xScrn	);
+						this.AddToken( dtoProfile, cz_Token_Begn	,	(int)ZDTON_RowNo.DynBegin			, -1	, cz_Token_xBegn	);
+						this.AddToken( dtoProfile, cz_Token_OKCd	,	(int)ZDTON_RowNo.OKCode				, -1	, cz_Token_xOKCd	);
+						this.AddToken( dtoProfile, cz_Token_Crsr	,	(int)ZDTON_RowNo.Cursor				, -1	, cz_Token_xCrsr	);
+						this.AddToken( dtoProfile, cz_Token_Subs	,	(int)ZDTON_RowNo.SubScreen			, -1	, cz_Token_xSubs	);
+						this.AddToken( dtoProfile, cz_Token_FNme	,	(int)ZDTON_RowNo.FieldName			, -1	, cz_Token_xFNme	);
+						this.AddToken( dtoProfile, cz_Token_Desc	,	(int)ZDTON_RowNo.Description		, -1	, cz_Token_xDesc	);
+						this.AddToken( dtoProfile, cz_Token_Inst	,	(int)ZDTON_RowNo.Instructions	, -1	, cz_Token_xInst	);
 						//.............................................
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_IDCol		,	-1 ,  2 );
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_MsgCol		,	-1 ,  1 );
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_ExeCol		,	-1 ,  3 );
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_DataCol	,	-1 ,  5 );
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Token_XCfg			,	-1 , -1 );
+						this.AddToken( dtoProfile, cz_Token_IDCol		,	-1 ,  2 );
+						this.AddToken( dtoProfile, cz_Token_MsgCol		,	-1 ,  1 );
+						this.AddToken( dtoProfile, cz_Token_ExeCol		,	-1 ,  3 );
+						this.AddToken( dtoProfile, cz_Token_DataCol	,	-1 ,  5 );
+						this.AddToken( dtoProfile, cz_Token_XCfg			,	-1 , -1 );
 						//.............................................
-						this.AddToken( dtoProfile, BDC_Parser_Constants.cz_Instr_Post	,	-1 , -1 );
+						this.AddToken( dtoProfile, cz_Instr_Post	,	-1 , -1 );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -219,7 +210,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 															, string						token
 															, int								row
 															, int								col = -1
-															, string						AltID	= NCO_Constants.cz_Null )
+															, string						AltID	= cz_Null )
 					{
 						DTO_ParserToken lo_DTO	= this.CreateToken( token , row , col , AltID );
 						dtoProfile.Tokens.Add( lo_DTO.ID, lo_DTO );
@@ -229,7 +220,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				private DTO_ParserToken CreateToken(	string	token
 																						, int			row
 																						, int			col = -1
-																						, string	AltID	= NCO_Constants.cz_Null )
+																						, string	AltID	= cz_Null )
 					{
 						DTO_ParserToken lo_DTO	= this._Factory.Value.CreateDTOToken( token );
 						//.............................................
@@ -244,24 +235,24 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ExtractBDCTokenValues( DTO_ParserProfile dtoProfile )
 					{
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_Prog	, true	);
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_Scrn	,	true	);
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_Begn	,	true	);
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_OKCd	,	true	);
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_Crsr	,	true	);
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_Subs	,	true	);
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_FNme	,	true	);
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_Desc	,	true	);
-						this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_Inst	,	true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_Prog	, true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_Scrn	,	true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_Begn	,	true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_OKCd	,	true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_Crsr	,	true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_Subs	,	true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_FNme	,	true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_Desc	,	true	);
+						this.ExtractTokenValue( dtoProfile , cz_Token_Inst	,	true	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ExtractSpecificTokenValues( DTO_ParserProfile dtoProfile )
 					{
-						dtoProfile.ColDataStart	= this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_DataCol	, false	);
-						dtoProfile.ColID				= this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_IDCol		, false	);
-						dtoProfile.ColExec			= this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_ExeCol		, false	);
-						dtoProfile.ColMsgs			= this.ExtractTokenValue( dtoProfile , BDC_Parser_Constants.cz_Token_MsgCol		, false	);
+						dtoProfile.ColDataStart	= this.ExtractTokenValue( dtoProfile , cz_Token_DataCol	, false	);
+						dtoProfile.ColID				= this.ExtractTokenValue( dtoProfile , cz_Token_IDCol		, false	);
+						dtoProfile.ColExec			= this.ExtractTokenValue( dtoProfile , cz_Token_ExeCol		, false	);
+						dtoProfile.ColMsgs			= this.ExtractTokenValue( dtoProfile , cz_Token_MsgCol		, false	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -319,7 +310,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private string ExtractInstructionString( DTO_ParserToken token )
 					{
-						Match lo_Srch = Regex.Match( token.Value , $"{token.ID}.*?([^{BDC_Parser_Constants.cz_Cmd_Delim}]*)" , RegexOptions.IgnoreCase );
+						Match lo_Srch = Regex.Match( token.Value , $"{token.ID}.*?([^{cz_Cmd_Delim}]*)" , RegexOptions.IgnoreCase );
 						if (lo_Srch.Success)
 							{
 								string	lc_Val = lo_Srch.Groups[1].Value.Replace("[","");
@@ -332,7 +323,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ExtractXMLConfig( DTO_ParserProfile dtoProfile )
 					{
-						if ( dtoProfile.Tokens.TryGetValue( BDC_Parser_Constants.cz_Token_XCfg , out DTO_ParserToken token ) )
+						if ( dtoProfile.Tokens.TryGetValue( cz_Token_XCfg , out DTO_ParserToken token ) )
 							{
 								try
 									{
@@ -341,7 +332,9 @@ namespace BxS_WorxNCO.BDCSession.Parser
 										return;
 									}
 								catch
-									{	// NO-OP }
+									{
+										// NO-OP
+									}
 							}
 						//.............................................
 						const string lz_2	= "2";
@@ -358,16 +351,16 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 						lo_Cfg.GUID							= Guid.NewGuid().ToString();
 
-						lo_Cfg.CTU_DefSize			= NCO_Constants.cz_True;
-						lo_Cfg.IsActive					= NCO_Constants.cz_True;
-						lo_Cfg.IsProtected			= NCO_Constants.cz_True;
-						lo_Cfg.Skip1st					= NCO_Constants.cz_False;
-						lo_Cfg.SAPTCode					= NCO_Constants.cz_Null;
-						lo_Cfg.SAPBDCSessionID	= NCO_Constants.cz_Null;
-						lo_Cfg.Password					= NCO_Constants.cz_Null;
+						lo_Cfg.CTU_DefSize			= cz_True;
+						lo_Cfg.IsActive					= cz_True;
+						lo_Cfg.IsProtected			= cz_True;
+						lo_Cfg.Skip1st					= cz_False;
+						lo_Cfg.SAPTCode					= cz_Null;
+						lo_Cfg.SAPBDCSessionID	= cz_Null;
+						lo_Cfg.Password					= cz_Null;
 
-						lo_Cfg.CTU_DisMode			= BDCCall_Constants.lz_CTU_N.ToString();
-						lo_Cfg.CTU_UpdMode			= BDCCall_Constants.lz_CTU_N.ToString();
+						lo_Cfg.CTU_DisMode			= lz_CTU_N.ToString();
+						lo_Cfg.CTU_UpdMode			= lz_CTU_N.ToString();
 
 						lo_Cfg.PauseTime				= "0";
 
