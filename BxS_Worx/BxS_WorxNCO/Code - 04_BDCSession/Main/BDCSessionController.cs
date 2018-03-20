@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Collections.Generic;
 //.........................................................
+using BxS_WorxIPX.Main;
+
 using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.Destination.API;
@@ -21,11 +23,17 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this._LazyMode		= LazyThreadSafetyMode.ExecutionAndPublication;
 						//.............................................
-						this._Cntlr_Dst		= new Lazy<IDestinationController>(	()=>		new DestinationController()
+						this._Cntlr_Dst		= new Lazy< IDestinationController >(	()=>	new DestinationController()
 																																				, this._LazyMode							);
 
-						this._ParserFactory		= new Lazy< BDC_Parser_Factory >	(	()=>	BDC_Parser_Factory.Instance );
-						this._Parser					= new Lazy< BDC_Parser				 >	(	()=>	new BDC_Parser( this._ParserFactory ) );
+						this._Cntlr_Ipx		= new Lazy< IIPXController >				( ()=>	IPXController.Instance
+																																				, this._LazyMode							);
+						//.............................................
+						this._ParserFactory		= new Lazy< BDC_Parser_Factory >(	()=>	BDC_Parser_Factory.Instance
+																																				, this._LazyMode						);
+
+						this._Parser					= new Lazy< BDC_Parser				 >(	()=>	new BDC_Parser( this._ParserFactory )
+																																				,	this._LazyMode												);
 					}
 
 			#endregion
@@ -35,6 +43,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private readonly	LazyThreadSafetyMode						_LazyMode	;
 				//.................................................
+				private	readonly	Lazy< IIPXController >					_Cntlr_Ipx;
 				private readonly	Lazy< IDestinationController >	_Cntlr_Dst;
 				//.................................................
 				private readonly	Lazy< BDC_Parser >					_Parser				;
@@ -115,14 +124,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
 						return	this.CreateBDCSession( lo_D );
 					}
-		
-			
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_Session ParseRequest( IBDCSessionRequest bdcSessionRequest )
-					{
-
-					}
 
 			#endregion
 
@@ -134,7 +135,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						IRfcFncController	lo_F	= new RfcFncController( rfcDestination );
 						//.............................................
-						return	new BDCSession( lo_F , this.CreateSessionConfig() );
+						return	new BDCSession( lo_F , this._Parser , this.CreateSessionConfig() );
 					}
 
 			#endregion

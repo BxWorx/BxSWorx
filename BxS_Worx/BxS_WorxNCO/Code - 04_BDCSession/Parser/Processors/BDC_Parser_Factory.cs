@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
+using	IPX =	BxS_WorxIPX.Main;
+
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.BDCSession.DTO;
@@ -36,7 +38,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Declarations"
 
 				private	static readonly	Lazy< BDC_Parser_Factory >	_Instance
-					= new Lazy< BDC_Parser_Factory >(	()=>	new BDC_Parser_Factory() , LazyThreadSafetyMode.ExecutionAndPublication );
+					= new Lazy< BDC_Parser_Factory >(	()=>		new BDC_Parser_Factory()
+																									, LazyThreadSafetyMode.ExecutionAndPublication );
 				//.................................................
 				private readonly	Lazy< BDC_Parser_Tokens				>	_Proc_Tkns;
 				private readonly	Lazy< BDC_Parser_Columns			>	_Proc_Cols;
@@ -52,7 +55,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Properties"
 
-				//internal IIPX_Controller	IPXController		{ get { return IPX_Controller.Instance;	} }
+				internal IPX.IIPXController	IPXController		{ get { return IPX.IPXController.Instance;	} }
 
 			#endregion
 
@@ -86,6 +89,9 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				internal	IConfigSetupDestination		CreateDestConfig			()=> new ConfigSetupDestination();
 				
+
+
+
 
 				//.................................................
 				//.................................................

@@ -1,6 +1,7 @@
 ﻿using System;
 //.........................................................
-using BxS_WorxIPX.API.BDC;
+using BxS_WorxIPX.BDC;
+
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

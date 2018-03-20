@@ -2,10 +2,19 @@
 using System.Collections.Generic;
 using System.Security;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.BDC
+namespace BxS_WorxIPX.BDC
 {
 	public class BDCSessionRequest : IBDCSessionRequest
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal BDCSessionRequest()
+					{ }
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
 
 				public	Guid ID { get; set; }

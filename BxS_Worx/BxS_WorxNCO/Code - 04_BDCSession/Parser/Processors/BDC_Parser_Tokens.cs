@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 //.........................................................
-using static BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants;
-using static BxS_WorxNCO.BDCSession.Parser		.BDC_Parser_Constants;
-using static BxS_WorxNCO.Main									.NCO_Constants;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants		;
+using static	BxS_WorxNCO.BDCSession.Parser		.BDC_Parser_Constants	;
+using static	BxS_WorxNCO.Main								.NCO_Constants				;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {

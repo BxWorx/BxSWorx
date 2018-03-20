@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.BDC
+namespace BxS_WorxIPX.BDC
 {
 	public interface IBDCSessionRequest
 		{

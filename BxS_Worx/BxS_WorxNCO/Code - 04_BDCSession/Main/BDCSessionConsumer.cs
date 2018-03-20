@@ -54,12 +54,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Consume()
 					{
-						foreach ( DTO_BDC_Transaction lo_WorkItem in this._Queue.GetConsumingEnumerable( this._CT ) )
+						foreach ( DTO_BDC_Transaction lo_Tran in this._Queue.GetConsumingEnumerable( this._CT ) )
 							{
 								this._BDCData.Reset();
 								//.........................................
-								this.LoadBDC( this._BDCData.BDCData , lo_WorkItem.BDCData );
-								this.LoadSPA( this._BDCData.SPAData , lo_WorkItem.SPAData );
+								this.LoadBDC( this._BDCData.BDCData , lo_Tran.BDCData );
+								this.LoadSPA( this._BDCData.SPAData , lo_Tran.SPAData );
 								//.........................................
 								try
 									{

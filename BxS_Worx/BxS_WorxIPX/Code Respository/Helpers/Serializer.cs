@@ -5,9 +5,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxUtils.Helpers
+namespace BxS_WorxIPX.Helpers
 {
-	internal class Serializer
+	public class Serializer
 		{
 			#region "Constructors"
 
@@ -21,15 +21,15 @@ namespace BxS_WorxUtils.Helpers
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal string Serialize<T>( T classObject )
+				public string Serialize<T>( T classObject )
 					{
 						var	lt_Types	= new List<Type>();
 						return	this.Serialize( classObject , lt_Types );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal string Serialize<T>(		T						classObject
-																			,	List<Type>	knownTypes	)
+				public string Serialize<T>(		T						classObject
+																		,	List<Type>	knownTypes	)
 					{
 						var lo_XWSettings		= new XmlWriterSettings	{		Indent							= true
 																													,	OmitXmlDeclaration	= true
@@ -49,7 +49,7 @@ namespace BxS_WorxUtils.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal T DeSerialize<T>( string xmlString )
+				public T DeSerialize<T>( string xmlString )
 					{
 						var	lt_Types	= new List<Type>();
 
@@ -58,8 +58,8 @@ namespace BxS_WorxUtils.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal T DeSerialize<T>(	string			xmlString
-																	,	List<Type>	knownTypes	)
+				public T DeSerialize<T>(	string			xmlString
+																,	List<Type>	knownTypes	)
 					{
 						using ( var lo_XMLReader = XmlReader.Create( new StringReader( xmlString ) ) )
 							{
@@ -69,8 +69,8 @@ namespace BxS_WorxUtils.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void DeSerialize<T>(		string	xmlString
-																			,	ref T		classObject	)
+				public void DeSerialize<T>(		string	xmlString
+																		,	ref T		classObject	)
 					{
 						var	lt_Types	= new List<Type>();
 
@@ -80,9 +80,9 @@ namespace BxS_WorxUtils.Helpers
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void DeSerialize<T>(		string			xmlString
-																			,	ref T				classObject
-																			,	List<Type>	knownTypes	)
+				public void DeSerialize<T>(		string			xmlString
+																		,	ref T				classObject
+																		,	List<Type>	knownTypes	)
 					{
 						using ( var lo_XMLReader = XmlReader.Create( new StringReader( xmlString ) ) )
 							{

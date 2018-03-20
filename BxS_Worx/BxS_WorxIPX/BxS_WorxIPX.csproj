@@ -16,8 +16,4 @@
     <Compile Remove="Code Respository\Common\IPX_Constants.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Code Respository\Common\" />
-  </ItemGroup>
-
 </Project>

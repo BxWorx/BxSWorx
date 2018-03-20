@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using BxS_WorxIPX.API.BDC;
+using BxS_WorxIPX.BDC;
 
 using BxS_WorxNCO.BDCSession.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -14,13 +14,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Parser( Lazy< BDC_Parser_Factory >	factory ) : base( factory )
 					{
-						this._Tkn	= factory.Value.GetTokenParser()				;
-						this._Col	= factory.Value.GetColumnParser()				;
-						this._Grp	= factory.Value.GetGroupParser()				;
-						this._Trn	= factory.Value.GetTransactionParser()	;
-						this._Ssn	= factory.Value.GetSessionParser()			;
-						this._Des	= factory.Value.GetDestinationParser()	;
-
+						this._Tkn		= factory.Value.GetTokenParser				();
+						this._Col		= factory.Value.GetColumnParser				();
+						this._Grp		= factory.Value.GetGroupParser				();
+						this._Trn		= factory.Value.GetTransactionParser	();
+						this._Ssn		= factory.Value.GetSessionParser			();
+						this._Des		= factory.Value.GetDestinationParser	();
 					}
 
 			#endregion
@@ -28,12 +27,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy< BDC_Parser_Tokens >				_Tkn;
-				private	readonly	Lazy< BDC_Parser_Columns >			_Col;
-				private	readonly	Lazy< BDC_Parser_Groups >				_Grp;
-				private	readonly	Lazy< BDC_Parser_Transaction >	_Trn;
-				private	readonly	Lazy< BDC_Parser_Session >			_Ssn;
-				private	readonly	Lazy< BDC_Parser_Destination >	_Des;
+				private	readonly	Lazy< BDC_Parser_Tokens				>	_Tkn;
+				private	readonly	Lazy< BDC_Parser_Columns			>	_Col;
+				private	readonly	Lazy< BDC_Parser_Groups				>	_Grp;
+				private	readonly	Lazy< BDC_Parser_Transaction	>	_Trn;
+				private	readonly	Lazy< BDC_Parser_Session			>	_Ssn;
+				private	readonly	Lazy< BDC_Parser_Destination	>	_Des;
 
 			#endregion
 
