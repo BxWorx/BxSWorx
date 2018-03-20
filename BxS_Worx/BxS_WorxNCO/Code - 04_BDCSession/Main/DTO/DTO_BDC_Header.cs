@@ -1,13 +1,13 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.BDC
+namespace BxS_WorxNCO.BDCSession.DTO
 {
-	public class DTO_BDC_Header
+	internal class DTO_BDC_Header
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_Header( DTO_BDC_CTU ctuDTO )
+				internal DTO_BDC_Header( DTO_BDC_CTU ctuDTO )
 					{
 						this.CTUParms	= ctuDTO;
 					}

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 using BxS_WorxNCO.BDCSession.API;
+using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.Destination.API;
-using BxS_WorxIPX.API.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
@@ -55,6 +55,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public async Task UT_400_BCDSess_30_Process()
 				{
+					const	int ln_Trn	= 200;
 					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
 					IBDCSession							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
@@ -66,7 +67,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lo_BDCSess.ConfigureOperation		( lo_SessCfg );
 					//...............................................
 					DTO_BDC_Session lo_SessDTO = this.co_Ctlr.CreateSessionDTO();
-					this.LoadBDCData( lo_SessDTO , 50 );
+					this.LoadBDCData( lo_SessDTO , ln_Trn );
 
 					int ln_ConCnt = await lo_BDCSess.Process_SessionAsync( lo_SessDTO ).ConfigureAwait(false);
 
@@ -74,6 +75,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						{
 							Thread.Sleep(10);
 						}
+
+					Assert.AreEqual( ln_Trn , lo_BDCSess.TransactionsProcessed , "" );
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -82,7 +85,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Configure( DTO_BDC_SessionConfig	lo_SessCfg )
 					{
-						lo_SessCfg.ConsumersNo	= 4;
+						lo_SessCfg.ConsumersNo	= 5;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -92,7 +95,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						lo_DestCfg.User				= "DERRICKBINGH"	;
 						lo_DestCfg.Password		= "M@@n4321"			;
 
-						lo_DestCfg.SetSAPGUIasUsed();
+						lo_DestCfg.SetSAPGUIasHidden();
+
+						lo_DestCfg.IdleCheckTime		= 10;
+						lo_DestCfg.IdleTimeout			= 60;
+						lo_DestCfg.RepoIdleTimeout	= 10;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -134,7 +141,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 								lo_Trn.AddBDCData( "SAPMF02D" ,  110 , true , "BDC_OKCODE" , "=PF03" );
 								//.............................................
-								dto.Trans.TryAdd( lo_Trn.TranNo , lo_Trn);
+								dto.Trans.Enqueue( lo_Trn);
 							}
 					}
 		}

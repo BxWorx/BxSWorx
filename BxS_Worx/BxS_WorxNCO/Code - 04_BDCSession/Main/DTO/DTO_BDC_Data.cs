@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.BDC
+namespace BxS_WorxNCO.BDCSession.DTO
 {
-	public class DTO_BDC_Data
+	internal class DTO_BDC_Data
 		{
 			#region "Documentation"
 

@@ -1,5 +1,6 @@
 ﻿using System;
 //.........................................................
+using BxS_WorxNCO.Main;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -48,8 +49,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 								lo_Head.CTUParms[ this.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_A );
 								lo_Head.CTUParms[ this.CTUOpt_UpdMde ].SetValue( BDCCall_Constants.lz_CTU_A	);
-								lo_Head.CTUParms[ this.CTUOpt_DefSze ].SetValue( BDCCall_Constants.lz_F			);
-								lo_Head.CTUParms[ this.CTUOpt_CATMde ].SetValue( BDCCall_Constants.lz_F			);
+								lo_Head.CTUParms[ this.CTUOpt_DefSze ].SetValue( NCO_Constants.cz_False			);
+								lo_Head.CTUParms[ this.CTUOpt_CATMde ].SetValue( NCO_Constants.cz_False			);
 							}
 						//.............................................
 						return	lo_Head;

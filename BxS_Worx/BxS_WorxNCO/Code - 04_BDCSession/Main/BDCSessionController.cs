@@ -2,14 +2,14 @@
 using System.Threading;
 using System.Collections.Generic;
 //.........................................................
-using BxS_WorxIPX.API.BDC;
-
+using BxS_WorxNCO.BDCSession.API;
+using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Main;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.Destination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCSession.API
+namespace BxS_WorxNCO.BDCSession.Main
 {
 	internal class BDCSessionController : IBDCSessionController
 		{

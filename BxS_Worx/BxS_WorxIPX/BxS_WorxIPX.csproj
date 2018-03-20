@@ -4,4 +4,20 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Code Respository\BDC Session\DTO_BDC_CTU.cs" />
+    <Compile Remove="Code Respository\BDC Session\DTO_BDC_Data.cs" />
+    <Compile Remove="Code Respository\BDC Session\DTO_BDC_Header.cs" />
+    <Compile Remove="Code Respository\BDC Session\DTO_BDC_Msg.cs" />
+    <Compile Remove="Code Respository\BDC Session\DTO_BDC_Session.cs" />
+    <Compile Remove="Code Respository\BDC Session\DTO_BDC_SessionConfig.cs" />
+    <Compile Remove="Code Respository\BDC Session\DTO_BDC_SPA.cs" />
+    <Compile Remove="Code Respository\BDC Session\DTO_BDC_Trans.cs" />
+    <Compile Remove="Code Respository\Common\IPX_Constants.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code Respository\Common\" />
+  </ItemGroup>
+
 </Project>

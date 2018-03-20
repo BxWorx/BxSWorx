@@ -1,7 +1,8 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.BDC
+﻿using BxS_WorxNCO.RfcFunction.BDCTran;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+namespace BxS_WorxNCO.BDCSession.DTO
 {
-	public class DTO_BDC_CTU
+	internal class DTO_BDC_CTU
 		{
 			#region "Documentation"
 
@@ -37,7 +38,7 @@ namespace BxS_WorxIPX.API.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_CTU()
+				internal DTO_BDC_CTU()
 					{
 						this.Reset();
 					}
@@ -63,13 +64,13 @@ namespace BxS_WorxIPX.API.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
-						this.DisplayMode		=	IPX_Constants.lz_CTU_N	;
-						this.UpdateMode			=	IPX_Constants.lz_CTU_A	;
-						this.CATTMode				=	IPX_Constants.lz_CTU_F	;
-						this.DefaultSize		=	IPX_Constants.lz_CTU_F	;
-						this.NoCommit				=	IPX_Constants.lz_CTU_F	;
-						this.NoBatchInpFor	=	IPX_Constants.lz_CTU_F	;
-						this.NoBatchInpAft	=	IPX_Constants.lz_CTU_F	;
+						this.DisplayMode		=	BDCCall_Constants.lz_CTU_N	;
+						this.UpdateMode			=	BDCCall_Constants.lz_CTU_A	;
+						this.CATTMode				=	BDCCall_Constants.lz_CTU_F	;
+						this.DefaultSize		=	BDCCall_Constants.lz_CTU_F	;
+						this.NoCommit				=	BDCCall_Constants.lz_CTU_F	;
+						this.NoBatchInpFor	=	BDCCall_Constants.lz_CTU_F	;
+						this.NoBatchInpAft	=	BDCCall_Constants.lz_CTU_F	;
 					}
 
 			#endregion

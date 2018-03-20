@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using BxS_WorxIPX.API.BDC;
+using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API

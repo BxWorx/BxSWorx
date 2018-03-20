@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.API.BDC
@@ -7,13 +8,16 @@ namespace BxS_WorxIPX.API.BDC
 		{
 			#region "Properties"
 
-				gUID		ID						{ get; set; }
+				Guid	ID	{ get; set; }
+				//.................................................
+				string	SAPSysID	{ get; set; }
+				string	Client		{ get; set; }
+				string	User			{ get; set; }
+				string	Lang			{ get; set; }
+				string	Pwrd			{ get; set; }
 
-				string	SAPSysID			{ get; set; }
-				string	Client				{ get; set; }
-				string	User					{ get; set; }
-				string	Lang					{ get; set; }
-
+				SecureString	SecurePwrd	{ get; set; }
+				//.................................................
 				string	WBID					{ get; set; }
 				string	WSID					{ get; set;	}
 				string	WSNo					{ get; set;	}
@@ -24,9 +28,8 @@ namespace BxS_WorxIPX.API.BDC
 				int			RowUB	{ get; set;	}
 				int			ColLB	{ get; set;	}
 				int			ColUB	{ get; set;	}
-
+				//.................................................
 				Dictionary< string , string >	WSData1D	{ get; set; }
-				SecureString									Pwrd			{ get; set; }
 
 			#endregion
 

@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+//.........................................................
+using BxS_WorxNCO.Main;
+using BxS_WorxNCO.RfcFunction.BDCTran;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.BDC
+namespace BxS_WorxNCO.BDCSession.DTO
 {
-	public class DTO_BDC_Trans
+	internal class DTO_BDC_Trans
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_Trans( int tranNo = 0 )
+				internal DTO_BDC_Trans( int tranNo = 0 )
 					{
 						this.TranNo		= tranNo;
 						//.............................................
@@ -49,17 +52,17 @@ namespace BxS_WorxIPX.API.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddBDCData(		string	programName	= IPX_Constants.cz_Null
+				public void AddBDCData(		string	programName	= NCO_Constants.cz_Null
 																,	int			dynpro			= 0
 																,	bool		begin				= false
-																,	string	field				= IPX_Constants.cz_Null
-																,	string	value				= IPX_Constants.cz_Null	)
+																,	string	field				= NCO_Constants.cz_Null
+																,	string	value				= NCO_Constants.cz_Null	)
 					{
 						DTO_BDC_Data lo_Data = this.CreateDataDTO();
 
 						lo_Data.ProgramName		= programName;
-						lo_Data.Dynpro				= dynpro.ToString(IPX_Constants.cz_DefDyn);
-						lo_Data.Begin					= begin ? IPX_Constants.cz_True : IPX_Constants.cz_False ;
+						lo_Data.Dynpro				= dynpro.ToString(BDCCall_Constants.cz_DefDyn);
+						lo_Data.Begin					= begin ? NCO_Constants.cz_True : NCO_Constants.cz_False ;
 						lo_Data.FieldName			= field;
 						lo_Data.FieldValue		= value;
 

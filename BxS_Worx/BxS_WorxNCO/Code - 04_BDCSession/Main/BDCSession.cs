@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxIPX.API.BDC;
+
+using BxS_WorxNCO.BDCSession.API;
+using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.RfcFunction.BDCTran;
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCSession.API
+namespace BxS_WorxNCO.BDCSession.Main
 {
 	internal class BDCSession : IBDCSession
 		{
@@ -20,15 +23,17 @@ namespace BxS_WorxNCO.BDCSession.API
 				internal BDCSession(	IRfcFncController			fncCntlr
 														,	DTO_BDC_SessionConfig	config		)
 					{
-						this._FncCntlr	= fncCntlr	;
-						this._OpConfig	= config		;
+						this._FncCntlr	= fncCntlr;
+						this._OpConfig	= config	;
 						//.............................................
 						this._Queue			= new	BlockingCollection< DTO_BDC_Trans >();
-						this._Consumers	= new List< Task<int> >();
+						this._Consumers	= new List< Task<int> >	();
 						//.............................................
 						this.TasksCompleted	= new ConcurrentQueue< Task< int > >();
 						this.TasksFaulty		= new ConcurrentQueue< Task< int > >();
 						this.TasksOther			= new ConcurrentQueue< Task< int > >();
+						//.............................................
+						this._Profile	= this._FncCntlr.GetAddBDCCallProfile();
 					}
 
 			#endregion
@@ -42,20 +47,21 @@ namespace BxS_WorxNCO.BDCSession.API
 				private readonly	IList< Task<int> >										_Consumers;
 				private readonly	BlockingCollection< DTO_BDC_Trans >		_Queue;
 				//.................................................
-				private	IConfigSetupDestination		_DestConfig;
 				private CancellationTokenSource		_CTS;
 				//.................................................
-				private	BDCCall_Profile	_Profile;
-				private	BDCCall_Header	_Header	;
+				private	readonly	BDCCall_Profile	_Profile;
+				private						BDCCall_Header	_Header	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal ConcurrentQueue< Task< int > >	TasksCompleted	{ get; }
-				internal ConcurrentQueue< Task< int >	>	TasksFaulty			{ get; }
-				internal ConcurrentQueue< Task< int >	>	TasksOther			{ get; }
+				public int TransactionsProcessed { get; private set; }
+				//.................................................
+				public ConcurrentQueue< Task< int > >	TasksCompleted	{ get; private set; }
+				public ConcurrentQueue< Task< int >	>	TasksFaulty			{ get; private set; }
+				public ConcurrentQueue< Task< int >	>	TasksOther			{ get; private set; }
 
 			#endregion
 
@@ -63,16 +69,16 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// Configure the BDC session operating environment
-				//
+				// Configure the BDC session destination environment
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ConfigureDestination( IConfigSetupDestination dto )
 					{
-						this._DestConfig	= dto;
+						this._FncCntlr.RfcDestination.LoadConfig( dto );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Configure the BDC session operating environment
-				//
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ConfigureOperation( DTO_BDC_SessionConfig dto )
 					{
 						this._OpConfig.IsSequential				= dto.IsSequential			;
@@ -89,38 +95,32 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Process supplied BDC session
 				// Returns no of Transactions processesed
-				//
-				public async Task<int> Process_SessionAsync( DTO_BDC_Session dto )
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public async Task<int> Process_SessionAsync( IBDCSessionRequest dto )
 					{
-						int	ln_Ret	= 0;
-
-						int	ln_Tsk	= 0;
-						this._CTS		=	new CancellationTokenSource();
-						this.SetupDestination();
+						
 
 
-
-
-
+						this.PrepareSession();
 						this.BDCConsumer_LoadHDR( dto.Header );
 						this.BDCConsumer_LoadCTU( dto.Header.CTUParms	);
+						this.LoadQueue( dto.Trans );
 						//.............................................
 						this.CreateConsumerPool();
 
 						if ( ! this._CTS.IsCancellationRequested )
 							{
-								this.LoadQueue( dto.Trans );
-								ln_Ret	=	await ProcessConsumerResultsAsync().ConfigureAwait(false);
+								this.TransactionsProcessed	=	await ProcessConsumerResultsAsync().ConfigureAwait(false);
 							}
 						//.............................................
 						this._CTS	=	null;
 
-						return	ln_Ret;
+						return	this.TransactionsProcessed;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Cancel processing of session
-				//
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void CancelProcessing()
 					{
 						this._CTS?.Cancel();
@@ -132,10 +132,17 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void SetupDestination()
+				private void PrepareSession()
 					{
-						this._FncCntlr.RfcDestination.LoadConfig	( this._DestConfig );
-						this._FncCntlr.RegisterBDCCallProfile		( true );
+						this.TransactionsProcessed	= 0;
+						//.............................................
+						this.TasksCompleted	= new ConcurrentQueue< Task< int > >();
+						this.TasksFaulty		= new ConcurrentQueue< Task< int > >();
+						this.TasksOther			= new ConcurrentQueue< Task< int > >();
+						//.............................................
+						this._CTS						=	new CancellationTokenSource();
+						//.............................................
+						this._Header				= this._Profile.CreateBDCCallHeader( true );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -161,11 +168,9 @@ namespace BxS_WorxNCO.BDCSession.API
 
 								ln_Ret	+= lo_Task.Result;
 							}
+						//.............................................
 						return	ln_Ret;
 					}
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void CreateConsumerPool()
@@ -198,7 +203,7 @@ namespace BxS_WorxNCO.BDCSession.API
 								lo_BDCData.Reset();
 								//.........................................
 								this.BDCConsumer_LoadBDC( lo_BDCData.BDCData , lo_WorkItem.BDCData );
-								this.BDCConsumer_LoadSPA( lo_BDCData.SPAData	,	lo_WorkItem.SPAData );
+								this.BDCConsumer_LoadSPA( lo_BDCData.SPAData , lo_WorkItem.SPAData );
 								//.........................................
 								try
 									{
@@ -216,10 +221,6 @@ namespace BxS_WorxNCO.BDCSession.API
 						//.........................................
 						return	ln_Cnt;
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BDCConsumer_LoadHDR( DTO_BDC_Header dtoHead )

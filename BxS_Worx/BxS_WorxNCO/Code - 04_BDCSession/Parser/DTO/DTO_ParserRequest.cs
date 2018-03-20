@@ -1,24 +1,22 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.API.BDC
+namespace BxS_WorxNCO.BDCSession.Parser
 {
-	public class DTO_BDC_SPA
+	internal class DTO_ParserRequest
 		{
-			#region "Documentation"
+			#region "Constructors"
 
-				//	RFC_SPAGPA:	SPA/GPA structure for RFC
-				//
-				//	PARID		1 Types	MEMORYID	CHAR	20	0	Set/Get parameter ID
-				//	PARVAL	1 Types						CHAR	255	0	Set/Get Parameter Value (Char 255)
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_ParserRequest()
+					{
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	MemoryID		{	get; set; }
-				public	string	MemoryValue	{	get; set; }
+				internal	string[,]		WSData	{ get; set;	}
 
 			#endregion
-
 		}
 }
