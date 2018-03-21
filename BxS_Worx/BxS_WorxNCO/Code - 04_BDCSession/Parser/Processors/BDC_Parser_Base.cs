@@ -9,7 +9,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	BDC_Parser_Base(	Lazy< BDC_Parser_Factory > factory )
 					{
-						this._Factory	= factory;
+						this._PFactory	= factory;
 					}
 
 			#endregion
@@ -17,7 +17,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declaration"
 
-				protected	readonly Lazy< BDC_Parser_Factory > 	_Factory;
+				protected	readonly Lazy< BDC_Parser_Factory > 	_PFactory;
 
 			#endregion
 

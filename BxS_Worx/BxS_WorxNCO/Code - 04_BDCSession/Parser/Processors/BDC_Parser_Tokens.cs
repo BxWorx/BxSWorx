@@ -222,7 +222,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 																						, int			col = -1
 																						, string	AltID	= cz_Null )
 					{
-						DTO_ParserToken lo_DTO	= this._Factory.Value.CreateDTOToken( token );
+						DTO_ParserToken lo_DTO	= this._PFactory.Value.CreateDTOToken( token );
 						//.............................................
 						lo_DTO.Row		= row		;
 						lo_DTO.Col		= col		;
@@ -327,7 +327,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 							{
 								try
 									{
-										dtoProfile.XMLConfig	= this._Factory.Value.IPXController
+										dtoProfile.XMLConfig	= this._PFactory.Value.Serializer
 																							.DeSerialize< DTO_ParserXMLConfig >(	token.Value );
 										return;
 									}
@@ -339,7 +339,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						const string lz_2	= "2";
 
-						DTO_ParserXMLConfig lo_Cfg	= this._Factory.Value.CreateDTOXMLCfg();
+						DTO_ParserXMLConfig lo_Cfg	= this._PFactory.Value.CreateDTOXMLCfg();
 
 						lo_Cfg.Col_Msg				= "1";
 						lo_Cfg.Col_Active			= lz_2;

@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.Destination.API;
+using BxS_WorxNCO.BDCSession.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {

@@ -9,11 +9,11 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				internal DTO_ParserProfile( DTO_ParserHeaderRowRef	bdcHeaderRowRef	)
 					{
-						this.BDCHeaderRowRef	= bdcHeaderRowRef		?? throw new Exception();
+						this.BDCHeaderRowRef	= bdcHeaderRowRef		?? throw new Exception( "Parser: Profile: NULL Header row reference" );
 						//.............................................
-						this.Tokens		= new Dictionary< string	, DTO_ParserToken >	();
-						this.Columns	= new Dictionary< int			, DTO_ParserColumn >	();
-						this.TranRows	= new Dictionary< int			, List< int > >		();
+						this.Tokens		= new Dictionary< string	, DTO_ParserToken		>	();
+						this.Columns	= new Dictionary< int			, DTO_ParserColumn	>	();
+						this.TranRows	= new Dictionary< int			, List<int>					>	();
 						//.............................................
 						this.RowLB	= -1;
 						this.RowUB	= -1;
@@ -26,9 +26,9 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Properties"
 
-				internal	Dictionary<	string	, DTO_ParserToken >		Tokens		{ get; }
-				internal	Dictionary<	int			, DTO_ParserColumn >	Columns		{ get; }
-				internal	Dictionary<	int			, List< int > >				TranRows	{ get; }
+				internal	Dictionary<	string	, DTO_ParserToken		>	Tokens		{ get; }
+				internal	Dictionary<	int			, DTO_ParserColumn	>	Columns		{ get; }
+				internal	Dictionary<	int			, List<int>					>	TranRows	{ get; }
 				//.................................................
 				internal	DTO_ParserHeaderRowRef	BDCHeaderRowRef		{ get; }
 				internal	DTO_ParserXMLConfig			XMLConfig					{ get; set; }

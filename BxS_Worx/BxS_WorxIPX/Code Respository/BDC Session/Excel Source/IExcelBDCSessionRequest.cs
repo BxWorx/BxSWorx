@@ -4,11 +4,11 @@ using System.Security;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IBDCSessionRequest
+	public interface IExcelBDCSessionRequest
 		{
 			#region "Properties"
 
-				Guid ID { get; set; }
+				Guid		ID								{ get; set; }
 				//.................................................
 				int			IdleTimeout				{ get; set; }
 				int			IdleCheckTime			{ get; set; }

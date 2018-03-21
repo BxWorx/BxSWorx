@@ -21,10 +21,10 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	IBDCSessionRequest	dtoRequest
+				internal void	Process(	IExcelBDCSessionRequest	dtoRequest
 															, DTO_BDC_Session			Session			)
 					{
-						IConfigSetupDestination lo_Cfg	= this._Factory.Value.CreateDestConfig();
+						IConfigSetupDestination lo_Cfg	= this._PFactory.Value.CreateDestConfig();
 						//.............................................
 						lo_Cfg.Client		= int.Parse( dtoRequest.Client );
 						lo_Cfg.Language	= dtoRequest.Lang;

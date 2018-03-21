@@ -123,7 +123,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_ParserColumn CreateColumn( int ID )
 					{
-						DTO_ParserColumn lo_DTO	= this._Factory.Value.CreateDTOColumn();
+						DTO_ParserColumn lo_DTO	= this._PFactory.Value.CreateDTOColumn();
 
 						lo_DTO.ColNo	= ID;
 

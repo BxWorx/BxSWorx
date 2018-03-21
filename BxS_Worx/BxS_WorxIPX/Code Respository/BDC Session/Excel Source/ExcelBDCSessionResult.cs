@@ -2,12 +2,12 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public class BDCSessionResult : IBDCSessionResult
+	public class ExcelBDCSessionResult : IExcelBDCSessionResult
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSessionResult()
+				internal ExcelBDCSessionResult()
 					{ }
 
 			#endregion
@@ -15,7 +15,11 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				public	Guid	ID	{ get; set; }
+				public	Guid		ID		{ get; set; }
+				//.................................................
+				public	string	WBID	{ get; set; }
+				public	string	WSID	{ get; set;	}
+				public	string	WSNo	{ get; set;	}
 
 			#endregion
 

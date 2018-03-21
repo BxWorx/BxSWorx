@@ -10,8 +10,8 @@ namespace BxS_WorxIPX.Main
 				IO					CreateIO();
 				Serializer	CreateSerializer();
 				//.................................................
-				IBDCSessionRequest	CreateBDCSessionRequest	();
-				IBDCSessionResult		CreateBDCSessionResult	();
+				IExcelBDCSessionRequest	CreateBDCSessionRequest	();
+				IExcelBDCSessionResult		CreateBDCSessionResult	();
 
 			#endregion
 

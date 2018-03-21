@@ -14,12 +14,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Parser( Lazy< BDC_Parser_Factory >	factory ) : base( factory )
 					{
-						this._Tkn		= factory.Value.GetTokenParser				();
-						this._Col		= factory.Value.GetColumnParser				();
-						this._Grp		= factory.Value.GetGroupParser				();
-						this._Trn		= factory.Value.GetTransactionParser	();
-						this._Ssn		= factory.Value.GetSessionParser			();
-						this._Des		= factory.Value.GetDestinationParser	();
+						this._Tkn		=	this._PFactory.Value.GetTokenParser				();
+						this._Col		= this._PFactory.Value.GetColumnParser			();
+						this._Grp		= this._PFactory.Value.GetGroupParser				();
+						this._Trn		= this._PFactory.Value.GetTransactionParser	();
+						this._Ssn		= this._PFactory.Value.GetSessionParser			();
+						this._Des		= this._PFactory.Value.GetDestinationParser	();
 					}
 
 			#endregion
@@ -40,23 +40,22 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_BDC_Session Process( IBDCSessionRequest bdcSessionRequest )
+				internal bool Process(	IExcelBDCSessionRequest	bdcSessionRequest
+															, DTO_BDC_Session			dto_BDCSession		)
 					{
-						DTO_ParserRequest	lo_DTOSessReq	= this.Parse1Dto2D( bdcSessionRequest );
-						//.............................................
-						DTO_BDC_Session		lo_BDCSession		= this._Factory.Value.CreateBDCSession();
-						DTO_ParserProfile	lo_DTOProfile		= this._Factory.Value.CreateDTOProfile();
+						DTO_ParserRequest	lo_DTOSessReq		= this.Parse1Dto2D( bdcSessionRequest );
+						DTO_ParserProfile	lo_DTOProfile		= this._PFactory.Value.CreateDTOProfile();
 						//.............................................
 						this._Tkn.Value.Process( lo_DTOSessReq	,	lo_DTOProfile	);
 						this._Col.Value.Process( lo_DTOSessReq	,	lo_DTOProfile	);
 						this._Grp.Value.Process( lo_DTOSessReq	,	lo_DTOProfile	);
 
-						this._Trn.Value.Process( lo_DTOSessReq	, lo_DTOProfile	, lo_BDCSession );
+						this._Trn.Value.Process( lo_DTOSessReq	, lo_DTOProfile	, dto_BDCSession );
 
-						this._Ssn.Value.Process( lo_DTOProfile			, lo_BDCSession );
-						this._Des.Value.Process( bdcSessionRequest	, lo_BDCSession );
+						this._Ssn.Value.Process( lo_DTOProfile			, dto_BDCSession );
+						this._Des.Value.Process( bdcSessionRequest	, dto_BDCSession );
 						//.............................................
-						return	lo_BDCSession;
+						return	true;
 					}
 
 			#endregion
@@ -65,17 +64,17 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_ParserRequest Parse1Dto2D( IBDCSessionRequest DTO )
+				private DTO_ParserRequest Parse1Dto2D( IExcelBDCSessionRequest DTO )
 					{
-						DTO_ParserRequest	lo_SessReq	= this._Factory.Value.CreateDTOSessReq();
+						DTO_ParserRequest	lo_SessReq	= this._PFactory.Value.CreateDTOSessReq();
 						//.............................................
-						int[]	lt_UB = new int[2];
+						int[]	lt_UB	= new int[2];
 						int[]	lt_LB = new int[2];
 
-						lt_UB[0] =	DTO.RowUB;
-						lt_UB[1] =	DTO.ColUB;
-						lt_LB[0] =	DTO.RowLB;
-						lt_LB[1] =	DTO.ColLB;
+						lt_UB[0]	=	DTO.RowUB;
+						lt_UB[1]	=	DTO.ColUB;
+						lt_LB[0]	=	DTO.RowLB;
+						lt_LB[1]	=	DTO.ColLB;
 
 						lo_SessReq.WSData	= ( string[,] ) Array.CreateInstance( typeof( string ) , lt_UB, lt_LB );
 						//.............................................

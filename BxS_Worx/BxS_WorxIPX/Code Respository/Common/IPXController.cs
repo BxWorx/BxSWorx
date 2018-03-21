@@ -26,6 +26,7 @@ namespace BxS_WorxIPX.Main
 			#region "Declarations"
 
 				private	static readonly	Lazy< IPXController >	_Instance
+
 					= new Lazy< IPXController >(	()=>		new IPXController()
 																					, LazyThreadSafetyMode.ExecutionAndPublication );
 
@@ -37,8 +38,8 @@ namespace BxS_WorxIPX.Main
 				public	IO					CreateIO					()=> new IO()					;
 				public	Serializer	CreateSerializer	()=> new Serializer()	;
 				//.................................................
-				public	IBDCSessionRequest	CreateBDCSessionRequest	()=> new BDCSessionRequest()	;
-				public	IBDCSessionResult		CreateBDCSessionResult	()=> new BDCSessionResult()		;
+				public	IExcelBDCSessionRequest	CreateBDCSessionRequest	()=> new ExcelBDCSessionRequest()	;
+				public	IExcelBDCSessionResult		CreateBDCSessionResult	()=> new ExcelBDCSessionResult	()	;
 
 			#endregion
 

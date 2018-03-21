@@ -42,7 +42,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						foreach ( KeyValuePair< int , List< int > > ls_KvpRow in dtoProfile.TranRows )
 							{
-								DTO_BDC_Transaction lo_BDCTran	= this._Factory.Value.CreateBDCSessionTransaction();
+								DTO_BDC_Transaction lo_BDCTran	= this._PFactory.Value.CreateBDCSessionTransaction();
 								//.........................................
 								for ( int r = 0; r < ls_KvpRow.Value.Count; r++ )
 									{
@@ -163,7 +163,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_BDC_Data CompileBDCScreen( string program , int screenNo )
 					{
-						DTO_BDC_Data lo_BDCData	= this._Factory.Value.CreateDTOBDCData();
+						DTO_BDC_Data lo_BDCData	= this._PFactory.Value.CreateDTOBDCData();
 						//.............................................
 						lo_BDCData.ProgramName	= program;
 						lo_BDCData.Dynpro				= screenNo.ToString( cz_DefDyn );
@@ -175,7 +175,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DTO_BDC_Data CompileBDCField( string field , string value )
 					{
-						DTO_BDC_Data lo_BDCData	= this._Factory.Value.CreateDTOBDCData();
+						DTO_BDC_Data lo_BDCData	= this._PFactory.Value.CreateDTOBDCData();
 						//.............................................
 						lo_BDCData.FieldName	= field;
 						lo_BDCData.FieldValue	=	value;

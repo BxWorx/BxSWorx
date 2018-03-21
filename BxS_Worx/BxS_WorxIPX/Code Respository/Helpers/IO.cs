@@ -73,8 +73,9 @@ namespace BxS_WorxIPX.Helpers
 									{
 										if (		includeBlankLines
 												||	! lc_Line.Length.Equals(0) )
-
-											lt_List.Add(lc_Line);
+											{
+												lt_List.Add(lc_Line);
+											}
 									}
 							}
 						//.............................................

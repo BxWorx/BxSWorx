@@ -7,6 +7,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BxS_WorxNCO.RfcFunction.BDCTran;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.Destination.API;
+
+using static	BxS_WorxNCO.Main								.NCO_Constants;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
@@ -80,7 +83,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Lines			lo_Lines	= lo_Prof.CreateBDCCallLines()	;
 
 					lo_Head.SAPTCode		= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_A );
+					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( lz_CTU_A );
 
 					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
 					//...............................................
@@ -108,8 +111,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Lines			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
 
 					lo_Head.SAPTCode	= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_NoBtcI ].SetValue( BDCCall_Constants.cz_False );
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_N );
+					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_NoBtcI ].SetValue( cz_False );
+					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( lz_CTU_N );
 
 					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
 					lo_Fnc0.Config	( lo_Head );
@@ -139,8 +142,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Header	lo_Head	= lo_Prof.CreateBDCCallHeader( true )	;
 					//...............................................
 					lo_Head.SAPTCode	= "XD03";
-					lo_Head.CTUParms[ lo_Prof.CTUOpt_NoBtcI ].SetValue( BDCCall_Constants.cz_False			);
-					lo_Head.CTUParms[ lo_Prof.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_N	);
+					lo_Head.CTUParms[ lo_Prof.CTUOpt_NoBtcI ].SetValue( cz_False );
+					lo_Head.CTUParms[ lo_Prof.CTUOpt_DspMde ].SetValue( lz_CTU_N );
 					//...............................................
 					const int ln_Trn	= 100;
 					const	int ln_Tsk	= 05;
@@ -184,23 +187,27 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				private void LoadBDCData( BDCCall_Lines dtoLines, BDCCall_Profile bdcFnc )
 					{
 						dtoLines.BDCData.Append(4);
-
+						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 0;
+
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Prg	, "SAPMF02D"		);
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Dyn	, "0101"				);
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Bgn	, "X"						);
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "BDC_OKCODE"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "/00"   				);
-
+						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "/00"   			);
+						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 1;
+
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "RF02D-KUNNR"	);
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "1000000"			);
-
+						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 2;
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "RF02D-D0110"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "X"			);
 
+						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "RF02D-D0110"	);
+						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "X"						);
+						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 3;
+
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Prg	, "SAPMF02D"		);
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Dyn	, "0110"				);
 						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Bgn	, "X"						);

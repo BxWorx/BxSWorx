@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 //.........................................................
-using BxS_WorxIPX.API.BDC;
+using BxS_WorxIPX.BDC;
 
 using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.BDCSession.DTO;
@@ -31,9 +31,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 						this._Queue			= new	BlockingCollection< DTO_BDC_Transaction >();
 						this._Consumers	= new List< Task<int> >	();
 						//.............................................
-						this.TasksCompleted	= new ConcurrentQueue< Task< int > >();
-						this.TasksFaulty		= new ConcurrentQueue< Task< int > >();
-						this.TasksOther			= new ConcurrentQueue< Task< int > >();
+						this.TasksCompleted	= new ConcurrentQueue< Task<int> >();
+						this.TasksFaulty		= new ConcurrentQueue< Task<int> >();
+						this.TasksOther			= new ConcurrentQueue< Task<int> >();
 						//.............................................
 						this._Profile	= this._FncCntlr.GetAddBDCCallProfile();
 
@@ -51,16 +51,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 				private readonly	IRfcFncController				_FncCntlr;
 				private	readonly	DTO_BDC_SessionConfig		_OpConfig;
 				//.................................................
-				private readonly	IList< Task<int> >										_Consumers;
+				private readonly	IList< Task<int> >													_Consumers;
 				private readonly	BlockingCollection< DTO_BDC_Transaction >		_Queue;
-				//.................................................
-				private CancellationTokenSource		_CTS;
 				//.................................................
 				private	readonly	BDCCall_Profile	_Profile;
 				private						BDCCall_Header	_Header	;
+				//.................................................
+				private						CancellationTokenSource		_CTS;
 
 				private	readonly	object	_Lock;
-				private bool _IsBusy;
+				private						bool		_IsBusy;
 
 			#endregion
 
@@ -69,9 +69,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				public int TransactionsProcessed { get; private set; }
 				//.................................................
-				public ConcurrentQueue< Task< int > >	TasksCompleted	{ get; private set; }
-				public ConcurrentQueue< Task< int >	>	TasksFaulty			{ get; private set; }
-				public ConcurrentQueue< Task< int >	>	TasksOther			{ get; private set; }
+				public ConcurrentQueue< Task<int> >	TasksCompleted	{ get; private set; }
+				public ConcurrentQueue< Task<int>	>	TasksFaulty			{ get; private set; }
+				public ConcurrentQueue< Task<int>	>	TasksOther			{ get; private set; }
 
 			#endregion
 
@@ -106,18 +106,20 @@ namespace BxS_WorxNCO.BDCSession.Main
 				// Parse BDC Session request, which is data from an excel spreadsheet, into an BDC Session
 				// DTO which is used by the Process Session process.
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task< DTO_BDC_Session > Parse_SessionAsync( IBDCSessionRequest bdcRequest )
+				public async Task<bool> Parse_SessionAsync(		IExcelBDCSessionRequest	bdcRequest
+																										, DTO_BDC_Session			bdcSession		)
 					{
-						DTO_BDC_Session lo_BDCSession		=	await Task.Run(	()=> this._Parser.Value.Process( bdcRequest ) )
+						bool		lb_Ret	=	await Task.Run(	()=>	this._Parser.Value.Process( bdcRequest , bdcSession ) )
 																											.ConfigureAwait(false);
-						return	lo_BDCSession;
+						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Process supplied BDC session
 				// Returns no of Transactions processesed
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<int> Process_SessionAsync(	IBDCSessionRequest	bdcRequest
+				public async Task<int> Process_SessionAsync(	IExcelBDCSessionRequest	bdcRequest
+																										, DTO_BDC_Session			bdcSession
 																										, bool								ignoreDestinationConfig	= true
 																										, bool								ignoreSessionConfig			= true )
 					{
@@ -129,10 +131,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 								this._IsBusy	= true;
 							}
 						//.............................................
-						DTO_BDC_Session	lo_BDCSession		= await this.Parse_SessionAsync( bdcRequest )
-																											.ConfigureAwait(false);
+						bool	lb_Ret =  await this.Parse_SessionAsync( bdcRequest , bdcSession ).ConfigureAwait(false);
 						//.............................................
-						return	await this.Process_Async( lo_BDCSession ).ConfigureAwait(false);
+						return	await this.Process_Async( bdcSession ).ConfigureAwait(false);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

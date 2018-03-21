@@ -2,6 +2,7 @@
 using System.Threading;
 //.........................................................
 using	IPX =	BxS_WorxIPX.Main;
+using				BxS_WorxIPX.Helpers;
 
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Config;
@@ -22,14 +23,16 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDC_Parser_Factory()
 					{
-						this._LazyMode	= LazyThreadSafetyMode.ExecutionAndPublication;
+						this._IPXController	= IPX.IPXController.Instance;
 						//.............................................
-						this._Proc_Tkns		=	new Lazy< BDC_Parser_Tokens				>	(	()=>	new BDC_Parser_Tokens				( _Instance ) , this._LazyMode );
-						this._Proc_Cols		=	new Lazy< BDC_Parser_Columns			>	(	()=>	new BDC_Parser_Columns			(	_Instance ) , this._LazyMode );
-						this._Proc_Grps		=	new Lazy< BDC_Parser_Groups				>	(	()=>	new BDC_Parser_Groups				(	_Instance ) , this._LazyMode );
-						this._Proc_Tran		=	new Lazy< BDC_Parser_Transaction	>	(	()=>	new BDC_Parser_Transaction	( _Instance ) , this._LazyMode );
-						this._Proc_Sesn		=	new Lazy< BDC_Parser_Session			>	(	()=>	new BDC_Parser_Session			( _Instance ) , this._LazyMode );
-						this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , this._LazyMode );
+						this._Proc_Tkns		=	new Lazy< BDC_Parser_Tokens				>	(	()=>	new BDC_Parser_Tokens				( _Instance ) , _LazyMode );
+						this._Proc_Cols		=	new Lazy< BDC_Parser_Columns			>	(	()=>	new BDC_Parser_Columns			(	_Instance ) , _LazyMode );
+						this._Proc_Grps		=	new Lazy< BDC_Parser_Groups				>	(	()=>	new BDC_Parser_Groups				(	_Instance ) , _LazyMode );
+						this._Proc_Tran		=	new Lazy< BDC_Parser_Transaction	>	(	()=>	new BDC_Parser_Transaction	( _Instance ) , _LazyMode );
+						this._Proc_Sesn		=	new Lazy< BDC_Parser_Session			>	(	()=>	new BDC_Parser_Session			( _Instance ) , _LazyMode );
+						this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , _LazyMode );
+						//.............................................
+						this._Serializer	= new Lazy< Serializer	>	(	()=> this._IPXController.CreateSerializer() , _LazyMode );
 				}
 
 			#endregion
@@ -37,9 +40,11 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private	static readonly	Lazy< BDC_Parser_Factory >	_Instance
-					= new Lazy< BDC_Parser_Factory >(	()=>		new BDC_Parser_Factory()
-																									, LazyThreadSafetyMode.ExecutionAndPublication );
+				private const LazyThreadSafetyMode	_LazyMode	= LazyThreadSafetyMode.ExecutionAndPublication;
+				//.................................................
+				private	static readonly	Lazy< BDC_Parser_Factory >	_Instance	= new Lazy< BDC_Parser_Factory >
+																																							(	()=>	new BDC_Parser_Factory()
+																																										, _LazyMode );
 				//.................................................
 				private readonly	Lazy< BDC_Parser_Tokens				>	_Proc_Tkns;
 				private readonly	Lazy< BDC_Parser_Columns			>	_Proc_Cols;
@@ -48,14 +53,17 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				private readonly	Lazy< BDC_Parser_Session			>	_Proc_Sesn;
 				private readonly	Lazy< BDC_Parser_Destination	>	_Proc_Dest;
 				//.................................................
-				private readonly	LazyThreadSafetyMode	_LazyMode;
+				private	readonly	Lazy<	Serializer >	_Serializer;
+				//.................................................
+				private	readonly	IPX.IIPXController	_IPXController;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal IPX.IIPXController	IPXController		{ get { return IPX.IPXController.Instance;	} }
+				internal	Serializer Serializer	{ get { return	this._Serializer.Value; } }
+				//internal IPX.IIPXController	IPXController		{ get { return IPX.IPXController.Instance;	} }
 
 			#endregion
 
@@ -78,20 +86,15 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//.................................................
 				// BDC Session objects
 				//.................................................
-				internal	BDC_Session							CreateBDCSession						()=>	new BDC_Session(	this.CreateDTOSessionOptions()
-																																														,	this.CreateDTOSessionHeader()		)	;
+				//internal	BDC_Session							CreateBDCSession						()=>	new BDC_Session(	this.CreateDTOSessionOptions()
+				//																																										,	this.CreateDTOSessionHeader()		)	;
 
-				internal	DTO_BDC_Transaction		CreateBDCSessionTransaction	( int ID	= 0 )=>	new DTO_BDC_Transaction( ID )	;
+				//internal	DTO_SessionHeader			CreateDTOSessionHeader		()=>	new	DTO_SessionHeader		( this.IPXController.CreateCTUParms() )	;
+				//internal	DTO_SessionOptions		CreateDTOSessionOptions		()=>	new DTO_SessionOptions	()	;
 
-				internal	DTO_SessionHeader			CreateDTOSessionHeader		()=>	new	DTO_SessionHeader		( this.IPXController.CreateCTUParms() )	;
-				internal	DTO_SessionOptions		CreateDTOSessionOptions		()=>	new DTO_SessionOptions	()	;
-				internal	DTO_BDC_Data				CreateDTOBDCData	()=>	new DTO_BDC_Data	()	;
-
-				internal	IConfigSetupDestination		CreateDestConfig			()=> new ConfigSetupDestination();
-				
-
-
-
+				internal	IConfigSetupDestination	CreateDestConfig						()=>	new ConfigSetupDestination();
+				internal	DTO_BDC_Data						CreateDTOBDCData						()=>	new DTO_BDC_Data	()	;
+				internal	DTO_BDC_Transaction			CreateBDCSessionTransaction	( int ID	= 0 )=>	new DTO_BDC_Transaction( ID )	;
 
 				//.................................................
 				//.................................................
