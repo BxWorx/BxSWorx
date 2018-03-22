@@ -2,7 +2,6 @@
 //.........................................................
 using BxS_WorxIPX.BDC;
 
-using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
@@ -22,25 +21,21 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	Process(	IExcelBDCSessionRequest	dtoRequest
-															, DTO_BDC_Session			Session			)
+															, IConfigSetupDestination sessionCfg )
 					{
-						IConfigSetupDestination lo_Cfg	= this._PFactory.Value.CreateDestConfig();
+						sessionCfg.Client		= int.Parse( dtoRequest.Client );
+						sessionCfg.Language	= dtoRequest.Lang;
+						sessionCfg.Password	= dtoRequest.Pwrd;
+						sessionCfg.User			= dtoRequest.User;
 						//.............................................
-						lo_Cfg.Client		= int.Parse( dtoRequest.Client );
-						lo_Cfg.Language	= dtoRequest.Lang;
-						lo_Cfg.Password	= dtoRequest.Pwrd;
-						lo_Cfg.User			= dtoRequest.User;
-						//.............................................
-						lo_Cfg.IdleTimeout			=	dtoRequest.IdleTimeout			;
-						lo_Cfg.IdleCheckTime		=	dtoRequest.IdleCheckTime		;
-						lo_Cfg.MaxPoolWaitTime	=	dtoRequest.MaxPoolWaitTime	;
-						lo_Cfg.PeakConnLimit		=	dtoRequest.PeakConnLimit		;
-						lo_Cfg.PoolIdleTimeout	=	dtoRequest.PoolIdleTimeout	;
-						lo_Cfg.PoolSize					=	dtoRequest.PoolSize					;
-						lo_Cfg.RepoIdleTimeout	=	dtoRequest.RepoIdleTimeout	;
-						lo_Cfg.DoLogonCheck			= dtoRequest.DoLogonCheck			;
-						//.............................................
-						Session.DestConfig	= lo_Cfg;
+						sessionCfg.IdleTimeout			=	dtoRequest.IdleTimeout			;
+						sessionCfg.IdleCheckTime		=	dtoRequest.IdleCheckTime		;
+						sessionCfg.MaxPoolWaitTime	=	dtoRequest.MaxPoolWaitTime	;
+						sessionCfg.PeakConnLimit		=	dtoRequest.PeakConnLimit		;
+						sessionCfg.PoolIdleTimeout	=	dtoRequest.PoolIdleTimeout	;
+						sessionCfg.PoolSize					=	dtoRequest.PoolSize					;
+						sessionCfg.RepoIdleTimeout	=	dtoRequest.RepoIdleTimeout	;
+						sessionCfg.DoLogonCheck			= dtoRequest.DoLogonCheck			;
 					}
 
 			#endregion

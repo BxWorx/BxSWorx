@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using BxS_WorxNCO.BDCSession.DTO;
 
 using static	BxS_WorxNCO.Main								.NCO_Constants;
-using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants;
 using static	BxS_WorxNCO.BDCSession.Parser		.BDC_Parser_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
@@ -42,7 +41,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						foreach ( KeyValuePair< int , List< int > > ls_KvpRow in dtoProfile.TranRows )
 							{
-								DTO_BDC_Transaction lo_BDCTran	= this._PFactory.Value.CreateBDCSessionTransaction();
+								DTO_BDC_Transaction lo_BDCTran	= Session.CreateTransDTO();
 								//.........................................
 								for ( int r = 0; r < ls_KvpRow.Value.Count; r++ )
 									{
@@ -97,12 +96,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						if (column.DynBegin)
 							{
-								bdcTran.AddBDCData( this.CompileBDCScreen( column.Program	, column.ScreenNo ) );
+								bdcTran.AddBDCData( programName: column.Program	, dynpro: column.ScreenNo , begin: true );
 							}
 						//.............................................
 						if ( !column.OKCode.Equals( string.Empty ) )
 							{
-								bdcTran.AddBDCData(	this.CompileBDCField(	cz_SAP_OKCode	, column.OKCode	) );
+								bdcTran.AddBDCData( field: cz_SAP_OKCode , value: column.OKCode );
 							}
 						//.............................................
 						if ( !column.Cursor.Equals( string.Empty ) )
@@ -122,13 +121,13 @@ namespace BxS_WorxNCO.BDCSession.Parser
 												lc_CsrFld	= column.Cursor;
 											}
 
-										bdcTran.AddBDCData( this.CompileBDCField(	cz_SAP_Cursor	, lc_CsrFld	) );
+										bdcTran.AddBDCData( field: cz_SAP_Cursor , value: lc_CsrFld );
 									}
 							}
 						//.............................................
 						if ( !column.Subscreen.Equals(string.Empty) )
 							{
-								bdcTran.AddBDCData( this.CompileBDCField(	cz_SAP_SubScr	, column.Subscreen ) );
+								bdcTran.AddBDCData( field: cz_SAP_SubScr , value: column.Subscreen );
 							}
 						//.............................................
 						if ( !value.Equals( cz_Sym_ActionCol ) )
@@ -137,7 +136,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 									{ }
 								else
 									{
-										string lc_Fld;
+										string	lc_Fld;
+										string	lc_Val	= value;
 
 										if ( column.DoFieldIndex )
 											{
@@ -150,37 +150,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 										if ( value.Equals( cz_Sym_ClearFld ) )
 											{
-												bdcTran.AddBDCData( this.CompileBDCField(	lc_Fld , string.Empty	) );
+												lc_Val	= cz_Null;
 											}
-										else
-											{
-												bdcTran.AddBDCData( this.CompileBDCField( lc_Fld , value ) );
-											}
+
+										bdcTran.AddBDCData( field: lc_Fld , value: lc_Val );
 									}
 							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_BDC_Data CompileBDCScreen( string program , int screenNo )
-					{
-						DTO_BDC_Data lo_BDCData	= this._PFactory.Value.CreateDTOBDCData();
-						//.............................................
-						lo_BDCData.ProgramName	= program;
-						lo_BDCData.Dynpro				= screenNo.ToString( cz_DefDyn );
-						lo_BDCData.Begin				= cz_True;
-						//.............................................
-						return	lo_BDCData;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_BDC_Data CompileBDCField( string field , string value )
-					{
-						DTO_BDC_Data lo_BDCData	= this._PFactory.Value.CreateDTOBDCData();
-						//.............................................
-						lo_BDCData.FieldName	= field;
-						lo_BDCData.FieldValue	=	value;
-						//.............................................
-						return	lo_BDCData;
 					}
 
 			#endregion

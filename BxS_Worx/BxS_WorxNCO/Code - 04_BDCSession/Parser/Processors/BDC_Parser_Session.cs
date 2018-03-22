@@ -22,14 +22,14 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	Process(	DTO_ParserProfile	dtoProfile
-															, DTO_BDC_Session		Session			)
+															, DTO_BDC_Header		sessionCfg )
 					{
-						Session.Header.SAPTCode	= dtoProfile.XMLConfig.SAPTCode	;
-						Session.Header.Skip1st	= dtoProfile.XMLConfig.Skip1st.ToUpper().Contains( cz_True );
+						sessionCfg.SAPTCode	= dtoProfile.XMLConfig.SAPTCode	;
+						sessionCfg.Skip1st	= dtoProfile.XMLConfig.Skip1st.ToUpper().Contains( cz_True );
 						//.............................................
-						Session.Header.CTUParms.DefaultSize		= this.GetChar( dtoProfile.XMLConfig.CTU_DefSize );
-						Session.Header.CTUParms.DisplayMode		= this.GetChar( dtoProfile.XMLConfig.CTU_DisMode );
-						Session.Header.CTUParms.UpdateMode		= this.GetChar( dtoProfile.XMLConfig.CTU_UpdMode );
+						sessionCfg.CTUParms.DefaultSize		= this.GetChar( dtoProfile.XMLConfig.CTU_DefSize );
+						sessionCfg.CTUParms.DisplayMode		= this.GetChar( dtoProfile.XMLConfig.CTU_DisMode );
+						sessionCfg.CTUParms.UpdateMode		= this.GetChar( dtoProfile.XMLConfig.CTU_UpdMode );
 					}
 
 			#endregion

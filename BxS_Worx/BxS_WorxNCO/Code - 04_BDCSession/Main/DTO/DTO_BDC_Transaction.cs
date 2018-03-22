@@ -46,12 +46,6 @@ namespace BxS_WorxNCO.BDCSession.DTO
 				public DTO_BDC_Msg	CreateMsgDTO	()=>	new DTO_BDC_Msg()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddBDCData( DTO_BDC_Data dto )
-					{
-						this.BDCData.Add( dto );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void AddBDCData(		string	programName	= NCO_Constants.cz_Null
 																,	int			dynpro			= 0
 																,	bool		begin				= false

@@ -39,6 +39,9 @@ namespace BxS_WorxIPX.BDC
 				int			ColUB							{ get; set;	}
 				//.................................................
 				Dictionary< string , string >	WSData1D	{ get; set; }
+				//.................................................
+				bool		IgnoreDestinationConfig	{ get; set; }
+				bool		IgnoreSessionConfig			{ get; set; }
 
 			#endregion
 

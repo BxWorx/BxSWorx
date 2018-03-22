@@ -40,10 +40,16 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Process(	IExcelBDCSessionRequest	bdcSessionRequest
-															, DTO_BDC_Session			dto_BDCSession		)
+				internal bool Parse(	IExcelBDCSessionRequest	excelBDCRequest
+														, DTO_BDC_Session					dto_BDCSession		)
 					{
-						DTO_ParserRequest	lo_DTOSessReq		= this.Parse1Dto2D( bdcSessionRequest );
+						DTO_ParserRequest	lo_DTOSessReq	= this._PFactory.Value.CreateDTOSessReq();
+
+						if ( ! this.Parse1Dto2D( excelBDCRequest , lo_DTOSessReq ) )
+							{
+								return	false;
+							}
+						//.............................................
 						DTO_ParserProfile	lo_DTOProfile		= this._PFactory.Value.CreateDTOProfile();
 						//.............................................
 						this._Tkn.Value.Process( lo_DTOSessReq	,	lo_DTOProfile	);
@@ -51,9 +57,16 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this._Grp.Value.Process( lo_DTOSessReq	,	lo_DTOProfile	);
 
 						this._Trn.Value.Process( lo_DTOSessReq	, lo_DTOProfile	, dto_BDCSession );
-
-						this._Ssn.Value.Process( lo_DTOProfile			, dto_BDCSession );
-						this._Des.Value.Process( bdcSessionRequest	, dto_BDCSession );
+						//.............................................
+						if ( ! excelBDCRequest.IgnoreSessionConfig )
+							{
+								this._Ssn.Value.Process( lo_DTOProfile , dto_BDCSession.Header );
+							}
+						//.............................................
+						if ( ! excelBDCRequest.IgnoreDestinationConfig )
+							{
+								this._Des.Value.Process( excelBDCRequest , dto_BDCSession.DestConfig );
+							}
 						//.............................................
 						return	true;
 					}
@@ -64,34 +77,42 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_ParserRequest Parse1Dto2D( IExcelBDCSessionRequest DTO )
+				private bool Parse1Dto2D(		IExcelBDCSessionRequest request
+																	, DTO_ParserRequest				dto			)
 					{
-						DTO_ParserRequest	lo_SessReq	= this._PFactory.Value.CreateDTOSessReq();
+						bool	lb_Ret	= true;
 						//.............................................
-						int[]	lt_UB	= new int[2];
-						int[]	lt_LB = new int[2];
-
-						lt_UB[0]	=	DTO.RowUB;
-						lt_UB[1]	=	DTO.ColUB;
-						lt_LB[0]	=	DTO.RowLB;
-						lt_LB[1]	=	DTO.ColLB;
-
-						lo_SessReq.WSData	= ( string[,] ) Array.CreateInstance( typeof( string ) , lt_UB, lt_LB );
-						//.............................................
-						int	ln_Row	= 0;
-						int ln_Col	= 0;
-
-						foreach ( KeyValuePair<string, string> ls_kvp in DTO.WSData1D )
+						if ( request.WSData1D.Count.Equals(0) )
 							{
-								string[] lt_Idx = ls_kvp.Key.Split(',');
+								lb_Ret	= false;
+							}
+						else
+							{
+								int[]	lt_UB	= new int[2];
+								int[]	lt_LB = new int[2];
 
-								ln_Row	= int.Parse(lt_Idx[0]);
-								ln_Col	= int.Parse(lt_Idx[1]);
+								lt_UB[0]	=	request.RowUB;
+								lt_UB[1]	=	request.ColUB;
+								lt_LB[0]	=	request.RowLB;
+								lt_LB[1]	=	request.ColLB;
 
-								lo_SessReq.WSData[ln_Row,ln_Col]	= ls_kvp.Value;
+								dto.WSData	= ( string[,] ) Array.CreateInstance( typeof( string ) , lt_UB, lt_LB );
+								//.............................................
+								int	ln_Row	= 0;
+								int ln_Col	= 0;
+
+								foreach ( KeyValuePair<string, string> ls_kvp in request.WSData1D )
+									{
+										string[] lt_Idx = ls_kvp.Key.Split(',');
+
+										ln_Row	= int.Parse(lt_Idx[0]);
+										ln_Col	= int.Parse(lt_Idx[1]);
+
+										dto.WSData[ln_Row,ln_Col]	= ls_kvp.Value;
+									}
 							}
 						//.............................................
-						return	lo_SessReq;
+						return	lb_Ret;
 					}
 
 			#endregion

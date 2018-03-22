@@ -109,7 +109,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				public async Task<bool> Parse_SessionAsync(		IExcelBDCSessionRequest	bdcRequest
 																										, DTO_BDC_Session			bdcSession		)
 					{
-						bool		lb_Ret	=	await Task.Run(	()=>	this._Parser.Value.Process( bdcRequest , bdcSession ) )
+						bool		lb_Ret	=	await Task.Run(	()=>	this._Parser.Value.Parse( bdcRequest , bdcSession ) )
 																											.ConfigureAwait(false);
 						return	lb_Ret;
 					}
