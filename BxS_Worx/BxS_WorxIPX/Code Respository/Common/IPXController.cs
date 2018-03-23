@@ -47,11 +47,11 @@ namespace BxS_WorxIPX.Main
 						return	new PriorityQueue<T>();
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ObjectPool<T> CreateObjectPool<T>( Func<T> func ) where T: IPoolObject
-					{
-						return	new ObjectPool<T>( func );
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public ObjectPool<T> CreateObjectPool<T>( Func<T> func ) where T: IPoolObject
+				//	{
+				//		return	new ObjectPool<T>( func );
+				//	}
 
 			#endregion
 

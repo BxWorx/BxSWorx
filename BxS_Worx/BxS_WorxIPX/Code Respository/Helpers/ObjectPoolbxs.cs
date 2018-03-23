@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.Helpers
 {
-	public class ObjectPool<T> where T : IPoolObject
+	public class ObjectPoolxxx<T> where T : IPoolObject
 		{
 			#region "Constructors"
 

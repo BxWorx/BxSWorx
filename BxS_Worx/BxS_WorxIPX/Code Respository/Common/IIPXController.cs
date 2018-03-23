@@ -13,7 +13,7 @@ namespace BxS_WorxIPX.Main
 				Serializer				CreateSerializer();
 
 				PriorityQueue<T>	CreatePriorityQueue<T>	()								where T: class;
-				ObjectPool<T>			CreateObjectPool<T>			( Func<T> func )	where T: IPoolObject;
+				//ObjectPool<T>			CreateObjectPool<T>			( Func<T> func )	where T: IPoolObject;
 				//.................................................
 				IExcelBDCSessionRequest		CreateBDCSessionRequest	();
 				IExcelBDCSessionResult		CreateBDCSessionResult	();
