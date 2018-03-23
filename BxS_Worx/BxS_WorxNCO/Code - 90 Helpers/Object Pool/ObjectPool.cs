@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.Helpers.ObjectPool
+namespace BxS_WorxNCO.Helpers.ObjectPool
 {
 	public class ObjectPool<T> where T : PooledObject
 		{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.Helpers.ObjectPool
+namespace BxS_WorxNCO.Helpers.ObjectPool
 {
 	public abstract class PooledObject : IDisposable
 		{
