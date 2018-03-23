@@ -2,6 +2,7 @@
 using System.Threading;
 //.........................................................
 using BxS_WorxIPX.Helpers;
+using BxS_WorxIPX.Helpers.ObjectPool;
 using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.Main
@@ -47,11 +48,14 @@ namespace BxS_WorxIPX.Main
 						return	new PriorityQueue<T>();
 					}
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public ObjectPool<T> CreateObjectPool<T>( Func<T> func ) where T: IPoolObject
-				//	{
-				//		return	new ObjectPool<T>( func );
-				//	}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	ObjectPool<T> CreateObjectPool<T>(	int			MinSize				= 1
+																									,	int			MaxSize				= 5
+																									, bool		diagnostics		= false
+																									,	Func<T>	func					= null	)	where T: PooledObject
+					{
+						return	new ObjectPool<T>( MinSize , MaxSize , diagnostics , func );
+					}
 
 			#endregion
 

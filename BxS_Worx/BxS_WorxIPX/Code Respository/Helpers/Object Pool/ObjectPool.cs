@@ -10,13 +10,13 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public ObjectPool(	int			minimumPoolSize			= DefaultMinimumSize
 													, int			maximumPoolSize			= DefaultMaximumSize
-													, Func<T>	factory							= null
-													,	bool		activateDiagnostics	= false								)
+													,	bool		activateDiagnostics	= false
+													, Func<T>	factory							= null								)
 					{
-						this._MinPoolSize	= minimumPoolSize			;
-						this._MaxPoolSize = maximumPoolSize			;
-						this._DiagActive	= activateDiagnostics	;
-						this.Factory			= factory							;
+						this._MinPoolSize				= minimumPoolSize	;
+						this._MaxPoolSize				= maximumPoolSize	;
+						this.DiagnosticsActive	= activateDiagnostics	;
+						this.Factory						= factory							;
 						//.............................................
 						this._Pool					= new	ConcurrentBag<T>();
 						this._Diag					= new	Lazy< ObjectPoolDiagnostics >(	()=>	new	ObjectPoolDiagnostics() );
@@ -33,27 +33,22 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 				private	const	int	DefaultMinimumSize =	01;
 				private const int DefaultMaximumSize =	10;
 
-				private	bool	_DiagActive;
 				private int		_MinPoolSize;
 				private int		_MaxPoolSize;
 
-				private	Lazy< ObjectPoolDiagnostics >	_Diag;
-				private ConcurrentBag<T>							_Pool;
-
-				private Action< PooledObject , bool >	_ReturnAction;
+				private readonly Lazy< ObjectPoolDiagnostics >	_Diag;
+				private readonly ConcurrentBag<T>								_Pool;
+				private readonly Action< PooledObject , bool >	_ReturnAction;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public bool	ActivateDiagnostics	{ get	{ return	this._DiagActive;		}
-																					set	{ this._DiagActive	= value;	}	}
-
-				public int PoolCount	{	get { return	this._Pool.Count; }	}
-
-				public ObjectPoolDiagnostics	Diagnostics { get { return	this._Diag.Value; } }
-				public Func<T>								Factory			{	get; }
+				public Func<T>								Factory						{	get; }
+				public bool										DiagnosticsActive	{ get; set; }
+				public int										Count							{	get { return	this._Pool.Count; }	}
+				public ObjectPoolDiagnostics	Diagnostics				{ get { return	this._Diag.Value; } }
 
 			#endregion
 
@@ -65,12 +60,12 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 					{
 						if ( this._Pool.TryTake( out T lo_Object ) )
 							{
-								if ( this._DiagActive )	this._Diag.Value.UpHitCount();
+								if ( this.DiagnosticsActive )	this._Diag.Value.UpHitCount();
 								return lo_Object;
 							}
 						else
 							{
-								if ( this._DiagActive )	this._Diag.Value.UpMissCount();
+								if ( this.DiagnosticsActive )	this._Diag.Value.UpMissCount();
 								return CreateObject();
 							}
 					}
@@ -84,7 +79,7 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 				internal void ReturnObject(		PooledObject	objectToReturn
 																		, bool					reRegisterForFinalization	)
 					{
-						if ( this._DiagActive && reRegisterForFinalization ) this._Diag.Value.UpRessurectionCount();
+						if ( this.DiagnosticsActive && reRegisterForFinalization ) this._Diag.Value.UpRessurectionCount();
 						//.............................................
 						// Checking that the pool is not full
 						if ( this._Pool.Count < this._MaxPoolSize )
@@ -94,7 +89,7 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 								//
 								if ( ! objectToReturn.ResetState() )
 									{
-										if ( this._DiagActive )	this._Diag.Value.UpResetFailedCount();
+										if ( this.DiagnosticsActive )	this._Diag.Value.UpResetFailedCount();
 
 										DestroyObject( objectToReturn );
 										return;
@@ -107,7 +102,7 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 										GC.ReRegisterForFinalize(objectToReturn);
 									}
 								//.........................................
-								if ( this._DiagActive )	this._Diag.Value.UpReturnedCount();
+								if ( this.DiagnosticsActive )	this._Diag.Value.UpReturnedCount();
 								//.........................................
 								this._Pool.Add( (T) objectToReturn );
 							}
@@ -116,7 +111,7 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 								//The Pool's upper limit has exceeded.
 								// No need to add this object back into the pool, destroy it.
 								//
-								if ( this._DiagActive )	this._Diag.Value.UpOverflowCount();
+								if ( this.DiagnosticsActive )	this._Diag.Value.UpOverflowCount();
 								this.DestroyObject( objectToReturn );
 							}
 					}
@@ -164,7 +159,7 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 					//
 					newObject.ReturnToPool = ( Action<PooledObject , bool > )	this._ReturnAction;
 					//...............................................
-					if ( this._DiagActive )	this._Diag.Value.UpCreatedCount();
+					if ( this.DiagnosticsActive )	this._Diag.Value.UpCreatedCount();
 					//...............................................
 					return newObject;
 				}
@@ -181,7 +176,7 @@ namespace BxS_WorxIPX.Helpers.ObjectPool
 							objectToDestroy.ReleaseResources();
 							objectToDestroy.Disposed = true;
 
-							if ( this._DiagActive )	this._Diag.Value.UpDestroyedCount();
+							if ( this.DiagnosticsActive )	this._Diag.Value.UpDestroyedCount();
 						}
 
 						// The object is being destroyed, resources have been already released deterministically

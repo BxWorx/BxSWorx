@@ -2,6 +2,7 @@
 //.........................................................
 using BxS_WorxIPX.Helpers;
 using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.Helpers.ObjectPool;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.Main
 {
@@ -13,7 +14,11 @@ namespace BxS_WorxIPX.Main
 				Serializer				CreateSerializer();
 
 				PriorityQueue<T>	CreatePriorityQueue<T>	()								where T: class;
-				//ObjectPool<T>			CreateObjectPool<T>			( Func<T> func )	where T: IPoolObject;
+
+				ObjectPool<T>			CreateObjectPool<T>			(		int			MinSize				= 1
+																										,	int			MaxSize				= 5
+																										, bool		diagnostics		= false
+																										,	Func<T>	func					= null	)	where T: PooledObject;
 				//.................................................
 				IExcelBDCSessionRequest		CreateBDCSessionRequest	();
 				IExcelBDCSessionResult		CreateBDCSessionResult	();

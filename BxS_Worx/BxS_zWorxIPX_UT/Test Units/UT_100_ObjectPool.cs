@@ -1,15 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using BxS_WorxIPX.Main;
-using BxS_WorxIPX.Helpers;
-using System.Threading.Tasks;
+using BxS_WorxIPX.Helpers.ObjectPool;
 
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
 	[TestClass]
 	public class UT_100_ObjectPool
 		{
-			IIPXController	co_Cntlr;
+			private	readonly IIPXController	co_Cntlr;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_100_ObjectPool()
@@ -22,7 +21,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_ObjPool_10_Instantiate()
 				{
-					ObjectPool<xx>	lo_OP		= this.co_Cntlr.CreateObjectPool<xx>( ()=> new xx() );
+					ObjectPool<Xxx>	lo_OP		= this.co_Cntlr.CreateObjectPool<Xxx>( func: ()=> new Xxx() );
 
 					Assert.IsNotNull	( lo_OP , "" );
 				}
@@ -31,14 +30,12 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_ObjPool_20_PopPush()
 				{
-					ObjectPool<xx>	lo_OP		= this.co_Cntlr.CreateObjectPool<xx>( ()=> new xx() );
+					ObjectPool<Xxx>	lo_OP		= this.co_Cntlr.CreateObjectPool<Xxx>( func: ()=> new Xxx() );
 
-					xx		x = lo_OP.Pop();
-					bool	r = lo_OP.Push( x );
-					xx		y = lo_OP.Pop();
+					Xxx		x = lo_OP.Acquire();
+					Xxx		y = lo_OP.Acquire();
 
-					Assert.IsTrue		(			r						, "R" );
-					Assert.AreEqual	( 1 , lo_OP.Count , "X" );
+					Assert.AreEqual	( 2 , lo_OP.Count , "X" );
 					Assert.AreSame	( x , y						, "Y" );
 				}
 
@@ -47,9 +44,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 		}
 
 	//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-	public class xx : IPoolObject
+	public class Xxx : PooledObject
 		{
-
 		public int Position { get; set; }
 
 		public bool Reset()
