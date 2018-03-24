@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Helpers.ObjectPool
@@ -11,7 +12,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				public ObjectPool(	int			minimumPoolSize			= DefaultMinimumSize
 													, int			maximumPoolSize			= DefaultMaximumSize
 													,	bool		activateDiagnostics	= false
-													, bool		populateAtStartup		= false
+													, bool		autoStartup					= false
 													, Func<T>	factory							= null								)
 					{
 						this._MinPoolSize				= minimumPoolSize	;
@@ -20,14 +21,20 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						this.Factory						= factory							;
 						//.............................................
 						this._Pool					= new	ConcurrentBag<T>();
-						this._Diag					= new	Lazy< ObjectPoolDiagnostics >(	()=>	new	ObjectPoolDiagnostics() );
 						this._ReturnAction	=	this.ReturnObject;
 						this._Ready					= true;
 						//.............................................
-						this.SetLimits();
+						this._Diag					= new	Lazy< ObjectPoolDiagnostics >( ()=>	new	ObjectPoolDiagnostics() );
 						//.............................................
-						if ( populateAtStartup )
+						this.SetLimits();
+
+						if ( autoStartup )
 							{
+								this._Semaphore	= new	
+								lock ( this._Lock )
+									{
+										this.AutoStart();
+									}
 							}
 					}
 
@@ -43,9 +50,12 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				private int		_MaxPoolSize;
 				private	bool	_Ready			;
 
-				private readonly Lazy< ObjectPoolDiagnostics >	_Diag;
-				private readonly ConcurrentBag<T>								_Pool;
-				private readonly Action< PooledObject , bool >	_ReturnAction;
+				private	readonly	object												_Lock;
+				private readonly	ConcurrentBag<T>							_Pool;
+				private readonly	Action< PooledObject , bool >	_ReturnAction;
+				private readonly	Lazy< ObjectPoolDiagnostics >	_Diag;
+
+				private readonly	SemaphoreSlim	_Semaphore;
 
 			#endregion
 
@@ -144,6 +154,12 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void AutoStart()
+					{
+
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private T CreateObject()

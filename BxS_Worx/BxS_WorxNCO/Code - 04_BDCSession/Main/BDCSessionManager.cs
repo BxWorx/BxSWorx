@@ -63,17 +63,17 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this._ReqQueue.Value.Add( request , request.Priority );
 
-						DTO_BDC_Session x	= BDCSession_Factory.Instance.CreateSessionDTO();
+						DTO_BDC_Session dtoSession	= BDCSession_Factory.Instance.CreateSessionDTO();
 
 						//.............................................
 						using (	BDC_Parser lo_Parser = this._ParserPool.Value.Acquire() )
 							{
-								lo_Parser.Parse( request , x );
+								lo_Parser.Parse( request , dtoSession );
 							}
 						//.............................................
 						using ( BDC_Session lo_Session = this._SessionPool.Value.Acquire() )
 							{
-								int i = await	lo_Session.Process_SessionAsync( x ).ConfigureAwait(false);
+								int i = await	lo_Session.Process_SessionAsync( dtoSession ).ConfigureAwait(false);
 							}
 					}
 
