@@ -9,6 +9,7 @@ using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.BDCSession.Main;
+using BxS_WorxIPX.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
@@ -33,6 +34,20 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcDestination lo_RfcDest	= this.co_NCO.GetSAPDest();
 					var	lo_SM			= new BDCSessionManager( lo_RfcDest );
 					//...............................................
+					Assert.IsNotNull	( lo_SM	, "" );
+				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public async Task UT_500_BCDSMngr_20_Instantiate()
+				{
+					IRfcDestination lo_RfcDest	= this.co_NCO.GetSAPDest();
+					var	lo_SM			= new BDCSessionManager( lo_RfcDest );
+					//...............................................
+					BxS_WorxIPX.BDC.IExcelBDCSessionRequest x = IPXController.Instance.CreateBDCSessionRequest();
+
+					await	lo_SM.Process(x);
+
 					Assert.IsNotNull	( lo_SM	, "" );
 				}
 		}

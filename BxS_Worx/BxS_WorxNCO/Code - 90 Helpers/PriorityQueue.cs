@@ -72,7 +72,7 @@ namespace BxS_WorxNCO.Helpers
 							}
 						catch
 							{
-								this._Queues[1].TryPeek( out lo_Obj );
+								this._Queues[0].TryPeek( out lo_Obj );
 							}
 						//...............................................
 						return lo_Obj;
@@ -92,7 +92,7 @@ namespace BxS_WorxNCO.Helpers
 							}
 						catch
 							{
-								this._Queues[1].TryDequeue( out lo_Obj );
+								this._Queues[0].TryDequeue( out lo_Obj );
 							}
 						//...............................................
 						return lo_Obj;
@@ -107,7 +107,7 @@ namespace BxS_WorxNCO.Helpers
 							}
 						catch
 							{
-								this._Queues[1].Enqueue( item );
+								this._Queues[0].Enqueue( item );
 							}
 					}
 
@@ -116,7 +116,7 @@ namespace BxS_WorxNCO.Helpers
 					{
 						int		ln_Trgt	= this._QMax;
 						//...............................................
-						// Process algorithm for que: 3, 3/2, 3/2/1
+						// Process algorithm for que: 3, 3/2, 3/2/1, 3/2/1/0
 						// If entry found, that one is returned and loop
 						// is stopped.
 						do
@@ -128,7 +128,7 @@ namespace BxS_WorxNCO.Helpers
 
 								ln_Trgt --;
 
-							} while ( ln_Trgt > 0 );
+							} while ( ln_Trgt >= 0 );
 						//...............................................
 						return	null;
 					}
@@ -148,7 +148,7 @@ namespace BxS_WorxNCO.Helpers
 						//.............................................
 						this._Queues	= new Dictionary< int , ConcurrentQueue<T> >();
 
-						for ( int i = 1; i == this.MaxQueues; i++ )
+						for ( int i = 0; i <= this.MaxQueues; i++ )
 							{
 								this._Queues.Add(	i ,	new ConcurrentQueue<T>() );
 							}
