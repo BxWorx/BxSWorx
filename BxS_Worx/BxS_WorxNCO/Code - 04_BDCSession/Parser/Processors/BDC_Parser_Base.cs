@@ -9,7 +9,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	BDC_Parser_Base(	Lazy< BDC_Parser_Factory > factory )
 					{
-						this._PFactory	= factory;
+						this._PFactory	= factory	?? throw new Exception("NCO: BDCSession: Parser: Factory is null");
 					}
 
 			#endregion

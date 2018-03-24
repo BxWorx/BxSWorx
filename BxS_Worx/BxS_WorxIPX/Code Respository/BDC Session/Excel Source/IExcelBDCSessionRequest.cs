@@ -9,6 +9,7 @@ namespace BxS_WorxIPX.BDC
 			#region "Properties"
 
 				Guid		ID								{ get; set; }
+				int			Priority					{ get; set; }
 				//.................................................
 				int			IdleTimeout				{ get; set; }
 				int			IdleCheckTime			{ get; set; }

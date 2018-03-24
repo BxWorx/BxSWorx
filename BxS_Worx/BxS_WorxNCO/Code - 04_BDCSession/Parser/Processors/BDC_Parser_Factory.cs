@@ -27,7 +27,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , _LM );
 						//.............................................
 						this._Serializer	= new Lazy< Serializer	>	(	()=> IPX.IPXController.Instance.CreateSerializer() , _LM );
-				}
+					}
 
 			#endregion
 
@@ -65,13 +65,13 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//.................................................
 				// Parser objects
 				//.................................................
-				internal	DTO_ParserRequest			CreateDTOSessReq	()=>	new DTO_ParserRequest	();
-				internal	DTO_ParserColumn			CreateDTOColumn		()=>	new DTO_ParserColumn	();
+				internal	DTO_ParserRequest			CreateDTOParserRequest	()=>	new DTO_ParserRequest	();
+				internal	DTO_ParserColumn			CreateDTOColumn					()=>	new DTO_ParserColumn	();
 
-				internal	DTO_ParserProfile			CreateDTOProfile	()=>	new DTO_ParserProfile( new DTO_ParserHeaderRowRef() )	;
+				internal	DTO_ParserProfile			CreateDTOProfile				()=>	new DTO_ParserProfile( new DTO_ParserHeaderRowRef() )	;
 
-				internal	DTO_ParserToken				CreateDTOToken		( string ID = ""						)=>	new DTO_ParserToken		( ID )					;
-				internal	DTO_ParserXMLConfig		CreateDTOXMLCfg		( bool SetDefaults = false	)=>	new DTO_ParserXMLConfig( SetDefaults )	;
+				internal	DTO_ParserToken				CreateDTOToken					( string ID = ""						)=>	new DTO_ParserToken		( ID )					;
+				internal	DTO_ParserXMLConfig		CreateDTOXMLCfg					( bool SetDefaults = false	)=>	new DTO_ParserXMLConfig( SetDefaults )	;
 
 				//.................................................
 				//.................................................

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxIPX.BDC;
 
+using BxS_WorxNCO.Helpers.ObjectPool;
+
 using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.RfcFunction.Main;
@@ -15,12 +17,12 @@ using BxS_WorxNCO.BDCSession.Parser;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDCSession : IBDCSession
+	internal class BDC_Session : PooledObject	// , IBDCSession
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSession(	IRfcFncController			fncCntlr
+				internal BDC_Session(	IRfcFncController			fncCntlr
 														,	Lazy< BDC_Parser >		parser
 														,	DTO_BDC_SessionConfig	config		)
 					{
@@ -37,7 +39,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 						//.............................................
 						this._Profile	= this._FncCntlr.GetAddBDCCallProfile();
 
-						this._Lock	= new object();
+						this._Lock		= new object();
 						this._IsBusy	= false;
 					}
 

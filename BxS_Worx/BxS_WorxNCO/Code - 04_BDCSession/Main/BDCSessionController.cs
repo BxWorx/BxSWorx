@@ -86,7 +86,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// Create BDC session config DTO to configure operating environment
+				// Create BDC session config DTO to configure session environment
 				//
 				public DTO_BDC_SessionConfig CreateSessionConfig()
 					{
@@ -112,14 +112,14 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IBDCSession	CreateBDCSession( string destinationID )
+				public	BDC_Session	CreateBDCSession( string destinationID )
 					{
 						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
 						return	this.CreateBDCSession( lo_D );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IBDCSession	CreateBDCSession( Guid destinationID )
+				public	BDC_Session	CreateBDCSession( Guid destinationID )
 					{
 						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
 						return	this.CreateBDCSession( lo_D );
@@ -131,11 +131,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	IBDCSession	CreateBDCSession( IRfcDestination rfcDestination )
+				private	BDC_Session	CreateBDCSession( IRfcDestination rfcDestination )
 					{
 						IRfcFncController	lo_F	= new RfcFncController( rfcDestination );
 						//.............................................
-						return	new BDCSession( lo_F , this._Parser , this.CreateSessionConfig() );
+						return	new BDC_Session( lo_F , this._Parser , this.CreateSessionConfig() );
 					}
 
 			#endregion

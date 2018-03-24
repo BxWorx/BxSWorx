@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 //.........................................................
 using BxS_WorxNCO.BDCSession.DTO;
+using BxS_WorxNCO.BDCSession.Main;
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
@@ -17,8 +18,8 @@ namespace BxS_WorxNCO.BDCSession.API
 				DTO_BDC_Session					CreateSessionDTO();
 				DTO_BDC_SessionConfig		CreateSessionConfig();
 
-				IBDCSession		CreateBDCSession( string	destinationID );
-				IBDCSession		CreateBDCSession( Guid		destinationID );
+				//BDC_Session		CreateBDCSession( string	destinationID );
+				//BDC_Session		CreateBDCSession( Guid		destinationID );
 
 			#endregion
 

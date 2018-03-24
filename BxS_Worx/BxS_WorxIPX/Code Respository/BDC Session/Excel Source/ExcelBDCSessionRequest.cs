@@ -19,7 +19,8 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public	Guid ID { get; set; }
+				[DataMember]	public	Guid		ID								{ get; set; }
+				[DataMember]	public	int			Priority					{ get; set; }
 				//.................................................
 				[DataMember]	public	int			IdleTimeout				{ get; set; }
 				[DataMember]	public	int			IdleCheckTime			{ get; set; }

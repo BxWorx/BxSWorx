@@ -31,7 +31,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
-					IBDCSession							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
+				  BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
 
 					Assert.IsNotNull	( lo_DestCfg , "bbb" );
 					Assert.IsNotNull	( lo_SessCfg , "bbb" );
@@ -44,7 +44,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
-					IBDCSession							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
+					BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
 					//...............................................
 					this.Configure( lo_DestCfg );
 
@@ -59,7 +59,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					const	int ln_Trn	= 200;
 					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
-					IBDCSession							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
+					BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
 					//...............................................
 					this.Configure( lo_DestCfg );
 					this.Configure( lo_SessCfg );

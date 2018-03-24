@@ -11,6 +11,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				public ObjectPool(	int			minimumPoolSize			= DefaultMinimumSize
 													, int			maximumPoolSize			= DefaultMaximumSize
 													,	bool		activateDiagnostics	= false
+													, bool		populateAtStartup		= false
 													, Func<T>	factory							= null								)
 					{
 						this._MinPoolSize				= minimumPoolSize	;
@@ -21,8 +22,13 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						this._Pool					= new	ConcurrentBag<T>();
 						this._Diag					= new	Lazy< ObjectPoolDiagnostics >(	()=>	new	ObjectPoolDiagnostics() );
 						this._ReturnAction	=	this.ReturnObject;
+						this._Ready					= true;
 						//.............................................
 						this.SetLimits();
+						//.............................................
+						if ( populateAtStartup )
+							{
+							}
 					}
 
 			#endregion
@@ -31,10 +37,11 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			#region "Declarations"
 
 				private	const	int	DefaultMinimumSize	=	01;
-				private const int DefaultMaximumSize	=	10;
+				private const int DefaultMaximumSize	=	05;
 
 				private int		_MinPoolSize;
 				private int		_MaxPoolSize;
+				private	bool	_Ready			;
 
 				private readonly Lazy< ObjectPoolDiagnostics >	_Diag;
 				private readonly ConcurrentBag<T>								_Pool;
@@ -82,6 +89,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						if ( this.DiagnosticsActive && reRegisterForFinalization ) this._Diag.Value.UpRessurectionCount();
 						//.............................................
 						// Checking that the pool is not full
+						//
 						if ( this._Pool.Count < this._MaxPoolSize )
 							{
 								// Reset object state (if implemented) before returning to the pool.
@@ -161,6 +169,9 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						//...............................................
 						if ( this.DiagnosticsActive )	this._Diag.Value.UpCreatedCount();
 						//...............................................
+
+						this._Ready	= true;			// TEMP MOVE
+
 						return newObject;
 					}
 
@@ -173,6 +184,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 					if ( ! objectToDestroy.Disposed )
 						{
 							// Deterministically release object resources, nevermind the result, we are destroying the object
+							//
 							objectToDestroy.ReleaseResources();
 							objectToDestroy.Disposed = true;
 
