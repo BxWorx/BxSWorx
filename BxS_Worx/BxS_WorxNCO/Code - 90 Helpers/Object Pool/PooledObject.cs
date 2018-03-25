@@ -5,8 +5,20 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 {
 	public abstract class PooledObject : IDisposable
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal PooledObject()
+					{
+						this.PoolID		= Guid.NewGuid();
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
 
+				internal  Guid													PoolID				{ get; set; }
 				internal	Action< PooledObject , bool >	ReturnToPool	{ get; set; }
 				internal	bool													Disposed			{ get; set; }
 
@@ -60,16 +72,14 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				~PooledObject()
 					{
-						this.HandleReAddingToPool( true );
+						this.HandleReAdding( true );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Dispose()
 					{
 						#pragma warning disable RCS1163
-
-							ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> HandleReAddingToPool( false ) ) );
-
+						ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> HandleReAdding( false ) ) );
 						#pragma warning restore RCS1163
 					}
 
@@ -79,7 +89,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void HandleReAddingToPool( bool reRegisterForFinalization )
+				private void HandleReAdding( bool reRegisterForFinalization )
 					{
 						if ( ! this.Disposed )
 							{

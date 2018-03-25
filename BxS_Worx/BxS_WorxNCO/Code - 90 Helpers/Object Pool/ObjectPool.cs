@@ -21,8 +21,8 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						this.Factory						= factory							;
 						//.............................................
 						this._Pool					= new	ConcurrentBag<T>();
+						this._Lock					=	new	object();
 						this._ReturnAction	=	this.ReturnObject;
-						this._Ready					= true;
 						//.............................................
 						this._Diag					= new	Lazy< ObjectPoolDiagnostics >( ()=>	new	ObjectPoolDiagnostics() );
 						//.............................................
@@ -30,11 +30,9 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 
 						if ( autoStartup )
 							{
-								this._Semaphore	= new	
-								lock ( this._Lock )
-									{
-										this.AutoStart();
-									}
+								#pragma warning disable RCS1163
+								ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> this.AutoStart() ) );
+								#pragma warning restore RCS1163
 							}
 					}
 
@@ -48,14 +46,11 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 
 				private int		_MinPoolSize;
 				private int		_MaxPoolSize;
-				private	bool	_Ready			;
 
 				private	readonly	object												_Lock;
 				private readonly	ConcurrentBag<T>							_Pool;
 				private readonly	Action< PooledObject , bool >	_ReturnAction;
 				private readonly	Lazy< ObjectPoolDiagnostics >	_Diag;
-
-				private readonly	SemaphoreSlim	_Semaphore;
 
 			#endregion
 
@@ -102,36 +97,41 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						//
 						if ( this._Pool.Count < this._MaxPoolSize )
 							{
-								// Reset object state (if implemented) before returning to the pool.
-								// If resetting the object failed, destroy.
-								//
-								if ( ! objectToReturn.ResetState() )
+								lock (this._Lock)
 									{
-										if ( this.DiagnosticsActive )	this._Diag.Value.UpResetFailedCount();
+										if ( this._Pool.Count < this._MaxPoolSize )
+											{
+												// Reset object state (if implemented) before returning to the pool.
+												// If resetting the object failed, destroy.
+												//
+												if ( ! objectToReturn.ResetState() )
+													{
+														if ( this.DiagnosticsActive )	this._Diag.Value.UpResetFailedCount();
 
-										DestroyObject( objectToReturn );
-										return;
+														DestroyObject( objectToReturn );
+														return;
+													}
+												//.........................................
+												// re-registering for finalization - in case of resurrection (called from Finalize method)
+												//
+												if ( reRegisterForFinalization )
+													{
+														GC.ReRegisterForFinalize( objectToReturn );
+													}
+												//.........................................
+												if ( this.DiagnosticsActive )	this._Diag.Value.UpReturnedCount();
+												//.........................................
+												this._Pool.Add( (T) objectToReturn );
+												return;
+											}
 									}
-								//.........................................
-								// re-registering for finalization - in case of resurrection (called from Finalize method)
-								//
-								if ( reRegisterForFinalization )
-									{
-										GC.ReRegisterForFinalize( objectToReturn );
-									}
-								//.........................................
-								if ( this.DiagnosticsActive )	this._Diag.Value.UpReturnedCount();
-								//.........................................
-								this._Pool.Add( (T) objectToReturn );
 							}
-						else
-							{
-								//The Pool's upper limit has exceeded.
-								// No need to add this object back into the pool, destroy it.
-								//
-								if ( this.DiagnosticsActive )	this._Diag.Value.UpOverflowCount();
-								this.DestroyObject( objectToReturn );
-							}
+						//.............................................
+						//The Pool's upper limit has exceeded.
+						// No need to add this object back into the pool, destroy it.
+						//
+						if ( this.DiagnosticsActive )	this._Diag.Value.UpOverflowCount();
+						this.DestroyObject( objectToReturn );
 					}
 
 			#endregion
@@ -158,7 +158,10 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AutoStart()
 					{
-
+						for (	int i = 0; i < this._MinPoolSize; i++ )
+							{
+								this._Pool.Add( this.CreateObject() );
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -185,9 +188,6 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						//...............................................
 						if ( this.DiagnosticsActive )	this._Diag.Value.UpCreatedCount();
 						//...............................................
-
-						this._Ready	= true;			// TEMP MOVE
-
 						return newObject;
 					}
 
