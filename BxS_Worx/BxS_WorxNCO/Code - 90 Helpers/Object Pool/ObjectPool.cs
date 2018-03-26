@@ -1,4 +1,20 @@
-﻿using System;
+﻿#region "Disclaimers"
+
+	﻿/* 
+	* Generic Object Pool Implementation
+	*  
+	* Implemented by Ofir Makmal, 28/1/2013
+	*
+	* My Blog: Blogs.microsoft.co.il/blogs/OfirMakmal
+	* Email:   Ofir.Makmal@gmail.com
+	* 
+	* The fundamentals of this pooled objected were taking from an extract from Ofir Makmal.
+	* It has been adapted for specific requirements
+	*/
+
+#endregion
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+using System;
 using System.Threading;
 using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

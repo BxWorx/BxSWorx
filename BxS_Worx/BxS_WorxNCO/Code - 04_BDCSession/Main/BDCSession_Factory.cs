@@ -118,6 +118,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCSessionConsumer	CreateSessionConsumer()
 					{
+						//BDCCall_Function	lo_Func			= this._FncCntlr.CreateBDCCallFunction();
+						//BDCCall_Lines			lo_BDCData	=	this._Profile.CreateBDCCallLines();
+						//lo_Func.Config( this._Header );
+						//var X = new BDCSessionConsumer( this._Profile , lo_Func, lo_BDCData );
+			
 						BDCSessionConsumer		lo_S = null;
 						return	lo_S;
 					}

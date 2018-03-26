@@ -27,6 +27,7 @@
     <Compile Remove="zKeep\BDCCallTranProfile.cs" />
     <Compile Remove="zKeep\BDC_OpFnc.cs" />
     <Compile Remove="zKeep\IBDCSession.cs" />
+    <Compile Remove="zKeep\PooledObjectWrapper.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,8 +38,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="zKeep\" />
     <Folder Include="Properties\" />
+    <Folder Include="zKeep\" />
   </ItemGroup>
 
   <ItemGroup>

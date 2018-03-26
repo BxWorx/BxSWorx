@@ -18,16 +18,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCSessionConsumer(	BDCCall_Profile		profile
-																		,	BDCCall_Function	function	)
-																		//,	BDCCall_Lines			bdcData
-																		//, CancellationToken	CT
-																		//, BlockingCollection< DTO_BDC_Transaction > queue )
+																		,	BDCCall_Function	function
+																		,	BDCCall_Lines			bdcData		)
 					{
 						this._Profile		= profile		;
 						this._Func			= function	;
-						//this._BDCData		= bdcData		;
-						//this._CT				= CT				;
-						//this._Queue			= queue			;
+						this._BDCData		= bdcData		;
 					}
 
 			#endregion
@@ -37,10 +33,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private	readonly	BDCCall_Profile		_Profile;
 				private readonly	BDCCall_Function	_Func;
-				//private readonly	BDCCall_Lines			_BDCData;
-				//private	readonly	CancellationToken	_CT;
-
-				//private readonly	BlockingCollection< DTO_BDC_Transaction >	_Queue;
+				private readonly	BDCCall_Lines			_BDCData;
 
 			#endregion
 
@@ -55,20 +48,19 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Consume(	BDCCall_Lines			bdcData
-															, CancellationToken	CT
-															, BlockingCollection< DTO_BDC_Transaction > queue )
+				internal void Consume(	CancellationToken													CT
+															, BlockingCollection< DTO_BDC_Transaction >	queue )
 					{
 						foreach ( DTO_BDC_Transaction lo_Tran in queue.GetConsumingEnumerable( CT ) )
 							{
-								bdcData.Reset();
+								this._BDCData.Reset();
 								//.........................................
-								this.LoadBDC( bdcData.BDCData , lo_Tran.BDCData );
-								this.LoadSPA( bdcData.SPAData , lo_Tran.SPAData );
+								this.LoadBDC( this._BDCData.BDCData , lo_Tran.BDCData );
+								this.LoadSPA( this._BDCData.SPAData , lo_Tran.SPAData );
 								//.........................................
 								try
 									{
-										this._Func.Process( bdcData );
+										this._Func.Process( this._BDCData );
 									}
 								catch (System.Exception)
 									{

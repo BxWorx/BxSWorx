@@ -20,14 +20,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Session(		IRfcFncController				fncCntlr
+															, ObjectPool< BDCSessionConsumer >	consumerPool
 															,	DTO_BDC_SessionConfig		config
 															, CancellationToken				CT
 															, IProgress<ProgressDTO>	progress	)
 					{
-						this._FncCntlr	= fncCntlr	;
-						this._OpConfig	= config		;
-						this._CT				= CT				;
-						this._Progress	= progress	;
+						this._ConsumerPool	= consumerPool	;
+						this._FncCntlr			= fncCntlr	;
+						this._OpConfig			= config		;
+						this._CT						= CT				;
+						this._Progress			= progress	;
 						//.............................................
 						this._Queue			= new	BlockingCollection< DTO_BDC_Transaction >();
 						this._Consumers	= new List< Task<int> >	();
@@ -58,6 +60,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 				private						BDCCall_Header	_Header	;
 
 				private	readonly	object	_Lock;
+
+				private	readonly	ObjectPool< BDCSessionConsumer >	_ConsumerPool;
 
 			#endregion
 
@@ -188,12 +192,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 																					Task<int>.Run( ()=>
 																						{
-																							BDCCall_Function	lo_Func			= this._FncCntlr.CreateBDCCallFunction();
-																							BDCCall_Lines			lo_BDCData	=	this._Profile.CreateBDCCallLines();
-																							lo_Func.Config( this._Header );
-																							var X = new BDCSessionConsumer( this._Profile , lo_Func );
-																							X.Consume( lo_BDCData , this._CT , this._Queue );
-																							return	X.TransactionsProcessed;
+																							using (	BDCSessionConsumer lo_Cons = this._ConsumerPool.Acquire() )
+																								{
+																									lo_Cons.Consume( lo_BDCData , this._CT , this._Queue );
+																									return	lo_Cons.TransactionsProcessed;
+																								}
+
+																							//BDCCall_Function	lo_Func			= this._FncCntlr.CreateBDCCallFunction();
+																							//BDCCall_Lines			lo_BDCData	=	this._Profile.CreateBDCCallLines();
+																							//lo_Func.Config( this._Header );
+																							//var X = new BDCSessionConsumer( this._Profile , lo_Func );
+
+
 																						}
 
 																				) );
