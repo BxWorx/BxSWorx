@@ -3,6 +3,7 @@ using System.Threading;
 //.........................................................
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.BDCSession.Parser;
+using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Helpers.ObjectPool;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
@@ -19,15 +20,14 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCSession_Factory()
-					{
-					}
+					{	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private const LazyThreadSafetyMode	_LazyMode	= LazyThreadSafetyMode.ExecutionAndPublication;
+				private const LazyThreadSafetyMode	_LazyMode		= LazyThreadSafetyMode.ExecutionAndPublication;
 				//.................................................
 				private	static readonly	Lazy< BDCSession_Factory >	_Instance
 						= new Lazy< BDCSession_Factory >(	()=>	new BDCSession_Factory() , _LazyMode );
@@ -64,11 +64,23 @@ namespace BxS_WorxNCO.BDCSession.Main
 																															, bool	activateDiagnostics	= false
 																															, bool	autoStartMin				= false	)
 					{
+						CancellationTokenSource	CT = new	CancellationTokenSource();
+
+				
 						return	new ObjectPool< BDC_Session >(		minPoolSize
 																									, maxPoolSize
+																									, false
 																									, activateDiagnostics
 																									, autoStartMin
+																									, CT.Token
 																									, ()=> this.CreateSession()	);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ObjectPool< BDCSessionConsumer >		CreateSessionConsumerPool( IRfcDestination	rfcDestination)
+					{
+						IRfcDestination X = rfcDestination;
+						return	new ObjectPool< BDCSessionConsumer >( factory:  ()=> this.CreateSessionConsumer()	);
 					}
 
 			#endregion
@@ -88,10 +100,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 																															, bool	activateDiagnostics	= false
 																															, bool	autoStartMin				= false	)
 					{
+						CancellationTokenSource	CT = new	CancellationTokenSource();
 						return	new ObjectPool< BDC_Parser >(		minPoolSize
 																									, maxPoolSize
+																									, false
 																									, activateDiagnostics
 																									, autoStartMin
+																									, CT.Token
 																									, ()=> this.CreateParser()	);
 					}
 
@@ -101,9 +116,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private BDCSessionConsumer	CreateSessionConsumer()
+					{
+						BDCSessionConsumer		lo_S = null;
+						return	lo_S;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDC_Session	CreateSession()
 					{
-						BDC_Session	lo_S = null;
+						BDC_Session		lo_S = null;
 						return	lo_S;
 					}
 

@@ -5,27 +5,29 @@ using System.Collections.Concurrent;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
+using BxS_WorxNCO.Helpers.ObjectPool;
+
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.RfcFunction.BDCTran;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDCSessionConsumer
+	internal class BDCSessionConsumer : PooledObject
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCSessionConsumer(	BDCCall_Profile		profile
-																		,	BDCCall_Function	function
-																		,	BDCCall_Lines			bdcData
-																		, CancellationToken	CT
-																		, BlockingCollection< DTO_BDC_Transaction > queue )
+																		,	BDCCall_Function	function	)
+																		//,	BDCCall_Lines			bdcData
+																		//, CancellationToken	CT
+																		//, BlockingCollection< DTO_BDC_Transaction > queue )
 					{
 						this._Profile		= profile		;
 						this._Func			= function	;
-						this._BDCData		= bdcData		;
-						this._CT				= CT				;
-						this._Queue			= queue			;
+						//this._BDCData		= bdcData		;
+						//this._CT				= CT				;
+						//this._Queue			= queue			;
 					}
 
 			#endregion
@@ -35,10 +37,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private	readonly	BDCCall_Profile		_Profile;
 				private readonly	BDCCall_Function	_Func;
-				private readonly	BDCCall_Lines			_BDCData;
-				private	readonly	CancellationToken	_CT;
+				//private readonly	BDCCall_Lines			_BDCData;
+				//private	readonly	CancellationToken	_CT;
 
-				private readonly	BlockingCollection< DTO_BDC_Transaction >	_Queue;
+				//private readonly	BlockingCollection< DTO_BDC_Transaction >	_Queue;
 
 			#endregion
 
@@ -53,18 +55,20 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Consume()
+				internal void Consume(	BDCCall_Lines			bdcData
+															, CancellationToken	CT
+															, BlockingCollection< DTO_BDC_Transaction > queue )
 					{
-						foreach ( DTO_BDC_Transaction lo_Tran in this._Queue.GetConsumingEnumerable( this._CT ) )
+						foreach ( DTO_BDC_Transaction lo_Tran in queue.GetConsumingEnumerable( CT ) )
 							{
-								this._BDCData.Reset();
+								bdcData.Reset();
 								//.........................................
-								this.LoadBDC( this._BDCData.BDCData , lo_Tran.BDCData );
-								this.LoadSPA( this._BDCData.SPAData , lo_Tran.SPAData );
+								this.LoadBDC( bdcData.BDCData , lo_Tran.BDCData );
+								this.LoadSPA( bdcData.SPAData , lo_Tran.SPAData );
 								//.........................................
 								try
 									{
-										this._Func.Process( this._BDCData );
+										this._Func.Process( bdcData );
 									}
 								catch (System.Exception)
 									{

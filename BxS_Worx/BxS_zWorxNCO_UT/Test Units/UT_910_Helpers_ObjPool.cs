@@ -11,13 +11,32 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_910_Helpers_ObjPool
 		{
+			private	readonly	CancellationTokenSource		co_CTS		;
+			private static		Barrier										co_Bar		;
 
-			private readonly	ObjectPool<UT_Cls>	co_OP;
+			private readonly	ObjectPool<UT_Cls>				co_OPStd	;
+			private readonly	ObjectPool<UT_Cls>				co_OPLtd	;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_910_Helpers_ObjPool()
 				{
-					this.co_OP	= this.CreateObjectPool<UT_Cls>( MinSize: 3 , MaxSize: 3 , diagnostics: true , autoStart: true , func: ()=> new UT_Cls() );
+					co_Bar	= new	Barrier( 20 );
+
+					this.co_CTS			= new CancellationTokenSource();
+
+					this.co_OPStd		= this.CreateObjectPool<UT_Cls>(	MinSize:			3
+																													, MaxSize:			5
+																													, diagnostics:	true
+																													, autoStart:		true
+																													, func:					()=> new UT_Cls() );
+
+					this.co_OPLtd		= this.CreateObjectPool<UT_Cls>(	MinSize:			3
+																													,	MaxSize:			5
+																													,	limiterOn:		true
+																													, diagnostics:	true
+																													, autoStart:		true
+																													, CT:						this.co_CTS.Token
+																													, func:					()=> new UT_Cls()	);
 				}
 
 			[TestMethod]
@@ -48,7 +67,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					UT_Cls x2 = lo_OP.Acquire();
 
 					Assert.IsTrue		(						x1.State														, "C" );
-					Assert.AreEqual	( myguid	, x1.PoolID													, "0" );
+					Assert.AreEqual	( myguid	, x1.PoolID														, "0" );
 					Assert.AreEqual	( 2				, lo_OP.Diagnostics.InstancesCreated	, "B" );
 
 					Assert.AreNotEqual	( x1.PoolID	, x2.PoolID	, "1" );
@@ -56,46 +75,120 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_910_ObjPool_30_AutoStart()
+			public void UT_910_ObjPool_30_STDProdSlow()
 				{
-					for (int i = 0; i < 10; i++)
-						{
-							#pragma warning disable RCS1163
-							ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> UT_Process() ) );
-							#pragma warning restore RCS1163
+					this.UT_FireSTD( 20 , 100 );
+				}
 
-							Thread.Sleep(100);
-						}
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_910_ObjPool_32_STDProdFast()
+				{
+					this.UT_FireSTD( 20 , 10 );
+				}
 
-					Thread.Sleep(200);
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_910_ObjPool_40_LTDProdSlow()
+				{
+					this.UT_FireLTD( 30 , 100 );
+				}
 
-					Assert.AreEqual	( 3	, this.co_OP.Count , "B" );
-
-					Console.WriteLine($"Created:	{this.co_OP.Diagnostics.InstancesCreated}"		);
-					Console.WriteLine($"Live:			{this.co_OP.Diagnostics.LiveInstancesCount}"	);
-					Console.WriteLine($"Missed:		{this.co_OP.Diagnostics.MissCount}"						);
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_910_ObjPool_42_LTDProdFast()
+				{
+					this.UT_FireLTD( 43 , 10 );
 				}
 
 		//.
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void UT_Process()
+				private	void UT_ProcessLtd()
 					{
-						using (	UT_Cls x0 = this.co_OP.Acquire() )
+						using (	UT_Cls x0 = this.co_OPLtd.Acquire() )
 							{
 								x0.State	= false;
-								Thread.Sleep(10);
+								Thread.Sleep(50);
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void UT_ProcessStd()
+					{
+						using (	UT_Cls x0 = this.co_OPStd.Acquire() )
+							{
+								x0.State	= false;
+								Thread.Sleep(50);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	ObjectPool<T> CreateObjectPool<T>(	int			MinSize				= 1
 																									,	int			MaxSize				= 5
+																									, bool		limiterOn			= false
 																									, bool		diagnostics		= false
 																									, bool		autoStart			= false
-																									,	Func<T>	func					= null	)	where T: PooledObject
+																									, CancellationToken	CT	= default( CancellationToken )
+																									,	Func<T>	func					= null													)	where T: PooledObject
 					{
-						return	new ObjectPool<T>( MinSize , MaxSize , diagnostics , autoStart , func );
+						return	new ObjectPool<T>( MinSize , MaxSize , limiterOn , diagnostics , autoStart , CT , func );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void UT_FireLTD( int Qty , int sleep )
+					{
+						for (int i = 0; i < Qty; i++)
+							{
+								#pragma warning disable RCS1163
+								ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> UT_ProcessLtd() ) );
+								#pragma warning restore RCS1163
+
+								Thread.Sleep(sleep);
+							}
+						Thread.Sleep(200);
+						//.............................................
+						Console.WriteLine($"Created		:	{	this.co_OPLtd.Diagnostics.InstancesCreated		}"	);
+						Console.WriteLine($"Live			:	{	this.co_OPLtd.Diagnostics.LiveInstancesCount	}"	);
+						Console.WriteLine($"Missed		:	{	this.co_OPLtd.Diagnostics.MissCount						}"	);
+						Console.WriteLine($"WaitFor		:	{	this.co_OPLtd.Diagnostics.HitAfterWaitCount		}"	);
+						Console.WriteLine($"Returned	:	{	this.co_OPLtd.Diagnostics.ReturnedCount				}"	);
+						Console.WriteLine($"Overflow	:	{	this.co_OPLtd.Diagnostics.OverflowCount				}"	);
+						Console.WriteLine($"Pool Size	:	{	this.co_OPLtd.Count														}"	);
+						Console.WriteLine("=================================================");
+
+						foreach (UT_Cls item in this.co_OPLtd.Pool)
+							{
+								Console.WriteLine($"Pool:  ID: {item.PoolID}	/	{item.Count.ToString()}"	);
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void UT_FireSTD( int Qty , int sleep )
+					{
+						for (int i = 0; i < Qty; i++)
+							{
+								#pragma warning disable RCS1163
+								ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> UT_ProcessStd() ) );
+								#pragma warning restore RCS1163
+
+								Thread.Sleep(sleep);
+							}
+						Thread.Sleep(200);
+						//.............................................
+						Console.WriteLine($"Created		:	{	this.co_OPStd.Diagnostics.InstancesCreated		}"	);
+						Console.WriteLine($"Live			:	{	this.co_OPStd.Diagnostics.LiveInstancesCount	}"	);
+						Console.WriteLine($"Missed		:	{	this.co_OPStd.Diagnostics.MissCount						}"	);
+						Console.WriteLine($"WaitFor		:	{	this.co_OPStd.Diagnostics.HitAfterWaitCount		}"	);
+						Console.WriteLine($"Returned	:	{	this.co_OPStd.Diagnostics.ReturnedCount				}"	);
+						Console.WriteLine($"Overflow	:	{	this.co_OPStd.Diagnostics.OverflowCount				}"	);
+						Console.WriteLine($"Pool Size	:	{	this.co_OPStd.Count														}"	);
+						Console.WriteLine("=================================================");
+
+						foreach (UT_Cls item in this.co_OPStd.Pool)
+							{
+								Console.WriteLine($"Pool:  ID: {item.PoolID}	/	{item.Count.ToString()}"	);
+							}
 					}
 
 		//.
@@ -109,18 +202,23 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 				}
 
+			public int Count {get; private set; }
+
 			public bool State			{ get; set; }
 
-			public bool Reset()
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			protected override void OnResetState()
+				{
+					this.Count ++;
+					this.State	= true;
+					//base.OnResetState();
+				}
+
+			internal  bool Reset()
 				{
 					return	true;
 				}
 
-			protected override void OnResetState()
-				{
-					this.State	= true;
-					//base.OnResetState();
-				}
 		}
 
 	//.

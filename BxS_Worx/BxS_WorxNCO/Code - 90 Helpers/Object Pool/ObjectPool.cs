@@ -11,22 +11,35 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public ObjectPool(	int			minimumPoolSize			= DefaultMinimumSize
 													, int			maximumPoolSize			= DefaultMaximumSize
+													, bool		limiterOn						= false
 													,	bool		activateDiagnostics	= false
 													, bool		autoStartup					= false
-													, Func<T>	factory							= null								)
+
+													, CancellationToken	CT				= default( CancellationToken )
+													, Func<T>						factory		= null												)
 					{
-						this._MinPoolSize				= minimumPoolSize	;
-						this._MaxPoolSize				= maximumPoolSize	;
+						this._MinPoolSize		= minimumPoolSize	;
+						this._LimiterOn			= limiterOn				;
+						this._CT						= CT							;
+
+						this.MaxPoolSize				= maximumPoolSize			;
 						this.DiagnosticsActive	= activateDiagnostics	;
 						this.Factory						= factory							;
 						//.............................................
-						this._Pool					= new	ConcurrentBag<T>();
-						this._Lock					=	new	object();
-						this._ReturnAction	=	this.ReturnObject;
+						this.Pool	= new	ConcurrentBag<T>()	;
 						//.............................................
+						this._Lock					=	new	object()			;
+						this._LockChk				=	new	object()			;
+						this._ReturnAction	=	this.ReturnObject	;
+
 						this._Diag					= new	Lazy< ObjectPoolDiagnostics >( ()=>	new	ObjectPoolDiagnostics() );
 						//.............................................
 						this.SetLimits();
+
+						if (limiterOn)
+							{
+								_SlimLock	= new	SemaphoreSlim( this.MaxPoolSize );
+							}
 
 						if ( autoStartup )
 							{
@@ -45,22 +58,30 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				private const int DefaultMaximumSize	=	05;
 
 				private int		_MinPoolSize;
-				private int		_MaxPoolSize;
+				private int		_CurPoolSize;
 
-				private	readonly	object												_Lock;
-				private readonly	ConcurrentBag<T>							_Pool;
-				private readonly	Action< PooledObject , bool >	_ReturnAction;
-				private readonly	Lazy< ObjectPoolDiagnostics >	_Diag;
+				private	readonly	bool		_LimiterOn;
+				private	readonly	object	_LockChk;
+				private	readonly	object	_Lock;
+
+				private	readonly	CancellationToken								_CT;
+				private readonly	Action< PooledObject , bool >		_ReturnAction;
+				private readonly	Lazy< ObjectPoolDiagnostics >		_Diag;
+				private	static		SemaphoreSlim										_SlimLock;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public Func<T>								Factory						{	get; }
-				public bool										DiagnosticsActive	{ get; set; }
-				public int										Count							{	get { return	this._Pool.Count; }	}
-				public ObjectPoolDiagnostics	Diagnostics				{ get { return	this._Diag.Value; } }
+				public	ConcurrentBag<T>	Pool			{ get; }
+				public	Func<T>						Factory		{	get; }
+
+				public	bool		DiagnosticsActive		{ get; set; }
+				public	int			MaxPoolSize					{	get; private set;	}
+				public	int			Count								{	get { return	this.Pool.Count; }	}
+
+				public ObjectPoolDiagnostics	Diagnostics		{ get { return	this._Diag.Value; } }
 
 			#endregion
 
@@ -70,15 +91,48 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public T Acquire()
 					{
-						if ( this._Pool.TryTake( out T lo_Object ) )
+						// get existing object from pool
+						//
+						if ( this.Pool.TryTake( out T lo_Object ) )
 							{
-								if ( this.DiagnosticsActive )	this._Diag.Value.UpHitCount();
-								return lo_Object;
+								if ( this.DiagnosticsActive )		this._Diag.Value.UpHitCount();
+								return	lo_Object;
+							}
+
+						if ( this.DiagnosticsActive )		this._Diag.Value.UpMissCount();
+						//.............................................
+						// No objects in pool, create or wait according to configuration
+						//
+						if ( this._LimiterOn )
+							{
+								//.............................................
+								if ( this._CurPoolSize < this.MaxPoolSize )
+									{
+										lock ( this._LockChk )
+											{
+												if ( this._CurPoolSize < this.MaxPoolSize )
+													{
+														return	this.CreateObject();
+													}
+											}
+									}
+								//.............................................
+								// Wait for an existing object to be returned
+								//
+								while (true)
+									{
+										_SlimLock.Wait( this._CT );
+
+										if ( this.Pool.TryTake( out lo_Object ) )
+											{
+												if ( this.DiagnosticsActive )		this._Diag.Value.UpHitAfterWaitCount();
+												return	lo_Object;
+											}
+									}
 							}
 						else
 							{
-								if ( this.DiagnosticsActive )	this._Diag.Value.UpMissCount();
-								return CreateObject();
+								return	this.CreateObject();
 							}
 					}
 
@@ -92,46 +146,55 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 																		, bool					reRegisterForFinalization = false	)
 					{
 						if ( this.DiagnosticsActive && reRegisterForFinalization ) this._Diag.Value.UpRessurectionCount();
-						//.............................................
-						// Checking that the pool is not full
+						//.........................................
+						// Reset object state (if implemented) before returning to the pool.
+						// If resetting the object failed, destroy.
 						//
-						if ( this._Pool.Count < this._MaxPoolSize )
+						if ( ! objectToReturn.ResetState() )
 							{
-								lock (this._Lock)
-									{
-										if ( this._Pool.Count < this._MaxPoolSize )
-											{
-												// Reset object state (if implemented) before returning to the pool.
-												// If resetting the object failed, destroy.
-												//
-												if ( ! objectToReturn.ResetState() )
-													{
-														if ( this.DiagnosticsActive )	this._Diag.Value.UpResetFailedCount();
+								if ( this.DiagnosticsActive )	this._Diag.Value.UpResetFailedCount();
 
-														DestroyObject( objectToReturn );
+								DestroyObject( objectToReturn );
+								return;
+							}
+						//.........................................
+						// re-registering for finalization - in case of resurrection (called from Finalize method)
+						//
+						if ( reRegisterForFinalization )
+							{
+								GC.ReRegisterForFinalize( objectToReturn );
+							}
+						//.........................................
+						if ( this._LimiterOn )
+							{
+								this.Pool.Add( (T) objectToReturn );
+								_SlimLock.Release();
+								if ( this.DiagnosticsActive )	this._Diag.Value.UpReturnedCount();
+								return;
+							}
+						else
+							{
+								//.............................................
+								// Checking that the pool is not full
+								if ( this.Pool.Count < this.MaxPoolSize )
+									{
+										lock ( this._Lock )
+											{
+												if ( this.Pool.Count < this.MaxPoolSize )
+													{
+														this.Pool.Add( (T) objectToReturn );
+														if ( this.DiagnosticsActive )		this._Diag.Value.UpReturnedCount();
 														return;
 													}
-												//.........................................
-												// re-registering for finalization - in case of resurrection (called from Finalize method)
-												//
-												if ( reRegisterForFinalization )
-													{
-														GC.ReRegisterForFinalize( objectToReturn );
-													}
-												//.........................................
-												if ( this.DiagnosticsActive )	this._Diag.Value.UpReturnedCount();
-												//.........................................
-												this._Pool.Add( (T) objectToReturn );
-												return;
 											}
 									}
+								//.............................................
+								//The Pool's upper limit has exceeded.
+								// No need to add this object back into the pool, destroy it.
+								//
+								if ( this.DiagnosticsActive )		this._Diag.Value.UpOverflowCount();
+								this.DestroyObject( objectToReturn );
 							}
-						//.............................................
-						//The Pool's upper limit has exceeded.
-						// No need to add this object back into the pool, destroy it.
-						//
-						if ( this.DiagnosticsActive )	this._Diag.Value.UpOverflowCount();
-						this.DestroyObject( objectToReturn );
 					}
 
 			#endregion
@@ -144,7 +207,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				//
 				~ObjectPool()
 					{
-						foreach ( T lo_Obj in this._Pool )
+						foreach ( T lo_Obj in this.Pool )
 							{
 								this.DestroyObject( lo_Obj );
 							}
@@ -158,9 +221,20 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AutoStart()
 					{
-						for (	int i = 0; i < this._MinPoolSize; i++ )
+						if ( this._CurPoolSize < this.MaxPoolSize )
 							{
-								this._Pool.Add( this.CreateObject() );
+								lock ( this._LockChk )
+									{
+										if ( this._CurPoolSize < this.MaxPoolSize )
+											{
+												int ln_Qty	= this.MaxPoolSize - this._CurPoolSize;
+
+												for (	int i = 0; i < ln_Qty; i++ )
+													{
+														this.Pool.Add( this.CreateObject() );
+													}
+											}
+									}
 							}
 					}
 
@@ -186,7 +260,8 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						//
 						newObject.ReturnToPool = ( Action< PooledObject , bool > )	this._ReturnAction;
 						//...............................................
-						if ( this.DiagnosticsActive )	this._Diag.Value.UpCreatedCount();
+						if ( this.DiagnosticsActive )		this._Diag.Value.UpCreatedCount();
+						Interlocked.Increment( ref this._CurPoolSize );
 						//...............................................
 						return newObject;
 					}
@@ -217,8 +292,10 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				private void SetLimits()
 					{
 						this._MinPoolSize	= this._MinPoolSize < 0									? 0 : this._MinPoolSize	;
-						this._MaxPoolSize = this._MaxPoolSize < 1									? 1 : this._MaxPoolSize	;
-						this._MinPoolSize	= this._MinPoolSize > this._MaxPoolSize	? 1 : this._MinPoolSize ;
+						this.MaxPoolSize = this.MaxPoolSize < 1									? 1 : this.MaxPoolSize	;
+						this._MinPoolSize	= this._MinPoolSize > this.MaxPoolSize	? 1 : this._MinPoolSize ;
+
+						this._CurPoolSize	= 0;
 					}
 
 			#endregion

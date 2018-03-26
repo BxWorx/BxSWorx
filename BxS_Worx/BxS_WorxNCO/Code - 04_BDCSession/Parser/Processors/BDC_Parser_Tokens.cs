@@ -168,20 +168,16 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						dtoProfile.BDCHeaderRowRef.Desc	= dtoProfile.Tokens.TryGetValue( cz_Token_Desc , out lo_Token ) ? lo_Token.Row : -1 ;
 						dtoProfile.BDCHeaderRowRef.Inst	= dtoProfile.Tokens.TryGetValue( cz_Token_Inst , out lo_Token ) ? lo_Token.Row : -1 ;
 						//.............................................
-						if (		dtoProfile.BDCHeaderRowRef.Prog.Equals(-1)
-								||	dtoProfile.BDCHeaderRowRef.Scrn.Equals(-1)
-								||	dtoProfile.BDCHeaderRowRef.Strt.Equals(-1)
-								||	dtoProfile.BDCHeaderRowRef.OKCd.Equals(-1)
-								||	dtoProfile.BDCHeaderRowRef.Curs.Equals(-1)
-								||	dtoProfile.BDCHeaderRowRef.Subs.Equals(-1)
-								||	dtoProfile.BDCHeaderRowRef.FldN.Equals(-1)
-								||	dtoProfile.BDCHeaderRowRef.Desc.Equals(-1)
-								||	dtoProfile.BDCHeaderRowRef.Inst.Equals(-1) )
-
-							{	return	false	; }
-						else
-							{	return	true	; }
-					}
+						return			!dtoProfile.BDCHeaderRowRef.Prog.Equals(-1)
+										&&	!dtoProfile.BDCHeaderRowRef.Scrn.Equals(-1)
+										&&	!dtoProfile.BDCHeaderRowRef.Strt.Equals(-1)
+										&&	!dtoProfile.BDCHeaderRowRef.OKCd.Equals(-1)
+										&&	!dtoProfile.BDCHeaderRowRef.Curs.Equals(-1)
+										&&	!dtoProfile.BDCHeaderRowRef.Subs.Equals(-1)
+										&&	!dtoProfile.BDCHeaderRowRef.FldN.Equals(-1)
+										&&	!dtoProfile.BDCHeaderRowRef.Desc.Equals(-1)
+										&&	!dtoProfile.BDCHeaderRowRef.Inst.Equals(-1)	;
+						}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadTokens( DTO_ParserProfile dtoProfile )
@@ -191,16 +187,16 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this.AddToken( dtoProfile, cz_Token_Begn	,	(int)ZDTON_RowNo.DynBegin			, -1	, cz_Token_xBegn	);
 						this.AddToken( dtoProfile, cz_Token_OKCd	,	(int)ZDTON_RowNo.OKCode				, -1	, cz_Token_xOKCd	);
 						this.AddToken( dtoProfile, cz_Token_Crsr	,	(int)ZDTON_RowNo.Cursor				, -1	, cz_Token_xCrsr	);
-						this.AddToken( dtoProfile, cz_Token_Subs	,	(int)ZDTON_RowNo.SubScreen			, -1	, cz_Token_xSubs	);
-						this.AddToken( dtoProfile, cz_Token_FNme	,	(int)ZDTON_RowNo.FieldName			, -1	, cz_Token_xFNme	);
-						this.AddToken( dtoProfile, cz_Token_Desc	,	(int)ZDTON_RowNo.Description		, -1	, cz_Token_xDesc	);
+						this.AddToken( dtoProfile, cz_Token_Subs	,	(int)ZDTON_RowNo.SubScreen		, -1	, cz_Token_xSubs	);
+						this.AddToken( dtoProfile, cz_Token_FNme	,	(int)ZDTON_RowNo.FieldName		, -1	, cz_Token_xFNme	);
+						this.AddToken( dtoProfile, cz_Token_Desc	,	(int)ZDTON_RowNo.Description	, -1	, cz_Token_xDesc	);
 						this.AddToken( dtoProfile, cz_Token_Inst	,	(int)ZDTON_RowNo.Instructions	, -1	, cz_Token_xInst	);
 						//.............................................
 						this.AddToken( dtoProfile, cz_Token_IDCol		,	-1 ,  2 );
-						this.AddToken( dtoProfile, cz_Token_MsgCol		,	-1 ,  1 );
-						this.AddToken( dtoProfile, cz_Token_ExeCol		,	-1 ,  3 );
+						this.AddToken( dtoProfile, cz_Token_MsgCol	,	-1 ,  1 );
+						this.AddToken( dtoProfile, cz_Token_ExeCol	,	-1 ,  3 );
 						this.AddToken( dtoProfile, cz_Token_DataCol	,	-1 ,  5 );
-						this.AddToken( dtoProfile, cz_Token_XCfg			,	-1 , -1 );
+						this.AddToken( dtoProfile, cz_Token_XCfg		,	-1 , -1 );
 						//.............................................
 						this.AddToken( dtoProfile, cz_Instr_Post	,	-1 , -1 );
 					}
@@ -251,8 +247,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 					{
 						dtoProfile.ColDataStart	= this.ExtractTokenValue( dtoProfile , cz_Token_DataCol	, false	);
 						dtoProfile.ColID				= this.ExtractTokenValue( dtoProfile , cz_Token_IDCol		, false	);
-						dtoProfile.ColExec			= this.ExtractTokenValue( dtoProfile , cz_Token_ExeCol		, false	);
-						dtoProfile.ColMsgs			= this.ExtractTokenValue( dtoProfile , cz_Token_MsgCol		, false	);
+						dtoProfile.ColExec			= this.ExtractTokenValue( dtoProfile , cz_Token_ExeCol	, false	);
+						dtoProfile.ColMsgs			= this.ExtractTokenValue( dtoProfile , cz_Token_MsgCol	, false	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

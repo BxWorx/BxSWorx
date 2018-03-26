@@ -11,6 +11,7 @@ using BxS_WorxNCO.Destination.Main;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.BDCSession.Parser;
+using BxS_WorxNCO.Helpers.Common;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -134,8 +135,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 				private	BDC_Session	CreateBDCSession( IRfcDestination rfcDestination )
 					{
 						IRfcFncController	lo_F	= new RfcFncController( rfcDestination );
+						CancellationTokenSource	cts = new CancellationTokenSource();
+						IProgress<ProgressDTO>	prog	= new	Progress<ProgressDTO>();
 						//.............................................
-						return	new BDC_Session( lo_F , this._Parser , this.CreateSessionConfig() );
+						return	new BDC_Session( lo_F , this.CreateSessionConfig() , cts.Token , prog );
 					}
 
 			#endregion
