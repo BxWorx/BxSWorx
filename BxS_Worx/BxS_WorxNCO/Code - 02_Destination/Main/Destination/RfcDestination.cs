@@ -3,6 +3,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Security;
+using System.Linq;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
@@ -157,6 +158,77 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 							{	}
 						//.............................................
 						return	lb_Ret;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool LoadFunctionIndexing<T>( T obj ) where T:class
+					{
+						try
+							{
+								string	lc_Nme	= string.Empty;
+								int			ln_Idx	= 0;
+
+								SMC.RfcFunctionMetadata		lo_Fnc	= null	;
+								SMC.RfcStructureMetadata	ls_Str	= null	;
+								SAPAttribute							lo_CP;
+								//.............................................
+								lc_Nme		= this.ClassLevelAttribute<T>();
+								lo_Fnc		= this.NCORepository.GetFunctionMetadata( lc_Nme );
+								ls_Str		= this.NCORepository.GetStructureMetadata( lc_Nme );
+
+								foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
+									{
+										lo_CP			=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
+
+										ln_Idx	= lo_Fnc.TryNameToIndex( lo_CP.Name );
+										ln_Idx	= ls_Str.TryNameToIndex( lo_CP.Name );
+
+										lo_PI.SetValue( obj , ln_Idx );
+									}
+
+								return	true;
+							}
+						catch
+							{
+								return	false;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool LoadStructureIndexing<T>( T obj ) where T:class
+					{
+						string	lc_Name	= string.Empty;
+						int			ln_PIndx		= 0;
+
+						SMC.RfcStructureMetadata	ls_Stru	= null;
+						SAPAttribute							lo_CP;
+						//.............................................
+						try
+							{
+								lc_Name		= this.ClassLevelAttribute<T>();
+								ls_Stru		= this.NCORepository.GetStructureMetadata( lc_Name );
+
+								foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
+									{
+										lo_CP			=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
+										ln_PIndx	= ls_Stru.TryNameToIndex( lo_CP.Name );
+
+										lo_PI.SetValue( obj , ln_PIndx );
+									}
+
+								return	true;
+							}
+						catch
+							{
+								return	false;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private string ClassLevelAttribute<T>() where T:class
+					{
+						return	typeof(T).GetCustomAttributes( typeof( SAPAttribute ) , true )
+											.FirstOrDefault() is SAPAttribute SAPAttr ? SAPAttr.Name : string.Empty	;
 					}
 
 			#endregion

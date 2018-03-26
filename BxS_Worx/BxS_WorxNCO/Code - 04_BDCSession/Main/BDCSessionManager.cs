@@ -44,7 +44,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private readonly	LazyThreadSafetyMode	_LM	;
 				//.................................................
-				private	readonly	IRfcDestination						_RfcDest	;
+				private	readonly	IRfcDestination		_RfcDest	;
 				//.................................................
 				private	readonly	Lazy< PriorityQueue< IExcelBDCSessionRequest > >	_ReqQueue;
 				//.................................................
@@ -58,6 +58,15 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 			//===========================================================================================
 			#region "Methods: Exposed: Destination Handling"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				// Configure the BDC session destination environment
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void ConfigureDestination( IConfigSetupDestination dto )
+					{
+						//this._FncCntlr.RfcDestination.LoadConfig( dto );
+					}
+
 			#endregion
 
 			//===========================================================================================

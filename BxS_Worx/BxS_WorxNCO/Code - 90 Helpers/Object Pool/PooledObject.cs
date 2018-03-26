@@ -28,18 +28,6 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			#region "Methods: Internal"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool ReleaseResources()
-					{
-						try
-							{
-								OnReleaseResources();
-								return	true;
-							}
-							catch
-								{	return	false; }
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool ResetState()
 					{
 						try
@@ -49,6 +37,18 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 							}
 						catch
 							{	return	false; }
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool ReleaseResources()
+					{
+						try
+							{
+								OnReleaseResources();
+								return	true;
+							}
+							catch
+								{	return	false; }
 					}
 
 			#endregion

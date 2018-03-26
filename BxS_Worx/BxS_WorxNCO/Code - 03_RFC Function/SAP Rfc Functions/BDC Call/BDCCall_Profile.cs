@@ -13,8 +13,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Profile(		string									fncName
 																	,	IRfcDestination					rfcDestination
-																	,	Func< BDCCall_Header	>	createHeader
-																	, Func< BDCCall_Lines		>	createLines		)	: base(		fncName
+																	,	Func< BDCCall_Header >	createHeader
+																	, Func< BDCCall_Lines	 >	createLines		)	: base(		fncName
 																																										, rfcDestination )
 					{
 						this._CreateHeader	= createHeader	;
@@ -26,18 +26,35 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private const	string	cz_StrCTU	= "CTU_PARAMS"	;
-				private const	string	cz_StrSPA	= "RFC_SPAGPA"	;
-				private const	string	cz_StrBDC	= "BDCDATA"			;
-				private const	string	cz_StrMSG	= "BDCMSGCOLL"	;
+				private const	string	cz_StrCTU		= "CTU_PARAMS"	;
+				private const	string	cz_StrSPA		= "RFC_SPAGPA"	;
+				private const	string	cz_StrBDC		= "BDCDATA"			;
+				private const	string	cz_StrMSG		= "BDCMSGCOLL"	;
 
 				private	readonly	Func< BDCCall_Header >	_CreateHeader ;
 				private	readonly	Func< BDCCall_Lines	>		_CreateLines	;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal	BDCCall_IndexFNC	FNCIndex	{ get; }
+				internal	BDCCall_IndexCTU	CTUIndex	{ get; }
+				internal	BDCCall_IndexSPA	SPAIndex	{ get; }
+				internal	BDCCall_IndexBDC	BDCIndex	{ get; }
+				internal	BDCCall_IndexMSG	MSGIndex	{ get; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Header CreateBDCCallHeader( bool withDefaults = true )
 					{
 						this.ReadyProfile();
+
 						BDCCall_Header lo_Head	= this._CreateHeader();
 						//.............................................
 						lo_Head.CTUParms	= this._RfcDestination.CreateRfcStructure( cz_StrCTU );
@@ -47,10 +64,10 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 								lo_Head.ShowSAPGui	= false;
 								lo_Head.Skip1st			= false;
 
-								lo_Head.CTUParms[ this.CTUOpt_DspMde ].SetValue( BDCCall_Constants.lz_CTU_A );
-								lo_Head.CTUParms[ this.CTUOpt_UpdMde ].SetValue( BDCCall_Constants.lz_CTU_A	);
-								lo_Head.CTUParms[ this.CTUOpt_DefSze ].SetValue( NCO_Constants.cz_False			);
-								lo_Head.CTUParms[ this.CTUOpt_CATMde ].SetValue( NCO_Constants.cz_False			);
+								lo_Head.CTUParms[ this.CTUOpt_DspMde ].SetValue( BDCCall_Constants	.lz_CTU_A );
+								lo_Head.CTUParms[ this.CTUOpt_UpdMde ].SetValue( BDCCall_Constants	.lz_CTU_A	);
+								lo_Head.CTUParms[ this.CTUOpt_DefSze ].SetValue( NCO_Constants			.cz_False	);
+								lo_Head.CTUParms[ this.CTUOpt_CATMde ].SetValue( NCO_Constants			.cz_False	);
 							}
 						//.............................................
 						return	lo_Head;

@@ -32,12 +32,12 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 													, bool		autoStartup					= false
 
 													, CancellationToken	CT				= default( CancellationToken )
-													, Func<T>						factory		= null												)
+													, Func<T>						factory		= null													)
 					{
-						this._MinPoolSize		= minimumPoolSize	;
-						this._LimiterOn			= limiterOn				;
-						this._CT						= CT							;
+						this._LimiterOn		= limiterOn	;
+						this._CT					= CT				;
 
+						this.MinPoolSize				= minimumPoolSize	;
 						this.MaxPoolSize				= maximumPoolSize			;
 						this.DiagnosticsActive	= activateDiagnostics	;
 						this.Factory						= factory							;
@@ -73,7 +73,6 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				private	const	int	DefaultMinimumSize	=	01;
 				private const int DefaultMaximumSize	=	05;
 
-				private int		_MinPoolSize;
 				private int		_CurPoolSize;
 
 				private	readonly	bool		_LimiterOn;
@@ -93,9 +92,10 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				public	ConcurrentBag<T>	Pool			{ get; }
 				public	Func<T>						Factory		{	get; }
 
-				public	bool		DiagnosticsActive		{ get; set; }
-				public	int			MaxPoolSize					{	get; private set;	}
-				public	int			Count								{	get { return	this.Pool.Count; }	}
+				public	bool	DiagnosticsActive		{ get; set; }
+				public	int		MaxPoolSize					{	get; private set;	}
+				public	int		MinPoolSize					{	get; private set;	}
+				public	int		Count								{	get { return	this.Pool.Count; }	}
 
 				public ObjectPoolDiagnostics	Diagnostics		{ get { return	this._Diag.Value; } }
 
@@ -161,14 +161,14 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				internal void ReturnObject(		PooledObject	objectToReturn
 																		, bool					reRegisterForFinalization = false	)
 					{
-						if ( this.DiagnosticsActive && reRegisterForFinalization ) this._Diag.Value.UpRessurectionCount();
+						if ( this.DiagnosticsActive && reRegisterForFinalization )	this._Diag.Value.UpRessurectionCount();
 						//.........................................
 						// Reset object state (if implemented) before returning to the pool.
 						// If resetting the object failed, destroy.
 						//
 						if ( ! objectToReturn.ResetState() )
 							{
-								if ( this.DiagnosticsActive )	this._Diag.Value.UpResetFailedCount();
+								if ( this.DiagnosticsActive )		this._Diag.Value.UpResetFailedCount();
 
 								DestroyObject( objectToReturn );
 								return;
@@ -185,7 +185,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 							{
 								this.Pool.Add( (T) objectToReturn );
 								_SlimLock.Release();
-								if ( this.DiagnosticsActive )	this._Diag.Value.UpReturnedCount();
+								if ( this.DiagnosticsActive )		this._Diag.Value.UpReturnedCount();
 								return;
 							}
 						else
@@ -295,7 +295,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 							objectToDestroy.ReleaseResources();
 							objectToDestroy.Disposed = true;
 
-							if ( this.DiagnosticsActive )	this._Diag.Value.UpDestroyedCount();
+							if ( this.DiagnosticsActive )		this._Diag.Value.UpDestroyedCount();
 						}
 
 						// The object is being destroyed, resources have been already released deterministically
@@ -307,9 +307,9 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetLimits()
 					{
-						this._MinPoolSize	= this._MinPoolSize < 0									? 0 : this._MinPoolSize	;
-						this.MaxPoolSize = this.MaxPoolSize < 1									? 1 : this.MaxPoolSize	;
-						this._MinPoolSize	= this._MinPoolSize > this.MaxPoolSize	? 1 : this._MinPoolSize ;
+						this.MinPoolSize	= this.MinPoolSize	< 0									? 0 : this.MinPoolSize	;
+						this.MaxPoolSize	= this.MaxPoolSize	< 1									? 1 : this.MaxPoolSize	;
+						this.MinPoolSize	= this.MinPoolSize	> this.MaxPoolSize	? 1 : this.MinPoolSize	;
 
 						this._CurPoolSize	= 0;
 					}

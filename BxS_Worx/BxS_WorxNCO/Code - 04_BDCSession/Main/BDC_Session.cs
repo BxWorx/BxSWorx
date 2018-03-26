@@ -111,8 +111,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this.PrepareSession();
 
-						this.LoadHDR( bdcSession.Header );
-						this.LoadCTU( bdcSession.Header.CTUParms	);
+						this.LoadHDR	( bdcSession.Header );
+						this.LoadCTU	( bdcSession.Header.CTUParms	);
 						this.LoadQueue( bdcSession.Trans );
 						//.............................................
 						this.CreateConsumerPool();
@@ -131,6 +131,23 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#endregion
 
 			//===========================================================================================
+			#region "Methods: Virtual"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected override void OnResetState()
+					{
+						base.OnResetState();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected override void OnReleaseResources()
+					{
+						base.OnReleaseResources();
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -143,11 +160,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this.TransactionsProcessed	= 0;
 						//.............................................
-						this.TasksCompleted	= new ConcurrentQueue< Task< int > >();
-						this.TasksFaulty		= new ConcurrentQueue< Task< int > >();
-						this.TasksOther			= new ConcurrentQueue< Task< int > >();
+						this.TasksCompleted		= new ConcurrentQueue< Task< int > >();
+						this.TasksFaulty			= new ConcurrentQueue< Task< int > >();
+						this.TasksOther				= new ConcurrentQueue< Task< int > >();
 						//.............................................
-						this._Header				= this._Profile.CreateBDCCallHeader( true );
+						this._Header	= this._Profile.CreateBDCCallHeader( true );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -180,32 +197,20 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void CreateConsumerPool()
 					{
-						this._Consumers.Clear();
-						//.............................................
 						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
 							{
 								if ( this._CT.IsCancellationRequested )
 									{ break; }
 								else
 									{
-										this._Consumers.Add(
-
-																					Task<int>.Run( ()=>
+										this._Consumers.Add(	Task<int>.Run( ()=>
 																						{
 																							using (	BDCSessionConsumer lo_Cons = this._ConsumerPool.Acquire() )
 																								{
-																									lo_Cons.Consume( lo_BDCData , this._CT , this._Queue );
+																									lo_Cons.Consume( this._CT , this._Queue );
 																									return	lo_Cons.TransactionsProcessed;
 																								}
-
-																							//BDCCall_Function	lo_Func			= this._FncCntlr.CreateBDCCallFunction();
-																							//BDCCall_Lines			lo_BDCData	=	this._Profile.CreateBDCCallLines();
-																							//lo_Func.Config( this._Header );
-																							//var X = new BDCSessionConsumer( this._Profile , lo_Func );
-
-
 																						}
-
 																				) );
 									}
 							}
