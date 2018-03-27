@@ -126,13 +126,27 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	ObjectPool<T> CreateObjectPool<T>(	int			MinSize				= 1
 																									,	int			MaxSize				= 5
+																									, int			MaxIdleTime		= 100
 																									, bool		limiterOn			= false
 																									, bool		diagnostics		= false
 																									, bool		autoStart			= false
 																									, CancellationToken	CT	= default( CancellationToken )
 																									,	Func<T>	func					= null													)	where T: PooledObject
 					{
-						return	new ObjectPool<T>( MinSize , MaxSize , limiterOn , diagnostics , autoStart , CT , func );
+						var									lo_OPL	=	new ObjectPool<T>();
+						ObjectPoolConfig<T> lo_Cfg	= ObjectPool<T>.CreateConfig();
+
+						lo_Cfg.ActivateDiagnostics	= diagnostics;
+						lo_Cfg.AutoStartup					= autoStart;
+						lo_Cfg.Factory							= func;
+						lo_Cfg.MaxIdleTime					= MaxIdleTime;
+						lo_Cfg.MinimumPoolSize			= MinSize;
+						lo_Cfg.MaximumPoolSize			=	MaxSize;
+						lo_Cfg.Throttled						= limiterOn;
+
+						lo_OPL.ConfigurePool(lo_Cfg);
+
+						return	lo_OPL;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

@@ -57,8 +57,6 @@
     <Compile Include="Test Units\UT_500_BDCSessionMngr.cs" />
     <Compile Include="Test Units\UT_910_Helpers_ObjPool.cs" />
     <Compile Include="Test Units\UT_900_Helpers.cs" />
-    <Compile Include="Test Units\UT_300_BDCCall.cs" />
-    <Compile Include="Test Units\UT_200_RfcFnc.cs" />
     <Compile Include="Test Units\UT_100_Dest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
