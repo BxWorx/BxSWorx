@@ -25,44 +25,20 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ObjectPool(	int		minimumPoolSize			= DefaultMinimumSize
-													, int		maximumPoolSize			= DefaultMaximumSize
-													, bool	limiterOn						= false
-													,	bool	activateDiagnostics	= false
-													, bool	autoStartup					= false
-
-													, CancellationToken	CT				= default( CancellationToken )
-													, Func<T>						factory		= null													)
+				public ObjectPool( ObjectPoolConfig<T> config = null )
 					{
-						this._LimiterOn		= limiterOn	;
-						this._CT					= CT				;
-						this._Factory			= factory		;
-
-						this.MinPoolSize				= minimumPoolSize	;
-						this.MaxPoolSize				= maximumPoolSize			;
-						this.DiagnosticsActive	= activateDiagnostics	;
+						this._Config	= CreateConfig();
+						//...............................................
+						if ( config != null )		this.Configure( config );
 						//.............................................
 						this.Pool	= new	ConcurrentBag<T>()	;
 						//.............................................
+						this._Diag					= new	Lazy< ObjectPoolDiagnostics >( ()=>	new	ObjectPoolDiagnostics() );
+
 						this._Lock					=	new	object()			;
 						this._LockChk				=	new	object()			;
 						this._ReturnAction	=	this.ReturnObject	;
-
-						this._Diag					= new	Lazy< ObjectPoolDiagnostics >( ()=>	new	ObjectPoolDiagnostics() );
-						//.............................................
-						this.SetLimits();
-
-						if (limiterOn)
-							{
-								_SlimLock		= new	SemaphoreSlim( this.MaxPoolSize );
-							}
-
-						if ( autoStartup )
-							{
-								#pragma warning disable RCS1163
-								ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> this.AutoStart() ) );
-								#pragma warning restore RCS1163
-							}
+						this._IsActive			= false;
 					}
 
 			#endregion
@@ -70,40 +46,52 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const		int	DefaultMinimumSize	=	01	;
-				private const		int	DefaultMaximumSize	=	05	;
-
 				private	static	SemaphoreSlim	_SlimLock	;
 
+				private	bool	_IsActive			;
 				private int		_CurPoolSize	;
 
-				private	readonly	bool		_LimiterOn	;
-				private	readonly	object	_LockChk		;
-				private	readonly	object	_Lock				;
-				public	readonly	Func<T>	_Factory		;
+				private	readonly	object	_LockChk	;
+				private	readonly	object	_Lock			;
+				public	readonly	Func<T>	_Factory	;
 
-				private	readonly	CancellationToken								_CT						;
-				private readonly	Action< PooledObject , bool >		_ReturnAction	;
+				private	readonly	CancellationTokenSource					_CTS					;
+				public	readonly	ObjectPoolConfig<T>							_Config				;
 				private readonly	Lazy< ObjectPoolDiagnostics >		_Diag					;
+				private readonly	Action< PooledObject , bool >		_ReturnAction	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	ConcurrentBag<T>	Pool			{ get; }
-
-				public	bool	DiagnosticsActive		{ get; set; }
-				public	int		MaxPoolSize					{	get; private set;	}
-				public	int		MinPoolSize					{	get; private set;	}
+				public	ObjectPoolConfig<T>	ConfigCopy	{ get { return	this._Config.ShallowCopy(); } }
+				public	ConcurrentBag<T>		Pool				{ get; }
 
 				public	int										Count					{	get { return	this.Pool.Count	; }	}
 				public	ObjectPoolDiagnostics	Diagnostics		{ get { return	this._Diag.Value; } }
+
+				public	bool	DiagnosticsActive		{ get { return	this._Config.ActivateDiagnostics	; } }
+				public	bool	Throttled						{ get { return	this._Config.Throttled						; } }
+				public	int		MaxPoolSize					{	get	{ return	this._Config.MaximumPoolSize			; } }
+				public	int		MinPoolSize					{	get	{ return	this._Config.MinimumPoolSize			; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Cancel()
+					{
+						this._CTS?.Cancel();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void ConfigurePool( ObjectPoolConfig<T> config )
+					{
+						this.Configure( config );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public T Acquire()
@@ -120,7 +108,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						//.............................................
 						// No objects in pool, create or wait according to configuration
 						//
-						if ( this._LimiterOn )
+						if ( this.Throttled )
 							{
 								//.............................................
 								if ( this._CurPoolSize < this.MaxPoolSize )
@@ -138,7 +126,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 								//
 								while (true)
 									{
-										_SlimLock.Wait( this._CT );
+										_SlimLock.Wait( this._CTS.Token );
 
 										if ( this.Pool.TryTake( out lo_Object ) )
 											{
@@ -182,7 +170,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 								GC.ReRegisterForFinalize( objectToReturn );
 							}
 						//.........................................
-						if ( this._LimiterOn )
+						if ( this.Throttled )
 							{
 								this.Pool.Add( (T) objectToReturn );
 								_SlimLock.Release();
@@ -193,6 +181,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 							{
 								//.............................................
 								// Checking that the pool is not full
+								//
 								if ( this.Pool.Count < this.MaxPoolSize )
 									{
 										lock ( this._Lock )
@@ -206,12 +195,23 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 											}
 									}
 								//.............................................
-								//The Pool's upper limit has exceeded.
-								// No need to add this object back into the pool, destroy it.
+								// Pool's upper limit has been exceeded.
+								// No need to add back into the pool, destroy.
 								//
 								if ( this.DiagnosticsActive )		this._Diag.Value.UpOverflowCount();
 								this.DestroyObject( objectToReturn );
 							}
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Static"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public static ObjectPoolConfig<T>	CreateConfig()
+					{
+						return	new	ObjectPoolConfig<T>();
 					}
 
 			#endregion
@@ -234,26 +234,6 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void AutoStart()
-					{
-						if ( this._CurPoolSize < this.MaxPoolSize )
-							{
-								lock ( this._LockChk )
-									{
-										if ( this._CurPoolSize < this.MaxPoolSize )
-											{
-												int ln_Qty	= this.MaxPoolSize - this._CurPoolSize;
-
-												for (	int i = 0; i < ln_Qty; i++ )
-													{
-														this.Pool.Add( this.CreateObject() );
-													}
-											}
-									}
-							}
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private T CreateObject()
@@ -305,19 +285,77 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						GC.SuppressFinalize( objectToDestroy );
 				}
 
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void Startup()
+					{
+						if ( this._Config.Throttled )
+							{
+								_SlimLock		= new	SemaphoreSlim( this._Config.MaximumPoolSize );
+							}
+						//...............................................
+						if ( this._Config.AutoStartup )
+							{
+								#pragma warning disable RCS1163
+								ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> this.AutoStartMinimumObjects() ) );
+								#pragma warning restore RCS1163
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void AutoStartMinimumObjects()
+					{
+						if ( this._CurPoolSize < this.MaxPoolSize )
+							{
+								lock ( this._LockChk )
+									{
+										if ( this._CurPoolSize < this.MaxPoolSize )
+											{
+												int ln_Qty	= this.MaxPoolSize - this._CurPoolSize;
+
+												for (	int i = 0; i < ln_Qty; i++ )
+													{
+														this.Pool.Add( this.CreateObject() );
+													}
+											}
+									}
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void Configure( ObjectPoolConfig<T> config )
+					{
+						this._Config.ActivateDiagnostics		=	config.ActivateDiagnostics	;
+
+						this._Config.MinimumPoolSize				=	config.MinimumPoolSize			;
+						this._Config.MaximumPoolSize				=	config.MaximumPoolSize			;
+
+						if ( this._IsActive )
+							{
+								if ( ! config.Throttled )		this._Config.Throttled		=	config.Throttled	;
+							}
+						else
+							{
+								this._Config.Throttled			=	config.Throttled		;
+								this._Config.AutoStartup		=	config.AutoStartup	;
+								this._Config.Factory				=	config.Factory			;
+							}
+						//...............................................
+						this.SetLimits();
+					}
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetLimits()
 					{
-						this.MinPoolSize	= this.MinPoolSize	< 0									? 0 : this.MinPoolSize	;
-						this.MaxPoolSize	= this.MaxPoolSize	< 1									? 1 : this.MaxPoolSize	;
-						this.MinPoolSize	= this.MinPoolSize	> this.MaxPoolSize	? 1 : this.MinPoolSize	;
+						this._Config.MinimumPoolSize	= this.MinPoolSize	< 0									? 0 : this.MinPoolSize	;
+						this._Config.MaximumPoolSize	= this.MaxPoolSize	< 1									? 1 : this.MaxPoolSize	;
 
-						this._CurPoolSize	= 0;
+						this._Config.MinimumPoolSize	= this.MinPoolSize	> this.MaxPoolSize	? this.MaxPoolSize : this.MinPoolSize	;
+
+						if ( ! this._IsActive )		this._CurPoolSize	= 0;
 					}
 
 			#endregion
 
 		}
 }
-
-

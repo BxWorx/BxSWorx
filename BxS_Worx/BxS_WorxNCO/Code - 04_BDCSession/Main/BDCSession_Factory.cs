@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
+using BxS_WorxNCO.Destination.API			;
+
 using BxS_WorxNCO.BDCSession.DTO			;
 using BxS_WorxNCO.BDCSession.Parser		;
-using BxS_WorxNCO.Destination.API			;
-using BxS_WorxNCO.Helpers.ObjectPool	;
+
+using BxS_WorxNCO.RfcFunction.Main		;
 using BxS_WorxNCO.RfcFunction.BDCTran	;
+
+using BxS_WorxNCO.Helpers.Common			;
+using BxS_WorxNCO.Helpers.ObjectPool	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -14,14 +19,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal static BDCSession_Factory Instance
+				internal BDCSession_Factory( IRfcDestination	rfcDestination )
 					{
-						get { return _Instance.Value; }
+						this._RfcDest		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDCSession_Factory).Namespace}:- RfcDest Factory null" );
+						//.................................................
+						this._ParserFactory		= new Lazy< BDC_Parser_Factory >(	()=>	BDC_Parser_Factory.Instance , _LM			);
+						this._RfcFncCntlr			= new	Lazy< IRfcFncController >	(	()=>	new	RfcFncController( this._RfcDest ) );
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCSession_Factory()
-					{	}
 
 			#endregion
 
@@ -30,8 +34,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private const LazyThreadSafetyMode	_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 				//.................................................
-				private	static readonly	Lazy< BDCSession_Factory >	_Instance
-						= new Lazy< BDCSession_Factory >(	()=>	new BDCSession_Factory() , _LM );
+				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
+				private	readonly	Lazy< IRfcFncController >		_RfcFncCntlr		;
+
+				private	readonly	IRfcDestination		_RfcDest;
 
 			#endregion
 
@@ -61,7 +67,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																									, activateDiagnostics
 																									, autoStartMin
 																									, CT
-																									, ()=> this.CreateSession()	);
+																									, ()=> this.CreateSession( CT ,   )	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -111,20 +117,23 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Session	CreateSession()
+				private BDC_Session	CreateSession(	CancellationToken				CT
+																					, IProgress<ProgressDTO>	progressHndlr
+																					, DTO_BDC_SessionConfig		config				)
 					{
-						BDCCall_Factory.Instance.cr
+						BDCCall_Header				lo_Header = null;
 
-
-						BDC_Session		lo_S = null;
-						return	lo_S;
+						return	new	BDC_Session(	lo_Header
+																		,	this.CreateSessionConsumerPool( this._RfcDest )
+																		, config
+																		, CT
+																		, progressHndlr																			);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Parser	CreateParser()
+				private BDC_Parser CreateParser()
 					{
-						BDC_Parser	lo_P = null;
-						return	lo_P;
+						return	new	BDC_Parser( this._ParserFactory );
 					}
 
 			#endregion

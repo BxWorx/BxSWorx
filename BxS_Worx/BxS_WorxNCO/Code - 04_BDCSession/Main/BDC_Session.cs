@@ -21,13 +21,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 															, ObjectPool< BDCSessionConsumer >	consumerPool
 															,	DTO_BDC_SessionConfig							config
 															, CancellationToken									CT
-															, IProgress<ProgressDTO>						progress		)
+															, IProgress<ProgressDTO>						progressHndlr	)
 					{
-						this._Header				= header;
-						this._ConsumerPool	= consumerPool	;
-						this._OpConfig			= config		;
-						this._CT						= CT				;
-						this._Progress			= progress	;
+						this._Header					= header;
+						this._ConsumerPool		= consumerPool	;
+						this._OpConfig				= config		;
+						this._CT							= CT				;
+						this._ProgressHndlr		= progressHndlr	;
 						//.............................................
 						this._Queue			= new	BlockingCollection< DTO_BDC_Transaction >();
 						this._Consumers	= new List< Task<int> >	();
@@ -46,7 +46,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				private readonly	BDCCall_Header										_Header	;
 				private	readonly	DTO_BDC_SessionConfig							_OpConfig	;
 				private	readonly	CancellationToken									_CT				;
-				private	readonly	IProgress<ProgressDTO>						_Progress	;
+				private	readonly	IProgress<ProgressDTO>						_ProgressHndlr	;
 				private	readonly	ObjectPool< BDCSessionConsumer >	_ConsumerPool;
 				//.................................................
 				private	readonly	object							_Lock				;
@@ -86,8 +86,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this.PrepareSession();
 
-						this._Header.Load( bdcSession.Header );
-						this.LoadQueue( bdcSession.Trans );
+						this._Header.Load	( bdcSession.Header );
+						this.LoadQueue		( bdcSession.Trans );
 						//.............................................
 						this.CreateConsumerPool();
 
