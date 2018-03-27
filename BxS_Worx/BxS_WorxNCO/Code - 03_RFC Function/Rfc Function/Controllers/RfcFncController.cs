@@ -13,15 +13,11 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal RfcFncController( IRfcDestination rfcDestination )
 					{
-						this.RfcDestination		= rfcDestination	?? throw new ArgumentException("IRfcDestination is null");
+						this.RfcDestination		= rfcDestination	??	throw		new ArgumentException( $"{typeof(BDCCall_Lines).Namespace}:- BDCData null" );
 						//.............................................
-						this._LazyMode				= LazyThreadSafetyMode.ExecutionAndPublication;
-
-						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>
-																			(	() =>		new	RfcFncManager( this.RfcDestination ) , this._LazyMode );
-
-						this._SAPRfcFncConst	= new Lazy<SAPRfcFncConstants>
-																			(	()=>		new SAPRfcFncConstants() , this._LazyMode );
+						this._LM							= LazyThreadSafetyMode.ExecutionAndPublication;
+						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>		(	()=>	new	RfcFncManager( this.RfcDestination )	, this._LM );
+						this._SAPRfcFncConst	= new Lazy<SAPRfcFncConstants>(	()=>	new	SAPRfcFncConstants()									, this._LM );
 						//.............................................
 						this._Lock	= new object();
 					}
@@ -31,10 +27,10 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly LazyThreadSafetyMode				_LazyMode				;
-				private readonly Lazy<IRfcFncManager>				_RfcFncMngr			;
-				private readonly Lazy<SAPRfcFncConstants>		_SAPRfcFncConst	;
-
+				private	readonly	LazyThreadSafetyMode				_LM							;
+				private readonly	Lazy<IRfcFncManager>				_RfcFncMngr			;
+				private readonly	Lazy<SAPRfcFncConstants>		_SAPRfcFncConst	;
+				//.................................................
 				private readonly	object	_Lock;
 
 			#endregion
@@ -42,7 +38,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Properties"
 
-				public	IRfcDestination	RfcDestination	{ get; }
+				public	IRfcDestination		RfcDestination	{ get; }
 
 			#endregion
 
@@ -60,8 +56,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 											{
 												var	lo_Prof	= new BDCCall_Profile(	this._SAPRfcFncConst.Value.BDCCallTran
 																													,	this.RfcDestination
-																													,	()=>	new BDCCall_Header()
-																													,	()=>	new	BDCCall_Lines	()							);
+																													, BDCCall_Factory.Instance								);
 
 												this._RfcFncMngr.Value.RegisterProfile( lo_Prof , loadMetaData );
 											}

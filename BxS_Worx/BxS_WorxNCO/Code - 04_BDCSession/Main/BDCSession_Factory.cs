@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
-using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxNCO.BDCSession.Parser;
-using BxS_WorxNCO.Destination.API;
-using BxS_WorxNCO.Helpers.ObjectPool;
+using BxS_WorxNCO.BDCSession.DTO			;
+using BxS_WorxNCO.BDCSession.Parser		;
+using BxS_WorxNCO.Destination.API			;
+using BxS_WorxNCO.Helpers.ObjectPool	;
+using BxS_WorxNCO.RfcFunction.BDCTran	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -27,17 +28,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private const LazyThreadSafetyMode	_LazyMode		= LazyThreadSafetyMode.ExecutionAndPublication;
+				private const LazyThreadSafetyMode	_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 				//.................................................
 				private	static readonly	Lazy< BDCSession_Factory >	_Instance
-						= new Lazy< BDCSession_Factory >(	()=>	new BDCSession_Factory() , _LazyMode );
-				//.................................................
-				//private readonly Func<>
+						= new Lazy< BDCSession_Factory >(	()=>	new BDCSession_Factory() , _LM );
 
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
 			#endregion
 
 			//===========================================================================================
@@ -53,26 +48,19 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDC_Session >		CreateSessionPool()
+				internal ObjectPool< BDC_Session >		CreateSessionPool(	CancellationToken	CT
+																																,	int		minPoolSize = 1
+																																,	int		maxPoolSize	= 5
+																																, bool	limiterOn						= false
+																																, bool	activateDiagnostics	= false
+																																, bool	autoStartMin				= false	)
 					{
-						return	new ObjectPool< BDC_Session >( factory: ()=> this.CreateSession() );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDC_Session >		CreateSessionPool(		int		minPoolSize
-																															,	int		maxPoolSize
-																															, bool	activateDiagnostics	= false
-																															, bool	autoStartMin				= false	)
-					{
-						CancellationTokenSource	CT = new	CancellationTokenSource();
-
-				
-						return	new ObjectPool< BDC_Session >(		minPoolSize
+						return	new ObjectPool< BDC_Session >(	minPoolSize
 																									, maxPoolSize
-																									, false
+																									, limiterOn
 																									, activateDiagnostics
 																									, autoStartMin
-																									, CT.Token
+																									, CT
 																									, ()=> this.CreateSession()	);
 					}
 
@@ -89,25 +77,20 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed: Parser"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDC_Parser >		CreateParserPool()
-					{
-						return	new ObjectPool< BDC_Parser >( factory: ()=> this.CreateParser() );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDC_Parser >		CreateParserPool(		int		minPoolSize
-																															,	int		maxPoolSize
+				internal ObjectPool< BDC_Parser >		CreateParserPool(		CancellationToken	CT
+																															,	int		minPoolSize = 1
+																															,	int		maxPoolSize	= 5
+																															, bool	limiterOn						= false
 																															, bool	activateDiagnostics	= false
 																															, bool	autoStartMin				= false	)
 					{
-						CancellationTokenSource	CT = new	CancellationTokenSource();
 						return	new ObjectPool< BDC_Parser >(		minPoolSize
 																									, maxPoolSize
-																									, false
+																									, limiterOn
 																									, activateDiagnostics
 																									, autoStartMin
-																									, CT.Token
-																									, ()=> this.CreateParser()	);
+																									, CT
+																									, ()=> this.CreateParser() );
 					}
 
 			#endregion
@@ -130,6 +113,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDC_Session	CreateSession()
 					{
+						BDCCall_Factory.Instance.cr
+
+
 						BDC_Session		lo_S = null;
 						return	lo_S;
 					}

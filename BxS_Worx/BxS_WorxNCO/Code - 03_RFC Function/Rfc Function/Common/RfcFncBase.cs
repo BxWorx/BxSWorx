@@ -12,7 +12,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal RfcFncBase( IRfcFncProfile profile	)
 					{
-						this.Profile	= profile;
+						this.Profile	= profile	??	throw		new	ArgumentException( $"{typeof(RfcFncBase).Namespace}:- Profile null" );
 						//.............................................
 						this.MyID	= Guid.NewGuid();
 

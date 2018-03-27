@@ -17,5 +17,24 @@ namespace BxS_WorxNCO.BDCSession.DTO
 
 			#endregion
 
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public void Configure( DTO_BDC_SessionConfig dto )
+					{
+						this.IsSequential				= dto.IsSequential			;
+						//.................................................
+						this.ConsumersNo				= dto.ConsumersNo				;
+						this.ConsumersMax				= dto.ConsumersMax			;
+						this.ConsumerThreshold	= dto.ConsumerThreshold	;
+						//.................................................
+						this.PauseTime					= dto.PauseTime					;
+						this.ProgressInterval		= dto.ProgressInterval	;
+						this.QueueAddTimeout		= dto.QueueAddTimeout		;
+					}
+
+			#endregion
+
 		}
 }

@@ -355,8 +355,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						lo_Cfg.SAPBDCSessionID	= cz_Null;
 						lo_Cfg.Password					= cz_Null;
 
-						lo_Cfg.CTU_DisMode			= lz_CTU_N.ToString();
-						lo_Cfg.CTU_UpdMode			= lz_CTU_N.ToString();
+						lo_Cfg.CTU_DisMode			= cz_CTU_N.ToString();
+						lo_Cfg.CTU_UpdMode			= cz_CTU_N.ToString();
 
 						lo_Cfg.PauseTime				= "0";
 

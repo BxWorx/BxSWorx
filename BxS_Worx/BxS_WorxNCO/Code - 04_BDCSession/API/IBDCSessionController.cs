@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
+using BxS_WorxNCO.Destination.API;
+
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.BDCSession.Main;
-using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
 {
@@ -13,15 +14,13 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				IList< string >								GetSAPINIList();
 				IList< ISAPSystemReference >	GetSAPSystems();
+
 				IConfigSetupDestination				CreateDestinationConfig();
 				//.................................................
-				DTO_BDC_Session					CreateSessionDTO();
-				DTO_BDC_SessionConfig		CreateSessionConfig();
+				BDCSessionManager				CreateBDCSessionManager( string	destinationID );
+				BDCSessionManager				CreateBDCSessionManager( Guid		destinationID );
 
-				//BDC_Session		CreateBDCSession( string	destinationID );
-				//BDC_Session		CreateBDCSession( Guid		destinationID );
-
-			#endregion
+		#endregion
 
 		}
 }

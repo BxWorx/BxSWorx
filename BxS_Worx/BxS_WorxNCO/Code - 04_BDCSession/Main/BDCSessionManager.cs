@@ -13,16 +13,16 @@ using BxS_WorxNCO.BDCSession.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDCSessionManager
+	public class BDCSessionManager
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCSessionManager(	IRfcDestination	rfcDestination )
 					{
-						this._LM	= LazyThreadSafetyMode.ExecutionAndPublication;
-						//.............................................
 						this._RfcDest			= rfcDestination	;
+						//.............................................
+						this._LM	= LazyThreadSafetyMode.ExecutionAndPublication;
 						//.............................................
 						this._ReqQueue			=	new	Lazy< PriorityQueue< IExcelBDCSessionRequest > >
 																		(	()=>	new PriorityQueue<IExcelBDCSessionRequest>()		, this._LM );
@@ -59,6 +59,23 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Methods: Exposed: Destination Handling"
 
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				// Create BDC session config DTO to configure session environment
+				//
+				public DTO_BDC_SessionConfig CreateSessionConfig()
+					{
+						return	new DTO_BDC_SessionConfig {
+																									IsSequential			= true
+																								, ConsumersMax			= 1
+																								,	ConsumersNo				= 1
+																								,	PauseTime					= 0
+																								, ConsumerThreshold	= 0
+																								, QueueAddTimeout		= 0
+																								, ProgressInterval	= 10
+																																						};
+					}
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Configure the BDC session destination environment
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -75,13 +92,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task Process( IExcelBDCSessionRequest request )
 					{
-						this._ReqQueue.Value.Add( request , request.Priority );
-
 						DTO_BDC_Session dtoSession	= BDCSession_Factory.Instance.CreateSessionDTO();
-
 						//.............................................
-						// Parse BDC Session request, which is data from an excel spreadsheet, into an
-						// BDC Session DTO which is used by the Process Session process
+						// Parse request, data from an excel spreadsheet, into an BDC Session DTO.
+						// used by Process Session.
 						//
 						bool	lb_ParseOk;
 
@@ -109,6 +123,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	BDCSessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )
+					{
+						IRfcFncController				lo_F	= new RfcFncController( rfcDestination );
+						CancellationTokenSource	cts		= new CancellationTokenSource();
+						IProgress<ProgressDTO>	prog	= new	Progress<ProgressDTO>();
+						//.............................................
+						return	new BDC_Session( lo_F , this.CreateSessionConfig() , cts.Token , prog );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void CloseSession()

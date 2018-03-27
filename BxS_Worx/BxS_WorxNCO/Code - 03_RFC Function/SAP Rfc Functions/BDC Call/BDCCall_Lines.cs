@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -11,32 +12,22 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Lines( BDCCall_Profile profile )
+				internal BDCCall_Lines(		SMC.IRfcTable	bdcData
+																,	SMC.IRfcTable	spaData
+																,	SMC.IRfcTable	msgData
+																, BDCCall_IndexSPA	spaIndex
+																,	BDCCall_IndexBDC	bdcIndex	)
 					{
+						this.BDCData	= bdcData		??	throw		new	ArgumentException( $"{typeof(BDCCall_Lines).Namespace}:- BDCData null" );
+						this.SPAData	= spaData		??	throw		new	ArgumentException( $"{typeof(BDCCall_Lines).Namespace}:- SPAData null" );
+						this.MSGData	= msgData		??	throw		new	ArgumentException( $"{typeof(BDCCall_Lines).Namespace}:- MSGData null" );
+						//.............................................
+						this.IndexSPA	= spaIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Lines).Namespace}:- SPA index null" );
+						this.IndexBDC	= bdcIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Lines).Namespace}:- BDC index null" );
+						//.............................................
 						this.ProcessedStatus	= false	;
 						this.SuccesStatus			= false	;
-						//.............................................
-						this.SPADat_MID		= profile.SPADat_MID	;
-						this.SPADat_Val		= profile.SPADat_Val	;
-						this.BDCDat_Prg		= profile.BDCDat_Prg	;
-						this.BDCDat_Dyn		= profile.BDCDat_Dyn	;
-						this.BDCDat_Bgn		= profile.BDCDat_Bgn	;
-						this.BDCDat_Fld		= profile.BDCDat_Fld	;
-						this.BDCDat_Val		= profile.BDCDat_Val	;
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private	readonly	int		SPADat_MID	;
-				private	readonly	int		SPADat_Val	;
-				private	readonly	int		BDCDat_Prg	;
-				private	readonly	int		BDCDat_Dyn	;
-				private	readonly	int		BDCDat_Bgn	;
-				private	readonly	int		BDCDat_Fld	;
-				private	readonly	int		BDCDat_Val	;
 
 			#endregion
 
@@ -47,9 +38,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				internal	bool	ProcessedStatus		{ get; set;	}
 				internal	bool	SuccesStatus			{ get; set;	}
 				//.................................................
-				internal	SMC.IRfcTable		BDCData	{ get; set; }
-				internal	SMC.IRfcTable		SPAData	{ get; set; }
-				internal	SMC.IRfcTable		MSGData	{ get; set; }
+				internal	SMC.IRfcTable		BDCData		{ get; }
+				internal	SMC.IRfcTable		SPAData		{ get; }
+				internal	SMC.IRfcTable		MSGData		{ get; }
+				//.................................................
+				internal	BDCCall_IndexSPA	IndexSPA	{ get; }
+				internal	BDCCall_IndexBDC	IndexBDC	{ get; }
 
 			#endregion
 
@@ -59,31 +53,35 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void LoadSPA( IList< DTO_BDC_SPA > SPASrce )
 					{
+						if ( SPASrce.Count.Equals(0) )	return;
+						//.............................................
 						this.SPAData.Append( SPASrce.Count );
 						//.............................................
 						for ( int i = 0; i < SPASrce.Count; i++ )
 							{
 								this.SPAData.CurrentIndex	= i;
 								//.........................................
-								this.SPAData.SetValue( this.SPADat_MID , SPASrce[i].MemoryID		);
-								this.SPAData.SetValue( this.SPADat_Val , SPASrce[i].MemoryValue	);
+								this.SPAData.SetValue( this.IndexSPA.SPADat_MID , SPASrce[i].MemoryID		);
+								this.SPAData.SetValue( this.IndexSPA.SPADat_Val , SPASrce[i].MemoryValue	);
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void LoadBDC( IList< DTO_BDC_Data > BDCSrce )
 					{
+						if ( BDCSrce.Count.Equals(0) )	return;
+						//.............................................
 						this.BDCData.Append( BDCSrce.Count );
 						//.............................................
 						for ( int i = 0; i < BDCSrce.Count; i++ )
 							{
 								this.BDCData.CurrentIndex	= i;
 								//.........................................
-								this.BDCData.SetValue( this.BDCDat_Prg , BDCSrce[i].ProgramName	);
-								this.BDCData.SetValue( this.BDCDat_Dyn , BDCSrce[i].Dynpro			);
-								this.BDCData.SetValue( this.BDCDat_Bgn , BDCSrce[i].Begin				);
-								this.BDCData.SetValue( this.BDCDat_Fld , BDCSrce[i].FieldName		);
-								this.BDCData.SetValue( this.BDCDat_Val , BDCSrce[i].FieldValue	);
+								this.BDCData.SetValue( this.IndexBDC.BDCDat_Prg , BDCSrce[i].ProgramName	);
+								this.BDCData.SetValue( this.IndexBDC.BDCDat_Dyn , BDCSrce[i].Dynpro				);
+								this.BDCData.SetValue( this.IndexBDC.BDCDat_Bgn , BDCSrce[i].Begin				);
+								this.BDCData.SetValue( this.IndexBDC.BDCDat_Fld , BDCSrce[i].FieldName		);
+								this.BDCData.SetValue( this.IndexBDC.BDCDat_Val , BDCSrce[i].FieldValue		);
 							}
 					}
 

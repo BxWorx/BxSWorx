@@ -15,7 +15,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Parser( Lazy< BDC_Parser_Factory >	factory )
 					{
-						this._PFactory	= factory	?? throw new Exception("NCO: BDCSession: Parser: Factory is null");
+						this._PFactory	= factory	??	throw		new	ArgumentException( $"{typeof(BDC_Parser).Namespace}:- Factory null" );
 						//.............................................
 						this._Tkn		=	this._PFactory.Value.GetTokenParser				();
 						this._Col		= this._PFactory.Value.GetColumnParser			();

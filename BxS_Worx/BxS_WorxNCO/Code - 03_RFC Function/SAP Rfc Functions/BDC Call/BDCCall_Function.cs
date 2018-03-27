@@ -52,6 +52,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#endregion
 
 			//===========================================================================================
+			#region "Properties"
+
+				private	int Idx_Tcd	{ get {	return	this.MyProfile.Value._FNCIndex.ParIdx_TCode; } }
+				private	int Idx_Skp	{ get {	return	this.MyProfile.Value._FNCIndex.ParIdx_Skip1; } }
+				private	int Idx_CTU	{ get {	return	this.MyProfile.Value._FNCIndex.ParIdx_CTUOpt; } }
+
+				private	int Idx_SPA	{ get {	return	this.MyProfile.Value._FNCIndex.ParIdx_TabSPA; } }
+				private	int Idx_BDC	{ get {	return	this.MyProfile.Value._FNCIndex.ParIdx_TabBDC; } }
+				private	int Idx_MSG	{ get {	return	this.MyProfile.Value._FNCIndex.ParIdx_TabMSG; } }
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -64,9 +77,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.Profile.ReadyProfile();
 						//.............................................
 						this.Set_ShowSAPGUI	( config.ShowSAPGui );
-						this.Set_SAPTCode		( config.SAPTCode );
-						this.Set_Skip1st		(	config.Skip1st	);
-						this.Set_CTU				( config.CTUParms	);
+						this.Set_SAPTCode		( config.SAPTCode		);
+						this.Set_Skip1st		(	config.Skip1st		);
+						this.Set_CTU				( config.CTUParms		);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -79,12 +92,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 								lines.ProcessedStatus	= false;
 								lines.SuccesStatus		= false;
 								//.............................................
-								this.LoadTable( lines.SPAData	, this.MyProfile.Value.ParIdx_TabSPA );
-								this.LoadTable( lines.BDCData ,	this.MyProfile.Value.ParIdx_TabBDC );
+								this.LoadTable( lines.SPAData	, this.Idx_SPA );
+								this.LoadTable( lines.BDCData ,	this.Idx_BDC );
 								//.............................................
 								this.Invoke();
 								//.............................................
-								this.LoadTable( lines.MSGData	, this.MyProfile.Value.ParIdx_TabMSG , true );
+								this.LoadTable( lines.MSGData	, this.Idx_MSG , true );
 								lines.SuccesStatus	= true;
 							}
 						catch (Exception)
@@ -102,9 +115,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this.Profile.ReadyProfile();
 						//.............................................
-						this.NCORfcFunction.GetTable( this.MyProfile.Value.ParIdx_TabSPA ).Clear();
-						this.NCORfcFunction.GetTable( this.MyProfile.Value.ParIdx_TabBDC ).Clear();
-						this.NCORfcFunction.GetTable( this.MyProfile.Value.ParIdx_TabMSG ).Clear();
+						this.NCORfcFunction.GetTable( this.Idx_SPA ).Clear();
+						this.NCORfcFunction.GetTable( this.Idx_BDC ).Clear();
+						this.NCORfcFunction.GetTable( this.Idx_MSG ).Clear();
 					}
 
 			#endregion
@@ -122,19 +135,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Set_SAPTCode( string	tCode )
 					{
-						this.NCORfcFunction.SetValue( this.MyProfile.Value.ParIdx_TCode	, tCode );
+						this.NCORfcFunction.SetValue( this.Idx_Tcd , tCode );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Set_Skip1st( bool skip = false )
 					{
-						this.NCORfcFunction.SetValue( this.MyProfile.Value.ParIdx_Skip1	, skip ? "X" : " " );
+						this.NCORfcFunction.SetValue( this.Idx_Skp , skip ? "X" : " " );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Set_CTU( SMC.IRfcStructure ctu )
 					{
-						SMC.IRfcStructure ls_CTU	= this.NCORfcFunction.GetStructure( this.MyProfile.Value.ParIdx_CTUOpt );
+						SMC.IRfcStructure ls_CTU	= this.NCORfcFunction.GetStructure( this.Idx_CTU );
 
 						for (int i = 0; i < ctu.Count; i++)
 							{

@@ -1,4 +1,6 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -12,8 +14,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				internal RfcFncProfile(		string					functionName
 																,	IRfcDestination rfcDestination )
 					{
-						this.FunctionName			= functionName;
-						this._RfcDestination	= rfcDestination;
+						this.FunctionName			= functionName		??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Function Name null" );
+						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Destination null" );
 						//.............................................
 						this.IsReady	= false;
 						//.............................................

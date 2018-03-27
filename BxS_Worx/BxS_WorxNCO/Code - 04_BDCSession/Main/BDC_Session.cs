@@ -8,9 +8,7 @@ using BxS_WorxNCO.Helpers.Common;
 using BxS_WorxNCO.Helpers.ObjectPool;
 
 using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.RfcFunction.BDCTran;
-using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -19,28 +17,25 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session(		IRfcFncController				fncCntlr
+				internal BDC_Session(		BDCCall_Header										header
 															, ObjectPool< BDCSessionConsumer >	consumerPool
-															,	DTO_BDC_SessionConfig		config
-															, CancellationToken				CT
-															, IProgress<ProgressDTO>	progress	)
+															,	DTO_BDC_SessionConfig							config
+															, CancellationToken									CT
+															, IProgress<ProgressDTO>						progress		)
 					{
+						this._Header				= header;
 						this._ConsumerPool	= consumerPool	;
-						this._FncCntlr			= fncCntlr	;
 						this._OpConfig			= config		;
 						this._CT						= CT				;
 						this._Progress			= progress	;
 						//.............................................
 						this._Queue			= new	BlockingCollection< DTO_BDC_Transaction >();
 						this._Consumers	= new List< Task<int> >	();
+						this._Lock			= new object();
 						//.............................................
 						this.TasksCompleted	= new ConcurrentQueue< Task<int> >();
 						this.TasksFaulty		= new ConcurrentQueue< Task<int> >();
 						this.TasksOther			= new ConcurrentQueue< Task<int> >();
-						//.............................................
-						this._Profile	= this._FncCntlr.GetAddBDCCallProfile();
-
-						this._Lock		= new object();
 					}
 
 			#endregion
@@ -48,20 +43,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IRfcFncController				_FncCntlr	;
-				private	readonly	DTO_BDC_SessionConfig		_OpConfig	;
-				private	readonly	CancellationToken				_CT				;
-				private	readonly	IProgress<ProgressDTO>	_Progress	;
-				//.................................................
-				private readonly	IList< Task<int> >													_Consumers;
-				private readonly	BlockingCollection< DTO_BDC_Transaction >		_Queue;
-				//.................................................
-				private	readonly	BDCCall_Profile	_Profile;
-				private						BDCCall_Header	_Header	;
-
-				private	readonly	object	_Lock;
-
+				private readonly	BDCCall_Header										_Header	;
+				private	readonly	DTO_BDC_SessionConfig							_OpConfig	;
+				private	readonly	CancellationToken									_CT				;
+				private	readonly	IProgress<ProgressDTO>						_Progress	;
 				private	readonly	ObjectPool< BDCSessionConsumer >	_ConsumerPool;
+				//.................................................
+				private	readonly	object							_Lock				;
+				private readonly	IList< Task<int> >	_Consumers	;
+
+				private readonly	BlockingCollection< DTO_BDC_Transaction >		_Queue;
 
 			#endregion
 
@@ -80,27 +71,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// Configure the BDC session destination environment
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void ConfigureDestination( IConfigSetupDestination dto )
-					{
-						this._FncCntlr.RfcDestination.LoadConfig( dto );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Configure the BDC session operating environment
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ConfigureOperation( DTO_BDC_SessionConfig dto )
 					{
-						this._OpConfig.IsSequential				= dto.IsSequential			;
-						//.................................................
-						this._OpConfig.ConsumersNo				= dto.ConsumersNo				;
-						this._OpConfig.ConsumersMax				= dto.ConsumersMax			;
-						this._OpConfig.ConsumerThreshold	= dto.ConsumerThreshold	;
-						//.................................................
-						this._OpConfig.PauseTime					= dto.PauseTime					;
-						this._OpConfig.ProgressInterval		= dto.ProgressInterval	;
-						this._OpConfig.QueueAddTimeout		= dto.QueueAddTimeout		;
+						this._OpConfig.Configure( dto );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -111,8 +86,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this.PrepareSession();
 
-						this.LoadHDR	( bdcSession.Header );
-						this.LoadCTU	( bdcSession.Header.CTUParms	);
+						this._Header.Load( bdcSession.Header );
 						this.LoadQueue( bdcSession.Trans );
 						//.............................................
 						this.CreateConsumerPool();
@@ -140,7 +114,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					#pragma	warning	disable	CSR1132
 				protected override void OnReleaseResources()
+					#pragma	warning restore	CSR1132
 					{
 						base.OnReleaseResources();
 					}
@@ -163,8 +139,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 						this.TasksCompleted		= new ConcurrentQueue< Task< int > >();
 						this.TasksFaulty			= new ConcurrentQueue< Task< int > >();
 						this.TasksOther				= new ConcurrentQueue< Task< int > >();
-						//.............................................
-						this._Header	= this._Profile.CreateBDCCallHeader( true );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -214,25 +188,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 																				) );
 									}
 							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadHDR( DTO_BDC_Header dtoHead )
-					{
-						this._Header.SAPTCode	= dtoHead.SAPTCode	;
-						this._Header.Skip1st	= dtoHead.Skip1st		;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadCTU( DTO_BDC_CTU ctuParms )
-					{
-						this._Header.CTUParms[ this._Profile.CTUOpt_DspMde ].SetValue( ctuParms.DisplayMode		);
-						this._Header.CTUParms[ this._Profile.CTUOpt_UpdMde ].SetValue( ctuParms.UpdateMode		);
-						this._Header.CTUParms[ this._Profile.CTUOpt_CATMde ].SetValue( ctuParms.CATTMode			);
-						this._Header.CTUParms[ this._Profile.CTUOpt_DefSze ].SetValue( ctuParms.DefaultSize		);
-						this._Header.CTUParms[ this._Profile.CTUOpt_NoComm ].SetValue( ctuParms.NoCommit			);
-						this._Header.CTUParms[ this._Profile.CTUOpt_NoBtcI ].SetValue( ctuParms.NoBatchInpFor	);
-						this._Header.CTUParms[ this._Profile.CTUOpt_NoBtcE ].SetValue( ctuParms.NoBatchInpAft	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

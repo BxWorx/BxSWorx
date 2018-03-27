@@ -25,22 +25,22 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ObjectPool(	int			minimumPoolSize			= DefaultMinimumSize
-													, int			maximumPoolSize			= DefaultMaximumSize
-													, bool		limiterOn						= false
-													,	bool		activateDiagnostics	= false
-													, bool		autoStartup					= false
+				public ObjectPool(	int		minimumPoolSize			= DefaultMinimumSize
+													, int		maximumPoolSize			= DefaultMaximumSize
+													, bool	limiterOn						= false
+													,	bool	activateDiagnostics	= false
+													, bool	autoStartup					= false
 
 													, CancellationToken	CT				= default( CancellationToken )
 													, Func<T>						factory		= null													)
 					{
 						this._LimiterOn		= limiterOn	;
 						this._CT					= CT				;
+						this._Factory			= factory		;
 
 						this.MinPoolSize				= minimumPoolSize	;
 						this.MaxPoolSize				= maximumPoolSize			;
 						this.DiagnosticsActive	= activateDiagnostics	;
-						this.Factory						= factory							;
 						//.............................................
 						this.Pool	= new	ConcurrentBag<T>()	;
 						//.............................................
@@ -54,7 +54,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 
 						if (limiterOn)
 							{
-								_SlimLock	= new	SemaphoreSlim( this.MaxPoolSize );
+								_SlimLock		= new	SemaphoreSlim( this.MaxPoolSize );
 							}
 
 						if ( autoStartup )
@@ -70,19 +70,21 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const	int	DefaultMinimumSize	=	01;
-				private const int DefaultMaximumSize	=	05;
+				private	const		int	DefaultMinimumSize	=	01	;
+				private const		int	DefaultMaximumSize	=	05	;
 
-				private int		_CurPoolSize;
+				private	static	SemaphoreSlim	_SlimLock	;
 
-				private	readonly	bool		_LimiterOn;
-				private	readonly	object	_LockChk;
-				private	readonly	object	_Lock;
+				private int		_CurPoolSize	;
 
-				private	readonly	CancellationToken								_CT;
-				private readonly	Action< PooledObject , bool >		_ReturnAction;
-				private readonly	Lazy< ObjectPoolDiagnostics >		_Diag;
-				private	static		SemaphoreSlim										_SlimLock;
+				private	readonly	bool		_LimiterOn	;
+				private	readonly	object	_LockChk		;
+				private	readonly	object	_Lock				;
+				public	readonly	Func<T>	_Factory		;
+
+				private	readonly	CancellationToken								_CT						;
+				private readonly	Action< PooledObject , bool >		_ReturnAction	;
+				private readonly	Lazy< ObjectPoolDiagnostics >		_Diag					;
 
 			#endregion
 
@@ -90,14 +92,13 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			#region "Properties"
 
 				public	ConcurrentBag<T>	Pool			{ get; }
-				public	Func<T>						Factory		{	get; }
 
 				public	bool	DiagnosticsActive		{ get; set; }
 				public	int		MaxPoolSize					{	get; private set;	}
 				public	int		MinPoolSize					{	get; private set;	}
-				public	int		Count								{	get { return	this.Pool.Count; }	}
 
-				public ObjectPoolDiagnostics	Diagnostics		{ get { return	this._Diag.Value; } }
+				public	int										Count					{	get { return	this.Pool.Count	; }	}
+				public	ObjectPoolDiagnostics	Diagnostics		{ get { return	this._Diag.Value; } }
 
 			#endregion
 
@@ -259,9 +260,9 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 					{
 						T newObject;
 
-						if ( this.Factory != null )
+						if ( this._Factory != null )
 							{
-								newObject = this.Factory();
+								newObject = this._Factory();
 							}
 						else
 							{

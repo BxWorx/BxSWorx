@@ -1,4 +1,5 @@
-﻿using BxS_WorxNCO.RfcFunction.BDCTran;
+﻿using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants;
+using	static	BxS_WorxNCO.Main								.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.DTO
 {
@@ -64,13 +65,14 @@ namespace BxS_WorxNCO.BDCSession.DTO
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
-						this.DisplayMode		=	BDCCall_Constants.lz_CTU_N	;
-						this.UpdateMode			=	BDCCall_Constants.lz_CTU_A	;
-						this.CATTMode				=	BDCCall_Constants.lz_CTU_F	;
-						this.DefaultSize		=	BDCCall_Constants.lz_CTU_F	;
-						this.NoCommit				=	BDCCall_Constants.lz_CTU_F	;
-						this.NoBatchInpFor	=	BDCCall_Constants.lz_CTU_F	;
-						this.NoBatchInpAft	=	BDCCall_Constants.lz_CTU_F	;
+						this.DisplayMode		=	cz_CTU_N	;
+						this.UpdateMode			=	cz_CTU_A	;
+
+						this.CATTMode				=	char.Parse(	cz_False )	;
+						this.DefaultSize		=	char.Parse(	cz_False )	;
+						this.NoCommit				=	char.Parse(	cz_False )	;
+						this.NoBatchInpFor	=	char.Parse(	cz_False )	;
+						this.NoBatchInpAft	=	char.Parse(	cz_False )	;
 					}
 
 			#endregion

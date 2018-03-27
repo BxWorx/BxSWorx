@@ -15,7 +15,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal RfcFncManager( IRfcDestination rfcDestination )
 					{
-						this._RfcDestination	= rfcDestination	?? throw new ArgumentException("IRfcDestination is null");
+						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncManager).Namespace}:- RfcDestination null" );
 						//.............................................
 						this.UseRoundtrip			= true;
 						this._RfcFncProfiles	= new ConcurrentDictionary< string , IRfcFncProfile >();
