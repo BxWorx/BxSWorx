@@ -20,7 +20,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCSessionManager(	IRfcDestination	rfcDestination )
 					{
-						this._RfcDest		= rfcDestination	;
+						this._RfcDest				= rfcDestination	;
 						//.............................................
 						this._Factory				= new	Lazy< BDCSession_Factory >											(	()=>	new BDCSession_Factory( this._RfcDest )						, _LM );
 
@@ -43,16 +43,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//.................................................
 				private	readonly	IRfcDestination		_RfcDest	;
 				//.................................................
-				private	readonly	Lazy< BDCSession_Factory >	_Factory		;
-
-				private	readonly	Lazy< ObjectPoolConfig< BDC_Parser > >	_ParserCfg	;
-				private	readonly	Lazy< ObjectPool			< BDC_Parser > >	_ParserPool	;
+				private	readonly	Lazy< BDCSession_Factory >	_Factory	;
+				//.................................................
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Parser > >					_ParserCfg		;
+				private	readonly	Lazy< ObjectPool			< BDC_Parser > >					_ParserPool		;
 
 				private	readonly	Lazy< ObjectPoolConfig< BDCSessionConsumer > >	_BDCConsCfg		;
 				private	readonly	Lazy< ObjectPool			< BDCSessionConsumer > >	_BDCConsPool	;
 
-				private	readonly	Lazy< ObjectPoolConfig< BDC_Session > >		_BDCSessCfg	;
-				private	readonly	Lazy< ObjectPool			< BDC_Session > >		_BDCSessPool	;
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Session > >					_BDCSessCfg		;
+				private	readonly	Lazy< ObjectPool			< BDC_Session > >					_BDCSessPool	;
 
 			#endregion
 
@@ -67,6 +67,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 			//===========================================================================================
 			#region "Methods: Exposed: Destination Handling"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				// Create BDC session config DTO to configure SAP Logon environment
+				//
+				public IConfigSetupDestination CreateDestinationConfig()
+					{
+						return	this._RfcDest.CreateDestinationConfig();
+					}
+
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Create BDC session config DTO to configure session environment

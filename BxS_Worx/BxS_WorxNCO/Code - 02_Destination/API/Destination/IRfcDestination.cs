@@ -38,17 +38,21 @@ namespace BxS_WorxNCO.Destination.API
 				void RegisterRfcFunctionForMetadata( string fncName , bool loadMetaData = false );
 				bool LoadRfcFunctionProfileMetadata( IRfcFncProfile lo_Prof );
 
-				bool LoadFunctionIndexing		<T>	( T obj ) where T:class;
-				bool LoadStructureIndexing	<T>	( T obj ) where T:class;
+				bool LoadFunctionIndexing	<T>	( T obj ) where T:class;
+				bool LoadStructureIndexing<T>	( T obj ) where T:class;
 				//.................................................
-				SMC.IRfcStructure	CreateRfcStructure( string strName );
-				SMC.IRfcTable			CreateRfcTable		( string strName );
-				SMC.IRfcFunction	CreateRfcFunction	( string fncName );
+				SMC.IRfcStructure		CreateRfcStructure( string strName );
+				SMC.IRfcTable				CreateRfcTable		( string strName );
+				SMC.IRfcFunction		CreateRfcFunction	( string fncName );
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
+
+				SMC.RfcConfigParameters	  CreateNCOConfig()					;
+				IConfigSetupDestination		CreateDestinationConfig()	;
+				IConfigSetupGlobal				CreateGlobalConfig()			;
 
 				void LoadConfig( SMC.RfcConfigParameters	config );
 				void LoadConfig( IConfigSetupDestination	config );

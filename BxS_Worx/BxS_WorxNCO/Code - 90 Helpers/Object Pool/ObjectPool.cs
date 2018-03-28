@@ -29,7 +29,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 					{
 						this._IsActive	= false	;
 						//.............................................
-						this._Diag					= new	Lazy< ObjectPoolDiagnostics >( ()=>	new	ObjectPoolDiagnostics() );
+						this._Diag					= new	Lazy< ObjectPoolDiagnostics >( ()=>	new	ObjectPoolDiagnostics() , cz_LM );
 						this._Lock					=	new	object()			;
 						this._LockChk				=	new	object()			;
 						this._ReturnAction	=	this.ReturnObject	;
@@ -45,6 +45,8 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			//===========================================================================================
 			#region "Declarations"
 
+				private	const	LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
+				//.................................................
 				private	static	SemaphoreSlim	_SlimLock	;
 
 				private	bool	_IsActive			;

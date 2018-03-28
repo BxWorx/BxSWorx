@@ -37,9 +37,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				internal BDCCall_Function( BDCCall_Profile	profile	)	: base(	profile )
 					{
 						//.............................................
-						this.MyProfile	= new Lazy< BDCCall_Profile >
-																		(		()=> (BDCCall_Profile) this.Profile
-																			, LazyThreadSafetyMode.ExecutionAndPublication											);
+						this.MyProfile	= new Lazy< BDCCall_Profile >	(	()=> (BDCCall_Profile) this.Profile , cz_LM );
 					}
 
 			#endregion
@@ -47,7 +45,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				internal readonly Lazy< BDCCall_Profile >	MyProfile;
+				private		const			LazyThreadSafetyMode			cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
+				//.................................................
+				internal	readonly	Lazy< BDCCall_Profile >		MyProfile;
 
 			#endregion
 

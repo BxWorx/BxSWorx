@@ -18,7 +18,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this._Func		= function	;
 						//.............................................
-						this._BDCData	= new	Lazy<BDCCall_Lines>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallLines()	, _LM );
+						this._BDCData	= new	Lazy<BDCCall_Lines>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallLines()	, cz_LM );
 					}
 
 			#endregion
@@ -26,7 +26,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const	LazyThreadSafetyMode	_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
+				private	const	LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 				//.................................................
 				private readonly	BDCCall_Function			_Func;
 				private	readonly	Lazy< BDCCall_Lines >	_BDCData;

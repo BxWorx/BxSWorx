@@ -14,8 +14,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				internal RfcFncProfile(		string					functionName
 																,	IRfcDestination rfcDestination )
 					{
-						this.FunctionName			= functionName		??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Function Name null" );
-						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Destination null" );
+						this.FunctionName			= functionName		??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Function Name null"	);
+						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Destination null"		);
 						//.............................................
 						this.IsReady	= false;
 						//.............................................
@@ -58,8 +58,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public virtual void ReadyProfile()
-					{
-					}
+					{	}
 
 			#endregion
 

@@ -9,7 +9,6 @@ using BxS_WorxNCO.BDCSession.Parser		;
 using BxS_WorxNCO.RfcFunction.Main		;
 using BxS_WorxNCO.RfcFunction.BDCTran	;
 
-using BxS_WorxNCO.Helpers.Common			;
 using BxS_WorxNCO.Helpers.ObjectPool	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
@@ -41,7 +40,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 			#endregion
 
-			//===========================================================================================
 			//===========================================================================================
 			#region "Methods: BDC Session"
 
@@ -81,7 +79,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#endregion
 
 			//===========================================================================================
-			//===========================================================================================
 			#region "Methods: BDC Consumer"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -103,7 +100,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 			#endregion
 
-			//===========================================================================================
 			//===========================================================================================
 			#region "Methods: Parser"
 

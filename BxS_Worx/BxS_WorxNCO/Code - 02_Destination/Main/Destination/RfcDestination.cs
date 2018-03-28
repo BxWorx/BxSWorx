@@ -8,6 +8,7 @@ using System.Linq;
 using SMC	= SAP.Middleware.Connector;
 using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
+using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -18,7 +19,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcDestination(	Guid ID )
+				internal RfcDestination( Guid ID )
 					{
 						this.SAPGUIID	= ID	;
 						this.MyID			= Guid.NewGuid();
@@ -75,6 +76,11 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.RfcConfigParameters	CreateNCOConfig					()=>	new	SMC.RfcConfigParameters	();
+				public IConfigSetupDestination	CreateDestinationConfig	()=>	new ConfigSetupDestination	();
+				public IConfigSetupGlobal				CreateGlobalConfig			()=>	new ConfigSetupGlobal				();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig( SMC.RfcConfigParameters config )

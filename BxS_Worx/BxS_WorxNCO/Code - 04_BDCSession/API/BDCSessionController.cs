@@ -18,9 +18,7 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCSessionController()
 					{
-						this._LM	= LazyThreadSafetyMode.ExecutionAndPublication;
-						//.............................................
-						this._Cntlr_Dst		= new Lazy< IDestinationController >(	()=>	new DestinationController()	, this._LM );
+						this._Cntlr_Dst		= new Lazy< IDestinationController >(	()=>	new DestinationController()	, cz_LM );
 					}
 
 			#endregion
@@ -28,7 +26,7 @@ namespace BxS_WorxNCO.BDCSession.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	LazyThreadSafetyMode	_LM	;
+				private	const	LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 				//.................................................
 				private readonly	Lazy< IDestinationController >	_Cntlr_Dst;
 
@@ -56,10 +54,9 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Create BDC session config DTO to configure SAP Logon environment
 				//
-				public IConfigSetupDestination	CreateDestinationConfig()
+				public IConfigSetupDestination CreateDestinationConfig()
 					{
-						return	new ConfigSetupDestination {	DoLogonCheck	= true
-																								,	PeakConnLimit	= 10		};
+						return	this._Cntlr_Dst.Value.CreateDestinationConfig();
 					}
 
 			#endregion
