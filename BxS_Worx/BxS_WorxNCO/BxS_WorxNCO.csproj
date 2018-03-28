@@ -19,7 +19,11 @@
     <Compile Remove="Code - 01_Main\API\Controller.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDCCallTranProfile.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDC_OpFnc.cs" />
+    <Compile Remove="Code - 04_BDCSession\API\BDCSessionController.cs" />
     <Compile Remove="Code - 04_BDCSession\API\IBDCSession.cs" />
+    <Compile Remove="Code - 04_BDCSession\API\IBDCSessionController.cs" />
+    <Compile Remove="Code - 04_BDCSession\Main\BDCSessionManager.cs" />
+    <Compile Remove="Code - 04_BDCSession\Main\BDCSession_Factory.cs" />
     <Compile Remove="zKeep\BDCCallTranConsumer.cs" />
     <Compile Remove="zKeep\BDCCallTranIndex.cs" />
     <Compile Remove="zKeep\BDCCallTranIndexSetup.cs" />
@@ -38,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Code - 04_BDCSession\API\" />
     <Folder Include="Properties\" />
     <Folder Include="zKeep\" />
   </ItemGroup>

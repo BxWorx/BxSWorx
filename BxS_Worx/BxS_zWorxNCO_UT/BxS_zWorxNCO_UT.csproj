@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test Resources\UT_000_NCO.cs" />
-    <Compile Include="Test Units\UT_500_BDCSessionMngr.cs" />
     <Compile Include="Test Units\UT_910_Helpers_ObjPool.cs" />
     <Compile Include="Test Units\UT_900_Helpers.cs" />
     <Compile Include="Test Units\UT_100_Dest.cs" />

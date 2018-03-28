@@ -35,7 +35,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 																													,	limiterOn:		true
 																													, diagnostics:	true
 																													, autoStart:		true
-																													, CT:						this.co_CTS.Token
 																													, func:					()=> new UT_Cls()	);
 				}
 
@@ -43,8 +42,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_910_ObjPool_10_Instantiate()
 				{
-					ObjectPool<UT_Cls>	lo_OP		= this.CreateObjectPool<UT_Cls>( func: ()=> new UT_Cls() );
+					ObjectPool<UT_Cls>	lo_OP		= this.CreateObjectPool<UT_Cls>( MinSize: 6 ,  autoStart: true ,  func: ()=> new UT_Cls() );
 					Assert.IsNotNull	( lo_OP , "" );
+					Thread.Sleep(100);
+					Assert.AreEqual	( lo_OP.MinPoolSize	, lo_OP.Count	, "A" );
 				}
 
 			[TestMethod]
@@ -52,12 +53,12 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_910_ObjPool_20_PopPush()
 				{
 					Guid myguid;
-					ObjectPool<UT_Cls>	lo_OP		= this.CreateObjectPool<UT_Cls>( func: ()=> new UT_Cls() , diagnostics: true );
+					var	lo_OP		= new ObjectPool<UT_Cls>();
 
-					using (	UT_Cls x0 = lo_OP.Acquire() )
+					using (	UT_Cls xx = lo_OP.Acquire() )
 						{
-							x0.State	= false;
-							myguid	= x0.PoolID;
+							xx.State	= false;
+							myguid	= xx.PoolID;
 						}
 
 					Thread.Sleep(100);
@@ -66,11 +67,30 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					UT_Cls x1 = lo_OP.Acquire();
 					UT_Cls x2 = lo_OP.Acquire();
 
+					for (int i = 0; i < 8; i++)
+						{
+							#pragma warning disable RCS1163
+
+							ThreadPool.QueueUserWorkItem(
+								new	WaitCallback(
+									(o)=> {
+													using (	UT_Cls zz = lo_OP.Acquire() )
+														{
+															Thread.Sleep(50);
+														}
+												} ) );
+
+							#pragma warning restore RCS1163
+						}
+
+					Thread.Sleep(200);
+
 					Assert.IsTrue		(						x1.State														, "C" );
 					Assert.AreEqual	( myguid	, x1.PoolID														, "0" );
-					Assert.AreEqual	( 2				, lo_OP.Diagnostics.InstancesCreated	, "B" );
+					Assert.AreEqual	( 10			, lo_OP.Diagnostics.InstancesCreated	, "B" );
 
-					Assert.AreNotEqual	( x1.PoolID	, x2.PoolID	, "1" );
+					Assert.AreNotEqual	( x1.PoolID	, x2.PoolID		, "1" );
+					Assert.AreEqual			( 3					, lo_OP.Count	, "@"	);
 				}
 
 			[TestMethod]
@@ -130,11 +150,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 																									, bool		limiterOn			= false
 																									, bool		diagnostics		= false
 																									, bool		autoStart			= false
-																									, CancellationToken	CT	= default( CancellationToken )
-																									,	Func<T>	func					= null													)	where T: PooledObject
+																									,	Func<T>	func					= null	)	where T: PooledObject
 					{
-						var									lo_OPL	=	new ObjectPool<T>();
-						ObjectPoolConfig<T> lo_Cfg	= ObjectPool<T>.CreateConfig();
+						var	lo_OPL	=	new ObjectPool<T>();
+
+						var lo_Cfg	= ObjectPoolConfig<T>.CreateConfig();
 
 						lo_Cfg.ActivateDiagnostics	= diagnostics;
 						lo_Cfg.AutoStartup					= autoStart;
@@ -232,7 +252,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					return	true;
 				}
-
 		}
 
 	//.

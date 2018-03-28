@@ -32,7 +32,18 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				public	bool	ActivateDiagnostics			{ get; set; }
 				public	bool	AutoStartup							{ get; set; }
 				//.................................................
-				public	Func<T>	Factory			{ get; set; }
+				public	Func<T>	Factory								{ get; set; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Static"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public static ObjectPoolConfig<T>	CreateConfig()
+					{
+						return	new	ObjectPoolConfig<T>();
+					}
 
 			#endregion
 
@@ -51,8 +62,8 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						this.MinimumPoolSize			= cz_DefMinSize;
 						this.MaximumPoolSize			= cz_DefMaxSize;
 						this.MaxIdleTime					= cz_DefMinSize;
-						this.Throttled						= true;
-						this.ActivateDiagnostics	= false;
+						this.Throttled						= false;
+						this.ActivateDiagnostics	= true;
 						this.AutoStartup					= false;
 
 						this.Factory	= null;

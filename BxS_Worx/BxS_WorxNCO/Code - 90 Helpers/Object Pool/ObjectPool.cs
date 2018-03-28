@@ -20,21 +20,20 @@ using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Helpers.ObjectPool
 {
-	public class ObjectPool<T> where T : PooledObject
+	internal class ObjectPool<T> where T : PooledObject
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ObjectPool()
+				internal ObjectPool()
 					{
 						this._IsActive	= false	;
-						this._IsReady		= false	;
 						//.............................................
-						this._Config				= CreateConfig() ;
 						this._Diag					= new	Lazy< ObjectPoolDiagnostics >( ()=>	new	ObjectPoolDiagnostics() );
 						this._Lock					=	new	object()			;
 						this._LockChk				=	new	object()			;
 						this._ReturnAction	=	this.ReturnObject	;
+						this._Config				= ObjectPoolConfig<T>.CreateConfig() ;
 						//.............................................
 						this.Pool		= new	ConcurrentBag<T>()	;
 					}
@@ -46,7 +45,6 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 
 				private	static	SemaphoreSlim	_SlimLock	;
 
-				private	bool	_IsReady			;
 				private	bool	_IsActive			;
 				private int		_CurPoolSize	;
 
@@ -64,16 +62,15 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			//===========================================================================================
 			#region "Properties"
 
-				public	ObjectPoolConfig<T>	ConfigCopy	{ get { return	this._Config.ShallowCopy(); } }
-				public	ConcurrentBag<T>		Pool				{ get; }
-
+				public	ConcurrentBag<T>			Pool					{ get; }
 				public	int										Count					{	get { return	this.Pool.Count	; }	}
+				public	ObjectPoolConfig<T>		ConfigCopy		{ get { return	this._Config.ShallowCopy(); } }
 				public	ObjectPoolDiagnostics	Diagnostics		{ get { return	this._Diag.Value; } }
 
 				public	bool	DiagnosticsActive		{ get { return	this._Config.ActivateDiagnostics	; } }
 				public	bool	Throttled						{ get { return	this._Config.Throttled						; } }
-				public	int		MaxPoolSize					{	get	{ return	this._Config.MaximumPoolSize			; } }
 				public	int		MinPoolSize					{	get	{ return	this._Config.MinimumPoolSize			; } }
+				public	int		MaxPoolSize					{	get	{ return	this._Config.MaximumPoolSize			; } }
 
 			#endregion
 
@@ -210,17 +207,6 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Static"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static ObjectPoolConfig<T>	CreateConfig()
-					{
-						return	new	ObjectPoolConfig<T>();
-					}
-
-			#endregion
-
-			//===========================================================================================
 			#region "De-Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -331,13 +317,13 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AutoStartMinimumObjects()
 					{
-						if ( this._CurPoolSize < this.MaxPoolSize )
+						if ( this._CurPoolSize < this.MinPoolSize )
 							{
 								lock ( this._LockChk )
 									{
-										if ( this._CurPoolSize < this.MaxPoolSize )
+										if ( this._CurPoolSize < this.MinPoolSize )
 											{
-												int ln_Qty	= this.MaxPoolSize - this._CurPoolSize;
+												int ln_Qty	= this.MinPoolSize - this._CurPoolSize;
 
 												for (	int i = 0; i < ln_Qty; i++ )
 													{
