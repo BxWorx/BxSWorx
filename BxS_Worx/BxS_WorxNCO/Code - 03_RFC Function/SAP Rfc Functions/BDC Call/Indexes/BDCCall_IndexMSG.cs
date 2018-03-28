@@ -8,19 +8,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 		{
 			#region "Properties"
 
-				[	SAP( Name = "TCODE"		)	]		internal	int TabMsg_TCode	{ get; set;	}
-				[	SAP( Name = "DYNAME"	)	]		internal	int TabMsg_DynNm	{ get; set;	}
-				[	SAP( Name = "DYNUMB"	)	]		internal	int TabMsg_DynNo	{ get; set;	}
-				[	SAP( Name = "MSGTYP"	)	]		internal	int TabMsg_MsgTp	{ get; set;	}
-				[	SAP( Name = "MSGSPRA"	)	]		internal	int TabMsg_Lang		{ get; set;	}
-				[	SAP( Name = "MSGID"		)	]		internal	int TabMsg_MsgID	{ get; set;	}
-				[	SAP( Name = "MSGNR"		)	]		internal	int TabMsg_MsgNo	{ get; set;	}
-				[	SAP( Name = "MSGV1"		)	]		internal	int TabMsg_MsgV1	{ get; set;	}
-				[	SAP( Name = "MSGV2"		)	]		internal	int TabMsg_MsgV2	{ get; set;	}
-				[	SAP( Name = "MSGV3"		)	]		internal	int TabMsg_MsgV3	{ get; set;	}
-				[	SAP( Name = "MSGV4"		)	]		internal	int TabMsg_MsgV4	{ get; set;	}
-				[	SAP( Name = "ENV"			)	]		internal	int TabMsg_Envir	{ get; set;	}
-				[	SAP( Name = "FLDNAME"	)	]		internal	int TabMsg_Fldnm	{ get; set;	}
+				[	SAP( Name = "TCODE"		)	]		public	int TabMsg_TCode	{ get; set;	}
+				[	SAP( Name = "DYNAME"	)	]		public	int TabMsg_DynNm	{ get; set;	}
+				[	SAP( Name = "DYNUMB"	)	]		public	int TabMsg_DynNo	{ get; set;	}
+				[	SAP( Name = "MSGTYP"	)	]		public	int TabMsg_MsgTp	{ get; set;	}
+				[	SAP( Name = "MSGSPRA"	)	]		public	int TabMsg_Lang		{ get; set;	}
+				[	SAP( Name = "MSGID"		)	]		public	int TabMsg_MsgID	{ get; set;	}
+				[	SAP( Name = "MSGNR"		)	]		public	int TabMsg_MsgNo	{ get; set;	}
+				[	SAP( Name = "MSGV1"		)	]		public	int TabMsg_MsgV1	{ get; set;	}
+				[	SAP( Name = "MSGV2"		)	]		public	int TabMsg_MsgV2	{ get; set;	}
+				[	SAP( Name = "MSGV3"		)	]		public	int TabMsg_MsgV3	{ get; set;	}
+				[	SAP( Name = "MSGV4"		)	]		public	int TabMsg_MsgV4	{ get; set;	}
+				[	SAP( Name = "ENV"			)	]		public	int TabMsg_Envir	{ get; set;	}
+				[	SAP( Name = "FLDNAME"	)	]		public	int TabMsg_Fldnm	{ get; set;	}
 
 			#endregion
 

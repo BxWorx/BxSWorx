@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxIPX.BDC;
 
-using BxS_WorxNCO.Helpers;
 using BxS_WorxNCO.Helpers.ObjectPool;
+using BxS_WorxNCO.Helpers.Common;
 
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.BDCSession.Parser;
@@ -20,21 +20,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCSessionManager(	IRfcDestination	rfcDestination )
 					{
-						this._RfcDest			= rfcDestination	;
+						this._RfcDest		= rfcDestination	;
 						//.............................................
-						this._LM	= LazyThreadSafetyMode.ExecutionAndPublication;
-						//.............................................
-						this._BDCSessionFactory		= new	Lazy< BDCSession_Factory >
-																					(	()=>	new BDCSession_Factory( this._RfcDest )		, this._LM );
+						this._Factory				= new	Lazy< BDCSession_Factory >											(	()=>	new BDCSession_Factory( this._RfcDest )						, _LM );
 
-						this._SessionPool		= new	Lazy< ObjectPool< BDC_Session > >
-																		(	()=> BDCSession_Factory.CreateSessionPool()	, this._LM );
+						this._ParserCfg			= new	Lazy< ObjectPoolConfig< BDC_Parser > >					(	()=>	this._Factory.Value.CreateParserPoolConfig()			,	_LM );
+						this._ParserPool		= new	Lazy< ObjectPool			< BDC_Parser > >					(	()=>	this._Factory.Value.CreateParserPool()						, _LM );
 
-						this._ParserPool		= new	Lazy< ObjectPool< BDC_Parser > >
-																		(	()=> BDCSession_Factory.CreateParserPool()		, this._LM );
+						this._BDCConsCfg		= new	Lazy< ObjectPoolConfig< BDCSessionConsumer > >	(	()=>	this._Factory.Value.CreateBDCConsumerPoolConfig()	,	_LM );
+						this._BDCConsPool		= new	Lazy< ObjectPool			< BDCSessionConsumer > >	(	()=>	this._Factory.Value.CreateBDCConsumerPool()				, _LM );
 
-						this._ConsumerPool	= new	Lazy< ObjectPool< BDCSessionConsumer > >
-																		(	()=> BDCSession_Factory.Instance.CreateSessionConsumerPool( this._RfcDest )	, this._LM );
+						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session > >					(	()=>	this._Factory.Value.CreateBDCSessionPoolConfig()	,	_LM );
+						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session > >					(	()=>	this._Factory.Value.CreateBDCSessionPool()				, _LM );
 					}
 
 			#endregion
@@ -42,17 +39,29 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	LazyThreadSafetyMode	_LM	;
+				private const LazyThreadSafetyMode	_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 				//.................................................
 				private	readonly	IRfcDestination		_RfcDest	;
 				//.................................................
-				private	readonly	Lazy< BDCSession_Factory >	_BDCSessionFactory	;
+				private	readonly	Lazy< BDCSession_Factory >	_Factory		;
 
-				private	readonly	Lazy< ObjectPool< BDC_Parser	> >						_ParserPool		;
-				private	readonly	Lazy< ObjectPool< BDC_Session > >						_SessionPool	;
-				private	readonly	Lazy< ObjectPool< BDCSessionConsumer	> >		_ConsumerPool	;
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Parser > >	_ParserCfg	;
+				private	readonly	Lazy< ObjectPool			< BDC_Parser > >	_ParserPool	;
 
-				private	CancellationTokenSource		_CTS			;
+				private	readonly	Lazy< ObjectPoolConfig< BDCSessionConsumer > >	_BDCConsCfg		;
+				private	readonly	Lazy< ObjectPool			< BDCSessionConsumer > >	_BDCConsPool	;
+
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Session > >		_BDCSessCfg	;
+				private	readonly	Lazy< ObjectPool			< BDC_Session > >		_BDCSessPool	;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal ObjectPoolConfig< BDC_Session				> BDCSessionConfiguration		{ get { return	this._BDCSessCfg.Value; } }
+				internal ObjectPoolConfig< BDCSessionConsumer > BDCConsumerConfiguration	{ get { return	this._BDCConsCfg.Value; } }
+				internal ObjectPoolConfig< BDC_Parser					> ParserConfiguration				{ get { return	this._ParserCfg.Value; } }
 
 			#endregion
 
@@ -78,10 +87,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Configure the BDC session destination environment
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				#pragma warning disable RCS1163
 				public void ConfigureDestination( IConfigSetupDestination dto )
 					{
 						//this._FncCntlr.RfcDestination.LoadConfig( dto );
 					}
+				#pragma warning restore RCS1163
 
 			#endregion
 
@@ -89,9 +100,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task Process( IExcelBDCSessionRequest request )
+				public async Task Process(	IExcelBDCSessionRequest request
+																	,	CancellationToken				CT
+																	, Progress<ProgressDTO>		progressHndlr	)
 					{
-						DTO_BDC_Session dtoSession	= BDCSession_Factory.Instance.CreateSessionDTO();
+						DTO_BDC_Session dtoSession	=	this._Factory.Value.CreateSessionDTO();
 						//.............................................
 						// Parse request, data from an excel spreadsheet, into an BDC Session DTO.
 						// used by Process Session.
@@ -101,71 +114,41 @@ namespace BxS_WorxNCO.BDCSession.Main
 						using (	BDC_Parser lo_Parser = this._ParserPool.Value.Acquire() )
 							{
 								lb_ParseOk	=	await Task.Run(	()=>	lo_Parser.Parse( request , dtoSession ) )
-																													.ConfigureAwait(false);
+																											.ConfigureAwait(false);
 							}
 						//.............................................
-						using ( BDC_Session lo_Session = this._SessionPool.Value.Acquire() )
+						using ( BDC_Session lo_Session = this._BDCSessPool.Value.Acquire() )
 							{
-								int i = await	lo_Session.Process_SessionAsync( dtoSession ).ConfigureAwait(false);
+								int i = await	lo_Session.Process_SessionAsync(	dtoSession
+																															, CT
+																															, progressHndlr
+																															, this._BDCConsPool.Value )
+																.ConfigureAwait(false);
 							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// Cancel processing of session
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void CancelProcessing()
-					{
-						this._CTS?.Cancel();
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private"
+			//===========================================================================================
+			#region "Methods: Exposed: Reconfigure"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDC_Parser >		CreateParserPool(		CancellationToken	CT
-																															,	int		minPoolSize = 1
-																															,	int		maxPoolSize	= 5
-																															, bool	limiterOn						= false
-																															, bool	activateDiagnostics	= false
-																															, bool	autoStartMin				= false	)
+				internal void ReConfigureBDCSessionPool()
 					{
-						return	new ObjectPool< BDC_Parser >(		minPoolSize
-																									, maxPoolSize
-																									, limiterOn
-																									, activateDiagnostics
-																									, autoStartMin
-																									, CT
-																									, ()=> this.CreateParser() );
-					}
-
-
-
-
-
-
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDCSessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )
-					{
-						IRfcFncController				lo_F	= new RfcFncController( rfcDestination );
-						CancellationTokenSource	cts		= new CancellationTokenSource();
-						IProgress<ProgressDTO>	prog	= new	Progress<ProgressDTO>();
-						//.............................................
-						return	new BDC_Session( lo_F , this.CreateSessionConfig() , cts.Token , prog );
+						this._BDCSessPool.Value.ConfigurePool( this._BDCSessCfg.Value );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CloseSession()
+				internal void ReConfigureBDCConsumerPool()
 					{
-						this._CTS		=	null;
+						this._BDCConsPool.Value.ConfigurePool( this._BDCConsCfg.Value );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PrepareSession()
+				internal void ReConfigureParserPool()
 					{
-						this._CTS		=	new CancellationTokenSource();
+						this._ParserPool.Value.ConfigurePool( this._ParserCfg.Value );
 					}
 
 			#endregion

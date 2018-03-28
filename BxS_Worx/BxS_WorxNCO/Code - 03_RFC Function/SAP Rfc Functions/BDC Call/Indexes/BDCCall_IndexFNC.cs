@@ -8,12 +8,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 		{
 			#region "Properties"
 
-				[ SAP(	Name = "IF_TCODE"							)	]		internal	int ParIdx_TCode	{ get; set;	}
-				[ SAP(	Name = "IF_SKIP_FIRST_SCREEN"	)	]		internal	int ParIdx_Skip1	{ get; set;	}
-				[ SAP(	Name = "IS_OPTIONS"						)	]		internal	int ParIdx_CTUOpt	{ get; set;	}
-				[ SAP(	Name = "IT_BDCDATA"						)	]		internal	int ParIdx_TabBDC	{ get; set;	}
-				[ SAP(	Name = "ET_MSG"								)	]		internal	int	ParIdx_TabMSG	{ get; set;	}
-				[ SAP(	Name = "CT_SETGET_PARAMETER"	)	]		internal	int ParIdx_TabSPA	{ get; set;	}
+				[ SAP(	Name = "IF_TCODE"							)	]		public	int ParIdx_TCode	{ get; set;	}
+				[ SAP(	Name = "IF_SKIP_FIRST_SCREEN"	)	]		public	int ParIdx_Skip1	{ get; set;	}
+				[ SAP(	Name = "IS_OPTIONS"						)	]		public	int ParIdx_CTUOpt	{ get; set;	}
+				[ SAP(	Name = "IT_BDCDATA"						)	]		public	int ParIdx_TabBDC	{ get; set;	}
+				[ SAP(	Name = "ET_MSG"								)	]		public	int	ParIdx_TabMSG	{ get; set;	}
+				[ SAP(	Name = "CT_SETGET_PARAMETER"	)	]		public	int ParIdx_TabSPA	{ get; set;	}
 
 			#endregion
 

@@ -92,9 +92,13 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Configure( IConfigSetupDestination	lo_DestCfg )
 					{
-						lo_DestCfg.Client			= 700						;
-						lo_DestCfg.User				= "DERRICKBINGH"	;
-						lo_DestCfg.Password		= "M@@n4321"			;
+						//lo_DestCfg.Client			= 700							;
+						//lo_DestCfg.User				= "DERRICKBINGH"	;
+						//lo_DestCfg.Password		= "M@@n4321"			;
+
+						lo_DestCfg.Client			= 100					;
+						lo_DestCfg.User				= "DERRICKB"	;
+						lo_DestCfg.Password		= "moon123"		;
 
 						lo_DestCfg.SetSAPGUIasHidden();
 
@@ -107,7 +111,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				private string GetSAPID()
 					{
 						IList< string > lt_Ini	=	this.co_Ctlr.GetSAPINIList();
-						string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("PWD)") );
+						//string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("PWD)") );
+						string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("05.01") );
 
 						Assert.IsNotNull	( lc_ID	, "" );
 						return	lc_ID;

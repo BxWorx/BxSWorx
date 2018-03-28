@@ -21,7 +21,7 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public void Configure( DTO_BDC_SessionConfig dto )
+				public void Configure( DTO_BDC_SessionConfig dto )
 					{
 						this.IsSequential				= dto.IsSequential			;
 						//.................................................

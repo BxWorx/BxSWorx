@@ -17,17 +17,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session(		BDCCall_Header										header
-															, ObjectPool< BDCSessionConsumer >	consumerPool
-															,	DTO_BDC_SessionConfig							config
-															, CancellationToken									CT
-															, IProgress<ProgressDTO>						progressHndlr	)
+				internal BDC_Session(		BDCCall_Header				header
+															,	DTO_BDC_SessionConfig	config	)
 					{
-						this._Header					= header;
-						this._ConsumerPool		= consumerPool	;
-						this._OpConfig				= config		;
-						this._CT							= CT				;
-						this._ProgressHndlr		= progressHndlr	;
+						this._Header		= header	;
+						this._OpConfig	= config	;
 						//.............................................
 						this._Queue			= new	BlockingCollection< DTO_BDC_Transaction >();
 						this._Consumers	= new List< Task<int> >	();
@@ -43,11 +37,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	BDCCall_Header										_Header	;
-				private	readonly	DTO_BDC_SessionConfig							_OpConfig	;
-				private	readonly	CancellationToken									_CT				;
-				private	readonly	IProgress<ProgressDTO>						_ProgressHndlr	;
-				private	readonly	ObjectPool< BDCSessionConsumer >	_ConsumerPool;
+				private readonly	BDCCall_Header					_Header	;
+				private	readonly	DTO_BDC_SessionConfig		_OpConfig	;
 				//.................................................
 				private	readonly	object							_Lock				;
 				private readonly	IList< Task<int> >	_Consumers	;
@@ -82,18 +73,22 @@ namespace BxS_WorxNCO.BDCSession.Main
 				// Process supplied BDC session
 				// Returns no of transactions processesed
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<int> Process_SessionAsync( DTO_BDC_Session bdcSession )
+				public async Task<int> Process_SessionAsync(	DTO_BDC_Session										bdcSession
+																										, CancellationToken									CT
+																										,	IProgress<ProgressDTO>						progressHndlr
+																										, ObjectPool< BDCSessionConsumer >	pool					)
 					{
 						this.PrepareSession();
 
 						this._Header.Load	( bdcSession.Header );
 						this.LoadQueue		( bdcSession.Trans );
 						//.............................................
-						this.CreateConsumerPool();
+						this.CreateConsumers( CT , pool );
 
-						if ( ! this._CT.IsCancellationRequested )
+						if ( ! CT.IsCancellationRequested )
 							{
-								this.TransactionsProcessed	=	await ProcessConsumerResultsAsync()
+								this.TransactionsProcessed	=	await ProcessConsumerResultsAsync(	CT
+																																								,	progressHndlr )
 																											.ConfigureAwait(false);
 							}
 						//.............................................
@@ -142,14 +137,15 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async Task<int> ProcessConsumerResultsAsync()
+				private async Task<int> ProcessConsumerResultsAsync(	CancellationToken CT
+																														,	IProgress<ProgressDTO>	progressHndlr	)
 					{
 						int	ln_Ret	= 0;
 						Task< int > lo_Task;
 						//.............................................
 						while ( ! this._Consumers.Count.Equals(0) )
 							{
-								if ( this._CT.IsCancellationRequested )	break;
+								if ( CT.IsCancellationRequested )	break;
 
 								lo_Task		= await Task.WhenAny( this._Consumers ).ConfigureAwait( false );
 
@@ -163,25 +159,31 @@ namespace BxS_WorxNCO.BDCSession.Main
 								else  																														{ this.TasksOther			.Enqueue(lo_Task); }
 
 								ln_Ret	+= lo_Task.Result;
+
+								var x = ProgressDTO.CreateProgress();
+								x.TasksDne	= ln_Ret;
+
+								progressHndlr.Report( x );
 							}
 						//.............................................
 						return	ln_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CreateConsumerPool()
+				private void CreateConsumers(		CancellationToken									CT
+																			, ObjectPool< BDCSessionConsumer >	pool	)
 					{
 						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
 							{
-								if ( this._CT.IsCancellationRequested )
+								if ( CT.IsCancellationRequested )
 									{ break; }
 								else
 									{
 										this._Consumers.Add(	Task<int>.Run( ()=>
 																						{
-																							using (	BDCSessionConsumer lo_Cons = this._ConsumerPool.Acquire() )
+																							using (	BDCSessionConsumer lo_Cons = pool.Acquire() )
 																								{
-																									lo_Cons.Consume( this._CT , this._Queue );
+																									lo_Cons.Consume( CT , this._Queue );
 																									return	lo_Cons.TransactionsProcessed;
 																								}
 																						}

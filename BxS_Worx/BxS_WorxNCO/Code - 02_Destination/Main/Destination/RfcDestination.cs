@@ -138,7 +138,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					{
 						if ( ! lo_Prof.IsReady )
 							{
-								this.UpdateProfileMetadata( lo_Prof );
+								lo_Prof.ReadyProfile();
 							}
 						//.............................................
 						return	lo_Prof.IsReady;
@@ -169,19 +169,15 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 								int			ln_Idx	= 0;
 
 								SMC.RfcFunctionMetadata		lo_Fnc	= null	;
-								SMC.RfcStructureMetadata	ls_Str	= null	;
 								SAPAttribute							lo_CP;
 								//.............................................
-								lc_Nme		= this.ClassLevelAttribute<T>();
-								lo_Fnc		= this.NCORepository.GetFunctionMetadata( lc_Nme );
-								ls_Str		= this.NCORepository.GetStructureMetadata( lc_Nme );
+								lc_Nme	= this.ClassLevelAttribute<T>();
+								lo_Fnc	= this.NCORepository.GetFunctionMetadata( lc_Nme );
 
 								foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
 									{
-										lo_CP			=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
-
+										lo_CP		=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
 										ln_Idx	= lo_Fnc.TryNameToIndex( lo_CP.Name );
-										ln_Idx	= ls_Str.TryNameToIndex( lo_CP.Name );
 
 										lo_PI.SetValue( obj , ln_Idx );
 									}
@@ -235,51 +231,6 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool UpdateProfileMetadata( IRfcFncProfile lo_Prof )
-					{
-						string	lc_StrName	= string.Empty;
-						int			ln_PIndx		= 0;
-
-						SMC.RfcStructureMetadata	ls_StruMetadata	= null;
-						//.............................................
-						try
-							{
-								SMC.RfcFunctionMetadata lo_FncMetdata	= this.NCORepository.GetFunctionMetadata( lo_Prof.FunctionName );
-								//.........................................
-								// Collect indicies for function parameters, structure fields
-								//
-								foreach ( PropertyInfo lo_PI in	lo_Prof.GetType().GetProperties() )
-									{
-										var lo_CP	=	(SAPFncAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPFncAttribute ) );
-
-										if ( lo_CP != null )
-											{
-												if ( lo_CP.Stru?.Equals(0) == false )
-													{
-														if ( ! lc_StrName.Equals( lo_CP.Stru ) )
-															{
-																lc_StrName			= lo_CP.Stru;
-																ls_StruMetadata	= this.NCORepository.GetStructureMetadata( lc_StrName );
-															}
-														ln_PIndx	= ls_StruMetadata.TryNameToIndex( lo_CP.Name );
-													}
-												else
-													{
-														ln_PIndx	= lo_FncMetdata.TryNameToIndex( lo_CP.Name );
-													}
-
-												lo_PI.SetValue( lo_Prof , ln_PIndx );
-											}
-									}
-								//.........................................
-								lo_Prof.IsReady	= true;
-							}
-						catch	{	}
-						//.............................................
-						return	lo_Prof.IsReady;
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool FetchMetadata()

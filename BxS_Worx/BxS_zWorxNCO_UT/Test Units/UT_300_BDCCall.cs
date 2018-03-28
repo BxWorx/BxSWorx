@@ -16,7 +16,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_300_BDCCall
 		{
-			private	const			string			cz_FNme	= "/ISDFPS/CALL_TRANSACTION";
 			private readonly	UT_000_NCO	co_NCO;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -83,7 +82,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Lines			lo_Lines	= lo_Prof.CreateBDCCallLines()	;
 
 					lo_Head.SAPTCode		= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( cz_CTU_A );
+					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_DspMde ].SetValue( cz_CTU_A );
 
 					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
 					//...............................................
@@ -111,8 +110,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Lines			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
 
 					lo_Head.SAPTCode	= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_NoBtcI ].SetValue( cz_False );
-					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUOpt_DspMde ].SetValue( cz_CTU_N );
+					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_NoBtcI ].SetValue( cz_False );
+					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_DspMde ].SetValue( cz_CTU_N );
 
 					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
 					lo_Fnc0.Config	( lo_Head );
@@ -142,11 +141,12 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Header	lo_Head	= lo_Prof.CreateBDCCallHeader( true )	;
 					//...............................................
 					lo_Head.SAPTCode	= "XD03";
-					lo_Head.CTUParms[ lo_Prof.CTUOpt_NoBtcI ].SetValue( cz_False );
-					lo_Head.CTUParms[ lo_Prof.CTUOpt_DspMde ].SetValue( cz_CTU_N );
+					lo_Head.CTUParms[ lo_Prof.CTUIndex.CTUOpt_NoBtcI ].SetValue( cz_False );
+					lo_Head.CTUParms[ lo_Prof.CTUIndex.CTUOpt_DspMde ].SetValue( cz_CTU_N );
 					//...............................................
 					const int ln_Trn	= 100;
 					const	int ln_Tsk	= 05;
+
 					int ln_Tal	= 00;
 					var lo_BC		= new BlockingCollection<BDCCall_Lines>( ln_Trn );
 
@@ -175,6 +175,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 												}
 								);
 						}
+
 					Task.WaitAll( myTasks );
 
 					Assert.AreEqual	( ln_Trn	, ln_Tal	, "a" );
@@ -184,81 +185,44 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadBDCData( BDCCall_Lines dtoLines, BDCCall_Profile bdcFnc )
+				private void LoadBDCData( BDCCall_Lines dtoLines, BDCCall_Profile bdcProf )
 					{
 						dtoLines.BDCData.Append(4);
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 0;
 
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Prg	, "SAPMF02D"		);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Dyn	, "0101"				);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Bgn	, "X"						);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "BDC_OKCODE"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "/00"   			);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Prg	, "SAPMF02D"		);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Dyn	, "0101"				);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Bgn	, "X"						);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Fld	, "BDC_OKCODE"	);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Val	, "/00"   			);
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 1;
 
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "RF02D-KUNNR"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "1000000"			);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Fld	, "RF02D-KUNNR"	);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Val	, "1000000"			);
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 2;
 
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "RF02D-D0110"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "X"						);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Fld	, "RF02D-D0110"	);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Val	, "X"						);
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 3;
 
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Prg	, "SAPMF02D"		);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Dyn	, "0110"				);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Bgn	, "X"						);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Fld	, "BDC_OKCODE"	);
-						dtoLines.BDCData.SetValue( bdcFnc.BDCDat_Val	, "=PF03"				);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Prg	, "SAPMF02D"		);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Dyn	, "0110"				);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Bgn	, "X"						);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Fld	, "BDC_OKCODE"	);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Val	, "=PF03"				);
 					}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private void LoadBDCDataNoBInp( BDCCall_Header dtoHead , BDCCall_Lines dtoLines, BDCCall_Function bdcFnc )
-				//	{
-				//		dtoHead.SAPTCode	= "XD03";
-				//		dtoHead.CTUParms[ bdcFnc.MyProfile.Value.CTUOpt_NoBtcI ].SetValue( BDCCall_Constants.lz_T );
-				//		//...............................................
-				//		dtoLines.BDCData.Append(5);
-
-				//		dtoLines.BDCData.CurrentIndex	= 0;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Prg	, "SAPMF02D"		);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Dyn	, "7101"				);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Bgn	, "X"						);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "BDC_OKCODE"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "=ENTR"					);
-
-				//		dtoLines.BDCData.CurrentIndex	= 1;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "RF02D-KUNNR"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "1000000"			);
-
-				//		dtoLines.BDCData.CurrentIndex	= 2;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Prg	, "SAPMF02D"		);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Dyn	, "7000"				);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Bgn	, "X"						);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "BDC_OKCODE"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "=PF03"				);
-
-				//		dtoLines.BDCData.CurrentIndex	= 3;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "BDC_CURSOR"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "RF02D-KUNNR"	);
-
-				//		dtoLines.BDCData.CurrentIndex	= 4;
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Fld	, "BDC_SUBSCR"	);
-				//		dtoLines.BDCData.SetValue( bdcFnc.MyProfile.Value.BDCDat_Val	, "SAPLSZA1                                0300ADDRESS"			);
-				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCCall_Profile CreateBDCCallProfile()
 					{
-						IRfcDestination	lo_DS	= this.co_NCO.GetSAPDestLoggedOn();
+						IRfcDestination		lo_DS			= this.co_NCO.GetSAPDestLoggedOn();
+						IRfcFncController	lo_FCntlr	= new RfcFncController( lo_DS );
 
-						return	new BDCCall_Profile(	cz_FNme
-																				, lo_DS
-																				, ()=>	new BDCCall_Header()
-																				, ()=>	new BDCCall_Lines	() );
+						return	lo_FCntlr.GetAddBDCCallProfile();
 					}
 		}
 }

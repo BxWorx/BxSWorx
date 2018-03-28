@@ -23,8 +23,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this._RfcDest		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDCSession_Factory).Namespace}:- RfcDest Factory null" );
 						//.................................................
-						this._ParserFactory		= new Lazy< BDC_Parser_Factory >(	()=>	BDC_Parser_Factory.Instance , _LM			);
-						this._RfcFncCntlr			= new	Lazy< IRfcFncController >	(	()=>	new	RfcFncController( this._RfcDest ) );
+						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>	(	()=>	BDC_Parser_Factory.Instance , _LM			);
+						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>	(	()=>	new	RfcFncController( this._RfcDest ) );
 					}
 
 			#endregion
@@ -42,10 +42,35 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: Session"
+			//===========================================================================================
+			#region "Methods: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_BDC_Session CreateSessionDTO()
+				internal	DTO_BDC_SessionConfig			CreateBDCSessionConfig	()=>	new	DTO_BDC_SessionConfig();
+				internal	ObjectPool< BDC_Session > CreateBDCSessionPool		()=>	new ObjectPool< BDC_Session >( this.CreateBDCSession );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ObjectPoolConfig< BDC_Session > CreateBDCSessionPoolConfig( bool defaults = true )
+					{
+						ObjectPoolConfig< BDC_Session >	lo_Cfg	=	ObjectPoolFactory.CreateConfig< BDC_Session >();
+						//.............................................
+						if ( defaults )
+							{
+								lo_Cfg.Factory	= this.CreateBDCSession;
+							}
+						//.............................................
+						return	lo_Cfg;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private BDC_Session CreateBDCSession()
+					{
+						BDCCall_Header lo_H	= this._RfcFncCntlr.Value.GetAddBDCCallProfile().CreateBDCCallHeader();
+						return	new	BDC_Session( lo_H , this.CreateBDCSessionConfig() );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_BDC_Session CreateSessionDTO()
 					{
 						var lo_CTU	= new DTO_BDC_CTU();
 						var lo_Hed	= new DTO_BDC_Header( lo_CTU );
@@ -53,87 +78,50 @@ namespace BxS_WorxNCO.BDCSession.Main
 						return	new DTO_BDC_Session( lo_Hed );
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDC_Session >		CreateSessionPool(	CancellationToken	CT
-																																,	int		minPoolSize = 1
-																																,	int		maxPoolSize	= 5
-																																, bool	limiterOn						= false
-																																, bool	activateDiagnostics	= false
-																																, bool	autoStartMin				= false	)
-					{
-						return	new ObjectPool< BDC_Session >(	minPoolSize
-																									, maxPoolSize
-																									, limiterOn
-																									, activateDiagnostics
-																									, autoStartMin
-																									, CT
-																									, ()=> this.CreateSession( CT ,   )	);
-					}
+			#endregion
+
+			//===========================================================================================
+			//===========================================================================================
+			#region "Methods: BDC Consumer"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDCSessionConsumer >		CreateSessionConsumerPool( IRfcDestination	rfcDestination)
+				private		BDCSessionConsumer								CreateBDCConsumer			()=>	new	BDCSessionConsumer								( this._RfcFncCntlr.Value.CreateBDCCallFunction() );
+				internal	ObjectPool< BDCSessionConsumer >	CreateBDCConsumerPool	()=>	new ObjectPool< BDCSessionConsumer >	( this.CreateBDCConsumer );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ObjectPoolConfig< BDCSessionConsumer > CreateBDCConsumerPoolConfig( bool defaults = true )
 					{
-						IRfcDestination X = rfcDestination;
-						return	new ObjectPool< BDCSessionConsumer >( factory:  ()=> this.CreateSessionConsumer()	);
+						ObjectPoolConfig< BDCSessionConsumer >	lo_Cfg	=	ObjectPoolFactory.CreateConfig< BDCSessionConsumer >();
+						//.............................................
+						if ( defaults )
+							{
+								lo_Cfg.Factory	= this.CreateBDCConsumer;
+							}
+						//.............................................
+						return	lo_Cfg;
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: Parser"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDC_Parser >		CreateParserPool(		CancellationToken	CT
-																															,	int		minPoolSize = 1
-																															,	int		maxPoolSize	= 5
-																															, bool	limiterOn						= false
-																															, bool	activateDiagnostics	= false
-																															, bool	autoStartMin				= false	)
-					{
-						return	new ObjectPool< BDC_Parser >(		minPoolSize
-																									, maxPoolSize
-																									, limiterOn
-																									, activateDiagnostics
-																									, autoStartMin
-																									, CT
-																									, ()=> this.CreateParser() );
-					}
-
-			#endregion
-
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Parser"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCSessionConsumer	CreateSessionConsumer()
-					{
-						//BDCCall_Function	lo_Func			= this._FncCntlr.CreateBDCCallFunction();
-						//BDCCall_Lines			lo_BDCData	=	this._Profile.CreateBDCCallLines();
-						//lo_Func.Config( this._Header );
-						//var X = new BDCSessionConsumer( this._Profile , lo_Func, lo_BDCData );
-			
-						BDCSessionConsumer		lo_S = null;
-						return	lo_S;
-					}
+				private		BDC_Parser								CreateParser			()=>	new	BDC_Parser								( this._ParserFactory );
+				internal	ObjectPool< BDC_Parser >	CreateParserPool	()=>	new ObjectPool< BDC_Parser >	( this.CreateParser		);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Session	CreateSession(	CancellationToken				CT
-																					, IProgress<ProgressDTO>	progressHndlr
-																					, DTO_BDC_SessionConfig		config				)
+				internal ObjectPoolConfig< BDC_Parser > CreateParserPoolConfig( bool defaults = true )
 					{
-						BDCCall_Header				lo_Header = null;
-
-						return	new	BDC_Session(	lo_Header
-																		,	this.CreateSessionConsumerPool( this._RfcDest )
-																		, config
-																		, CT
-																		, progressHndlr																			);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Parser CreateParser()
-					{
-						return	new	BDC_Parser( this._ParserFactory );
+						ObjectPoolConfig< BDC_Parser >	lo_Cfg	=	ObjectPoolFactory.CreateConfig< BDC_Parser >();
+						//.............................................
+						if ( defaults )
+							{
+								lo_Cfg.Factory	= this.CreateParser;
+							}
+						//.............................................
+						return	lo_Cfg;
 					}
 
 			#endregion

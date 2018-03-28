@@ -22,7 +22,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			internal string GetSAPID()
 				{
 					IList< string > lt_Ini	=	this.DestController.GetSAPINIList();
-					string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("PWD)") );
+					string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("05.01") );
 					Assert.IsNotNull	( lc_ID	, "" );
 					return	lc_ID;
 				}
@@ -42,9 +42,12 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					IRfcDestination lo_Dest =	this.GetSAPDest();
 					//...............................................
-					lo_Dest.Client			= "700"						;
-					lo_Dest.User				= "DERRICKBINGH"	;
-					lo_Dest.Password		= "M@@n4321"			;
+					//lo_Dest.Client			= "700"						;
+					//lo_Dest.User				= "DERRICKBINGH"	;
+					//lo_Dest.Password		= "M@@n4321"			;
+					lo_Dest.Client			= "100"						;
+					lo_Dest.User				= "DERRICKB"	;
+					lo_Dest.Password		= "moon123"			;
 					lo_Dest.LogonCheck	= DoLogonCheck		;
 					lo_Dest.UseSAPGui		= "2";
 					//...............................................

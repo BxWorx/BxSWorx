@@ -152,9 +152,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 																									, bool		autoStart			= false
 																									,	Func<T>	func					= null	)	where T: PooledObject
 					{
-						var	lo_OPL	=	new ObjectPool<T>();
-
-						var lo_Cfg	= ObjectPoolConfig<T>.CreateConfig();
+						ObjectPoolConfig<T> lo_Cfg	= ObjectPoolFactory.CreateConfig<T>();
 
 						lo_Cfg.ActivateDiagnostics	= diagnostics;
 						lo_Cfg.AutoStartup					= autoStart;
@@ -164,6 +162,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						lo_Cfg.MaximumPoolSize			=	MaxSize;
 						lo_Cfg.Throttled						= limiterOn;
 
+						var	lo_OPL	=	new ObjectPool<T>();
 						lo_OPL.ConfigurePool(lo_Cfg);
 
 						return	lo_OPL;

@@ -1,26 +1,13 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Helpers.Common
+namespace BxS_WorxNCO.Helpers.ObjectPool
 {
-	public class ProgressDTO
+	public class ObjectPoolFactory
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ProgressDTO( int Done )
-					{
-						this.TasksDne	= Done;
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				public int		TasksDne	{ get; set; }
-				public int		TasksErr	{ get; set; }
-				public int		TasksCan	{ get; set; }
-
-				public string Msg				{ get; set; }
+				public ObjectPoolFactory()
+					{	}
 
 			#endregion
 
@@ -28,11 +15,12 @@ namespace BxS_WorxNCO.Helpers.Common
 			#region "Methods: Static"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static ProgressDTO	CreateProgress( int Done = 0 )
+				public static ObjectPoolConfig<T>	CreateConfig<T>() where T:PooledObject
 					{
-						return	new	ProgressDTO( Done );
+						return	new	ObjectPoolConfig<T>();
 					}
 
 			#endregion
+
 		}
 }

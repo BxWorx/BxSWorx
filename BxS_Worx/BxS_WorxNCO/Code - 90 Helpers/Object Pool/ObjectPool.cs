@@ -25,7 +25,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool()
+				internal ObjectPool( Func<T> factory = null )
 					{
 						this._IsActive	= false	;
 						//.............................................
@@ -33,9 +33,11 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						this._Lock					=	new	object()			;
 						this._LockChk				=	new	object()			;
 						this._ReturnAction	=	this.ReturnObject	;
-						this._Config				= ObjectPoolConfig<T>.CreateConfig() ;
+						this._Config				= ObjectPoolFactory.CreateConfig<T>() ;
+						this._Factory				= factory;
 						//.............................................
 						this.Pool		= new	ConcurrentBag<T>()	;
+						this._CTS		= new	CancellationTokenSource();
 					}
 
 			#endregion
@@ -90,7 +92,12 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 							{	}
 						else
 							{
-								this.Configure( config );
+								if ( config.IsDirty )
+									{
+										this.Configure( config );
+										config.ResetDirty();
+										this._Config.ResetDirty();
+									}
 							}
 					}
 
@@ -298,7 +305,11 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 								this._CurPoolSize					= 0			;
 								this._Config.Throttled		=	config.Throttled		;
 								this._Config.AutoStartup	=	config.AutoStartup	;
-								this._Config.Factory			=	config.Factory			;
+								//.........................................
+								if ( config.Factory != null )
+									{
+										this._Config.Factory			=	config.Factory	;
+									}
 								//.........................................
 								if ( this._Config.Throttled )
 									{
@@ -308,7 +319,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 								if ( this._Config.AutoStartup )
 									{
 										#pragma warning disable RCS1163
-										ThreadPool.QueueUserWorkItem( new	WaitCallback( ( o )=> this.AutoStartMinimumObjects() ) );
+										ThreadPool.QueueUserWorkItem( new	WaitCallback( (o)=> this.AutoStartMinimumObjects() ) );
 										#pragma warning restore RCS1163
 									}
 							}

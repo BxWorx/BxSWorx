@@ -8,8 +8,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 		{
 			#region "Properties"
 
-				[ SAP( Name = "PARID"		) ]		internal	int SPADat_MID	{ get; set;	}
-				[ SAP( Name = "PARVAL"	) ]		internal	int SPADat_Val	{ get; set;	}
+				[ SAP( Name = "PARID"		) ]		public	int SPADat_MID	{ get; set;	}
+				[ SAP( Name = "PARVAL"	) ]		public	int SPADat_Val	{ get; set;	}
 
 			#endregion
 
