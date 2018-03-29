@@ -86,7 +86,9 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	BDCSessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )
 					{
-						return	new BDCSessionManager( rfcDestination );
+						var x = new BDCSession_Factory( rfcDestination );
+
+						return	new BDCSessionManager( x );
 					}
 
 			#endregion

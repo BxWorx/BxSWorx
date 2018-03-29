@@ -2,6 +2,8 @@
 using System.Threading;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
@@ -46,19 +48,19 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Invoke()
+				public bool Invoke( SMC.RfcCustomDestination rfcDestination )
 					{
 						bool	lb_Ret	= false;
 						//.............................................
 						try
 							{
 								this.Profile.ReadyProfile();
-								this._NCORfcFunction.Value.Invoke( this.NCODestination );
+								this._NCORfcFunction.Value.Invoke( rfcDestination );
 								lb_Ret	= true;
 							}
 						catch ( Exception ex )
 							{
-								throw new System.Exception( "NCO invoke error" , ex );
+								throw new Exception( "NCO invoke error" , ex );
 							}
 						//.............................................
 						return	lb_Ret;

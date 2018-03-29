@@ -56,11 +56,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					IRfcDestination lo_Dest =	this.GetSAPDest();
 					//...............................................
-					lo_Dest.Client		= "700";
-					lo_Dest.User			= "DERRICKBINGH";
-					lo_Dest.Password	= "M@@n4321";
+					lo_Dest.Client		= UT_000_NCO.cz_Client	;
+					lo_Dest.User			= UT_000_NCO.cz_User		;
+					lo_Dest.Password	= UT_000_NCO.cz_PWrd		;
 					//...............................................
-					//Assert.IsTrue(	lo_Dest.Procure()		, "" );
 					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
 				}
 
@@ -71,17 +70,16 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					var lc_Pwd	= new SecureString();
 					IRfcDestination lo_Dest =	this.GetSAPDest();
 					//...............................................
-					lo_Dest.Client		= "700";
-					lo_Dest.User			= "DERRICKBINGH";
+					lo_Dest.Client		=	UT_000_NCO.cz_Client	;
+					lo_Dest.User			= UT_000_NCO.cz_User		;
 					//...............................................
-					foreach (char lc_C in "M@@n4321")
+					foreach (char lc_C in UT_000_NCO.cz_PWrd)
 						{
 							lc_Pwd.AppendChar(lc_C);
 						}
 					lc_Pwd.MakeReadOnly();
 					lo_Dest.SecurePassword	= lc_Pwd;
 					//...............................................
-					//Assert.IsTrue(	lo_Dest.Procure()		, "" );
 					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
 					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
 				}

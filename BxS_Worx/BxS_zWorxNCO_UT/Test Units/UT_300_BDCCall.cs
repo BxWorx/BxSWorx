@@ -16,12 +16,16 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_300_BDCCall
 		{
-			private readonly	UT_000_NCO	co_NCO;
+			private readonly	UT_000_NCO			co_NCO;
+			private readonly	IRfcDestination	co_RfcDest;
+			private readonly	IRfcDestination	co_RfcDestOn;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_300_BDCCall()
 				{
-					this.co_NCO	= new	UT_000_NCO();
+					this.co_NCO					= new	UT_000_NCO();
+					this.co_RfcDest			= this.co_NCO.GetSAPDest();
+					this.co_RfcDestOn		= this.co_NCO.GetSAPDestLoggedOn( true );
 					//...............................................
 					Assert.IsNotNull	( this.co_NCO									, "" );
 					Assert.IsNotNull	( this.co_NCO.DestController	, "" );
@@ -41,7 +45,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.IsNotNull	( lo_Head		, "" );
 					Assert.IsNotNull	( lo_Lines	, "" );
 
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_NCO.GetSAPDest() );
+					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDest );
 					BDCCall_Function	lo_Fnc1	= lo_FCnt.CreateBDCCallFunction();
 
 					Assert.IsNotNull	( lo_Fnc1 , "" );
@@ -51,7 +55,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_300_BCDCall_20_Basics()
 				{
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_NCO.GetSAPDestLoggedOn( true ) );
+					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDestOn );
 
 					BDCCall_Function	lo_Fnc0	= lo_FCnt.CreateBDCCallFunction();
 					//...............................................
@@ -64,7 +68,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.IsNotNull	( lo_Lines.SPAData	, "" );
 					//...............................................
 					try	{
-								lo_Fnc0.Invoke();
+								lo_Fnc0.Invoke( this.co_RfcDestOn.NCODestination );
 								Assert.Fail("");
 							}
 					catch
@@ -75,7 +79,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_300_BCDCall_30_Process()
 				{
-					IRfcFncController	lo_FCnt		= new RfcFncController( this.co_NCO.GetSAPDestLoggedOn( true ) );
+					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
 					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
@@ -88,7 +92,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					//...............................................
 					try	{
 								lo_Fnc0.Config	( lo_Head );
-								lo_Fnc0.Process	( lo_Lines );
+								lo_Fnc0.Process	( lo_Lines , this.co_RfcDestOn.NCODestination );
 
 								Assert.IsTrue ( lo_Lines.ProcessedStatus	, "a" );
 								Assert.IsTrue ( lo_Lines.SuccesStatus			, "b" );
@@ -103,7 +107,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_300_BCDCall_40_Many()
 				{
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_NCO.GetSAPDestLoggedOn( true ) );
+					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
 
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 					BDCCall_Header		lo_Head		= lo_Fnc0.CreateBDCCallHeader( true )	;
@@ -122,7 +126,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					for (int i = 0; i < ln_No; i++)
 						{
 							try	{
-										lo_Fnc0.Process	( lo_Lines );
+										lo_Fnc0.Process	( lo_Lines , this.co_RfcDestOn.NCODestination );
 										if (lo_Lines.SuccesStatus) ln_Cnt ++;
 									}
 							catch
@@ -135,10 +139,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_300_BCDCall_50_Multiple()
 				{
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_NCO.GetSAPDestLoggedOn( true ) );
-
-					BDCCall_Profile	lo_Prof	= lo_FCnt.GetAddBDCCallProfile();
-					BDCCall_Header	lo_Head	= lo_Prof.CreateBDCCallHeader( true )	;
+					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
+					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
+					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
 					//...............................................
 					lo_Head.SAPTCode	= "XD03";
 					lo_Head.CTUParms[ lo_Prof.CTUIndex.CTUOpt_NoBtcI ].SetValue( cz_False );
@@ -169,7 +172,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 													lo_Fnc.Config( lo_Head );
 													foreach (BDCCall_Lines lo_WorkItem in lo_BC.GetConsumingEnumerable() )
 														{
-															lo_Fnc.Process( lo_WorkItem );
+															lo_Fnc.Process( lo_WorkItem	, this.co_RfcDestOn.NCODestination );
 															if ( lo_WorkItem.SuccesStatus )	Interlocked.Increment( ref ln_Tal );
 														}
 												}

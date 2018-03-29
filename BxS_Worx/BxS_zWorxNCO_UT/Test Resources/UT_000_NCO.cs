@@ -16,6 +16,14 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					this.DestController	= new DestinationController();
 				}
 
+			//public const string	cz_Client	= "700"					;
+			//public const string	cz_User		= "DERRICKBINGH";
+			//public const string	cz_PWrd		= "M@@n4321"		;
+
+			public const string	cz_Client	= "100"				;
+			public const string	cz_User		= "DERRICKB"	;
+			public const string	cz_PWrd		= "moon123"		;
+
 			internal IDestinationController DestController { get; }
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -42,14 +50,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					IRfcDestination lo_Dest =	this.GetSAPDest();
 					//...............................................
-					//lo_Dest.Client			= "700"						;
-					//lo_Dest.User				= "DERRICKBINGH"	;
-					//lo_Dest.Password		= "M@@n4321"			;
-					lo_Dest.Client			= "100"						;
-					lo_Dest.User				= "DERRICKB"	;
-					lo_Dest.Password		= "moon123"			;
-					lo_Dest.LogonCheck	= DoLogonCheck		;
-					lo_Dest.UseSAPGui		= "2";
+					lo_Dest.Client			=	cz_Client			;
+					lo_Dest.User				= cz_User				;
+					lo_Dest.Password		= cz_PWrd				;
+					lo_Dest.LogonCheck	= DoLogonCheck	;
+					lo_Dest.UseSAPGui		= "2"						;
 					//...............................................
 					Assert.IsTrue	(	lo_Dest.IsConnected	, "" )	;
 					//...............................................

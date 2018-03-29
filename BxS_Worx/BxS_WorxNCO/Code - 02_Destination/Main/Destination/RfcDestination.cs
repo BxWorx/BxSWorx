@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Security;
@@ -11,6 +10,8 @@ using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.Main;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main.Destination
 {
@@ -31,7 +32,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 						//.............................................
 						this._NCODestination	= new Lazy< SMC.RfcCustomDestination >
 																					(		()=>	SDM.GetDestination( this._RfcConfig ).CreateCustomDestination()
-																						, LazyThreadSafetyMode.ExecutionAndPublication													);
+																						, cz_LM	);
 					}
 
 			#endregion

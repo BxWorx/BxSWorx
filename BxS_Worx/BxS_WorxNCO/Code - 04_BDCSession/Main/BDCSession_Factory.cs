@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 //.........................................................
 using BxS_WorxNCO.Destination.API			;
 
@@ -10,6 +9,9 @@ using BxS_WorxNCO.RfcFunction.Main		;
 using BxS_WorxNCO.RfcFunction.BDCTran	;
 
 using BxS_WorxNCO.Helpers.ObjectPool	;
+using BxS_WorxNCO.Helpers.Progress		;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -22,8 +24,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this._RfcDest		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDCSession_Factory).Namespace}:- RfcDest Factory null" );
 						//.................................................
-						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>	(	()=>	BDC_Parser_Factory.Instance , _LM			);
-						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>	(	()=>	new	RfcFncController( this._RfcDest ) );
+						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance , cz_LM			);
+						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this._RfcDest ) );
 					}
 
 			#endregion
@@ -31,8 +33,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private const LazyThreadSafetyMode	_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
-				//.................................................
 				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
 				private	readonly	Lazy< IRfcFncController >		_RfcFncCntlr		;
 
@@ -44,8 +44,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	DTO_BDC_SessionConfig			CreateBDCSessionConfig	()=>	new	DTO_BDC_SessionConfig();
-				internal	ObjectPool< BDC_Session > CreateBDCSessionPool		()=>	new ObjectPool< BDC_Session >( this.CreateBDCSession );
+				internal	DTO_BDC_SessionConfig									CreateBDCSessionConfig					()=>	new	DTO_BDC_SessionConfig();
+				internal	ObjectPool< BDC_Session >							CreateBDCSessionPool						()=>	new ObjectPool< BDC_Session	>( this.CreateBDCSession );
+				internal	ProgressHandler< DTO_BDC_Progress >		CreateBDCSessionProgressHandler	()=>	new ProgressHandler< DTO_BDC_Progress >( this.CreateProgress );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Session > CreateBDCSessionPoolConfig( bool defaults = true )
@@ -119,6 +120,14 @@ namespace BxS_WorxNCO.BDCSession.Main
 						//.............................................
 						return	lo_Cfg;
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Progress"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	DTO_BDC_Progress CreateProgress	()=>	new	DTO_BDC_Progress();
 
 			#endregion
 

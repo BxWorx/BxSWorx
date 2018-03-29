@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Helpers
+namespace BxS_WorxNCO.Helpers.General
 {
 	public class PriorityQueue<T> where T : class
 		{

@@ -2,14 +2,17 @@
 using System.Threading;
 using System.Threading.Tasks;
 //.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
 using BxS_WorxIPX.BDC;
 
 using BxS_WorxNCO.Helpers.ObjectPool;
-using BxS_WorxNCO.Helpers.Common;
+using BxS_WorxNCO.Helpers.Progress;
 
-using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.BDCSession.Parser;
 using BxS_WorxNCO.BDCSession.DTO;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -18,20 +21,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSessionManager(	IRfcDestination	rfcDestination )
+				internal BDCSessionManager(	BDCSession_Factory factory )
 					{
-						this._RfcDest				= rfcDestination	;
+						this._Factory				=	factory;
 						//.............................................
-						this._Factory				= new	Lazy< BDCSession_Factory >											(	()=>	new BDCSession_Factory( this._RfcDest )						, _LM );
+						this._ParserCfg			= new	Lazy< ObjectPoolConfig< BDC_Parser > >					(	()=>	this._Factory.CreateParserPoolConfig()			,	cz_LM );
+						this._ParserPool		= new	Lazy< ObjectPool			< BDC_Parser > >					(	()=>	this._Factory.CreateParserPool()						, cz_LM );
 
-						this._ParserCfg			= new	Lazy< ObjectPoolConfig< BDC_Parser > >					(	()=>	this._Factory.Value.CreateParserPoolConfig()			,	_LM );
-						this._ParserPool		= new	Lazy< ObjectPool			< BDC_Parser > >					(	()=>	this._Factory.Value.CreateParserPool()						, _LM );
+						this._BDCConsCfg		= new	Lazy< ObjectPoolConfig< BDCSessionConsumer > >	(	()=>	this._Factory.CreateBDCConsumerPoolConfig()	,	cz_LM );
+						this._BDCConsPool		= new	Lazy< ObjectPool			< BDCSessionConsumer > >	(	()=>	this._Factory.CreateBDCConsumerPool()				, cz_LM );
 
-						this._BDCConsCfg		= new	Lazy< ObjectPoolConfig< BDCSessionConsumer > >	(	()=>	this._Factory.Value.CreateBDCConsumerPoolConfig()	,	_LM );
-						this._BDCConsPool		= new	Lazy< ObjectPool			< BDCSessionConsumer > >	(	()=>	this._Factory.Value.CreateBDCConsumerPool()				, _LM );
-
-						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session > >					(	()=>	this._Factory.Value.CreateBDCSessionPoolConfig()	,	_LM );
-						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session > >					(	()=>	this._Factory.Value.CreateBDCSessionPool()				, _LM );
+						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session > >					(	()=>	this._Factory.CreateBDCSessionPoolConfig()	,	cz_LM );
+						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session > >					(	()=>	this._Factory.CreateBDCSessionPool()				, cz_LM );
 					}
 
 			#endregion
@@ -39,11 +40,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private const LazyThreadSafetyMode	_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
-				//.................................................
-				private	readonly	IRfcDestination		_RfcDest	;
-				//.................................................
-				private	readonly	Lazy< BDCSession_Factory >	_Factory	;
+				private	readonly	BDCSession_Factory	_Factory	;
 				//.................................................
 				private	readonly	Lazy< ObjectPoolConfig< BDC_Parser > >					_ParserCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_Parser > >					_ParserPool		;
@@ -59,24 +56,14 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Properties"
 
-				internal ObjectPoolConfig< BDC_Session				> BDCSessionConfiguration		{ get { return	this._BDCSessCfg.Value; } }
+				internal ObjectPoolConfig< BDC_Parser					> ParserConfiguration				{ get { return	this._ParserCfg	.Value; } }
 				internal ObjectPoolConfig< BDCSessionConsumer > BDCConsumerConfiguration	{ get { return	this._BDCConsCfg.Value; } }
-				internal ObjectPoolConfig< BDC_Parser					> ParserConfiguration				{ get { return	this._ParserCfg.Value; } }
+				internal ObjectPoolConfig< BDC_Session				> BDCSessionConfiguration		{ get { return	this._BDCSessCfg.Value; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Destination Handling"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// Create BDC session config DTO to configure SAP Logon environment
-				//
-				public IConfigSetupDestination CreateDestinationConfig()
-					{
-						return	this._RfcDest.CreateDestinationConfig();
-					}
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Create BDC session config DTO to configure session environment
@@ -94,27 +81,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 																																						};
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// Configure the BDC session destination environment
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				#pragma warning disable RCS1163
-				public void ConfigureDestination( IConfigSetupDestination dto )
-					{
-						//this._FncCntlr.RfcDestination.LoadConfig( dto );
-					}
-				#pragma warning restore RCS1163
-
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task Process(	IExcelBDCSessionRequest request
-																	,	CancellationToken				CT
-																	, Progress<ProgressDTO>		progressHndlr	)
+				public async Task Process(	IExcelBDCSessionRequest							request
+																	,	CancellationToken										CT
+																	, ProgressHandler< DTO_BDC_Progress >	progressHndlr
+																	, SMC.RfcCustomDestination						rfcDestination )
 					{
-						DTO_BDC_Session dtoSession	=	this._Factory.Value.CreateSessionDTO();
+						DTO_BDC_Session dtoSession	=	this._Factory.CreateSessionDTO();
 						//.............................................
 						// Parse request, data from an excel spreadsheet, into an BDC Session DTO.
 						// used by Process Session.
@@ -127,13 +105,17 @@ namespace BxS_WorxNCO.BDCSession.Main
 																											.ConfigureAwait(false);
 							}
 						//.............................................
-						using ( BDC_Session lo_Session = this._BDCSessPool.Value.Acquire() )
+						if ( lb_ParseOk )
 							{
-								int i = await	lo_Session.Process_SessionAsync(	dtoSession
-																															, CT
-																															, progressHndlr
-																															, this._BDCConsPool.Value )
-																.ConfigureAwait(false);
+								using ( BDC_Session lo_Session = this._BDCSessPool.Value.Acquire() )
+									{
+										int i = await	lo_Session.Process_SessionAsync(	dtoSession
+																																	, CT
+																																	, progressHndlr
+																																	, this._BDCConsPool.Value
+																																	,	rfcDestination					)
+																		.ConfigureAwait(false);
+									}
 							}
 					}
 
@@ -143,6 +125,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Methods: Exposed: Reconfigure"
 
+				// Applies changes made to individual configurations (made direct in the configuration).
+				// This is done as a number of rules exist within the configuration which tracks if any
+				// changes made are relevant based on th status of the individual pools.
+				//
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void ReConfigureBDCSessionPool()
 					{

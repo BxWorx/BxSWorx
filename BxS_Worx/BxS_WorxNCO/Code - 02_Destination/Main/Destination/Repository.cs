@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main
 {
@@ -21,9 +22,7 @@ namespace BxS_WorxNCO.Destination.Main
 						this._Map				= new Dictionary< string	, Guid >										()	;
 						this._Des				= new Dictionary< Guid		, SMC.RfcConfigParameters >	()	;
 						//.............................................
-						this._SAPINI		= new Lazy<SMC.SapLogonIniConfiguration>
-																		(		()=>	SMC.SapLogonIniConfiguration.Create()
-																			, LazyThreadSafetyMode.ExecutionAndPublication	);
+						this._SAPINI		= new Lazy< SMCIni >( ()=> SMCIni.Instance 	, cz_LM	);
 						//.............................................
 						this._Lock	= new	object();
 					}
@@ -33,14 +32,14 @@ namespace BxS_WorxNCO.Destination.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy< SMC.SapLogonIniConfiguration >						_SAPINI;
+				private readonly	Lazy< SMCIni >	_SAPINI;
 				//.................................................
-				private readonly Dictionary< string	,	Guid >										_Map;
-				private readonly Dictionary< Guid		, SMC.RfcConfigParameters >	_Des;
+				private readonly	Dictionary< string	,	Guid >										_Map;
+				private readonly	Dictionary< Guid		, SMC.RfcConfigParameters >	_Des;
 				//.................................................
-				private	readonly Func< Guid , IRfcDestination >									_CreateDestination;
+				private	readonly	Func< Guid , IRfcDestination >									_CreateDestination;
 				//.................................................
-				private readonly object	_Lock;
+				private readonly	object	_Lock;
 
 			#endregion
 
@@ -69,7 +68,7 @@ namespace BxS_WorxNCO.Destination.Main
 				//
 				public IList<string> GetSAPINIList()
 					{
-						return this._SAPINI.Value.GetEntries();
+						return this._SAPINI.Value.GetSAPINIList();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -91,7 +90,7 @@ namespace BxS_WorxNCO.Destination.Main
 										{
 											if ( this.SAPSystems.TryGetValue( ID , out string lc_SAPID ) )
 												{
-													lo_Cnf	= this._SAPINI.Value.GetParameters(lc_SAPID)	?? new SMC.RfcConfigParameters();
+													lo_Cnf	= this._SAPINI.Value.GetIniParameters(lc_SAPID)	?? new SMC.RfcConfigParameters();
 													this._Des.Add( ID , lo_Cnf );
 												}
 											else

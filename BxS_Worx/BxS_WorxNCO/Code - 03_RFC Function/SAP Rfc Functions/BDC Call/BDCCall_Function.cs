@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Threading;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
@@ -45,8 +46,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private		const			LazyThreadSafetyMode			cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
-				//.................................................
 				internal	readonly	Lazy< BDCCall_Profile >		MyProfile;
 
 			#endregion
@@ -86,7 +85,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process( BDCCall_Lines lines )
+				internal void Process(	BDCCall_Lines lines
+															, SMC.RfcCustomDestination rfcDestination )
 					{
 						this.Reset();
 						//.............................................
@@ -98,7 +98,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 								this.LoadTable( lines.BDCData ,	this.Idx_BDC );
 								this.LoadTable( lines.SPAData	, this.Idx_SPA );
 								//.............................................
-								this.Invoke();
+								this.Invoke( rfcDestination );
 								//.............................................
 								this.LoadTable( lines.MSGData	, this.Idx_MSG , true );
 								lines.SuccesStatus	= true;
@@ -159,11 +159,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadTable( SMC.IRfcTable data , int index , bool invert = false )
+				private void LoadTable(		SMC.IRfcTable	data
+																, int						index
+																, bool					reverse = false )
 					{
 						SMC.IRfcTable lt_Tbl	= this.NCORfcFunction.GetTable( index );
 
-						if (invert)
+						if ( reverse )
 							{	data.Append( lt_Tbl ); }
 						else
 							{	lt_Tbl.Append( data ); }

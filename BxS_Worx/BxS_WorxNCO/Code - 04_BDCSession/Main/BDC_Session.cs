@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 //.........................................................
-using BxS_WorxNCO.Helpers.Common;
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_WorxNCO.Helpers.Progress;
 using BxS_WorxNCO.Helpers.ObjectPool;
 
 using BxS_WorxNCO.BDCSession.DTO;
@@ -73,17 +75,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 				// Process supplied BDC session
 				// Returns no of transactions processesed
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<int> Process_SessionAsync(	DTO_BDC_Session										bdcSession
-																										, CancellationToken									CT
-																										,	IProgress<ProgressDTO>						progressHndlr
-																										, ObjectPool< BDCSessionConsumer >	pool					)
+				public async Task<int> Process_SessionAsync(	DTO_BDC_Session											bdcSession
+																										, CancellationToken										CT
+																										,	ProgressHandler< DTO_BDC_Progress >	progressHndlr
+																										, ObjectPool< BDCSessionConsumer >		pool
+																										,	SMC.RfcCustomDestination						rfcDestination	)
 					{
 						this.PrepareSession();
 
 						this._Header.Load	( bdcSession.Header );
 						this.LoadQueue		( bdcSession.Trans );
 						//.............................................
-						this.CreateConsumers( CT , pool );
+						this.CreateConsumers( CT , pool , rfcDestination );
 
 						if ( ! CT.IsCancellationRequested )
 							{
@@ -137,8 +140,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async Task<int> ProcessConsumerResultsAsync(	CancellationToken CT
-																														,	IProgress<ProgressDTO>	progressHndlr	)
+				private async Task<int> ProcessConsumerResultsAsync(	CancellationToken										CT
+																														,	ProgressHandler< DTO_BDC_Progress >	progressHndlr	)
 					{
 						int	ln_Ret	= 0;
 						Task< int > lo_Task;
@@ -159,11 +162,14 @@ namespace BxS_WorxNCO.BDCSession.Main
 								else  																														{ this.TasksOther			.Enqueue(lo_Task); }
 
 								ln_Ret	+= lo_Task.Result;
+								//.........................................
+								if ( progressHndlr.GoingToHit )
+									{
+										DTO_BDC_Progress x =	progressHndlr.Create();
+										x.TasksDne	= ln_Ret;
+										progressHndlr.Report( x );
+									}
 
-								var x = ProgressDTO.CreateProgress();
-								x.TasksDne	= ln_Ret;
-
-								progressHndlr.Report( x );
 							}
 						//.............................................
 						return	ln_Ret;
@@ -171,7 +177,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void CreateConsumers(		CancellationToken									CT
-																			, ObjectPool< BDCSessionConsumer >	pool	)
+																			, ObjectPool< BDCSessionConsumer >	pool
+																			,	SMC.RfcCustomDestination					rfcDestination	)
 					{
 						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
 							{
@@ -183,7 +190,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																						{
 																							using (	BDCSessionConsumer lo_Cons = pool.Acquire() )
 																								{
-																									lo_Cons.Consume( CT , this._Queue );
+																									lo_Cons.Consume( CT , this._Queue , rfcDestination );
 																									return	lo_Cons.TransactionsProcessed;
 																								}
 																						}

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Helpers
+namespace BxS_WorxNCO.Helpers.General
 {
 	public class IO
 		{

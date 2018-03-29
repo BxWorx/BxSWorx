@@ -1,14 +1,14 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Helpers.Common
+namespace BxS_WorxNCO.BDCSession.DTO
 {
-	public class ProgressDTO
+	public class DTO_BDC_Progress
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ProgressDTO( int Done )
+				internal DTO_BDC_Progress( int total	= 100 )
 					{
-						this.TasksDne	= Done;
+						this.TasksDne	= total;
 					}
 
 			#endregion
@@ -24,15 +24,5 @@ namespace BxS_WorxNCO.Helpers.Common
 
 			#endregion
 
-			//===========================================================================================
-			#region "Methods: Static"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static ProgressDTO	CreateProgress( int Done = 0 )
-					{
-						return	new	ProgressDTO( Done );
-					}
-
-			#endregion
 		}
 }

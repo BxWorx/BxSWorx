@@ -2,10 +2,14 @@
 using System.Threading;
 using System.Collections.Concurrent;
 //.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
 using BxS_WorxNCO.Helpers.ObjectPool;
 
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.RfcFunction.BDCTran;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -26,8 +30,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const	LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
-				//.................................................
 				private readonly	BDCCall_Function			_Func;
 				private	readonly	Lazy< BDCCall_Lines >	_BDCData;
 
@@ -45,7 +47,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Consume(	CancellationToken													CT
-															, BlockingCollection< DTO_BDC_Transaction >	queue )
+															, BlockingCollection< DTO_BDC_Transaction >	queue
+															,	SMC.RfcCustomDestination									rfcDestination	)
 					{
 						foreach ( DTO_BDC_Transaction lo_Tran in queue.GetConsumingEnumerable( CT ) )
 							{
@@ -56,7 +59,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 								//.........................................
 								try
 									{
-										this._Func.Process( this._BDCData.Value );
+										this._Func.Process(		this._BDCData.Value
+																				, rfcDestination			);
+
 										this._BDCData.Value.PostProcess();
 									}
 								catch (System.Exception)

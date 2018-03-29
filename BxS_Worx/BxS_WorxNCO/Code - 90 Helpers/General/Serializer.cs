@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.Helpers
+namespace BxS_WorxNCO.Helpers.General
 {
 	public class Serializer
 		{

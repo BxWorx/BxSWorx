@@ -8,7 +8,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 		{
 			#region "Properties"
 
-				Guid		MyID						{	get; }
+				Guid MyID	{	get; }
 				//.................................................
 				IRfcFncProfile		Profile					{ get; }
 				SMC.IRfcFunction	NCORfcFunction	{ get; }
@@ -18,7 +18,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				bool	Invoke();
+				bool	Invoke( SMC.RfcCustomDestination rfcDestination );
 
 			#endregion
 
