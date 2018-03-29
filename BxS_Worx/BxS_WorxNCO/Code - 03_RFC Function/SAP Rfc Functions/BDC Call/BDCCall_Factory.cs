@@ -47,15 +47,17 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Profile objects
 				//.................................................
-				internal	BDCCall_Lines			CreateBDCLines	(		SMC.IRfcTable	bdcData
+				internal	BDCCall_Data			CreateBDCLines	(		SMC.IRfcTable	bdcData
 																											,	SMC.IRfcTable	spaData
 																											,	SMC.IRfcTable	msgData
 																											, BDCCall_IndexSPA	spaIndex
-																											,	BDCCall_IndexBDC	bdcIndex	)=>	new	BDCCall_Lines(	bdcData
+																											,	BDCCall_IndexBDC	bdcIndex
+																											, BDCCall_IndexMSG	msgIndex	)=>	new	BDCCall_Data(	bdcData
 																																																					,	spaData
 																																																					,	msgData
 																																																					, spaIndex
-																																																					, bdcIndex	);
+																																																					, bdcIndex
+																																																					, msgIndex	);
 
 				internal	BDCCall_Header		CreateBDCHeader	(		SMC.IRfcStructure ctuParms
 																											,	BDCCall_IndexCTU	ctuIndex

@@ -122,7 +122,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#endregion
 
 			//===========================================================================================
-			//===========================================================================================
 			#region "Methods: Exposed: Reconfigure"
 
 				// Applies changes made to individual configurations (made direct in the configuration).

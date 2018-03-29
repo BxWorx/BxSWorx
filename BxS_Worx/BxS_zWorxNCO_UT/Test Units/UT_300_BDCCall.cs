@@ -39,7 +39,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					var							lo_Fnc0	= new BDCCall_Function( lo_Prof );
 
 					BDCCall_Header	lo_Head		= lo_Fnc0.CreateBDCCallHeader()	;
-					BDCCall_Lines		lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
+					BDCCall_Data		lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
 
 					Assert.IsNotNull	( lo_Fnc0		, "" );
 					Assert.IsNotNull	( lo_Head		, "" );
@@ -62,7 +62,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Header	lo_Head	= lo_Fnc0.CreateBDCCallHeader( true )	;
 					Assert.IsNotNull	( lo_Head.CTUParms	, "" );
 					//...............................................
-					BDCCall_Lines		lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
+					BDCCall_Data		lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
 					Assert.IsNotNull	( lo_Lines.BDCData	, "" );
 					Assert.IsNotNull	( lo_Lines.MSGData	, "" );
 					Assert.IsNotNull	( lo_Lines.SPAData	, "" );
@@ -83,7 +83,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
 					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
-					BDCCall_Lines			lo_Lines	= lo_Prof.CreateBDCCallLines()	;
+					BDCCall_Data			lo_Lines	= lo_Prof.CreateBDCCallLines()	;
 
 					lo_Head.SAPTCode		= "XD03";
 					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_DspMde ].SetValue( cz_CTU_A );
@@ -111,7 +111,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 					BDCCall_Header		lo_Head		= lo_Fnc0.CreateBDCCallHeader( true )	;
-					BDCCall_Lines			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
+					BDCCall_Data			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
 
 					lo_Head.SAPTCode	= "XD03";
 					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_NoBtcI ].SetValue( cz_False );
@@ -151,11 +151,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					const	int ln_Tsk	= 05;
 
 					int ln_Tal	= 00;
-					var lo_BC		= new BlockingCollection<BDCCall_Lines>( ln_Trn );
+					var lo_BC		= new BlockingCollection<BDCCall_Data>( ln_Trn );
 
 					for (int i = 0; i < ln_Trn; i++)
 						{
-							BDCCall_Lines	lo_Lines	= lo_Prof.CreateBDCCallLines();
+							BDCCall_Data	lo_Lines	= lo_Prof.CreateBDCCallLines();
 							this.LoadBDCData( lo_Lines	, lo_Prof );
 							lo_BC.Add( lo_Lines );
 						}
@@ -170,7 +170,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 								(	()=>	{
 													BDCCall_Function	lo_Fnc	= lo_FCnt.CreateBDCCallFunction();
 													lo_Fnc.Config( lo_Head );
-													foreach (BDCCall_Lines lo_WorkItem in lo_BC.GetConsumingEnumerable() )
+													foreach (BDCCall_Data lo_WorkItem in lo_BC.GetConsumingEnumerable() )
 														{
 															lo_Fnc.Process( lo_WorkItem	, this.co_RfcDestOn.NCODestination );
 															if ( lo_WorkItem.SuccesStatus )	Interlocked.Increment( ref ln_Tal );
@@ -188,7 +188,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadBDCData( BDCCall_Lines dtoLines, BDCCall_Profile bdcProf )
+				private void LoadBDCData( BDCCall_Data dtoLines, BDCCall_Profile bdcProf )
 					{
 						dtoLines.BDCData.Append(4);
 						//.............................................

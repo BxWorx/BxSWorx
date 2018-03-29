@@ -17,8 +17,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(SAPMsg_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this.FNCIndex	= this._Factory.CreateIndexFNC();
-						this.TXTIndex	= this._Factory.CreateIndexTXT();
+						this.FNCIndex		= this._Factory.CreateIndexFNC();
+						this.TXTIndex		= this._Factory.CreateIndexTXT();
 					}
 
 			#endregion
@@ -26,11 +26,6 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Declarations"
 
-				private const	string	cz_StrCTU		= "CTU_PARAMS"	;
-				private const	string	cz_StrSPA		= "RFC_SPAGPA"	;
-				private const	string	cz_StrBDC		= "BDCDATA"			;
-				private const	string	cz_StrMSG		= "BDCMSGCOLL"	;
-				//.................................................
 				private	readonly	SAPMsg_Factory	_Factory;
 
 			#endregion
@@ -46,27 +41,27 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPMsg_Header CreateBDCCallHeader( bool withDefaults = true )
-					{
-						this.ReadyProfile();
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal SAPMsg_Header CreateBDCCallHeader( bool withDefaults = true )
+				//	{
+				//		this.ReadyProfile();
 
-						return	this._Factory.CreateBDCHeader(	this._RfcDestination.CreateRfcStructure( cz_StrCTU )
-																									,	this.TXTIndex
-																									,	withDefaults																					);
-					}
+				//		return	this._Factory.CreateBDCHeader(	this._RfcDestination.CreateRfcStructure( cz_StrCTU )
+				//																					,	this.TXTIndex
+				//																					,	withDefaults																					);
+				//	}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPMsg_Lines CreateBDCCallLines()
-					{
-						this.ReadyProfile();
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal SAPMsg_Lines CreateBDCCallLines()
+				//	{
+				//		this.ReadyProfile();
 
-						return	this._Factory.CreateBDCLines(		this._RfcDestination.CreateRfcTable( cz_StrBDC )
-																									,	this._RfcDestination.CreateRfcTable( cz_StrSPA )
-																									,	this._RfcDestination.CreateRfcTable( cz_StrMSG )
-																									,	this.SPAIndex
-																									,	this.BDCIndex																		);
-					}
+				//		return	this._Factory.CreateBDCLines(		this._RfcDestination.CreateRfcTable( cz_StrBDC )
+				//																					,	this._RfcDestination.CreateRfcTable( cz_StrSPA )
+				//																					,	this._RfcDestination.CreateRfcTable( cz_StrMSG )
+				//																					,	this.SPAIndex
+				//																					,	this.BDCIndex																		);
+				//	}
 
 			#endregion
 

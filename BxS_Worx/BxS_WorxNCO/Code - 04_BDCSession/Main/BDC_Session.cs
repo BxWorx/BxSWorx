@@ -86,7 +86,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 						this._Header.Load	( bdcSession.Header );
 						this.LoadQueue		( bdcSession.Trans );
 						//.............................................
-						this.CreateConsumers( CT , pool , rfcDestination );
+						this.StartConsumers( CT , pool , rfcDestination );
 
 						if ( ! CT.IsCancellationRequested )
 							{
@@ -176,7 +176,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CreateConsumers(		CancellationToken									CT
+				private void StartConsumers(		CancellationToken									CT
 																			, ObjectPool< BDCSessionConsumer >	pool
 																			,	SMC.RfcCustomDestination					rfcDestination	)
 					{

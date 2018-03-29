@@ -72,7 +72,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Header CreateBDCCallHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCCallHeader( defaults );
-				internal BDCCall_Lines	CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallLines	();
+				internal BDCCall_Data	CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallLines	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Config( BDCCall_Header config )
@@ -86,7 +86,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process(	BDCCall_Lines lines
+				internal void Process(	BDCCall_Data lines
 															, SMC.RfcCustomDestination rfcDestination )
 					{
 						this.Reset();
@@ -98,10 +98,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 								//.............................................
 								this.LoadTable( lines.BDCData ,	this.Idx_BDC );
 								this.LoadTable( lines.SPAData	, this.Idx_SPA );
-								//.............................................
+
 								this.Invoke( rfcDestination );
-								//.............................................
+
 								this.LoadTable( lines.MSGData	, this.Idx_MSG , true );
+								//.............................................
 								lines.SuccesStatus	= true;
 							}
 						catch (Exception)

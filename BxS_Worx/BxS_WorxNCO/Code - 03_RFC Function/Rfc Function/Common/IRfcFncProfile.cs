@@ -9,7 +9,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				string	FunctionName	{	get; }
 				bool		IsReady				{ get; set; }
 				//.................................................
-				SMC.RfcCustomDestination	NCODestination	{ get; }
+				//SMC.RfcCustomDestination	NCODestination	{ get; }
 
 			#endregion
 

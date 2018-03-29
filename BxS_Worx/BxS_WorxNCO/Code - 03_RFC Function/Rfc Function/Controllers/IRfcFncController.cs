@@ -1,5 +1,6 @@
 ﻿using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.BDCTran;
+using BxS_WorxNCO.RfcFunction.SAPMsg;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
@@ -26,8 +27,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				void							RegisterSAPMsgProfile( bool loadMetaData = false );
 				//.................................................
-				BDCCall_Profile		GetAddSAPMsgProfile		();
-				BDCCall_Function	CreateSAPMsgFunction	();
+				SAPMsg_Profile		GetAddSAPMsgProfile		();
+				SAPMsg_Function		CreateSAPMsgFunction	();
 
 			#endregion
 

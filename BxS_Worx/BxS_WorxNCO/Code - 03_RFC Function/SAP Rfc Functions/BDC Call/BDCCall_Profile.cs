@@ -60,7 +60,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Lines CreateBDCCallLines()
+				internal BDCCall_Data CreateBDCCallLines()
 					{
 						this.ReadyProfile();
 
@@ -68,7 +68,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 																									,	this._RfcDestination.CreateRfcTable( cz_StrSPA )
 																									,	this._RfcDestination.CreateRfcTable( cz_StrMSG )
 																									,	this.SPAIndex
-																									,	this.BDCIndex																		);
+																									,	this.BDCIndex
+																									,	this.MSGIndex																			);
 					}
 
 			#endregion
