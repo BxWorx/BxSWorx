@@ -2,28 +2,23 @@
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.Main;
-
-using	static	BxS_WorxNCO.RfcFunction.BDCTran.BDCCall_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.RfcFunction.BDCTran
+namespace BxS_WorxNCO.RfcFunction.SAPMsg
 {
-	internal class BDCCall_Profile : RfcFncProfile
+	internal class SAPMsg_Profile : RfcFncProfile
 		{
 			#region "Function Parameters"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Profile(		string						fncName
+				internal SAPMsg_Profile(		string						fncName
 																	,	IRfcDestination		rfcDestination
-																	, BDCCall_Factory		factory					)	: base(		fncName
+																	, SAPMsg_Factory		factory					)	: base(		fncName
 																																								, rfcDestination )
 					{
-						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(BDCCall_Profile).Namespace}:- Factory null" );
+						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(SAPMsg_Profile).Namespace}:- Factory null" );
 						//.............................................
 						this.FNCIndex	= this._Factory.CreateIndexFNC();
-						this.CTUIndex	= this._Factory.CreateIndexCTU();
-						this.SPAIndex	= this._Factory.CreateIndexSPA();
-						this.BDCIndex	= this._Factory.CreateIndexBDC();
-						this.MSGIndex	= this._Factory.CreateIndexMSG();
+						this.TXTIndex	= this._Factory.CreateIndexTXT();
 					}
 
 			#endregion
@@ -31,18 +26,20 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	BDCCall_Factory	_Factory;
+				private const	string	cz_StrCTU		= "CTU_PARAMS"	;
+				private const	string	cz_StrSPA		= "RFC_SPAGPA"	;
+				private const	string	cz_StrBDC		= "BDCDATA"			;
+				private const	string	cz_StrMSG		= "BDCMSGCOLL"	;
+				//.................................................
+				private	readonly	SAPMsg_Factory	_Factory;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	readonly	BDCCall_IndexFNC		FNCIndex;
-				internal	readonly	BDCCall_IndexCTU		CTUIndex;
-				internal	readonly	BDCCall_IndexSPA		SPAIndex;
-				internal	readonly	BDCCall_IndexBDC		BDCIndex;
-				internal	readonly	BDCCall_IndexMSG		MSGIndex;
+				internal	readonly	SAPMsg_IndexFNC		FNCIndex;
+				internal	readonly	SAPMsg_IndexTXT		TXTIndex;
 
 			#endregion
 
@@ -50,17 +47,17 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Header CreateBDCCallHeader( bool withDefaults = true )
+				internal SAPMsg_Header CreateBDCCallHeader( bool withDefaults = true )
 					{
 						this.ReadyProfile();
 
 						return	this._Factory.CreateBDCHeader(	this._RfcDestination.CreateRfcStructure( cz_StrCTU )
-																									,	this.CTUIndex
+																									,	this.TXTIndex
 																									,	withDefaults																					);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Lines CreateBDCCallLines()
+				internal SAPMsg_Lines CreateBDCCallLines()
 					{
 						this.ReadyProfile();
 
@@ -80,10 +77,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this.IsReady	=				this._RfcDestination.LoadFunctionIndexing		( this.FNCIndex )
 
-															&&	this._RfcDestination.LoadStructureIndexing	( this.CTUIndex )
-															&&	this._RfcDestination.LoadStructureIndexing	( this.SPAIndex )
-															&&	this._RfcDestination.LoadStructureIndexing	( this.BDCIndex )
-															&&	this._RfcDestination.LoadStructureIndexing	( this.MSGIndex );
+															&&	this._RfcDestination.LoadStructureIndexing	( this.TXTIndex );
 					}
 
 			#endregion

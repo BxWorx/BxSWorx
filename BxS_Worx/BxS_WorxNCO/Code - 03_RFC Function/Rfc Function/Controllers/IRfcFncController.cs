@@ -15,10 +15,19 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed: BDC Call Transaction"
 
 				void							RegisterBDCCallProfile( bool loadMetaData = false );
-
+				//.................................................
 				BDCCall_Profile		GetAddBDCCallProfile	();
 				BDCCall_Function	CreateBDCCallFunction	();
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: SAP Message compiler"
+
+				void							RegisterSAPMsgProfile( bool loadMetaData = false );
 				//.................................................
+				BDCCall_Profile		GetAddSAPMsgProfile		();
+				BDCCall_Function	CreateSAPMsgFunction	();
 
 			#endregion
 

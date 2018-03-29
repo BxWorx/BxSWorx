@@ -1,12 +1,12 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
-	internal class SAPRfcFncConstants
+	internal static class SAPRfcFncConstants
 		{
 			#region "Declarations: Function Names"
 
-				internal	string	BDCCallTran			{ get { return	"/ISDFPS/CALL_TRANSACTION"	; } }
-				internal	string	SAPMsgCompiler	{ get { return	"RPY_MESSAGE_COMPOSE"				; } }
+				internal	const	string	cz_BDCCallTran		= "/ISDFPS/CALL_TRANSACTION"	;
+				internal	const	string	cz_SAPMsgCompiler	= "RPY_MESSAGE_COMPOSE"				;
 
 			#endregion
 

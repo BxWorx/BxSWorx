@@ -1,8 +1,10 @@
 ﻿using BxS_WorxNCO.RfcFunction.Main;
+
+using		static	BxS_WorxNCO.RfcFunction.Main.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	[	SAP(	Name = "/ISDFPS/CALL_TRANSACTION"	)	]
+	[	SAP(	Name = cz_BDCCallTran	)	]
 
 	internal class BDCCall_IndexFNC
 		{

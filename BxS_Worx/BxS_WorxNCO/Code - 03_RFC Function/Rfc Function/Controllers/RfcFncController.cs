@@ -3,6 +3,8 @@ using System.Threading;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.BDCTran;
+
+using		static	BxS_WorxNCO.RfcFunction.Main.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
@@ -17,7 +19,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 						//.............................................
 						this._LM							= LazyThreadSafetyMode.ExecutionAndPublication;
 						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>		(	()=>	new	RfcFncManager( this.RfcDestination )	, this._LM );
-						this._SAPRfcFncConst	= new Lazy<SAPRfcFncConstants>(	()=>	new	SAPRfcFncConstants()									, this._LM );
 						//.............................................
 						this._Lock	= new object();
 					}
@@ -29,7 +30,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				private	readonly	LazyThreadSafetyMode				_LM							;
 				private readonly	Lazy<IRfcFncManager>				_RfcFncMngr			;
-				private readonly	Lazy<SAPRfcFncConstants>		_SAPRfcFncConst	;
 				//.................................................
 				private readonly	object	_Lock;
 
@@ -48,13 +48,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void RegisterBDCCallProfile( bool loadMetaData = false )
 					{
-						if ( ! this._RfcFncMngr.Value.ProfileExists( this._SAPRfcFncConst.Value.BDCCallTran ) )
+						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCallTran ) )
 							{
 								lock (this._Lock)
 									{
-										if ( ! this._RfcFncMngr.Value.ProfileExists( this._SAPRfcFncConst.Value.BDCCallTran ) )
+										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCallTran ) )
 											{
-												var	lo_Prof	= new BDCCall_Profile(	this._SAPRfcFncConst.Value.BDCCallTran
+												var	lo_Prof	= new BDCCall_Profile(	cz_BDCCallTran
 																													,	this.RfcDestination
 																													, BDCCall_Factory.Instance								);
 
@@ -69,7 +69,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					{
 						this.RegisterBDCCallProfile();
 						//.............................................
-						return	this._RfcFncMngr.Value.GetProfile< BDCCall_Profile >( this._SAPRfcFncConst.Value.BDCCallTran );
+						return	this._RfcFncMngr.Value.GetProfile< BDCCall_Profile >( cz_BDCCallTran );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

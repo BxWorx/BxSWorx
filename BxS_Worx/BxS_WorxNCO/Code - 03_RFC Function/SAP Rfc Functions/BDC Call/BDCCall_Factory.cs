@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Threading;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
@@ -24,10 +25,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private const LazyThreadSafetyMode	_LM	= LazyThreadSafetyMode.ExecutionAndPublication;
-				//.................................................
 				private	static readonly	Lazy< BDCCall_Factory >	_Instance
-																	= new Lazy< BDCCall_Factory >	(	()=>	new BDCCall_Factory() , _LM );
+																	= new Lazy< BDCCall_Factory >	(	()=>	new BDCCall_Factory() , cz_LM );
 
 			#endregion
 
