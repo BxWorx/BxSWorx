@@ -78,7 +78,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				public async Task<int> Process_SessionAsync(	DTO_BDC_Session											bdcSession
 																										, CancellationToken										CT
 																										,	ProgressHandler< DTO_BDC_Progress >	progressHndlr
-																										, ObjectPool< BDCSessionConsumer >		pool
+																										, ObjectPool< BDC_SessionConsumer >		pool
 																										,	SMC.RfcCustomDestination						rfcDestination	)
 					{
 						this.PrepareSession();
@@ -177,7 +177,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void StartConsumers(		CancellationToken									CT
-																			, ObjectPool< BDCSessionConsumer >	pool
+																			, ObjectPool< BDC_SessionConsumer >	pool
 																			,	SMC.RfcCustomDestination					rfcDestination	)
 					{
 						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
@@ -188,7 +188,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 									{
 										this._Consumers.Add(	Task<int>.Run( ()=>
 																						{
-																							using (	BDCSessionConsumer lo_Cons = pool.Acquire() )
+																							using (	BDC_SessionConsumer lo_Cons = pool.Acquire() )
 																								{
 																									lo_Cons.Consume( CT , this._Queue , rfcDestination );
 																									return	lo_Cons.TransactionsProcessed;

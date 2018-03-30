@@ -19,7 +19,6 @@
     <Compile Remove="Code - 01_Main\API\Controller.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDCCallTranProfile.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDC_OpFnc.cs" />
-    <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\SAP Messages\DTO\DTO_SAPMsg_Data.cs" />
     <Compile Remove="Code - 04_BDCSession\API\IBDCSession.cs" />
     <Compile Remove="zKeep\BDCCallTranConsumer.cs" />
     <Compile Remove="zKeep\BDCCallTranIndex.cs" />
@@ -39,7 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code - 03_RFC Function\SAP Rfc Functions\SAP Messages\DTO\" />
     <Folder Include="Properties\" />
     <Folder Include="zKeep\" />
   </ItemGroup>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -152,11 +151,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 																									, bool		autoStart			= false
 																									,	Func<T>	func					= null	)	where T: PooledObject
 					{
-						ObjectPoolConfig<T> lo_Cfg	= ObjectPoolFactory.CreateConfig<T>();
+						ObjectPoolConfig<T> lo_Cfg	= ObjectPoolFactory.CreateConfig<T>( func );
 
 						lo_Cfg.ActivateDiagnostics	= diagnostics;
 						lo_Cfg.AutoStartup					= autoStart;
-						lo_Cfg.Factory							= func;
 						lo_Cfg.MaxIdleTime					= MaxIdleTime;
 						lo_Cfg.MinimumPoolSize			= MinSize;
 						lo_Cfg.MaximumPoolSize			=	MaxSize;

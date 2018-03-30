@@ -72,38 +72,37 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Header CreateBDCCallHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCCallHeader( defaults );
-				internal BDCCall_Data	CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallLines	();
+				internal BDCCall_Data		CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallLines	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Config( BDCCall_Header config )
 					{
 						this.Profile.ReadyProfile();
 						//.............................................
-						this.Set_ShowSAPGUI	( config.ShowSAPGui );
 						this.Set_SAPTCode		( config.SAPTCode		);
 						this.Set_Skip1st		(	config.Skip1st		);
 						this.Set_CTU				( config.CTUParms		);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process(	BDCCall_Data lines
+				internal void Process(	BDCCall_Data data
 															, SMC.RfcCustomDestination rfcDestination )
 					{
 						this.Reset();
 						//.............................................
 						try
 							{
-								lines.ProcessedStatus	= false;
-								lines.SuccesStatus		= false;
+								data.ProcessedStatus	= false;
+								data.SuccesStatus			= false;
 								//.............................................
-								this.LoadTable( lines.BDCData ,	this.Idx_BDC );
-								this.LoadTable( lines.SPAData	, this.Idx_SPA );
+								this.LoadTable( data.BDCData , this.Idx_BDC );
+								this.LoadTable( data.SPAData , this.Idx_SPA );
 
 								this.Invoke( rfcDestination );
 
-								this.LoadTable( lines.MSGData	, this.Idx_MSG , true );
+								this.LoadTable( data.MSGData	, this.Idx_MSG , true );
 								//.............................................
-								lines.SuccesStatus	= true;
+								data.SuccesStatus	= true;
 							}
 						catch (Exception)
 							{
@@ -111,7 +110,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 							}
 						finally
 							{
-								lines.ProcessedStatus	= true;
+								data.ProcessedStatus	= true;
 							}
 					}
 
@@ -129,13 +128,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Set_ShowSAPGUI( bool state )
-					{
-						this.MyProfile.Value.NCODestination.UseSAPGui	= state ? SMC.RfcConfigParameters.RfcUseSAPGui.Use
-																																	: SMC.RfcConfigParameters.RfcUseSAPGui.Hidden ;
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Set_SAPTCode( string	tCode )

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Threading;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
-//.........................................................
-
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
@@ -17,30 +14,18 @@ namespace BxS_WorxNCO.RfcFunction.Main
 						this.Profile	= profile	??	throw		new	ArgumentException( $"{typeof(RfcFncBase).Namespace}:- Profile null" );
 						//.............................................
 						this.MyID	= Guid.NewGuid();
-
-						this._NCORfcFunction	= new Lazy< SMC.IRfcFunction >
-																					(		()=>	this.Profile.CreateRfcFunction()
-																						, LazyThreadSafetyMode.ExecutionAndPublication );
 					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private readonly Lazy< SMC.IRfcFunction > _NCORfcFunction;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	Guid	MyID	{	get; }
+				public	Guid		MyID				{	get; }
+				public	string	SAPFncName	{	get		{	return	this.Profile.FunctionName	;	}	}
 				//.................................................
 				public	IRfcFncProfile		Profile					{ get; }
-				public	SMC.IRfcFunction	NCORfcFunction	{ get { return	this._NCORfcFunction.Value	; } }
-				//.................................................
-				private	SMC.RfcCustomDestination	NCODestination	{ get { return	this.Profile.NCODestination	; } }
+				public	SMC.IRfcFunction	NCORfcFunction	{ get; set; }
 
 			#endregion
 
@@ -54,13 +39,12 @@ namespace BxS_WorxNCO.RfcFunction.Main
 						//.............................................
 						try
 							{
-								this.Profile.ReadyProfile();
-								this._NCORfcFunction.Value.Invoke( rfcDestination );
+								this.NCORfcFunction.Invoke( rfcDestination );
 								lb_Ret	= true;
 							}
 						catch ( Exception ex )
 							{
-								throw new Exception( "NCO invoke error" , ex );
+								throw	new Exception( "NCO invoke error" , ex );
 							}
 						//.............................................
 						return	lb_Ret;

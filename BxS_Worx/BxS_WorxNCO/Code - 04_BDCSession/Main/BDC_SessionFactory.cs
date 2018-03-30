@@ -15,15 +15,15 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal sealed class BDCSession_Factory
+	internal sealed class BDC_SessionFactory
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSession_Factory( IRfcDestination	rfcDestination )
+				internal BDC_SessionFactory( IRfcDestination	rfcDestination )
 					{
-						this._RfcDest		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDCSession_Factory).Namespace}:- RfcDest Factory null" );
-						//.................................................
+						this._RfcDest		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_SessionFactory).Namespace}:- RfcDest Factory null" );
+						//.............................................
 						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance , cz_LM			);
 						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this._RfcDest ) );
 					}
@@ -33,10 +33,27 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
+				private	readonly	IRfcDestination		_RfcDest;
+				//.................................................
 				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
 				private	readonly	Lazy< IRfcFncController >		_RfcFncCntlr		;
 
-				private	readonly	IRfcDestination		_RfcDest;
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: SAP Messages"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private		BDC_SessionSAPMsgs								CreateSAPMsgsHandler	()=>	new	BDC_SessionSAPMsgs();
+				internal	ObjectPool< BDC_SessionSAPMsgs >	CreateSAPMsgsPool			()=>	new ObjectPool< BDC_SessionSAPMsgs >( this.CreateSAPMsgsHandler );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ObjectPoolConfig< BDC_SessionSAPMsgs > CreateSAPMsgsPoolConfig( bool defaults = true )
+					{
+						return	ObjectPoolFactory.CreateConfig< BDC_SessionSAPMsgs >( this.CreateSAPMsgsHandler , defaults );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 			#endregion
 
@@ -51,14 +68,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Session > CreateBDCSessionPoolConfig( bool defaults = true )
 					{
-						ObjectPoolConfig< BDC_Session >	lo_Cfg	=	ObjectPoolFactory.CreateConfig< BDC_Session >();
-						//.............................................
-						if ( defaults )
-							{
-								lo_Cfg.Factory	= this.CreateBDCSession;
-							}
-						//.............................................
-						return	lo_Cfg;
+						return	ObjectPoolFactory.CreateConfig< BDC_Session >( this.CreateBDCSession , defaults );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -83,20 +93,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Consumer"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private		BDCSessionConsumer								CreateBDCConsumer			()=>	new	BDCSessionConsumer								( this._RfcFncCntlr.Value.CreateBDCCallFunction() );
-				internal	ObjectPool< BDCSessionConsumer >	CreateBDCConsumerPool	()=>	new ObjectPool< BDCSessionConsumer >	( this.CreateBDCConsumer );
+				private		BDC_SessionConsumer								CreateBDCConsumer			()=>	new	BDC_SessionConsumer								( this._RfcFncCntlr.Value.CreateBDCCallFunction() );
+				internal	ObjectPool< BDC_SessionConsumer >	CreateBDCConsumerPool	()=>	new ObjectPool< BDC_SessionConsumer >	( this.CreateBDCConsumer );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPoolConfig< BDCSessionConsumer > CreateBDCConsumerPoolConfig( bool defaults = true )
+				internal ObjectPoolConfig< BDC_SessionConsumer > CreateBDCConsumerPoolConfig( bool defaults = true )
 					{
-						ObjectPoolConfig< BDCSessionConsumer >	lo_Cfg	=	ObjectPoolFactory.CreateConfig< BDCSessionConsumer >();
-						//.............................................
-						if ( defaults )
-							{
-								lo_Cfg.Factory	= this.CreateBDCConsumer;
-							}
-						//.............................................
-						return	lo_Cfg;
+						return	ObjectPoolFactory.CreateConfig< BDC_SessionConsumer >( this.CreateBDCConsumer , defaults );
 					}
 
 			#endregion
@@ -111,14 +114,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Parser > CreateParserPoolConfig( bool defaults = true )
 					{
-						ObjectPoolConfig< BDC_Parser >	lo_Cfg	=	ObjectPoolFactory.CreateConfig< BDC_Parser >();
-						//.............................................
-						if ( defaults )
-							{
-								lo_Cfg.Factory	= this.CreateParser;
-							}
-						//.............................................
-						return	lo_Cfg;
+						return	ObjectPoolFactory.CreateConfig< BDC_Parser >( this.CreateParser , defaults );
 					}
 
 			#endregion

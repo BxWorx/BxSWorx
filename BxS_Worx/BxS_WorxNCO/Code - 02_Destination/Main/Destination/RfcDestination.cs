@@ -68,6 +68,10 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				public string Password		{ set { this._RfcConfig	[	SMC.RfcConfigParameters.Password		]	= value; } }
 				public string UseSAPGui		{ set { this._RfcConfig	[	SMC.RfcConfigParameters.UseSAPGui		]	= value; } }
 
+				public bool		ShowSAPGui	{ set { this._RfcConfig	[	SMC.RfcConfigParameters.UseSAPGui		]
+																						= value ?		SMC.RfcConfigParameters.RfcUseSAPGui.Use
+																											: SMC.RfcConfigParameters.RfcUseSAPGui.Hidden ; } }
+
 				public SecureString SecurePassword	{ set { this._RfcConfig.SecurePassword	= value; } }
 				//.................................................
 				public bool	LogonCheck	{ set { this._RfcConfig	[	SMC.RfcConfigParameters.LogonCheck	]	= value ? "1" : "0" ; } }
@@ -125,7 +129,15 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SMC.IRfcFunction CreateRfcFunction( string fncName )
 					{
-						return	this.NCORepository.CreateFunction( fncName );
+						try
+							{
+								return	this.NCORepository.CreateFunction( fncName );
+							}
+						catch (Exception)
+							{
+								throw;
+							}
+
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -149,6 +161,21 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 							}
 						//.............................................
 						return	lo_Prof.IsReady;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool LoadRfcFunction( IRfcFncBase rfcFunction )
+					{
+						bool	lb_Ret = true;
+						//.............................................
+						try
+							{
+								rfcFunction.NCORfcFunction	= this.CreateRfcFunction( rfcFunction.SAPFncName );
+							}
+						catch
+							{ lb_Ret	= false; }
+						//.............................................
+						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

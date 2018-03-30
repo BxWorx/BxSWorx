@@ -46,7 +46,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal IRfcDestination GetSAPDestLoggedOn( bool DoLogonCheck = false )
+			internal IRfcDestination GetSAPDestLoggedOn( bool DoLogonCheck = false , bool showSAPGui = false )
 				{
 					IRfcDestination lo_Dest =	this.GetSAPDest();
 					//...............................................
@@ -54,9 +54,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lo_Dest.User				= cz_User				;
 					lo_Dest.Password		= cz_PWrd				;
 					lo_Dest.LogonCheck	= DoLogonCheck	;
-					lo_Dest.UseSAPGui		= "2"						;
-					//...............................................
-					Assert.IsTrue	(	lo_Dest.IsConnected	, "" )	;
+					lo_Dest.ShowSAPGui	= showSAPGui		;
 					//...............................................
 					return	lo_Dest	;
 				}

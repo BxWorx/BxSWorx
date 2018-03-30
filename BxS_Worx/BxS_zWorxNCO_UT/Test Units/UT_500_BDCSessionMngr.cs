@@ -32,7 +32,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_500_BCDSMngr_10_Instantiate()
 				{
-					BDCSessionManager	lo_SM		= this.GetBDCSMngr();
+					BDC_SessionManager	lo_SM		= this.GetBDCSMngr();
 					//...............................................
 					Assert.IsNotNull	( lo_SM	, "" );
 				}
@@ -41,7 +41,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public async Task UT_500_BCDSMngr_20_Instantiate()
 				{
-					BDCSessionManager	lo_SM		= this.GetBDCSMngr();
+					BDC_SessionManager	lo_SM		= this.GetBDCSMngr();
 					//...............................................
 
 
@@ -60,11 +60,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 		//.
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			private BDCSessionManager GetBDCSMngr()
+			private BDC_SessionManager GetBDCSMngr()
 				{
 					IList< string >		lt_Ini	=	this.co_SCntlr.GetSAPINIList();
 					string						lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("05.01") );
-					BDCSessionManager	lo_SM		= this.co_SCntlr.CreateBDCSessionManager( lc_ID );
+					BDC_SessionManager	lo_SM		= this.co_SCntlr.CreateBDCSessionManager( lc_ID );
 					//...............................................
 					return	lo_SM;
 				}

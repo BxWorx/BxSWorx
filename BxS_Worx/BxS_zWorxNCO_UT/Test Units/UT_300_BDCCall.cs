@@ -24,6 +24,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public UT_300_BDCCall()
 				{
 					this.co_NCO					= new	UT_000_NCO();
+
 					this.co_RfcDest			= this.co_NCO.GetSAPDest();
 					this.co_RfcDestOn		= this.co_NCO.GetSAPDestLoggedOn( true );
 					//...............................................
@@ -45,7 +46,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.IsNotNull	( lo_Head		, "" );
 					Assert.IsNotNull	( lo_Lines	, "" );
 
-					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDest );
+					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc1	= lo_FCnt.CreateBDCCallFunction();
 
 					Assert.IsNotNull	( lo_Fnc1 , "" );
@@ -80,11 +81,14 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_300_BCDCall_30_Process()
 				{
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
+
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
 					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
 					BDCCall_Data			lo_Lines	= lo_Prof.CreateBDCCallLines()	;
-
+					//...............................................
+					this.co_RfcDestOn.ShowSAPGui	= true;
+					//...............................................
 					lo_Head.SAPTCode		= "XD03";
 					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_DspMde ].SetValue( cz_CTU_A );
 

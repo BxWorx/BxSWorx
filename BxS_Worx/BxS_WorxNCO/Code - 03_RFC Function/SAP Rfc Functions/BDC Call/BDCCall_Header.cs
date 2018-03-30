@@ -29,8 +29,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	bool		ShowSAPGui	{ get;	set; }
-				//.................................................
 				internal	string	SAPTCode		{ get;	set; }
 				internal	bool		Skip1st			{ get;	set; }
 				//.................................................
@@ -66,7 +64,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupDefaults()
 					{
-						this.ShowSAPGui	= false;
 						this.Skip1st		= false;
 						//.............................................
 						this.CTUParms[ this.IndexCTU.CTUOpt_DspMde ].SetValue( cz_CTU_A );

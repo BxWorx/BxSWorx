@@ -8,8 +8,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				string	FunctionName	{	get; }
 				bool		IsReady				{ get; set; }
-				//.................................................
-				//SMC.RfcCustomDestination	NCODestination	{ get; }
 
 			#endregion
 
@@ -17,8 +15,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods"
 
 				void ReadyProfile();
-				//.................................................
-				SMC.IRfcFunction	CreateRfcFunction();
 
 			#endregion
 

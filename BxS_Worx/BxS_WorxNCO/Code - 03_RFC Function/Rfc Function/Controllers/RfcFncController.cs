@@ -5,7 +5,8 @@ using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.BDCTran;
 using BxS_WorxNCO.RfcFunction.SAPMsg;
 
-using	static	BxS_WorxNCO.RfcFunction.Main.SAPRfcFncConstants;
+using static	BxS_WorxNCO.Main							.NCO_Constants;
+using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
@@ -18,8 +19,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					{
 						this.RfcDestination		= rfcDestination	??	throw		new ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- BDCData null" );
 						//.............................................
-						this._LM							= LazyThreadSafetyMode.ExecutionAndPublication;
-						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>		(	()=>	new	RfcFncManager( this.RfcDestination )	, this._LM );
+						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>		(	()=>	new	RfcFncManager( this.RfcDestination )	, cz_LM );
 						//.............................................
 						this._Lock	= new object();
 					}
@@ -29,7 +29,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	LazyThreadSafetyMode				_LM							;
 				private readonly	Lazy<IRfcFncManager>				_RfcFncMngr			;
 				//.................................................
 				private readonly	object	_Lock;
@@ -76,7 +75,10 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCCall_Function CreateBDCCallFunction()
 					{
-						return	new BDCCall_Function(	this.GetAddBDCCallProfile() );
+						return	new BDCCall_Function(	this.GetAddBDCCallProfile() )
+													{
+														NCORfcFunction = this.RfcDestination.CreateRfcFunction(	cz_BDCCallTran )
+													};
 					}
 
 			#endregion
@@ -114,7 +116,10 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SAPMsg_Function CreateSAPMsgFunction()
 					{
-						return	new SAPMsg_Function( this.GetAddSAPMsgProfile() );
+						return	new SAPMsg_Function( this.GetAddSAPMsgProfile() )
+													{
+														NCORfcFunction = this.RfcDestination.CreateRfcFunction(	cz_SAPMsgCompiler )
+													};
 					}
 
 			#endregion

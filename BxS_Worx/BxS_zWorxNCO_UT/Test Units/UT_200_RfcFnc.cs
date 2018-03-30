@@ -66,6 +66,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					var lo_FN1	= new MyRfcFnc( lo_PR1 );
 					var lo_FN2	= new MyRfcFnc( lo_PR2 );
 
+					lo_DS.LoadRfcFunction( lo_FN1 );
+					lo_DS.LoadRfcFunction( lo_FN2 );
+
 					Assert.IsNotNull	( lo_FN1.NCORfcFunction , "" );
 					Assert.IsNotNull	( lo_FN2.NCORfcFunction , "" );
 

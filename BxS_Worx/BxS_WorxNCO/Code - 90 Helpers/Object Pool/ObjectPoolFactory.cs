@@ -1,23 +1,24 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Helpers.ObjectPool
 {
-	public class ObjectPoolFactory
+	public static class ObjectPoolFactory
 		{
-			#region "Constructors"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ObjectPoolFactory()
-					{	}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Static"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static ObjectPoolConfig<T>	CreateConfig<T>() where T:PooledObject
+				public static ObjectPoolConfig<T>	CreateConfig<T>( Func<T> factory , bool defaults = true ) where T:PooledObject
 					{
-						return	new	ObjectPoolConfig<T>();
+						var lo_Cfg = new ObjectPoolConfig<T>
+															{
+																Factory = factory
+															};
+						//.............................................
+						if ( defaults )
+							{
+							}
+						//.............................................
+						return	lo_Cfg;
 					}
 
 			#endregion

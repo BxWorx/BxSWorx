@@ -3,6 +3,7 @@
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
+using BxS_WorxNCO.BDCSession.DTO;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -73,39 +74,23 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal	SAPMsg_Header		CreateBDCCallHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCCallHeader( defaults );
-				//internal	SAPMsg_Lines		CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallLines	();
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Config( SAPMsg_Header config )
-					{
-						this.Profile.ReadyProfile();
-						//.............................................
-						this.Set_ShowSAPGUI	( config.ShowSAPGui );
-						this.Set_SAPTCode		( config.SAPTCode		);
-						this.Set_Skip1st		(	config.Skip1st		);
-						this.Set_CTU				( config.CTUParms		);
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process(	SAPMsg_Lines lines
+				internal void Process(	DTO_BDC_Msg dto
 															, SMC.RfcCustomDestination rfcDestination )
 					{
-						this.Reset();
-						//.............................................
 						try
 							{
-								lines.ProcessedStatus	= false;
-								lines.SuccesStatus		= false;
-								//.............................................
-								this.LoadTable( lines.BDCData ,	this.Idx_BDC );
-								this.LoadTable( lines.SPAData	, this.Idx_SPA );
+								this.NCORfcFunction.SetValue( this.Idx_Langu	, dto.MsgLg	);
+								this.NCORfcFunction.SetValue( this.Idx_MsgID	, dto.MsgID );
+								this.NCORfcFunction.SetValue( this.Idx_MsgNo	, dto.MsgNr );
+								this.NCORfcFunction.SetValue( this.Idx_MsgV1	, dto.MsgV1 );
+								this.NCORfcFunction.SetValue( this.Idx_MsgV2	, dto.MsgV2 );
+								this.NCORfcFunction.SetValue( this.Idx_MsgV3	, dto.MsgV3 );
+								this.NCORfcFunction.SetValue( this.Idx_MsgV4	, dto.MsgV4 );
 								//.............................................
 								this.Invoke( rfcDestination );
 								//.............................................
-								this.LoadTable( lines.MSGData	, this.Idx_MSG , true );
-								lines.SuccesStatus	= true;
+								dto.MsgST	= this.NCORfcFunction.GetString( this.Idx_MsgST );
 							}
 						catch (Exception)
 							{
@@ -113,66 +98,7 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 							}
 						finally
 							{
-								lines.ProcessedStatus	= true;
 							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Reset()
-					{
-						this.Profile.ReadyProfile();
-						//.............................................
-						this.NCORfcFunction.GetTable( this.Idx_SPA ).Clear();
-						this.NCORfcFunction.GetTable( this.Idx_BDC ).Clear();
-						this.NCORfcFunction.GetTable( this.Idx_MSG ).Clear();
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Set_ShowSAPGUI( bool state )
-					{
-						this.MyProfile.Value.NCODestination.UseSAPGui	= state ? SMC.RfcConfigParameters.RfcUseSAPGui.Use
-																																	: SMC.RfcConfigParameters.RfcUseSAPGui.Hidden ;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Set_SAPTCode( string	tCode )
-					{
-						this.NCORfcFunction.SetValue( this.Idx_Tcd , tCode );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Set_Skip1st( bool skip = false )
-					{
-						this.NCORfcFunction.SetValue( this.Idx_Skp , skip ? "X" : " " );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Set_CTU( SMC.IRfcStructure ctu )
-					{
-						SMC.IRfcStructure ls_CTU	= this.NCORfcFunction.GetStructure( this.Idx_CTU );
-
-						for (int i = 0; i < ctu.Count; i++)
-							{
-								ls_CTU.SetValue( i , ctu.GetValue(i) );
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadTable(		SMC.IRfcTable	data
-																, int						index
-																, bool					reverse = false )
-					{
-						SMC.IRfcTable lt_Tbl	= this.NCORfcFunction.GetTable( index );
-
-						if ( reverse )
-							{	data.Append( lt_Tbl ); }
-						else
-							{	lt_Tbl.Append( data ); }
 					}
 
 			#endregion

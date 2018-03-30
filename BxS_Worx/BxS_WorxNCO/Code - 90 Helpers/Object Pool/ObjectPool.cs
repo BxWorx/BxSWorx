@@ -33,8 +33,7 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 						this._Lock					=	new	object()			;
 						this._LockChk				=	new	object()			;
 						this._ReturnAction	=	this.ReturnObject	;
-						this._Config				= ObjectPoolFactory.CreateConfig<T>() ;
-						this._Factory				= factory;
+						this._Config				= ObjectPoolFactory.CreateConfig<T>( factory ) ;
 						//.............................................
 						this.Pool		= new	ConcurrentBag<T>()	;
 						this._CTS		= new	CancellationTokenSource();
@@ -54,7 +53,6 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 
 				private	readonly	object	_LockChk	;
 				private	readonly	object	_Lock			;
-				public	readonly	Func<T>	_Factory	;
 
 				private	readonly	CancellationTokenSource					_CTS					;
 				public	readonly	ObjectPoolConfig<T>							_Config				;
@@ -239,9 +237,9 @@ namespace BxS_WorxNCO.Helpers.ObjectPool
 					{
 						T newObject;
 
-						if ( this._Factory != null )
+						if ( this._Config.Factory != null )
 							{
-								newObject = this._Factory();
+								newObject = this._Config.Factory();
 							}
 						else
 							{

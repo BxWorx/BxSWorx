@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Threading;
 using System.Collections.Generic;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.Main.Destination;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main
 {
@@ -15,10 +16,8 @@ namespace BxS_WorxNCO.Destination.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DestinationController()
 					{
-						this._LM	= LazyThreadSafetyMode.ExecutionAndPublication;
-						//.............................................
-						this._DestRepos		= new Lazy<Repository>				(	()=>	new Repository(	( Guid ID )	=>	new RfcDestination( ID ) ) , this._LM );
-						this._GlobalSetup	= new Lazy<IConfigSetupGlobal>(	()=>	new ConfigSetupGlobal() , this._LM );
+						this._DestRepos		= new Lazy<Repository>				(	()=>	new Repository(	( Guid ID )	=>	new RfcDestination( ID ) ) , cz_LM );
+						this._GlobalSetup	= new Lazy<IConfigSetupGlobal>(	()=>	new ConfigSetupGlobal() , cz_LM );
 					}
 
 			#endregion
@@ -26,7 +25,6 @@ namespace BxS_WorxNCO.Destination.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	LazyThreadSafetyMode				_LM;
 				private readonly	Lazy<Repository>						_DestRepos;
 				private readonly	Lazy<IConfigSetupGlobal>		_GlobalSetup;
 

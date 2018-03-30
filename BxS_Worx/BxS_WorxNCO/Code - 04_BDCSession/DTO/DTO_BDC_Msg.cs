@@ -40,6 +40,9 @@ namespace BxS_WorxNCO.BDCSession.DTO
 				public	string	Envir	{	get; set; }
 				public	string	FldNm	{	get; set; }
 
+				public	string	MsgST	{	get; set; }
+				public	string	MsgLT	{	get; set; }
+
 			#endregion
 
 		}

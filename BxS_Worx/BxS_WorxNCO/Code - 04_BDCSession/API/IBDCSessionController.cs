@@ -17,8 +17,8 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				IConfigSetupDestination				CreateDestinationConfig();
 				//.................................................
-				BDCSessionManager				CreateBDCSessionManager( string	destinationID );
-				BDCSessionManager				CreateBDCSessionManager( Guid		destinationID );
+				BDC_SessionManager				CreateBDCSessionManager( string	destinationID );
+				BDC_SessionManager				CreateBDCSessionManager( Guid		destinationID );
 
 		#endregion
 
