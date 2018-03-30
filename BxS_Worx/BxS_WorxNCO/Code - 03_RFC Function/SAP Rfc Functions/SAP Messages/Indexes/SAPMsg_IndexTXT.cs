@@ -8,8 +8,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 		{
 			#region "Properties"
 
-				[ SAP( Name = "TDFORMAT"	) ]		public	int TLine_Fmt		{ get; set;	}
-				[ SAP( Name = "TDLINE"		) ]		public	int TLine_Lne		{ get; set;	}
+				[ SAP( Name = "TDFORMAT"	) ]		public	int Fmt		{ get; set;	}
+				[ SAP( Name = "TDLINE"		) ]		public	int Lne		{ get; set;	}
 
 			#endregion
 

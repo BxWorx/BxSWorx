@@ -90,7 +90,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					this.co_RfcDestOn.ShowSAPGui	= true;
 					//...............................................
 					lo_Head.SAPTCode		= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_DspMde ].SetValue( cz_CTU_A );
+					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.DspMde ].SetValue( cz_CTU_A );
 
 					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
 					//...............................................
@@ -118,8 +118,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Data			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
 
 					lo_Head.SAPTCode	= "XD03";
-					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_NoBtcI ].SetValue( cz_False );
-					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.CTUOpt_DspMde ].SetValue( cz_CTU_N );
+					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.NoBtcI ].SetValue( cz_False );
+					lo_Head.CTUParms[ lo_Fnc0.CTUIndex.DspMde ].SetValue( cz_CTU_N );
 
 					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value );
 					lo_Fnc0.Config	( lo_Head );
@@ -148,8 +148,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
 					//...............................................
 					lo_Head.SAPTCode	= "XD03";
-					lo_Head.CTUParms[ lo_Prof.CTUIndex.CTUOpt_NoBtcI ].SetValue( cz_False );
-					lo_Head.CTUParms[ lo_Prof.CTUIndex.CTUOpt_DspMde ].SetValue( cz_CTU_N );
+					lo_Head.CTUParms[ lo_Prof.CTUIndex.NoBtcI ].SetValue( cz_False );
+					lo_Head.CTUParms[ lo_Prof.CTUIndex.DspMde ].SetValue( cz_CTU_N );
 					//...............................................
 					const int ln_Trn	= 100;
 					const	int ln_Tsk	= 05;
@@ -198,29 +198,29 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 0;
 
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Prg	, "SAPMF02D"		);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Dyn	, "0101"				);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Bgn	, "X"						);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Fld	, "BDC_OKCODE"	);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Val	, "/00"   			);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Prg	, "SAPMF02D"		);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Dyn	, "0101"				);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Bgn	, "X"						);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "BDC_OKCODE"	);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "/00"   			);
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 1;
 
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Fld	, "RF02D-KUNNR"	);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Val	, "1000000"			);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "RF02D-KUNNR"	);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "1000000"			);
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 2;
 
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Fld	, "RF02D-D0110"	);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Val	, "X"						);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "RF02D-D0110"	);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "X"						);
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 3;
 
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Prg	, "SAPMF02D"		);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Dyn	, "0110"				);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Bgn	, "X"						);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Fld	, "BDC_OKCODE"	);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.BDCDat_Val	, "=PF03"				);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Prg	, "SAPMF02D"		);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Dyn	, "0110"				);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Bgn	, "X"						);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "BDC_OKCODE"	);
+						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "=PF03"				);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

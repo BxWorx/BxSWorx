@@ -49,19 +49,19 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					Assert.AreEqual	( lo_PR1 , lo_PR2 ,	"" );
 					//...............................................
-					Assert.AreEqual	(	0	, lo_PR1.FNCIndex.ParIdx_TabSPA	,	"" );
-					Assert.AreEqual	(	0	, lo_PR1.CTUIndex.CTUOpt_NoBtcE	,	"" );
-					Assert.AreEqual	(	0	, lo_PR1.SPAIndex.SPADat_Val			,	"" );
-					Assert.AreEqual	(	0	, lo_PR1.BDCIndex.BDCDat_Val			,	"" );
-					Assert.AreEqual	(	0	, lo_PR1.MSGIndex.TabMsg_Fldnm		,	"" );
+					Assert.AreEqual	(	0	, lo_PR1.FNCIndex.TabSPA	,	"" );
+					Assert.AreEqual	(	0	, lo_PR1.CTUIndex.NoBtcE	,	"" );
+					Assert.AreEqual	(	0	, lo_PR1.SPAIndex.Val			,	"" );
+					Assert.AreEqual	(	0	, lo_PR1.BDCIndex.Val			,	"" );
+					Assert.AreEqual	(	0	, lo_PR1.MSGIndex.Fldnm		,	"" );
 
 					Assert.IsTrue		(	lo_FM.UpdateProfiles()	, "" );
 
-					Assert.AreNotEqual	(	0	, lo_PR1.FNCIndex.ParIdx_TabSPA	,	"" );
-					Assert.AreNotEqual	(	0	, lo_PR1.CTUIndex.CTUOpt_NoBtcE	,	"" );
-					Assert.AreNotEqual	(	0	, lo_PR1.SPAIndex.SPADat_Val			,	"" );
-					Assert.AreNotEqual	(	0	, lo_PR1.BDCIndex.BDCDat_Val			,	"" );
-					Assert.AreNotEqual	(	0	, lo_PR1.MSGIndex.TabMsg_Fldnm		,	"" );
+					Assert.AreNotEqual	(	0	, lo_PR1.FNCIndex.TabSPA	,	"" );
+					Assert.AreNotEqual	(	0	, lo_PR1.CTUIndex.NoBtcE	,	"" );
+					Assert.AreNotEqual	(	0	, lo_PR1.SPAIndex.Val			,	"" );
+					Assert.AreNotEqual	(	0	, lo_PR1.BDCIndex.Val			,	"" );
+					Assert.AreNotEqual	(	0	, lo_PR1.MSGIndex.Fldnm		,	"" );
 					//...............................................
 					var lo_FN1	= new MyRfcFnc( lo_PR1 );
 					var lo_FN2	= new MyRfcFnc( lo_PR2 );
@@ -75,7 +75,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.AreNotEqual	( lo_FN1.NCORfcFunction	, lo_FN2.NCORfcFunction	,	"" );
 
 					SMC.IRfcStructure x1 = lo_FN1.NCORfcFunction.GetStructure("IS_OPTIONS");
-					SMC.IRfcStructure x2 = lo_FN1.NCORfcFunction.GetStructure(lo_PR2.FNCIndex.ParIdx_CTUOpt);
+					SMC.IRfcStructure x2 = lo_FN1.NCORfcFunction.GetStructure(lo_PR2.FNCIndex.CTUOpt);
 
 					Assert.AreNotEqual	(	0	, x1.Count	,	"" );
 					Assert.AreNotEqual	(	0	, x2.Count	,	"" );

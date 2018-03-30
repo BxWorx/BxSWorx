@@ -52,7 +52,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 																											,	SMC.IRfcTable	msgData
 																											, BDCCall_IndexSPA	spaIndex
 																											,	BDCCall_IndexBDC	bdcIndex
-																											, BDCCall_IndexMSG	msgIndex	)=>	new	BDCCall_Data(	bdcData
+																											, BDCCall_IndexMSG	msgIndex	)=>	new	BDCCall_Data(		bdcData
 																																																					,	spaData
 																																																					,	msgData
 																																																					, spaIndex

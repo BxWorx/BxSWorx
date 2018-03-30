@@ -65,8 +65,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 							{
 								this.SPAData.CurrentIndex	= i;
 								//.........................................
-								this.SPAData.SetValue( this.IndexSPA.SPADat_MID , SPASrce[i].MemoryID		);
-								this.SPAData.SetValue( this.IndexSPA.SPADat_Val , SPASrce[i].MemoryValue	);
+								this.SPAData.SetValue( this.IndexSPA.MID , SPASrce[i].MemoryID		);
+								this.SPAData.SetValue( this.IndexSPA.Val , SPASrce[i].MemoryValue	);
 							}
 					}
 
@@ -81,11 +81,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 							{
 								this.BDCData.CurrentIndex	= i;
 								//.........................................
-								this.BDCData.SetValue( this.IndexBDC.BDCDat_Prg , BDCSrce[i].ProgramName	);
-								this.BDCData.SetValue( this.IndexBDC.BDCDat_Dyn , BDCSrce[i].Dynpro				);
-								this.BDCData.SetValue( this.IndexBDC.BDCDat_Bgn , BDCSrce[i].Begin				);
-								this.BDCData.SetValue( this.IndexBDC.BDCDat_Fld , BDCSrce[i].FieldName		);
-								this.BDCData.SetValue( this.IndexBDC.BDCDat_Val , BDCSrce[i].FieldValue		);
+								this.BDCData.SetValue( this.IndexBDC.Prg , BDCSrce[i].ProgramName	);
+								this.BDCData.SetValue( this.IndexBDC.Dyn , BDCSrce[i].Dynpro				);
+								this.BDCData.SetValue( this.IndexBDC.Bgn , BDCSrce[i].Begin				);
+								this.BDCData.SetValue( this.IndexBDC.Fld , BDCSrce[i].FieldName		);
+								this.BDCData.SetValue( this.IndexBDC.Val , BDCSrce[i].FieldValue		);
 							}
 					}
 
@@ -100,19 +100,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 								MsgTrgt.Add( new DTO_BDC_Msg
 															{
-																TCode	= this.MSGData.GetString( this.IndexMSG.TabMsg_TCode )	,
-																DynNm	= this.MSGData.GetString( this.IndexMSG.TabMsg_DynNm )	,
-																DynNo	= this.MSGData.GetString( this.IndexMSG.TabMsg_DynNo )	,
-																MsgTp	= this.MSGData.GetString( this.IndexMSG.TabMsg_MsgTp )	,
-																MsgLg	= this.MSGData.GetString( this.IndexMSG.TabMsg_Lang	 )	,
-																MsgID	= this.MSGData.GetString( this.IndexMSG.TabMsg_MsgID )	,
-																MsgNr	= this.MSGData.GetString( this.IndexMSG.TabMsg_MsgNo )	,
-																MsgV1	= this.MSGData.GetString( this.IndexMSG.TabMsg_MsgV1 )	,
-																MsgV2	= this.MSGData.GetString( this.IndexMSG.TabMsg_MsgV2 )	,
-																MsgV3	= this.MSGData.GetString( this.IndexMSG.TabMsg_MsgV3 )	,
-																MsgV4	= this.MSGData.GetString( this.IndexMSG.TabMsg_MsgV4 )	,
-																Envir	= this.MSGData.GetString( this.IndexMSG.TabMsg_Envir )	,
-																FldNm	= this.MSGData.GetString( this.IndexMSG.TabMsg_Fldnm )
+																TCode	= this.MSGData.GetString( this.IndexMSG.TCode )	,
+																DynNm	= this.MSGData.GetString( this.IndexMSG.DynNm )	,
+																DynNo	= this.MSGData.GetString( this.IndexMSG.DynNo )	,
+																MsgTp	= this.MSGData.GetString( this.IndexMSG.MsgTp )	,
+																MsgLg	= this.MSGData.GetString( this.IndexMSG.Lang	 )	,
+																MsgID	= this.MSGData.GetString( this.IndexMSG.MsgID )	,
+																MsgNr	= this.MSGData.GetString( this.IndexMSG.MsgNo )	,
+																MsgV1	= this.MSGData.GetString( this.IndexMSG.MsgV1 )	,
+																MsgV2	= this.MSGData.GetString( this.IndexMSG.MsgV2 )	,
+																MsgV3	= this.MSGData.GetString( this.IndexMSG.MsgV3 )	,
+																MsgV4	= this.MSGData.GetString( this.IndexMSG.MsgV4 )	,
+																Envir	= this.MSGData.GetString( this.IndexMSG.Envir )	,
+																FldNm	= this.MSGData.GetString( this.IndexMSG.Fldnm )
 															}
 														);
 							}

@@ -8,11 +8,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 		{
 			#region "Properties"
 
-				[ SAP(	Name = "PROGRAM"	) ]		public	int BDCDat_Prg	{ get; set;	}
-				[ SAP(	Name = "DYNPRO"		) ]		public	int BDCDat_Dyn	{ get; set;	}
-				[ SAP(	Name = "DYNBEGIN"	) ]		public	int BDCDat_Bgn	{ get; set;	}
-				[ SAP(	Name = "FNAM"			) ]		public	int BDCDat_Fld	{ get; set;	}
-				[ SAP(	Name = "FVAL"			) ]		public	int BDCDat_Val	{ get; set;	}
+				[ SAP(	Name = "PROGRAM"	) ]		public	int Prg	{ get; set;	}
+				[ SAP(	Name = "DYNPRO"		) ]		public	int Dyn	{ get; set;	}
+				[ SAP(	Name = "DYNBEGIN"	) ]		public	int Bgn	{ get; set;	}
+				[ SAP(	Name = "FNAM"			) ]		public	int Fld	{ get; set;	}
+				[ SAP(	Name = "FVAL"			) ]		public	int Val	{ get; set;	}
 
 			#endregion
 

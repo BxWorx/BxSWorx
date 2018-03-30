@@ -18,6 +18,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				void ReadyProfile();
 
+				SMC.IRfcFunction	CreateFunction();
+
 			#endregion
 
 		}

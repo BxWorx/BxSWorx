@@ -59,15 +59,15 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 				internal	SAPMsg_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
 				internal	SAPMsg_IndexTXT	TXTIndex	{ get {	return	this.MyProfile.Value.TXTIndex; } }
 
-				private	int		Idx_Langu		{ get {	return	this.FNCIndex.ParIdx_Langu	; } }
-				private	int		Idx_MsgID		{ get {	return	this.FNCIndex.ParIdx_MsgID	; } }
-				private	int		Idx_MsgNo		{ get {	return	this.FNCIndex.ParIdx_MsgNo	; } }
-				private	int		Idx_MsgV1		{ get {	return	this.FNCIndex.ParIdx_MsgV1	; } }
-				private	int		Idx_MsgV2		{ get {	return	this.FNCIndex.ParIdx_MsgV2	; } }
-				private	int		Idx_MsgV3		{ get {	return	this.FNCIndex.ParIdx_MsgV3	; } }
-				private	int		Idx_MsgV4		{ get {	return	this.FNCIndex.ParIdx_MsgV4	; } }
-				private	int		Idx_MsgST		{ get {	return	this.FNCIndex.ParIdx_MsgST	; } }
-				private	int		Idx_MsgLT		{	get {	return	this.FNCIndex.ParIdx_MsgLT	; } }
+				private	int		Idx_Langu		{ get {	return	this.FNCIndex.Langu	; } }
+				private	int		Idx_MsgID		{ get {	return	this.FNCIndex.MsgID	; } }
+				private	int		Idx_MsgNo		{ get {	return	this.FNCIndex.MsgNo	; } }
+				private	int		Idx_MsgV1		{ get {	return	this.FNCIndex.MsgV1	; } }
+				private	int		Idx_MsgV2		{ get {	return	this.FNCIndex.MsgV2	; } }
+				private	int		Idx_MsgV3		{ get {	return	this.FNCIndex.MsgV3	; } }
+				private	int		Idx_MsgV4		{ get {	return	this.FNCIndex.MsgV4	; } }
+				private	int		Idx_MsgST		{ get {	return	this.FNCIndex.MsgST	; } }
+				private	int		Idx_MsgLT		{	get {	return	this.FNCIndex.MsgLT	; } }
 
 			#endregion
 

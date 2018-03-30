@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -39,6 +41,76 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				public	bool		IsReady				{ get; set; }
 				//.................................................
 				public	SMC.RfcFunctionMetadata	Metadata	{ get; set; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.IRfcFunction	CreateFunction()
+					{
+						return	this.Metadata.CreateFunction();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected bool LoadFunctionIndexing<T>( T obj ) where T:class
+					{
+						try
+							{
+								SAPAttribute	lo_CP;
+								//.........................................
+								foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
+									{
+										lo_CP		=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
+										lo_PI.SetValue( obj , this.Metadata.TryNameToIndex( lo_CP.Name ) );
+									}
+								//.........................................
+								return	true;
+							}
+						catch
+							{
+								return	false;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected bool LoadStructureIndexing<T>( T obj ) where T:class
+					{
+						try
+							{
+								SAPAttribute							lo_CP;
+								int												ln_PIndx	= 0;
+								string										lc_Name		= this.ClassLevelAttribute<T>();
+								SMC.RfcStructureMetadata	ls_Stru		= this.Metadata[ this.Metadata.TryNameToIndex( lc_Name ) ].ValueMetadataAsStructureMetadata;
+								//.........................................
+								foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
+									{
+										lo_CP			=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
+										ln_PIndx	= ls_Stru.TryNameToIndex( lo_CP.Name );
+
+										lo_PI.SetValue( obj , ln_PIndx );
+									}
+								//.........................................
+								return	true;
+							}
+						catch
+							{
+								return	false;
+							}
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private string ClassLevelAttribute<T>() where T:class
+					{
+						return	typeof(T).GetCustomAttributes( typeof( SAPAttribute ) , true )
+											.FirstOrDefault() is SAPAttribute SAPAttr ? SAPAttr.Name : string.Empty	;
+					}
 
 			#endregion
 

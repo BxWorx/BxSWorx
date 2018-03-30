@@ -12,7 +12,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//.................................................
 				string						SAPFncName			{ get; }
 				IRfcFncProfile		Profile					{ get; }
-				SMC.IRfcFunction	NCORfcFunction	{ get; set; }
+				SMC.IRfcFunction	NCORfcFunction	{ get; }
 
 			#endregion
 

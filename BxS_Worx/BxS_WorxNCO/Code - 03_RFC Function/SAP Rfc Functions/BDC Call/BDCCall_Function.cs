@@ -57,13 +57,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				internal	BDCCall_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
 				internal	BDCCall_IndexCTU	CTUIndex	{ get {	return	this.MyProfile.Value.CTUIndex; } }
 
-				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.ParIdx_TCode	; } }
-				private	int		Idx_Skp		{ get {	return	this.FNCIndex.ParIdx_Skip1	; } }
-				private	int		Idx_CTU		{ get {	return	this.FNCIndex.ParIdx_CTUOpt	; } }
+				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.TCode	; } }
+				private	int		Idx_Skp		{ get {	return	this.FNCIndex.Skip1	; } }
+				private	int		Idx_CTU		{ get {	return	this.FNCIndex.CTUOpt	; } }
 
-				private	int		Idx_SPA		{ get {	return	this.FNCIndex.ParIdx_TabSPA	; } }
-				private	int		Idx_BDC		{ get {	return	this.FNCIndex.ParIdx_TabBDC	; } }
-				private	int		Idx_MSG		{ get {	return	this.FNCIndex.ParIdx_TabMSG	; } }
+				private	int		Idx_SPA		{ get {	return	this.FNCIndex.TabSPA	; } }
+				private	int		Idx_BDC		{ get {	return	this.FNCIndex.TabBDC	; } }
+				private	int		Idx_MSG		{ get {	return	this.FNCIndex.TabMSG	; } }
 
 			#endregion
 

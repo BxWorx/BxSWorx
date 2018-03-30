@@ -1,6 +1,8 @@
 ﻿using System;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
@@ -14,7 +16,15 @@ namespace BxS_WorxNCO.RfcFunction.Main
 						this.Profile	= profile	??	throw		new	ArgumentException( $"{typeof(RfcFncBase).Namespace}:- Profile null" );
 						//.............................................
 						this.MyID	= Guid.NewGuid();
+						this._NCORfcFunction	= new	Lazy<SMC.IRfcFunction>( ()=> this.Profile.CreateFunction() , cz_LM	);
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private readonly	Lazy< SMC.IRfcFunction >	_NCORfcFunction;
 
 			#endregion
 
@@ -25,7 +35,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				public	string	SAPFncName	{	get		{	return	this.Profile.FunctionName	;	}	}
 				//.................................................
 				public	IRfcFncProfile		Profile					{ get; }
-				public	SMC.IRfcFunction	NCORfcFunction	{ get; set; }
+				public	SMC.IRfcFunction	NCORfcFunction	{ get { return	this._NCORfcFunction.Value; } }
 
 			#endregion
 

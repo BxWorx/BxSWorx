@@ -38,10 +38,10 @@ namespace BxS_WorxNCO.Destination.API
 
 				void RegisterRfcFunctionForMetadata( string fncName , bool loadMetaData = false );
 				bool LoadRfcFunctionProfileMetadata( IRfcFncProfile profile );
-				bool LoadRfcFunction( IRfcFncBase rfcFunction );
+				//bool LoadRfcFunction( IRfcFncBase rfcFunction );
 
-				bool LoadFunctionIndexing	<T>	( T obj ) where T:class;
-				bool LoadStructureIndexing<T>	( T obj ) where T:class;
+				//bool LoadFunctionIndexing	<T>	( T obj ) where T:class;
+				//bool LoadStructureIndexing<T>	( T obj ) where T:class;
 				//.................................................
 				SMC.IRfcStructure		CreateRfcStructure( string strName );
 				SMC.IRfcTable				CreateRfcTable		( string strName );

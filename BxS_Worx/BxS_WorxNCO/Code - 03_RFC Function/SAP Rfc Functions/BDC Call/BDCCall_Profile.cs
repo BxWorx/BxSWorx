@@ -19,11 +19,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(BDCCall_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this.FNCIndex	= this._Factory.CreateIndexFNC();
-						this.CTUIndex	= this._Factory.CreateIndexCTU();
-						this.SPAIndex	= this._Factory.CreateIndexSPA();
-						this.BDCIndex	= this._Factory.CreateIndexBDC();
-						this.MSGIndex	= this._Factory.CreateIndexMSG();
+						this.FNCIndex		= this._Factory.CreateIndexFNC();
+						this.CTUIndex		= this._Factory.CreateIndexCTU();
+						this.SPAIndex		= this._Factory.CreateIndexSPA();
+						this.BDCIndex		= this._Factory.CreateIndexBDC();
+						this.MSGIndex		= this._Factory.CreateIndexMSG();
 					}
 
 			#endregion
@@ -31,7 +31,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	BDCCall_Factory	_Factory;
+				private	readonly	BDCCall_Factory		_Factory;
 
 			#endregion
 
@@ -79,12 +79,28 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				public override void ReadyProfile()
 					{
-						this.IsReady	=				this._RfcDestination.LoadFunctionIndexing		( this.FNCIndex )
+						try
+							{
+								this.LoadFunctionIndexing		( this.FNCIndex )	;
 
-															&&	this._RfcDestination.LoadStructureIndexing	( this.CTUIndex )
-															&&	this._RfcDestination.LoadStructureIndexing	( this.SPAIndex )
-															&&	this._RfcDestination.LoadStructureIndexing	( this.BDCIndex )
-															&&	this._RfcDestination.LoadStructureIndexing	( this.MSGIndex );
+								this.LoadStructureIndexing	( this.CTUIndex )	;
+								this.LoadStructureIndexing	( this.SPAIndex )	;
+								this.LoadStructureIndexing	( this.BDCIndex )	;
+								this.LoadStructureIndexing	( this.MSGIndex )	;
+
+								this.IsReady	=	true;
+							}
+						catch
+							{
+								this.IsReady	=	false;
+							}
+
+						//this.IsReady	=				this._RfcDestination.LoadFunctionIndexing		( this.FNCIndex )
+
+						//									&&	this._RfcDestination.LoadStructureIndexing	( this.CTUIndex )
+						//									&&	this._RfcDestination.LoadStructureIndexing	( this.SPAIndex )
+						//									&&	this._RfcDestination.LoadStructureIndexing	( this.BDCIndex )
+						//									&&	this._RfcDestination.LoadStructureIndexing	( this.MSGIndex );
 					}
 
 			#endregion
