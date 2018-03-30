@@ -37,6 +37,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				public	string	FunctionName	{	get; }
 				public	bool		IsReady				{ get; set; }
+				//.................................................
+				public	SMC.RfcFunctionMetadata	Metadata	{ get; set; }
 
 			#endregion
 

@@ -29,12 +29,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
+				private		BDCCall_IndexCTU	IndexCTU	{ get; }
+				//.................................................
 				internal	string	SAPTCode		{ get;	set; }
 				internal	bool		Skip1st			{ get;	set; }
 				//.................................................
 				internal	SMC.IRfcStructure		CTUParms	{ get; }
-
-				private		BDCCall_IndexCTU		IndexCTU	{ get; }
 
 			#endregion
 
