@@ -56,8 +56,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				private	BDCCall_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
 
-				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.TCode	; } }
-				private	int		Idx_Skp		{ get {	return	this.FNCIndex.Skip1	; } }
+				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.TCode		; } }
+				private	int		Idx_Skp		{ get {	return	this.FNCIndex.Skip1		; } }
 				private	int		Idx_CTU		{ get {	return	this.FNCIndex.CTUOpt	; } }
 
 				private	int		Idx_SPA		{ get {	return	this.FNCIndex.TabSPA	; } }
@@ -71,16 +71,16 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Header CreateBDCCallHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCCallHeader( defaults );
-				internal BDCCall_Data		CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallLines	();
+				internal BDCCall_Data		CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallData	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Config( BDCCall_Header config )
 					{
 						this.Profile.ReadyProfile();
 						//.............................................
-						this.Set_SAPTCode		( config.SAPTCode		);
-						this.Set_Skip1st		(	config.Skip1st		);
-						this.Set_CTU				( config.CTUParms		);
+						this.Set_SAPTCode	( config.SAPTCode	);
+						this.Set_Skip1st	(	config.Skip1st	);
+						this.Set_CTU			( config.CTUParms	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -94,18 +94,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 								data.ProcessedStatus	= false;
 								data.SuccesStatus			= false;
 								//.............................................
-								this.LoadTable( data.BDCData , this.Idx_BDC );
-								this.LoadTable( data.SPAData , this.Idx_SPA );
+								this.LoadTable( data.SPAData , this.Idx_SPA , false );
+								this.LoadTable( data.BDCData , this.Idx_BDC	, false );
 
-								this.Invoke( rfcDestination );
+								this.Invoke		( rfcDestination );
 
-								this.LoadTable( data.MSGData	, this.Idx_MSG , true );
+								this.LoadTable( data.MSGData , this.Idx_MSG , true );
 								//.............................................
 								data.SuccesStatus	= true;
 							}
-						catch (Exception)
+						catch (Exception ex)
 							{
-							throw;
+								data.ProcessedStatus	= true;
+								throw new Exception( "BDC Function: Process failure" , ex );
 							}
 						finally
 							{

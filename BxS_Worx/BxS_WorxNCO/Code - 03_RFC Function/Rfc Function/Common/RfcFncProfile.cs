@@ -30,7 +30,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private		readonly	object						_Lock;
+				private		readonly	object	_Lock;
 				//protected	readonly	IRfcDestination		_RfcDestination;
 
 			#endregion
@@ -41,7 +41,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				public	string	FunctionName	{	get; }
 				public	bool		IsReady				{ get; set; }
 				//.................................................
-				public	SMC.RfcFunctionMetadata	Metadata	{ get; set; }
+				public	SMC.RfcFunctionMetadata		Metadata	{ get; set; }
 
 			#endregion
 

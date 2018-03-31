@@ -25,9 +25,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.ProcessedStatus	= false	;
 						this.SuccesStatus			= false	;
 						//.............................................
-						this._SPAData	= new	Lazy< SMC.IRfcTable >( ()=> this._IndexSPA.CreateTable() , cz_LM )	;
-						this._BDCData	=	new	Lazy< SMC.IRfcTable >( ()=> this._IndexBDC.CreateTable() , cz_LM )	;
-						this._MSGData	= new	Lazy< SMC.IRfcTable >( ()=> this._IndexMSG.CreateTable() , cz_LM )	;
+						this._SPAData		= new	Lazy< SMC.IRfcTable >( ()=> this._IndexSPA.CreateTable() , cz_LM )	;
+						this._BDCData		=	new	Lazy< SMC.IRfcTable >( ()=> this._IndexBDC.CreateTable() , cz_LM )	;
+						this._MSGData		= new	Lazy< SMC.IRfcTable >( ()=> this._IndexMSG.CreateTable() , cz_LM )	;
 				}
 
 			#endregion
@@ -107,19 +107,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 								MsgTrgt.Add( new DTO_BDC_Msg
 															{
-																TCode	= this._MSGData.Value.GetString( this._IndexMSG.TCode )	,
-																DynNm	= this._MSGData.Value.GetString( this._IndexMSG.DynNm )	,
-																DynNo	= this._MSGData.Value.GetString( this._IndexMSG.DynNo )	,
-																MsgTp	= this._MSGData.Value.GetString( this._IndexMSG.MsgTp )	,
-																MsgLg	= this._MSGData.Value.GetString( this._IndexMSG.Lang	)	,
-																MsgID	= this._MSGData.Value.GetString( this._IndexMSG.MsgID )	,
-																MsgNr	= this._MSGData.Value.GetString( this._IndexMSG.MsgNo )	,
-																MsgV1	= this._MSGData.Value.GetString( this._IndexMSG.MsgV1 )	,
-																MsgV2	= this._MSGData.Value.GetString( this._IndexMSG.MsgV2 )	,
-																MsgV3	= this._MSGData.Value.GetString( this._IndexMSG.MsgV3 )	,
-																MsgV4	= this._MSGData.Value.GetString( this._IndexMSG.MsgV4 )	,
-																Envir	= this._MSGData.Value.GetString( this._IndexMSG.Envir )	,
-																FldNm	= this._MSGData.Value.GetString( this._IndexMSG.Fldnm )
+																	TCode	= this._MSGData.Value.GetString( this._IndexMSG.TCode )
+																,	DynNm	= this._MSGData.Value.GetString( this._IndexMSG.DynNm )
+																,	DynNo	= this._MSGData.Value.GetString( this._IndexMSG.DynNo )
+																,	MsgTp	= this._MSGData.Value.GetString( this._IndexMSG.MsgTp )
+																,	MsgLg	= this._MSGData.Value.GetString( this._IndexMSG.Lang	)
+																,	MsgID	= this._MSGData.Value.GetString( this._IndexMSG.MsgID )
+																,	MsgNr	= this._MSGData.Value.GetString( this._IndexMSG.MsgNo )
+																,	MsgV1	= this._MSGData.Value.GetString( this._IndexMSG.MsgV1 )
+																,	MsgV2	= this._MSGData.Value.GetString( this._IndexMSG.MsgV2 )
+																,	MsgV3	= this._MSGData.Value.GetString( this._IndexMSG.MsgV3 )
+																,	MsgV4	= this._MSGData.Value.GetString( this._IndexMSG.MsgV4 )
+																,	Envir	= this._MSGData.Value.GetString( this._IndexMSG.Envir )
+																,	FldNm	= this._MSGData.Value.GetString( this._IndexMSG.Fldnm )
 															}
 														);
 							}

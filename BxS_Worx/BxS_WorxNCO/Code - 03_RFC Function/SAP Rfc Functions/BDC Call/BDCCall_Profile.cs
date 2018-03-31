@@ -1,30 +1,26 @@
 ﻿using System;
 //.........................................................
-using BxS_WorxNCO.Destination.API;
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
-
-using	static	BxS_WorxNCO.RfcFunction.BDCTran.BDCCall_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
 	internal class BDCCall_Profile : RfcFncProfile
 		{
-			#region "Function Parameters"
-
-//																	,	IRfcDestination		rfcDestination
-//																																								, rfcDestination )
+			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Profile(		string						fncName
-																	, BDCCall_Factory		factory					)	: base(		fncName )
+																	, BDCCall_Factory		factory	)	: base(		fncName )
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(BDCCall_Profile).Namespace}:- Factory null" );
 						//.............................................
 						this.FNCIndex		= this._Factory.CreateIndexFNC( this );
-						this.CTUIndex		= this._Factory.CreateIndexCTU();
-						this.SPAIndex		= this._Factory.CreateIndexSPA();
-						this.BDCIndex		= this._Factory.CreateIndexBDC();
-						this.MSGIndex		= this._Factory.CreateIndexMSG();
+						this.CTUIndex		= this._Factory.CreateIndexCTU( this );
+						this.SPAIndex		= this._Factory.CreateIndexSPA( this );
+						this.BDCIndex		= this._Factory.CreateIndexBDC( this );
+						this.MSGIndex		= this._Factory.CreateIndexMSG( this );
 					}
 
 			#endregion
@@ -32,18 +28,23 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	BDCCall_Factory		_Factory;
+				private		readonly	BDCCall_Factory		_Factory;
+				//.................................................
+				internal	readonly	BDCCall_IndexFNC	FNCIndex;
+				internal	readonly	BDCCall_IndexCTU	CTUIndex;
+				internal	readonly	BDCCall_IndexSPA	SPAIndex;
+				internal	readonly	BDCCall_IndexBDC	BDCIndex;
+				internal	readonly	BDCCall_IndexMSG	MSGIndex;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	readonly	BDCCall_IndexFNC		FNCIndex;
-				internal	readonly	BDCCall_IndexCTU		CTUIndex;
-				internal	readonly	BDCCall_IndexSPA		SPAIndex;
-				internal	readonly	BDCCall_IndexBDC		BDCIndex;
-				internal	readonly	BDCCall_IndexMSG		MSGIndex;
+				internal	SMC.RfcStructureMetadata	CTUStructure	{ get	{	return	this.Metadata[this.FNCIndex.CTUOpt].ValueMetadataAsStructureMetadata			; } }
+				internal	SMC.RfcStructureMetadata	SPAStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabSPA].ValueMetadataAsTableMetadata.LineType	; } }
+				internal	SMC.RfcStructureMetadata	BDCStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabBDC].ValueMetadataAsTableMetadata.LineType	; } }
+				internal	SMC.RfcStructureMetadata	MSGStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabMSG].ValueMetadataAsTableMetadata.LineType	; } }
 
 			#endregion
 
@@ -60,13 +61,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Data CreateBDCCallLines()
+				internal BDCCall_Data CreateBDCCallData()
 					{
 						this.ReadyProfile();
 
-						return	this._Factory.CreateBDCLines(		this.SPAIndex
-																									,	this.BDCIndex
-																									,	this.MSGIndex	);
+						return	this._Factory.CreateBDCData(	this.SPAIndex
+																								,	this.BDCIndex
+																								,	this.MSGIndex	);
 					}
 
 			#endregion
@@ -74,33 +75,17 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Methods: Virtual"
 
-				public override void ReadyProfile()
-					{
-						try
-							{
-								//this.FNCIndex.Metadata	= this.Metadata;
-								
-								//this.LoadFunctionIndexing		( this.FNCIndex )	;
-
-								//this.LoadStructureIndexing	( this.CTUIndex )	;
-								//this.LoadStructureIndexing	( this.SPAIndex )	;
-								//this.LoadStructureIndexing	( this.BDCIndex )	;
-								//this.LoadStructureIndexing	( this.MSGIndex )	;
-
-								this.IsReady	=	true;
-							}
-						catch
-							{
-								this.IsReady	=	false;
-							}
-
-						//this.IsReady	=				this._RfcDestination.LoadFunctionIndexing		( this.FNCIndex )
-
-						//									&&	this._RfcDestination.LoadStructureIndexing	( this.CTUIndex )
-						//									&&	this._RfcDestination.LoadStructureIndexing	( this.SPAIndex )
-						//									&&	this._RfcDestination.LoadStructureIndexing	( this.BDCIndex )
-						//									&&	this._RfcDestination.LoadStructureIndexing	( this.MSGIndex );
-					}
+				//public override void ReadyProfile()
+				//	{
+				//		try
+				//			{
+				//				this.IsReady	=	true;
+				//			}
+				//		catch
+				//			{
+				//				this.IsReady	=	false;
+				//			}
+				//	}
 
 			#endregion
 

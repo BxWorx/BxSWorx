@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this._Func		= function	;
 						//.............................................
-						this._BDCData	= new	Lazy<BDCCall_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallLines()	, cz_LM );
+						this._BDCData	= new	Lazy<BDCCall_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallData()	, cz_LM );
 					}
 
 			#endregion

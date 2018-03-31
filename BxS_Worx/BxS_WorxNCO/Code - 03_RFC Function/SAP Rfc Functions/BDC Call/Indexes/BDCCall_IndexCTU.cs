@@ -1,25 +1,25 @@
 ﻿using System;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using	static	BxS_WorxNCO.RfcFunction.BDCTran.BDCCall_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_IndexCTU
+	internal class BDCCall_IndexCTU : BDCCall_IndexBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_IndexCTU()
+				internal BDCCall_IndexCTU( BDCCall_Profile profile ) : base( profile )
 					{
-						this._DspMde	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DISMODE"	 ) );
-						this._UpdMde	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "UPDMODE"	 ) );
-						this._CATMde	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "CATTMODE" ) );
-						this._DefSze	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DEFSIZE"	 ) );
-						this._NoComm	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "RACOMMIT" ) );
-						this._NoBtcI	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "NOBINPT"	 ) );
-						this._NoBtcE	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "NOBIEND"	 ) );
+						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.CTUStructure	);
+						//.............................................
+						this._DspMde	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "DISMODE"	) );
+						this._UpdMde	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "UPDMODE"	) );
+						this._CATMde	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "CATTMODE" ) );
+						this._DefSze	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "DEFSIZE"	) );
+						this._NoComm	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "RACOMMIT" ) );
+						this._NoBtcI	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "NOBINPT"	) );
+						this._NoBtcE	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "NOBIEND"	) );
 					}
 
 			#endregion
@@ -40,28 +40,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	Name { get { return	cz_StrCTU; } }
-
-				internal	SMC.RfcStructureMetadata	Metadata	{ get; set;	}
-				//.................................................
-				internal	int		DspMde	{ get { return	this.Metadata == null	?	0	:	this._DspMde.Value; } }
-				internal	int		UpdMde	{ get { return	this.Metadata == null	?	0	:	this._UpdMde.Value; } }
-				internal	int		CATMde	{ get { return	this.Metadata == null	?	0	:	this._CATMde.Value; } }
-				internal	int		DefSze	{ get { return	this.Metadata == null	?	0	:	this._DefSze.Value; } }
-				internal	int		NoComm	{ get { return	this.Metadata == null	?	0	:	this._NoComm.Value; } }
-				internal	int		NoBtcI	{ get { return	this.Metadata == null	?	0	:	this._NoBtcI.Value; } }
-				internal	int		NoBtcE	{ get { return	this.Metadata == null	?	0	:	this._NoBtcE.Value; } }
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcStructure	Create()
-					{
-						return	this.Metadata.CreateStructure();
-					}
+				internal	int		DspMde	{ get { return	this._Profile.IsReady	?	this._DspMde.Value : 0 ; } }
+				internal	int		UpdMde	{ get { return	this._Profile.IsReady	?	this._UpdMde.Value : 0 ; } }
+				internal	int		CATMde	{ get { return	this._Profile.IsReady	?	this._CATMde.Value : 0 ; } }
+				internal	int		DefSze	{ get { return	this._Profile.IsReady	?	this._DefSze.Value : 0 ; } }
+				internal	int		NoComm	{ get { return	this._Profile.IsReady	?	this._NoComm.Value : 0 ; } }
+				internal	int		NoBtcI	{ get { return	this._Profile.IsReady	?	this._NoBtcI.Value : 0 ; } }
+				internal	int		NoBtcE	{ get { return	this._Profile.IsReady	?	this._NoBtcE.Value : 0 ; } }
 
 			#endregion
 

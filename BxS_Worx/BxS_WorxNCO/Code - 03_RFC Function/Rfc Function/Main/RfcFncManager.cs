@@ -61,7 +61,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public ProfileType GetProfile<ProfileType>( string rfcFncName )
 					{
-						this._RfcFncProfiles.TryGetValue(	rfcFncName	, out IRfcFncProfile lo_Prof );
+						this._RfcFncProfiles.TryGetValue(	rfcFncName , out IRfcFncProfile lo_Prof );
 						return	(ProfileType) lo_Prof;
 					}
 
@@ -70,20 +70,15 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					{
 						foreach ( KeyValuePair< string , IRfcFncProfile > lo_Prof in this._RfcFncProfiles )
 							{
-							try
-								{
-									lo_Prof.Value.Metadata	= this._RfcDestination.NCORepository.GetFunctionMetadata( lo_Prof.Value.FunctionName );
-									lo_Prof.Value.IsReady		= true;
-									//lo_Prof.Value.ReadyProfile();
-								}
-							catch ( Exception ex	)
-								{
-									throw	new Exception( "Profile Metadata Load error" , ex );
-								}
-								//if ( ! this._RfcDestination.LoadRfcFunctionProfileMetadata( lo_Prof.Value ) )
-								//	{
-								//		lb_Ret	= false;
-								//	}
+								try
+									{
+										lo_Prof.Value.Metadata	= this._RfcDestination.NCORepository.GetFunctionMetadata( lo_Prof.Value.FunctionName );
+										lo_Prof.Value.IsReady		= true;
+									}
+								catch ( Exception ex )
+									{
+										throw	new Exception( "Profile Metadata Load error" , ex );
+									}
 							}
 					}
 

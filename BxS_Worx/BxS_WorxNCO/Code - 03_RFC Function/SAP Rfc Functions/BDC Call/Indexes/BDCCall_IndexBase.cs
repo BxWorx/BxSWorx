@@ -4,17 +4,14 @@ using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_IndexSPA : BDCCall_IndexBase
+	internal abstract class BDCCall_IndexBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_IndexSPA( BDCCall_Profile profile ) : base( profile )
+				internal BDCCall_IndexBase( BDCCall_Profile profile )
 					{
-						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.SPAStructure	);
-						//.............................................
-						this._MID		= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "PARID"	) );
-						this._Val		= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "PARVAL" ) );
+						this._Profile		= profile;
 					}
 
 			#endregion
@@ -22,16 +19,26 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy<int>		_MID;
-				private	readonly	Lazy<int>		_Val;
+				protected	readonly	BDCCall_Profile					_Profile	;
+				//.................................................
+				protected	Lazy<	SMC.RfcStructureMetadata >	_Metadata	;
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Methods: Exposed"
 
-				internal	int		MID		{ get { return	this._Profile.IsReady	?	this._MID.Value	:	0	; } }
-				internal	int		Val		{ get { return	this._Profile.IsReady	?	this._Val.Value	:	0	; } }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal SMC.IRfcStructure	Create()
+					{
+						return	this._Metadata.Value.CreateStructure();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal SMC.IRfcTable	CreateTable()
+					{
+						return	this._Metadata.Value.CreateTable();
+					}
 
 			#endregion
 

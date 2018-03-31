@@ -1,4 +1,5 @@
 ﻿using BxS_WorxNCO.Destination.API;
+
 using BxS_WorxNCO.RfcFunction.BDCTran;
 using BxS_WorxNCO.RfcFunction.SAPMsg;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -13,12 +14,19 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#endregion
 
 			//===========================================================================================
+			#region "Methods: Exposed: General"
+
+				void AcivateProfiles()	;
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed: BDC Call Transaction"
 
 				void	RegisterBDCCallProfile( bool loadMetaData = false );
 				//.................................................
-				BDCCall_Profile		GetAddBDCCallProfile	();
-				BDCCall_Function	CreateBDCCallFunction	();
+				BDCCall_Profile		GetAddBDCCallProfile()	;
+				BDCCall_Function	CreateBDCCallFunction()	;
 
 			#endregion
 
@@ -27,8 +35,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				void	RegisterSAPMsgProfile( bool loadMetaData = false );
 				//.................................................
-				SAPMsg_Profile		GetAddSAPMsgProfile		();
-				//SAPMsg_Function		CreateSAPMsgFunction	();
+				SAPMsg_Profile		GetAddSAPMsgProfile()		;
+				SAPMsg_Function		CreateSAPMsgFunction()	;
 
 			#endregion
 

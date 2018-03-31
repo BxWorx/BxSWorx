@@ -47,7 +47,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Profile lo_PR1	= lo_FM.GetProfile<BDCCall_Profile>( cz_FNme );
 					BDCCall_Profile lo_PR2	= lo_FM.GetProfile<BDCCall_Profile>( cz_FNme );
 
+					Assert.AreEqual	( lo_PR0 , lo_PR1 ,	"" );
 					Assert.AreEqual	( lo_PR1 , lo_PR2 ,	"" );
+					Assert.AreEqual	( lo_PR2 , lo_PR0 ,	"" );
 					//...............................................
 					Assert.AreEqual	(	0	, lo_PR1.FNCIndex.TabSPA	,	"" );
 					Assert.AreEqual	(	0	, lo_PR1.CTUIndex.NoBtcE	,	"" );
@@ -90,8 +92,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						IRfcDestination	lo_DS	= this.co_NCO.GetSAPDestLoggedOn();
 						BDCCall_Factory lo_FC	= BDCCall_Factory.Instance;
 
-						return	new BDCCall_Profile(	cz_FNme
-																				, lo_FC	);
+						return	new BDCCall_Profile( cz_FNme , lo_FC );
 					}
 
 		//

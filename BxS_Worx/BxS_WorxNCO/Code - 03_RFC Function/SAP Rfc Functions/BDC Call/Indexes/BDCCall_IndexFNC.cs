@@ -1,7 +1,5 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
 using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran

@@ -1,23 +1,23 @@
 ﻿using System;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using	static	BxS_WorxNCO.RfcFunction.BDCTran.BDCCall_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_IndexBDC
+	internal class BDCCall_IndexBDC : BDCCall_IndexBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_IndexBDC()
+				internal BDCCall_IndexBDC( BDCCall_Profile profile ) : base( profile )
 					{
-						this._Prg	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "PROGRAM"		) );
-						this._Dyn	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DYNPRO"		) );
-						this._Bgn	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DYNBEGIN"	) );
-						this._Fld	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "FNAM"			) );
-						this._Val	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "FVAL"			) );
+						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.BDCStructure	);
+						//.............................................
+						this._Prg	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "PROGRAM"	) );
+						this._Dyn	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "DYNPRO"		) );
+						this._Bgn	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "DYNBEGIN"	) );
+						this._Fld	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "FNAM"			) );
+						this._Val	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "FVAL"			) );
 					}
 
 			#endregion
@@ -36,32 +36,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	Name { get { return	cz_StrBDC; } }
-
-				internal	SMC.RfcStructureMetadata	Metadata	{ get; set;	}
-				//.................................................
-				internal	int		Prg	{ get { return	this.Metadata == null	?	0	:	this._Prg.Value; } }
-				internal	int		Dyn	{ get { return	this.Metadata == null	?	0	:	this._Dyn.Value; } }
-				internal	int		Bgn	{ get { return	this.Metadata == null	?	0	:	this._Bgn.Value; } }
-				internal	int		Fld	{ get { return	this.Metadata == null	?	0	:	this._Fld.Value; } }
-				internal	int		Val	{ get { return	this.Metadata == null	?	0	:	this._Val.Value; } }
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcStructure	Create()
-					{
-						return	this.Metadata.CreateStructure();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcTable	CreateTable()
-					{
-						return	this.Metadata.CreateTable();
-					}
+				internal	int		Prg	{ get { return	this._Profile.IsReady ?	this._Prg.Value	:	0	; } }
+				internal	int		Dyn	{ get { return	this._Profile.IsReady ?	this._Dyn.Value	:	0	; } }
+				internal	int		Bgn	{ get { return	this._Profile.IsReady ?	this._Bgn.Value	:	0	; } }
+				internal	int		Fld	{ get { return	this._Profile.IsReady ?	this._Fld.Value	:	0	; } }
+				internal	int		Val	{ get { return	this._Profile.IsReady ?	this._Val.Value	:	0	; } }
 
 			#endregion
 

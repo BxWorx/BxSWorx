@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.BDCTran;
@@ -19,7 +18,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					{
 						this.RfcDestination		= rfcDestination	??	throw		new ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- BDCData null" );
 						//.............................................
-						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>		(	()=>	new	RfcFncManager( this.RfcDestination )	, cz_LM );
+						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>	(	()=>	new	RfcFncManager( this.RfcDestination )	, cz_LM );
 						//.............................................
 						this._Lock	= new object();
 					}
@@ -29,9 +28,9 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy<IRfcFncManager>				_RfcFncMngr			;
+				private readonly	Lazy<IRfcFncManager>	_RfcFncMngr	;
 				//.................................................
-				private readonly	object	_Lock;
+				private readonly	object	_Lock	;
 
 			#endregion
 
@@ -39,6 +38,17 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Properties"
 
 				public	IRfcDestination		RfcDestination	{ get; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: General"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void AcivateProfiles()
+					{
+						this._RfcFncMngr.Value.UpdateProfiles();
+					}
 
 			#endregion
 
@@ -72,10 +82,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCCall_Function CreateBDCCallFunction()
-					{
-						return	new BDCCall_Function(	this.GetAddBDCCallProfile() );
-					}
+				public BDCCall_Function CreateBDCCallFunction	()=>	new	BDCCall_Function(	this.GetAddBDCCallProfile() );
 
 			#endregion
 
@@ -108,14 +115,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 						return	this._RfcFncMngr.Value.GetProfile< SAPMsg_Profile >( cz_SAPMsgCompiler );
 					}
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public SAPMsg_Function CreateSAPMsgFunction()
-				//	{
-				//		return	new SAPMsg_Function( this.GetAddSAPMsgProfile() )
-				//									{
-				//										NCORfcFunction = this.RfcDestination.CreateRfcFunction(	cz_SAPMsgCompiler )
-				//									};
-				//	}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SAPMsg_Function CreateSAPMsgFunction()	=>	new SAPMsg_Function( this.GetAddSAPMsgProfile() );
 
 			#endregion
 
