@@ -72,22 +72,5 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 			#endregion
 
-			//===========================================================================================
-			#region "Methods: Virtual"
-
-				//public override void ReadyProfile()
-				//	{
-				//		try
-				//			{
-				//				this.IsReady	=	true;
-				//			}
-				//		catch
-				//			{
-				//				this.IsReady	=	false;
-				//			}
-				//	}
-
-			#endregion
-
 		}
 }

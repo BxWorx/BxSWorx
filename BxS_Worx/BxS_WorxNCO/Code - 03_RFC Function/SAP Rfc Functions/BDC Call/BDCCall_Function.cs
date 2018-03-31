@@ -38,7 +38,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Function( BDCCall_Profile	profile	)	: base(	profile )
 					{
-						//.............................................
 						this.MyProfile	= new Lazy< BDCCall_Profile >	(	()=> (BDCCall_Profile) this.Profile , cz_LM );
 					}
 

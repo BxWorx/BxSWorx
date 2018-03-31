@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Reflection;
 using System.Security;
-//using System.Linq;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.API;
-using BxS_WorxNCO.RfcFunction.Main;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -115,32 +112,6 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.IRfcStructure CreateRfcStructure( string strName )
-					{
-						return	this.NCORepository.GetStructureMetadata( strName ).CreateStructure();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.IRfcTable CreateRfcTable( string strName )
-					{
-						return	this.NCORepository.GetStructureMetadata( strName ).CreateTable();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.IRfcFunction CreateRfcFunction( string fncName )
-					{
-						try
-							{
-								return	this.NCORepository.CreateFunction( fncName );
-							}
-						catch (Exception)
-							{
-								throw;
-							}
-
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void RegisterRfcFunctionForMetadata( string fncName , bool loadMetaData = false )
 					{
 						this._Fncs.Add( fncName );
@@ -151,32 +122,6 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 								this.FetchMetadata();
 							}
 					}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public bool LoadRfcFunctionProfileMetadata( IRfcFncProfile profile )
-				//	{
-				//		if ( ! profile.IsReady )
-				//			{
-				//				profile.ReadyProfile();
-				//			}
-				//		//.............................................
-				//		return	profile.IsReady;
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public bool LoadRfcFunction( IRfcFncBase rfcFunction )
-				//	{
-				//		bool	lb_Ret = true;
-				//		//.............................................
-				//		try
-				//			{
-				//				rfcFunction.NCORfcFunction	= this.CreateRfcFunction( rfcFunction.SAPFncName );
-				//			}
-				//		catch
-				//			{ lb_Ret	= false; }
-				//		//.............................................
-				//		return	lb_Ret;
-				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Ping()
@@ -193,73 +138,6 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 						//.............................................
 						return	lb_Ret;
 					}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public bool LoadFunctionIndexing<T>( T obj ) where T:class
-				//	{
-				//		try
-				//			{
-				//				string	lc_Nme	= string.Empty;
-				//				int			ln_Idx	= 0;
-
-				//				SMC.RfcFunctionMetadata		lo_Fnc	= null	;
-				//				SAPAttribute							lo_CP;
-				//				//.............................................
-				//				lc_Nme	= this.ClassLevelAttribute<T>();
-				//				lo_Fnc	= this.NCORepository.GetFunctionMetadata( lc_Nme );
-
-				//				foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
-				//					{
-				//						lo_CP		=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
-				//						ln_Idx	= lo_Fnc.TryNameToIndex( lo_CP.Name );
-
-				//						lo_PI.SetValue( obj , ln_Idx );
-				//					}
-
-				//				return	true;
-				//			}
-				//		catch
-				//			{
-				//				return	false;
-				//			}
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public bool LoadStructureIndexing<T>( T obj ) where T:class
-				//	{
-				//		string	lc_Name	= string.Empty;
-				//		int			ln_PIndx		= 0;
-
-				//		SMC.RfcStructureMetadata	ls_Stru	= null;
-				//		SAPAttribute							lo_CP;
-				//		//.............................................
-				//		try
-				//			{
-				//				lc_Name		= this.ClassLevelAttribute<T>();
-				//				ls_Stru		= this.NCORepository.GetStructureMetadata( lc_Name );
-
-				//				foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
-				//					{
-				//						lo_CP			=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
-				//						ln_PIndx	= ls_Stru.TryNameToIndex( lo_CP.Name );
-
-				//						lo_PI.SetValue( obj , ln_PIndx );
-				//					}
-
-				//				return	true;
-				//			}
-				//		catch
-				//			{
-				//				return	false;
-				//			}
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private string ClassLevelAttribute<T>() where T:class
-				//	{
-				//		return	typeof(T).GetCustomAttributes( typeof( SAPAttribute ) , true )
-				//							.FirstOrDefault() is SAPAttribute SAPAttr ? SAPAttr.Name : string.Empty	;
-				//	}
 
 			#endregion
 

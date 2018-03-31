@@ -1,23 +1,17 @@
 ﻿using System;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.SAPMsg
 {
-	internal class SAPMsg_Profile : RfcFncProfile
+	internal abstract class SAPMsg_IndexBase
 		{
-			#region "Function Parameters"
+			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPMsg_Profile(		string					fncName
-																	, SAPMsg_Factory	factory	)	: base( fncName )
+				internal SAPMsg_IndexBase( SAPMsg_Profile profile )
 					{
-						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(SAPMsg_Profile).Namespace}:- Factory null" );
-						//.............................................
-						this.FNCIndex		= this._Factory.CreateIndexFNC( this );
-						this.TXTIndex		= this._Factory.CreateIndexTXT( this );
+						this._Profile		= profile;
 					}
 
 			#endregion
@@ -25,17 +19,26 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Declarations"
 
-				private		readonly	SAPMsg_Factory		_Factory;
+				protected	readonly	SAPMsg_Profile					_Profile	;
 				//.................................................
-				internal	readonly	SAPMsg_IndexFNC		FNCIndex;
-				internal	readonly	SAPMsg_IndexTXT		TXTIndex;
+				protected	Lazy<	SMC.RfcStructureMetadata >	_Metadata	;
 
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
+			#region "Methods: Exposed"
 
-				internal	SMC.RfcStructureMetadata	LNEStructure	{ get	{	return	this.Metadata[this.FNCIndex.MsgLT].ValueMetadataAsTableMetadata.LineType	; } }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal SMC.IRfcStructure	Create()
+					{
+						return	this._Metadata.Value.CreateStructure();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal SMC.IRfcTable	CreateTable()
+					{
+						return	this._Metadata.Value.CreateTable();
+					}
 
 			#endregion
 

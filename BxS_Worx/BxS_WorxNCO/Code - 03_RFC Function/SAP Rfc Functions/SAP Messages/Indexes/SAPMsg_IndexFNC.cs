@@ -11,17 +11,19 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPMsg_IndexFNC()
+				internal SAPMsg_IndexFNC( SAPMsg_Profile profile )
 					{
-						this._Langu		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "LANGUAGE"				) );
-						this._MsgID		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESSAGE_ID"			) );
-						this._MsgNo		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESSAGE_NUMBER"	) );
-						this._MsgV1		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESSAGE_VAR1"		) );
-						this._MsgV2		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESSAGE_VAR2"		) );
-						this._MsgV3		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESSAGE_VAR3"		) );
-						this._MsgV4		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESSAGE_VAR4"		) );
-						this._MsgST		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESSAGE_TEXT"		) );
-						this._MsgLT		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "LONGTEXT"				) );
+						this._Profile		= profile;
+						//.............................................
+						this._Langu		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "LANGUAGE"				) );
+						this._MsgID		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MESSAGE_ID"			) );
+						this._MsgNo		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MESSAGE_NUMBER"	) );
+						this._MsgV1		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MESSAGE_VAR1"		) );
+						this._MsgV2		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MESSAGE_VAR2"		) );
+						this._MsgV3		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MESSAGE_VAR3"		) );
+						this._MsgV4		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MESSAGE_VAR4"		) );
+						this._MsgST		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MESSAGE_TEXT"		) );
+						this._MsgLT		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "LONGTEXT"				) );
 					}
 
 			#endregion
@@ -29,6 +31,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Declarations"
 
+				private	readonly	SAPMsg_Profile		_Profile;
+				//.................................................
 				private	readonly	Lazy<int>		_Langu	;
 				private	readonly	Lazy<int>		_MsgID	;
 				private	readonly	Lazy<int>		_MsgNo	;
@@ -45,18 +49,16 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			#region "Properties"
 
 				internal	string	Name { get { return	cz_SAPMsgCompiler; } }
-
-				internal	SMC.RfcFunctionMetadata	Metadata	{ get; set;	}
 				//.................................................
-				internal	int		Langu		{ get { return	this._Langu.Value; } }
-				internal	int		MsgID		{ get { return	this._MsgID.Value; } }
-				internal	int		MsgNo		{ get { return	this._MsgNo.Value; } }
-				internal	int		MsgV1		{ get { return	this._MsgV1.Value; } }
-				internal	int		MsgV2		{ get { return	this._MsgV2.Value; } }
-				internal	int		MsgV3		{ get { return	this._MsgV3.Value; } }
-				internal	int		MsgV4		{ get { return	this._MsgV4.Value; } }
-				internal	int		MsgST		{ get { return	this._MsgST.Value; } }
-				internal	int		MsgLT		{ get { return	this._MsgLT.Value; } }
+				internal	int		Langu		{ get { return	this._Profile.IsReady ?	this._Langu.Value : 0	; } }
+				internal	int		MsgID		{ get { return	this._Profile.IsReady ?	this._MsgID.Value : 0	; } }
+				internal	int		MsgNo		{ get { return	this._Profile.IsReady ?	this._MsgNo.Value : 0	; } }
+				internal	int		MsgV1		{ get { return	this._Profile.IsReady ?	this._MsgV1.Value : 0	; } }
+				internal	int		MsgV2		{ get { return	this._Profile.IsReady ?	this._MsgV2.Value : 0	; } }
+				internal	int		MsgV3		{ get { return	this._Profile.IsReady ?	this._MsgV3.Value : 0	; } }
+				internal	int		MsgV4		{ get { return	this._Profile.IsReady ?	this._MsgV4.Value : 0	; } }
+				internal	int		MsgST		{ get { return	this._Profile.IsReady ?	this._MsgST.Value : 0	; } }
+				internal	int		MsgLT		{ get { return	this._Profile.IsReady ?	this._MsgLT.Value : 0	; } }
 
 			#endregion
 

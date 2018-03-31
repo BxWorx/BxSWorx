@@ -17,7 +17,7 @@ namespace BxS_WorxNCO.Destination.Config
 			//===========================================================================================
 			#region "Properties"
 
-				public	Dictionary< string , string > Settings { get; }
+				public	Dictionary< string , string >		Settings { get; }
 
 			#endregion
 

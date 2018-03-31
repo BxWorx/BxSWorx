@@ -17,7 +17,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				internal BDCCall_Header(	BDCCall_IndexCTU	ctuIndex
 																,	bool							withDefaults = true	)
 					{
-						this._IndexCTU		= ctuIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Header).Namespace}:- CTUIndex null" );
+						this._IndexCTU	= ctuIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Header).Namespace}:- CTUIndex null" );
 						//.............................................
 						this._CTU				= new Lazy< SMC.IRfcStructure >( ()=> this._IndexCTU.Create() );
 						//.............................................

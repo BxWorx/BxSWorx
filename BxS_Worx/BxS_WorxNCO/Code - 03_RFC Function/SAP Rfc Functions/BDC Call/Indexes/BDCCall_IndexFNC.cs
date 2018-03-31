@@ -43,12 +43,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				internal	string	Name			{ get { return	cz_BDCCallTran; } }
 				//.................................................
-				internal	int			TCode			{ get { return	this._Profile.IsReady ?	this._TCode	.Value	:	0	; } }
-				internal	int			Skip1			{ get { return	this._Profile.IsReady ?	this._Skip1	.Value	:	0	; } }
-				internal	int			CTUOpt		{ get { return	this._Profile.IsReady ?	this._CTUOpt.Value	:	0	; } }
-				internal	int			TabBDC		{ get { return	this._Profile.IsReady ?	this._TabBDC.Value	:	0	; } }
-				internal	int			TabMSG		{ get { return	this._Profile.IsReady ?	this._TabMSG.Value	:	0	; } }
-				internal	int			TabSPA		{ get { return	this._Profile.IsReady ?	this._TabSPA.Value	:	0	; } }
+				internal	int			TCode			{ get { return	this._Profile.IsReady ?	this._TCode	.Value : 0	; } }
+				internal	int			Skip1			{ get { return	this._Profile.IsReady ?	this._Skip1	.Value : 0	; } }
+				internal	int			CTUOpt		{ get { return	this._Profile.IsReady ?	this._CTUOpt.Value : 0	; } }
+				internal	int			TabBDC		{ get { return	this._Profile.IsReady ?	this._TabBDC.Value : 0	; } }
+				internal	int			TabMSG		{ get { return	this._Profile.IsReady ?	this._TabMSG.Value : 0	; } }
+				internal	int			TabSPA		{ get { return	this._Profile.IsReady ?	this._TabSPA.Value : 0	; } }
 
 			#endregion
 

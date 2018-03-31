@@ -6,15 +6,17 @@ using	static	BxS_WorxNCO.RfcFunction.BDCTran.SAPMsg_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.SAPMsg
 {
-	internal class SAPMsg_IndexTXT
+	internal class SAPMsg_IndexTXT : SAPMsg_IndexBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPMsg_IndexTXT()
+				internal SAPMsg_IndexTXT( SAPMsg_Profile profile ) : base( profile )
 					{
-						this._Fmt		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "TDFORMAT" ) );
-						this._Lne		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "TDLINE"	 ) );
+						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.LNEStructure	);
+						//.............................................
+						this._Fmt		= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "TDFORMAT" ) );
+						this._Lne		= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "TDLINE"		) );
 					}
 
 			#endregion
@@ -30,29 +32,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	Name { get { return	cz_StrLne; } }
-
-				internal	SMC.RfcStructureMetadata	Metadata	{ get; set;	}
-				//.................................................
-				internal	int		Fmt		{ get { return	this._Fmt.Value; } }
-				internal	int		Lne		{ get { return	this._Lne.Value; } }
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcStructure	Create()
-					{
-						return	this.Metadata.CreateStructure();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcTable	CreateTable()
-					{
-						return	this.Metadata.CreateTable();
-					}
+				internal	int	Fmt		{ get { return	this._Profile.IsReady ?	this._Fmt.Value	:	0	; } }
+				internal	int	Lne		{ get { return	this._Profile.IsReady ?	this._Lne.Value	:	0	; } }
 
 			#endregion
 
