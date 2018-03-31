@@ -4,7 +4,7 @@ using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
-	public interface IRfcFncBase
+	internal interface IRfcFncBase
 		{
 			#region "Properties"
 

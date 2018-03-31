@@ -12,12 +12,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 		{
 			#region "Constructors"
 
+		//														,	IRfcDestination rfcDestination )
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncProfile(		string					functionName
-																,	IRfcDestination rfcDestination )
+				internal RfcFncProfile(	string	functionName )
 					{
 						this.FunctionName			= functionName		??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Function Name null"	);
-						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Destination null"		);
+						//this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncProfile).Namespace}:- Destination null"		);
 						//.............................................
 						this.IsReady	= false;
 						//.............................................
@@ -30,7 +31,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Declarations"
 
 				private		readonly	object						_Lock;
-				protected	readonly	IRfcDestination		_RfcDestination;
+				//protected	readonly	IRfcDestination		_RfcDestination;
 
 			#endregion
 
@@ -53,66 +54,66 @@ namespace BxS_WorxNCO.RfcFunction.Main
 						return	this.Metadata.CreateFunction();
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected bool LoadFunctionIndexing<T>( T obj ) where T:class
-					{
-						try
-							{
-								SAPAttribute	lo_CP;
-								//.........................................
-								foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
-									{
-										lo_CP		=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
-										lo_PI.SetValue( obj , this.Metadata.TryNameToIndex( lo_CP.Name ) );
-									}
-								//.........................................
-								return	true;
-							}
-						catch
-							{
-								return	false;
-							}
-					}
+			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//	protected bool LoadFunctionIndexing<T>( T obj ) where T:class
+			//		{
+			//			try
+			//				{
+			//					SAPAttribute	lo_CP;
+			//					//.........................................
+			//					foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
+			//						{
+			//							lo_CP		=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
+			//							lo_PI.SetValue( obj , this.Metadata.TryNameToIndex( lo_CP.Name ) );
+			//						}
+			//					//.........................................
+			//					return	true;
+			//				}
+			//			catch
+			//				{
+			//					return	false;
+			//				}
+			//		}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected bool LoadStructureIndexing<T>( T obj ) where T:class
-					{
-						try
-							{
-								SAPAttribute							lo_CP;
-								int												ln_PIndx	= 0;
-								string										lc_Name		= this.ClassLevelAttribute<T>();
-								SMC.RfcStructureMetadata	ls_Stru		= this.Metadata[ this.Metadata.TryNameToIndex( lc_Name ) ].ValueMetadataAsStructureMetadata;
-								//.........................................
-								foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
-									{
-										lo_CP			=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
-										ln_PIndx	= ls_Stru.TryNameToIndex( lo_CP.Name );
+			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//	protected bool LoadStructureIndexing<T>( T obj ) where T:class
+			//		{
+			//			try
+			//				{
+			//					SAPAttribute							lo_CP;
+			//					int												ln_PIndx	= 0;
+			//					string										lc_Name		= this.ClassLevelAttribute<T>();
+			//					SMC.RfcStructureMetadata	ls_Stru		= this.Metadata[ this.Metadata.TryNameToIndex( lc_Name ) ].ValueMetadataAsStructureMetadata;
+			//					//.........................................
+			//					foreach ( PropertyInfo lo_PI in	obj.GetType().GetProperties() )
+			//						{
+			//							lo_CP			=	(SAPAttribute) Attribute.GetCustomAttribute( lo_PI , typeof( SAPAttribute ) );
+			//							ln_PIndx	= ls_Stru.TryNameToIndex( lo_CP.Name );
 
-										lo_PI.SetValue( obj , ln_PIndx );
-									}
-								//.........................................
-								return	true;
-							}
-						catch
-							{
-								return	false;
-							}
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private string ClassLevelAttribute<T>() where T:class
-					{
-						return	typeof(T).GetCustomAttributes( typeof( SAPAttribute ) , true )
-											.FirstOrDefault() is SAPAttribute SAPAttr ? SAPAttr.Name : string.Empty	;
-					}
+			//							lo_PI.SetValue( obj , ln_PIndx );
+			//						}
+			//					//.........................................
+			//					return	true;
+			//				}
+			//			catch
+			//				{
+			//					return	false;
+			//				}
+			//		}
 
 			#endregion
+
+			////===========================================================================================
+			//#region "Methods: Private"
+
+			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//	private string ClassLevelAttribute<T>() where T:class
+			//		{
+			//			return	typeof(T).GetCustomAttributes( typeof( SAPAttribute ) , true )
+			//								.FirstOrDefault() is SAPAttribute SAPAttr ? SAPAttr.Name : string.Empty	;
+			//		}
+
+			//#endregion
 
 			//===========================================================================================
 			#region "Methods: Virtual"

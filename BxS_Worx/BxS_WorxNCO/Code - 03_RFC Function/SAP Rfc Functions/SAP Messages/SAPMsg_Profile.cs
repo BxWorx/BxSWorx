@@ -11,9 +11,7 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal SAPMsg_Profile(		string						fncName
-																	,	IRfcDestination		rfcDestination
-																	, SAPMsg_Factory		factory					)	: base(		fncName
-																																								, rfcDestination )
+																	, SAPMsg_Factory		factory					)	: base( fncName )
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(SAPMsg_Profile).Namespace}:- Factory null" );
 						//.............................................
@@ -70,9 +68,18 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 
 				public override void ReadyProfile()
 					{
-						this.IsReady	=				this._RfcDestination.LoadFunctionIndexing		( this.FNCIndex )
+						try
+							{
+								//this.LoadFunctionIndexing		( this.FNCIndex )	;
 
-															&&	this._RfcDestination.LoadStructureIndexing	( this.TXTIndex );
+								//this.LoadStructureIndexing	( this.TXTIndex )	;
+
+								this.IsReady	=	true;
+							}
+						catch
+							{
+								this.IsReady	=	false;
+							}
 					}
 
 			#endregion

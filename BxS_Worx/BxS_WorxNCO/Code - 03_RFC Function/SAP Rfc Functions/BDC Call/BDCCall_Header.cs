@@ -14,31 +14,36 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Header(	SMC.IRfcStructure ctuParms
-																, BDCCall_IndexCTU	ctuIndex
+				internal BDCCall_Header(	BDCCall_IndexCTU	ctuIndex
 																,	bool							withDefaults = true	)
 					{
-						//this.CTUParms		= ctuParms	??	throw		new	ArgumentException( $"{typeof(BDCCall_Header).Namespace}:- CTUParms null" );
-						this.IndexCTU		= ctuIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Header).Namespace}:- CTUIndex null" );
+						this._IndexCTU		= ctuIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Header).Namespace}:- CTUIndex null" );
 						//.............................................
-						if ( withDefaults )		this.SetupDefaults();
-
-						this._CTU		= new Lazy<SMC.IRfcStructure>( ()=> this.IndexCTU.Metadata.CreateStructure() );
+						this._CTU				= new Lazy< SMC.IRfcStructure >( ()=> this._IndexCTU.Create() );
+						//.............................................
+						if ( withDefaults )
+							{
+								this.SetupDefaults();
+							}
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private	readonly	Lazy< SMC.IRfcStructure >		_CTU			;
+				private readonly	BDCCall_IndexCTU						_IndexCTU	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private		BDCCall_IndexCTU	IndexCTU	{ get; }
-				//.................................................
-				internal	string	SAPTCode		{ get;	set; }
-				internal	bool		Skip1st			{ get;	set; }
+				internal	string							SAPTCode	{ get;	set; }
+				internal	bool								Skip1st		{ get;	set; }
 				//.................................................
 				internal	SMC.IRfcStructure		CTUParms	{ get { return	this._CTU.Value; } }
-
-				internal Lazy< SMC.IRfcStructure >	_CTU;
 
 			#endregion
 
@@ -51,13 +56,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.SAPTCode		= dtoHead.SAPTCode;
 						this.Skip1st		= dtoHead.Skip1st	;
 						//.............................................
-						this.CTUParms[ this.IndexCTU.DspMde ].SetValue( dtoHead.CTUParms.DisplayMode		);
-						this.CTUParms[ this.IndexCTU.UpdMde ].SetValue( dtoHead.CTUParms.UpdateMode		);
-						this.CTUParms[ this.IndexCTU.CATMde ].SetValue( dtoHead.CTUParms.CATTMode			);
-						this.CTUParms[ this.IndexCTU.DefSze ].SetValue( dtoHead.CTUParms.DefaultSize		);
-						this.CTUParms[ this.IndexCTU.NoComm ].SetValue( dtoHead.CTUParms.NoCommit			);
-						this.CTUParms[ this.IndexCTU.NoBtcI ].SetValue( dtoHead.CTUParms.NoBatchInpFor	);
-						this.CTUParms[ this.IndexCTU.NoBtcE ].SetValue( dtoHead.CTUParms.NoBatchInpAft	);
+						this.CTUParms[ this._IndexCTU.DspMde ].SetValue( dtoHead.CTUParms.DisplayMode		);
+						this.CTUParms[ this._IndexCTU.UpdMde ].SetValue( dtoHead.CTUParms.UpdateMode		);
+						this.CTUParms[ this._IndexCTU.CATMde ].SetValue( dtoHead.CTUParms.CATTMode			);
+						this.CTUParms[ this._IndexCTU.DefSze ].SetValue( dtoHead.CTUParms.DefaultSize		);
+						this.CTUParms[ this._IndexCTU.NoComm ].SetValue( dtoHead.CTUParms.NoCommit			);
+						this.CTUParms[ this._IndexCTU.NoBtcI ].SetValue( dtoHead.CTUParms.NoBatchInpFor );
+						this.CTUParms[ this._IndexCTU.NoBtcE ].SetValue( dtoHead.CTUParms.NoBatchInpAft );
 					}
 
 			#endregion
@@ -70,10 +75,10 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this.Skip1st		= false;
 						//.............................................
-						this.CTUParms[ this.IndexCTU.DspMde ].SetValue( cz_CTU_A );
-						this.CTUParms[ this.IndexCTU.UpdMde ].SetValue( cz_CTU_A	);
-						this.CTUParms[ this.IndexCTU.DefSze ].SetValue( cz_False	);
-						this.CTUParms[ this.IndexCTU.CATMde ].SetValue( cz_False	);
+						this.CTUParms[ this._IndexCTU.DspMde ].SetValue( cz_CTU_A );
+						this.CTUParms[ this._IndexCTU.UpdMde ].SetValue( cz_CTU_A );
+						this.CTUParms[ this._IndexCTU.DefSze ].SetValue( cz_False );
+						this.CTUParms[ this._IndexCTU.CATMde ].SetValue( cz_False );
 					}
 
 			#endregion

@@ -54,8 +54,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	BDCCall_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
-				internal	BDCCall_IndexCTU	CTUIndex	{ get {	return	this.MyProfile.Value.CTUIndex; } }
+				private	BDCCall_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
 
 				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.TCode	; } }
 				private	int		Idx_Skp		{ get {	return	this.FNCIndex.Skip1	; } }

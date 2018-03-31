@@ -18,7 +18,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				bool							ProfileExists						( string rfcFncName );
 				ProfileType				GetProfile<ProfileType>	( string rfcFncName );
 				//.................................................
-				bool UpdateProfiles();
+				void UpdateProfiles();
 
 			#endregion
 

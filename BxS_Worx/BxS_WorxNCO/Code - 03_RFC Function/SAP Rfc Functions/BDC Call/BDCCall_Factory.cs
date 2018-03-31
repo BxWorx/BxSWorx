@@ -1,7 +1,5 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
@@ -25,8 +23,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	static readonly	Lazy< BDCCall_Factory >	_Instance
-																	= new Lazy< BDCCall_Factory >	(	()=>	new BDCCall_Factory() , cz_LM );
+				private	static readonly	Lazy< BDCCall_Factory >	_Instance		= new Lazy< BDCCall_Factory >	(	()=>	new BDCCall_Factory() , cz_LM );
 
 			#endregion
 
@@ -37,7 +34,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Index objects
 				//.................................................
-				internal	BDCCall_IndexFNC		CreateIndexFNC	()=>	new BDCCall_IndexFNC();
+				internal	BDCCall_IndexFNC		CreateIndexFNC	( BDCCall_Profile profile )=>	new BDCCall_IndexFNC( profile );
 				internal	BDCCall_IndexCTU		CreateIndexCTU	()=>	new BDCCall_IndexCTU();
 				internal	BDCCall_IndexSPA		CreateIndexSPA	()=>	new BDCCall_IndexSPA();
 				internal	BDCCall_IndexBDC		CreateIndexBDC	()=>	new BDCCall_IndexBDC();
@@ -47,22 +44,14 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Profile objects
 				//.................................................
-				internal	BDCCall_Data			CreateBDCLines	(		SMC.IRfcTable	bdcData
-																											,	SMC.IRfcTable	spaData
-																											,	SMC.IRfcTable	msgData
-																											, BDCCall_IndexSPA	spaIndex
+				internal	BDCCall_Data			CreateBDCLines	(		BDCCall_IndexSPA	spaIndex
 																											,	BDCCall_IndexBDC	bdcIndex
-																											, BDCCall_IndexMSG	msgIndex	)=>	new	BDCCall_Data(		bdcData
-																																																					,	spaData
-																																																					,	msgData
-																																																					, spaIndex
+																											, BDCCall_IndexMSG	msgIndex	)=>	new	BDCCall_Data(		spaIndex
 																																																					, bdcIndex
 																																																					, msgIndex	);
 
-				internal	BDCCall_Header		CreateBDCHeader	(		SMC.IRfcStructure ctuParms
-																											,	BDCCall_IndexCTU	ctuIndex
-																											,	bool							withDefaults	= true )=>	new BDCCall_Header(		ctuParms
-																																																												, ctuIndex
+				internal	BDCCall_Header		CreateBDCHeader	(		BDCCall_IndexCTU	ctuIndex
+																											,	bool							withDefaults	= true )=>	new BDCCall_Header(		ctuIndex
 																																																												, withDefaults );
 
 			#endregion

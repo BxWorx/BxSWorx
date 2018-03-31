@@ -66,19 +66,25 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool UpdateProfiles()
+				public void UpdateProfiles()
 					{
-						bool lb_Ret	= true;
-						//...............................................
 						foreach ( KeyValuePair< string , IRfcFncProfile > lo_Prof in this._RfcFncProfiles )
 							{
-								if ( ! this._RfcDestination.LoadRfcFunctionProfileMetadata( lo_Prof.Value ) )
-									{
-										lb_Ret	= false;
-									}
+							try
+								{
+									lo_Prof.Value.Metadata	= this._RfcDestination.NCORepository.GetFunctionMetadata( lo_Prof.Value.FunctionName );
+									lo_Prof.Value.IsReady		= true;
+									//lo_Prof.Value.ReadyProfile();
+								}
+							catch ( Exception ex	)
+								{
+									throw	new Exception( "Profile Metadata Load error" , ex );
+								}
+								//if ( ! this._RfcDestination.LoadRfcFunctionProfileMetadata( lo_Prof.Value ) )
+								//	{
+								//		lb_Ret	= false;
+								//	}
 							}
-						//...............................................
-						return	lb_Ret;
 					}
 
 			#endregion

@@ -28,7 +28,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				void	RegisterSAPMsgProfile( bool loadMetaData = false );
 				//.................................................
 				SAPMsg_Profile		GetAddSAPMsgProfile		();
-				SAPMsg_Function		CreateSAPMsgFunction	();
+				//SAPMsg_Function		CreateSAPMsgFunction	();
 
 			#endregion
 

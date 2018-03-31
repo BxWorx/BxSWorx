@@ -37,7 +37,7 @@ namespace BxS_WorxNCO.Destination.API
 			#region "Methods: Exposed: Rfc Functions"
 
 				void RegisterRfcFunctionForMetadata( string fncName , bool loadMetaData = false );
-				bool LoadRfcFunctionProfileMetadata( IRfcFncProfile profile );
+				//bool LoadRfcFunctionProfileMetadata( IRfcFncProfile profile );
 				//bool LoadRfcFunction( IRfcFncBase rfcFunction );
 
 				//bool LoadFunctionIndexing	<T>	( T obj ) where T:class;

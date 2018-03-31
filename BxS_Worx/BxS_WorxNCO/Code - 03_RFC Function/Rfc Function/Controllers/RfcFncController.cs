@@ -55,7 +55,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCallTran ) )
 											{
 												var	lo_Prof	= new BDCCall_Profile(	cz_BDCCallTran
-																													,	this.RfcDestination
 																													, BDCCall_Factory.Instance );
 
 												this._RfcFncMngr.Value.RegisterProfile( lo_Prof , loadMetaData );
@@ -75,10 +74,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCCall_Function CreateBDCCallFunction()
 					{
-						return	new BDCCall_Function(	this.GetAddBDCCallProfile() )
-													{
-														NCORfcFunction = this.RfcDestination.CreateRfcFunction(	cz_BDCCallTran )
-													};
+						return	new BDCCall_Function(	this.GetAddBDCCallProfile() );
 					}
 
 			#endregion
@@ -96,7 +92,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_SAPMsgCompiler ) )
 											{
 												var	lo_Prof	= new BDCCall_Profile(	cz_SAPMsgCompiler
-																													,	this.RfcDestination
 																													, BDCCall_Factory.Instance	);
 
 												this._RfcFncMngr.Value.RegisterProfile( lo_Prof , loadMetaData );
@@ -113,14 +108,14 @@ namespace BxS_WorxNCO.RfcFunction.Main
 						return	this._RfcFncMngr.Value.GetProfile< SAPMsg_Profile >( cz_SAPMsgCompiler );
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SAPMsg_Function CreateSAPMsgFunction()
-					{
-						return	new SAPMsg_Function( this.GetAddSAPMsgProfile() )
-													{
-														NCORfcFunction = this.RfcDestination.CreateRfcFunction(	cz_SAPMsgCompiler )
-													};
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public SAPMsg_Function CreateSAPMsgFunction()
+				//	{
+				//		return	new SAPMsg_Function( this.GetAddSAPMsgProfile() )
+				//									{
+				//										NCORfcFunction = this.RfcDestination.CreateRfcFunction(	cz_SAPMsgCompiler )
+				//									};
+				//	}
 
 			#endregion
 

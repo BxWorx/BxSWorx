@@ -11,15 +11,16 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 		{
 			#region "Function Parameters"
 
+//																	,	IRfcDestination		rfcDestination
+//																																								, rfcDestination )
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Profile(		string						fncName
-																	,	IRfcDestination		rfcDestination
-																	, BDCCall_Factory		factory					)	: base(		fncName
-																																								, rfcDestination )
+																	, BDCCall_Factory		factory					)	: base(		fncName )
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(BDCCall_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this.FNCIndex		= this._Factory.CreateIndexFNC();
+						this.FNCIndex		= this._Factory.CreateIndexFNC( this );
 						this.CTUIndex		= this._Factory.CreateIndexCTU();
 						this.SPAIndex		= this._Factory.CreateIndexSPA();
 						this.BDCIndex		= this._Factory.CreateIndexBDC();
@@ -54,9 +55,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this.ReadyProfile();
 
-						return	this._Factory.CreateBDCHeader(	this._RfcDestination.CreateRfcStructure( cz_StrCTU )
-																									,	this.CTUIndex
-																									,	withDefaults																					);
+						return	this._Factory.CreateBDCHeader(	this.CTUIndex
+																									,	withDefaults	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -64,12 +64,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this.ReadyProfile();
 
-						return	this._Factory.CreateBDCLines(		this._RfcDestination.CreateRfcTable( cz_StrBDC )
-																									,	this._RfcDestination.CreateRfcTable( cz_StrSPA )
-																									,	this._RfcDestination.CreateRfcTable( cz_StrMSG )
-																									,	this.SPAIndex
+						return	this._Factory.CreateBDCLines(		this.SPAIndex
 																									,	this.BDCIndex
-																									,	this.MSGIndex																			);
+																									,	this.MSGIndex	);
 					}
 
 			#endregion
@@ -81,12 +78,14 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						try
 							{
-								this.LoadFunctionIndexing		( this.FNCIndex )	;
+								//this.FNCIndex.Metadata	= this.Metadata;
+								
+								//this.LoadFunctionIndexing		( this.FNCIndex )	;
 
-								this.LoadStructureIndexing	( this.CTUIndex )	;
-								this.LoadStructureIndexing	( this.SPAIndex )	;
-								this.LoadStructureIndexing	( this.BDCIndex )	;
-								this.LoadStructureIndexing	( this.MSGIndex )	;
+								//this.LoadStructureIndexing	( this.CTUIndex )	;
+								//this.LoadStructureIndexing	( this.SPAIndex )	;
+								//this.LoadStructureIndexing	( this.BDCIndex )	;
+								//this.LoadStructureIndexing	( this.MSGIndex )	;
 
 								this.IsReady	=	true;
 							}

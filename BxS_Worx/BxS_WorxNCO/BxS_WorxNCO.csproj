@@ -17,6 +17,7 @@
   <ItemGroup>
     <Compile Remove="Code - 01_Main\API\BDC_Factory.cs" />
     <Compile Remove="Code - 01_Main\API\Controller.cs" />
+    <Compile Remove="Code - 03_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDCCallTranProfile.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDC_OpFnc.cs" />
     <Compile Remove="Code - 04_BDCSession\API\IBDCSession.cs" />

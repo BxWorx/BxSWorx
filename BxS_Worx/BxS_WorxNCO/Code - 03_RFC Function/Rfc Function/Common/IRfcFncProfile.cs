@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
-	public interface IRfcFncProfile
+	internal interface IRfcFncProfile
 		{
 			#region "Properties"
 

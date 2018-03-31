@@ -152,16 +152,16 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 							}
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool LoadRfcFunctionProfileMetadata( IRfcFncProfile profile )
-					{
-						if ( ! profile.IsReady )
-							{
-								profile.ReadyProfile();
-							}
-						//.............................................
-						return	profile.IsReady;
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public bool LoadRfcFunctionProfileMetadata( IRfcFncProfile profile )
+				//	{
+				//		if ( ! profile.IsReady )
+				//			{
+				//				profile.ReadyProfile();
+				//			}
+				//		//.............................................
+				//		return	profile.IsReady;
+				//	}
 
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//public bool LoadRfcFunction( IRfcFncBase rfcFunction )

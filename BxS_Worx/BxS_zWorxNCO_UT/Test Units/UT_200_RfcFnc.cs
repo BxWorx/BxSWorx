@@ -55,7 +55,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.AreEqual	(	0	, lo_PR1.BDCIndex.Val			,	"" );
 					Assert.AreEqual	(	0	, lo_PR1.MSGIndex.Fldnm		,	"" );
 
-					Assert.IsTrue		(	lo_FM.UpdateProfiles()	, "" );
+					lo_FM.UpdateProfiles();
 
 					Assert.AreNotEqual	(	0	, lo_PR1.FNCIndex.TabSPA	,	"" );
 					Assert.AreNotEqual	(	0	, lo_PR1.CTUIndex.NoBtcE	,	"" );
@@ -66,8 +66,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					var lo_FN1	= new MyRfcFnc( lo_PR1 );
 					var lo_FN2	= new MyRfcFnc( lo_PR2 );
 
-					lo_DS.LoadRfcFunction( lo_FN1 );
-					lo_DS.LoadRfcFunction( lo_FN2 );
+					//lo_DS.LoadRfcFunction( lo_FN1 );
+					//lo_DS.LoadRfcFunction( lo_FN2 );
 
 					Assert.IsNotNull	( lo_FN1.NCORfcFunction , "" );
 					Assert.IsNotNull	( lo_FN2.NCORfcFunction , "" );
@@ -91,7 +91,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						BDCCall_Factory lo_FC	= BDCCall_Factory.Instance;
 
 						return	new BDCCall_Profile(	cz_FNme
-																				, lo_DS
 																				, lo_FC	);
 					}
 

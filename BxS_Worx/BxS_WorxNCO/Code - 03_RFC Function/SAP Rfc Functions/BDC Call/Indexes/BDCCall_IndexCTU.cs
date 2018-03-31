@@ -1,12 +1,11 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
 //.........................................................
-using BxS_WorxNCO.RfcFunction.Main;
-using System;
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using	static	BxS_WorxNCO.RfcFunction.BDCTran.BDCCall_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	//[ SAP( Name = "CTU_PARAMS" ) ]
-
 	internal class BDCCall_IndexCTU
 		{
 			#region "Constructors"
@@ -41,25 +40,17 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	Name { get { return	"CTU_PARAMS"; } }
+				internal	string	Name { get { return	cz_StrCTU; } }
 
 				internal	SMC.RfcStructureMetadata	Metadata	{ get; set;	}
 				//.................................................
-				internal	int		DspMde	{ get { return	this._DspMde.Value; } }
-				internal	int		UpdMde	{ get { return	this._UpdMde.Value; } }
-				internal	int		CATMde	{ get { return	this._CATMde.Value; } }
-				internal	int		DefSze	{ get { return	this._DefSze.Value; } }
-				internal	int		NoComm	{ get { return	this._NoComm.Value; } }
-				internal	int		NoBtcI	{ get { return	this._NoBtcI.Value; } }
-				internal	int		NoBtcE	{ get { return	this._NoBtcE.Value; } }
-
-				//[	SAP( Name = "DISMODE"	 ) ]		public	int	DspMde	{ get; set;	}
-				//[	SAP( Name = "UPDMODE"	 ) ]		public	int UpdMde	{ get; set;	}
-				//[	SAP( Name = "CATTMODE" ) ]		public	int CATMde	{ get; set;	}
-				//[	SAP( Name = "DEFSIZE"	 ) ]		public	int DefSze	{ get; set;	}
-				//[	SAP( Name = "RACOMMIT" ) ]		public	int NoComm	{ get; set;	}
-				//[	SAP( Name = "NOBINPT"	 ) ]		public	int NoBtcI	{ get; set;	}
-				//[	SAP( Name = "NOBIEND"	 ) ]		public	int NoBtcE	{ get; set;	}
+				internal	int		DspMde	{ get { return	this.Metadata == null	?	0	:	this._DspMde.Value; } }
+				internal	int		UpdMde	{ get { return	this.Metadata == null	?	0	:	this._UpdMde.Value; } }
+				internal	int		CATMde	{ get { return	this.Metadata == null	?	0	:	this._CATMde.Value; } }
+				internal	int		DefSze	{ get { return	this.Metadata == null	?	0	:	this._DefSze.Value; } }
+				internal	int		NoComm	{ get { return	this.Metadata == null	?	0	:	this._NoComm.Value; } }
+				internal	int		NoBtcI	{ get { return	this.Metadata == null	?	0	:	this._NoBtcI.Value; } }
+				internal	int		NoBtcE	{ get { return	this.Metadata == null	?	0	:	this._NoBtcE.Value; } }
 
 			#endregion
 
