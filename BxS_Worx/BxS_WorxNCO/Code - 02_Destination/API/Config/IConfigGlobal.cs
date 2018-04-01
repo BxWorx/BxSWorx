@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface IConfigSetupGlobal	: IConfigSetupBase
+	public interface IConfigGlobal	: IConfigBase
 		{
 			#region "Properties"
 

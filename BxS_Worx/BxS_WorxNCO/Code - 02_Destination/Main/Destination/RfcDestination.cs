@@ -81,8 +81,8 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SMC.RfcConfigParameters	CreateNCOConfig					()=>	new	SMC.RfcConfigParameters	();
-				public IConfigSetupDestination	CreateDestinationConfig	()=>	new ConfigSetupDestination	();
-				public IConfigSetupGlobal				CreateGlobalConfig			()=>	new ConfigSetupGlobal				();
+				public IConfigDestination	CreateDestinationConfig	()=>	new ConfigDestination	();
+				public IConfigGlobal				CreateGlobalConfig			()=>	new ConfigGlobal				();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig( SMC.RfcConfigParameters config )
@@ -93,13 +93,13 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( IConfigSetupGlobal config )
+				public void LoadConfig( IConfigGlobal config )
 					{
 						this.UpdateConfig( config.Settings );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( IConfigSetupDestination config )
+				public void LoadConfig( IConfigDestination config )
 					{
 						this.UpdateConfig( config.Settings );
 						//.............................................

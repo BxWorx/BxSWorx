@@ -3,6 +3,8 @@ using System.Threading;
 //.........................................................
 using	IPX =	BxS_WorxIPX.Main;
 using				BxS_WorxIPX.Helpers;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
@@ -19,14 +21,14 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDC_Parser_Factory()
 					{
-						this._Proc_Tkns		=	new Lazy< BDC_Parser_Tokens				>	(	()=>	new BDC_Parser_Tokens				( _Instance ) , _LM );
-						this._Proc_Cols		=	new Lazy< BDC_Parser_Columns			>	(	()=>	new BDC_Parser_Columns			(	_Instance ) , _LM );
-						this._Proc_Grps		=	new Lazy< BDC_Parser_Groups				>	(	()=>	new BDC_Parser_Groups				(	_Instance ) , _LM );
-						this._Proc_Tran		=	new Lazy< BDC_Parser_Transaction	>	(	()=>	new BDC_Parser_Transaction	( _Instance ) , _LM );
-						this._Proc_Sesn		=	new Lazy< BDC_Parser_Session			>	(	()=>	new BDC_Parser_Session			( _Instance ) , _LM );
-						this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , _LM );
+						this._Proc_Tkns		=	new Lazy< BDC_Parser_Tokens				>	(	()=>	new BDC_Parser_Tokens				( _Instance ) , cz_LM );
+						this._Proc_Cols		=	new Lazy< BDC_Parser_Columns			>	(	()=>	new BDC_Parser_Columns			(	_Instance ) , cz_LM );
+						this._Proc_Grps		=	new Lazy< BDC_Parser_Groups				>	(	()=>	new BDC_Parser_Groups				(	_Instance ) , cz_LM );
+						this._Proc_Tran		=	new Lazy< BDC_Parser_Transaction	>	(	()=>	new BDC_Parser_Transaction	( _Instance ) , cz_LM );
+						this._Proc_Sesn		=	new Lazy< BDC_Parser_Session			>	(	()=>	new BDC_Parser_Session			( _Instance ) , cz_LM );
+						this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , cz_LM );
 						//.............................................
-						this._Serializer	= new Lazy< Serializer	>	(	()=> IPX.IPXController.Instance.CreateSerializer() , _LM );
+						this._Serializer	= new Lazy< Serializer	>	(	()=> IPX.IPXController.Instance.CreateSerializer() , cz_LM );
 					}
 
 			#endregion
@@ -34,11 +36,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				private const LazyThreadSafetyMode	_LM	= LazyThreadSafetyMode.ExecutionAndPublication;
-				//.................................................
-				private	static readonly	Lazy< BDC_Parser_Factory >	_Instance	= new Lazy< BDC_Parser_Factory >
-																																							(	()=>	new BDC_Parser_Factory()
-																																										, _LM );
+				private	static readonly	Lazy< BDC_Parser_Factory >	_Instance		= new Lazy< BDC_Parser_Factory >(	()=>	new BDC_Parser_Factory() , cz_LM );
 				//.................................................
 				private readonly	Lazy< BDC_Parser_Tokens				>	_Proc_Tkns;
 				private readonly	Lazy< BDC_Parser_Columns			>	_Proc_Cols;

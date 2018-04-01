@@ -6,12 +6,12 @@ using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Config
 {
-	internal class Logon : ConfigSetupBase , ILogon
+	internal class ConfigLogon : ConfigBase , IConfigLogon
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Logon( bool forRepository = false )
+				internal ConfigLogon( bool forRepository = false )
 					{
 						this._ForRepository	= forRepository;
 					}

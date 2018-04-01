@@ -15,7 +15,7 @@ namespace BxS_WorxNCO.BDCSession.API
 				IList< string >								GetSAPINIList();
 				IList< ISAPSystemReference >	GetSAPSystems();
 
-				IConfigSetupDestination				CreateDestinationConfig();
+				IConfigDestination				CreateDestinationConfig();
 				//.................................................
 				BDC_SessionManager				CreateBDCSessionManager( string	destinationID );
 				BDC_SessionManager				CreateBDCSessionManager( Guid		destinationID );

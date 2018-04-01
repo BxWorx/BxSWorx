@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Config
 {
-	public interface IConfigSetupBase
+	public interface IConfigBase
 		{
 			#region "Properties"
 

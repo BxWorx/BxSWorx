@@ -16,8 +16,8 @@ namespace BxS_WorxNCO.Destination.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DestinationController()
 					{
-						this._DestRepos		= new Lazy<Repository>				(	()=>	new Repository(	( Guid ID )	=>	new RfcDestination( ID ) ) , cz_LM );
-						this._GlobalSetup	= new Lazy<IConfigSetupGlobal>(	()=>	new ConfigSetupGlobal() , cz_LM );
+						this._DestRepos		= new Lazy<Repository>		(	()=>	new Repository	(	( Guid ID )	=>	new RfcDestination( ID ) ) , cz_LM );
+						this._GlobalSetup	= new Lazy<IConfigGlobal>	( ()=>	new ConfigGlobal() , cz_LM );
 					}
 
 			#endregion
@@ -25,8 +25,8 @@ namespace BxS_WorxNCO.Destination.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy<Repository>						_DestRepos;
-				private readonly	Lazy<IConfigSetupGlobal>		_GlobalSetup;
+				private readonly	Lazy<Repository>			_DestRepos;
+				private readonly	Lazy<IConfigGlobal>		_GlobalSetup;
 
 			#endregion
 
@@ -80,7 +80,7 @@ namespace BxS_WorxNCO.Destination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadGlobalConfig( IConfigSetupGlobal config )
+				public void LoadGlobalConfig( IConfigGlobal config )
 					{
 						foreach (KeyValuePair<string, string> ls_kvp in config.Settings )
 							{
@@ -96,8 +96,9 @@ namespace BxS_WorxNCO.Destination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IConfigSetupDestination	CreateDestinationConfig	()=>	new ConfigSetupDestination()	;
-				public IConfigSetupGlobal				CreateGlobalConfig			()=>	new ConfigSetupGlobal()				;
+				public IConfigLogon					CreateLogonConfig				()=>	new ConfigLogon()				;
+				public IConfigDestination		CreateDestinationConfig	()=>	new ConfigDestination()	;
+				public IConfigGlobal				CreateGlobalConfig			()=>	new ConfigGlobal()			;
 
 			#endregion
 

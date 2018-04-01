@@ -21,7 +21,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	Process(	IExcelBDCSessionRequest	dtoRequest
-															, IConfigSetupDestination sessionCfg )
+															, IConfigDestination sessionCfg )
 					{
 						sessionCfg.Client		= int.Parse( dtoRequest.Client );
 						sessionCfg.Language	= dtoRequest.Lang;

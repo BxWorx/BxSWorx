@@ -22,10 +22,10 @@ namespace BxS_WorxNCO.Main.API
 				IRfcDestination	GetDestination( Guid ID		);
 				IRfcDestination	GetDestination( string ID );
 				//.................................................
-				void LoadGlobalConfig( IConfigSetupGlobal config );
+				void LoadGlobalConfig( IConfigGlobal config );
 				//.................................................
-				IConfigSetupDestination		CreateDestinationConfig()	;
-				IConfigSetupGlobal				CreateGlobalConfig()			;
+				IConfigDestination		CreateDestinationConfig()	;
+				IConfigGlobal				CreateGlobalConfig()			;
 				//.................................................
 				void Reset();
 

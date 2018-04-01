@@ -54,7 +54,7 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Create BDC session config DTO to configure SAP Logon environment
 				//
-				public IConfigSetupDestination CreateDestinationConfig()
+				public IConfigDestination CreateDestinationConfig()
 					{
 						return	this._Cntlr_Dst.Value.CreateDestinationConfig();
 					}

@@ -21,7 +21,7 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IConfigSetupDestination		DestConfig		{ get; set; }
+				internal	IConfigDestination		DestConfig		{ get; set; }
 				internal	DTO_BDC_SessionConfig			SessionConfig	{ get; set; }
 
 				internal	DTO_BDC_Header													Header	{ get; }
