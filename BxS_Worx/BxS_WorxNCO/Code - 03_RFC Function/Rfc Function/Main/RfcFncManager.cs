@@ -44,11 +44,11 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void RegisterProfile( IRfcFncProfile rfcFncProfile , bool loadMetadata = false )
+				public void RegisterProfile( IRfcFncProfile rfcFncProfile )
 					{
 						if ( this._RfcFncProfiles.TryAdd( rfcFncProfile.FunctionName , rfcFncProfile ) )
 							{
-								this._RfcDestination.RegisterRfcFunctionForMetadata( rfcFncProfile.FunctionName , loadMetadata );
+								this._RfcDestination.RegisterRfcFunctionForMetadata( rfcFncProfile.FunctionName );
 							}
 					}
 
@@ -72,7 +72,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 							{
 								try
 									{
-										lo_Prof.Value.Metadata	= this._RfcDestination.NCORepository.GetFunctionMetadata( lo_Prof.Value.FunctionName );
+										lo_Prof.Value.Metadata	= this.NCORepository.GetFunctionMetadata( lo_Prof.Value.FunctionName );
 										lo_Prof.Value.IsReady		= true;
 									}
 								catch ( Exception ex )

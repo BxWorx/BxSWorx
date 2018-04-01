@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.Main.Destination;
@@ -96,9 +98,11 @@ namespace BxS_WorxNCO.Destination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IConfigLogon					CreateLogonConfig				()=>	new ConfigLogon()				;
-				public IConfigDestination		CreateDestinationConfig	()=>	new ConfigDestination()	;
-				public IConfigGlobal				CreateGlobalConfig			()=>	new ConfigGlobal()			;
+				public SMC.RfcConfigParameters	CreateNCOConfig					()=> Destination_Factory.CreateNCOConfig					()	;
+				public IConfigDestination				CreateDestinationConfig	()=> Destination_Factory.CreateDestinationConfig	()	;
+				public IConfigGlobal						CreateGlobalConfig			()=> Destination_Factory.CreateGlobalConfig				()	;
+
+				public IConfigLogon							CreateLogonConfig				( bool ForRepository = false )=> Destination_Factory.CreateLogonConfig( ForRepository )	;
 
 			#endregion
 

@@ -13,7 +13,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void RegisterProfile	( IRfcFncProfile	rfcFncProfile  , bool loadMetadata = false );
+				void RegisterProfile	( IRfcFncProfile	rfcFncProfile );
 				//.................................................
 				bool							ProfileExists						( string rfcFncName );
 				ProfileType				GetProfile<ProfileType>	( string rfcFncName );

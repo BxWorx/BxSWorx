@@ -1,40 +1,44 @@
 ﻿using System;
-using System.Threading;
 //.........................................................
-using	BxS_WorxIPX.Helpers;
-using BxS_WorxNCO.Destination.API;
-using BxS_WorxNCO.Destination.Config;
+using SMC	= SAP.Middleware.Connector;
+using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
+//.........................................................
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main
 {
-	internal sealed class Destination_Factory
+	internal sealed class SMCDestination
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Singleton
 				//
-				private	static readonly	Lazy< Destination_Factory >	_Instance	= new Lazy< Destination_Factory >( ()=>	new	Destination_Factory() , cz_LM );
-				//
-				internal static Destination_Factory Instance
+				private	static	readonly	Lazy< SMCDestination >	_Instance		= new Lazy< SMCDestination >(	()=>	new SMCDestination() , cz_LM );
+
+				internal static SMCDestination Instance
 					{
 						get { return _Instance.Value; }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Destination_Factory()
+				private SMCDestination()
 					{
 					}
 
 			#endregion
 
 			//===========================================================================================
+			#region "Declarations"
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
-				public IConfigLogon					CreateLogonConfig				()=>	new ConfigLogon()				;
-				public IConfigDestination		CreateDestinationConfig	()=>	new ConfigDestination()	;
-				public IConfigGlobal				CreateGlobalConfig			()=>	new ConfigGlobal()			;
+				public SMC.RfcCustomDestination	GetCustomDestination( SMC.RfcConfigParameters rfcConfig )
+					{
+						return	SDM.GetDestination( rfcConfig ).CreateCustomDestination();
+					}
 
 			#endregion
 

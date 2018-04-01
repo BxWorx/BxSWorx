@@ -5,7 +5,6 @@ using System.Security;
 using SMC	= SAP.Middleware.Connector;
 using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
 //.........................................................
-using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.API;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
@@ -28,8 +27,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 						this._OptMetadata	= false;
 						//.............................................
 						this._NCODestination	= new Lazy< SMC.RfcCustomDestination >
-																					(		()=>	SDM.GetDestination( this._RfcConfig ).CreateCustomDestination()
-																						, cz_LM	);
+																					( ()=>	SDM.GetDestination( this._RfcConfig ).CreateCustomDestination() , cz_LM	);
 					}
 
 			#endregion
@@ -80,14 +78,24 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			#region "Methods: Exposed: Configuration"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.RfcConfigParameters	CreateNCOConfig					()=>	new	SMC.RfcConfigParameters	();
-				public IConfigDestination	CreateDestinationConfig	()=>	new ConfigDestination	();
-				public IConfigGlobal				CreateGlobalConfig			()=>	new ConfigGlobal				();
+				public SMC.RfcConfigParameters	CreateNCOConfig					()=> Destination_Factory.CreateNCOConfig					()	;
+				public IConfigDestination				CreateDestinationConfig	()=> Destination_Factory.CreateDestinationConfig	()	;
+				public IConfigGlobal						CreateGlobalConfig			()=> Destination_Factory.CreateGlobalConfig				()	;
+
+				public IConfigLogon							CreateLogonConfig				( bool ForRepository = false )=> Destination_Factory.CreateLogonConfig( ForRepository )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig( SMC.RfcConfigParameters config )
 					{
 						this.UpdateConfig( config );
+						//.............................................
+						this.SecurePassword = config.SecurePassword;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadConfig( IConfigLogon config )
+					{
+						this.UpdateConfig( config.Settings );
 						//.............................................
 						this.SecurePassword = config.SecurePassword;
 					}
@@ -112,14 +120,35 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void RegisterRfcFunctionForMetadata( string fncName , bool loadMetaData = false )
+				public void RegisterRfcFunctionForMetadata( string fncName )
 					{
 						this._Fncs.Add( fncName );
 						this._MetadataIsDirty	= true;
+					}
 
-						if ( loadMetaData )
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void FetchMetadata()
+					{
+						if ( this._MetadataIsDirty )
 							{
-								this.FetchMetadata();
+								SMC.RfcLookupErrorList	lo_NCOLookupErrors;
+
+								string[] lt_Str		= new string[] {};
+								string[] lt_Tbl		= new string[] {};
+								string[] lt_Cls		= new string[] {};
+								string[] lt_Fnc		= new string[	this._Fncs.Count ];
+								//...............................................
+								try
+									{
+										this._Fncs.CopyTo( lt_Fnc , 0 );
+										this.NCORepository.UseRoundtripOptimization = this._OptMetadata;
+										lo_NCOLookupErrors		= this.NCORepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls );
+										this._MetadataIsDirty	= false;
+									}
+								catch
+									{	}
+								finally
+									{	}
 							}
 					}
 
@@ -144,33 +173,6 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			//===========================================================================================
 			#region "Methods: Private"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool FetchMetadata()
-					{
-						if ( this._MetadataIsDirty )
-							{
-								SMC.RfcLookupErrorList	lo_NCOLookupErrors;
-
-								string[] lt_Str		= new string[] {};
-								string[] lt_Tbl		= new string[] {};
-								string[] lt_Cls		= new string[] {};
-								string[] lt_Fnc		= new string[	this._Fncs.Count ];
-								//...............................................
-								try
-									{
-										this._Fncs.CopyTo( lt_Fnc , 0 );
-										this.NCORepository.UseRoundtripOptimization = this._OptMetadata;
-										lo_NCOLookupErrors		= this.NCORepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls );
-										this._MetadataIsDirty	= false;
-									}
-								catch
-									{	}
-								finally
-									{	}
-							}
-						//...............................................
-						return	! this._MetadataIsDirty;
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void UpdateConfig( Dictionary< string , string> settings )

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
@@ -22,9 +24,11 @@ namespace BxS_WorxNCO.Destination.API
 				//.................................................
 				void LoadGlobalConfig( IConfigGlobal config );
 				//.................................................
-				IConfigLogon				CreateLogonConfig()				;
-				IConfigDestination	CreateDestinationConfig()	;
-				IConfigGlobal				CreateGlobalConfig()			;
+				SMC.RfcConfigParameters		CreateNCOConfig()					;
+				IConfigDestination				CreateDestinationConfig()	;
+				IConfigGlobal							CreateGlobalConfig()			;
+
+				IConfigLogon							CreateLogonConfig( bool ForRepository = false )	;
 				//.................................................
 				void Reset();
 

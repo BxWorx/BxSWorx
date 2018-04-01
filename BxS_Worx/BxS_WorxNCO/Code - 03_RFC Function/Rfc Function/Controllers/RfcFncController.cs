@@ -56,7 +56,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed: BDC Call"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void RegisterBDCCallProfile( bool loadMetaData = false )
+				public void RegisterBDCCallProfile()
 					{
 						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCallTran ) )
 							{
@@ -67,7 +67,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 												var	lo_Prof	= new BDCCall_Profile(	cz_BDCCallTran
 																													, BDCCall_Factory.Instance );
 
-												this._RfcFncMngr.Value.RegisterProfile( lo_Prof , loadMetaData );
+												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
 											}
 									}
 							}
@@ -90,7 +90,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed: SAP Message Compiler"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void RegisterSAPMsgProfile( bool loadMetaData = false )
+				public void RegisterSAPMsgProfile()
 					{
 						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_SAPMsgCompiler ) )
 							{
@@ -101,7 +101,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 												var	lo_Prof	= new BDCCall_Profile(	cz_SAPMsgCompiler
 																													, BDCCall_Factory.Instance	);
 
-												this._RfcFncMngr.Value.RegisterProfile( lo_Prof , loadMetaData );
+												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
 											}
 									}
 							}

@@ -2,8 +2,6 @@
 using System.Security;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
-//.........................................................
-using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
@@ -36,18 +34,19 @@ namespace BxS_WorxNCO.Destination.API
 			//===========================================================================================
 			#region "Methods: Exposed: Rfc Functions"
 
-				void RegisterRfcFunctionForMetadata( string fncName , bool loadMetaData = false );
+				void RegisterRfcFunctionForMetadata( string fncName );
+				void FetchMetadata();
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
 
-				SMC.RfcConfigParameters	  CreateNCOConfig()		;
+				SMC.RfcConfigParameters	  CreateNCOConfig					()	;
+				IConfigDestination				CreateDestinationConfig	()	;
+				IConfigGlobal							CreateGlobalConfig			()	;
 
-				IConfigLogon				CreateLogonConfig()				;
-				IConfigDestination	CreateDestinationConfig()	;
-				IConfigGlobal				CreateGlobalConfig()			;
+				IConfigLogon							CreateLogonConfig( bool ForRepository = false )	;
 				//.................................................
 				void LoadConfig( SMC.RfcConfigParameters	config );
 

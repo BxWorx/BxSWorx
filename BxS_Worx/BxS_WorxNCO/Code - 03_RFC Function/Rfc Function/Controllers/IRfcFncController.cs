@@ -23,7 +23,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed: BDC Call Transaction"
 
-				void	RegisterBDCCallProfile( bool loadMetaData = false );
+				void	RegisterBDCCallProfile();
 				//.................................................
 				BDCCall_Profile		GetAddBDCCallProfile()	;
 				BDCCall_Function	CreateBDCCallFunction()	;
@@ -33,7 +33,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed: SAP Message compiler"
 
-				void	RegisterSAPMsgProfile( bool loadMetaData = false );
+				void	RegisterSAPMsgProfile();
 				//.................................................
 				SAPMsg_Profile		GetAddSAPMsgProfile()		;
 				SAPMsg_Function		CreateSAPMsgFunction()	;
