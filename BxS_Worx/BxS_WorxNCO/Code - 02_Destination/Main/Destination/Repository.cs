@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.Destination.Main
 						this._Map				= new Dictionary< string	, Guid >										()	;
 						this._Des				= new Dictionary< Guid		, SMC.RfcConfigParameters >	()	;
 						//.............................................
-						this._SAPINI		= new Lazy< SMCIni >( ()=> SMCIni.Instance 	, cz_LM	);
+						this._SAPINI		= new Lazy< SxC >( ()=> SxC.Instance 	, cz_LM	);
 						//.............................................
 						this._Lock	= new	object();
 					}
@@ -32,7 +32,7 @@ namespace BxS_WorxNCO.Destination.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy< SMCIni >	_SAPINI;
+				private readonly	Lazy< SxC >	_SAPINI;
 				//.................................................
 				private readonly	Dictionary< string	,	Guid >										_Map;
 				private readonly	Dictionary< Guid		, SMC.RfcConfigParameters >	_Des;

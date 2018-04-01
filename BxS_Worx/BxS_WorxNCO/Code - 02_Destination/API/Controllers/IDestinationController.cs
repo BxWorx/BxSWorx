@@ -19,10 +19,10 @@ namespace BxS_WorxNCO.Destination.API
 				IList< string >								GetSAPINIList();
 				IList< ISAPSystemReference >	GetSAPSystems();
 				//.................................................
-				IRfcDestination	GetDestination( Guid ID		);
-				IRfcDestination	GetDestination( string ID );
+				IRfcDestination		GetDestination( Guid		ID );
+				IRfcDestination		GetDestination( string	ID );
 				//.................................................
-				void LoadGlobalConfig( IConfigGlobal config );
+				void	LoadGlobalConfig( IConfigGlobal config );
 				//.................................................
 				SMC.RfcConfigParameters		CreateNCOConfig()					;
 				IConfigDestination				CreateDestinationConfig()	;
@@ -30,7 +30,7 @@ namespace BxS_WorxNCO.Destination.API
 
 				IConfigLogon							CreateLogonConfig( bool ForRepository = false )	;
 				//.................................................
-				void Reset();
+				void	Reset();
 
 			#endregion
 

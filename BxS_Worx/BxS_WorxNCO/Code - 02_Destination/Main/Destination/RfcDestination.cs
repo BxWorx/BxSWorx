@@ -21,13 +21,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 						this.SAPGUIID	= ID	;
 						this.MyID			= Guid.NewGuid();
 						//.............................................
-						this._RfcConfig		=	new SMC.RfcConfigParameters();
-						this._Lock				= new object();
-						this._Fncs				= new List<string>();
-						this._OptMetadata	= false;
+						this._RfcConfig			=	new SMC.RfcConfigParameters()	;
+						this._Lock					= new object()									;
+						this._Fncs					= new List<string>()						;
+						this._OptMetadata		= false													;
 						//.............................................
-						this._NCODestination	= new Lazy< SMC.RfcCustomDestination >
-																					( ()=>	SDM.GetDestination( this._RfcConfig ).CreateCustomDestination() , cz_LM	);
+						this._NCODestination		= new Lazy< SMC.RfcCustomDestination >	( ()=> SDM.GetDestination( this._RfcConfig ).CreateCustomDestination() , cz_LM );
 					}
 
 			#endregion
@@ -57,19 +56,19 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				public SMC.RfcCustomDestination		NCODestination	{ get { return	this._NCODestination.Value						; } }
 				public SMC.RfcRepository					NCORepository		{	get	{	return	this._NCODestination.Value.Repository	; } }
 				//.................................................
-				public string Client			{ set { this._RfcConfig	[ SMC.RfcConfigParameters.Client			]	= value; } }
-				public string Language		{ set { this._RfcConfig	[ SMC.RfcConfigParameters.Language		]	= value; } }
-				public string User				{ set { this._RfcConfig	[	SMC.RfcConfigParameters.User				]	= value; } }
-				public string Password		{ set { this._RfcConfig	[	SMC.RfcConfigParameters.Password		]	= value; } }
-				public string UseSAPGui		{ set { this._RfcConfig	[	SMC.RfcConfigParameters.UseSAPGui		]	= value; } }
+				public string Client			{ set { this._RfcConfig	[SMC.RfcConfigParameters.Client			]	= value; } }
+				public string Language		{ set { this._RfcConfig	[SMC.RfcConfigParameters.Language		]	= value; } }
+				public string User				{ set { this._RfcConfig	[SMC.RfcConfigParameters.User				]	= value; } }
+				public string Password		{ set { this._RfcConfig	[SMC.RfcConfigParameters.Password		]	= value; } }
+				public string UseSAPGui		{ set { this._RfcConfig	[SMC.RfcConfigParameters.UseSAPGui		]	= value; } }
 
-				public bool		ShowSAPGui	{ set { this._RfcConfig	[	SMC.RfcConfigParameters.UseSAPGui		]
-																						= value ?		SMC.RfcConfigParameters.RfcUseSAPGui.Use
+				public bool		ShowSAPGui	{ set { this._RfcConfig	[SMC.RfcConfigParameters.UseSAPGui		]
+																						= value ? SMC.RfcConfigParameters.RfcUseSAPGui.Use
 																											: SMC.RfcConfigParameters.RfcUseSAPGui.Hidden ; } }
 
 				public SecureString SecurePassword	{ set { this._RfcConfig.SecurePassword	= value; } }
 				//.................................................
-				public bool	LogonCheck	{ set { this._RfcConfig	[	SMC.RfcConfigParameters.LogonCheck	]	= value ? "1" : "0" ; } }
+				public bool	LogonCheck	{ set { this._RfcConfig	[SMC.RfcConfigParameters.LogonCheck	]	= value ? "1" : "0" ; } }
 				public bool OptimiseMetadataFetch	{ set { this._OptMetadata	= value; } }
 
 			#endregion
@@ -85,7 +84,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				public IConfigLogon							CreateLogonConfig				( bool ForRepository = false )=> Destination_Factory.CreateLogonConfig( ForRepository )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( SMC.RfcConfigParameters config )
+				public void LoadConfig(SMC.RfcConfigParameters config )
 					{
 						this.UpdateConfig( config );
 						//.............................................
@@ -131,7 +130,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					{
 						if ( this._MetadataIsDirty )
 							{
-								SMC.RfcLookupErrorList	lo_NCOLookupErrors;
+				SMC.RfcLookupErrorList	lo_NCOLookupErrors;
 
 								string[] lt_Str		= new string[] {};
 								string[] lt_Tbl		= new string[] {};

@@ -45,10 +45,7 @@ namespace BxS_WorxNCO.Destination.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// List as per SAP Logon GUI setup
 				//
-				public IList<string> GetSAPINIList()
-					{
-						return	this._DestRepos.Value.GetSAPINIList();
-					}
+				public IList<string> GetSAPINIList()	=>	SxC.Instance.GetSAPINIList();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// List of only requested SAP systems
