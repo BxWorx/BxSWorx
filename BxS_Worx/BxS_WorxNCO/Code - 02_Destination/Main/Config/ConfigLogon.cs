@@ -1,42 +1,28 @@
 ﻿using System.Security;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Config
 {
-	internal class ConfigLogon : ConfigBase , IConfigLogon
+	internal class ConfigLogon : IConfigLogon
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ConfigLogon( bool forRepository = false )
-					{
-						this._ForRepository	= forRepository;
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private	readonly	bool	_ForRepository;
+				internal ConfigLogon()
+					{	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	Language	{ set { this.Settings[ SMC.RfcConfigParameters.Language	]	= value	; } }
+				public	bool		ForRepository		{ get; set; }
+				public	string	Language				{ get; set; }
 				//.................................................
-				public	string	Client		{ set { this.Settings[ SMC.RfcConfigParameters.Client		]	= value	; } }
-				//.................................................
-				public	string	User			{ set	{ this.Settings[	this._ForRepository ? SMC.RfcConfigParameters.RepositoryUser
-																																							:	SMC.RfcConfigParameters.User								] = value	; } }
-				//.................................................
-				public	string	Password	{ set	{ this.Settings[	this._ForRepository ? SMC.RfcConfigParameters.RepositoryPassword
-																																							:	SMC.RfcConfigParameters.Password						] = value	; } }
+				public	string	Client		{ get; set; }
+				public	string	User			{ get; set; }
+				public	string	Password	{ get; set; }
 				//.................................................
 				public	SecureString	SecurePassword	{ get; set;	}
 

@@ -1,19 +1,19 @@
 ﻿using System.Security;
-//.........................................................
-using BxS_WorxNCO.Destination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface IConfigLogon : IConfigBase
+	public interface IConfigLogon
 		{
 			#region "Properties"
 
-				string	Language			{ set; }
-				string	Client				{ set; }
-				string	User					{ set; }
-				string	Password			{ set; }
+				bool		ForRepository	{ get; set; }
 				//.................................................
-				SecureString	SecurePassword	{ get;	set;	}
+				string	Language			{ get; set; }
+				string	Client				{ get; set; }
+				string	User					{ get; set; }
+				string	Password			{ get; set; }
+				//.................................................
+				SecureString	SecurePassword	{ get; set; }
 
 			#endregion
 

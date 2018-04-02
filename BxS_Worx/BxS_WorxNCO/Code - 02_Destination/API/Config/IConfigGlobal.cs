@@ -2,11 +2,11 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface IConfigGlobal	: IConfigBase
+	public interface IConfigGlobal
 		{
 			#region "Properties"
 
-				string	SNCLibPath	{ set; }
+				string	SNCLibPath	{ get; set; }
 
 			#endregion
 

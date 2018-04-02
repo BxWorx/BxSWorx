@@ -1,37 +1,22 @@
-﻿using System.Security;
-//.........................................................
-using BxS_WorxNCO.Destination.Config;
+﻿using BxS_WorxNCO.Destination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface IConfigDestination : IConfigBase
+	public interface IConfigDestination
 		{
 			#region "Properties"
 
-				int	IdleTimeout				{ set; }
-				int	IdleCheckTime			{ set; }
-				int	MaxPoolWaitTime		{ set; }
-				int	PeakConnLimit			{ set; }
-				int	PoolIdleTimeout		{ set; }
-				int	PoolSize					{ set; }
-				int	RepoIdleTimeout		{ set; }
+				int	IdleTimeout				{ get; set; }
+				int	IdleCheckTime			{ get; set; }
+				int	MaxPoolWaitTime		{ get; set; }
+				int	PeakConnLimit			{ get; set; }
+				int	PoolIdleTimeout		{ get; set; }
+				int	PoolSize					{ get; set; }
+				int	UseSAPGUI					{ get; set; }
 				//.................................................
-				int			Client				{ set; }
-				string	Language			{ set; }
-				string	User					{ set; }
-				string	Password			{ set; }
-				bool		DoLogonCheck	{ set; }
-
-				SecureString	SecurePassword	{ get;	set;	}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				void SetSAPGUIasHidden	();
-				void SetSAPGUIasUsed		();
-				void SetSAPGUIasNotUsed	();
+				int	RepoIdleTimeout		{ get; set; }
+				//.................................................
+				bool	DoLogonCheck		{ get; set; }
 
 			#endregion
 
