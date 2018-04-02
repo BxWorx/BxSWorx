@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 using SDM	= SAP.Middleware.Connector.RfcDestinationManager;
@@ -8,42 +7,39 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main
 {
-	internal sealed class SxC
+	internal sealed class SAPSDM
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Singleton
 				//
-				private	static readonly	Lazy< SxC >		_Instance		= new Lazy< SxC >( ()=>	new SxC() , cz_LM );
+				private	static readonly	Lazy< SAPSDM >		_Instance		= new Lazy< SAPSDM >( ()=>	new SAPSDM() , cz_LM );
 
-				internal static SxC Instance
+				internal static SAPSDM Instance
 					{
 						get { return _Instance.Value; }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private SxC()
-					{
-						this._SAPINI	= new Lazy< SMC.SapLogonIniConfiguration >(	()=> SMC.SapLogonIniConfiguration.Create() , cz_LM);
-					}
+				private SAPSDM()
+					{	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
-
-				private	readonly	Lazy< SMC.SapLogonIniConfiguration >	_SAPINI;
-
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<string>						GetSAPINIList					()																		=>	this._SAPINI.Value.GetEntries();
-				public SMC.RfcConfigParameters	GetIniParameters			( string lc_SAPID )										=>	this._SAPINI.Value.GetParameters(lc_SAPID)	?? new SMC.RfcConfigParameters();
-				public SMC.RfcCustomDestination	GetCustomDestination	( SMC.RfcConfigParameters rfcConfig )	=>	SDM.GetDestination( rfcConfig ).CreateCustomDestination();
+				public SMC.RfcDestination					GetDestination				( string ID )	=>	SDM.GetDestination( ID );
+				public SMC.RfcCustomDestination		GetCustomDestination	( string ID )	=>	SDM.GetDestination( ID ).CreateCustomDestination();
+
+				public SMC.RfcDestination					GetDestination				( SMC.RfcConfigParameters rfcConfig )	=>	SDM.GetDestination( rfcConfig );
+				public SMC.RfcCustomDestination		GetCustomDestination	( SMC.RfcConfigParameters rfcConfig )	=>	SDM.GetDestination( rfcConfig ).CreateCustomDestination();
 
 			#endregion
 
