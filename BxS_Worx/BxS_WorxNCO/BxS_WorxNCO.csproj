@@ -28,10 +28,8 @@
     <Compile Remove="zKeep\BDCCallTranParser.cs" />
     <Compile Remove="zKeep\BDCCallTranProfile.cs" />
     <Compile Remove="zKeep\BDC_OpFnc.cs" />
-    <Compile Remove="zKeep\ConfigBase.cs" />
     <Compile Remove="zKeep\ConfigLogon - Copy.cs" />
     <Compile Remove="zKeep\IBDCSession.cs" />
-    <Compile Remove="zKeep\IConfigBase.cs" />
     <Compile Remove="zKeep\IRfcDestination.cs" />
     <Compile Remove="zKeep\PooledObjectWrapper.cs" />
     <Compile Remove="zKeep\RfcDestination.cs" />

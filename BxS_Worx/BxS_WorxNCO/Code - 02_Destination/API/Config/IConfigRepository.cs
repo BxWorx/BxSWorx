@@ -2,11 +2,11 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface IConfigRepository
+	public interface IConfigRepository : IConfigBase
 		{
 			#region "Properties"
 
-				int	IdleTimeout		{ get; set; }
+				int	IdleTimeout		{ set; }
 
 			#endregion
 

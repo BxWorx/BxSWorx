@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
+using BxS_WorxNCO.Destination.Config;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -45,6 +46,17 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadSettings( IConfigBase config )
+					{
+						foreach (	KeyValuePair<string, string> ls_kvp in config.Settings )
+							{
+								this._RfcConfig.Value[ ls_kvp.Key ]	= ls_kvp.Value ;
+							}
+
+					}
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig(SMC.RfcConfigParameters config )
@@ -101,6 +113,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 						//.............................................
 						this._RfcConfig.Value[ SMC.RfcConfigParameters.LogonCheck												]	= config.DoLogonCheck			? "1"	: "0"	;
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
 
 			#endregion
 

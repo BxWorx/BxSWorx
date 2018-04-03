@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
+using BxS_WorxNCO.Destination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main.Destination
 {
@@ -47,7 +48,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			#region "Methods: Exposed: Configuration"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( IConfigRepository config )
+				public void LoadConfig( IConfigBase config )
 					{
 						this._RfcConfig.Value[ SMC.RfcConfigParameters.RepositoryConnectionIdleTimeout	]	= config.IdleTimeout.ToString()	;
 					}

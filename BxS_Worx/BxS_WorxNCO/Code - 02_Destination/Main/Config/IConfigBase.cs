@@ -13,7 +13,7 @@ namespace BxS_WorxNCO.Destination.Config
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void Reset();
+				void Clear();
 
 			#endregion
 
