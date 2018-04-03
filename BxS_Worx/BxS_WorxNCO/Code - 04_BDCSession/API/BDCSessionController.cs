@@ -38,26 +38,13 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// List of SAP systems as per SAP INI/XML
 				//
-				public IList< string > GetSAPINIList()
-					{
-						return	this._Cntlr_Dst.Value.GetSAPINIList();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// List of registered SAP systems
-				//
-				public IList< ISAPSystemReference > GetSAPSystems()
-					{
-						return	this._Cntlr_Dst.Value.GetSAPSystems();
-					}
+				public IList< string >							GetSAPINIList	()=>	this._Cntlr_Dst.Value.GetSAPINIList();
+				public IList< ISAPSystemReference > GetSAPSystems	()=>	this._Cntlr_Dst.Value.GetSAPSystems();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Create BDC session config DTO to configure SAP Logon environment
 				//
-				public IConfigDestination CreateDestinationConfig()
-					{
-						return	this._Cntlr_Dst.Value.CreateDestinationConfig();
-					}
+				public IConfigDestination CreateDestinationConfig()	=> Destination_Factory.CreateDestinationConfig();
 
 			#endregion
 
@@ -67,14 +54,14 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	BDC_SessionManager	CreateBDCSessionManager( string destinationID )
 					{
-						ISTDDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
+						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
 						return	this.CreateBDCSessionManager( lo_D );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	BDC_SessionManager	CreateBDCSessionManager( Guid destinationID )
 					{
-						ISTDDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
+						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
 						return	this.CreateBDCSessionManager( lo_D );
 					}
 
@@ -84,7 +71,7 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_SessionManager	CreateBDCSessionManager( ISTDDestination rfcDestination )
+				private	BDC_SessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )
 					{
 						var x = new BDC_SessionFactory( rfcDestination );
 

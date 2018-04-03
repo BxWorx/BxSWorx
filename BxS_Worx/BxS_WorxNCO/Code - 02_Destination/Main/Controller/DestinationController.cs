@@ -16,8 +16,8 @@ namespace BxS_WorxNCO.Destination.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DestinationController()
 					{
-						this._DestRepos		= new Lazy<Repository>		(	()=>	new Repository	(	( Guid ID )	=>	new RfcDestination( ID ) ) , cz_LM );
-						this._GlobalSetup	= new Lazy<IConfigGlobal>	( ()=>	new ConfigGlobal() , cz_LM );
+						this._DestRepos		= new Lazy<Repository>		(	()=>	new Repository	(	( Guid ID )	=>	new RfcDestination( ID ) )	, cz_LM );
+						this._GlobalSetup	= new Lazy<IConfigGlobal>	( ()=>	new ConfigGlobal()																						, cz_LM );
 					}
 
 			#endregion
@@ -61,18 +61,24 @@ namespace BxS_WorxNCO.Destination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ISTDDestination GetDestination( string ID )
+				public IRfcDestination GetDestination( string ID )
 					{
-						ISTDDestination lo	= this._DestRepos.Value.GetDestination( ID );
-						lo.LoadConfig( this._GlobalSetup.Value );
+						IRfcDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						if ( this._GlobalSetup.IsValueCreated )
+							{
+								lo.LoadConfig( this._GlobalSetup.Value );
+							}
 						return	lo;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ISTDDestination GetDestination( Guid ID )
+				public IRfcDestination GetDestination( Guid ID )
 					{
-						ISTDDestination lo	= this._DestRepos.Value.GetDestination( ID );
-						lo.LoadConfig( this._GlobalSetup.Value );
+						IRfcDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						if ( this._GlobalSetup.IsValueCreated )
+							{
+								lo.LoadConfig( this._GlobalSetup.Value );
+							}
 						return	lo;
 					}
 

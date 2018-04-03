@@ -154,7 +154,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 								if ( ! this._Consumers.Remove( lo_Task ) )
 									{
-
 									}
 
 											if ( lo_Task.Status.Equals(TaskStatus.RanToCompletion )	)		{	this.TasksCompleted	.Enqueue(lo_Task); }

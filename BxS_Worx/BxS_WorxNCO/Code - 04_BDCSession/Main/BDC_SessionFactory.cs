@@ -20,7 +20,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_SessionFactory( ISTDDestination	rfcDestination )
+				internal BDC_SessionFactory( IRfcDestination	rfcDestination )
 					{
 						this._RfcDest		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_SessionFactory).Namespace}:- RfcDest Factory null" );
 						//.............................................
@@ -33,7 +33,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	ISTDDestination		_RfcDest;
+				private	readonly	IRfcDestination		_RfcDest;
 				//.................................................
 				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
 				private	readonly	Lazy< IRfcFncController >		_RfcFncCntlr		;

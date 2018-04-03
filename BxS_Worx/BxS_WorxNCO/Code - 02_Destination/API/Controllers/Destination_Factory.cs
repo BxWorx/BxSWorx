@@ -16,7 +16,8 @@ namespace BxS_WorxNCO.Destination.API
 				public	static	IConfigRepository					CreateRepositoryConfig		()=>	new ConfigRepository				();
 				public	static	IConfigDestination				CreateDestinationConfig		()=>	new ConfigDestination				();
 				public	static	IConfigGlobal							CreateGlobalConfig				()=>	new ConfigGlobal						();
-				public	static	IConfigLogon							CreateLogonConfig					()=>	new ConfigLogon							();
+				//.................................................
+				public	static	IConfigLogon							CreateLogonConfig					( bool ForRepository = false	)=>	new ConfigLogon ( ForRepository );
 
 			#endregion
 

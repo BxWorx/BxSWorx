@@ -1,4 +1,6 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System.Threading.Tasks;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
@@ -6,7 +8,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 		{
 			#region "Properties"
 
-				SMC.RfcRepository	NCORepository { get; }
+				SMC.RfcRepository	SMCRepository { get; }
 
 			#endregion
 
@@ -18,7 +20,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				bool							ProfileExists						( string rfcFncName );
 				ProfileType				GetProfile<ProfileType>	( string rfcFncName );
 				//.................................................
-				void UpdateProfiles();
+				Task	UpdateProfilesAsync( bool	optimiseMetadataFetch = true );
 
 			#endregion
 

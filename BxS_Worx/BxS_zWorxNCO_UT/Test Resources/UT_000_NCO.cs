@@ -36,9 +36,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal ISTDDestination GetSAPDest()
+			internal IRfcDestination GetSAPDest()
 				{
-					ISTDDestination lo_Dest = this.DestController.GetDestination( this.GetSAPID() );
+					IRfcDestination lo_Dest = this.DestController.GetDestination( this.GetSAPID() );
 					//...............................................
 					Assert.IsNotNull	( lo_Dest	, "" );
 					//...............................................
@@ -46,15 +46,21 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal ISTDDestination GetSAPDestLoggedOn( bool DoLogonCheck = false , bool showSAPGui = false )
+			internal IRfcDestination GetSAPDestLoggedOn( bool DoLogonCheck = false , bool showSAPGui = false )
 				{
-					ISTDDestination lo_Dest =	this.GetSAPDest();
+					IRfcDestination			lo_Dest		=	this.GetSAPDest();
+					IConfigLogon				lo_Logon	= Destination_Factory.CreateLogonConfig();
+					IConfigDestination	lo_Cnfg		= Destination_Factory.CreateDestinationConfig();
 					//...............................................
-					lo_Dest.Client			=	cz_Client			;
-					lo_Dest.User				= cz_User				;
-					lo_Dest.Password		= cz_PWrd				;
-					lo_Dest.LogonCheck	= DoLogonCheck	;
-					lo_Dest.ShowSAPGui	= showSAPGui		;
+					lo_Logon.Client			=	cz_Client			;
+					lo_Logon.User				= cz_User				;
+					lo_Logon.Password		= cz_PWrd				;
+					//...............................................
+					lo_Cnfg.DoLogonCheck	= DoLogonCheck	;
+					lo_Cnfg.UseSAPGUI			= showSAPGui	? lo_Cnfg.SAPGUIUse	: lo_Cnfg.SAPGUIHidden	;
+					//...............................................
+					lo_Dest.LoadConfig( lo_Cnfg )		;
+					lo_Dest.LoadConfig( lo_Logon )	;
 					//...............................................
 					return	lo_Dest	;
 				}

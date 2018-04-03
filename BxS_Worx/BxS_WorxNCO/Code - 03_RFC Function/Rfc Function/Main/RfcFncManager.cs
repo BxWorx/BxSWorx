@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -13,11 +15,10 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncManager( ISTDDestination rfcDestination )
+				internal RfcFncManager( IRfcDestination rfcDestination )
 					{
 						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncManager).Namespace}:- RfcDestination null" );
 						//.............................................
-						this.UseRoundtrip			= true;
 						this._RfcFncProfiles	= new ConcurrentDictionary< string , IRfcFncProfile >();
 					}
 
@@ -26,7 +27,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	ISTDDestination																		_RfcDestination;
+				private	readonly	IRfcDestination																		_RfcDestination;
 				private readonly	ConcurrentDictionary< string , IRfcFncProfile >		_RfcFncProfiles;
 
 			#endregion
@@ -34,9 +35,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Properties"
 
-				public	bool	UseRoundtrip	{	get;	set; }
-				//.................................................
-				public	SMC.RfcRepository	NCORepository	{ get { return this._RfcDestination.NCORepository; } }
+				public	SMC.RfcRepository	SMCRepository	{ get { return this._RfcDestination.SMCRepository; } }
 
 			#endregion
 
@@ -66,21 +65,29 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void UpdateProfiles()
+				public async Task UpdateProfilesAsync( bool	optimiseMetadataFetch = true )
 					{
+						if ( ! await	this._RfcDestination.FetchMetadataAsync( optimiseMetadataFetch ).ConfigureAwait(false) )
+							{
+								return;
+							}
+						//.............................................
 						foreach ( KeyValuePair< string , IRfcFncProfile > lo_Prof in this._RfcFncProfiles )
 							{
 								try
 									{
-										lo_Prof.Value.Metadata	= this.NCORepository.GetFunctionMetadata( lo_Prof.Value.FunctionName );
-										lo_Prof.Value.IsReady		= true;
+										if ( ! lo_Prof.Value.IsReady )
+											{
+												lo_Prof.Value.Metadata	= this._RfcDestination.FetchFunctionMetadata( lo_Prof.Value.FunctionName );
+												lo_Prof.Value.IsReady		= true;
+											}
 									}
 								catch ( Exception ex )
 									{
 										throw	new Exception( "Profile Metadata Load error" , ex );
 									}
 							}
-					}
+						}
 
 			#endregion
 

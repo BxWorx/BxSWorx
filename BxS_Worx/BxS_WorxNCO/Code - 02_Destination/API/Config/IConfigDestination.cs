@@ -2,22 +2,24 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface IConfigDestination
+	public interface IConfigDestination : IConfigBase
 		{
 			#region "Properties"
 
-				int	IdleTimeout				{ get; set; }
-				int	IdleCheckTime			{ get; set; }
-				int	MaxPoolWaitTime		{ get; set; }
-				int	PeakConnLimit			{ get; set; }
-				int	PoolIdleTimeout		{ get; set; }
-				int	PoolSize					{ get; set; }
-				int	UseSAPGUI					{ get; set; }
+				int	IdleTimeout				{ set; }
+				int	IdleCheckTime			{ set; }
+				int	MaxPoolWaitTime		{ set; }
+				int	PeakConnLimit			{ set; }
+				int	PoolIdleTimeout		{ set; }
+				int	PoolSize					{ set; }
+				int	UseSAPGUI					{ set; }
 				//.................................................
-				int	RepoIdleTimeout		{ get; set; }
+				bool	DoLogonCheck		{ set; }
 				//.................................................
-				bool	DoLogonCheck		{ get; set; }
-
+				int	SAPGUINotUse			{ get; }
+				int	SAPGUIUse					{ get; }
+				int	SAPGUIHidden			{ get; }
+			
 			#endregion
 
 		}

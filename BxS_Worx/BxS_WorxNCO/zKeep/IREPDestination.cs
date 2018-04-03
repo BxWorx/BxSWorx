@@ -4,23 +4,14 @@ using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface IREPDestination : ISTDDestination
+	public interface IREPDestination : IRfcDestination
 		{
-			#region "Properties"
-
-				bool	Optimise	{ get; set; }
-
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void	LoadConfig	( IConfigRepository config );
-				//.................................................
 				void	RegisterRfcFunctionForMetadata( string fncName );
 				//.................................................
-				Task<	SMC.RfcFunctionMetadata >	FetchFunctionMetadata( string fncName );
-				Task< bool >										FetchMetadataAsync();
+				Task<	SMC.RfcFunctionMetadata >	FetchFunctionMetadata	( string	fncName );
+				Task< bool >										FetchMetadataAsync		( bool		optimiseMetadataFetch = true );
 
 			#endregion
 

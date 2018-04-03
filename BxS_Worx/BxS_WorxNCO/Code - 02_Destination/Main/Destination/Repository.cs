@@ -14,7 +14,7 @@ namespace BxS_WorxNCO.Destination.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository( Func< Guid , ISTDDestination >	createDestination  )
+				internal Repository( Func< Guid , IRfcDestination >	createDestination  )
 					{
 						this._CreateDestination	= createDestination;
 						//.............................................
@@ -37,7 +37,7 @@ namespace BxS_WorxNCO.Destination.Main
 				private readonly	Dictionary< string	,	Guid >										_Map;
 				private readonly	Dictionary< Guid		, SMC.RfcConfigParameters >	_Des;
 				//.................................................
-				private	readonly	Func< Guid , ISTDDestination >									_CreateDestination;
+				private	readonly	Func< Guid , IRfcDestination >									_CreateDestination;
 				//.................................................
 				private readonly	object	_Lock;
 
@@ -72,7 +72,7 @@ namespace BxS_WorxNCO.Destination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ISTDDestination GetDestination( string ID )
+				public IRfcDestination GetDestination( string ID )
 					{
 						Guid lg = this.GetAddIDFor( ID , true );
 						//.............................................
@@ -80,7 +80,7 @@ namespace BxS_WorxNCO.Destination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ISTDDestination GetDestination( Guid ID )
+				public IRfcDestination GetDestination( Guid ID )
 					{
 						if ( !this._Des.TryGetValue( ID , out SMC.RfcConfigParameters lo_Cnf ) )
 							{
@@ -101,7 +101,7 @@ namespace BxS_WorxNCO.Destination.Main
 								}
 							}
 						//.............................................
-						ISTDDestination	lo_Des = this._CreateDestination( ID );
+						IRfcDestination	lo_Des = this._CreateDestination( ID );
 						lo_Des.LoadConfig( lo_Cnf );
 						//.............................................
 						return lo_Des;

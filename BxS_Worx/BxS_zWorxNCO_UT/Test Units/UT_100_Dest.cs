@@ -23,8 +23,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_10_Instantiate()
 				{
-					IConfigSetupGlobal			x		= this.co_NCO.DestController.CreateGlobalConfig();
-					IConfigSetupDestination y		= this.co_NCO.DestController.CreateDestinationConfig();
+					IConfigGlobal				x		= Destination_Factory.CreateGlobalConfig();
+					IConfigDestination	y		= Destination_Factory.CreateDestinationConfig();
 					Assert.IsNotNull	( x , "" );
 					Assert.IsNotNull	( y	, "" );
 				}
@@ -44,7 +44,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_30_Dest()
 				{
-					IRfcDestination lo_Dest =	this.GetSAPDest();
+					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
 					//...............................................
 					IList< ISAPSystemReference >	lt_Rep	= this.co_NCO.DestController.GetSAPSystems();
 					Assert.AreEqual	(	1	, lt_Rep.Count	, "" );
@@ -54,13 +54,17 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_40_Connect()
 				{
-					IRfcDestination lo_Dest =	this.GetSAPDest();
+					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
 					//...............................................
-					lo_Dest.Client		= UT_000_NCO.cz_Client	;
-					lo_Dest.User			= UT_000_NCO.cz_User		;
-					lo_Dest.Password	= UT_000_NCO.cz_PWrd		;
+					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig();
+
+					lo_Logon.Client		= UT_000_NCO.cz_Client	;
+					lo_Logon.User			= UT_000_NCO.cz_User		;
+					lo_Logon.Password	= UT_000_NCO.cz_PWrd		;
+
+					lo_Dest.LoadConfig( lo_Logon )	;
 					//...............................................
-					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
+					Assert.IsTrue( lo_Dest.IsConnected	, "" );
 				}
 
 			[TestMethod]
@@ -68,28 +72,24 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_100_Dest_42_ConnectSecure()
 				{
 					var lc_Pwd	= new SecureString();
-					IRfcDestination lo_Dest =	this.GetSAPDest();
+					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
 					//...............................................
-					lo_Dest.Client		=	UT_000_NCO.cz_Client	;
-					lo_Dest.User			= UT_000_NCO.cz_User		;
+					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig();
+
+					lo_Logon.Client		= UT_000_NCO.cz_Client	;
+					lo_Logon.User			= UT_000_NCO.cz_User		;
 					//...............................................
 					foreach (char lc_C in UT_000_NCO.cz_PWrd)
 						{
 							lc_Pwd.AppendChar(lc_C);
 						}
+
 					lc_Pwd.MakeReadOnly();
-					lo_Dest.SecurePassword	= lc_Pwd;
+					lo_Logon.SecurePassword	= lc_Pwd;
+
+					lo_Dest.LoadConfig( lo_Logon )	;
 					//...............................................
 					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
-					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
-				}
-
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			private IRfcDestination GetSAPDest()
-				{
-					IRfcDestination lo_Dest = this.co_NCO.GetSAPDest();
-					Assert.IsNotNull	( lo_Dest	, "" );
-					return	lo_Dest;
 				}
 		}
 }

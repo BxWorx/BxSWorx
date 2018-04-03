@@ -1,17 +1,23 @@
 ﻿using System;
+using System.Threading.Tasks;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
+//.........................................................
+using BxS_WorxNCO.Destination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface ISTDDestination
+	public interface IRfcDestination
 		{
 			#region "Properties"
 
 				Guid	MyID			{ get; }
 				Guid	SAPGUIID	{ get; }
 				//.................................................
-				SMC.RfcDestination	NCODestination	{ get; }
+				SMC.RfcDestination	SMCDestination	{ get; }
+				SMC.RfcRepository		SMCRepository		{ get; }
+				//.................................................
+				bool	IsConnected		{ get; }
 
 			#endregion
 
@@ -19,9 +25,13 @@ namespace BxS_WorxNCO.Destination.API
 			#region "Methods: Exposed"
 
 				void	LoadConfig	( SMC.RfcConfigParameters	config );
-				void	LoadConfig	( IConfigLogon						config );
-				void	LoadConfig	( IConfigDestination			config );
-				void	LoadConfig	( IConfigGlobal						config );
+				void	LoadConfig	( IConfigLogon	config );
+				void	LoadConfig	( IConfigBase		config );
+				//.................................................
+				void	RegisterRfcFunctionForMetadata( string fncName );
+				//.................................................
+				SMC.RfcFunctionMetadata	FetchFunctionMetadata	( string	fncName );
+				Task< bool >						FetchMetadataAsync		( bool		optimiseMetadataFetch = true );
 
 			#endregion
 

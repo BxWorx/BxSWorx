@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
-using BxS_WorxNCO.Destination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main.Destination
 {
@@ -40,18 +39,10 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 				private	SMC.RfcRepository	_SMCRepository	{ get { return	this.NCODestination.Repository	; } }
 
-				public bool	Optimise { get; set; }
-
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Configuration"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( IConfigBase config )
-					{
-						this._RfcConfig.Value[ SMC.RfcConfigParameters.RepositoryConnectionIdleTimeout	]	= config.IdleTimeout.ToString()	;
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void RegisterRfcFunctionForMetadata( string fncName )
@@ -63,7 +54,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task< bool > FetchMetadataAsync()
+				public async Task< bool > FetchMetadataAsync( bool	optimiseMetadataFetch = true )
 					{
 						if ( _IsDirty.Equals(0) )		return	true;
 						//.............................................
@@ -80,7 +71,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 						try
 							{
 								this._Fncs.CopyTo( lt_Fnc , 0 );
-								this.NCODestination.Repository.UseRoundtripOptimization = this.Optimise;
+								this.NCODestination.Repository.UseRoundtripOptimization = optimiseMetadataFetch;
 								await Task.Run(	()=>	lo_NCOLookupErrors	= this._SMCRepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls ) )
 																															.ConfigureAwait(false);
 								Interlocked.Exchange( ref	_IsDirty , 0 );

@@ -23,19 +23,19 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				internal void	Process(	IExcelBDCSessionRequest	dtoRequest
 															, IConfigDestination sessionCfg )
 					{
-						sessionCfg.Client		= int.Parse( dtoRequest.Client );
-						sessionCfg.Language	= dtoRequest.Lang;
-						sessionCfg.Password	= dtoRequest.Pwrd;
-						sessionCfg.User			= dtoRequest.User;
-						//.............................................
-						sessionCfg.IdleTimeout			=	dtoRequest.IdleTimeout			;
-						sessionCfg.IdleCheckTime		=	dtoRequest.IdleCheckTime		;
-						sessionCfg.MaxPoolWaitTime	=	dtoRequest.MaxPoolWaitTime	;
-						sessionCfg.PeakConnLimit		=	dtoRequest.PeakConnLimit		;
-						sessionCfg.PoolIdleTimeout	=	dtoRequest.PoolIdleTimeout	;
-						sessionCfg.PoolSize					=	dtoRequest.PoolSize					;
-						sessionCfg.RepoIdleTimeout	=	dtoRequest.RepoIdleTimeout	;
-						sessionCfg.DoLogonCheck			= dtoRequest.DoLogonCheck			;
+						//sessionCfg.Client		= int.Parse( dtoRequest.Client );
+						//sessionCfg.Language	= dtoRequest.Lang;
+						//sessionCfg.Password	= dtoRequest.Pwrd;
+						//sessionCfg.User			= dtoRequest.User;
+						////.............................................
+						//sessionCfg.IdleTimeout			=	dtoRequest.IdleTimeout			;
+						//sessionCfg.IdleCheckTime		=	dtoRequest.IdleCheckTime		;
+						//sessionCfg.MaxPoolWaitTime	=	dtoRequest.MaxPoolWaitTime	;
+						//sessionCfg.PeakConnLimit		=	dtoRequest.PeakConnLimit		;
+						//sessionCfg.PoolIdleTimeout	=	dtoRequest.PoolIdleTimeout	;
+						//sessionCfg.PoolSize					=	dtoRequest.PoolSize					;
+						//sessionCfg.RepoIdleTimeout	=	dtoRequest.RepoIdleTimeout	;
+						//sessionCfg.DoLogonCheck			= dtoRequest.DoLogonCheck			;
 					}
 
 			#endregion

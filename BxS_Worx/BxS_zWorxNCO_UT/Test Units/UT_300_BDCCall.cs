@@ -17,8 +17,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	public class UT_300_BDCCall
 		{
 			private readonly	UT_000_NCO			co_NCO;
-			private readonly	ISTDDestination	co_RfcDest;
-			private readonly	ISTDDestination	co_RfcDestOn;
+			private readonly	IRfcDestination	co_RfcDest;
+			private readonly	IRfcDestination	co_RfcDestOn;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_300_BDCCall()
@@ -67,7 +67,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.IsNotNull	( lo_Lines.SPAData	, "" );
 					//...............................................
 					try	{
-								lo_Fnc0.Invoke( this.co_RfcDestOn.NCODestination );
+								lo_Fnc0.Invoke( this.co_RfcDestOn.SMCDestination );
 								Assert.Fail("");
 							}
 					catch
@@ -96,7 +96,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					//...............................................
 					try	{
 								lo_Fnc0.Config	( lo_Head );
-								lo_Fnc0.Process	( lo_Lines , this.co_RfcDestOn.NCODestination );
+								lo_Fnc0.Process	( lo_Lines , this.co_RfcDestOn.SMCDestination );
 
 								Assert.IsTrue ( lo_Lines.ProcessedStatus	, "a" );
 								Assert.IsTrue ( lo_Lines.SuccesStatus			, "b" );
@@ -132,7 +132,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					for (int i = 0; i < ln_No; i++)
 						{
 							try	{
-										lo_Fnc0.Process	( lo_Lines , this.co_RfcDestOn.NCODestination );
+										lo_Fnc0.Process	( lo_Lines , this.co_RfcDestOn.SMCDestination );
 										if (lo_Lines.SuccesStatus) ln_Cnt ++;
 									}
 							catch
@@ -181,7 +181,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 													lo_Fnc.Config( lo_Head );
 													foreach (BDCCall_Data lo_WorkItem in lo_BC.GetConsumingEnumerable() )
 														{
-															lo_Fnc.Process( lo_WorkItem	, this.co_RfcDestOn.NCODestination );
+															lo_Fnc.Process( lo_WorkItem	, this.co_RfcDestOn.SMCDestination );
 															if ( lo_WorkItem.SuccesStatus )	Interlocked.Increment( ref ln_Tal );
 														}
 												}
@@ -231,7 +231,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCCall_Profile CreateBDCCallProfile()
 					{
-						ISTDDestination		lo_DS			= this.co_NCO.GetSAPDestLoggedOn();
+						IRfcDestination		lo_DS			= this.co_NCO.GetSAPDestLoggedOn();
 						IRfcFncController	lo_FCntlr	= new RfcFncController( lo_DS );
 
 						return	lo_FCntlr.GetAddBDCCallProfile();

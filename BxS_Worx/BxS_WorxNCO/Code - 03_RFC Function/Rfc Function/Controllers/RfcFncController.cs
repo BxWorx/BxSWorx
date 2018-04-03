@@ -14,7 +14,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncController( ISTDDestination rfcDestination )
+				internal RfcFncController( IRfcDestination rfcDestination )
 					{
 						this.RfcDestination		= rfcDestination	??	throw		new ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- BDCData null" );
 						//.............................................
@@ -37,7 +37,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Properties"
 
-				public	ISTDDestination		RfcDestination	{ get; }
+				public	IRfcDestination		RfcDestination	{ get; }
 
 			#endregion
 
@@ -47,7 +47,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void AcivateProfiles()
 					{
-						this._RfcFncMngr.Value.UpdateProfiles();
+						this._RfcFncMngr.Value.UpdateProfilesAsync();
 					}
 
 			#endregion

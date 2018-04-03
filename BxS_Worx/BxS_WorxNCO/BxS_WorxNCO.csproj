@@ -30,8 +30,10 @@
     <Compile Remove="zKeep\BDC_OpFnc.cs" />
     <Compile Remove="zKeep\ConfigLogon - Copy.cs" />
     <Compile Remove="zKeep\IBDCSession.cs" />
+    <Compile Remove="zKeep\IREPDestination.cs" />
     <Compile Remove="zKeep\IRfcDestination.cs" />
     <Compile Remove="zKeep\PooledObjectWrapper.cs" />
+    <Compile Remove="zKeep\REPDestination.cs" />
     <Compile Remove="zKeep\RfcDestination.cs" />
     <Compile Remove="zKeep\SAPFncParmNameAttribute.cs" />
   </ItemGroup>

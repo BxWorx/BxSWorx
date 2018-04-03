@@ -17,12 +17,10 @@ namespace BxS_WorxNCO.Destination.API
 				IList< string >								GetSAPINIList();
 				IList< ISAPSystemReference >	GetSAPSystems();
 				//.................................................
-				ISTDDestination		GetDestination( Guid		ID );
-				ISTDDestination		GetDestination( string	ID );
-				IREPDestination		GetRepDestination( Guid		ID );
-				IREPDestination		GetRepDestination( string	ID );
-				//.................................................
 				void	LoadGlobalConfig( IConfigGlobal config );
+				//.................................................
+				IRfcDestination		GetDestination( Guid		ID );
+				IRfcDestination		GetDestination( string	ID );
 				//.................................................
 				void	Reset();
 

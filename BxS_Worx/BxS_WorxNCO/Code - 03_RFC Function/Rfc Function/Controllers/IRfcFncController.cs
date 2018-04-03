@@ -9,7 +9,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 		{
 			#region "Properties"
 
-				ISTDDestination	RfcDestination	{ get; }
+				IRfcDestination	RfcDestination	{ get; }
 
 			#endregion
 
