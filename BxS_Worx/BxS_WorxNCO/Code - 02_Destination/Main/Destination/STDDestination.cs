@@ -28,8 +28,8 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy< SMC.RfcDestination >				_NCODestination	;
-				private readonly Lazy< SMC.RfcConfigParameters >	_RfcConfig			;
+				private		readonly Lazy< SMC.RfcDestination >				_NCODestination	;
+				protected	readonly Lazy< SMC.RfcConfigParameters >	_RfcConfig			;
 
 			#endregion
 

@@ -36,9 +36,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal IRfcDestination GetSAPDest()
+			internal ISTDDestination GetSAPDest()
 				{
-					IRfcDestination lo_Dest = this.DestController.GetDestination( this.GetSAPID() );
+					ISTDDestination lo_Dest = this.DestController.GetDestination( this.GetSAPID() );
 					//...............................................
 					Assert.IsNotNull	( lo_Dest	, "" );
 					//...............................................
@@ -46,9 +46,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal IRfcDestination GetSAPDestLoggedOn( bool DoLogonCheck = false , bool showSAPGui = false )
+			internal ISTDDestination GetSAPDestLoggedOn( bool DoLogonCheck = false , bool showSAPGui = false )
 				{
-					IRfcDestination lo_Dest =	this.GetSAPDest();
+					ISTDDestination lo_Dest =	this.GetSAPDest();
 					//...............................................
 					lo_Dest.Client			=	cz_Client			;
 					lo_Dest.User				= cz_User				;

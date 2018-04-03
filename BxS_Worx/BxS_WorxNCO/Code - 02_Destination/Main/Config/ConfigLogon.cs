@@ -6,15 +6,6 @@ namespace BxS_WorxNCO.Destination.Config
 {
 	internal class ConfigLogon : IConfigLogon
 		{
-			#region "Constructors"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ConfigLogon()
-					{	}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Properties"
 
 				public	bool		ForRepository		{ get; set; }

@@ -17,8 +17,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	public class UT_300_BDCCall
 		{
 			private readonly	UT_000_NCO			co_NCO;
-			private readonly	IRfcDestination	co_RfcDest;
-			private readonly	IRfcDestination	co_RfcDestOn;
+			private readonly	ISTDDestination	co_RfcDest;
+			private readonly	ISTDDestination	co_RfcDestOn;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_300_BDCCall()
@@ -231,7 +231,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCCall_Profile CreateBDCCallProfile()
 					{
-						IRfcDestination		lo_DS			= this.co_NCO.GetSAPDestLoggedOn();
+						ISTDDestination		lo_DS			= this.co_NCO.GetSAPDestLoggedOn();
 						IRfcFncController	lo_FCntlr	= new RfcFncController( lo_DS );
 
 						return	lo_FCntlr.GetAddBDCCallProfile();

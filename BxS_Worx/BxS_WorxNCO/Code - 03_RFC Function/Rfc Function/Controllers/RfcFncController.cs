@@ -14,7 +14,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncController( IRfcDestination rfcDestination )
+				internal RfcFncController( ISTDDestination rfcDestination )
 					{
 						this.RfcDestination		= rfcDestination	??	throw		new ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- BDCData null" );
 						//.............................................
@@ -37,7 +37,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Properties"
 
-				public	IRfcDestination		RfcDestination	{ get; }
+				public	ISTDDestination		RfcDestination	{ get; }
 
 			#endregion
 

@@ -67,14 +67,14 @@ namespace BxS_WorxNCO.BDCSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	BDC_SessionManager	CreateBDCSessionManager( string destinationID )
 					{
-						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
+						ISTDDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
 						return	this.CreateBDCSessionManager( lo_D );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	BDC_SessionManager	CreateBDCSessionManager( Guid destinationID )
 					{
-						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
+						ISTDDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
 						return	this.CreateBDCSessionManager( lo_D );
 					}
 
@@ -84,7 +84,7 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_SessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )
+				private	BDC_SessionManager	CreateBDCSessionManager( ISTDDestination rfcDestination )
 					{
 						var x = new BDC_SessionFactory( rfcDestination );
 

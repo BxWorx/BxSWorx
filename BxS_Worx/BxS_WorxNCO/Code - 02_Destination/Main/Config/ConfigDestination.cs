@@ -4,15 +4,6 @@ namespace BxS_WorxNCO.Destination.Config
 {
 	internal class ConfigDestination : IConfigDestination
 		{
-			#region "Constructors"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ConfigDestination()
-					{	}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Properties"
 
 				public	int IdleTimeout				{ get;	set; }

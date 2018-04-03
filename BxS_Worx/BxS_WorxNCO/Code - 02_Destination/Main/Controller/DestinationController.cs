@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.Main.Destination;
@@ -63,17 +61,17 @@ namespace BxS_WorxNCO.Destination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IRfcDestination GetDestination( string ID )
+				public ISTDDestination GetDestination( string ID )
 					{
-						IRfcDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						ISTDDestination lo	= this._DestRepos.Value.GetDestination( ID );
 						lo.LoadConfig( this._GlobalSetup.Value );
 						return	lo;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IRfcDestination GetDestination( Guid ID )
+				public ISTDDestination GetDestination( Guid ID )
 					{
-						IRfcDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						ISTDDestination lo	= this._DestRepos.Value.GetDestination( ID );
 						lo.LoadConfig( this._GlobalSetup.Value );
 						return	lo;
 					}
@@ -94,13 +92,6 @@ namespace BxS_WorxNCO.Destination.Main
 						this._GlobalSetup.Value.Settings.Clear();
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.RfcConfigParameters	CreateNCOConfig					()=> Destination_Factory.CreateNCOConfig					()	;
-				public IConfigDestination				CreateDestinationConfig	()=> Destination_Factory.CreateDestinationConfig	()	;
-				public IConfigGlobal						CreateGlobalConfig			()=> Destination_Factory.CreateGlobalConfig				()	;
-
-				public IConfigLogon							CreateLogonConfig				( bool ForRepository = false )=> Destination_Factory.CreateLogonConfig( ForRepository )	;
-
 			#endregion
 
 			//===========================================================================================
@@ -110,8 +101,11 @@ namespace BxS_WorxNCO.Destination.Main
 				private ISAPSystemReference CreateSAPSysRef(	Guid		id
 																										,	string	name )
 					{
-						ISAPSystemReference lo	= new SAPSystemReference{		ID			= id
-																															,	SAPName	= name };
+						ISAPSystemReference lo	=	Destination_Factory.CreateSAPSystemReference();
+						//.............................................
+						lo.ID				= id		;
+						lo.SAPName	= name	;
+						//.............................................
 						return	lo;
 					}
 

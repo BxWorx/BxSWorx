@@ -13,7 +13,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncManager( IRfcDestination rfcDestination )
+				internal RfcFncManager( ISTDDestination rfcDestination )
 					{
 						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncManager).Namespace}:- RfcDestination null" );
 						//.............................................
@@ -26,7 +26,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IRfcDestination																		_RfcDestination;
+				private	readonly	ISTDDestination																		_RfcDestination;
 				private readonly	ConcurrentDictionary< string , IRfcFncProfile >		_RfcFncProfiles;
 
 			#endregion

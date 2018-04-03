@@ -47,6 +47,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			#region "Methods: Exposed: Configuration"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadConfig( IConfigRepository config )
+					{
+						this._RfcConfig.Value[ SMC.RfcConfigParameters.RepositoryConnectionIdleTimeout	]	= config.IdleTimeout.ToString()	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void RegisterRfcFunctionForMetadata( string fncName )
 					{
 						this._Lock.Wait();

@@ -15,6 +15,8 @@ namespace BxS_WorxNCO.Destination.API
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				void	LoadConfig	( IConfigRepository config );
+				//.................................................
 				void	RegisterRfcFunctionForMetadata( string fncName );
 				//.................................................
 				Task<	SMC.RfcFunctionMetadata >	FetchFunctionMetadata( string fncName );
