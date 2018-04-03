@@ -91,5 +91,22 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					//...............................................
 					Assert.IsTrue(	lo_Dest.IsConnected	, "" );
 				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_100_Dest_50_CoonectRepos()
+				{
+					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
+					//...............................................
+					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig( true );
+
+					lo_Logon.Client		= UT_000_NCO.cz_Client	;
+					lo_Logon.User			= UT_000_NCO.cz_User		;
+					lo_Logon.Password	= UT_000_NCO.cz_PWrd		;
+
+					lo_Dest.LoadConfig( lo_Logon )	;
+					//...............................................
+					//Assert.IsTrue( lo_Dest.IsConnected	, "" );
+				}
 		}
 }

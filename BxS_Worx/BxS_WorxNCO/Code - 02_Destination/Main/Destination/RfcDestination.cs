@@ -63,7 +63,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig(SMC.RfcConfigParameters config )
+				public void LoadConfig( SMC.RfcConfigParameters config )
 					{
 						foreach (KeyValuePair<string, string> ls_kvp in config)
 							{
@@ -89,13 +89,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					{
 						this.LoadConfig( (IConfigBase)config );
 						//.............................................
-						if ( config.ForRepository )
+						if ( config.SecurePassword != null )
 							{
-								this._RfcConfig.Value.SecureRepositoryPassword	= config.SecurePassword;
-							}
-						else
-							{
-								this._RfcConfig.Value.SecurePassword	= config.SecurePassword;
+								if ( config.ForRepository )
+									{	this._RfcConfig.Value.SecureRepositoryPassword	= config.SecurePassword;	}
+								else
+									{	this._RfcConfig.Value.SecurePassword						= config.SecurePassword;	}
 							}
 					}
 
@@ -109,8 +108,8 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 								this.SMCDestination.Ping();
 								lb_Ret	=	true;
 							}
-						catch
-							{	}
+						catch ( Exception ex )
+							{	throw	new Exception( "Ping Failed", ex );	}
 						//.............................................
 						return	lb_Ret;
 					}

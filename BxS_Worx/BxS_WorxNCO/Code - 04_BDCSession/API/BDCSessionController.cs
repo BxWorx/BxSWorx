@@ -1,50 +1,29 @@
 ﻿using System;
-using System.Threading;
-using System.Collections.Generic;
 //.........................................................
 using BxS_WorxNCO.BDCSession.Main;
-using BxS_WorxNCO.BDCSession.DTO;
-
 using BxS_WorxNCO.Destination.API;
-using BxS_WorxNCO.Destination.Main;
-using BxS_WorxNCO.Destination.Config;
+
+using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
 {
-	internal class BDCSessionController : IBDCSessionController
+	public sealed class BDCSessionController : IBDCSessionController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSessionController()
+				// Singleton
+				//
+				private	static readonly	Lazy< IBDCSessionController >		_Instance		= new Lazy< IBDCSessionController >( ()=>	new BDCSessionController() , cz_LM );
+
+				internal static IBDCSessionController Instance
 					{
-						this._Cntlr_Dst		= new Lazy< IDestinationController >(	()=>	new DestinationController()	, cz_LM );
+						get { return _Instance.Value; }
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private	const	LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
-				//.................................................
-				private readonly	Lazy< IDestinationController >	_Cntlr_Dst;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: Destination Handling"
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// List of SAP systems as per SAP INI/XML
-				//
-				public IList< string >							GetSAPINIList	()=>	this._Cntlr_Dst.Value.GetSAPINIList();
-				public IList< ISAPSystemReference > GetSAPSystems	()=>	this._Cntlr_Dst.Value.GetSAPSystems();
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// Create BDC session config DTO to configure SAP Logon environment
-				//
-				public IConfigDestination CreateDestinationConfig()	=> Destination_Factory.CreateDestinationConfig();
+				private BDCSessionController()
+					{	}
 
 			#endregion
 
@@ -52,31 +31,7 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	BDC_SessionManager	CreateBDCSessionManager( string destinationID )
-					{
-						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
-						return	this.CreateBDCSessionManager( lo_D );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	BDC_SessionManager	CreateBDCSessionManager( Guid destinationID )
-					{
-						IRfcDestination	lo_D	= this._Cntlr_Dst.Value.GetDestination( destinationID );
-						return	this.CreateBDCSessionManager( lo_D );
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_SessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )
-					{
-						var x = new BDC_SessionFactory( rfcDestination );
-
-						return	new BDC_SessionManager( x );
-					}
+				public BDC_SessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )	=>	new BDC_SessionManager( new BDC_SessionFactory( rfcDestination ) );
 
 			#endregion
 

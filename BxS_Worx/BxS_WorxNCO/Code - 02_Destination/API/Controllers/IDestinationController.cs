@@ -7,7 +7,7 @@ namespace BxS_WorxNCO.Destination.API
 		{
 			#region "Properties"
 
-				int LoadedSystemCount	{ get; }
+				int LoadedSystemCount		{ get; }
 
 			#endregion
 
