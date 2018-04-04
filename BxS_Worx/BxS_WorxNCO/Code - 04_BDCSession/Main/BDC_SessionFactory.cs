@@ -26,6 +26,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 						//.............................................
 						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance , cz_LM			);
 						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this.RfcDestination ) );
+						//.............................................
+						this._IsReady	= false;
 					}
 
 			#endregion
@@ -35,6 +37,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
 				private	readonly	Lazy< IRfcFncController >		_RfcFncCntlr		;
+				//.................................................
+				private bool _IsReady;
 
 			#endregion
 
@@ -42,6 +46,22 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Properties"
 
 				internal IRfcDestination RfcDestination { get; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: General"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void ReadyEnvironment()
+					{
+						if ( ! this._IsReady )
+							{
+								this._RfcFncCntlr.Value.RegisterBDCCallProfile();
+								this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
+								this._IsReady		=	true;
+							}
+					}
 
 			#endregion
 

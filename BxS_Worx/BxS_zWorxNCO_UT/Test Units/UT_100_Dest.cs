@@ -94,7 +94,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_100_Dest_50_CoonectRepos()
+			public void UT_100_Dest_50_ConnectRepos()
 				{
 					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
 					//...............................................
