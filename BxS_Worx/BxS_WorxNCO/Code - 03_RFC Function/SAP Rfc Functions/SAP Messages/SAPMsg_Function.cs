@@ -75,8 +75,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process(	DTO_BDC_Msg dto
-															, SMC.RfcCustomDestination rfcDestination )
+				internal void Process(	DTO_BDC_Msg					dto
+															, SMC.RfcDestination	rfcDestination )
 					{
 						try
 							{

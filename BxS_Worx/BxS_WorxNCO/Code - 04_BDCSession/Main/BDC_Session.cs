@@ -79,7 +79,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																										, CancellationToken										CT
 																										,	ProgressHandler< DTO_BDC_Progress >	progressHndlr
 																										, ObjectPool< BDC_SessionConsumer >		pool
-																										,	SMC.RfcCustomDestination						rfcDestination	)
+																										,	SMC.RfcDestination									rfcDestination	)
 					{
 						this.PrepareSession();
 
@@ -177,7 +177,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void StartConsumers(		CancellationToken									CT
 																			, ObjectPool< BDC_SessionConsumer >	pool
-																			,	SMC.RfcCustomDestination					rfcDestination	)
+																			,	SMC.RfcDestination								rfcDestination	)
 					{
 						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
 							{

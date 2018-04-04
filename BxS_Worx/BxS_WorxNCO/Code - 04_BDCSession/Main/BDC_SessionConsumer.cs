@@ -48,7 +48,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Consume(	CancellationToken													CT
 															, BlockingCollection< DTO_BDC_Transaction >	queue
-															,	SMC.RfcCustomDestination									rfcDestination	)
+															,	SMC.RfcDestination												rfcDestination	)
 					{
 						foreach ( DTO_BDC_Transaction lo_Tran in queue.GetConsumingEnumerable( CT ) )
 							{

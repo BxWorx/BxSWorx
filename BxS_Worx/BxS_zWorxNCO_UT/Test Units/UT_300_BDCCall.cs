@@ -26,7 +26,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					this.co_NCO					= new	UT_000_NCO();
 
 					this.co_RfcDest			= this.co_NCO.GetSAPDest();
-					this.co_RfcDestOn		= this.co_NCO.GetSAPDestLoggedOn( true );
+					this.co_RfcDestOn		= this.co_NCO.GetSAPDestLoggedOn( true , true );
 					//...............................................
 					Assert.IsNotNull	( this.co_NCO									, "" );
 					Assert.IsNotNull	( this.co_NCO.DestController	, "" );
@@ -39,7 +39,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc1	= lo_FCnt.CreateBDCCallFunction();
 
-					lo_FCnt.AcivateProfiles();
+					lo_FCnt.ActivateProfiles();
 					//...............................................
 					BDCCall_Header	lo_Head		= lo_Fnc1.CreateBDCCallHeader()	;
 					BDCCall_Data		lo_Lines	= lo_Fnc1.CreateBDCCallLines()	;
@@ -56,7 +56,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc0	= lo_FCnt.CreateBDCCallFunction();
 
-					lo_FCnt.AcivateProfiles();
+					lo_FCnt.ActivateProfiles();
 					//...............................................
 					BDCCall_Header		lo_Head		= lo_Fnc0.CreateBDCCallHeader( true )	;
 					BDCCall_Data			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
@@ -82,12 +82,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
 
-					lo_FCnt.AcivateProfiles();
+					lo_FCnt.ActivateProfiles();
 					//...............................................
 					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
 					BDCCall_Data			lo_Lines	= lo_Prof.CreateBDCCallData()	;
-					//...............................................
-					this.co_RfcDestOn.ShowSAPGui	= true;
 					//...............................................
 					lo_Head.SAPTCode		= "XD03";
 					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUIndex.DspMde ].SetValue( cz_CTU_A );
@@ -114,7 +112,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 
-					lo_FCnt.AcivateProfiles();
+					lo_FCnt.ActivateProfiles();
 					//...............................................
 					BDCCall_Header		lo_Head		= lo_Fnc0.CreateBDCCallHeader( true )	;
 					BDCCall_Data			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
@@ -148,7 +146,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
 
-					lo_FCnt.AcivateProfiles();
+					lo_FCnt.ActivateProfiles();
 					//...............................................
 					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
 					//...............................................

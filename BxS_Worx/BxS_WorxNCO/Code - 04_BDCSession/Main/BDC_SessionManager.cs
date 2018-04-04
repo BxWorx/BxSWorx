@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
 using BxS_WorxIPX.BDC;
 
 using BxS_WorxNCO.Helpers.ObjectPool;
@@ -36,8 +34,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 						this._SAPMsgCfg			= new	Lazy< ObjectPoolConfig< BDC_SessionSAPMsgs > >	(	()=>	this._Factory.CreateSAPMsgsPoolConfig()			,	cz_LM );
 						this._SAPMsgPool		= new	Lazy< ObjectPool			< BDC_SessionSAPMsgs > >	(	()=>	this._Factory.CreateSAPMsgsPool()						, cz_LM );
-						//.............................................
-						this._IsReady	= false;
 					}
 
 			#endregion
@@ -58,8 +54,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private	readonly	Lazy< ObjectPoolConfig< BDC_SessionSAPMsgs > >	_SAPMsgCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_SessionSAPMsgs > >	_SAPMsgPool		;
-				//.................................................
-				private bool _IsReady;
 
 			#endregion
 
@@ -97,12 +91,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Methods: Exposed: Session Handling"
 
-				public async Task<bool>	ReadySessionAsync()
+				public async Task<bool>	ReadySessionAsync( bool optimise = true )
 					{
-						
-
-
-
+						try
+							{
+								return await this._Factory.ReadyEnvironmentAsync( optimise ).ConfigureAwait(false);
+							}
+						catch (Exception)
+							{
+								throw;
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -131,7 +129,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																																			, CT
 																																			, progressHndlr
 																																			, this._BDCConsPool.Value
-																																			,	this._Factory.RfcDestination.SMCDestination.CreateCustomDestination() )
+																																			,	this._Factory.SMCDestination )
 																		.ConfigureAwait(false);
 									}
 								//.............................................
@@ -155,17 +153,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 				internal void ReConfigureBDCSessionPool		()=>	this._BDCSessPool.Value	.ConfigurePool( this._BDCSessCfg.Value );
 				internal void ReConfigureBDCConsumerPool	()=>	this._BDCConsPool.Value	.ConfigurePool( this._BDCConsCfg.Value );
 				internal void ReConfigureParserPool				()=>	this._ParserPool.Value	.ConfigurePool( this._ParserCfg.Value	 );
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Ready()
-					{
-						
-					}
 
 			#endregion
 

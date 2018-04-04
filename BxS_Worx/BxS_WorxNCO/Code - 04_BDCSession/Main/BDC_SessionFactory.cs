@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 //.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
 using BxS_WorxNCO.Destination.API			;
 
 using BxS_WorxNCO.BDCSession.DTO			;
@@ -46,7 +48,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Properties"
 
-				internal IRfcDestination RfcDestination { get; }
+				internal IRfcDestination			RfcDestination { get; }
+				internal	SMC.RfcDestination	SMCDestination { get	{	return	this.RfcDestination.SMCDestination; } }
 
 			#endregion
 
@@ -54,7 +57,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task<bool> ReadyEnvironmentAsync()
+				internal async Task<bool> ReadyEnvironmentAsync( bool optimise = true )
 					{
 						if ( ! this._IsReady )
 							{
@@ -63,13 +66,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 								//.........................................
 								try
 									{
+										await this.RfcDestination.FetchMetadataAsync( optimise ).ConfigureAwait(false);
+										this._IsReady		=	true;
 									}
 								catch (Exception ex)
 									{
-										throw;
+										throw new Exception( "Session factory ready fail" , ex );
 									}
-
-								this._IsReady		=	true;
 							}
 						//.................................................
 						return	this._IsReady;

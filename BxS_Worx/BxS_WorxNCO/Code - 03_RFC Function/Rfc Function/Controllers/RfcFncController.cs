@@ -46,7 +46,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task AcivateProfilesAsync()
+				public void	ActivateProfiles()
+					{
+						this._RfcFncMngr.Value.UpdateProfilesAsync().RunSynchronously();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public async Task ActivateProfilesAsync()
 					{
 						await	this._RfcFncMngr.Value.UpdateProfilesAsync().ConfigureAwait(false);
 					}

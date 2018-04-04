@@ -19,7 +19,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				bool	Invoke( SMC.RfcCustomDestination rfcDestination );
+				bool	Invoke( SMC.RfcDestination rfcDestination );
 
 			#endregion
 

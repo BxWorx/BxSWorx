@@ -83,8 +83,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process(	BDCCall_Data data
-															, SMC.RfcCustomDestination rfcDestination )
+				internal void Process(	BDCCall_Data				data
+															, SMC.RfcDestination	rfcDestination )
 					{
 						this.Reset();
 						//.............................................

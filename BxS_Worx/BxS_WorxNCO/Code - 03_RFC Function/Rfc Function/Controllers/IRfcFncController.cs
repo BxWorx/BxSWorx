@@ -18,7 +18,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed: General"
 
-				Task AcivateProfilesAsync()	;
+				Task ActivateProfilesAsync()	;
+				void ActivateProfiles()				;
 
 			#endregion
 

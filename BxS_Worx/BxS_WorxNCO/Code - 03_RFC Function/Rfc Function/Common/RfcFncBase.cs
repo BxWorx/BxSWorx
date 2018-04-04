@@ -43,7 +43,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool Invoke( SMC.RfcCustomDestination rfcDestination )
+				public bool Invoke( SMC.RfcDestination rfcDestination )
 					{
 						bool	lb_Ret	= false;
 						//.............................................
