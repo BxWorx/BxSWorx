@@ -1,4 +1,6 @@
-﻿using BxS_WorxNCO.Destination.API;
+﻿using System.Threading.Tasks;
+//.........................................................
+using BxS_WorxNCO.Destination.API;
 
 using BxS_WorxNCO.RfcFunction.BDCTran;
 using BxS_WorxNCO.RfcFunction.SAPMsg;
@@ -16,7 +18,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed: General"
 
-				void AcivateProfiles()	;
+				Task AcivateProfilesAsync()	;
 
 			#endregion
 

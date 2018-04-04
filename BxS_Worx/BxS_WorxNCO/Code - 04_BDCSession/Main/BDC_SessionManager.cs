@@ -36,6 +36,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 						this._SAPMsgCfg			= new	Lazy< ObjectPoolConfig< BDC_SessionSAPMsgs > >	(	()=>	this._Factory.CreateSAPMsgsPoolConfig()			,	cz_LM );
 						this._SAPMsgPool		= new	Lazy< ObjectPool			< BDC_SessionSAPMsgs > >	(	()=>	this._Factory.CreateSAPMsgsPool()						, cz_LM );
+						//.............................................
+						this._IsReady	= false;
 					}
 
 			#endregion
@@ -56,6 +58,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private	readonly	Lazy< ObjectPoolConfig< BDC_SessionSAPMsgs > >	_SAPMsgCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_SessionSAPMsgs > >	_SAPMsgPool		;
+				//.................................................
+				private bool _IsReady;
 
 			#endregion
 
@@ -96,8 +100,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task Process(	IExcelBDCSessionRequest							request
 																	,	CancellationToken										CT
-																	, ProgressHandler< DTO_BDC_Progress >	progressHndlr
-																	, SMC.RfcCustomDestination						rfcDestination )
+																	, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{
 						DTO_BDC_Session lo_DTOSession	=	this._Factory.CreateSessionDTO();
 						//.............................................
@@ -120,7 +123,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																																			, CT
 																																			, progressHndlr
 																																			, this._BDCConsPool.Value
-																																			,	rfcDestination					)
+																																			,	this._Factory.RfcDestination.SMCDestination.CreateCustomDestination() )
 																		.ConfigureAwait(false);
 									}
 								//.............................................
@@ -141,21 +144,19 @@ namespace BxS_WorxNCO.BDCSession.Main
 				// changes made are relevant based on th status of the individual pools.
 				//
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ReConfigureBDCSessionPool()
-					{
-						this._BDCSessPool.Value.ConfigurePool( this._BDCSessCfg.Value );
-					}
+				internal void ReConfigureBDCSessionPool		()=>	this._BDCSessPool.Value	.ConfigurePool( this._BDCSessCfg.Value );
+				internal void ReConfigureBDCConsumerPool	()=>	this._BDCConsPool.Value	.ConfigurePool( this._BDCConsCfg.Value );
+				internal void ReConfigureParserPool				()=>	this._ParserPool.Value	.ConfigurePool( this._ParserCfg.Value	 );
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ReConfigureBDCConsumerPool()
+				private void Ready()
 					{
-						this._BDCConsPool.Value.ConfigurePool( this._BDCConsCfg.Value );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ReConfigureParserPool()
-					{
-						this._ParserPool.Value.ConfigurePool( this._ParserCfg.Value );
+						
 					}
 
 			#endregion

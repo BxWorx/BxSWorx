@@ -1,10 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.RfcFunction.BDCTran;
+using BxS_WorxNCO.RfcFunction.SAPMsg;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
@@ -36,7 +38,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_200_RfcFnc_20_MetaData()
+			public async Task UT_200_RfcFnc_20_MetaData()
 				{
 					IRfcDestination	lo_DS	= this.co_NCO.GetSAPDestLoggedOn();
 					IRfcFncManager	lo_FM = new RfcFncManager( lo_DS );
@@ -57,7 +59,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.AreEqual	(	0	, lo_PR1.BDCIndex.Val			,	"" );
 					Assert.AreEqual	(	0	, lo_PR1.MSGIndex.Fldnm		,	"" );
 
-					lo_FM.UpdateProfiles();
+				  await	lo_FM.UpdateProfilesAsync().ConfigureAwait(false);
 
 					Assert.AreNotEqual	(	0	, lo_PR1.FNCIndex.TabSPA	,	"" );
 					Assert.AreNotEqual	(	0	, lo_PR1.CTUIndex.NoBtcE	,	"" );
@@ -67,9 +69,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					//...............................................
 					var lo_FN1	= new MyRfcFnc( lo_PR1 );
 					var lo_FN2	= new MyRfcFnc( lo_PR2 );
-
-					//lo_DS.LoadRfcFunction( lo_FN1 );
-					//lo_DS.LoadRfcFunction( lo_FN2 );
 
 					Assert.IsNotNull	( lo_FN1.NCORfcFunction , "" );
 					Assert.IsNotNull	( lo_FN2.NCORfcFunction , "" );
@@ -82,6 +81,24 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.AreNotEqual	(	0	, x1.Count	,	"" );
 					Assert.AreNotEqual	(	0	, x2.Count	,	"" );
 			}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public async Task UT_200_RfcFnc_30_MetaDataMany()
+				{
+					IRfcDestination		lo_DS	= this.co_NCO.GetSAPDestLoggedOn();
+					IRfcFncController	lo_FC = new RfcFncController( lo_DS );
+
+					lo_FC.RegisterBDCCallProfile();
+					lo_FC.RegisterSAPMsgProfile	();
+					await	lo_FC.AcivateProfilesAsync().ConfigureAwait(false);
+					//...............................................
+					BDCCall_Function	lo_FN1	=	lo_FC.CreateBDCCallFunction	();
+					SAPMsg_Function		lo_FN2	=	lo_FC.CreateSAPMsgFunction	();
+
+					Assert.AreNotEqual	(	0	, lo_FN1.MyProfile.Value.FNCIndex.Skip1	,	"" );
+					Assert.AreNotEqual	(	0	, lo_FN2.MyProfile.Value.FNCIndex.MsgID	,	"" );
+				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

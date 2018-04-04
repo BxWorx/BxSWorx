@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
@@ -67,10 +66,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task UpdateProfilesAsync( bool	optimiseMetadataFetch = true )
 					{
-						if ( ! await	this._RfcDestination.FetchMetadataAsync( optimiseMetadataFetch ).ConfigureAwait(false) )
-							{
-								return;
-							}
+						await	this._RfcDestination.FetchMetadataAsync( optimiseMetadataFetch ).ConfigureAwait(false);
 						//.............................................
 						foreach ( KeyValuePair< string , IRfcFncProfile > lo_Prof in this._RfcFncProfiles )
 							{

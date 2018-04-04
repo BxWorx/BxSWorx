@@ -31,7 +31,7 @@ namespace BxS_WorxNCO.Destination.API
 				void	RegisterRfcFunctionForMetadata( string fncName );
 				//.................................................
 				SMC.RfcFunctionMetadata	FetchFunctionMetadata	( string	fncName );
-				Task< bool >						FetchMetadataAsync		( bool		optimiseMetadataFetch = true );
+				Task										FetchMetadataAsync		( bool		optimiseMetadataFetch = true );
 
 			#endregion
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.BDCTran;
@@ -45,9 +46,9 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AcivateProfiles()
+				public async Task AcivateProfilesAsync()
 					{
-						this._RfcFncMngr.Value.UpdateProfilesAsync();
+						await	this._RfcFncMngr.Value.UpdateProfilesAsync().ConfigureAwait(false);
 					}
 
 			#endregion
@@ -98,8 +99,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 									{
 										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_SAPMsgCompiler ) )
 											{
-												var	lo_Prof	= new BDCCall_Profile(	cz_SAPMsgCompiler
-																													, BDCCall_Factory.Instance	);
+												var	lo_Prof	= new SAPMsg_Profile(	cz_SAPMsgCompiler
+																													, SAPMsg_Factory.Instance	);
 
 												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
 											}

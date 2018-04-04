@@ -22,10 +22,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_SessionFactory( IRfcDestination	rfcDestination )
 					{
-						this._RfcDest		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_SessionFactory).Namespace}:- RfcDest Factory null" );
+						this.RfcDestination		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_SessionFactory).Namespace}:- RfcDest Factory null" );
 						//.............................................
 						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance , cz_LM			);
-						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this._RfcDest ) );
+						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this.RfcDestination ) );
 					}
 
 			#endregion
@@ -33,10 +33,15 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IRfcDestination		_RfcDest;
-				//.................................................
 				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
 				private	readonly	Lazy< IRfcFncController >		_RfcFncCntlr		;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal IRfcDestination RfcDestination { get; }
 
 			#endregion
 

@@ -26,7 +26,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 						this._SMCDestination	= new Lazy< SMC.RfcDestination >			( ()=>	SAPSDM.Instance.GetDestination( this._RfcConfig.Value ) , cz_LM )	;
 						//.............................................
 						this._Fncs	= new List<string>()					;
-						this._Lock	= new SemaphoreSlim( 0 , 1 )	;
+						this._Lock	= new SemaphoreSlim( 1 , 1 )	;
 						//.............................................
 						this._IsDirty		= 0	;
 					}
@@ -129,12 +129,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task< bool > FetchMetadataAsync( bool	optimiseMetadataFetch = true )
+				public async Task FetchMetadataAsync( bool	optimiseMetadataFetch = true )
 					{
-						if ( this._IsDirty.Equals(0) )		return	true;
+						if ( this._IsDirty.Equals(0) )		return;
 						//.............................................
 						this._Lock.Wait();
-						if ( this._IsDirty.Equals(0) )		return	true;
+						if ( this._IsDirty.Equals(0) )		return;
 						//.............................................
 						SMC.RfcLookupErrorList	lo_NCOLookupErrors;
 
@@ -151,10 +151,9 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 																															.ConfigureAwait(false);
 								Interlocked.Exchange( ref this._IsDirty , 0 );
 								this._Lock.Release();
-								return	true;
 							}
-						catch
-							{	return	false; }
+						catch ( Exception ex )
+							{	throw	new Exception("Metadata ASYNC fail", ex ); }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
