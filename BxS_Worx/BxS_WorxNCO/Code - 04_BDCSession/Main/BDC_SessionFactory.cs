@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxNCO.Destination.API			;
 
@@ -53,14 +54,25 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ReadyEnvironment()
+				internal async Task<bool> ReadyEnvironmentAsync()
 					{
 						if ( ! this._IsReady )
 							{
 								this._RfcFncCntlr.Value.RegisterBDCCallProfile();
 								this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
+								//.........................................
+								try
+									{
+									}
+								catch (Exception ex)
+									{
+										throw;
+									}
+
 								this._IsReady		=	true;
 							}
+						//.................................................
+						return	this._IsReady;
 					}
 
 			#endregion

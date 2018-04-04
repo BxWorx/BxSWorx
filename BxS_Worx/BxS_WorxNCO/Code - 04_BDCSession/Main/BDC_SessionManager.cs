@@ -97,6 +97,14 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Methods: Exposed: Session Handling"
 
+				public async Task<bool>	ReadySessionAsync()
+					{
+						
+
+
+
+					}
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task Process(	IExcelBDCSessionRequest							request
 																	,	CancellationToken										CT
