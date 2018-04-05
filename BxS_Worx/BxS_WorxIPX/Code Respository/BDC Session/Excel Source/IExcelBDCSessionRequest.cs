@@ -30,7 +30,7 @@ namespace BxS_WorxIPX.BDC
 				//.................................................
 				string	WBID							{ get; set; }
 				string	WSID							{ get; set;	}
-				string	WSNo							{ get; set;	}
+				int			WSNo							{ get; set;	}
 				string	UsedAddress				{ get; set;	}
 				bool		IsTest						{ get; set;	}
 				//.................................................

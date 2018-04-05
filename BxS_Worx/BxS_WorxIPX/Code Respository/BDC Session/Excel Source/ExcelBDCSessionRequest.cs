@@ -41,7 +41,7 @@ namespace BxS_WorxIPX.BDC
 				//.................................................
 				[DataMember]	public	string	WBID							{ get; set; }
 				[DataMember]	public	string	WSID							{ get; set;	}
-				[DataMember]	public	string	WSNo							{ get; set;	}
+				[DataMember]	public	int			WSNo							{ get; set;	}
 				[DataMember]	public	string	UsedAddress				{ get; set;	}
 				[DataMember]	public	bool		IsTest						{ get; set;	}
 				//.................................................
