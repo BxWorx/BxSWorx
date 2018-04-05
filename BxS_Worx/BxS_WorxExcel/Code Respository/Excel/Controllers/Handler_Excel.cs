@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 //.........................................................
 using Microsoft.Office.Interop.Excel;
-//.........................................................
-using BxS_SAPIPX.Main;
-using BxS_SAPIPX.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPExcel.Main
 {
@@ -43,20 +40,21 @@ namespace BxS_SAPExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList<DTO_ExcelAppManifest> WBWSManifest()
+				internal IList< DTO_ExcelWS > GetWBWSManifest( bool loadData = false )
 					{
-						IList<DTO_ExcelAppManifest>	lt_List		= new List<DTO_ExcelAppManifest>();
+						IList< DTO_ExcelWS >	lt_List		= new List< DTO_ExcelWS >();
 						//.............................................
 						foreach ( Workbook lo_WB in Globals.ThisAddIn.Application.Workbooks )
 							{
 								foreach ( Worksheet lo_WS in lo_WB.Worksheets )
 									{
-										var lo = new DTO_ExcelAppManifest	{
-																										WBID				= lo_WB.Name,
-																										WSID				= lo_WS.Name,
-																										UsedAddress = lo_WS.UsedRange.Address
-																									};
-
+										var lo = new DTO_ExcelWS	{
+																									WBID				= lo_WB.Name
+																								,	WSID				= lo_WS.Name
+																								,	UsedAddress = lo_WS.UsedRange.Address
+																								,	WSCells			= loadData	?	lo_WS.UsedRange.Value	: null
+																							};
+										//.....................................
 										lt_List.Add( lo );
 									}
 							}
@@ -65,55 +63,37 @@ namespace BxS_SAPExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void GetWSActive( DTO_BDCSessionRequest DTO )
+				internal DTO_ExcelWS GetWSData( string WBID = null , string WSID = null )
 					{
-						DTO_ExcelAppManifest x = this.GetWSActive();
-						//.............................................
-						DTO.WBID				= x.WBID;
-						DTO.WSID				= x.WSID;
-						DTO.UsedAddress	= x.UsedAddress;
+						return	this.CreateExcelWS( this.GetWS( WBID , WSID ) , true );
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private DTO_ExcelWS CreateExcelWS( Worksheet lo_WS , bool loadData = false )
+					{
+						return	 new DTO_ExcelWS	{
+																					WBID				= lo_WS.Parent.Name
+																				,	WSID				= lo_WS.Name
+																				,	UsedAddress = lo_WS.UsedRange.Address
+																				,	WSCells			= loadData	?	lo_WS.UsedRange.Value	: null
+																			};
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_ExcelAppManifest GetWSActive()
+				private Worksheet GetWS( string forWB , string forWS )
 					{
-						Worksheet lo_WS	= this.GetWS();
-
-						if (lo_WS != null)
+						if ( string.IsNullOrEmpty( forWS ) || string.IsNullOrEmpty( forWB ) )
 							{
-								return	new DTO_ExcelAppManifest	{
-																										WBID				= lo_WS.Parent.Name,
-																										WSID				= lo_WS.Name,
-																										UsedAddress = lo_WS.UsedRange.Address
-																									};
+								return	Globals.ThisAddIn.Application.ActiveSheet as Worksheet;
 							}
-						//.............................................
-						return	null;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void LoadWSCells( DTO_BDCSessionRequest DTO )
-					{
-						Worksheet lo_WS	= this.GetWS( DTO.WBID , DTO.WSID );
-						if (lo_WS == null)	return;
-						//.............................................
-						DTO.UsedAddress	= lo_WS.UsedRange.Address;
-						DTO.WSCells			= lo_WS.UsedRange.Value;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Worksheet GetWS( string forWB = null , string forWS = null )
-					{
-						try
+						else
 							{
-								if ( string.IsNullOrEmpty( forWS ) || string.IsNullOrEmpty( forWB ) )
-									{ return	Globals.ThisAddIn.Application.ActiveSheet as Worksheet; }
-								else
-									{	return	Globals.ThisAddIn.Application.Workbooks[forWB].Worksheets[forWS] as Worksheet; }
-							}
-						catch (System.Exception)
-							{
-								return	null;
+								return	Globals.ThisAddIn.Application.Workbooks[forWB].Worksheets[forWS] as Worksheet;
 							}
 					}
 

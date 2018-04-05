@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
-using BxS_SAPIPX.Main;
-using BxS_SAPIPX.Excel;
+using BxS_WorxIPX.Main;
+using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPExcel.Main
 {
@@ -19,9 +19,9 @@ namespace BxS_SAPExcel.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				internal readonly Lazy<IIPX_Controller>
+				internal readonly Lazy< IIPXController >
 
-					_IPXCntlr		= new Lazy<IIPX_Controller>	( ()=>	IPX_Controller.Instance
+					_IPXCntlr		= new Lazy< IIPXController >	( ()=>	IPXController.Instance
 																													, LazyThreadSafetyMode
 																															.ExecutionAndPublication );
 
@@ -31,7 +31,7 @@ namespace BxS_SAPExcel.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void WriteDataXML( DTO_BDCSessionRequest DTO )
+				internal void WriteDataXML( IExcelBDCSessionRequest DTO )
 					{
 						this.Parse2Dto1D( DTO );
 						string lc_XML		=	this._IPXCntlr.Value.Serialize( DTO );
