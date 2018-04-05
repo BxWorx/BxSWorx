@@ -32,13 +32,14 @@ namespace BxS_SAPExcel
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IExcelBDCSessionRequest lo_WS		= this._HndlrBDC.CreateBDCSessionRequest();
+																		IExcelBDCSessionWS	lo_WS		=	this._HndlrExcel.GetWSData();
+																		//IExcelBDCSessionRequest lo_WS		= this._HndlrBDC.CreateBDCSessionRequest();
 																		//.....................
-																		this._HndlrExcel.GetWSActive( lo_WS );
-																		this._HndlrExcel.LoadWSCells( lo_WS );
+																		//this._HndlrExcel.GetWSActive( lo_WS );
+																		//this._HndlrExcel.LoadWSCells( lo_WS );
 																		this._HndlrBDC.WriteDataXML( lo_WS );
 																		//.....................
-																		this._HndlrExcel.WriteStatusbar( lo_WS.RowUB.ToString() );
+																		this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );
 																		Thread.Sleep(300);
 																		this._HndlrExcel.ResetStatusBar();
 																	} ).ConfigureAwait(false);
@@ -50,7 +51,7 @@ namespace BxS_SAPExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Button2_Click( object sender , RibbonControlEventArgs e )
 					{
-						IList<Main.DTO_ExcelAppManifest> x = this._HndlrExcel.GetWBWSManifest();
+						//IList<Main.DTO_ExcelAppManifest> x = this._HndlrExcel.GetWBWSManifest();
 					}
 
 			#endregion

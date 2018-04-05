@@ -218,7 +218,7 @@
     <ManifestKeyFile>BxS_WorxExcel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>EB39F895789A7D23F9F03549550DF7C8BCFB6F6A</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>DCAE9F6A2542B72322C88F3C6422C84E55AAF684</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

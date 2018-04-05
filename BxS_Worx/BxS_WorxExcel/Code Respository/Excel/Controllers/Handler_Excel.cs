@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 //.........................................................
 using Microsoft.Office.Interop.Excel;
+//.........................................................
+using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_SAPExcel.Main
 {
@@ -12,10 +14,6 @@ namespace BxS_SAPExcel.Main
 				internal Handler_Excel()
 					{	}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
 			#endregion
 
 			//===========================================================================================
@@ -40,22 +38,16 @@ namespace BxS_SAPExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList< DTO_ExcelWS > GetWBWSManifest( bool loadData = false )
+				internal IList< IExcelBDCSessionWS > GetWBWSManifest( bool loadData = false )
 					{
-						IList< DTO_ExcelWS >	lt_List		= new List< DTO_ExcelWS >();
+						IList< IExcelBDCSessionWS >	lt_List		= new List< IExcelBDCSessionWS >();
 						//.............................................
 						foreach ( Workbook lo_WB in Globals.ThisAddIn.Application.Workbooks )
 							{
 								foreach ( Worksheet lo_WS in lo_WB.Worksheets )
 									{
-										var lo = new DTO_ExcelWS	{
-																									WBID				= lo_WB.Name
-																								,	WSID				= lo_WS.Name
-																								,	UsedAddress = lo_WS.UsedRange.Address
-																								,	WSCells			= loadData	?	lo_WS.UsedRange.Value	: null
-																							};
-										//.....................................
-										lt_List.Add( lo );
+										IExcelBDCSessionWS	lo_BDCWS =	this.CreateExcelWS( lo_WS, loadData );
+										lt_List.Add( lo_BDCWS );
 									}
 							}
 						//.............................................
@@ -63,7 +55,7 @@ namespace BxS_SAPExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_ExcelWS GetWSData( string WBID = null , string WSID = null )
+				internal IExcelBDCSessionWS GetWSData( string WBID = null , string WSID = null )
 					{
 						return	this.CreateExcelWS( this.GetWS( WBID , WSID ) , true );
 					}
@@ -74,14 +66,16 @@ namespace BxS_SAPExcel.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DTO_ExcelWS CreateExcelWS( Worksheet lo_WS , bool loadData = false )
+				private IExcelBDCSessionWS CreateExcelWS( Worksheet lo_WS , bool loadData = false )
 					{
-						return	 new DTO_ExcelWS	{
-																					WBID				= lo_WS.Parent.Name
-																				,	WSID				= lo_WS.Name
-																				,	UsedAddress = lo_WS.UsedRange.Address
-																				,	WSCells			= loadData	?	lo_WS.UsedRange.Value	: null
-																			};
+						IExcelBDCSessionWS	lo_BDCWS	= Globals.ThisAddIn._IPXCntlr.Value.CreateBDCSessionWS();
+						//.............................................
+						lo_BDCWS.WBID				= lo_WS.Parent.Name														;
+						lo_BDCWS.WSID				= lo_WS.Name																	;
+						lo_BDCWS.UsedAddress = lo_WS.UsedRange.Address										;
+						lo_BDCWS.WSCells			= loadData	?	lo_WS.UsedRange.Value	: null	;
+						//.............................................
+						return	lo_BDCWS;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
