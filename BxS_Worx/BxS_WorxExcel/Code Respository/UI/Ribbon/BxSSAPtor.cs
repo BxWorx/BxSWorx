@@ -6,7 +6,7 @@ using Microsoft.Office.Tools.Ribbon;
 using BxS_SAPExcel.Main;
 using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPExcel
+namespace BxS_WorxExcel.Main
 {
 	public partial class BxSSAPtor
 		{

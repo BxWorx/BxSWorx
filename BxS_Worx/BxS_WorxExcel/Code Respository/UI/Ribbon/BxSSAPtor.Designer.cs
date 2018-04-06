@@ -1,4 +1,4 @@
-﻿namespace BxS_SAPExcel
+﻿namespace BxS_WorxExcel.Main
 	{
 	partial class BxSSAPtor : Microsoft.Office.Tools.Ribbon.RibbonBase
 		{
@@ -37,8 +37,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BxSSAPtor));
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group1 = this.Factory.CreateRibbonGroup();
-			this.button2 = this.Factory.CreateRibbonButton();
 			this.button1 = this.Factory.CreateRibbonButton();
+			this.button2 = this.Factory.CreateRibbonButton();
 			this.tab1.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.SuspendLayout();
@@ -57,6 +57,12 @@
 			this.group1.Label = "group1";
 			this.group1.Name = "group1";
 			// 
+			// button1
+			// 
+			this.button1.Label = "button1";
+			this.button1.Name = "button1";
+			this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button1_Click);
+			// 
 			// button2
 			// 
 			this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
@@ -64,12 +70,6 @@
 			this.button2.Name = "button2";
 			this.button2.ShowImage = true;
 			this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button2_Click);
-			// 
-			// button1
-			// 
-			this.button1.Label = "button1";
-			this.button1.Name = "button1";
-			this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button1_Click);
 			// 
 			// BxSSAPtor
 			// 

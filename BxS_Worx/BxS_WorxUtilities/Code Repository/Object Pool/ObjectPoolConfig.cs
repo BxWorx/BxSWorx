@@ -7,7 +7,7 @@ namespace BxS_WorxUtil.ObjectPool
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ObjectPoolConfig()
+				internal ObjectPoolConfig()
 					{
 						this.SetToDefaults();
 					}

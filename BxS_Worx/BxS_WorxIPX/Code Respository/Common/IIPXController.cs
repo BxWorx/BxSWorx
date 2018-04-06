@@ -10,16 +10,16 @@ namespace BxS_WorxIPX.Main
 		{
 			#region "Methods: Exposed"
 
-				IO								CreateIO();
-				Serializer				CreateSerializer();
+				//IO								CreateIO();
+				//Serializer				CreateSerializer();
 
-				PriorityQueue<T>	CreatePriorityQueue<T>	()								where T: class;
+				//PriorityQueue<T>	CreatePriorityQueue<T>	()								where T: class;
 
-				ObjectPool<T>			CreateObjectPool<T>			(		int			MinSize				= 1
-																										,	int			MaxSize				= 5
-																										, bool		diagnostics		= false
-																										,	Func<T>	func					= null	)	where T: PooledObject;
-				//.................................................
+				//ObjectPool<T>			CreateObjectPool<T>			(		int			MinSize				= 1
+				//																						,	int			MaxSize				= 5
+				//																						, bool		diagnostics		= false
+				//																						,	Func<T>	func					= null	)	where T: PooledObject;
+				////.................................................
 				IExcelBDCSession_Parser		CreateBDCSessionParser	();
 				IExcelBDCSessionWS				CreateBDCSessionWS			();
 				IExcelBDCSessionRequest		CreateBDCSessionRequest	();

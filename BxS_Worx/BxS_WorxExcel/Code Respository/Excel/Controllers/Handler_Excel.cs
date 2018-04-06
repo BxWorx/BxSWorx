@@ -4,7 +4,7 @@ using Microsoft.Office.Interop.Excel;
 //.........................................................
 using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPExcel.Main
+namespace BxS_WorxExcel.Main
 {
 	internal class Handler_Excel
 		{

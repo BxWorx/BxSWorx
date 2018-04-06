@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Threading;
 //.........................................................
 using BxS_WorxIPX.Main;
+using BxS_WorxUTL.Main;
+
+using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPExcel
+namespace BxS_WorxExcel.Main
 {
 	public partial class ThisAddIn
 		{
 			#region "VSTO generated code"
 
-				private	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
-
-				internal Lazy< IIPXController >	_IPXCntlr	;
+				internal Lazy< IIPXController		>		_IPXCntlr	;
+				internal Lazy< IUtl_Controller >		_UTLCntlr	;
 
 			#endregion
 
@@ -21,7 +22,8 @@ namespace BxS_SAPExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ThisAddIn_Startup(object sender, System.EventArgs e)
 					{
-						this._IPXCntlr	= new	Lazy< IIPXController >	(	()=>	IPXController.Instance	, cz_LM );
+						this._IPXCntlr	= new	Lazy< IIPXController >	(	()=>	IPXController		.Instance	, cz_LM );
+						this._UTLCntlr	= new	Lazy< IUtl_Controller >	(	()=>	Utl_Controller	.Instance	, cz_LM );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

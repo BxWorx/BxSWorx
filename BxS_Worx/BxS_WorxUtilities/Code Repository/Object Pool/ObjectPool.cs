@@ -20,7 +20,7 @@ using System.Collections.Concurrent;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxUtil.ObjectPool
 {
-	internal class ObjectPool<T> where T : PooledObject
+	public class ObjectPool<T> where T : PooledObject
 		{
 			#region "Constructors"
 

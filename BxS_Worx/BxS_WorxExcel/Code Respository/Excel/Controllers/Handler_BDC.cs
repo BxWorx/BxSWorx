@@ -5,7 +5,7 @@ using System.Threading;
 using BxS_WorxIPX.BDC;
 using BxS_WorxIPX.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_SAPExcel.Main
+namespace BxS_WorxExcel.Main
 {
 	internal class Handler_BDC
 		{

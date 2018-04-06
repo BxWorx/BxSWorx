@@ -17,7 +17,6 @@
     <Compile Remove="Code Respository\BDC Session\DTO_BDC_SessionConfig.cs" />
     <Compile Remove="Code Respository\BDC Session\DTO_BDC_SPA.cs" />
     <Compile Remove="Code Respository\BDC Session\DTO_BDC_Trans.cs" />
-    <Compile Remove="Code Respository\Common\IPX_Constants.cs" />
     <Compile Remove="Code Respository\Helpers\IPoolObject.cs" />
     <Compile Remove="Code Respository\Helpers\ObjectPoolbxs.cs" />
   </ItemGroup>

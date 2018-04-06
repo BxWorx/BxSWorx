@@ -8,10 +8,10 @@ namespace BxS_WorxUtil.Progress
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ProgressHandler(		Func<T> create
+				internal ProgressHandler(		Func<T>	factory
 																	,	int			reportInterval	= 10 )
 					{
-						this._Factory				= create					;
+						this._Factory				= factory					;
 						this._RepInterval		= reportInterval	;
 						//.............................................
 						this._HitCount	= 0;

@@ -56,6 +56,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BxS_WorxIPX\BxS_WorxIPX.csproj" />
+    <ProjectReference Include="..\BxS_WorxUtilities\BxS_WorxUtilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
