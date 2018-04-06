@@ -39,6 +39,7 @@ namespace BxS_WorxIPX.Main
 				public	IO					CreateIO					()=> new IO()					;
 				public	Serializer	CreateSerializer	()=> new Serializer()	;
 				//.................................................
+				public	IExcelBDCSession_Parser		CreateBDCSessionParser	()=> new ExcelBDCSession_Parser	();
 				public	IExcelBDCSessionWS				CreateBDCSessionWS			()=> new ExcelBDCSessionWS			();
 				public	IExcelBDCSessionRequest		CreateBDCSessionRequest	()=> new ExcelBDCSessionRequest	();
 				public	IExcelBDCSessionResult		CreateBDCSessionResult	()=> new ExcelBDCSessionResult	();

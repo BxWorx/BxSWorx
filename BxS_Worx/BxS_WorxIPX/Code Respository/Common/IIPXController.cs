@@ -20,6 +20,7 @@ namespace BxS_WorxIPX.Main
 																										, bool		diagnostics		= false
 																										,	Func<T>	func					= null	)	where T: PooledObject;
 				//.................................................
+				IExcelBDCSession_Parser		CreateBDCSessionParser	();
 				IExcelBDCSessionWS				CreateBDCSessionWS			();
 				IExcelBDCSessionRequest		CreateBDCSessionRequest	();
 				IExcelBDCSessionResult		CreateBDCSessionResult	();

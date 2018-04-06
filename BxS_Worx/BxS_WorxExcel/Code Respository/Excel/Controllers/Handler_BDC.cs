@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 //.........................................................
-using BxS_WorxIPX.Main;
 using BxS_WorxIPX.BDC;
 using BxS_WorxIPX.Helpers;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -14,8 +14,9 @@ namespace BxS_SAPExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Handler_BDC()
 					{
-						this._IPXSerialiser		=	new	Lazy< Serializer >			(	()=>	Globals.ThisAddIn._IPXCntlr.Value.CreateSerializer()	, cz_LM );
-						this._IPXIO						=	new	Lazy< IO >							(	()=>	Globals.ThisAddIn._IPXCntlr.Value.CreateIO()					, cz_LM );
+						this._IPXBDCParser		=	new	Lazy< IExcelBDCSession_Parser >		(	()=>	Globals.ThisAddIn._IPXCntlr.Value.CreateBDCSessionParser	()	, cz_LM );
+						this._IPXSerialiser		=	new	Lazy< Serializer >								(	()=>	Globals.ThisAddIn._IPXCntlr.Value.CreateSerializer				()	, cz_LM );
+						this._IPXIO						=	new	Lazy< IO >												(	()=>	Globals.ThisAddIn._IPXCntlr.Value.CreateIO								()	, cz_LM );
 					}
 
 			#endregion
@@ -25,8 +26,9 @@ namespace BxS_SAPExcel.Main
 
 				internal	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 
-				internal readonly Lazy< Serializer >			_IPXSerialiser	;
-				internal readonly Lazy< IO >							_IPXIO					;
+				internal readonly Lazy< IExcelBDCSession_Parser >		_IPXBDCParser		;
+				internal readonly Lazy< Serializer >								_IPXSerialiser	;
+				internal readonly Lazy< IO >												_IPXIO					;
 
 			#endregion
 
@@ -36,7 +38,10 @@ namespace BxS_SAPExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void WriteDataXML( IExcelBDCSessionWS DTO )
 					{
-						string lc_XML		=	this._IPXSerialiser.Value.Serialize( DTO );
+						IExcelBDCSessionRequest lo_Req	= Globals.ThisAddIn._IPXCntlr.Value.CreateBDCSessionRequest();
+						this._IPXBDCParser.Value.ParseWStoRequest(DTO,lo_Req);
+						var lt = new List<Type>	{	typeof(ExcelBDCSessionRequest) };
+						string lc_XML		=	this._IPXSerialiser.Value.Serialize( lo_Req , lt );
 						this._IPXIO.Value.WriteFile( $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" , lc_XML );
 					}
 

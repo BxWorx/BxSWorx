@@ -1,12 +1,22 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	internal class ExcelBDCSession_Parser
+	public class ExcelBDCSession_Parser : IExcelBDCSession_Parser
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ExcelBDCSession_Parser()
+					{
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseWStoRequest( IExcelBDCSessionWS ws , IExcelBDCSessionRequest request )
+				public void ParseWStoRequest( IExcelBDCSessionWS ws , IExcelBDCSessionRequest request )
 					{
 						request.WBID					= ws.WBID					;
 						request.WSID					= ws.WSID					;

@@ -12,7 +12,9 @@ namespace BxS_WorxIPX.BDC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ExcelBDCSessionRequest()
-					{ }
+					{
+						this.WSData1D	= new	Dictionary<string, string>();
+					}
 
 			#endregion
 

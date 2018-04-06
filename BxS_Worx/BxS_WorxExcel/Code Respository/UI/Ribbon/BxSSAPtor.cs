@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using System.Threading;
-using System.Collections.Generic;
 //.........................................................
 using Microsoft.Office.Tools.Ribbon;
 //.........................................................
@@ -33,10 +32,6 @@ namespace BxS_SAPExcel
 					{
 						await Task.Run( () => {
 																		IExcelBDCSessionWS	lo_WS		=	this._HndlrExcel.GetWSData();
-																		//IExcelBDCSessionRequest lo_WS		= this._HndlrBDC.CreateBDCSessionRequest();
-																		//.....................
-																		//this._HndlrExcel.GetWSActive( lo_WS );
-																		//this._HndlrExcel.LoadWSCells( lo_WS );
 																		this._HndlrBDC.WriteDataXML( lo_WS );
 																		//.....................
 																		this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );

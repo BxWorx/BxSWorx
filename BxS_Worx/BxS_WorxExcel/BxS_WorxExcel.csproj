@@ -158,7 +158,6 @@
   <ItemGroup>
     <Compile Include="Code Respository\Excel\Controllers\Handler_BDC.cs" />
     <Compile Include="Code Respository\Excel\Controllers\Handler_Excel.cs" />
-    <Compile Include="Code Respository\Excel\DTO\DTO_ExcelWS.cs" />
     <Compile Include="Code Respository\Excel\DTO\DTO_ExcelAppManifest.cs" />
     <Compile Include="Code Respository\UI\Ribbon\BxSSAPtor.cs">
       <SubType>Component</SubType>
@@ -218,7 +217,7 @@
     <ManifestKeyFile>BxS_WorxExcel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>DCAE9F6A2542B72322C88F3C6422C84E55AAF684</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>EB39F895789A7D23F9F03549550DF7C8BCFB6F6A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
