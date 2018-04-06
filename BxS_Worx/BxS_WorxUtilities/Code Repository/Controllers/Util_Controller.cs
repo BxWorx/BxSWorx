@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Threading;
 //.........................................................
-using BxS_WorxIPX.Helpers;
-using BxS_WorxIPX.Helpers.ObjectPool;
-using BxS_WorxIPX.BDC;
+using BxS_WorxUtil.Helpers;
+using BxS_WorxUtil.Helpers.ObjectPool;
+using BxS_WorxUtil.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.Main
 {
-	public sealed class IPXController : IIPXController
+	public sealed class Util_Controller : IUtil_Controller
 		{
 			#region "Constructors: Singleton"
 
-				private	static readonly	Lazy< IPXController >	_Instance	= new		Lazy< IPXController >( ()=>	new IPXController()
-																																			, LazyThreadSafetyMode.ExecutionAndPublication );
+				private	static readonly	Lazy< Util_Controller >	_Instance	= new		Lazy< Util_Controller >( ()=>		new Util_Controller()
+																																				, LazyThreadSafetyMode.ExecutionAndPublication );
 
-				private IPXController()	{	}
+				private Util_Controller()	{	}
 
-				public static IPXController Instance	{	get { return _Instance.Value; }	}
+				public static Util_Controller Instance	{	get { return _Instance.Value; }	}
 
 			#endregion
 
