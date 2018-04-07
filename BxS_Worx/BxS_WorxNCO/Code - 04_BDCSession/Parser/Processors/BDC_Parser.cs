@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using BxS_WorxIPX.BDC;
 
 using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxNCO.Helpers.ObjectPool;
+using BxS_WorxUtil.ObjectPool;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
@@ -23,6 +23,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this._Trn		= this._PFactory.Value.GetTransactionParser	();
 						this._Ssn		= this._PFactory.Value.GetSessionParser			();
 						this._Des		= this._PFactory.Value.GetDestinationParser	();
+						//.............................................
+						this.PoolID		= Guid.NewGuid();
 					}
 
 			#endregion

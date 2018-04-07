@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxUTL.Main
+namespace BxS_WorxUtil.Main
 {
-	internal static class Utl_Constants
+	internal static class UTL_Constants
 		{
 			#region "Declarations"
 

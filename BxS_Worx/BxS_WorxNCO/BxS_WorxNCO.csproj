@@ -10,8 +10,11 @@
 
   <ItemGroup>
     <Compile Remove="Code - 02_Destination\Other\**" />
+    <Compile Remove="Code - 90 Helpers\**" />
     <EmbeddedResource Remove="Code - 02_Destination\Other\**" />
+    <EmbeddedResource Remove="Code - 90 Helpers\**" />
     <None Remove="Code - 02_Destination\Other\**" />
+    <None Remove="Code - 90 Helpers\**" />
   </ItemGroup>
 
   <ItemGroup>

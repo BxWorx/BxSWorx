@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 //.........................................................
 using BxS_WorxIPX.BDC;
-using BxS_WorxIPX.Helpers;
 using BxS_WorxIPX.Main;
-using BxS_WorxUTL.Main;
+using BxS_WorxUtil.General;
+using BxS_WorxUtil.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
@@ -16,9 +16,9 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Handler_BDC()
 					{
-						this._IPXBDCParser		=	new	Lazy< IExcelBDCSession_Parser >		(	()=>	Globals.ThisAddIn._IPXCntlr.Value.CreateBDCSessionParser	()	, cz_LM );
-						this._UTLSerialiser		=	new	Lazy< Serializer >								(	()=>	this._UTLCntlr.CreateSerializer()	, cz_LM );
-						this._UTLIO						=	new	Lazy< IO >												(	()=>	Globals.ThisAddIn._UTLCntlr.Value.CreateIO								()	, cz_LM );
+						this._IPXBDCParser		=	new	Lazy< IExcelBDCSession_Parser >		(	()=>	this._IPXCntlr.CreateBDCSessionParser	()	, cz_LM );
+						this._UTLSerialiser		=	new	Lazy< Serializer >								(	()=>	this._UTLCntlr.CreateSerializer				()	, cz_LM );
+						this._UTLIO						=	new	Lazy< IO >												(	()=>	this._UTLCntlr.CreateIO								()	, cz_LM );
 					}
 
 			#endregion
@@ -26,8 +26,8 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Properties"
 
-				private	IIPXController	_IPXCntlr		{ get	{	return	Globals.ThisAddIn._IPXCntlr.Value	; } }
-				private	IUtl_Controller	_UTLCntlr		{ get	{	return	Globals.ThisAddIn._UTLCntlr.Value	; } }
+				private	IIPX_Controller	_IPXCntlr		{ get	{	return	Globals.ThisAddIn._IPXCntlr.Value	; } }
+				private	IUTL_Controller	_UTLCntlr		{ get	{	return	Globals.ThisAddIn._UTLCntlr.Value	; } }
 
 			#endregion
 

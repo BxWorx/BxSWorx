@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 //.........................................................
-using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxNCO.Helpers.ObjectPool;
+using BxS_WorxUtil.ObjectPool;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
@@ -13,6 +12,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_SessionSAPMsgs()
 					{
+						this.PoolID		= Guid.NewGuid();
 					}
 
 			#endregion

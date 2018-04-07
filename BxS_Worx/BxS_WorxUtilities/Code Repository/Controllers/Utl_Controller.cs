@@ -4,19 +4,19 @@ using System.Threading;
 using BxS_WorxUtil.General;
 using BxS_WorxUtil.ObjectPool;
 using BxS_WorxUtil.Progress;
+
+using static	BxS_WorxUtil.Main.UTL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxUTL.Main
+namespace BxS_WorxUtil.Main
 {
-	public sealed class Utl_Controller : IUtl_Controller
+	public sealed class UTL_Controller : IUTL_Controller
 		{
 			#region "Constructors: Singleton"
 
-				private Utl_Controller()	{	}
+				private UTL_Controller()	{	}
 				//.................................................
-				private	static readonly	Lazy< Utl_Controller >	_Instance	= new		Lazy< Utl_Controller >( ()=>		new Utl_Controller()
-																																				, LazyThreadSafetyMode.ExecutionAndPublication );
-
-				public static Utl_Controller Instance	{	get { return _Instance.Value; }	}
+				private	static readonly	Lazy< UTL_Controller >	_Instance		= new		Lazy< UTL_Controller >( ()=>		new UTL_Controller() , cz_LM );
+				public	static					UTL_Controller					Instance		{	get { return _Instance.Value; }	}
 
 			#endregion
 

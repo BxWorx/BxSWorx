@@ -1,7 +1,7 @@
 ﻿using System;
 //.........................................................
 using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxNCO.Helpers.Progress;
+using BxS_WorxUtil.Progress;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {

@@ -3,12 +3,12 @@ using System.Threading;
 //.........................................................
 using Microsoft.Office.Tools.Ribbon;
 //.........................................................
-using BxS_SAPExcel.Main;
+using BxS_WorxExcel.Main;
 using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.Main
-{
-	public partial class BxSSAPtor
+namespace BxS_WorxExcel
+	{
+	public partial class BxS_WorxMain
 		{
 			#region "Declarations"
 
@@ -21,10 +21,10 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void BxSSAPtor_Load( object sender , RibbonUIEventArgs e )
+				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._HndlrExcel	= new	Handler_Excel();
-						this._HndlrBDC		= new	Handler_BDC();
+						this._HndlrExcel	= new	Handler_Excel	();
+						this._HndlrBDC		= new	Handler_BDC		();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -52,4 +52,4 @@ namespace BxS_WorxExcel.Main
 			#endregion
 
 		}
-}
+	}

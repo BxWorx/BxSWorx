@@ -5,20 +5,9 @@ namespace BxS_WorxUtil.ObjectPool
 {
 	public abstract class PooledObject : IDisposable
 		{
-			#region "Constructors"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal PooledObject()
-					{
-						this.PoolID		= Guid.NewGuid();
-					}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Properties"
 
-				internal  Guid													PoolID				{ get; set; }
+				protected	Guid													PoolID				{ get; set; }
 				internal	Action< PooledObject , bool >	ReturnToPool	{ get; set; }
 				internal	bool													Disposed			{ get; set; }
 

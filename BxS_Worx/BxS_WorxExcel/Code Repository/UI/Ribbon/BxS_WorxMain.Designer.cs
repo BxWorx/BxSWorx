@@ -1,13 +1,13 @@
-﻿namespace BxS_WorxExcel.Main
+﻿namespace BxS_WorxExcel
 	{
-	partial class BxSSAPtor : Microsoft.Office.Tools.Ribbon.RibbonBase
+	partial class BxS_WorxMain : Microsoft.Office.Tools.Ribbon.RibbonBase
 		{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		public BxSSAPtor()
+		public BxS_WorxMain()
 				: base(Globals.Factory.GetRibbonFactory())
 			{
 			InitializeComponent();
@@ -34,7 +34,6 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BxSSAPtor));
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group1 = this.Factory.CreateRibbonGroup();
 			this.button1 = this.Factory.CreateRibbonButton();
@@ -47,13 +46,13 @@
 			// 
 			this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
 			this.tab1.Groups.Add(this.group1);
-			this.tab1.Label = "BxSAP";
+			this.tab1.Label = "TabAddIns";
 			this.tab1.Name = "tab1";
 			// 
 			// group1
 			// 
-			this.group1.Items.Add(this.button1);
 			this.group1.Items.Add(this.button2);
+			this.group1.Items.Add(this.button1);
 			this.group1.Label = "group1";
 			this.group1.Name = "group1";
 			// 
@@ -61,22 +60,18 @@
 			// 
 			this.button1.Label = "button1";
 			this.button1.Name = "button1";
-			this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button1_Click);
 			// 
 			// button2
 			// 
-			this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
 			this.button2.Label = "button2";
 			this.button2.Name = "button2";
-			this.button2.ShowImage = true;
-			this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button2_Click);
 			// 
-			// BxSSAPtor
+			// BxS_WorxMain
 			// 
-			this.Name = "BxSSAPtor";
+			this.Name = "BxS_WorxMain";
 			this.RibbonType = "Microsoft.Excel.Workbook";
 			this.Tabs.Add(this.tab1);
-			this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.BxSSAPtor_Load);
+			this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.BxS_WorxMain_Load);
 			this.tab1.ResumeLayout(false);
 			this.tab1.PerformLayout();
 			this.group1.ResumeLayout(false);
@@ -89,15 +84,15 @@
 
 		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
 		}
 
 	partial class ThisRibbonCollection
 		{
-		internal BxSSAPtor BxSSAPtor
+		internal BxS_WorxMain BxS_WorxMain
 			{
-			get { return this.GetRibbon<BxSSAPtor>(); }
+			get { return this.GetRibbon<BxS_WorxMain>(); }
 			}
 		}
 	}

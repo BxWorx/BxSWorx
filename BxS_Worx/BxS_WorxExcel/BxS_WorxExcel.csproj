@@ -159,9 +159,18 @@
     <Compile Include="Code Repository\Main\EXL_Constants.cs" />
     <Compile Include="Code Repository\Main\Handler_BDC.cs" />
     <Compile Include="Code Repository\Main\Handler_Excel.cs" />
+    <Compile Include="Code Repository\UI\Ribbon\BxS_WorxMain.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code Repository\UI\Ribbon\BxS_WorxMain.Designer.cs">
+      <DependentUpon>BxS_WorxMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="Code Repository\UI\Ribbon\BxS_WorxMain.resx">
+      <DependentUpon>BxS_WorxMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -180,6 +189,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Resources\AssemblyInfo.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -191,10 +201,7 @@
     </Compile>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Code Repository\UI\" />
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BxS_WorxIPX\BxS_WorxIPX.csproj">
       <Project>{4ccef63b-9093-448a-b73f-e55ec11b5138}</Project>
