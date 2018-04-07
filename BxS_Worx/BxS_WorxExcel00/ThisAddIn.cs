@@ -5,11 +5,11 @@ using BxS_WorxUTL.Main;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel
+namespace BxS_WorxExcel.Main
 {
 	public partial class ThisAddIn
 		{
-			#region "Declarations"
+			#region "VSTO generated code"
 
 				internal Lazy< IIPXController		>		_IPXCntlr	;
 				internal Lazy< IUtl_Controller >		_UTLCntlr	;
@@ -44,10 +44,8 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void InternalStartup()
 					{
-						#pragma warning	disable RCS1114
-							this.Startup	+= new System.EventHandler(this.ThisAddIn_Startup);
-							this.Shutdown += new System.EventHandler(this.ThisAddIn_Shutdown);
-						#pragma warning restore	RCS1114
+						this.Startup	+= new System.EventHandler(this.ThisAddIn_Startup);
+						this.Shutdown += new System.EventHandler(this.ThisAddIn_Shutdown);
 					}
 
 			#endregion

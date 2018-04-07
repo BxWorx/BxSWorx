@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 #pragma warning disable 414
-namespace BxS_WorxExcel {
+namespace BxS_SAPExcel {
     
     
     /// 
