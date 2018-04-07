@@ -4,10 +4,10 @@ using System.Collections.Concurrent;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using BxS_WorxNCO.Helpers.ObjectPool;
-
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.RfcFunction.BDCTran;
+
+using BxS_WorxUtil.ObjectPool;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxIPX.BDC;
 
+using BxS_WorxUtil.ObjectPool;
+
 using BxS_WorxNCO.Helpers.ObjectPool;
 using BxS_WorxNCO.Helpers.Progress;
 

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
+using BxS_WorxNCO.API;
+
 using BxS_WorxNCO.Destination.API			;
 
 using BxS_WorxNCO.BDCSession.DTO			;
@@ -13,6 +15,8 @@ using BxS_WorxNCO.RfcFunction.BDCTran	;
 
 using BxS_WorxNCO.Helpers.ObjectPool	;
 using BxS_WorxNCO.Helpers.Progress		;
+
+using BxS_WorxUtil.ObjectPool;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -27,8 +31,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this.RfcDestination		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_SessionFactory).Namespace}:- RfcDest Factory null" );
 						//.............................................
-						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance , cz_LM			);
-						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this.RfcDestination ) );
+						this._NCO_Cntlr				=	new Lazy< INCO_Controller			>		(	()=>	NCO_Controller.Instance											, cz_LM );
+						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance									, cz_LM	);
+						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this.RfcDestination )	,	cz_LM );
 						//.............................................
 						this._IsReady	= false;
 					}
@@ -38,8 +43,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
-				private	readonly	Lazy< IRfcFncController >		_RfcFncCntlr		;
+				private readonly	Lazy< INCO_Controller			>		_NCO_Cntlr;
+				//.................................................
+				private readonly	Lazy< BDC_Parser_Factory	>		_ParserFactory	;
+				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr		;
 				//.................................................
 				private bool _IsReady;
 

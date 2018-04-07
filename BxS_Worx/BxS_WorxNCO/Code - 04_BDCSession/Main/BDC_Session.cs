@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using BxS_WorxNCO.Helpers.Progress;
-using BxS_WorxNCO.Helpers.ObjectPool;
-
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.RfcFunction.BDCTran;
+
+using BxS_WorxUtil.ObjectPool;
+using BxS_WorxUtil.Progress;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {

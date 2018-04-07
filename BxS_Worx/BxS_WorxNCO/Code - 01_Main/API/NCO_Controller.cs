@@ -1,5 +1,8 @@
 ﻿using System;
 //.........................................................
+using BxS_WorxNCO.BDCSession.Main;
+using BxS_WorxNCO.Destination.API;
+
 using BxS_WorxIPX.Main;
 using BxS_WorxUtil.Main;
 
@@ -21,13 +24,17 @@ namespace BxS_WorxNCO.API
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IIPX_Controller		IPX_Cntlr		{ get	{	return	IPX_Controller.Instance	; } }
-				internal	IUTL_Controller		UTL_Cntlr		{ get	{	return	UTL_Controller.Instance	; } }
+				public	IIPX_Controller		IPX_Cntlr		{ get	{	return	IPX_Controller.Instance	; } }
+				public	IUTL_Controller		UTL_Cntlr		{ get	{	return	UTL_Controller.Instance	; } }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: Session Handling"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDC_SessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )	=>	new BDC_SessionManager( new BDC_SessionFactory( rfcDestination ) );
+
 			#endregion
 
 		}

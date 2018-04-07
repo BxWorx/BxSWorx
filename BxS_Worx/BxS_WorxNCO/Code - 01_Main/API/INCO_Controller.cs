@@ -1,4 +1,7 @@
-﻿using BxS_WorxIPX.Main;
+﻿using BxS_WorxNCO.Destination.API;
+using BxS_WorxNCO.BDCSession.Main;
+
+using BxS_WorxIPX.Main;
 using BxS_WorxUtil.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.API
@@ -6,32 +9,20 @@ namespace BxS_WorxNCO.API
 	public interface INCO_Controller
 		{
 
-			IIPX_Controller	IPX_Cntlr	{ get; }
-			IUTL_Controller	Utl_Cntlr	{ get; }
+			#region "Properties"
 
-			//#region "Properties"
+				IIPX_Controller		IPX_Cntlr		{ get; }
+				IUTL_Controller		UTL_Cntlr		{ get; }
 
-			//	int LoadedSystemCount	{ get; }
+			#endregion
 
-			//#endregion
+			//===========================================================================================
+			#region "Methods: Exposed"
 
-			////===========================================================================================
-			//#region "Methods: Exposed"
+				BDC_SessionManager	CreateBDCSessionManager( IRfcDestination	rfcDestination );
+				//.................................................
 
-			//	IList< string >								GetSAPINIList();
-			//	IList< ISAPSystemReference >	GetSAPSystems();
-			//	//.................................................
-			//	IRfcDestination	GetDestination( Guid ID		);
-			//	IRfcDestination	GetDestination( string ID );
-			//	//.................................................
-			//	void LoadGlobalConfig( IConfigGlobal config );
-			//	//.................................................
-			//	IConfigDestination		CreateDestinationConfig()	;
-			//	IConfigGlobal				CreateGlobalConfig()			;
-			//	//.................................................
-			//	void Reset();
-
-			//#endregion
+			#endregion
 
 		}
 }
