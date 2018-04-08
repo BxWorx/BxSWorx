@@ -11,10 +11,16 @@
   <ItemGroup>
     <Compile Remove="Code - 02_Destination\Other\**" />
     <Compile Remove="Code - 90 Helpers\**" />
+    <Compile Remove="zKeep\API\**" />
+    <Compile Remove="zKeep\Code - 90 Helpers\**" />
     <EmbeddedResource Remove="Code - 02_Destination\Other\**" />
     <EmbeddedResource Remove="Code - 90 Helpers\**" />
+    <EmbeddedResource Remove="zKeep\API\**" />
+    <EmbeddedResource Remove="zKeep\Code - 90 Helpers\**" />
     <None Remove="Code - 02_Destination\Other\**" />
     <None Remove="Code - 90 Helpers\**" />
+    <None Remove="zKeep\API\**" />
+    <None Remove="zKeep\Code - 90 Helpers\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,16 +28,19 @@
     <Compile Remove="Code - 01_Main\API\Controller.cs" />
     <Compile Remove="Code - 03_RFC Function\Rfc Function\Common\RfcFncIndexBase.cs" />
     <Compile Remove="Code - 03_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
-    <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDCCallTranProfile.cs" />
-    <Compile Remove="Code - 03_RFC Function\SAP Rfc Functions\BDC Call\BDC_OpFnc.cs" />
-    <Compile Remove="Code - 04_BDCSession\API\IBDCSession.cs" />
+    <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC Call\BDCCallTranProfile.cs" />
+    <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC Call\BDC_OpFnc.cs" />
+    <Compile Remove="Code - 04_BDCSession\Main\BDC_SessionProgress.cs" />
     <Compile Remove="zKeep\BDCCallTranConsumer.cs" />
     <Compile Remove="zKeep\BDCCallTranIndex.cs" />
     <Compile Remove="zKeep\BDCCallTranIndexSetup.cs" />
     <Compile Remove="zKeep\BDCCallTranParser.cs" />
     <Compile Remove="zKeep\BDCCallTranProfile.cs" />
+    <Compile Remove="zKeep\BDC_Factory.cs" />
     <Compile Remove="zKeep\BDC_OpFnc.cs" />
+    <Compile Remove="zKeep\BDC_SessionProgress.cs" />
     <Compile Remove="zKeep\ConfigLogon - Copy.cs" />
+    <Compile Remove="zKeep\Controller.cs" />
     <Compile Remove="zKeep\IBDCSession.cs" />
     <Compile Remove="zKeep\IREPDestination.cs" />
     <Compile Remove="zKeep\IRfcDestination.cs" />

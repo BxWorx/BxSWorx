@@ -1,10 +1,13 @@
 ﻿using System;
 //.........................................................
-using BxS_WorxNCO.BDCSession.Main;
 using BxS_WorxNCO.Destination.API;
+
+using BxS_WorxNCO.BDCSession.Main;
+using BxS_WorxNCO.BDCSession.DTO;
 
 using BxS_WorxIPX.Main;
 using BxS_WorxUtil.Main;
+using BxS_WorxUtil.Progress;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -33,7 +36,16 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_SessionManager	CreateBDCSessionManager( IRfcDestination rfcDestination )	=>	new BDC_SessionManager( new BDC_SessionFactory( rfcDestination ) );
+				public	BDC_SessionManager										CreateBDCSessionManager					( IRfcDestination rfcDestination )	=>	new BDC_SessionManager( new BDC_SessionFactory( rfcDestination ) );
+				public	ProgressHandler< DTO_BDC_Progress >		CreateBDCSessionProgressHandler	()																	=>	this.UTL_Cntlr.CreateProgressHandler< DTO_BDC_Progress >( this.CreateProgress );
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	DTO_BDC_Progress CreateProgress	()=>	new	DTO_BDC_Progress();
 
 			#endregion
 

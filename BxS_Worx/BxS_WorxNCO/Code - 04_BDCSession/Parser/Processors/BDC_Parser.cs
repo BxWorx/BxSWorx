@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDC;
+using BxS_WorxUtil.ObjectPool;
 
 using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxUtil.ObjectPool;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {

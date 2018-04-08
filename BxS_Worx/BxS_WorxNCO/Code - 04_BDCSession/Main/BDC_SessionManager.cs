@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using BxS_WorxIPX.BDC;
 
 using BxS_WorxUtil.ObjectPool;
-
-using BxS_WorxNCO.Helpers.ObjectPool;
-using BxS_WorxNCO.Helpers.Progress;
+using BxS_WorxUtil.Progress;
 
 using BxS_WorxNCO.BDCSession.Parser;
 using BxS_WorxNCO.BDCSession.DTO;
@@ -106,10 +104,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task Process(	IExcelBDCSessionRequest							request
-																	,	CancellationToken										CT
-																	, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
+				public async Task<bool> Process(		IExcelBDCSessionRequest							request
+																				,	CancellationToken										CT
+																				, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{
+						bool	lb_Ret	= false;
 						DTO_BDC_Session lo_DTOSession	=	this._Factory.CreateSessionDTO();
 						//.............................................
 						// Parse request, data from an excel spreadsheet, into an BDC Session DTO.
@@ -127,19 +126,21 @@ namespace BxS_WorxNCO.BDCSession.Main
 							{
 								using ( BDC_Session lo_BDCSession = this._BDCSessPool.Value.Acquire() )
 									{
-										int i = await	lo_BDCSession.Process_SessionAsync(		lo_DTOSession
-																																			, CT
-																																			, progressHndlr
-																																			, this._BDCConsPool.Value
-																																			,	this._Factory.SMCDestination )
-																		.ConfigureAwait(false);
+										int ln_Trn	=	await	lo_BDCSession.Process_SessionAsync(		lo_DTOSession
+																																				, CT
+																																				, progressHndlr
+																																				, this._BDCConsPool.Value
+																																				,	this._Factory.SMCDestination )
+																					.ConfigureAwait(false);
 									}
 								//.............................................
 								using ( BDC_SessionSAPMsgs lo_SAPMsgs	= this._SAPMsgPool.Value.Acquire() )
 									{
-										int i = await	lo_SAPMsgs.ProcessAsync().ConfigureAwait(false);
+										int ln_Msg	= await	lo_SAPMsgs.ProcessAsync().ConfigureAwait(false);
 									}
 							}
+						//.............................................
+						return	lb_Ret;
 					}
 
 			#endregion
