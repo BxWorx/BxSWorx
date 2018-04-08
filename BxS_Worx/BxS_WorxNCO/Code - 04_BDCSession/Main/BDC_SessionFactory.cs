@@ -107,8 +107,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	DTO_BDC_SessionConfig									CreateBDCSessionConfig					()=>	new	DTO_BDC_SessionConfig();
-				internal	ObjectPool< BDC_Session >							CreateBDCSessionPool						()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session	>( this.CreateBDCSession );
+				internal	DTO_BDC_SessionConfig				CreateBDCSessionConfig	()=>	new	DTO_BDC_SessionConfig();
+				internal	ObjectPool< BDC_Session >		CreateBDCSessionPool		()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session	>( this.CreateBDCSession );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Session > CreateBDCSessionPoolConfig( bool defaults = true )

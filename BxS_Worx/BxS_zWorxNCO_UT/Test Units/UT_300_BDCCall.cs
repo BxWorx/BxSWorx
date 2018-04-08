@@ -16,20 +16,16 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_300_BDCCall
 		{
-			private readonly	UT_000_NCO			co_NCO;
-			private readonly	IRfcDestination	co_RfcDest;
-			private readonly	IRfcDestination	co_RfcDestOn;
+			private readonly	UT_000_NCO				co_NCO000		;
+			private readonly	IRfcDestination		co_RfcDestOn;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_300_BDCCall()
 				{
-					this.co_NCO					= new	UT_000_NCO();
-
-					this.co_RfcDest			= this.co_NCO.GetSAPDest();
-					this.co_RfcDestOn		= this.co_NCO.GetSAPDestLoggedOn( true , true );
+					this.co_NCO000			= new	UT_000_NCO();
+					this.co_RfcDestOn		= this.co_NCO000.GetSAPDestLoggedOn( true , true );
 					//...............................................
-					Assert.IsNotNull	( this.co_NCO									, "" );
-					Assert.IsNotNull	( this.co_NCO.DestController	, "" );
+					Assert.IsNotNull	( this.co_NCO000	, "" );
 				}
 
 			[TestMethod]
@@ -39,7 +35,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc1	= lo_FCnt.CreateBDCCallFunction();
 
-					lo_FCnt.ActivateProfiles();
+					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDCCall_Header	lo_Head		= lo_Fnc1.CreateBDCCallHeader()	;
 					BDCCall_Data		lo_Lines	= lo_Fnc1.CreateBDCCallLines()	;
@@ -56,7 +52,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc0	= lo_FCnt.CreateBDCCallFunction();
 
-					lo_FCnt.ActivateProfiles();
+					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDCCall_Header		lo_Head		= lo_Fnc0.CreateBDCCallHeader( true )	;
 					BDCCall_Data			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
@@ -82,7 +78,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
 
-					lo_FCnt.ActivateProfiles();
+					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
 					BDCCall_Data			lo_Lines	= lo_Prof.CreateBDCCallData()	;
@@ -112,7 +108,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
 
-					lo_FCnt.ActivateProfiles();
+					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDCCall_Header		lo_Head		= lo_Fnc0.CreateBDCCallHeader( true )	;
 					BDCCall_Data			lo_Lines	= lo_Fnc0.CreateBDCCallLines()	;
@@ -146,7 +142,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
 
-					lo_FCnt.ActivateProfiles();
+					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
 					//...............................................
@@ -229,7 +225,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCCall_Profile CreateBDCCallProfile()
 					{
-						IRfcDestination		lo_DS			= this.co_NCO.GetSAPDestLoggedOn();
+						IRfcDestination		lo_DS			= this.co_NCO000.GetSAPDestLoggedOn();
 						IRfcFncController	lo_FCntlr	= new RfcFncController( lo_DS );
 
 						return	lo_FCntlr.GetAddBDCCallProfile();

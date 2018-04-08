@@ -1,4 +1,7 @@
-﻿using BxS_WorxNCO.Destination.API;
+﻿using System;
+using System.Collections.Generic;
+//.........................................................
+using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.BDCSession.Main;
 
 using BxS_WorxIPX.Main;
@@ -19,8 +22,22 @@ namespace BxS_WorxNCO.API
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				BDC_SessionManager	CreateBDCSessionManager( IRfcDestination	rfcDestination );
+				IList< string >								GetSAPINIList();
+				IList< ISAPSystemReference >	GetSAPSystems();
 				//.................................................
+				void	LoadGlobalConfig( IConfigGlobal config );
+				//.................................................
+				IRfcDestination		GetDestination( Guid		ID );
+				IRfcDestination		GetDestination( string	ID );
+				//.................................................
+				void	Reset();
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: Session"
+
+				BDC_SessionManager	CreateBDCSessionManager( IRfcDestination	rfcDestination );
 
 			#endregion
 

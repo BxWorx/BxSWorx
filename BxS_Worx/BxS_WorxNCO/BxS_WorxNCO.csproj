@@ -26,6 +26,8 @@
   <ItemGroup>
     <Compile Remove="Code - 01_Main\API\BDC_Factory.cs" />
     <Compile Remove="Code - 01_Main\API\Controller.cs" />
+    <Compile Remove="Code - 02_Destination\API\_Controllers\IDestinationController.cs" />
+    <Compile Remove="Code - 02_Destination\Main\Controller\DestinationController.cs" />
     <Compile Remove="Code - 03_RFC Function\Rfc Function\Common\RfcFncIndexBase.cs" />
     <Compile Remove="Code - 03_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC Call\BDCCallTranProfile.cs" />
@@ -58,6 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Code - 02_Destination\Main\Controller\" />
     <Folder Include="Properties\" />
     <Folder Include="zKeep\" />
   </ItemGroup>

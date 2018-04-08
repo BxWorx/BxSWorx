@@ -5,31 +5,33 @@ using System.Threading.Tasks;
 //.........................................................
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
-using BxS_WorxNCO.BDCSession.API;
+using BxS_WorxNCO.API;
 using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.BDCSession.Main;
+using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
 	[TestClass]
 	public class UT_400_BDCSession
 		{
-			private readonly	IBDCSessionController	co_Ctlr;
+			private readonly	UT_000_NCO				co_NCO000		;
+			private readonly	INCO_Controller		co_NCOCntlr	;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_400_BDCSession()
 				{
-					this.co_Ctlr	= new BDCSessionController();
+					this.co_NCO000		= new	UT_000_NCO()					;
+					this.co_NCOCntlr	= this.co_NCO000._NCO_Cntlr	;
 					//...............................................
-					Assert.IsNotNull( this.co_Ctlr , "" );
+					Assert.IsNotNull( this.co_NCOCntlr , "" );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_10_Instantiate()
 				{
-					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
+					IConfigDestination			lo_DestCfg	= Destination_Factory.CreateDestinationConfig();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
 				  BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
 
@@ -42,7 +44,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_20_Configure()
 				{
-					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
+					IConfigDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
 					BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
 					//...............................................
@@ -57,7 +59,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public async Task UT_400_BCDSess_30_Process()
 				{
 					const	int ln_Trn	= 200;
-					IConfigSetupDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
+					IConfigDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
 					BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
 					//...............................................
@@ -90,7 +92,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Configure( IConfigSetupDestination	lo_DestCfg )
+				private void Configure( IConfigDestination	lo_DestCfg )
 					{
 						//lo_DestCfg.Client			= 700							;
 						//lo_DestCfg.User				= "DERRICKBINGH"	;

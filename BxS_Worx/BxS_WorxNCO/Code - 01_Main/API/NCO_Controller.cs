@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
+using BxS_WorxNCO.Destination.Config;
+using BxS_WorxNCO.Destination.Main;
+using BxS_WorxNCO.Destination.Main.Destination;
 
 using BxS_WorxNCO.BDCSession.Main;
 using BxS_WorxNCO.BDCSession.DTO;
@@ -17,10 +21,23 @@ namespace BxS_WorxNCO.API
 		{
 			#region "Constructors: Singleton"
 
-				private NCO_Controller()	{	}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private NCO_Controller()
+					{
+						this._DestRepos		= new Lazy<Repository>		(	()=>	new Repository	(	( Guid ID )	=>	new RfcDestination( ID ) )	, cz_LM );
+						this._GlobalSetup	= new Lazy<IConfigGlobal>	( ()=>	new ConfigGlobal()																						, cz_LM );
+					}
 				//.................................................
 				private	static readonly		Lazy< NCO_Controller >	_Instance		= new	Lazy< NCO_Controller >( ()=> new NCO_Controller() , cz_LM );
 				public	static						NCO_Controller					Instance			{	get { return _Instance.Value; }	}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private readonly	Lazy<Repository>			_DestRepos;
+				private readonly	Lazy<IConfigGlobal>		_GlobalSetup;
 
 			#endregion
 
@@ -29,8 +46,90 @@ namespace BxS_WorxNCO.API
 
 				public	IIPX_Controller		IPX_Cntlr		{ get	{	return	IPX_Controller.Instance	; } }
 				public	IUTL_Controller		UTL_Cntlr		{ get	{	return	UTL_Controller.Instance	; } }
+				//.................................................
+				private	int		LoadedSystemCount				{ get { return	this._DestRepos.Value.Count; } }
 
 			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: Destination"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				// List as per SAP Logon GUI setup
+				//
+				public IList<string> GetSAPINIList()	=>	SAPINI.Instance.GetSAPINIList();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				// List of only requested SAP systems
+				//
+				public IList<ISAPSystemReference> GetSAPSystems()
+					{
+						IList<ISAPSystemReference>	lt_List		= new List<ISAPSystemReference>( this.LoadedSystemCount );
+						//.............................................
+						foreach ( KeyValuePair< Guid , string > ls_kvp in this._DestRepos.Value.SAPSystems )
+							{
+								lt_List.Add( this.CreateSAPSysRef( ls_kvp.Key , ls_kvp.Value	) );
+							}
+						//.............................................
+						return	lt_List;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IRfcDestination GetDestination( string ID )
+					{
+						IRfcDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						if ( this._GlobalSetup.IsValueCreated )
+							{
+								lo.LoadConfig( this._GlobalSetup.Value );
+							}
+						return	lo;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IRfcDestination GetDestination( Guid ID )
+					{
+						IRfcDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						if ( this._GlobalSetup.IsValueCreated )
+							{
+								lo.LoadConfig( this._GlobalSetup.Value );
+							}
+						return	lo;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadGlobalConfig( IConfigGlobal config )
+					{
+						foreach (KeyValuePair<string, string> ls_kvp in config.Settings )
+							{
+								this._GlobalSetup.Value.Settings[ls_kvp.Key]	= ls_kvp.Value;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Reset()
+					{
+						this._DestRepos.Value.Reset();
+						this._GlobalSetup.Value.Settings.Clear();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private ISAPSystemReference CreateSAPSysRef(	Guid		id
+																										,	string	name )
+					{
+						ISAPSystemReference lo	=	Destination_Factory.CreateSAPSystemReference();
+						//.............................................
+						lo.ID				= id		;
+						lo.SAPName	= name	;
+						//.............................................
+						return	lo;
+					}
+
+		#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Session Handling"

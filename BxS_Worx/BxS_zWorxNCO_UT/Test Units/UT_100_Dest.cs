@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using BxS_WorxNCO.Destination.API;
+using BxS_WorxNCO.API;
 
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
 	[TestClass]
 	public class UT_100_Dest
 		{
-			private readonly	UT_000_NCO	co_NCO;
+			private readonly	UT_000_NCO				co_NCO000		;
+			private readonly	INCO_Controller		co_NCOCntlr	;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_100_Dest()
 				{
-					this.co_NCO			= new	UT_000_NCO();
-					Assert.IsNotNull	( this.co_NCO									, "" );
-					Assert.IsNotNull	( this.co_NCO.DestController	, "" );
+					this.co_NCO000		= new	UT_000_NCO()					;
+					this.co_NCOCntlr	= this.co_NCO000._NCO_Cntlr	;
+
+					Assert.IsNotNull ( this.co_NCO000 , "" );
 				}
 
 			[TestMethod]
@@ -33,10 +36,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_20_SAPINI()
 				{
-					IList< string > lt_Ini		=	this.co_NCO.DestController.GetSAPINIList();
+					IList< string > lt_Ini		=	this.co_NCOCntlr.GetSAPINIList();
 					Assert.AreNotEqual	(	0	, lt_Ini.Count	, "" );
 					//...............................................
-					IList< ISAPSystemReference >	lt_Rep	= this.co_NCO.DestController.GetSAPSystems();
+					IList< ISAPSystemReference >	lt_Rep	= this.co_NCOCntlr.GetSAPSystems();
 					Assert.AreEqual	(	0	, lt_Rep.Count	, "" );
 				}
 
@@ -44,9 +47,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_30_Dest()
 				{
-					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
+					IRfcDestination lo_Dest =	this.co_NCO000.GetSAPDest();
 					//...............................................
-					IList< ISAPSystemReference >	lt_Rep	= this.co_NCO.DestController.GetSAPSystems();
+					IList< ISAPSystemReference >	lt_Rep	= this.co_NCOCntlr.GetSAPSystems();
 					Assert.AreEqual	(	1	, lt_Rep.Count	, "" );
 				}
 
@@ -54,7 +57,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_40_Connect()
 				{
-					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
+					IRfcDestination lo_Dest =	this.co_NCO000.GetSAPDest();
 					//...............................................
 					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig();
 
@@ -72,7 +75,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_100_Dest_42_ConnectSecure()
 				{
 					var lc_Pwd	= new SecureString();
-					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
+					IRfcDestination lo_Dest =	this.co_NCO000.GetSAPDest();
 					//...............................................
 					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig();
 
@@ -96,7 +99,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_50_ConnectRepos()
 				{
-					IRfcDestination lo_Dest =	this.co_NCO.GetSAPDest();
+					IRfcDestination lo_Dest =	this.co_NCO000.GetSAPDest();
 					//...............................................
 					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig( true );
 
@@ -105,8 +108,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lo_Logon.Password	= UT_000_NCO.cz_PWrd		;
 
 					lo_Dest.LoadConfig( lo_Logon )	;
-					//...............................................
-					//Assert.IsTrue( lo_Dest.IsConnected	, "" );
 				}
 		}
 }
