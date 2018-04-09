@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this._Func		= function	;
 						//.............................................
-						this._BDCData	= new	Lazy<BDCCall_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallData()	, cz_LM );
+						this._BDCData	= new	Lazy<BDCCall_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallData() , cz_LM );
 					}
 
 			#endregion
@@ -46,7 +46,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Consume(	CancellationToken													CT
+				internal void Consume(	BDCCall_Header														header
+															,	CancellationToken													CT
 															, BlockingCollection< DTO_BDC_Transaction >	queue
 															,	SMC.RfcDestination												rfcDestination	)
 					{
@@ -59,14 +60,15 @@ namespace BxS_WorxNCO.BDCSession.Main
 										this._BDCData.Value.LoadSPA( lo_Tran.SPAData );
 										this._BDCData.Value.LoadBDC( lo_Tran.BDCData );
 										//.........................................
+										this._Func.Config( header );
 										this._Func.Process( this._BDCData.Value , rfcDestination );
 										//.........................................
 										this._BDCData.Value.LoadMsg( lo_Tran.MSGData );
 										this._BDCData.Value.PostProcess();
 									}
-								catch (System.Exception)
+								catch (Exception ex)
 									{
-									throw;
+										throw	new Exception( "Consumer consumer fail", ex );
 									}
 								finally
 									{

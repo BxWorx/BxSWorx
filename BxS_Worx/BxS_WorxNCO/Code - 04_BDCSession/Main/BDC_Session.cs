@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				internal BDC_Session(		BDCCall_Header				header
 															,	DTO_BDC_SessionConfig	config	)
 					{
-						this._Header		= header	;
+						this._Header	= header	;
 						this._Config	= config	;
 						//.............................................
 						this._Queue			= new	BlockingCollection< DTO_BDC_Transaction >();
@@ -57,9 +57,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 				public ConcurrentQueue< Task<int> >	TasksCompleted	{ get; private set; }
 				public ConcurrentQueue< Task<int>	>	TasksFaulty			{ get; private set; }
 				public ConcurrentQueue< Task<int>	>	TasksOther			{ get; private set; }
-
+				//.................................................
 				#pragma	warning	disable	RCS1085
-					internal	DTO_BDC_SessionConfig Config	{ get	{	return	this._Config; } }
+					internal	DTO_BDC_SessionConfig		Config					{ get	{	return	this._Config; } }
 				#pragma	warning	restore	RCS1085
 
 			#endregion
@@ -85,7 +85,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 						this.PrepareSession( bdcSession );
 
 						this._Header.Load	( bdcSession.Header );
-						this.LoadQueue		( bdcSession.Trans );
+						this.LoadQueue		( bdcSession.Trans	);
 						//.............................................
 						this.StartConsumers( CT , pool , rfcDestination );
 
@@ -131,7 +131,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PrepareSession( DTO_BDC_Session	bdcSession )
+				private void PrepareSession( DTO_BDC_Session bdcSession )
 					{
 						this.TransactionsProcessed	= 0;
 						//.............................................
@@ -170,9 +170,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 								//.........................................
 								if ( progressHndlr.GoingToHit )
 									{
-										DTO_BDC_Progress x =	progressHndlr.Create();
-										x.TasksDne	= ln_Ret;
-										progressHndlr.Report( x );
+										DTO_BDC_Progress lo_PHData	=	progressHndlr.Create();
+										lo_PHData.TasksDne	= ln_Ret;
+										progressHndlr.Report( lo_PHData );
 									}
 
 							}
@@ -195,7 +195,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																						{
 																							using (	BDC_SessionConsumer lo_Cons = pool.Acquire() )
 																								{
-																									lo_Cons.Consume( CT , this._Queue , rfcDestination );
+																									lo_Cons.Consume( this._Header , CT , this._Queue , rfcDestination );
 																									return	lo_Cons.TransactionsProcessed;
 																								}
 																						}

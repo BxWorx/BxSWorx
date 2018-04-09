@@ -19,7 +19,7 @@ namespace BxS_WorxNCO.Destination.API
 				int	SAPGUINotUse			{ get; }
 				int	SAPGUIUse					{ get; }
 				int	SAPGUIHidden			{ get; }
-			
+
 			#endregion
 
 		}

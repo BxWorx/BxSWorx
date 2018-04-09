@@ -18,7 +18,7 @@ namespace BxS_WorxUtil.ObjectPool
 			#region "Declarations"
 
 				private	const		int	cz_DefMinSize	=	00	;
-				private const		int	cz_DefMaxSize	=	03	;
+				private const		int	cz_DefMaxSize	=	05	;
 				//.................................................
 				private int			_MinimumPoolSize			;
 				private int			_MaximumPoolSize			;
