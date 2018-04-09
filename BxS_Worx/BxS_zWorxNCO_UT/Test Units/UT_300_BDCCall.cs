@@ -23,7 +23,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public UT_300_BDCCall()
 				{
 					this.co_NCO000			= new	UT_000_NCO();
-					this.co_RfcDestOn		= this.co_NCO000.GetSAPDestLoggedOn( true , true );
+					this.co_RfcDestOn		= this.co_NCO000.GetSAPDestConfigured( true , true );
 					//...............................................
 					Assert.IsNotNull	( this.co_NCO000	, "" );
 				}
@@ -225,7 +225,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCCall_Profile CreateBDCCallProfile()
 					{
-						IRfcDestination		lo_DS			= this.co_NCO000.GetSAPDestLoggedOn();
+						IRfcDestination		lo_DS			= this.co_NCO000.GetSAPDestConfigured();
 						IRfcFncController	lo_FCntlr	= new RfcFncController( lo_DS );
 
 						return	lo_FCntlr.GetAddBDCCallProfile();

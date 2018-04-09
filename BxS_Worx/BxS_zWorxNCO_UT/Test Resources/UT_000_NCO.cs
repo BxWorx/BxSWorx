@@ -47,15 +47,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal IRfcDestination GetSAPDestLoggedOn( bool DoLogonCheck = false , bool showSAPGui = false )
+			internal IRfcDestination GetSAPDestConfigured( bool DoLogonCheck = false , bool showSAPGui = false )
 				{
-					IRfcDestination			lo_Dest		=	this.GetSAPDest();
-					IConfigLogon				lo_Logon	= Destination_Factory.CreateLogonConfig();
-					IConfigDestination	lo_Cnfg		= Destination_Factory.CreateDestinationConfig();
-					//...............................................
-					lo_Logon.Client			=	cz_Client			;
-					lo_Logon.User				= cz_User				;
-					lo_Logon.Password		= cz_PWrd				;
+					IRfcDestination			lo_Dest		=	this.GetSAPDest()			;
+					IConfigDestination	lo_Cnfg		=	this.GetDestConfig()	;
+					IConfigLogon				lo_Logon	=	this.GetLogonConfig()	;
 					//...............................................
 					lo_Cnfg.DoLogonCheck	= DoLogonCheck	;
 					lo_Cnfg.UseSAPGUI			= showSAPGui	? lo_Cnfg.SAPGUIUse	: lo_Cnfg.SAPGUIHidden	;
@@ -64,6 +60,35 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lo_Dest.LoadConfig( lo_Logon )	;
 					//...............................................
 					return	lo_Dest	;
+				}
+
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			internal IConfigLogon GetLogonConfig( bool configured = true )
+				{
+					IConfigLogon	lo_Logon	=	Destination_Factory.CreateLogonConfig();
+
+					if ( configured )
+						{
+							lo_Logon.Client			=	cz_Client			;
+							lo_Logon.User				= cz_User				;
+							lo_Logon.Password		= cz_PWrd				;
+						}
+
+					return	lo_Logon;
+				}
+
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			internal IConfigDestination	GetDestConfig( bool configured = true )
+				{
+					IConfigDestination	lo_Cnfg		=Destination_Factory.CreateDestinationConfig();
+
+					if ( configured )
+						{
+							lo_Cnfg.IdleCheckTime		= 10;
+							lo_Cnfg.IdleTimeout			= 60;
+						}
+
+					return	lo_Cnfg;
 				}
 		}
 }

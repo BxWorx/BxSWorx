@@ -43,7 +43,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public async Task UT_200_RfcFnc_20_MetaData()
 				{
-					IRfcDestination	lo_DS	= this.co_NCO000.GetSAPDestLoggedOn();
+					IRfcDestination	lo_DS	= this.co_NCO000.GetSAPDestConfigured();
 					IRfcFncManager	lo_FM = new RfcFncManager( lo_DS );
 					//...............................................
 					BDCCall_Profile lo_PR0	= this.CreateBDCCallProfile();
@@ -89,7 +89,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public async Task UT_200_RfcFnc_30_MetaDataMany()
 				{
-					IRfcDestination		lo_DS	= this.co_NCO000.GetSAPDestLoggedOn();
+					IRfcDestination		lo_DS	= this.co_NCO000.GetSAPDestConfigured();
 					IRfcFncController	lo_FC = new RfcFncController( lo_DS );
 
 					lo_FC.RegisterBDCCallProfile();
@@ -109,7 +109,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDCCall_Profile CreateBDCCallProfile()
 					{
-						IRfcDestination	lo_DS	= this.co_NCO000.GetSAPDestLoggedOn();
+						IRfcDestination	lo_DS	= this.co_NCO000.GetSAPDestConfigured();
 						BDCCall_Factory lo_FC	= BDCCall_Factory.Instance;
 
 						return	new BDCCall_Profile( cz_FNme , lo_FC );

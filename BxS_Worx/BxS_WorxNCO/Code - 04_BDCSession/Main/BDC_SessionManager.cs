@@ -150,12 +150,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				// Applies changes made to individual configurations (made direct in the configuration).
 				// This is done as a number of rules exist within the configuration which tracks if any
-				// changes made are relevant based on th status of the individual pools.
+				// changes made are relevant based on the status of the individual pools.
 				//
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ReConfigureBDCSessionPool		()=>	this._BDCSessPool.Value	.ConfigurePool( this._BDCSessCfg.Value );
-				internal void ReConfigureBDCConsumerPool	()=>	this._BDCConsPool.Value	.ConfigurePool( this._BDCConsCfg.Value );
-				internal void ReConfigureParserPool				()=>	this._ParserPool.Value	.ConfigurePool( this._ParserCfg.Value	 );
+				internal void ReConfigureBDCSessionPool		()=>	this._BDCSessPool	.Value	.ConfigurePool( this._BDCSessCfg .Value );
+				internal void ReConfigureBDCConsumerPool	()=>	this._BDCConsPool	.Value	.ConfigurePool( this._BDCConsCfg .Value );
+				internal void ReConfigureParserPool				()=>	this._ParserPool	.Value	.ConfigurePool( this._ParserCfg	 .Value );
+				internal void ReConfigureSAPMsgPool				()=>	this._SAPMsgPool	.Value	.ConfigurePool( this._SAPMsgCfg	 .Value );
 
 			#endregion
 

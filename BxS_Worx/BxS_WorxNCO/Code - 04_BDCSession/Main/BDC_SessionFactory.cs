@@ -15,7 +15,6 @@ using BxS_WorxNCO.RfcFunction.BDCTran	;
 
 using BxS_WorxUtil.Main;
 using BxS_WorxUtil.ObjectPool;
-using BxS_WorxUtil.Progress;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -54,8 +53,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				internal	IRfcDestination			RfcDestination	{ get; }
 				internal	SMC.RfcDestination	SMCDestination	{ get	{	return	this.RfcDestination.SMCDestination; } }
 
-				private		INCO_Controller			NCO_Cntlr				{ get { return	NCO_Controller.Instance		; } }
-				private		IUTL_Controller			UTL_Cntlr				{ get { return	this.NCO_Cntlr.UTL_Cntlr	; } }
+				private		IUTL_Controller			UTL_Cntlr				{ get { return	NCO_Controller.Instance.UTL_Cntlr	; } }
 
 			#endregion
 
@@ -72,7 +70,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 								//.........................................
 								try
 									{
-										await this.RfcDestination.FetchMetadataAsync( optimise ).ConfigureAwait(false);
+										await this.RfcDestination.FetchMetadataAsync( optimise )	.ConfigureAwait(false);
+										await	this._RfcFncCntlr.Value.ActivateProfilesAsync()			.ConfigureAwait(false);
 										this._IsReady		=	true;
 									}
 								catch (Exception ex)
@@ -117,7 +116,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Session CreateBDCSession()
+				internal BDC_Session CreateBDCSession()
 					{
 						BDCCall_Header lo_H	= this._RfcFncCntlr.Value.GetAddBDCCallProfile().CreateBDCCallHeader();
 						return	new	BDC_Session( lo_H , this.CreateBDCSessionConfig() );
@@ -126,7 +125,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DTO_BDC_Session CreateSessionDTO()
 					{
-						var lo_CTU	= new DTO_BDC_CTU();
+						var lo_CTU	= new DTO_BDC_CTU		();
 						var lo_Hed	= new DTO_BDC_Header( lo_CTU );
 						//.............................................
 						return	new DTO_BDC_Session( lo_Hed );

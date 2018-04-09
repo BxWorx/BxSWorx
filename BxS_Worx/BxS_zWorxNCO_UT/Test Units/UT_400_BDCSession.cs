@@ -15,8 +15,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_400_BDCSession
 		{
-			private readonly	UT_000_NCO				co_NCO000		;
-			private readonly	INCO_Controller		co_NCOCntlr	;
+			private readonly	UT_000_NCO					co_NCO000		;
+			private readonly	INCO_Controller			co_NCOCntlr	;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_400_BDCSession()
@@ -31,59 +31,74 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_10_Instantiate()
 				{
-					IConfigDestination			lo_DestCfg	= Destination_Factory.CreateDestinationConfig();
-					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
-				  BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
+					BDC_SessionFactory		lo_Fact			= this.GetFactory();
+				  BDC_Session						lo_BDCSess	= lo_Fact.CreateBDCSession();
+					DTO_BDC_SessionConfig	lo_SessCfg	= lo_Fact.CreateBDCSessionConfig();
 
-					Assert.IsNotNull	( lo_DestCfg , "bbb" );
-					Assert.IsNotNull	( lo_SessCfg , "bbb" );
-					Assert.IsNotNull	( lo_BDCSess , "bbb" );
+					Assert.IsNotNull	( lo_Fact			, "a" );
+					Assert.IsNotNull	( lo_BDCSess	, "b" );
+					Assert.IsNotNull	( lo_SessCfg	, "c" );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_20_Configure()
 				{
-					IConfigDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
-					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
-					BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
-					//...............................................
-					this.Configure( lo_DestCfg );
+					//IConfigDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
+					//DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
+					//BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.co_NCO000.GetSAPID() );
+					////...............................................
+					//this.Configure( lo_DestCfg );
 
-					lo_BDCSess.ConfigureOperation( lo_SessCfg );
-					lo_BDCSess.ConfigureDestination( lo_DestCfg );
+					//lo_BDCSess.ConfigureOperation( lo_SessCfg );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public async Task UT_400_BCDSess_30_Process()
 				{
-					const	int ln_Trn	= 200;
-					IConfigDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
-					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
-					BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.GetSAPID() );
-					//...............................................
-					this.Configure( lo_DestCfg );
-					this.Configure( lo_SessCfg );
+					//const	int ln_Trn	= 200;
+					//IConfigDestination	lo_DestCfg	= this.co_Ctlr.CreateDestinationConfig();
+					//DTO_BDC_SessionConfig		lo_SessCfg	= this.co_Ctlr.CreateSessionConfig();
+					//BDC_Session							lo_BDCSess	= this.co_Ctlr.CreateBDCSession( this.co_NCO000.GetSAPID() );
+					////...............................................
+					//this.Configure( lo_DestCfg );
+					//this.Configure( lo_SessCfg );
 
-					lo_BDCSess.ConfigureDestination	( lo_DestCfg );
-					lo_BDCSess.ConfigureOperation		( lo_SessCfg );
-					//...............................................
-					DTO_BDC_Session lo_SessDTO = this.co_Ctlr.CreateSessionDTO();
-					this.LoadBDCData( lo_SessDTO , ln_Trn );
+					//lo_BDCSess.ConfigureOperation		( lo_SessCfg );
+					////...............................................
+					//DTO_BDC_Session lo_SessDTO = this.co_Ctlr.CreateSessionDTO();
+					//this.LoadBDCData( lo_SessDTO , ln_Trn );
 
-					int ln_ConCnt = await lo_BDCSess.Process_SessionAsync( lo_SessDTO ).ConfigureAwait(false);
+					//int ln_ConCnt = await lo_BDCSess.Process_SessionAsync( lo_SessDTO ).ConfigureAwait(false);
 
-					while (!ln_ConCnt.Equals(lo_SessDTO.Trans.Count))
-						{
-							Thread.Sleep(10);
-						}
+					//while (!ln_ConCnt.Equals(lo_SessDTO.Trans.Count))
+					//	{
+					//		Thread.Sleep(10);
+					//	}
 
-					Assert.AreEqual( ln_Trn , lo_BDCSess.TransactionsProcessed , "" );
+					//Assert.AreEqual( ln_Trn , lo_BDCSess.TransactionsProcessed , "" );
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	BDC_SessionFactory GetFactory()
+					{
+						BDC_SessionFactory		lo_Fact			= this.GetFactory();
+						BDC_Session						lo_BDCSess	= lo_Fact.CreateBDCSession();
+						DTO_BDC_SessionConfig	lo_SessCfg	= lo_Fact.CreateBDCSessionConfig();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	BDC_SessionFactory GetFactory()
+					{
+						IRfcDestination	lo_Dest					= this.co_NCO000.GetSAPDestConfigured()	;
+						var							lo_SessFactory	= new	BDC_SessionFactory( lo_Dest )			;
+						Task.Run( ()=> lo_SessFactory.ReadyEnvironmentAsync()).Wait();
+						return	lo_SessFactory;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Configure( DTO_BDC_SessionConfig	lo_SessCfg )
@@ -94,30 +109,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Configure( IConfigDestination	lo_DestCfg )
 					{
-						//lo_DestCfg.Client			= 700							;
-						//lo_DestCfg.User				= "DERRICKBINGH"	;
-						//lo_DestCfg.Password		= "M@@n4321"			;
+						//lo_DestCfg.SetSAPGUIasHidden();
 
-						lo_DestCfg.Client			= 100					;
-						lo_DestCfg.User				= "DERRICKB"	;
-						lo_DestCfg.Password		= "moon123"		;
-
-						lo_DestCfg.SetSAPGUIasHidden();
-
-						lo_DestCfg.IdleCheckTime		= 10;
-						lo_DestCfg.IdleTimeout			= 60;
-						lo_DestCfg.RepoIdleTimeout	= 10;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private string GetSAPID()
-					{
-						IList< string > lt_Ini	=	this.co_Ctlr.GetSAPINIList();
-						//string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("PWD)") );
-						string					lc_ID		= lt_Ini.FirstOrDefault( s => s.Contains("05.01") );
-
-						Assert.IsNotNull	( lc_ID	, "" );
-						return	lc_ID;
+						//lo_DestCfg.RepoIdleTimeout	= 10;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
