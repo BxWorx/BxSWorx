@@ -70,6 +70,10 @@
       <Project>{3a72c61f-98be-4b4a-b1e0-172e96d7b91a}</Project>
       <Name>BxS_WorxNCO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BxS_WorxUtilities\BxS_WorxUtilities.csproj">
+      <Project>{0E37FC33-D5BD-44E3-B050-419D9CBDA902}</Project>
+      <Name>BxS_WorxUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

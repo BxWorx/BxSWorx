@@ -72,7 +72,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						if ( ! BDCRequest.IgnoreDestinationConfig )
 							{
-								this._Des.Value.Process( BDCRequest , BDCSession.DestConfig );
+								this._Des.Value.Process( BDCRequest , BDCSession.DestinationConfig );
 							}
 						//.............................................
 						return	true;

@@ -21,9 +21,11 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IConfigDestination		DestConfig		{ get; set; }
-				internal	DTO_BDC_SessionConfig			SessionConfig	{ get; set; }
-
+				internal	bool	UseSessionConfig	{ get; set; }
+				//.................................................
+				internal	DTO_BDC_SessionConfig		SessionConfig				{ get; set; }
+				internal	IConfigDestination			DestinationConfig		{ get; set; }
+				//.................................................
 				internal	DTO_BDC_Header													Header	{ get; }
 				internal	ConcurrentQueue< DTO_BDC_Transaction >	Trans		{ get; }
 

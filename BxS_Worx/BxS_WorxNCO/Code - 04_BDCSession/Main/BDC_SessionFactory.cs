@@ -15,6 +15,7 @@ using BxS_WorxNCO.RfcFunction.BDCTran	;
 
 using BxS_WorxUtil.Main;
 using BxS_WorxUtil.ObjectPool;
+using BxS_WorxUtil.Progress;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -59,6 +60,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 			//===========================================================================================
 			#region "Methods: General"
+
+				internal	ProgressHandler<DTO_BDC_Progress>	CreateProgressHandler( int interval = 10 )	=> this.UTL_Cntlr.CreateProgressHandler<DTO_BDC_Progress>( ()=> new DTO_BDC_Progress() , interval );
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal async Task<bool> ReadyEnvironmentAsync( bool optimise = true )

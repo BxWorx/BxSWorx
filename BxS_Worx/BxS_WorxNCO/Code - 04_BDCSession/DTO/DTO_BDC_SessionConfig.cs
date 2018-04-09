@@ -5,7 +5,7 @@ namespace BxS_WorxNCO.BDCSession.DTO
 		{
 			#region "Properties"
 
-				public	bool	IsSequential		{	get; set; }
+				public	bool	IsSequential			{	get; set; }
 				//.................................................
 				public	int		ConsumersNo				{	get; set; }
 				public	int		ConsumersMax			{	get; set; }
@@ -30,7 +30,6 @@ namespace BxS_WorxNCO.BDCSession.DTO
 						this.ConsumerThreshold	= dto.ConsumerThreshold	;
 						//.................................................
 						this.PauseTime					= dto.PauseTime					;
-						this.ProgressInterval		= dto.ProgressInterval	;
 						this.QueueAddTimeout		= dto.QueueAddTimeout		;
 					}
 

@@ -23,7 +23,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 															,	DTO_BDC_SessionConfig	config	)
 					{
 						this._Header		= header	;
-						this._OpConfig	= config	;
+						this._Config	= config	;
 						//.............................................
 						this._Queue			= new	BlockingCollection< DTO_BDC_Transaction >();
 						this._Consumers	= new List< Task<int> >	();
@@ -40,7 +40,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Declarations"
 
 				private readonly	BDCCall_Header					_Header	;
-				private	readonly	DTO_BDC_SessionConfig		_OpConfig	;
+				private	readonly	DTO_BDC_SessionConfig		_Config	;
 				//.................................................
 				private	readonly	object							_Lock				;
 				private readonly	IList< Task<int> >	_Consumers	;
@@ -58,6 +58,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 				public ConcurrentQueue< Task<int>	>	TasksFaulty			{ get; private set; }
 				public ConcurrentQueue< Task<int>	>	TasksOther			{ get; private set; }
 
+				#pragma	warning	disable	RCS1085
+					internal	DTO_BDC_SessionConfig Config	{ get	{	return	this._Config; } }
+				#pragma	warning	restore	RCS1085
+
 			#endregion
 
 			//===========================================================================================
@@ -66,10 +70,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Configure the BDC session operating environment
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void ConfigureOperation( DTO_BDC_SessionConfig dto )
-					{
-						this._OpConfig.Configure( dto );
-					}
+				public void ConfigureSession( DTO_BDC_SessionConfig dto )	=>	this._Config.Configure( dto );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Process supplied BDC session
@@ -81,7 +82,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																										, ObjectPool< BDC_SessionConsumer >		pool
 																										,	SMC.RfcDestination									rfcDestination	)
 					{
-						this.PrepareSession();
+						this.PrepareSession( bdcSession );
 
 						this._Header.Load	( bdcSession.Header );
 						this.LoadQueue		( bdcSession.Trans );
@@ -112,9 +113,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					#pragma	warning	disable	CSR1132
-				protected override void OnReleaseResources()
-					#pragma	warning restore	CSR1132
+				#pragma	warning	disable	CSR1132
+					protected override void OnReleaseResources()
+				#pragma	warning restore	CSR1132
 					{
 						base.OnReleaseResources();
 					}
@@ -130,13 +131,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PrepareSession()
+				private void PrepareSession( DTO_BDC_Session	bdcSession )
 					{
 						this.TransactionsProcessed	= 0;
 						//.............................................
 						this.TasksCompleted		= new ConcurrentQueue< Task< int > >();
 						this.TasksFaulty			= new ConcurrentQueue< Task< int > >();
 						this.TasksOther				= new ConcurrentQueue< Task< int > >();
+						//.............................................
+						if ( bdcSession.UseSessionConfig )
+							{
+								this._Config.Configure( bdcSession.SessionConfig );
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -179,7 +185,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																			, ObjectPool< BDC_SessionConsumer >	pool
 																			,	SMC.RfcDestination								rfcDestination	)
 					{
-						for ( int i = 0; i < this._OpConfig.ConsumersNo; i++ )
+						for ( int i = 0; i < this._Config.ConsumersNo; i++ )
 							{
 								if ( CT.IsCancellationRequested )
 									{ break; }
