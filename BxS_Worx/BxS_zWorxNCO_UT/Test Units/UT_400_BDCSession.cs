@@ -15,9 +15,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_400_BDCSession
 		{
-			private readonly	UT_000_NCO					co_NCO000		;
-			private readonly	INCO_Controller			co_NCOCntlr	;
-			private	readonly	BDC_SessionFactory	co_SessFact	;
+			private readonly	UT_000_NCO					co_NCO000				;
+			private readonly	INCO_Controller			co_NCOCntlr			;
+			private	readonly	BDC_SessionFactory	co_SessFact			;
 			private	readonly	BDC_SessionFactory	co_SessFactGUI	;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -25,6 +25,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					this.co_NCO000				= new	UT_000_NCO()					;
 					this.co_NCOCntlr			= this.co_NCO000._NCO_Cntlr	;
+
 					this.co_SessFact			=	new	BDC_SessionFactory( this.co_NCO000.GetSAPDestConfigured() )	;
 					this.co_SessFactGUI		=	new	BDC_SessionFactory( this.co_NCO000.GetSAPDestConfigured( showSAPGui: true ) )	;
 					//...............................................
@@ -62,7 +63,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public async Task UT_400_BCDSess_30_ProcessSimple()
 				{
-					const	int ln_Trn	= 500;
+					const	int ln_Trn	= 1;
 
 					var CTS		= new CancellationTokenSource();
 
@@ -72,7 +73,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				  BDC_Session			lo_BDCSess	= this.GetConfiguredBDCSession();
 					DTO_BDC_Session	lo_SessDTO	=	this.co_SessFact.CreateSessionDTO()	;
 
-					this.LoadBDCData( lo_SessDTO , ln_Trn );
+					this.LoadBDCData( lo_SessDTO , ln_Trn , 'A' );
 
 					int ln_ConCnt = await lo_BDCSess.Process_SessionAsync(	lo_SessDTO
 																																,	CTS.Token
@@ -96,19 +97,19 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					var CTS		= new CancellationTokenSource();
 
-					ProgressHandler<DTO_BDC_Progress> lo_PH		= this.co_SessFact.CreateProgressHandler();
-					ObjectPool<BDC_SessionConsumer>		lo_Pool	= this.co_SessFact.CreateBDCConsumerPool();
+					ProgressHandler<DTO_BDC_Progress> lo_PH		= this.co_SessFactGUI.CreateProgressHandler();
+					ObjectPool<BDC_SessionConsumer>		lo_Pool	= this.co_SessFactGUI.CreateBDCConsumerPool();
 
 				  BDC_Session			lo_BDCSess	= this.GetConfiguredBDCSession( true , 1 , 1 , true );
 					DTO_BDC_Session	lo_SessDTO	=	this.co_SessFactGUI.CreateSessionDTO()	;
 
-					this.LoadBDCData( lo_SessDTO , ln_Trn );
+					this.LoadBDCData( lo_SessDTO , ln_Trn , 'A' );
 
 					int ln_ConCnt = await lo_BDCSess.Process_SessionAsync(	lo_SessDTO
 																																,	CTS.Token
 																																, lo_PH
 																																,	lo_Pool
-																																,	this.co_SessFact.SMCDestination ).ConfigureAwait(false);
+																																,	this.co_SessFactGUI.SMCDestination ).ConfigureAwait(false);
 
 					while (!ln_ConCnt.Equals(lo_SessDTO.Trans.Count))
 						{
@@ -117,6 +118,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					Assert.AreEqual( ln_Trn , lo_BDCSess.TransactionsProcessed , "" );
 				}
+
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 

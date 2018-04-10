@@ -68,7 +68,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 									}
 								catch (Exception ex)
 									{
-										throw	new Exception( "Consumer consumer fail", ex );
+										throw	new Exception( "Consumer consume fail", ex );
 									}
 								finally
 									{

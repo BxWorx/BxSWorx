@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 //.........................................................
@@ -72,7 +73,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_30_Process()
+			public void UT_300_BCDCall_30_ProcessDsp()
 				{
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
 					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
@@ -100,6 +101,38 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 								Assert.Fail("NCO Process failed");
 							}
 				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_300_BCDCall_32_ProcessChg()
+				{
+					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
+					BDCCall_Function	lo_Fnc0		= lo_FCnt.CreateBDCCallFunction();
+					BDCCall_Profile		lo_Prof		= lo_FCnt.GetAddBDCCallProfile();
+
+					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
+					//...............................................
+					BDCCall_Header		lo_Head		= lo_Prof.CreateBDCCallHeader( true )	;
+					BDCCall_Data			lo_Lines	= lo_Prof.CreateBDCCallData()	;
+					//...............................................
+					lo_Head.SAPTCode		= "XD02";
+					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value.CTUIndex.DspMde ].SetValue( cz_CTU_N );
+
+					this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value , true );
+					//...............................................
+					try	{
+								lo_Fnc0.Config	( lo_Head );
+								lo_Fnc0.Process	( lo_Lines , this.co_RfcDestOn.SMCDestination );
+
+								Assert.IsTrue ( lo_Lines.ProcessedStatus	, "a" );
+								Assert.IsTrue ( lo_Lines.SuccesStatus			, "b" );
+							}
+					catch
+							{
+								Assert.Fail("NCO Process failed");
+							}
+				}
+
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -191,9 +224,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadBDCData( BDCCall_Data dtoLines, BDCCall_Profile bdcProf )
+				private void LoadBDCData( BDCCall_Data dtoLines, BDCCall_Profile bdcProf , bool UpdMode = false )
 					{
-						dtoLines.BDCData.Append(4);
+						int	ln_Rows	= UpdMode ? 5 : 4;
+
+						dtoLines.BDCData.Append(ln_Rows);
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 0;
 
@@ -215,20 +250,32 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 3;
 
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Prg	, "SAPMF02D"		);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Dyn	, "0110"				);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Bgn	, "X"						);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "BDC_OKCODE"	);
-						dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "=PF03"				);
+						if ( UpdMode )
+							{
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Prg	, "SAPMF02D"		);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Dyn	, "0110"				);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Bgn	, "X"						);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "BDC_OKCODE"	);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "/00"					);
+								//.........................................
+								dtoLines.BDCData.CurrentIndex	= 4;
+
+								string x = DateTime.Now.ToString("yyyy-MM-ddThh:mm:sszzz");
+
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "KNA1-NAME2"	);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, x							);
+							}
+						else
+							{
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Prg	, "SAPMF02D"		);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Dyn	, "0110"				);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Bgn	, "X"						);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "BDC_OKCODE"	);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "=PF03"				);
+							}
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCCall_Profile CreateBDCCallProfile()
-					{
-						IRfcDestination		lo_DS			= this.co_NCO000.GetSAPDestConfigured();
-						IRfcFncController	lo_FCntlr	= new RfcFncController( lo_DS );
+		//.
 
-						return	lo_FCntlr.GetAddBDCCallProfile();
-					}
 		}
 }

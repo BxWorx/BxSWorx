@@ -49,15 +49,17 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			internal IRfcDestination GetSAPDestConfigured( bool DoLogonCheck = false , bool showSAPGui = false )
 				{
-					IRfcDestination			lo_Dest		=	this.GetSAPDest()			;
-					IConfigDestination	lo_Cnfg		=	this.GetDestConfig()	;
-					IConfigLogon				lo_Logon	=	this.GetLogonConfig()	;
+					IRfcDestination			lo_Dest		=	this.GetSAPDest			();
+					IConfigDestination	lo_Cnfg		=	this.GetDestConfig	();
+					IConfigLogon				lo_Logon	=	this.GetLogonConfig	();
+					IConfigRepository		lo_Repos	= this.GetReposConfig	();
 					//...............................................
 					lo_Cnfg.DoLogonCheck	= DoLogonCheck	;
 					lo_Cnfg.UseSAPGUI			= showSAPGui	? lo_Cnfg.SAPGUIUse	: lo_Cnfg.SAPGUIHidden	;
 					//...............................................
-					lo_Dest.LoadConfig( lo_Cnfg )		;
+					lo_Dest.LoadConfig( lo_Cnfg	 )	;
 					lo_Dest.LoadConfig( lo_Logon )	;
+					lo_Dest.LoadConfig( lo_Repos )	;
 					//...............................................
 					return	lo_Dest	;
 				}
@@ -66,28 +68,41 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			internal IConfigLogon GetLogonConfig( bool configured = true )
 				{
 					IConfigLogon	lo_Logon	=	Destination_Factory.CreateLogonConfig();
-
+					//...............................................
 					if ( configured )
 						{
-							lo_Logon.Client			=	cz_Client			;
-							lo_Logon.User				= cz_User				;
-							lo_Logon.Password		= cz_PWrd				;
+							lo_Logon.Client			=	cz_Client	;
+							lo_Logon.User				= cz_User		;
+							lo_Logon.Password		= cz_PWrd		;
 						}
-
+					//...............................................
 					return	lo_Logon;
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			internal IConfigDestination	GetDestConfig( bool configured = true )
 				{
-					IConfigDestination	lo_Cnfg		=Destination_Factory.CreateDestinationConfig();
-
+					IConfigDestination	lo_Cnfg		=	Destination_Factory.CreateDestinationConfig();
+					//...............................................
 					if ( configured )
 						{
-							lo_Cnfg.IdleCheckTime		= 10;
+							lo_Cnfg.IdleCheckTime		= 30;
 							lo_Cnfg.IdleTimeout			= 60;
 						}
+					//...............................................
+					return	lo_Cnfg;
+				}
 
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			internal IConfigRepository	GetReposConfig( bool configured = true )
+				{
+					IConfigRepository	lo_Cnfg		=	Destination_Factory.CreateRepositoryConfig();
+					//...............................................
+					if ( configured )
+						{
+							lo_Cnfg.IdleTimeout		= 20;
+						}
+					//...............................................
 					return	lo_Cnfg;
 				}
 		}
