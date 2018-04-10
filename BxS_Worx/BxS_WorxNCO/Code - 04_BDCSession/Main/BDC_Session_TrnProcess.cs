@@ -14,13 +14,13 @@ using BxS_WorxUtil.Progress;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDC_Session : PooledObject
+	internal class BDC_Session_TrnProcess : PooledObject
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session(		BDCCall_Header				header
-															,	DTO_BDC_SessionConfig	config	)
+				internal BDC_Session_TrnProcess(	BDCCall_Header				header
+																				,	DTO_BDC_SessionConfig	config	)
 					{
 						this._Header	= header	;
 						this._Config	= config	;
@@ -79,7 +79,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				public async Task<int> Process_SessionAsync(	DTO_BDC_Session											bdcSession
 																										, CancellationToken										CT
 																										,	ProgressHandler< DTO_BDC_Progress >	progressHndlr
-																										, ObjectPool< BDC_SessionConsumer >		pool
+																										, ObjectPool< BDC_Session_TrnConsumer >		pool
 																										,	SMC.RfcDestination									rfcDestination	)
 					{
 						this.PrepareSession( bdcSession );
@@ -87,13 +87,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 						this._Header.Load	( bdcSession.Header );
 						this.LoadQueue		( bdcSession.Trans	);
 						//.............................................
-						this.StartConsumers( CT , pool , rfcDestination );
-
-						if ( ! CT.IsCancellationRequested )
+						if ( this._Queue.Count > 0 )
 							{
-								this.TransactionsProcessed	=	await ProcessConsumerResultsAsync(	CT
-																																								,	progressHndlr )
-																											.ConfigureAwait(false);
+								this.StartConsumers( CT , pool , rfcDestination );
+
+								if ( ! CT.IsCancellationRequested )
+									{
+										this.TransactionsProcessed	=	await ProcessConsumerResultsAsync(	CT
+																																										,	progressHndlr )
+																													.ConfigureAwait(false);
+									}
 							}
 						//.............................................
 						this.CloseSession();
@@ -182,10 +185,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void StartConsumers(		CancellationToken									CT
-																			, ObjectPool< BDC_SessionConsumer >	pool
+																			, ObjectPool< BDC_Session_TrnConsumer >	pool
 																			,	SMC.RfcDestination								rfcDestination	)
 					{
-						for ( int i = 0; i < this._Config.ConsumersNo; i++ )
+						int ln_MaxConsumers		=	this._Config.IsSequential ?	1 : ( this._Queue.Count < this._Config.ConsumersNo ? this._Queue.Count : this._Config.ConsumersNo ) ;
+
+						for ( int i = 0; i < ln_MaxConsumers; i++ )
 							{
 								if ( CT.IsCancellationRequested )
 									{ break; }
@@ -193,7 +198,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 									{
 										this._Consumers.Add(	Task<int>.Run( ()=>
 																						{
-																							using (	BDC_SessionConsumer lo_Cons = pool.Acquire() )
+																							using (	BDC_Session_TrnConsumer lo_Cons = pool.Acquire() )
 																								{
 																									lo_Cons.Consume( this._Header , CT , this._Queue , rfcDestination );
 																									return	lo_Cons.TransactionsProcessed;

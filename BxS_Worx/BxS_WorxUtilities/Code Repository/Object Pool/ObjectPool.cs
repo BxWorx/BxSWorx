@@ -319,7 +319,7 @@ namespace BxS_WorxUtil.ObjectPool
 								if ( this._Config.AutoStartup )
 									{
 										#pragma warning disable RCS1163
-										ThreadPool.QueueUserWorkItem( new	WaitCallback( (o)=> this.AutoStartMinimumObjects() ) );
+											ThreadPool.QueueUserWorkItem( new	WaitCallback( (o)=> this.AutoStartMinimumObjects() ) );
 										#pragma warning restore RCS1163
 									}
 							}
