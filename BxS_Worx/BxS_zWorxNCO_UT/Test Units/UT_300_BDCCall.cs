@@ -256,7 +256,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Dyn	, "0110"				);
 								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Bgn	, "X"						);
 								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Fld	, "BDC_OKCODE"	);
-								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "/00"					);
+								dtoLines.BDCData.SetValue( bdcProf.BDCIndex.Val	, "=UPDA"				);
 								//.........................................
 								dtoLines.BDCData.CurrentIndex	= 4;
 
