@@ -54,8 +54,8 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				internal void SetDefaults()
 					{
 						this.CTU_DefSize  = NCO_Constants.cz_True;
-						this.CTU_DisMode  = BDCCall_Constants.cz_CTU_N.ToString();
-						this.CTU_UpdMode	= BDCCall_Constants.cz_CTU_A.ToString();
+						this.CTU_DisMode  = BDC_Constants.cz_CTU_N.ToString();
+						this.CTU_UpdMode	= BDC_Constants.cz_CTU_A.ToString();
 					}
 
 			#endregion

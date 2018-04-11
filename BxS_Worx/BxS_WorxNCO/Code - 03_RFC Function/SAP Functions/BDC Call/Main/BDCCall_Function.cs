@@ -70,7 +70,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Header CreateBDCCallHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCCallHeader( defaults );
-				internal BDCCall_Data		CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallData	();
+				internal BDC_Data		CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallData	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Config( BDCCall_Header config )
@@ -83,7 +83,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process(	BDCCall_Data				data
+				internal void Process(	BDC_Data				data
 															, SMC.RfcDestination	rfcDestination )
 					{
 						this.Reset();

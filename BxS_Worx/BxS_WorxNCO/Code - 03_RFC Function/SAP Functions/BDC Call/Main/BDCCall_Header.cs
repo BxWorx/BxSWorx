@@ -4,7 +4,7 @@ using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.BDCSession.DTO;
 
-using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants;
 using	static	BxS_WorxNCO.Main								.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran

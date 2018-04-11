@@ -35,10 +35,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				// Index objects
 				//.................................................
 				internal	BDCTran_IndexFNC		CreateIndexFNC	( BDCTran_Profile profile )	=>	new BDCTran_IndexFNC( profile );
-				internal	BDCTran_IndexCTU		CreateIndexCTU	( BDCTran_Profile profile )	=>	new BDCTran_IndexCTU( profile );
-				internal	BDCTran_IndexSPA		CreateIndexSPA	( BDCTran_Profile profile )	=>	new BDCTran_IndexSPA( profile );
-				internal	BDCTran_IndexBDC		CreateIndexBDC	( BDCTran_Profile profile )	=>	new BDCTran_IndexBDC( profile );
-				internal	BDCTran_IndexMSG		CreateIndexMSG	( BDCTran_Profile profile )	=>	new BDCTran_IndexMSG( profile );
+				internal	BDC_IndexSPA				CreateIndexSPA	( BDCTran_Profile profile )	=>	new BDC_IndexSPA( profile );
+				internal	BDC_IndexBDC				CreateIndexBDC	( BDCTran_Profile profile )	=>	new BDC_IndexBDC( profile );
+				internal	BDC_IndexMSG				CreateIndexMSG	( BDCTran_Profile profile )	=>	new BDC_IndexMSG( profile );
 
 				//.................................................
 				//.................................................

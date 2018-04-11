@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal static class BDCCall_Constants
+	internal static class BDC_Constants
 		{
 			#region "Declarations"
 

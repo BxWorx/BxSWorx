@@ -44,9 +44,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Profile objects
 				//.................................................
-				internal	BDCCall_Data			CreateBDCData		(		BDC_IndexSPA	spaIndex
+				internal	BDC_Data					CreateBDCData		(		BDC_IndexSPA	spaIndex
 																											,	BDC_IndexBDC	bdcIndex
-																											, BDC_IndexMSG	msgIndex							)=>		new	BDCCall_Data	(		spaIndex
+																											, BDC_IndexMSG	msgIndex									)=>		new	BDC_Data	(		spaIndex
 																																																											, bdcIndex
 																																																											, msgIndex	);
 

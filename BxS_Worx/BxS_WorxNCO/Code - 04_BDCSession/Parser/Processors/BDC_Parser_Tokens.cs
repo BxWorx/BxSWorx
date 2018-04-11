@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 //.........................................................
-using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDCCall_Constants		;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants		;
 using static	BxS_WorxNCO.BDCSession.Parser		.BDC_Parser_Constants	;
 using static	BxS_WorxNCO.Main								.NCO_Constants				;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

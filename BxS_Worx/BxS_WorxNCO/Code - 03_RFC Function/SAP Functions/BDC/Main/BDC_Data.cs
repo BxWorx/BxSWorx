@@ -9,18 +9,18 @@ using	static	BxS_WorxNCO.Main	.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_Data
+	internal class BDC_Data
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Data(		BDC_IndexSPA	spaIndex
-																,	BDC_IndexBDC	bdcIndex
-																, BDC_IndexMSG	msgIndex )
+				internal BDC_Data(	BDC_IndexSPA	spaIndex
+													,	BDC_IndexBDC	bdcIndex
+													, BDC_IndexMSG	msgIndex )
 					{
-						this._IndexSPA	= spaIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- SPA index null" );
-						this._IndexBDC	= bdcIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- BDC index null" );
-						this._IndexMSG	= msgIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- BDC index null" );
+						this._IndexSPA	= spaIndex	??	throw		new	ArgumentException( $"{typeof(BDC_Data).Namespace}:- SPA index null" );
+						this._IndexBDC	= bdcIndex	??	throw		new	ArgumentException( $"{typeof(BDC_Data).Namespace}:- BDC index null" );
+						this._IndexMSG	= msgIndex	??	throw		new	ArgumentException( $"{typeof(BDC_Data).Namespace}:- BDC index null" );
 						//.............................................
 						this.ProcessedStatus	= false	;
 						this.SuccesStatus			= false	;

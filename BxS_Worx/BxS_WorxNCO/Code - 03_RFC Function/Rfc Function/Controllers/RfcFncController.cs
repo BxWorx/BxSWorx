@@ -18,7 +18,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal RfcFncController( IRfcDestination rfcDestination )
 					{
-						this.RfcDestination		= rfcDestination	??	throw		new ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- BDCData null" );
+						this.RfcDestination		= rfcDestination	??	throw		new ArgumentException( $"{typeof(BDC_Data).Namespace}:- BDCData null" );
 						//.............................................
 						this._RfcFncMngr			=	new	Lazy<IRfcFncManager>	(	()=>	new	RfcFncManager( this.RfcDestination )	, cz_LM );
 						//.............................................

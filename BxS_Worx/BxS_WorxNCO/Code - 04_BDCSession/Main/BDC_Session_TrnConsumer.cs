@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						this._Func		= function	;
 						//.............................................
-						this._BDCData	= new	Lazy<BDCCall_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallData() , cz_LM );
+						this._BDCData	= new	Lazy<BDC_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallData() , cz_LM );
 					}
 
 			#endregion
@@ -31,7 +31,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Declarations"
 
 				private readonly	BDCCall_Function				_Func;
-				private	readonly	Lazy< BDCCall_Data >		_BDCData;
+				private	readonly	Lazy< BDC_Data >		_BDCData;
 
 			#endregion
 
