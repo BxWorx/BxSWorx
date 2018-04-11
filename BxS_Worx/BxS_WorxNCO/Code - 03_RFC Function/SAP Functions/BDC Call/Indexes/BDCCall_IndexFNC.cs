@@ -35,13 +35,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				private	readonly	Lazy<int>		_TabMSG	;
 				private	readonly	Lazy<int>		_TabSPA	;
 
-
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	Name			{ get { return	cz_BDCCallTran; } }
+				internal	string	Name			{ get { return	cz_BDCCall; } }
 				//.................................................
 				internal	int			TCode			{ get { return	this._Profile.IsReady ?	this._TCode	.Value : 0	; } }
 				internal	int			Skip1			{ get { return	this._Profile.IsReady ?	this._Skip1	.Value : 0	; } }

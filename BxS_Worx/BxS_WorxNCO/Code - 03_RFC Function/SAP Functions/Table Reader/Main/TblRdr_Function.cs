@@ -3,7 +3,6 @@
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
-using BxS_WorxNCO.BDCSession.DTO;
 
 using static	BxS_WorxNCO.Main										.NCO_Constants;
 using	static	BxS_WorxNCO.RfcFunction.TableReader	.TblRdr_Constants;
@@ -65,7 +64,9 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Properties"
 
-				internal	TblRdr_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
+				internal	TblRdr_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex	; } }
+				internal	TblRdr_IndexOPT	OPTIndex	{ get {	return	this.MyProfile.Value.OPTIndex	; } }
+				internal	TblRdr_IndexFLD	FLDIndex	{ get {	return	this.MyProfile.Value.FLDIndex	; } }
 
 			#endregion
 
@@ -82,7 +83,8 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 								//.........................................
 								this.Invoke( rfcDestination );
 								//.........................................
-								this.LoadData( dto.OutData , this.GetOutTableIndex( this.NCORfcFunction.GetString(this.MyProfile.Value.FNCIndex.OutTable ) ) );
+								this.LoadTable( dto.Fields	, this.MyProfile.Value.FNCIndex.Fields );
+								this.LoadTable( dto.OutData , this.GetOutTableIndex( this.NCORfcFunction.GetString( this.MyProfile.Value.FNCIndex.OutTable ) ) );
 							}
 						catch (Exception)
 							{
@@ -110,9 +112,6 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Setup( TblRdr_Data dto )
 					{
-						SMC.IRfcTable			lt_Tbl	;
-						SMC.IRfcStructure	ls_Str	;
-
 						this.NCORfcFunction.SetValue( this.FNCIndex.QryTable	, dto.QueryTable	);
 						this.NCORfcFunction.SetValue( this.FNCIndex.Delimeter	, dto.Delimeter		);
 						this.NCORfcFunction.SetValue( this.FNCIndex.SkipRows	,	dto.SkipRows		);
@@ -120,36 +119,12 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 
 						this.NCORfcFunction.SetValue( this.FNCIndex.NoData		,	dto.NoData	? cz_True	: cz_False	)	;
 						//.............................................
-						lt_Tbl	= this.NCORfcFunction.GetTable( this.FNCIndex.Options );
-
-						for (int i = 0; i < dto.Options.Count; i++)
-							{
-								ls_Str	= lt_Tbl.Metadata.LineType.CreateStructure();
-								lt_Tbl.Append( ls_Str );
-							}
-						//.............................................
-						lt_Tbl	= this.NCORfcFunction.GetTable( this.FNCIndex.Fields );
-
-						for (int i = 0; i < dto.Fields.Count; i++)
-							{
-								ls_Str	= lt_Tbl.Metadata.LineType.CreateStructure();
-								lt_Tbl.Append( ls_Str );
-							}
+						this.NCORfcFunction.GetTable( this.FNCIndex.Options )	.Append( dto.Options  );
+						this.NCORfcFunction.GetTable( this.FNCIndex.Fields )	.Append( dto.Fields		);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Set_CTU( SMC.IRfcStructure ctu )
-					{
-						SMC.IRfcStructure ls_CTU	= this.NCORfcFunction.GetStructure( this.Idx_CTU );
-
-						for (int i = 0; i < ctu.Count; i++)
-							{
-								ls_CTU.SetValue( i , ctu.GetValue(i) );
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void LoadData( SMC.IRfcTable	data , int index )
+				private	void LoadTable( SMC.IRfcTable	data , int index )
 					{
 						data.Clear();
 						//.............................................

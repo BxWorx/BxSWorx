@@ -11,7 +11,6 @@ namespace BxS_WorxNCO.API
 {
 	public interface INCO_Controller
 		{
-
 			#region "Properties"
 
 				IIPX_Controller		IPX_Cntlr		{ get; }

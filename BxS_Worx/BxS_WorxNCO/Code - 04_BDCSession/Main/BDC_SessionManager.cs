@@ -108,7 +108,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																				,	CancellationToken										CT
 																				, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{
-						bool	lb_Ret	= false;
+					  const	bool	lb_Ret	= false;
 						DTO_BDC_Session lo_DTOSession	=	this._Factory.CreateSessionDTO();
 						//.............................................
 						// Parse request, data from an excel spreadsheet, into an BDC Session DTO.

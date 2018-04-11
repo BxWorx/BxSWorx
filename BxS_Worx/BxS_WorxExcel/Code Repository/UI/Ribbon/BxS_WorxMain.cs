@@ -27,6 +27,8 @@ namespace BxS_WorxExcel
 						this._HndlrBDC		= new	Handler_BDC		();
 					}
 
+				#pragma warning	disable	RCS1163
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
@@ -48,6 +50,8 @@ namespace BxS_WorxExcel
 					{
 						//IList<Main.DTO_ExcelAppManifest> x = this._HndlrExcel.GetWBWSManifest();
 					}
+
+				#pragma warning	restore	RCS1163
 
 			#endregion
 

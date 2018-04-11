@@ -67,7 +67,7 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 				private	int		Idx_MsgV3		{ get {	return	this.FNCIndex.MsgV3	; } }
 				private	int		Idx_MsgV4		{ get {	return	this.FNCIndex.MsgV4	; } }
 				private	int		Idx_MsgST		{ get {	return	this.FNCIndex.MsgST	; } }
-				private	int		Idx_MsgLT		{	get {	return	this.FNCIndex.MsgLT	; } }
+				//private	int		Idx_MsgLT		{	get {	return	this.FNCIndex.MsgLT	; } }
 
 			#endregion
 

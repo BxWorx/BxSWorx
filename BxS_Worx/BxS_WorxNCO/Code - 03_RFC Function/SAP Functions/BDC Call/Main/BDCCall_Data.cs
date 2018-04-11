@@ -14,9 +14,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Data(		BDCCall_IndexSPA	spaIndex
-																,	BDCCall_IndexBDC	bdcIndex
-																, BDCCall_IndexMSG	msgIndex )
+				internal BDCCall_Data(		BDC_IndexSPA	spaIndex
+																,	BDC_IndexBDC	bdcIndex
+																, BDC_IndexMSG	msgIndex )
 					{
 						this._IndexSPA	= spaIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- SPA index null" );
 						this._IndexBDC	= bdcIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Data).Namespace}:- BDC index null" );
@@ -39,9 +39,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				private	readonly	Lazy< SMC.IRfcTable >		_BDCData	;
 				private	readonly	Lazy< SMC.IRfcTable >		_MSGData	;
 				//.................................................
-				private readonly	BDCCall_IndexSPA	_IndexSPA	;
-				private readonly	BDCCall_IndexBDC	_IndexBDC	;
-				private readonly	BDCCall_IndexMSG	_IndexMSG	;
+				private readonly	BDC_IndexSPA	_IndexSPA	;
+				private readonly	BDC_IndexBDC	_IndexBDC	;
+				private readonly	BDC_IndexMSG	_IndexMSG	;
 
 			#endregion
 

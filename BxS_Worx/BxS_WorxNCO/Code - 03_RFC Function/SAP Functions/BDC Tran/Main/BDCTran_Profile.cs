@@ -4,22 +4,23 @@ using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.RfcFunction.TableReader
+namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class TblRdr_Profile : RfcFncProfile
+	internal class BDCTran_Profile : RfcFncProfile
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_Profile(		string						fncName
-																	, TblRdr_Factory		factory	)	: base( fncName )
+				internal BDCTran_Profile(		string						fncName
+																	, BDCTran_Factory		factory	)	: base(		fncName )
 					{
-						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(TblRdr_Profile).Namespace}:- Factory null" );
+						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(BDCTran_Profile).Namespace}:- Factory null" );
 						//.............................................
 						this.FNCIndex		= this._Factory.CreateIndexFNC( this );
-						this.OPTIndex		= this._Factory.CreateIndexOPT( this );
-						this.FLDIndex		= this._Factory.CreateIndexFLD( this );
-						this.OUTIndex		= this._Factory.CreateIndexOUT( this );
+						this.CTUIndex		= this._Factory.CreateIndexCTU( this );
+						this.SPAIndex		= this._Factory.CreateIndexSPA( this );
+						this.BDCIndex		= this._Factory.CreateIndexBDC( this );
+						this.MSGIndex		= this._Factory.CreateIndexMSG( this );
 					}
 
 			#endregion
@@ -27,21 +28,21 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Declarations"
 
-				private		readonly	TblRdr_Factory		_Factory;
+				private		readonly	BDCTran_Factory		_Factory;
 				//.................................................
-				internal	readonly	TblRdr_IndexFNC		FNCIndex;
-				internal	readonly	TblRdr_IndexOPT		OPTIndex;
-				internal	readonly	TblRdr_IndexFLD		FLDIndex;
-				internal	readonly	TblRdr_IndexOUT		OUTIndex;
+				internal	readonly	BDCTran_IndexFNC	FNCIndex;
+				internal	readonly	BDC_IndexSPA			SPAIndex;
+				internal	readonly	BDC_IndexBDC			BDCIndex;
+				internal	readonly	BDC_IndexMSG			MSGIndex;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	SMC.RfcStructureMetadata	OptionsStructure		{ get	{	return	this.Metadata[this.FNCIndex.Options]		.ValueMetadataAsTableMetadata.LineType	; } }
-				internal	SMC.RfcStructureMetadata	FieldsStructure			{ get	{	return	this.Metadata[this.FNCIndex.Fields]			.ValueMetadataAsTableMetadata.LineType	; } }
-				internal	SMC.RfcStructureMetadata	OutTableStructure		{ get	{	return	this.Metadata[this.FNCIndex.OutTab128]	.ValueMetadataAsTableMetadata.LineType	; } }
+				internal	SMC.RfcStructureMetadata	SPAStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabSPA].ValueMetadataAsTableMetadata.LineType	; } }
+				internal	SMC.RfcStructureMetadata	BDCStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabBDC].ValueMetadataAsTableMetadata.LineType	; } }
+				internal	SMC.RfcStructureMetadata	MSGStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabMSG].ValueMetadataAsTableMetadata.LineType	; } }
 
 			#endregion
 
@@ -49,7 +50,8 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_Data	CreateTblRdrData	()	=>	this._Factory.CreateTblRdrData( this.OPTIndex , this.FLDIndex , this.OUTIndex );
+				internal BDCTran_Header CreateBDCCallHeader	( bool withDefaults = true )	=>	this._Factory.CreateBDCHeader	( this.CTUIndex , withDefaults );
+				internal BDCTran_Data		CreateBDCCallData		()														=>	this._Factory.CreateBDCData		( this.SPAIndex , this.BDCIndex , this.MSGIndex );
 
 			#endregion
 

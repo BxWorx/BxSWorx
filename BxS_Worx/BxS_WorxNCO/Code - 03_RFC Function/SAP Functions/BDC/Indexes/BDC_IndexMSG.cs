@@ -4,12 +4,12 @@ using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_IndexMSG : BDCCall_IndexBase
+	internal class BDC_IndexMSG : BDCCall_IndexBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_IndexMSG( BDCCall_Profile profile ) : base( profile )
+				internal BDC_IndexMSG( BDCCall_Profile profile ) : base( profile )
 					{
 						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.MSGStructure	);
 						//.............................................

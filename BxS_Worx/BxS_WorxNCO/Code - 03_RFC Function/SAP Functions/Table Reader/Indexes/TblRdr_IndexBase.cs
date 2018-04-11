@@ -29,7 +29,7 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcStructure Create()
+				internal SMC.IRfcStructure CreateStructure()
 					{
 						return	this._Metadata.Value.CreateStructure();
 					}

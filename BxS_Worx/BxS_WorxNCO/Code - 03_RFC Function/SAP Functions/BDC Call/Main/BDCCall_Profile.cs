@@ -32,9 +32,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				internal	readonly	BDCCall_IndexFNC	FNCIndex;
 				internal	readonly	BDCCall_IndexCTU	CTUIndex;
-				internal	readonly	BDCCall_IndexSPA	SPAIndex;
-				internal	readonly	BDCCall_IndexBDC	BDCIndex;
-				internal	readonly	BDCCall_IndexMSG	MSGIndex;
+				internal	readonly	BDC_IndexSPA			SPAIndex;
+				internal	readonly	BDC_IndexBDC			BDCIndex;
+				internal	readonly	BDC_IndexMSG			MSGIndex;
 
 			#endregion
 

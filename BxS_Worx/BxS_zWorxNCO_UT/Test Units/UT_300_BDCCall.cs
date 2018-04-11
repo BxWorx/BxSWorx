@@ -26,7 +26,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					this.co_NCO000			= new	UT_000_NCO();
 					this.co_RfcDestOn		= this.co_NCO000.GetSAPDestConfigured( true , true );
 					//...............................................
-					Assert.IsNotNull	( this.co_NCO000	, "" );
+					Assert.IsNotNull	( this.co_NCO000		, "" );
+					Assert.IsNotNull	( this.co_RfcDestOn	, "" );
 				}
 
 			[TestMethod]

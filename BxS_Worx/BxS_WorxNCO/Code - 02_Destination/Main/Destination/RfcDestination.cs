@@ -81,7 +81,6 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 							{
 								this._RfcConfig.Value[ ls_kvp.Key ]	= ls_kvp.Value ;
 							}
-
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

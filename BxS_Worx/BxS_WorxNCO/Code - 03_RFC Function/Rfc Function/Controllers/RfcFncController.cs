@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.BDCTran;
 using BxS_WorxNCO.RfcFunction.SAPMsg;
+using BxS_WorxNCO.RfcFunction.TableReader;
 
 using static	BxS_WorxNCO.Main							.NCO_Constants;
 using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
@@ -59,13 +60,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void RegisterBDCCallProfile()
 					{
-						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCallTran ) )
+						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCall ) )
 							{
 								lock (this._Lock)
 									{
-										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCallTran ) )
+										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCall ) )
 											{
-												var	lo_Prof	= new BDCCall_Profile(	cz_BDCCallTran
+												var	lo_Prof	= new BDCCall_Profile(	cz_BDCCall
 																													, BDCCall_Factory.Instance );
 
 												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
@@ -79,7 +80,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					{
 						this.RegisterBDCCallProfile();
 						//.............................................
-						return	this._RfcFncMngr.Value.GetProfile< BDCCall_Profile >( cz_BDCCallTran );
+						return	this._RfcFncMngr.Value.GetProfile< BDCCall_Profile >( cz_BDCCall );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -99,7 +100,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 									{
 										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_SAPMsgCompiler ) )
 											{
-												var	lo_Prof	= new SAPMsg_Profile(	cz_SAPMsgCompiler
+												var	lo_Prof	= new SAPMsg_Profile(		cz_SAPMsgCompiler
 																													, SAPMsg_Factory.Instance	);
 
 												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
@@ -118,6 +119,40 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SAPMsg_Function CreateSAPMsgFunction()	=>	new SAPMsg_Function( this.GetAddSAPMsgProfile() );
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: Table Reader"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void RegisterTableReaderProfile()
+					{
+						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_TableReader ) )
+							{
+								lock (this._Lock)
+									{
+										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_TableReader ) )
+											{
+												var	lo_Prof	= new TblRdr_Profile(		cz_TableReader
+																													, TblRdr_Factory.Instance	);
+
+												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
+											}
+									}
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public TblRdr_Profile GetAddTblRdrProfile()
+					{
+						this.RegisterTableReaderProfile();
+						//.............................................
+						return	this._RfcFncMngr.Value.GetProfile< TblRdr_Profile >( cz_TableReader );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public TblRdr_Function CreateTblRdrFunction()	=>	new TblRdr_Function( this.GetAddTblRdrProfile() );
 
 			#endregion
 

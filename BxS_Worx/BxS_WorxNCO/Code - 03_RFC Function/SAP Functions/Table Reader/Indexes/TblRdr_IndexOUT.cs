@@ -4,12 +4,12 @@ using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.TableReader
 {
-	internal class TblRdr_IndexTBL : TblRdr_IndexBase
+	internal class TblRdr_IndexOUT : TblRdr_IndexBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_IndexTBL( TblRdr_Profile profile ) : base( profile )
+				internal TblRdr_IndexOUT( TblRdr_Profile profile ) : base( profile )
 					{
 						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.OutTableStructure );
 						//.............................................

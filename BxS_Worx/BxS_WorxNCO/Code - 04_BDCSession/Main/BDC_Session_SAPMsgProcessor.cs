@@ -164,7 +164,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 										lo_PHData.TasksDne	= ln_Ret;
 										progressHndlr.Report( lo_PHData );
 									}
-
 							}
 						//.............................................
 						return	ln_Ret;

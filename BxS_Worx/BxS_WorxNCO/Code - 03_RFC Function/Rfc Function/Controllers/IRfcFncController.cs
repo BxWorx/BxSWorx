@@ -4,6 +4,7 @@ using BxS_WorxNCO.Destination.API;
 
 using BxS_WorxNCO.RfcFunction.BDCTran;
 using BxS_WorxNCO.RfcFunction.SAPMsg;
+using BxS_WorxNCO.RfcFunction.TableReader;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
@@ -42,5 +43,14 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 			#endregion
 
+			//===========================================================================================
+			#region "Methods: Exposed: Table Reader"
+
+				void	RegisterTableReaderProfile();
+				//.................................................
+				TblRdr_Profile		GetAddTblRdrProfile()	;
+				TblRdr_Function		CreateTblRdrFunction()	;
+
+			#endregion
 		}
 }

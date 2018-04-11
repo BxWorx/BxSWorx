@@ -4,18 +4,18 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal sealed class BDCCall_Factory
+	internal sealed class BDCTran_Factory
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal static BDCCall_Factory Instance
+				internal static BDCTran_Factory Instance
 					{
 						get { return _Instance.Value; }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCCall_Factory()
+				private BDCTran_Factory()
 					{	}
 
 			#endregion
@@ -23,7 +23,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	static readonly	Lazy< BDCCall_Factory >		_Instance		= new Lazy< BDCCall_Factory >	(	()=>	new BDCCall_Factory() , cz_LM );
+				private	static readonly	Lazy< BDCTran_Factory >		_Instance		= new Lazy< BDCTran_Factory >	(	()=>	new BDCTran_Factory() , cz_LM );
 
 			#endregion
 
@@ -34,24 +34,24 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Index objects
 				//.................................................
-				internal	BDCCall_IndexFNC		CreateIndexFNC	( BDCCall_Profile profile )	=>	new BDCCall_IndexFNC( profile );
-				internal	BDCCall_IndexCTU		CreateIndexCTU	( BDCCall_Profile profile )	=>	new BDCCall_IndexCTU( profile );
-				internal	BDC_IndexSPA				CreateIndexSPA	( BDCCall_Profile profile )	=>	new BDC_IndexSPA( profile );
-				internal	BDC_IndexBDC				CreateIndexBDC	( BDCCall_Profile profile )	=>	new BDC_IndexBDC( profile );
-				internal	BDC_IndexMSG				CreateIndexMSG	( BDCCall_Profile profile )	=>	new BDC_IndexMSG( profile );
+				internal	BDCTran_IndexFNC		CreateIndexFNC	( BDCTran_Profile profile )	=>	new BDCTran_IndexFNC( profile );
+				internal	BDCTran_IndexCTU		CreateIndexCTU	( BDCTran_Profile profile )	=>	new BDCTran_IndexCTU( profile );
+				internal	BDCTran_IndexSPA		CreateIndexSPA	( BDCTran_Profile profile )	=>	new BDCTran_IndexSPA( profile );
+				internal	BDCTran_IndexBDC		CreateIndexBDC	( BDCTran_Profile profile )	=>	new BDCTran_IndexBDC( profile );
+				internal	BDCTran_IndexMSG		CreateIndexMSG	( BDCTran_Profile profile )	=>	new BDCTran_IndexMSG( profile );
 
 				//.................................................
 				//.................................................
 				// Profile objects
 				//.................................................
-				internal	BDCCall_Data			CreateBDCData		(		BDC_IndexSPA	spaIndex
-																											,	BDC_IndexBDC	bdcIndex
-																											, BDC_IndexMSG	msgIndex							)=>		new	BDCCall_Data	(		spaIndex
-																																																											, bdcIndex
-																																																											, msgIndex	);
+				internal	BDCTran_Data			CreateBDCData		(		BDCTran_IndexSPA	spaIndex
+																											,	BDCTran_IndexBDC	bdcIndex
+																											, BDCTran_IndexMSG	msgIndex							)=>		new	BDCTran_Data	(		spaIndex
+																																																													, bdcIndex
+																																																													, msgIndex	);
 
-				internal	BDCCall_Header		CreateBDCHeader	(		BDCCall_IndexCTU	ctuIndex
-																											,	bool							withDefaults	= true	)=>		new BDCCall_Header(		ctuIndex
+				internal	BDCTran_Header		CreateBDCHeader	(		BDCTran_IndexCTU	ctuIndex
+																											,	bool							withDefaults	= true	)=>		new BDCTran_Header(		ctuIndex
 																																																													, withDefaults );
 
 			#endregion
