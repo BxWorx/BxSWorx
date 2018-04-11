@@ -5,7 +5,8 @@ using SMC	= SAP.Middleware.Connector;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.BDCSession.DTO;
 
-using static	BxS_WorxNCO.Main.NCO_Constants;
+using static	BxS_WorxNCO.Main										.NCO_Constants;
+using	static	BxS_WorxNCO.RfcFunction.TableReader	.TblRdr_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.TableReader
 {
@@ -13,23 +14,31 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 		{
 			#region "Documentation"
 
-				//	function rpy_message_compose.
 				//	*"----------------------------------------------------------------------
-				//	*"*"Lokale Schnittstelle:
+				//	*"*"Local Interface:
 				//	*"  IMPORTING
-				//	*"     VALUE(LANGUAGE)				LIKE  T100-SPRSL DEFAULT SY-LANGU
-				//	*"     VALUE(MESSAGE_ID)			LIKE  SY-MSGID
-				//	*"     VALUE(MESSAGE_NUMBER)	LIKE  SY-MSGNO
-				//	*"     VALUE(MESSAGE_VAR1)		LIKE  SY-MSGV1 DEFAULT SPACE
-				//	*"     VALUE(MESSAGE_VAR2)		LIKE  SY-MSGV2 DEFAULT SPACE
-				//	*"     VALUE(MESSAGE_VAR3)		LIKE  SY-MSGV3 DEFAULT SPACE
-				//	*"     VALUE(MESSAGE_VAR4)		LIKE  SY-MSGV4 DEFAULT SPACE
+				//	*"     VALUE(QUERY_TABLE)	TYPE  DD02L-TABNAME
+				//	*"     VALUE(DELIMITER)		TYPE  SONV-FLAG		OPTIONAL
+				//	*"     VALUE(NO_DATA)			TYPE  SONV-FLAG		OPTIONAL
+				//	*"     VALUE(ROWSKIPS)		TYPE  SOID-ACCNT	OPTIONAL
+				//	*"     VALUE(ROWCOUNT)		TYPE  SOID-ACCNT	OPTIONAL
 				//	*"  EXPORTING
-				//	*"     VALUE(MESSAGE_TEXT)		LIKE  SY-LISEL
+				//	*"     VALUE(OUT_TABLE) TYPE  DD02L-TABNAME
 				//	*"  TABLES
-				//	*"      LONGTEXT							STRUCTURE  TLINE OPTIONAL
+				//	*"      OPTIONS			STRUCTURE  RFC_DB_OPT
+				//	*"      FIELDS			STRUCTURE  RFC_DB_FLD
+				//	*"      TBLOUT128		STRUCTURE  /BODS/TAB128
+				//	*"      TBLOUT512		STRUCTURE  /BODS/TAB512
+				//	*"      TBLOUT2048	STRUCTURE  /BODS/TAB2048
+				//	*"      TBLOUT8192	STRUCTURE  /BODS/TAB8192
+				//	*"      TBLOUT30000	STRUCTURE  /BODS/TAB30K
 				//	*"  EXCEPTIONS
-				//	*"      MESSAGE_NOT_FOUND
+				//	*"      TABLE_NOT_AVAILABLE
+				//	*"      TABLE_WITHOUT_DATA
+				//	*"      OPTION_NOT_VALID
+				//	*"      FIELD_NOT_VALID
+				//	*"      NOT_AUTHORIZED
+				//	*"      DATA_BUFFER_EXCEEDED
 				//	*"----------------------------------------------------------------------
 
 			#endregion
@@ -57,17 +66,6 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Properties"
 
 				internal	TblRdr_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
-				internal	SAPMsg_IndexTXT	TXTIndex	{ get {	return	this.MyProfile.Value.TXTIndex; } }
-
-				private	int		Idx_Langu		{ get {	return	this.FNCIndex.Langu	; } }
-				private	int		Idx_MsgID		{ get {	return	this.FNCIndex.MsgID	; } }
-				private	int		Idx_MsgNo		{ get {	return	this.FNCIndex.MsgNo	; } }
-				private	int		Idx_MsgV1		{ get {	return	this.FNCIndex.MsgV1	; } }
-				private	int		Idx_MsgV2		{ get {	return	this.FNCIndex.MsgV2	; } }
-				private	int		Idx_MsgV3		{ get {	return	this.FNCIndex.MsgV3	; } }
-				private	int		Idx_MsgV4		{ get {	return	this.FNCIndex.MsgV4	; } }
-				private	int		Idx_MsgST		{ get {	return	this.FNCIndex.MsgST	; } }
-				private	int		Idx_MsgLT		{	get {	return	this.FNCIndex.MsgLT	; } }
 
 			#endregion
 
@@ -75,22 +73,16 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process(	DTO_BDC_Msg					dto
+				internal void Process(	TblRdr_Data					dto
 															, SMC.RfcDestination	rfcDestination )
 					{
 						try
 							{
-								this.NCORfcFunction.SetValue( this.Idx_Langu	, dto.MsgLg	);
-								this.NCORfcFunction.SetValue( this.Idx_MsgID	, dto.MsgID );
-								this.NCORfcFunction.SetValue( this.Idx_MsgNo	, dto.MsgNr );
-								this.NCORfcFunction.SetValue( this.Idx_MsgV1	, dto.MsgV1 );
-								this.NCORfcFunction.SetValue( this.Idx_MsgV2	, dto.MsgV2 );
-								this.NCORfcFunction.SetValue( this.Idx_MsgV3	, dto.MsgV3 );
-								this.NCORfcFunction.SetValue( this.Idx_MsgV4	, dto.MsgV4 );
-								//.............................................
+								this.Setup( dto );
+								//.........................................
 								this.Invoke( rfcDestination );
-								//.............................................
-								dto.MsgST	= this.NCORfcFunction.GetString( this.Idx_MsgST );
+								//.........................................
+								this.LoadData( dto.OutData , this.GetOutTableIndex( this.NCORfcFunction.GetString(this.MyProfile.Value.FNCIndex.OutTable ) ) );
 							}
 						catch (Exception)
 							{
@@ -98,6 +90,82 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 							}
 						finally
 							{
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Reset()
+					{
+						this.Profile.ReadyProfile();
+						//.............................................
+						this.NCORfcFunction.GetTable( this.FNCIndex.Options ).Clear();
+						this.NCORfcFunction.GetTable( this.FNCIndex.Fields	).Clear();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void Setup( TblRdr_Data dto )
+					{
+						SMC.IRfcTable			lt_Tbl	;
+						SMC.IRfcStructure	ls_Str	;
+
+						this.NCORfcFunction.SetValue( this.FNCIndex.QryTable	, dto.QueryTable	);
+						this.NCORfcFunction.SetValue( this.FNCIndex.Delimeter	, dto.Delimeter		);
+						this.NCORfcFunction.SetValue( this.FNCIndex.SkipRows	,	dto.SkipRows		);
+						this.NCORfcFunction.SetValue( this.FNCIndex.RowsCount	,	dto.ReturnRows	);
+
+						this.NCORfcFunction.SetValue( this.FNCIndex.NoData		,	dto.NoData	? cz_True	: cz_False	)	;
+						//.............................................
+						lt_Tbl	= this.NCORfcFunction.GetTable( this.FNCIndex.Options );
+
+						for (int i = 0; i < dto.Options.Count; i++)
+							{
+								ls_Str	= lt_Tbl.Metadata.LineType.CreateStructure();
+								lt_Tbl.Append( ls_Str );
+							}
+						//.............................................
+						lt_Tbl	= this.NCORfcFunction.GetTable( this.FNCIndex.Fields );
+
+						for (int i = 0; i < dto.Fields.Count; i++)
+							{
+								ls_Str	= lt_Tbl.Metadata.LineType.CreateStructure();
+								lt_Tbl.Append( ls_Str );
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void Set_CTU( SMC.IRfcStructure ctu )
+					{
+						SMC.IRfcStructure ls_CTU	= this.NCORfcFunction.GetStructure( this.Idx_CTU );
+
+						for (int i = 0; i < ctu.Count; i++)
+							{
+								ls_CTU.SetValue( i , ctu.GetValue(i) );
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void LoadData( SMC.IRfcTable	data , int index )
+					{
+						data.Clear();
+						//.............................................
+						data.Append ( this.NCORfcFunction.GetTable( index ) );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	int GetOutTableIndex( string name )
+					{
+						switch ( name )
+							{
+								case cz_OutTab512		:	return	this.FNCIndex.OutTab512		;
+								case cz_OutTab2048	:	return	this.FNCIndex.OutTab2048	;
+								case cz_OutTab8192	:	return	this.FNCIndex.OutTab8192	;
+								case cz_OutTab30000	:	return	this.FNCIndex.OutTab30000	;
+								default							:	return	this.FNCIndex.OutTab128		;
 							}
 					}
 
