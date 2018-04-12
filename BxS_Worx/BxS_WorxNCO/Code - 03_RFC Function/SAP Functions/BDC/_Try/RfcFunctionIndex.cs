@@ -1,23 +1,35 @@
-﻿using System;
-//.........................................................
-using SMC	= SAP.Middleware.Connector;
+﻿using SMC	= SAP.Middleware.Connector;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.RfcFunction.BDCTran
+namespace BxS_WorxNCO.RfcFunction.Main
 {
-	internal abstract class BDC_IndexBase
+	internal class RfcFunctionIndex : IRfcFunctionIndex
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_IndexBase()
-					{	}
+				internal RfcFunctionIndex()
+					{
+						this.IsLoaded	= false	;
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	Lazy<	SMC.RfcStructureMetadata >	_Metadata	;
+				protected	const	int	cz_No	= -1;
+				//.................................................
+				private		SMC.RfcFunctionMetadata	_Metadata;
+				protected	bool	IsLoaded;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				public	SMC.RfcFunctionMetadata		Metadata	{ get	{	return	this._Metadata;	}
+																											set	{	this._Metadata	= value	;
+																														this.IsLoaded		= true	;	} }
 
 			#endregion
 
@@ -25,16 +37,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcStructure	CreateStructure()
-					{
-						return	this._Metadata.Value.CreateStructure();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcTable	CreateTable()
-					{
-						return	this._Metadata.Value.CreateTable();
-					}
+				public	SMC.IRfcFunction	CreateFunction	()=>	this.Metadata.CreateFunction();
 
 			#endregion
 

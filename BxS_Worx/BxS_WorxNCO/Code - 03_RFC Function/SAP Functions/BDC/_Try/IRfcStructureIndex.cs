@@ -2,26 +2,21 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
-	internal interface IRfcFncProfile
+	internal interface IRfcStructureIndex
 		{
 			#region "Properties"
 
-				string	FunctionName		{	get; }
-				bool		IsReady					{ get; set; }
+				string	Name	{ get; set; }
 				//.................................................
-				SMC.RfcFunctionMetadata		Metadata	{ get; set; }
+				SMC.RfcStructureMetadata	Metadata	{ get; set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void ReadyProfile();
-
-				void LoadFunctionIndex	( IRfcFunctionIndex		index );
-				bool LoadStructureIndex	( IRfcStructureIndex	index );
-
-				SMC.IRfcFunction	CreateFunction();
+				SMC.IRfcStructure	CreateStructure();
+				SMC.IRfcTable			CreateTable();
 
 			#endregion
 

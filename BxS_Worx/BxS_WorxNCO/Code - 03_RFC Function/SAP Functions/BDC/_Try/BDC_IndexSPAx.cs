@@ -1,40 +1,35 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
+using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal abstract class BDC_IndexBase
+	internal class BDC_IndexSPAx : RfcStructureIndex
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_IndexBase()
-					{	}
+				internal BDC_IndexSPAx( string name ) : base( name )
+					{
+						this._MID		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "PARID"	 ) );
+						this._Val		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "PARVAL" ) );
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	Lazy<	SMC.RfcStructureMetadata >	_Metadata	;
+				private	readonly	Lazy<int>		_MID;
+				private	readonly	Lazy<int>		_Val;
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Properties"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcStructure	CreateStructure()
-					{
-						return	this._Metadata.Value.CreateStructure();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SMC.IRfcTable	CreateTable()
-					{
-						return	this._Metadata.Value.CreateTable();
-					}
+				internal	int	MID		{ get { return	this.IsLoaded	?	this._MID.Value	: cz_No	; } }
+				internal	int	Val		{ get { return	this.IsLoaded	?	this._Val.Value	: cz_No	; } }
 
 			#endregion
 

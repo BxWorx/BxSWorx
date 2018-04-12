@@ -42,16 +42,31 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	LoadMapper( IRfcFncIndexMapper map )
+				public void LoadFunctionIndex( IRfcFunctionIndex index )
 					{
-						this.ExtractIndexing( map );
+						index.Metadata	= this.Metadata;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.IRfcFunction	CreateFunction()
+				public bool LoadStructureIndex( IRfcStructureIndex index )
 					{
-						return	this.Metadata.CreateFunction();
+						try
+							{
+								SMC.RfcElementMetadata	lo_ElemMeta		=	this.Metadata[ index.Name ];
+								//.........................................
+								switch ( lo_ElemMeta.DataType )
+									{
+										case	SMC.RfcDataType.STRUCTURE	:	index.Metadata	=	lo_ElemMeta.ValueMetadataAsStructureMetadata			;	return	true	;
+										case	SMC.RfcDataType.TABLE			:	index.Metadata	=	lo_ElemMeta.ValueMetadataAsTableMetadata.LineType	;	return	true	;
+													default										:																																				return	false	;
+									}
+							}
+						catch
+							{	return	false; }
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.IRfcFunction	CreateFunction()	=>	this.Metadata.CreateFunction();
 
 			#endregion
 
