@@ -53,7 +53,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Header CreateBDCCallHeader	( bool withDefaults = true )	=>	this._Factory.CreateBDCHeader	( this.CTUIndex , withDefaults );
-				internal BDC_Data		CreateBDCCallData		()														=>	this._Factory.CreateBDCData		( this.SPAIndex , this.BDCIndex , this.MSGIndex );
+				internal BDC_Data				CreateBDCCallData		()														=>	this._Factory.CreateBDCData		( this.SPAIndex , this.BDCIndex , this.MSGIndex );
 
 			#endregion
 

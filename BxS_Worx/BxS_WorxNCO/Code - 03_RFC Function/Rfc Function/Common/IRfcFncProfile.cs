@@ -14,9 +14,10 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#endregion
 
 			//===========================================================================================
-			#region "Methods"
+			#region "Methods: Exposed"
 
 				void ReadyProfile();
+				void	LoadMapper( IRfcFncIndexMapper map );
 
 				SMC.IRfcFunction	CreateFunction();
 
