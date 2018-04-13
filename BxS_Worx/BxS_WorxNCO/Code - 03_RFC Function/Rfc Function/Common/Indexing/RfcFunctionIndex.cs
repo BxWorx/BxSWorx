@@ -17,8 +17,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	const	int	cz_No	= -1;
-				//.................................................
 				private		SMC.RfcFunctionMetadata	_Metadata;
 				protected	bool	IsLoaded;
 
@@ -27,6 +25,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Properties"
 
+				public	string	Name	{ get { return	this.Metadata.Name; } }
+				//.................................................
 				public	SMC.RfcFunctionMetadata		Metadata	{ get	{	return	this._Metadata;	}
 																											set	{	this._Metadata	= value	;
 																														this.IsLoaded		= true	;	} }

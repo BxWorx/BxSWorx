@@ -1,10 +1,12 @@
 ﻿using System;
 //.........................................................
-using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
+using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCTran_IndexFNC
+	internal class BDCTran_IndexFNC : RfcFunctionIndex
 		{
 			#region "Documentation"
 
@@ -33,18 +35,16 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCTran_IndexFNC( BDCCall_Profile profile )
+				internal BDCTran_IndexFNC()
 					{
-						this._Profile		= profile;
+						this._TCode			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "TCODE"				) );
+						this._Skip1			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "SKIP_SCREEN"	) );
+						this._Mode			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MODE_VAL"		) );
+						this._Update		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "UPDATE_VAL"	) );
 						//.............................................
-						this._TCode			= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "TCODE				"	) );
-						this._Skip1			= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "SKIP_SCREEN	"	) );
-						this._Mode			= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MODE_VAL		"	) );
-						this._Update		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "UPDATE_VAL	"	) );
-						//.............................................
-						this._TabBDC		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "USING_TAB"	) );
-						this._TabMSG		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "MESS_TAB"		) );
-						this._TabSPA		= new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "SPAGPA_TAB"	) );
+						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "USING_TAB"		) );
+						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESS_TAB"		) );
+						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "SPAGPA_TAB"	) );
 					}
 
 			#endregion
@@ -52,8 +52,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	BDCCall_Profile		_Profile;
-				//.................................................
 				private	readonly	Lazy<int>		_TCode	;
 				private	readonly	Lazy<int>		_Skip1	;
 				private	readonly	Lazy<int>		_Mode		;
@@ -67,15 +65,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	Name			{ get { return	cz_BDCCall; } }
-				//.................................................
-				internal	int			TCode			{ get { return	this._Profile.IsReady ?	this._TCode	.Value	: 0	; } }
-				internal	int			Skip1			{ get { return	this._Profile.IsReady ?	this._Skip1	.Value	: 0	; } }
-				internal	int			Mode			{ get { return	this._Profile.IsReady ?	this._Mode.Value		: 0	; } }
-				internal	int			Update		{ get { return	this._Profile.IsReady ?	this._Update.Value	: 0	; } }
-				internal	int			TabBDC		{ get { return	this._Profile.IsReady ?	this._TabBDC.Value	: 0	; } }
-				internal	int			TabMSG		{ get { return	this._Profile.IsReady ?	this._TabMSG.Value	: 0	; } }
-				internal	int			TabSPA		{ get { return	this._Profile.IsReady ?	this._TabSPA.Value	: 0	; } }
+				internal	int			TCode			{ get { return	this.IsLoaded	?	this._TCode	.Value	: cz_Neg	; } }
+				internal	int			Skip1			{ get { return	this.IsLoaded	?	this._Skip1	.Value	: cz_Neg	; } }
+				internal	int			Mode			{ get { return	this.IsLoaded	?	this._Mode	.Value	: cz_Neg	; } }
+				internal	int			Update		{ get { return	this.IsLoaded	?	this._Update.Value	: cz_Neg	; } }
+				internal	int			TabBDC		{ get { return	this.IsLoaded	?	this._TabBDC.Value	: cz_Neg	; } }
+				internal	int			TabMSG		{ get { return	this.IsLoaded	?	this._TabMSG.Value	: cz_Neg	; } }
+				internal	int			TabSPA		{ get { return	this.IsLoaded	?	this._TabSPA.Value	: cz_Neg	; } }
 
 			#endregion
 

@@ -14,9 +14,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Data(	BDC_IndexSPA	spaIndex
-													,	BDC_IndexBDC	bdcIndex
-													, BDC_IndexMSG	msgIndex )
+				internal BDC_Data(	Lazy<	BDC_IndexSPA >	spaIndex
+													,	Lazy<	BDC_IndexBDC >	bdcIndex
+													, Lazy<	BDC_IndexMSG >	msgIndex )
 					{
 						this._IndexSPA	= spaIndex	??	throw		new	ArgumentException( $"{typeof(BDC_Data).Namespace}:- SPA index null" );
 						this._IndexBDC	= bdcIndex	??	throw		new	ArgumentException( $"{typeof(BDC_Data).Namespace}:- BDC index null" );
@@ -25,9 +25,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.ProcessedStatus	= false	;
 						this.SuccesStatus			= false	;
 						//.............................................
-						this._SPAData		= new	Lazy< SMC.IRfcTable >( ()=> this._IndexSPA.CreateTable() , cz_LM )	;
-						this._BDCData		=	new	Lazy< SMC.IRfcTable >( ()=> this._IndexBDC.CreateTable() , cz_LM )	;
-						this._MSGData		= new	Lazy< SMC.IRfcTable >( ()=> this._IndexMSG.CreateTable() , cz_LM )	;
+						this._SPAData		= new	Lazy< SMC.IRfcTable >( ()=> this._IndexSPA.Value.CreateTable() , cz_LM )	;
+						this._BDCData		=	new	Lazy< SMC.IRfcTable >( ()=> this._IndexBDC.Value.CreateTable() , cz_LM )	;
+						this._MSGData		= new	Lazy< SMC.IRfcTable >( ()=> this._IndexMSG.Value.CreateTable() , cz_LM )	;
 				}
 
 			#endregion
@@ -39,9 +39,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				private	readonly	Lazy< SMC.IRfcTable >		_BDCData	;
 				private	readonly	Lazy< SMC.IRfcTable >		_MSGData	;
 				//.................................................
-				private readonly	BDC_IndexSPA	_IndexSPA	;
-				private readonly	BDC_IndexBDC	_IndexBDC	;
-				private readonly	BDC_IndexMSG	_IndexMSG	;
+				private readonly	Lazy< BDC_IndexSPA >	_IndexSPA	;
+				private readonly	Lazy< BDC_IndexBDC >	_IndexBDC	;
+				private readonly	Lazy< BDC_IndexMSG >	_IndexMSG	;
 
 			#endregion
 
@@ -72,8 +72,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 							{
 								this._SPAData.Value.CurrentIndex	= i;
 								//.........................................
-								this._SPAData.Value.SetValue( this._IndexSPA.MID , SPASrce[i].MemoryID		);
-								this._SPAData.Value.SetValue( this._IndexSPA.Val , SPASrce[i].MemoryValue	);
+								this._SPAData.Value.SetValue( this._IndexSPA.Value.MID , SPASrce[i].MemoryID		);
+								this._SPAData.Value.SetValue( this._IndexSPA.Value.Val , SPASrce[i].MemoryValue	);
 							}
 					}
 
@@ -88,11 +88,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 							{
 								this._BDCData.Value.CurrentIndex	= i;
 								//.........................................
-								this._BDCData.Value.SetValue( this._IndexBDC.Prg , BDCSrce[i].ProgramName	);
-								this._BDCData.Value.SetValue( this._IndexBDC.Dyn , BDCSrce[i].Dynpro				);
-								this._BDCData.Value.SetValue( this._IndexBDC.Bgn , BDCSrce[i].Begin				);
-								this._BDCData.Value.SetValue( this._IndexBDC.Fld , BDCSrce[i].FieldName		);
-								this._BDCData.Value.SetValue( this._IndexBDC.Val , BDCSrce[i].FieldValue		);
+								this._BDCData.Value.SetValue( this._IndexBDC.Value.Prg , BDCSrce[i].ProgramName	);
+								this._BDCData.Value.SetValue( this._IndexBDC.Value.Dyn , BDCSrce[i].Dynpro			);
+								this._BDCData.Value.SetValue( this._IndexBDC.Value.Bgn , BDCSrce[i].Begin				);
+								this._BDCData.Value.SetValue( this._IndexBDC.Value.Fld , BDCSrce[i].FieldName		);
+								this._BDCData.Value.SetValue( this._IndexBDC.Value.Val , BDCSrce[i].FieldValue	);
 							}
 					}
 
@@ -107,19 +107,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 								MsgTrgt.Add( new DTO_BDC_Msg
 															{
-																	TCode	= this._MSGData.Value.GetString( this._IndexMSG.TCode )
-																,	DynNm	= this._MSGData.Value.GetString( this._IndexMSG.DynNm )
-																,	DynNo	= this._MSGData.Value.GetString( this._IndexMSG.DynNo )
-																,	MsgTp	= this._MSGData.Value.GetString( this._IndexMSG.MsgTp )
-																,	MsgLg	= this._MSGData.Value.GetString( this._IndexMSG.Lang	)
-																,	MsgID	= this._MSGData.Value.GetString( this._IndexMSG.MsgID )
-																,	MsgNr	= this._MSGData.Value.GetString( this._IndexMSG.MsgNo )
-																,	MsgV1	= this._MSGData.Value.GetString( this._IndexMSG.MsgV1 )
-																,	MsgV2	= this._MSGData.Value.GetString( this._IndexMSG.MsgV2 )
-																,	MsgV3	= this._MSGData.Value.GetString( this._IndexMSG.MsgV3 )
-																,	MsgV4	= this._MSGData.Value.GetString( this._IndexMSG.MsgV4 )
-																,	Envir	= this._MSGData.Value.GetString( this._IndexMSG.Envir )
-																,	FldNm	= this._MSGData.Value.GetString( this._IndexMSG.Fldnm )
+																	TCode	= this._MSGData.Value.GetString( this._IndexMSG.Value.TCode )
+																,	DynNm	= this._MSGData.Value.GetString( this._IndexMSG.Value.DynNm )
+																,	DynNo	= this._MSGData.Value.GetString( this._IndexMSG.Value.DynNo )
+																,	MsgTp	= this._MSGData.Value.GetString( this._IndexMSG.Value.MsgTp )
+																,	MsgLg	= this._MSGData.Value.GetString( this._IndexMSG.Value.Lang	)
+																,	MsgID	= this._MSGData.Value.GetString( this._IndexMSG.Value.MsgID )
+																,	MsgNr	= this._MSGData.Value.GetString( this._IndexMSG.Value.MsgNo )
+																,	MsgV1	= this._MSGData.Value.GetString( this._IndexMSG.Value.MsgV1 )
+																,	MsgV2	= this._MSGData.Value.GetString( this._IndexMSG.Value.MsgV2 )
+																,	MsgV3	= this._MSGData.Value.GetString( this._IndexMSG.Value.MsgV3 )
+																,	MsgV4	= this._MSGData.Value.GetString( this._IndexMSG.Value.MsgV4 )
+																,	Envir	= this._MSGData.Value.GetString( this._IndexMSG.Value.Envir )
+																,	FldNm	= this._MSGData.Value.GetString( this._IndexMSG.Value.Fldnm )
 															}
 														);
 							}

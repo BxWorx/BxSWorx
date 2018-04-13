@@ -14,12 +14,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Header(	BDCCall_IndexCTU	ctuIndex
-																,	bool							withDefaults = true	)
+				internal BDCCall_Header(	Lazy<	BDCCall_IndexCTU >	ctuIndex
+																,	bool											withDefaults = true	)
 					{
 						this._IndexCTU	= ctuIndex	??	throw		new	ArgumentException( $"{typeof(BDCCall_Header).Namespace}:- CTUIndex null" );
 						//.............................................
-						this._CTU				= new Lazy< SMC.IRfcStructure >( ()=> this._IndexCTU.Create() );
+						this._CTU				= new Lazy< SMC.IRfcStructure >( ()=> this._IndexCTU.Value.CreateStructure() );
 						//.............................................
 						if ( withDefaults )
 							{
@@ -33,7 +33,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Declarations"
 
 				private	readonly	Lazy< SMC.IRfcStructure >		_CTU			;
-				private readonly	BDCCall_IndexCTU						_IndexCTU	;
+				private readonly	Lazy< BDCCall_IndexCTU	>		_IndexCTU	;
 
 			#endregion
 
@@ -56,13 +56,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.SAPTCode		= dtoHead.SAPTCode;
 						this.Skip1st		= dtoHead.Skip1st	;
 						//.............................................
-						this.CTUParms[ this._IndexCTU.DspMde ].SetValue( dtoHead.CTUParms.DisplayMode		);
-						this.CTUParms[ this._IndexCTU.UpdMde ].SetValue( dtoHead.CTUParms.UpdateMode		);
-						this.CTUParms[ this._IndexCTU.CATMde ].SetValue( dtoHead.CTUParms.CATTMode			);
-						this.CTUParms[ this._IndexCTU.DefSze ].SetValue( dtoHead.CTUParms.DefaultSize		);
-						this.CTUParms[ this._IndexCTU.NoComm ].SetValue( dtoHead.CTUParms.NoCommit			);
-						this.CTUParms[ this._IndexCTU.NoBtcI ].SetValue( dtoHead.CTUParms.NoBatchInpFor );
-						this.CTUParms[ this._IndexCTU.NoBtcE ].SetValue( dtoHead.CTUParms.NoBatchInpAft );
+						this.CTUParms[ this._IndexCTU.Value.DspMde ].SetValue( dtoHead.CTUParms.DisplayMode		);
+						this.CTUParms[ this._IndexCTU.Value.UpdMde ].SetValue( dtoHead.CTUParms.UpdateMode		);
+						this.CTUParms[ this._IndexCTU.Value.CATMde ].SetValue( dtoHead.CTUParms.CATTMode			);
+						this.CTUParms[ this._IndexCTU.Value.DefSze ].SetValue( dtoHead.CTUParms.DefaultSize		);
+						this.CTUParms[ this._IndexCTU.Value.NoComm ].SetValue( dtoHead.CTUParms.NoCommit			);
+						this.CTUParms[ this._IndexCTU.Value.NoBtcI ].SetValue( dtoHead.CTUParms.NoBatchInpFor );
+						this.CTUParms[ this._IndexCTU.Value.NoBtcE ].SetValue( dtoHead.CTUParms.NoBatchInpAft );
 					}
 
 			#endregion
@@ -75,10 +75,10 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this.Skip1st		= false;
 						//.............................................
-						this.CTUParms[ this._IndexCTU.DspMde ].SetValue( cz_CTU_A );
-						this.CTUParms[ this._IndexCTU.UpdMde ].SetValue( cz_CTU_A );
-						this.CTUParms[ this._IndexCTU.DefSze ].SetValue( cz_False );
-						this.CTUParms[ this._IndexCTU.CATMde ].SetValue( cz_False );
+						this.CTUParms[ this._IndexCTU.Value.DspMde ].SetValue( cz_CTU_A );
+						this.CTUParms[ this._IndexCTU.Value.UpdMde ].SetValue( cz_CTU_A );
+						this.CTUParms[ this._IndexCTU.Value.DefSze ].SetValue( cz_False );
+						this.CTUParms[ this._IndexCTU.Value.CATMde ].SetValue( cz_False );
 					}
 
 			#endregion

@@ -4,18 +4,18 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal sealed class BDCCall_Factory
+	internal sealed class BDC_Factory
 		{
-			#region "Constructors"
+			#region "Constructors: Singleton"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal static BDCCall_Factory Instance
+				internal static BDC_Factory Instance
 					{
 						get { return _Instance.Value; }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCCall_Factory()
+				private BDC_Factory()
 					{	}
 
 			#endregion
@@ -23,7 +23,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	static readonly	Lazy< BDCCall_Factory >		_Instance		= new Lazy< BDCCall_Factory >	(	()=>	new BDCCall_Factory() , cz_LM );
+				private	static readonly	Lazy< BDC_Factory >		_Instance		= new Lazy< BDC_Factory >	(	()=>	new BDC_Factory() , cz_LM );
 
 			#endregion
 
@@ -34,16 +34,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Index objects
 				//.................................................
-				internal	BDCCall_IndexFNC		CreateIndexFNC	()	=>	new BDCCall_IndexFNC();
-				internal	BDCCall_IndexCTU		CreateIndexCTU	()	=>	new BDCCall_IndexCTU();
+				internal	BDC_IndexSPA				CreateIndexSPA	()	=>	new BDC_IndexSPA();
+				internal	BDC_IndexBDC				CreateIndexBDC	()	=>	new BDC_IndexBDC();
+				internal	BDC_IndexMSG				CreateIndexMSG	()	=>	new BDC_IndexMSG();
 
 				//.................................................
 				//.................................................
 				// Profile objects
 				//.................................................
-				internal	BDCCall_Header		CreateBDCHeader	(		Lazy<	BDCCall_IndexCTU >	ctuIndex
-																											,	bool											withDefaults	= true	)=>		new BDCCall_Header(		ctuIndex
-																																																																	, withDefaults );
+				internal	BDC_Data						CreateBDCData		(		Lazy<	BDC_IndexSPA >	spaIndex
+																												,	Lazy<	BDC_IndexBDC > 	bdcIndex
+																												, Lazy<	BDC_IndexMSG >	msgIndex	)=>		new	BDC_Data	(		spaIndex
+																																																			, bdcIndex
+																																																			, msgIndex	);
 
 			#endregion
 

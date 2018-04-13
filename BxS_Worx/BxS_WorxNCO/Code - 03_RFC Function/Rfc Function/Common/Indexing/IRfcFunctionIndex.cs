@@ -6,6 +6,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 		{
 			#region "Properties"
 
+				string	Name	{ get; }
 				SMC.RfcFunctionMetadata	Metadata	{ get; set; }
 
 			#endregion

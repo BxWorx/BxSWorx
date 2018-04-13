@@ -1,25 +1,28 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
+using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.Main								.NCO_Constants;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_IndexCTU : BDCCall_IndexBase
+	internal class BDCCall_IndexCTU : RfcStructureIndex
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_IndexCTU( BDCCall_Profile profile ) : base( profile )
+				internal BDCCall_IndexCTU()
 					{
-						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.CTUStructure	);
+						this.Name		=	cz_StrCTU;
 						//.............................................
-						this._DspMde	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "DISMODE"	) );
-						this._UpdMde	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "UPDMODE"	) );
-						this._CATMde	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "CATTMODE" ) );
-						this._DefSze	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "DEFSIZE"	) );
-						this._NoComm	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "RACOMMIT" ) );
-						this._NoBtcI	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "NOBINPT"	) );
-						this._NoBtcE	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "NOBIEND"	) );
+						this._DspMde	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DISMODE"	 ) );
+						this._UpdMde	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "UPDMODE"	 ) );
+						this._CATMde	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "CATTMODE" ) );
+						this._DefSze	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DEFSIZE"	 ) );
+						this._NoComm	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "RACOMMIT" ) );
+						this._NoBtcI	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "NOBINPT"	 ) );
+						this._NoBtcE	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "NOBIEND"	 ) );
 					}
 
 			#endregion
@@ -40,13 +43,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		DspMde	{ get { return	this._Profile.IsReady	?	this._DspMde.Value : 0 ; } }
-				internal	int		UpdMde	{ get { return	this._Profile.IsReady	?	this._UpdMde.Value : 0 ; } }
-				internal	int		CATMde	{ get { return	this._Profile.IsReady	?	this._CATMde.Value : 0 ; } }
-				internal	int		DefSze	{ get { return	this._Profile.IsReady	?	this._DefSze.Value : 0 ; } }
-				internal	int		NoComm	{ get { return	this._Profile.IsReady	?	this._NoComm.Value : 0 ; } }
-				internal	int		NoBtcI	{ get { return	this._Profile.IsReady	?	this._NoBtcI.Value : 0 ; } }
-				internal	int		NoBtcE	{ get { return	this._Profile.IsReady	?	this._NoBtcE.Value : 0 ; } }
+				internal	int		DspMde	{ get { return	this.IsLoaded	?	this._DspMde.Value : cz_Neg	; } }
+				internal	int		UpdMde	{ get { return	this.IsLoaded	?	this._UpdMde.Value : cz_Neg	; } }
+				internal	int		CATMde	{ get { return	this.IsLoaded	?	this._CATMde.Value : cz_Neg	; } }
+				internal	int		DefSze	{ get { return	this.IsLoaded	?	this._DefSze.Value : cz_Neg	; } }
+				internal	int		NoComm	{ get { return	this.IsLoaded	?	this._NoComm.Value : cz_Neg	; } }
+				internal	int		NoBtcI	{ get { return	this.IsLoaded	?	this._NoBtcI.Value : cz_Neg	; } }
+				internal	int		NoBtcE	{ get { return	this.IsLoaded	?	this._NoBtcE.Value : cz_Neg	; } }
 
 			#endregion
 

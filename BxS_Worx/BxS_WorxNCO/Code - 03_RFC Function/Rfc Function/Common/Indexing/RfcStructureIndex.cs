@@ -7,10 +7,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcStructureIndex( string	name )
+				internal RfcStructureIndex()
 					{
-						this.Name			= name	;
-						//.............................................
 						this.IsLoaded	= false	;
 					}
 
@@ -19,8 +17,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	const	int	cz_No	= -1;
-				//.................................................
 				private		SMC.RfcStructureMetadata	_Metadata;
 				protected	bool	IsLoaded;
 

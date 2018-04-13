@@ -6,9 +6,10 @@ namespace BxS_WorxNCO.Main
 		{
 			#region "Declarations"
 
-				internal	const string	cz_True		= "X"			;
-				internal	const string	cz_False	= " "			;
-				internal	const string	cz_Null		= ""			;
+				internal	const string	cz_True		= "X"	;
+				internal	const string	cz_False	= " "	;
+				internal	const string	cz_Null		= ""	;
+				internal	const int			cz_Neg		= -1	;
 				//.................................................
 				internal	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 

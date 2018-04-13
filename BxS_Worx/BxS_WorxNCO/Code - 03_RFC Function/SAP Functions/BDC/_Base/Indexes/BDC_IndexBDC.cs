@@ -1,23 +1,26 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
+using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.Main								.NCO_Constants;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDC_IndexBDC : BDCCall_IndexBase
+	internal class BDC_IndexBDC : RfcStructureIndex
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_IndexBDC( BDCCall_Profile profile ) : base( profile )
+				internal BDC_IndexBDC()
 					{
-						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.BDCStructure	);
+						this.Name		=	cz_StrBDC;
 						//.............................................
-						this._Prg	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "PROGRAM"	) );
-						this._Dyn	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "DYNPRO"		) );
-						this._Bgn	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "DYNBEGIN"	) );
-						this._Fld	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "FNAM"			) );
-						this._Val	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "FVAL"			) );
+						this._Prg	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "PROGRAM"	) );
+						this._Dyn	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DYNPRO"		) );
+						this._Bgn	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DYNBEGIN"	) );
+						this._Fld	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "FNAM"			) );
+						this._Val	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "FVAL"			) );
 					}
 
 			#endregion
@@ -36,11 +39,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		Prg	{ get { return	this._Profile.IsReady ?	this._Prg.Value	:	0	; } }
-				internal	int		Dyn	{ get { return	this._Profile.IsReady ?	this._Dyn.Value	:	0	; } }
-				internal	int		Bgn	{ get { return	this._Profile.IsReady ?	this._Bgn.Value	:	0	; } }
-				internal	int		Fld	{ get { return	this._Profile.IsReady ?	this._Fld.Value	:	0	; } }
-				internal	int		Val	{ get { return	this._Profile.IsReady ?	this._Val.Value	:	0	; } }
+				internal	int		Prg	{ get { return	this.IsLoaded	?	this._Prg.Value	:	cz_Neg	; } }
+				internal	int		Dyn	{ get { return	this.IsLoaded	?	this._Dyn.Value	:	cz_Neg	; } }
+				internal	int		Bgn	{ get { return	this.IsLoaded	?	this._Bgn.Value	:	cz_Neg	; } }
+				internal	int		Fld	{ get { return	this.IsLoaded	?	this._Fld.Value	:	cz_Neg	; } }
+				internal	int		Val	{ get { return	this.IsLoaded	?	this._Val.Value	:	cz_Neg	; } }
 
 			#endregion
 

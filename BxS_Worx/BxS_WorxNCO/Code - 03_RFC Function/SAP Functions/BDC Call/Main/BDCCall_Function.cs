@@ -53,7 +53,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				private	BDCCall_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
+				private	BDCCall_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value; } }
 
 				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.TCode		; } }
 				private	int		Idx_Skp		{ get {	return	this.FNCIndex.Skip1		; } }
@@ -70,7 +70,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Header CreateBDCCallHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCCallHeader( defaults );
-				internal BDC_Data		CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallData	();
+				internal BDC_Data				CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallData	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Config( BDCCall_Header config )

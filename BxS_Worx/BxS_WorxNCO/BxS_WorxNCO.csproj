@@ -34,13 +34,19 @@
     <Compile Remove="Code - 03_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC Call\BDCCallTranProfile.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC Call\BDC_OpFnc.cs" />
+    <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC Call\Indexes\BDCCall_IndexFNCy.cs" />
+    <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC\_Base\Indexes\BDC_IndexSPAy.cs" />
     <Compile Remove="Code - 04_BDCSession\Main\BDC_SessionProgress.cs" />
     <Compile Remove="zKeep\BDCCallTranConsumer.cs" />
     <Compile Remove="zKeep\BDCCallTranIndex.cs" />
     <Compile Remove="zKeep\BDCCallTranIndexSetup.cs" />
     <Compile Remove="zKeep\BDCCallTranParser.cs" />
     <Compile Remove="zKeep\BDCCallTranProfile.cs" />
+    <Compile Remove="zKeep\BDCCall_IndexBase.cs" />
+    <Compile Remove="zKeep\BDCCall_IndexFNCy.cs" />
     <Compile Remove="zKeep\BDC_Factory.cs" />
+    <Compile Remove="zKeep\BDC_IndexBase.cs" />
+    <Compile Remove="zKeep\BDC_IndexSPAy.cs" />
     <Compile Remove="zKeep\BDC_OpFnc.cs" />
     <Compile Remove="zKeep\BDC_SessionProgress.cs" />
     <Compile Remove="zKeep\ConfigLogon - Copy.cs" />
@@ -48,10 +54,15 @@
     <Compile Remove="zKeep\IBDCSession.cs" />
     <Compile Remove="zKeep\IREPDestination.cs" />
     <Compile Remove="zKeep\IRfcDestination.cs" />
+    <Compile Remove="zKeep\IRfcFncIndexMapper.cs" />
     <Compile Remove="zKeep\PooledObjectWrapper.cs" />
     <Compile Remove="zKeep\REPDestination.cs" />
     <Compile Remove="zKeep\RfcDestination.cs" />
+    <Compile Remove="zKeep\RfcFncIndexMapper.cs" />
+    <Compile Remove="zKeep\RfcFncProfile - Copy.cs" />
     <Compile Remove="zKeep\SAPFncParmNameAttribute.cs" />
+    <Compile Remove="zKeep\SAPMsg_IndexBase.cs" />
+    <Compile Remove="zKeep\SAPMsg_IndexFNCx.cs" />
   </ItemGroup>
 
   <ItemGroup>
