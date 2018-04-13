@@ -13,16 +13,16 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDC_Session_TrnConsumer : PooledObject
+	internal class BDC_Session_TranConsumer : PooledObject
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_TrnConsumer( BDCCall_Function	function )
+				internal BDC_Session_TranConsumer( BDCCall_Function	function )
 					{
 						this._Func		= function	;
 						//.............................................
-						this._BDCData	= new	Lazy<BDC_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCCallData() , cz_LM );
+						this._BDCData	= new	Lazy<BDC_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCData() , cz_LM );
 					}
 
 			#endregion
@@ -46,7 +46,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Consume(	BDCCall_Header														header
+				internal void Consume(	BDC_Header														header
 															,	CancellationToken													CT
 															, BlockingCollection< DTO_BDC_Transaction >	queue
 															,	SMC.RfcDestination												rfcDestination	)

@@ -35,7 +35,6 @@
     <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC\BDC Call\BDCCallTranProfile.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC\BDC Call\BDC_OpFnc.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC\BDC Call\Indexes\BDCCall_IndexFNCy.cs" />
-    <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC\BDC Tran\Main\BDCTran_Function.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC\_Base\Indexes\BDC_IndexSPAy.cs" />
     <Compile Remove="Code - 03_RFC Function\SAP Functions\Table Reader\Indexes\TblRdr_IndexBase.cs" />
     <Compile Remove="Code - 04_BDCSession\Main\BDC_SessionProgress.cs" />
@@ -45,8 +44,10 @@
     <Compile Remove="zKeep\BDCCallTranIndexSetup.cs" />
     <Compile Remove="zKeep\BDCCallTranParser.cs" />
     <Compile Remove="zKeep\BDCCallTranProfile.cs" />
+    <Compile Remove="zKeep\BDCCall_Factory.cs" />
     <Compile Remove="zKeep\BDCCall_IndexBase.cs" />
     <Compile Remove="zKeep\BDCCall_IndexFNCy.cs" />
+    <Compile Remove="zKeep\BDCTran_Factory.cs" />
     <Compile Remove="zKeep\BDC_Factory.cs" />
     <Compile Remove="zKeep\BDC_IndexBase.cs" />
     <Compile Remove="zKeep\BDC_IndexSPAy.cs" />

@@ -12,9 +12,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_IndexSPA()
+				internal BDC_IndexSPA( bool tranVersion = false )
 					{
-						this.Name		=	cz_StrSPA;
+						this.Name		=	tranVersion	?	cz_StrSPATran	:	cz_StrSPA;
 						//.............................................
 						this._MID		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "PARID"	 ) );
 						this._Val		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "PARVAL" ) );

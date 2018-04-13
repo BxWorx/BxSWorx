@@ -10,15 +10,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCCall_Profile(		string						fncName
-																	, BDC_Factory				bdcFactory
-																	, BDCCall_Factory		callFactory	)	: base(		fncName )
+																	, BDC_Factory				bdcFactory	)	: base(		fncName )
 					{
 						this._BDCFactory		=	bdcFactory	??	throw		new	ArgumentException( $"{typeof(BDCCall_Profile).Namespace}:- BDC Factory null" );
-						this._CallFactory		= callFactory	??	throw		new	ArgumentException( $"{typeof(BDCCall_Profile).Namespace}:- CALL Factory null" );
 						//.............................................
-						this._FNCIndex	=	new	Lazy<	BDCCall_IndexFNC >( ()=>	this._CallFactory.CreateIndexFNC() );
-						this._CTUIndex	= new	Lazy< BDCCall_IndexCTU >( ()=>	this._CallFactory.CreateIndexCTU() );
+						this._FNCIndex	=	new	Lazy<	BDCCall_IndexFNC >( ()=>	this._BDCFactory.CreateBDCIndexFNC() );
 
+						this._CTUIndex	= new	Lazy< BDC_IndexCTU >( ()=>	this._BDCFactory.CreateIndexCTU() );
 						this._SPAIndex	=	new Lazy<	BDC_IndexSPA >( ()=>	this._BDCFactory.CreateIndexSPA() );
 						this._BDCIndex	= new	Lazy< BDC_IndexBDC >( ()=>	this._BDCFactory.CreateIndexBDC() );
 						this._MSGIndex	= new	Lazy< BDC_IndexMSG >( ()=>	this._BDCFactory.CreateIndexMSG() );
@@ -29,11 +27,10 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private		readonly	BDC_Factory				_BDCFactory;
-				private		readonly	BDCCall_Factory		_CallFactory;
+				private		readonly	BDC_Factory		_BDCFactory;
 				//.................................................
 				internal	readonly	Lazy<	BDCCall_IndexFNC >	_FNCIndex;
-				internal	readonly	Lazy<	BDCCall_IndexCTU >	_CTUIndex;
+				internal	readonly	Lazy<	BDC_IndexCTU >	_CTUIndex;
 
 				internal	readonly	Lazy<	BDC_IndexSPA >	_SPAIndex;
 				internal	readonly	Lazy<	BDC_IndexBDC >	_BDCIndex;
@@ -45,8 +42,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Header CreateBDCCallHeader	( bool withDefaults = true )	=>	this._CallFactory	.CreateBDCHeader	( this._CTUIndex , withDefaults );
-				internal BDC_Data				CreateBDCCallData		()														=>	this._BDCFactory	.CreateBDCData		( this._SPAIndex , this._BDCIndex , this._MSGIndex );
+				internal BDC_Header CreateBDCHeader	( bool withDefaults = true )	=>	this._BDCFactory	.CreateBDCHeader	( this._CTUIndex , withDefaults );
+				internal BDC_Data		CreateBDCData		()														=>	this._BDCFactory	.CreateBDCData		( this._SPAIndex , this._BDCIndex , this._MSGIndex );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override void ReadyProfile()

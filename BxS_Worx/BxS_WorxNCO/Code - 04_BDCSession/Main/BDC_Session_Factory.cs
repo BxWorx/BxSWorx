@@ -70,7 +70,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						if ( ! this._IsReady )
 							{
-								this._RfcFncCntlr.Value.RegisterBDCCallProfile();
+								this._RfcFncCntlr.Value.RegisterBDCProfile();
 								this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
 								//.........................................
 								try
@@ -114,19 +114,19 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	ObjectPool< BDC_Session_TrnProcess >	CreateBDCSessionPool		()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TrnProcess	>( this.CreateBDCSession );
+				internal	ObjectPool< BDC_Session_TranProcess >	CreateBDCSessionPool		()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranProcess	>( this.CreateBDCSession );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPoolConfig< BDC_Session_TrnProcess > CreateBDCSessionPoolConfig( bool defaults = true )
+				internal ObjectPoolConfig< BDC_Session_TranProcess > CreateBDCSessionPoolConfig( bool defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_TrnProcess >( this.CreateBDCSession , defaults );
+						return	ObjectPoolFactory.CreateConfig< BDC_Session_TranProcess >( this.CreateBDCSession , defaults );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_TrnProcess CreateBDCSession()
+				internal BDC_Session_TranProcess CreateBDCSession()
 					{
-						BDCCall_Header lo_H	= this._RfcFncCntlr.Value.GetAddBDCCallProfile().CreateBDCCallHeader();
-						return	new	BDC_Session_TrnProcess( lo_H , this.CreateBDCSessionConfig() );
+						BDC_Header lo_H	= this._RfcFncCntlr.Value.GetAddBDCCallProfile().CreateBDCHeader();
+						return	new	BDC_Session_TranProcess( lo_H , this.CreateBDCSessionConfig() );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -159,13 +159,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Transaction Consumer"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private		BDC_Session_TrnConsumer								CreateBDCTrnConsumer			()=>	new	BDC_Session_TrnConsumer	( this._RfcFncCntlr.Value.CreateBDCCallFunction() );
-				internal	ObjectPool< BDC_Session_TrnConsumer >	CreateBDCTrnConsumerPool	()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TrnConsumer >	( this.CreateBDCTrnConsumer );
+				private		BDC_Session_TranConsumer								CreateBDCTrnConsumer			()=>	new	BDC_Session_TranConsumer	( this._RfcFncCntlr.Value.CreateBDCCallFunction() );
+				internal	ObjectPool< BDC_Session_TranConsumer >	CreateBDCTrnConsumerPool	()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranConsumer >	( this.CreateBDCTrnConsumer );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPoolConfig< BDC_Session_TrnConsumer > CreateBDCTrnConsumerPoolConfig( bool defaults = true )
+				internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTrnConsumerPoolConfig( bool defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_TrnConsumer >( this.CreateBDCTrnConsumer , defaults );
+						return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( this.CreateBDCTrnConsumer , defaults );
 					}
 
 			#endregion

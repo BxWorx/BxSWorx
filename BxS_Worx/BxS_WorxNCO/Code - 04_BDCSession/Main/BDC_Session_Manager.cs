@@ -14,23 +14,23 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	public class BDC_SessionManager
+	public class BDC_Session_Manager
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_SessionManager(	BDC_Session_Factory factory )
+				internal BDC_Session_Manager(	BDC_Session_Factory factory )
 					{
 						this._Factory				=	factory;
 						//.............................................
 						this._ParserCfg			= new	Lazy< ObjectPoolConfig< BDC_Parser > >					(	()=>	this._Factory.CreateParserPoolConfig()			,	cz_LM );
 						this._ParserPool		= new	Lazy< ObjectPool			< BDC_Parser > >					(	()=>	this._Factory.CreateParserPool()						, cz_LM );
 
-						this._BDCConsCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TrnConsumer > >	(	()=>	this._Factory.CreateBDCTrnConsumerPoolConfig()	,	cz_LM );
-						this._BDCConsPool		= new	Lazy< ObjectPool			< BDC_Session_TrnConsumer > >	(	()=>	this._Factory.CreateBDCTrnConsumerPool()				, cz_LM );
+						this._BDCConsCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TranConsumer > >	(	()=>	this._Factory.CreateBDCTrnConsumerPoolConfig()	,	cz_LM );
+						this._BDCConsPool		= new	Lazy< ObjectPool			< BDC_Session_TranConsumer > >	(	()=>	this._Factory.CreateBDCTrnConsumerPool()				, cz_LM );
 
-						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TrnProcess > >					(	()=>	this._Factory.CreateBDCSessionPoolConfig()	,	cz_LM );
-						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session_TrnProcess > >					(	()=>	this._Factory.CreateBDCSessionPool()				, cz_LM );
+						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TranProcess > >					(	()=>	this._Factory.CreateBDCSessionPoolConfig()	,	cz_LM );
+						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session_TranProcess > >					(	()=>	this._Factory.CreateBDCSessionPool()				, cz_LM );
 
 						this._SAPMsgCfg			= new	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgProcessor > >	(	()=>	this._Factory.CreateSAPMsgsPoolConfig()			,	cz_LM );
 						this._SAPMsgPool		= new	Lazy< ObjectPool			< BDC_Session_SAPMsgProcessor > >	(	()=>	this._Factory.CreateSAPMsgsPool()						, cz_LM );
@@ -46,11 +46,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 				private	readonly	Lazy< ObjectPoolConfig< BDC_Parser > >					_ParserCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_Parser > >					_ParserPool		;
 
-				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TrnConsumer > >	_BDCConsCfg		;
-				private	readonly	Lazy< ObjectPool			< BDC_Session_TrnConsumer > >	_BDCConsPool	;
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TranConsumer > >	_BDCConsCfg		;
+				private	readonly	Lazy< ObjectPool			< BDC_Session_TranConsumer > >	_BDCConsPool	;
 
-				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TrnProcess > >					_BDCSessCfg		;
-				private	readonly	Lazy< ObjectPool			< BDC_Session_TrnProcess > >					_BDCSessPool	;
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TranProcess > >					_BDCSessCfg		;
+				private	readonly	Lazy< ObjectPool			< BDC_Session_TranProcess > >					_BDCSessPool	;
 
 				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgProcessor > >	_SAPMsgCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_Session_SAPMsgProcessor > >	_SAPMsgPool		;
@@ -61,8 +61,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Properties"
 
 				internal ObjectPoolConfig< BDC_Parser						> ParserConfiguration				{ get { return	this._ParserCfg	.Value	; } }
-				internal ObjectPoolConfig< BDC_Session_TrnConsumer	> BDCConsumerConfiguration	{ get { return	this._BDCConsCfg.Value	; } }
-				internal ObjectPoolConfig< BDC_Session_TrnProcess					> BDCSessionConfiguration		{ get { return	this._BDCSessCfg.Value	; } }
+				internal ObjectPoolConfig< BDC_Session_TranConsumer	> BDCConsumerConfiguration	{ get { return	this._BDCConsCfg.Value	; } }
+				internal ObjectPoolConfig< BDC_Session_TranProcess					> BDCSessionConfiguration		{ get { return	this._BDCSessCfg.Value	; } }
 				internal ObjectPoolConfig< BDC_Session_SAPMsgProcessor		> SAPMessageConfiguration		{ get { return	this._SAPMsgCfg	.Value	; } }
 
 			#endregion
@@ -124,7 +124,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 						//.............................................
 						if ( lb_ParseOk )
 							{
-								using ( BDC_Session_TrnProcess lo_BDCSession = this._BDCSessPool.Value.Acquire() )
+								using ( BDC_Session_TranProcess lo_BDCSession = this._BDCSessPool.Value.Acquire() )
 									{
 										int ln_Trn	=	await	lo_BDCSession.Process_SessionAsync(		lo_DTOSession
 																																				, CT

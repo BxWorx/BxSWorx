@@ -58,19 +58,24 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed: BDC Call"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void RegisterBDCCallProfile()
+				public void RegisterBDCProfile( bool TranVersion = false )
 					{
-						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCall ) )
+						string	lc_Name		= TranVersion ? cz_BDCTran : cz_BDCCall;
+						//.............................................
+						if ( ! this._RfcFncMngr.Value.ProfileExists( lc_Name ) )
 							{
 								lock (this._Lock)
 									{
-										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCall ) )
+										if ( ! this._RfcFncMngr.Value.ProfileExists( lc_Name ) )
 											{
-												var	lo_Prof	= new BDCCall_Profile(	cz_BDCCall
-																													, BDC_Factory.Instance
-																													, BDCCall_Factory.Instance );
-
-												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
+												if ( TranVersion )
+													{
+														this._RfcFncMngr.Value.RegisterProfile( new BDCTran_Profile( lc_Name , BDC_Factory.Instance ) );
+													}
+												else
+													{
+														this._RfcFncMngr.Value.RegisterProfile( new BDCCall_Profile( lc_Name , BDC_Factory.Instance ) );
+													}
 											}
 									}
 							}
@@ -79,13 +84,22 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCCall_Profile GetAddBDCCallProfile()
 					{
-						this.RegisterBDCCallProfile();
+						this.RegisterBDCProfile( false );
 						//.............................................
 						return	this._RfcFncMngr.Value.GetProfile< BDCCall_Profile >( cz_BDCCall );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDCTran_Profile GetAddBDCTranProfile()
+					{
+						this.RegisterBDCProfile( true );
+						//.............................................
+						return	this._RfcFncMngr.Value.GetProfile< BDCTran_Profile >( cz_BDCTran );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDCCall_Function CreateBDCCallFunction	()=>	new	BDCCall_Function(	this.GetAddBDCCallProfile() );
+				public BDCTran_Function CreateBDCTranFunction	()=>	new	BDCTran_Function(	this.GetAddBDCTranProfile() );
 
 			#endregion
 

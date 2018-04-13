@@ -35,14 +35,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				// Index objects
 				//.................................................
 				internal	BDCCall_IndexFNC		CreateIndexFNC	()	=>	new BDCCall_IndexFNC();
-				internal	BDCCall_IndexCTU		CreateIndexCTU	()	=>	new BDCCall_IndexCTU();
-
-				//.................................................
-				//.................................................
-				// Profile objects
-				//.................................................
-				internal	BDCCall_Header		CreateBDCHeader	(		Lazy<	BDCCall_IndexCTU >	ctuIndex
-																											,	bool											withDefaults	= true	)=>		new BDCCall_Header( ctuIndex , withDefaults );
 
 			#endregion
 

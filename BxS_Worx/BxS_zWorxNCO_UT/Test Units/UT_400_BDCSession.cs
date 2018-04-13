@@ -38,7 +38,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_10_Instantiate()
 				{
-				  BDC_Session_TrnProcess	lo_BDCSess	= this.GetBDCSession();
+				  BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 					Assert.IsNotNull	( this.co_SessFact	, "a" );
@@ -50,7 +50,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_20_Configure()
 				{
-				  BDC_Session_TrnProcess						lo_BDCSess	= this.GetBDCSession();
+				  BDC_Session_TranProcess						lo_BDCSess	= this.GetBDCSession();
 					DTO_BDC_SessionConfig	lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 					lo_SessCfg.ConsumersNo	= 2	;
@@ -65,16 +65,16 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public async Task UT_400_BCDSess_30_ProcessSimple()
 				{
-					const	int ln_Trn	= 206;
+					const	int ln_Trn	= 010;
 
 					var CTS		= new CancellationTokenSource();
 
 					ProgressHandler<DTO_BDC_Progress>				lo_PH				= this.co_SessFact.CreateProgressHandler			();
-					ObjectPool<BDC_Session_TrnConsumer>			lo_PoolTrn	= this.co_SessFact.CreateBDCTrnConsumerPool		();
+					ObjectPool<BDC_Session_TranConsumer>		lo_PoolTrn	= this.co_SessFact.CreateBDCTrnConsumerPool		();
 					ObjectPool<BDC_Session_SAPMsgConsumer	>	lo_PoolMsg	= this.co_SessFact.CreateBDCSAPMsgConsumerPool();
 
 				  BDC_Session_SAPMsgProcessor	lo_SAPMsg		= this.GetConfiguredSAPMsgProcessor	( false , 5 , 5 , false  );
-				  BDC_Session_TrnProcess			lo_BDCSess	= this.GetConfiguredBDCSession			( false , 5 , 5 , false  );
+				  BDC_Session_TranProcess			lo_BDCSess	= this.GetConfiguredBDCSession			( false , 5 , 5 , false  );
 					DTO_BDC_Session							lo_SessDTO	=	this.co_SessFact.CreateSessionDTO	()												;
 
 					this.LoadBDCData( lo_SessDTO , ln_Trn , 'N' , true );
@@ -125,9 +125,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_TrnProcess GetConfiguredBDCSession( bool Seq = false, int No = 5, int Max = 5 , bool ShowGUI = false )
+				private	BDC_Session_TranProcess GetConfiguredBDCSession( bool Seq = false, int No = 5, int Max = 5 , bool ShowGUI = false )
 					{
-						BDC_Session_TrnProcess	lo_BDCSess	= this.GetBDCSession( ShowGUI );
+						BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession( ShowGUI );
 						DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 						lo_SessCfg.IsSequential	=	Seq	;
@@ -147,7 +147,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_TrnProcess GetBDCSession( bool ShowGUI = false )
+				private	BDC_Session_TranProcess GetBDCSession( bool ShowGUI = false )
 					{
 						this.ReadyFactory( ShowGUI );
 						return	ShowGUI ?	this.co_SessFactGUI.CreateBDCSession() : this.co_SessFact.CreateBDCSession() ;
@@ -156,7 +156,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ReadyFactory( bool ShowGUI = false )
 					{
-						if (ShowGUI)
+						if ( ShowGUI )
 							{
 								Task.Run( ()=>	this.co_SessFactGUI	.ReadyEnvironmentAsync()).Wait();
 							}
@@ -199,12 +199,12 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 									{
 										string x = DateTime.Now.ToString("yyyy-MM-dd [HH:mm:ss:fff]");
 
-										lo_Trn.AddBDCData( "SAPMF02D" ,  110 , true , "BDC_OKCODE" , "=UPDA" );
+										lo_Trn.AddBDCData( "SAPMF02D" , 0110 , true , "BDC_OKCODE" , "=UPDA" );
 										lo_Trn.AddBDCData(	field: "KNA1-NAME2" , value: x );
 									}
 								else
 									{
-										lo_Trn.AddBDCData( "SAPMF02D" ,  110 , true , "BDC_OKCODE" , "=PF03" );
+										lo_Trn.AddBDCData( "SAPMF02D" , 0110 , true , "BDC_OKCODE" , "=PF03" );
 									}
 								//.............................................
 								dto.Trans.Enqueue( lo_Trn);

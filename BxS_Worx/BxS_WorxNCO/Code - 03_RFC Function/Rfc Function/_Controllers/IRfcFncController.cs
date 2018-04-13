@@ -26,10 +26,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed: BDC Call Transaction"
 
-				void	RegisterBDCCallProfile();
+				void	RegisterBDCProfile( bool TranVersion = false );
 				//.................................................
 				BDCCall_Profile		GetAddBDCCallProfile()	;
 				BDCCall_Function	CreateBDCCallFunction()	;
+				//.................................................
+				BDCTran_Profile		GetAddBDCTranProfile()	;
+				BDCTran_Function	CreateBDCTranFunction()	;
 
 			#endregion
 

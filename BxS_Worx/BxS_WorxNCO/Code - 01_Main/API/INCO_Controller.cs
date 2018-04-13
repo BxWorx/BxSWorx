@@ -36,7 +36,7 @@ namespace BxS_WorxNCO.API
 			//===========================================================================================
 			#region "Methods: Exposed: Session"
 
-				BDC_SessionManager	CreateBDCSessionManager( IRfcDestination	rfcDestination );
+				BDC_Session_Manager	CreateBDCSessionManager( IRfcDestination	rfcDestination );
 
 			#endregion
 

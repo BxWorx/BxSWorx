@@ -32,7 +32,6 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 				//.................................................
 				private	readonly	Lazy< SMC.IRfcTable >		_OPTData	;
 				private	readonly	Lazy< SMC.IRfcTable >		_FLDData	;
-				private	readonly	Lazy< SMC.IRfcTable >		_OUTData	;
 
 			#endregion
 
@@ -101,7 +100,6 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 					{
 						this._OPTData.Value.Clear();
 						this._FLDData.Value.Clear();
-						this._OUTData.Value.Clear();
 					}
 
 			#endregion

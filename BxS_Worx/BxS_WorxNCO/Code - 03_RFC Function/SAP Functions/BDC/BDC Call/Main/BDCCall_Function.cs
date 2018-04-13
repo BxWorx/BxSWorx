@@ -69,11 +69,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Header CreateBDCCallHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCCallHeader( defaults );
-				internal BDC_Data				CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallData	();
+				internal BDC_Header		CreateBDCHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCHeader( defaults );
+				internal BDC_Data			CreateBDCData		()												=>	this.MyProfile.Value.CreateBDCData	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Config( BDCCall_Header config )
+				internal void Config( BDC_Header config )
 					{
 						this.Profile.ReadyProfile();
 						//.............................................

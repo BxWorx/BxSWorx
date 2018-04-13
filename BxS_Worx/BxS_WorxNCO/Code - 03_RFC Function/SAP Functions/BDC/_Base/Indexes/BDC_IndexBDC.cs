@@ -12,9 +12,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_IndexBDC()
+				internal BDC_IndexBDC( bool tranVersion = false )
 					{
-						this.Name		=	cz_StrBDC;
+						this.Name		=	tranVersion	?	cz_StrBDCTran	:	cz_StrBDC;
 						//.............................................
 						this._Prg	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "PROGRAM"		) );
 						this._Dyn	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DYNPRO"		) );

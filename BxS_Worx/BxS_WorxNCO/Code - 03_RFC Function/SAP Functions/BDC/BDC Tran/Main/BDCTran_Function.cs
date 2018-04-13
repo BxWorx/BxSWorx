@@ -37,7 +37,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCTran_Function( BDCTran_Profile	profile	)	: base(	profile )
+				internal BDCTran_Function( BDCTran_Profile profile	)	: base(	profile )
 					{
 						this.MyProfile	= new Lazy< BDCTran_Profile >	(	()=> (BDCTran_Profile) this.Profile , cz_LM );
 					}
@@ -47,7 +47,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				internal	readonly	Lazy< BDCTran_Profile >		MyProfile;
+				internal readonly Lazy< BDCTran_Profile >		MyProfile;
 
 			#endregion
 
@@ -71,21 +71,22 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCTran_Header CreateBDCCallHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCCallHeader( defaults );
-				internal BDCTran_Data		CreateBDCCallLines	()												=>	this.MyProfile.Value.CreateBDCCallData	();
+				internal BDC_Header CreateBDCHeader	( bool defaults = true )	=>	this.MyProfile.Value.CreateBDCHeader( defaults );
+				internal BDC_Data		CreateBDCData		()												=>	this.MyProfile.Value.CreateBDCData	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Config( BDCTran_Header config )
+				internal void Config( BDC_Header config )
 					{
 						this.Profile.ReadyProfile();
 						//.............................................
 						this.Set_SAPTCode	( config.SAPTCode	);
 						this.Set_Skip1st	(	config.Skip1st	);
-						this.Set_CTU			( config.CTUParms	);
+						this.Set_Mode			( config.DispMode );
+						this.Set_Update		( config.UpdtMode	);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Process(	BDCTran_Data				data
+				internal void Process(	BDC_Data						data
 															, SMC.RfcDestination	rfcDestination )
 					{
 						this.Reset();
@@ -143,14 +144,15 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Set_CTU( SMC.IRfcStructure ctu )
+				private void Set_Mode( string mode )
 					{
-						SMC.IRfcStructure ls_CTU	= this.NCORfcFunction.GetStructure( this.Idx_CTU );
+						this.NCORfcFunction.SetValue( this.Idx_Dsp , mode );
+					}
 
-						for (int i = 0; i < ctu.Count; i++)
-							{
-								ls_CTU.SetValue( i , ctu.GetValue(i) );
-							}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void Set_Update( string update )
+					{
+						this.NCORfcFunction.SetValue( this.Idx_Upd , update );
 					}
 
 			#endregion

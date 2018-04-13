@@ -2,7 +2,8 @@
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
 
-using	static	BxS_WorxNCO.Main.NCO_Constants;
+using	static	BxS_WorxNCO.Main								.NCO_Constants;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
@@ -42,9 +43,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this._Mode			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MODE_VAL"		) );
 						this._Update		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "UPDATE_VAL"	) );
 						//.............................................
-						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "USING_TAB"		) );
-						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MESS_TAB"		) );
-						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "SPAGPA_TAB"	) );
+						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrBDCTran	) );
+						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrMSGTran	) );
+						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrSPATran	) );
 					}
 
 			#endregion
@@ -65,13 +66,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int			TCode			{ get { return	this.IsLoaded	?	this._TCode	.Value	: cz_Neg	; } }
-				internal	int			Skip1			{ get { return	this.IsLoaded	?	this._Skip1	.Value	: cz_Neg	; } }
-				internal	int			Mode			{ get { return	this.IsLoaded	?	this._Mode	.Value	: cz_Neg	; } }
-				internal	int			Update		{ get { return	this.IsLoaded	?	this._Update.Value	: cz_Neg	; } }
-				internal	int			TabBDC		{ get { return	this.IsLoaded	?	this._TabBDC.Value	: cz_Neg	; } }
-				internal	int			TabMSG		{ get { return	this.IsLoaded	?	this._TabMSG.Value	: cz_Neg	; } }
-				internal	int			TabSPA		{ get { return	this.IsLoaded	?	this._TabSPA.Value	: cz_Neg	; } }
+				internal	int	TCode			{ get { return	this.IsLoaded	?	this._TCode	.Value	: cz_Neg	; } }
+				internal	int	Skip1			{ get { return	this.IsLoaded	?	this._Skip1	.Value	: cz_Neg	; } }
+				internal	int	Mode			{ get { return	this.IsLoaded	?	this._Mode	.Value	: cz_Neg	; } }
+				internal	int	Update		{ get { return	this.IsLoaded	?	this._Update.Value	: cz_Neg	; } }
+				internal	int	TabBDC		{ get { return	this.IsLoaded	?	this._TabBDC.Value	: cz_Neg	; } }
+				internal	int	TabMSG		{ get { return	this.IsLoaded	?	this._TabMSG.Value	: cz_Neg	; } }
+				internal	int	TabSPA		{ get { return	this.IsLoaded	?	this._TabSPA.Value	: cz_Neg	; } }
 
 			#endregion
 

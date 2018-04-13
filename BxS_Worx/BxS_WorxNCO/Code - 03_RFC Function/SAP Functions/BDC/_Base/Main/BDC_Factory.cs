@@ -34,17 +34,25 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Index objects
 				//.................................................
-				internal	BDC_IndexSPA	CreateIndexSPA	()	=>	new BDC_IndexSPA();
-				internal	BDC_IndexBDC	CreateIndexBDC	()	=>	new BDC_IndexBDC();
-				internal	BDC_IndexMSG	CreateIndexMSG	()	=>	new BDC_IndexMSG();
+				internal	BDCCall_IndexFNC	CreateBDCIndexFNC	()=>	new BDCCall_IndexFNC();
+				internal	BDCTran_IndexFNC	CreateTRNIndexFNC	()=>	new BDCTran_IndexFNC();
+
+				internal	BDC_IndexCTU	CreateIndexCTU	()=>	new BDC_IndexCTU();
+
+				internal	BDC_IndexSPA	CreateIndexSPA	( bool tranVersion = false )=>	new BDC_IndexSPA( tranVersion );
+				internal	BDC_IndexBDC	CreateIndexBDC	( bool tranVersion = false )=>	new BDC_IndexBDC( tranVersion );
+				internal	BDC_IndexMSG	CreateIndexMSG	( bool tranVersion = false )=>	new BDC_IndexMSG( tranVersion );
 
 				//.................................................
 				//.................................................
 				// Profile objects
 				//.................................................
-				internal	BDC_Data	CreateBDCData		(		Lazy<	BDC_IndexSPA >	spaIndex
-																							,	Lazy<	BDC_IndexBDC > 	bdcIndex
-																							, Lazy<	BDC_IndexMSG >	msgIndex	)=>		new	BDC_Data	( spaIndex , bdcIndex , msgIndex );
+				internal	BDC_Data		CreateBDCData		(		Lazy<	BDC_IndexSPA >	spaIndex
+																								,	Lazy<	BDC_IndexBDC > 	bdcIndex
+																								, Lazy<	BDC_IndexMSG >	msgIndex	)=>		new	BDC_Data	( spaIndex , bdcIndex , msgIndex );
+
+				internal	BDC_Header	CreateBDCHeader	(		Lazy<	BDC_IndexCTU >	ctuIndex
+																								,	bool									withDefaults	= true	)=>		new BDC_Header( ctuIndex , withDefaults );
 
 			#endregion
 

@@ -36,14 +36,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				internal	BDCTran_IndexFNC		CreateIndexFNC()	=>	new BDCTran_IndexFNC();
 
-				//.................................................
-				//.................................................
-				// Profile objects
-				//.................................................
-				//internal	BDCTran_Header		CreateBDCHeader	(		BDCTran_IndexCTU	ctuIndex
-				//																							,	bool							withDefaults	= true	)=>		new BDCTran_Header(		ctuIndex
-				//																																																									, withDefaults );
-
 			#endregion
 
 		}

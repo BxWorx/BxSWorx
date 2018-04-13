@@ -7,12 +7,12 @@ using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_IndexCTU : RfcStructureIndex
+	internal class BDC_IndexCTU : RfcStructureIndex
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_IndexCTU()
+				internal BDC_IndexCTU()
 					{
 						this.Name	=	cz_StrCTU;
 						//.............................................

@@ -2,7 +2,8 @@
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
 
-using	static	BxS_WorxNCO.Main.NCO_Constants;
+using	static	BxS_WorxNCO.Main								.NCO_Constants;
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
@@ -39,9 +40,10 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this._TCode			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "IF_TCODE"							) );
 						this._Skip1			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "IF_SKIP_FIRST_SCREEN"	) );
 						this._CTUOpt		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "IS_OPTIONS"						) );
-						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "IT_BDCDATA"						) );
-						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "ET_MSG"								) );
-						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "CT_SETGET_PARAMETER"		) );
+
+						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrBDC	) );
+						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrMSG	) );
+						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrSPA	) );
 					}
 
 			#endregion
