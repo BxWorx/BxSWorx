@@ -1,19 +1,22 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
+using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.Main										.NCO_Constants;
+using static	BxS_WorxNCO.RfcFunction.TableReader	.TblRdr_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.TableReader
 {
-	internal class TblRdr_IndexOPT : TblRdr_IndexBase
+	internal class TblRdr_IndexOPT : RfcStructureIndex
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_IndexOPT( TblRdr_Profile profile ) : base( profile )
+				internal TblRdr_IndexOPT()
 					{
-						this._Metadata	=	new	Lazy< SMC.RfcStructureMetadata >( ()=> this._Profile.OptionsStructure );
+						this.Name		=	cz_StrOPT;
 						//.............................................
-						this._Text	= new Lazy<int>( ()=> this._Metadata.Value.TryNameToIndex( "TEXT" ) );
+						this._Text	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "TEXT" ) );
 					}
 
 			#endregion
@@ -28,7 +31,7 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	Text	{ get { return	this._Profile.IsReady ?	this._Text.Value : 0	; } }
+				internal	int	Text	{ get { return	this.IsLoaded	?	this._Text.Value : cz_Neg	; } }
 
 			#endregion
 

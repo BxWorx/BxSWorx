@@ -34,18 +34,18 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 				//.................................................
 				// Index objects
 				//.................................................
-				internal	TblRdr_IndexFNC		CreateIndexFNC	( TblRdr_Profile profile )	=>	new TblRdr_IndexFNC( profile );
-				internal	TblRdr_IndexOPT		CreateIndexOPT	( TblRdr_Profile profile )	=>	new TblRdr_IndexOPT( profile );
-				internal	TblRdr_IndexFLD		CreateIndexFLD	( TblRdr_Profile profile )	=>	new TblRdr_IndexFLD( profile );
-				internal	TblRdr_IndexOUT		CreateIndexOUT	( TblRdr_Profile profile )	=>	new TblRdr_IndexOUT( profile );
+				internal	TblRdr_IndexFNC		CreateIndexFNC	()	=>	new TblRdr_IndexFNC();
+				internal	TblRdr_IndexOPT		CreateIndexOPT	()	=>	new TblRdr_IndexOPT();
+				internal	TblRdr_IndexFLD		CreateIndexFLD	()	=>	new TblRdr_IndexFLD();
+				internal	TblRdr_IndexOUT		CreateIndexOUT	()	=>	new TblRdr_IndexOUT();
 
 				//.................................................
 				//.................................................
 				// Profile objects
 				//.................................................
-				internal	TblRdr_Data				CreateTblRdrData	(		TblRdr_IndexOPT	optIndex
-																												, TblRdr_IndexFLD	fldIndex
-																												, TblRdr_IndexOUT outIndex	)=>		new TblRdr_Data	( optIndex , fldIndex , outIndex );
+				internal	TblRdr_Data				CreateTblRdrData	(		Lazy<	TblRdr_IndexOPT	>	optIndex
+																												, Lazy<	TblRdr_IndexFLD	>	fldIndex
+																												, Lazy<	TblRdr_IndexOUT >	outIndex	)=>		new TblRdr_Data	( optIndex , fldIndex , outIndex );
 
 			#endregion
 

@@ -75,7 +75,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 										if ( ! lo_Prof.Value.IsReady )
 											{
 												lo_Prof.Value.Metadata	= this._RfcDestination.FetchFunctionMetadata( lo_Prof.Value.FunctionName );
-												lo_Prof.Value.IsReady		= true;
+												lo_Prof.Value.ReadyProfile();
 											}
 									}
 								catch ( Exception ex )

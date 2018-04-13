@@ -40,7 +40,6 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal SAPMsg_Function( SAPMsg_Profile	profile	)	: base(	profile )
 					{
-						//.............................................
 						this.MyProfile	= new Lazy< SAPMsg_Profile >	(	()=> (SAPMsg_Profile) this.Profile , cz_LM );
 					}
 

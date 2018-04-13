@@ -55,19 +55,19 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		TCode		{ get { return	this.IsLoaded	?	this._TCode.Value	:	cz_Neg	; } }
-				internal	int		DynNm		{ get { return	this.IsLoaded	?	this._DynNm.Value	:	cz_Neg	; } }
-				internal	int		DynNo		{ get { return	this.IsLoaded	?	this._DynNo.Value	:	cz_Neg	; } }
-				internal	int		MsgTp		{ get { return	this.IsLoaded	?	this._MsgTp.Value	:	cz_Neg	; } }
-				internal	int		Lang		{ get { return	this.IsLoaded	?	this._Lang .Value	:	cz_Neg	; } }
-				internal	int		MsgID		{ get { return	this.IsLoaded	?	this._MsgID.Value	:	cz_Neg	; } }
-				internal	int		MsgNo		{ get { return	this.IsLoaded	?	this._MsgNo.Value	:	cz_Neg	; } }
-				internal	int		MsgV1		{ get { return	this.IsLoaded	?	this._MsgV1.Value	:	cz_Neg	; } }
-				internal	int		MsgV2		{ get { return	this.IsLoaded	?	this._MsgV2.Value	:	cz_Neg	; } }
-				internal	int		MsgV3		{ get { return	this.IsLoaded	?	this._MsgV3.Value	:	cz_Neg	; } }
-				internal	int		MsgV4		{ get { return	this.IsLoaded	?	this._MsgV4.Value	:	cz_Neg	; } }
-				internal	int		Envir		{ get { return	this.IsLoaded	?	this._Envir.Value	:	cz_Neg	; } }
-				internal	int		Fldnm		{ get { return	this.IsLoaded	?	this._Fldnm.Value	:	cz_Neg	; } }
+				internal	int	TCode		{ get { return	this.IsLoaded	?	this._TCode.Value	:	cz_Neg	; } }
+				internal	int	DynNm		{ get { return	this.IsLoaded	?	this._DynNm.Value	:	cz_Neg	; } }
+				internal	int	DynNo		{ get { return	this.IsLoaded	?	this._DynNo.Value	:	cz_Neg	; } }
+				internal	int	MsgTp		{ get { return	this.IsLoaded	?	this._MsgTp.Value	:	cz_Neg	; } }
+				internal	int	Lang		{ get { return	this.IsLoaded	?	this._Lang .Value	:	cz_Neg	; } }
+				internal	int	MsgID		{ get { return	this.IsLoaded	?	this._MsgID.Value	:	cz_Neg	; } }
+				internal	int	MsgNo		{ get { return	this.IsLoaded	?	this._MsgNo.Value	:	cz_Neg	; } }
+				internal	int	MsgV1		{ get { return	this.IsLoaded	?	this._MsgV1.Value	:	cz_Neg	; } }
+				internal	int	MsgV2		{ get { return	this.IsLoaded	?	this._MsgV2.Value	:	cz_Neg	; } }
+				internal	int	MsgV3		{ get { return	this.IsLoaded	?	this._MsgV3.Value	:	cz_Neg	; } }
+				internal	int	MsgV4		{ get { return	this.IsLoaded	?	this._MsgV4.Value	:	cz_Neg	; } }
+				internal	int	Envir		{ get { return	this.IsLoaded	?	this._Envir.Value	:	cz_Neg	; } }
+				internal	int	Fldnm		{ get { return	this.IsLoaded	?	this._Fldnm.Value	:	cz_Neg	; } }
 
 			#endregion
 

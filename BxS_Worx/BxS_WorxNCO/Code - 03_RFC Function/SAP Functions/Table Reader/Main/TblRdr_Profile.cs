@@ -1,7 +1,5 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.TableReader
@@ -11,15 +9,15 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_Profile(		string						fncName
-																	, TblRdr_Factory		factory	)	: base( fncName )
+				internal TblRdr_Profile(		string					fncName
+																	, TblRdr_Factory	factory	)	: base( fncName )
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(TblRdr_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this.FNCIndex		= this._Factory.CreateIndexFNC( this );
-						this.OPTIndex		= this._Factory.CreateIndexOPT( this );
-						this.FLDIndex		= this._Factory.CreateIndexFLD( this );
-						this.OUTIndex		= this._Factory.CreateIndexOUT( this );
+						this._FNCIndex	=	new	Lazy<TblRdr_IndexFNC>( ()=>	this._Factory.CreateIndexFNC() );
+						this._OPTIndex	= new	Lazy<TblRdr_IndexOPT>( ()=>	this._Factory.CreateIndexOPT() );
+						this._FLDIndex	= new	Lazy<TblRdr_IndexFLD>( ()=>	this._Factory.CreateIndexFLD() );
+						this._OUTIndex	= new	Lazy<TblRdr_IndexOUT>( ()=>	this._Factory.CreateIndexOUT() );
 					}
 
 			#endregion
@@ -29,19 +27,10 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 
 				private		readonly	TblRdr_Factory		_Factory;
 				//.................................................
-				internal	readonly	TblRdr_IndexFNC		FNCIndex;
-				internal	readonly	TblRdr_IndexOPT		OPTIndex;
-				internal	readonly	TblRdr_IndexFLD		FLDIndex;
-				internal	readonly	TblRdr_IndexOUT		OUTIndex;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
-
-				internal	SMC.RfcStructureMetadata	OptionsStructure		{ get	{	return	this.Metadata[this.FNCIndex.Options]		.ValueMetadataAsTableMetadata.LineType	; } }
-				internal	SMC.RfcStructureMetadata	FieldsStructure			{ get	{	return	this.Metadata[this.FNCIndex.Fields]			.ValueMetadataAsTableMetadata.LineType	; } }
-				internal	SMC.RfcStructureMetadata	OutTableStructure		{ get	{	return	this.Metadata[this.FNCIndex.OutTab128]	.ValueMetadataAsTableMetadata.LineType	; } }
+				internal	readonly	Lazy<	TblRdr_IndexFNC	>		_FNCIndex;
+				internal	readonly	Lazy<	TblRdr_IndexOPT	>		_OPTIndex;
+				internal	readonly	Lazy<	TblRdr_IndexFLD	>		_FLDIndex;
+				internal	readonly	Lazy<	TblRdr_IndexOUT	>		_OUTIndex;
 
 			#endregion
 
@@ -49,7 +38,19 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_Data	CreateTblRdrData	()	=>	this._Factory.CreateTblRdrData( this.OPTIndex , this.FLDIndex , this.OUTIndex );
+				internal TblRdr_Data	CreateTblRdrData	()	=>	this._Factory.CreateTblRdrData( this._OPTIndex , this._FLDIndex , this._OUTIndex );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public override void ReadyProfile()
+					{
+						this.LoadFunctionIndex	( this._FNCIndex.Value );
+
+						this.LoadStructureIndex	( this._OPTIndex.Value );
+						this.LoadStructureIndex	( this._FLDIndex.Value );
+						this.LoadStructureIndex	( this._OUTIndex.Value );
+						//.............................................
+						base.ReadyProfile();
+					}
 
 			#endregion
 

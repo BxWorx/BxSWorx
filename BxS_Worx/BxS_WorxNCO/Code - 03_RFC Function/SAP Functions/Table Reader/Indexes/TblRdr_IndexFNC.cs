@@ -1,11 +1,13 @@
 ﻿using System;
 //.........................................................
-using	static	BxS_WorxNCO.RfcFunction.Main				.SAPRfcFncConstants;
+using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.Main.NCO_Constants;
 using	static	BxS_WorxNCO.RfcFunction.TableReader	.TblRdr_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.TableReader
 {
-	internal class TblRdr_IndexFNC
+	internal class TblRdr_IndexFNC : RfcFunctionIndex
 		{
 			#region "Documentation"
 
@@ -35,24 +37,22 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_IndexFNC( TblRdr_Profile profile )
+				internal TblRdr_IndexFNC()
 					{
-						this._Profile		= profile;
+						this._QryTable     = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "QUERY_TABLE"	) );
+						this._Delimeter    = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DELIMITER"		) );
+						this._NoData       = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "NO_DATA"			) );
+						this._SkipRows     = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "ROWSKIPS"		) );
+						this._RowsCount    = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "ROWCOUNT"		) );
+						this._Options      = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "OPTIONS"			) );
+						this._Fields       = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "FIELDS"			) );
+						this._OutTable     = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "OUT_TABLE"		) );
 						//.............................................
-						this._QryTable     = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "QUERY_TABLE"	) );
-						this._Delimeter    = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "DELIMITER"		) );
-						this._NoData       = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "NO_DATA"			) );
-						this._SkipRows     = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "ROWSKIPS"		) );
-						this._RowsCount    = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "ROWCOUNT"		) );
-						this._Options      = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "OPTIONS"			) );
-						this._Fields       = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "FIELDS"			) );
-						this._OutTable     = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( "OUT_TABLE"		) );
-						//.............................................
-						this._OutTab128    = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( cz_OutTab128		) );
-						this._OutTab512    = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( cz_OutTab512		) );
-						this._OutTab2048   = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( cz_OutTab2048		) );
-						this._OutTab8192   = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( cz_OutTab8192		) );
-						this._OutTab30000  = new Lazy<int>( ()=> this._Profile.Metadata.TryNameToIndex( cz_OutTab30000	) );
+						this._OutTab128    = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_OutTab128		) );
+						this._OutTab512    = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_OutTab512		) );
+						this._OutTab2048   = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_OutTab2048		) );
+						this._OutTab8192   = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_OutTab8192		) );
+						this._OutTab30000  = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_OutTab30000	) );
 					}
 
 			#endregion
@@ -60,8 +60,6 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	TblRdr_Profile		_Profile;
-				//.................................................
 				private	readonly	Lazy<int>		_QryTable    ;
 				private	readonly	Lazy<int>		_Delimeter   ;
 				private	readonly	Lazy<int>		_NoData      ;
@@ -81,21 +79,19 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	Name				{ get { return	cz_TableReader; } }
-				//.................................................
-				internal	int		QryTable			{ get { return	this._Profile.IsReady ?	this._QryTable		.Value : 0	; } }
-				internal	int		Delimeter			{ get { return	this._Profile.IsReady ?	this._Delimeter		.Value : 0	; } }
-				internal	int		NoData				{ get { return	this._Profile.IsReady ?	this._NoData			.Value : 0	; } }
-				internal	int		SkipRows			{ get { return	this._Profile.IsReady ?	this._SkipRows		.Value : 0	; } }
-				internal	int		RowsCount			{ get { return	this._Profile.IsReady ?	this._RowsCount		.Value : 0	; } }
-				internal	int		Options				{ get { return	this._Profile.IsReady ?	this._Options			.Value : 0	; } }
-				internal	int		Fields				{ get { return	this._Profile.IsReady ?	this._Fields			.Value : 0	; } }
-				internal	int		OutTable			{ get { return	this._Profile.IsReady ?	this._OutTable		.Value : 0	; } }
-				internal	int		OutTab128			{ get { return	this._Profile.IsReady ?	this._OutTab128		.Value : 0	; } }
-				internal	int		OutTab512			{ get { return	this._Profile.IsReady ?	this._OutTab512		.Value : 0	; } }
-				internal	int		OutTab2048		{ get { return	this._Profile.IsReady ?	this._OutTab2048	.Value : 0	; } }
-				internal	int		OutTab8192		{ get { return	this._Profile.IsReady ?	this._OutTab8192	.Value : 0	; } }
-				internal	int		OutTab30000		{ get { return	this._Profile.IsReady ?	this._OutTab30000	.Value : 0	; } }
+				internal	int		QryTable			{ get { return	this.IsLoaded	?	this._QryTable		.Value : cz_Neg	; } }
+				internal	int		Delimeter			{ get { return	this.IsLoaded	?	this._Delimeter		.Value : cz_Neg	; } }
+				internal	int		NoData				{ get { return	this.IsLoaded	?	this._NoData			.Value : cz_Neg	; } }
+				internal	int		SkipRows			{ get { return	this.IsLoaded	?	this._SkipRows		.Value : cz_Neg	; } }
+				internal	int		RowsCount			{ get { return	this.IsLoaded	?	this._RowsCount		.Value : cz_Neg	; } }
+				internal	int		Options				{ get { return	this.IsLoaded	?	this._Options			.Value : cz_Neg	; } }
+				internal	int		Fields				{ get { return	this.IsLoaded	?	this._Fields			.Value : cz_Neg	; } }
+				internal	int		OutTable			{ get { return	this.IsLoaded	?	this._OutTable		.Value : cz_Neg	; } }
+				internal	int		OutTab128			{ get { return	this.IsLoaded	?	this._OutTab128		.Value : cz_Neg	; } }
+				internal	int		OutTab512			{ get { return	this.IsLoaded	?	this._OutTab512		.Value : cz_Neg	; } }
+				internal	int		OutTab2048		{ get { return	this.IsLoaded	?	this._OutTab2048	.Value : cz_Neg	; } }
+				internal	int		OutTab8192		{ get { return	this.IsLoaded	?	this._OutTab8192	.Value : cz_Neg	; } }
+				internal	int		OutTab30000		{ get { return	this.IsLoaded	?	this._OutTab30000	.Value : cz_Neg	; } }
 
 			#endregion
 

@@ -40,20 +40,23 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
-
-				//internal	SMC.RfcStructureMetadata	SPAStructure	{ get	{	return	this.Metadata[this._FNCIndex.TabSPA].ValueMetadataAsTableMetadata.LineType	; } }
-				//internal	SMC.RfcStructureMetadata	BDCStructure	{ get	{	return	this.Metadata[this._FNCIndex.TabBDC].ValueMetadataAsTableMetadata.LineType	; } }
-				//internal	SMC.RfcStructureMetadata	MSGStructure	{ get	{	return	this.Metadata[this._FNCIndex.TabMSG].ValueMetadataAsTableMetadata.LineType	; } }
-
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Data				CreateBDCCallData		()														=>	this._BDCFactory	.CreateBDCData		( this._SPAIndex , this._BDCIndex , this._MSGIndex );
 				//internal BDCTran_Header CreateBDCCallHeader	( bool withDefaults = true )	=>	this._TRNFactory.CreateBDCHeader	( this.CTUIndex , withDefaults );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public override void ReadyProfile()
+					{
+						this.LoadFunctionIndex	( this._FNCIndex.Value );
+
+						this.LoadStructureIndex	( this._SPAIndex.Value );
+						this.LoadStructureIndex	( this._BDCIndex.Value );
+						this.LoadStructureIndex	( this._MSGIndex.Value );
+						//.............................................
+						base.ReadyProfile();
+					}
 
 			#endregion
 

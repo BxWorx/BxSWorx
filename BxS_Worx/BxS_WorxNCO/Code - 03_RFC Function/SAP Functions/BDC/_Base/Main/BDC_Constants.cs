@@ -14,10 +14,10 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				internal	const char		cz_CTU_L		= 'L'	;
 				internal	const char		cz_CTU_S		= 'S'	;
 				//.................................................
-				internal	const	string	cz_StrCTU		= "CTU_PARAMS"	;
-				internal	const	string	cz_StrSPA		= "RFC_SPAGPA"	;
-				internal	const	string	cz_StrBDC		= "BDCDATA"			;
-				internal	const	string	cz_StrMSG		= "BDCMSGCOLL"	;
+				internal	const	string	cz_StrCTU		= "IS_OPTIONS"					;
+				internal	const	string	cz_StrSPA		= "CT_SETGET_PARAMETER"	;
+				internal	const	string	cz_StrBDC		= "IT_BDCDATA"					;
+				internal	const	string	cz_StrMSG		= "ET_MSG"							;
 
 			#endregion
 

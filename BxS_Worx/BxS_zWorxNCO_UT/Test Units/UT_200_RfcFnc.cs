@@ -52,37 +52,37 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Profile lo_PR1	= lo_FM.GetProfile<BDCCall_Profile>( cz_FNme );
 					BDCCall_Profile lo_PR2	= lo_FM.GetProfile<BDCCall_Profile>( cz_FNme );
 
-					Assert.AreEqual	( lo_PR0 , lo_PR1 ,	"" );
-					Assert.AreEqual	( lo_PR1 , lo_PR2 ,	"" );
-					Assert.AreEqual	( lo_PR2 , lo_PR0 ,	"" );
+					Assert.AreEqual	( lo_PR0 , lo_PR1 ,	"1" );
+					Assert.AreEqual	( lo_PR1 , lo_PR2 ,	"2" );
+					Assert.AreEqual	( lo_PR2 , lo_PR0 ,	"3" );
 					//...............................................
-					Assert.AreEqual	(	0	, lo_PR1.FNCIndex.TabSPA	,	"" );
-					Assert.AreEqual	(	0	, lo_PR1.CTUIndex.NoBtcE	,	"" );
-					Assert.AreEqual	(	0	, lo_PR1.SPAIndex.Val			,	"" );
-					Assert.AreEqual	(	0	, lo_PR1.BDCIndex.Val			,	"" );
-					Assert.AreEqual	(	0	, lo_PR1.MSGIndex.Fldnm		,	"" );
+					Assert.AreEqual	(	-1	, lo_PR1._FNCIndex.Value.TabSPA	,	"4" );
+					Assert.AreEqual	(	-1	, lo_PR1._CTUIndex.Value.NoBtcE	,	"5" );
+					Assert.AreEqual	(	-1	, lo_PR1._SPAIndex.Value.Val		,	"6" );
+					Assert.AreEqual	(	-1	, lo_PR1._BDCIndex.Value.Val		,	"7" );
+					Assert.AreEqual	(	-1	, lo_PR1._MSGIndex.Value.Fldnm	,	"8" );
 
 				  await	lo_FM.UpdateProfilesAsync().ConfigureAwait(false);
 
-					Assert.AreNotEqual	(	0	, lo_PR1.FNCIndex.TabSPA	,	"" );
-					Assert.AreNotEqual	(	0	, lo_PR1.CTUIndex.NoBtcE	,	"" );
-					Assert.AreNotEqual	(	0	, lo_PR1.SPAIndex.Val			,	"" );
-					Assert.AreNotEqual	(	0	, lo_PR1.BDCIndex.Val			,	"" );
-					Assert.AreNotEqual	(	0	, lo_PR1.MSGIndex.Fldnm		,	"" );
+					Assert.AreNotEqual	(	-1	, lo_PR1._FNCIndex.Value.TabSPA	,	"09" );
+					Assert.AreNotEqual	(	-1	, lo_PR1._CTUIndex.Value.NoBtcE	,	"10" );
+					Assert.AreNotEqual	(	-1	, lo_PR1._SPAIndex.Value.Val		,	"11" );
+					Assert.AreNotEqual	(	-1	, lo_PR1._BDCIndex.Value.Val		,	"12" );
+					Assert.AreNotEqual	(	-1	, lo_PR1._MSGIndex.Value.Fldnm	,	"13" );
 					//...............................................
 					var lo_FN1	= new MyRfcFnc( lo_PR1 );
 					var lo_FN2	= new MyRfcFnc( lo_PR2 );
 
-					Assert.IsNotNull	( lo_FN1.NCORfcFunction , "" );
-					Assert.IsNotNull	( lo_FN2.NCORfcFunction , "" );
+					Assert.IsNotNull	( lo_FN1.NCORfcFunction , "14" );
+					Assert.IsNotNull	( lo_FN2.NCORfcFunction , "15" );
 
-					Assert.AreNotEqual	( lo_FN1.NCORfcFunction	, lo_FN2.NCORfcFunction	,	"" );
+					Assert.AreNotEqual	( lo_FN1.NCORfcFunction	, lo_FN2.NCORfcFunction	,	"16" );
 
 					SMC.IRfcStructure x1 = lo_FN1.NCORfcFunction.GetStructure("IS_OPTIONS");
-					SMC.IRfcStructure x2 = lo_FN1.NCORfcFunction.GetStructure(lo_PR2.FNCIndex.CTUOpt);
+					SMC.IRfcStructure x2 = lo_FN1.NCORfcFunction.GetStructure(lo_PR2._FNCIndex.Value.CTUOpt);
 
-					Assert.AreNotEqual	(	0	, x1.Count	,	"" );
-					Assert.AreNotEqual	(	0	, x2.Count	,	"" );
+					Assert.AreNotEqual	(	0	, x1.Count	,	"17" );
+					Assert.AreNotEqual	(	0	, x2.Count	,	"18" );
 			}
 
 			[TestMethod]
@@ -99,8 +99,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					BDCCall_Function	lo_FN1	=	lo_FC.CreateBDCCallFunction	();
 					SAPMsg_Function		lo_FN2	=	lo_FC.CreateSAPMsgFunction	();
 
-					Assert.AreNotEqual	(	0	, lo_FN1.MyProfile.Value.FNCIndex.Skip1	,	"" );
-					Assert.AreNotEqual	(	0	, lo_FN2.MyProfile.Value.FNCIndex.MsgID	,	"" );
+					Assert.AreNotEqual	(	-1	, lo_FN1.MyProfile.Value._FNCIndex.Value.Skip1	,	"" );
+					Assert.AreNotEqual	(	-1	, lo_FN2.MyProfile.Value._FNCIndex.Value.MsgID	,	"" );
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -112,7 +112,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						IRfcDestination	lo_DS	= this.co_NCO000.GetSAPDestConfigured();
 						BDCCall_Factory lo_FC	= BDCCall_Factory.Instance;
 
-						return	new BDCCall_Profile( cz_FNme , lo_FC );
+						return	new BDCCall_Profile( cz_FNme , BDC_Factory.Instance , BDCCall_Factory.Instance );
 					}
 
 		//

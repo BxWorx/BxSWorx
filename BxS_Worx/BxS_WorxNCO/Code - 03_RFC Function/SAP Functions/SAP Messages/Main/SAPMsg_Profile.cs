@@ -14,8 +14,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(SAPMsg_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this._FNCIndex	=	new Lazy<SAPMsg_IndexFNC>(	()=>	this._Factory.CreateIndexFNC()	);
-						this._TXTIndex	=	new	Lazy<SAPMsg_IndexTXT>(	()=>	this._Factory.CreateIndexTXT()	);
+						this._FNCIndex	=	new Lazy<SAPMsg_IndexFNC>( ()=>	this._Factory.CreateIndexFNC()	);
+						this._TXTIndex	=	new	Lazy<SAPMsg_IndexTXT>( ()=>	this._Factory.CreateIndexTXT()	);
 					}
 
 			#endregion
@@ -34,6 +34,21 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			#region "Properties"
 
 				//internal	SMC.RfcStructureMetadata	LNEStructure	{ get	{	return	this.Metadata[this._FNCIndex.Value.MsgLT].ValueMetadataAsTableMetadata.LineType	; } }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public override void ReadyProfile()
+					{
+						this.LoadFunctionIndex	( this._FNCIndex.Value );
+
+						this.LoadStructureIndex	( this._TXTIndex.Value );
+						//.............................................
+						base.ReadyProfile();
+					}
 
 			#endregion
 

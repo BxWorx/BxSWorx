@@ -48,8 +48,7 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal TblRdr_Function( TblRdr_Profile	profile	)	: base(	profile )
 					{
-						//.............................................
-						this.MyProfile	= new Lazy< TblRdr_Profile >	(	()=> (TblRdr_Profile) this.Profile , cz_LM );
+						this.MyProfile	= new Lazy< TblRdr_Profile >(	()=> (TblRdr_Profile) this.Profile , cz_LM );
 					}
 
 			#endregion
@@ -64,9 +63,9 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Properties"
 
-				internal	TblRdr_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex	; } }
-				internal	TblRdr_IndexOPT	OPTIndex	{ get {	return	this.MyProfile.Value.OPTIndex	; } }
-				internal	TblRdr_IndexFLD	FLDIndex	{ get {	return	this.MyProfile.Value.FLDIndex	; } }
+				internal	TblRdr_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value	; } }
+				internal	TblRdr_IndexOPT	OPTIndex	{ get {	return	this.MyProfile.Value._OPTIndex.Value	; } }
+				internal	TblRdr_IndexFLD	FLDIndex	{ get {	return	this.MyProfile.Value._FLDIndex.Value	; } }
 
 			#endregion
 
@@ -83,8 +82,8 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 								//.........................................
 								this.Invoke( rfcDestination );
 								//.........................................
-								this.LoadTable( dto.Fields	, this.MyProfile.Value.FNCIndex.Fields );
-								this.LoadTable( dto.OutData , this.GetOutTableIndex( this.NCORfcFunction.GetString( this.MyProfile.Value.FNCIndex.OutTable ) ) );
+								this.LoadTable( dto.Fields	, this.FNCIndex.Fields );
+								this.LoadTable( dto.OutData , this.GetOutTableIndex( this.NCORfcFunction.GetString( this.FNCIndex.OutTable ) ) );
 							}
 						catch (Exception)
 							{
