@@ -54,11 +54,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				private	BDCTran_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
+				private	BDCTran_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value; } }
 
 				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.TCode		; } }
 				private	int		Idx_Skp		{ get {	return	this.FNCIndex.Skip1		; } }
-				private	int		Idx_CTU		{ get {	return	this.FNCIndex.CTUOpt	; } }
+				private	int		Idx_Dsp		{ get {	return	this.FNCIndex.Mode		; } }
+				private	int		Idx_Upd		{ get {	return	this.FNCIndex.Update	; } }
 
 				private	int		Idx_SPA		{ get {	return	this.FNCIndex.TabSPA	; } }
 				private	int		Idx_BDC		{ get {	return	this.FNCIndex.TabBDC	; } }
@@ -150,19 +151,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 							{
 								ls_CTU.SetValue( i , ctu.GetValue(i) );
 							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadTable(		SMC.IRfcTable	data
-																, int						index
-																, bool					reverse = false )
-					{
-						SMC.IRfcTable lt_Tbl	= this.NCORfcFunction.GetTable( index );
-
-						if ( reverse )
-							{	data.Append( lt_Tbl ); }
-						else
-							{	lt_Tbl.Append( data ); }
 					}
 
 			#endregion

@@ -34,8 +34,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 				//.................................................
 				// Index objects
 				//.................................................
-				internal	SAPMsg_IndexFNC		CreateIndexFNC	( SAPMsg_Profile profile )	=>	new SAPMsg_IndexFNC( profile );
-				internal	SAPMsg_IndexTXT		CreateIndexTXT	(	SAPMsg_Profile profile )	=>	new SAPMsg_IndexTXT( profile );
+				internal	SAPMsg_IndexFNC		CreateIndexFNC	()	=>	new SAPMsg_IndexFNC();
+				internal	SAPMsg_IndexTXT		CreateIndexTXT	()	=>	new SAPMsg_IndexTXT();
 
 			#endregion
 

@@ -29,7 +29,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this._Proc_Grps		=	new Lazy< BDC_Parser_Groups				>	(	()=>	new BDC_Parser_Groups				(	_Instance ) , cz_LM );
 						this._Proc_Tran		=	new Lazy< BDC_Parser_Transaction	>	(	()=>	new BDC_Parser_Transaction	( _Instance ) , cz_LM );
 						this._Proc_Sesn		=	new Lazy< BDC_Parser_Session			>	(	()=>	new BDC_Parser_Session			( _Instance ) , cz_LM );
-						this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , cz_LM );
+						//this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , cz_LM );
 						//.............................................
 						this._Serializer	= new Lazy< UTL.Serializer					>	(	()=>	this._NCO_Cntlr.Value.UTL_Cntlr.CreateSerializer() , cz_LM );
 					}
@@ -46,7 +46,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				private readonly	Lazy< BDC_Parser_Groups				>	_Proc_Grps;
 				private readonly	Lazy< BDC_Parser_Transaction	>	_Proc_Tran;
 				private readonly	Lazy< BDC_Parser_Session			>	_Proc_Sesn;
-				private readonly	Lazy< BDC_Parser_Destination	>	_Proc_Dest;
+				//private readonly	Lazy< BDC_Parser_Destination	>	_Proc_Dest;
 				//.................................................
 				private	readonly	Lazy<	UTL.Serializer >	_Serializer;
 
@@ -83,7 +83,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				internal	Lazy< BDC_Parser_Groups				>	GetGroupParser				()=> this._Proc_Grps	;
 				internal	Lazy< BDC_Parser_Transaction	>	GetTransactionParser	()=> this._Proc_Tran	;
 				internal	Lazy< BDC_Parser_Session			>	GetSessionParser			()=> this._Proc_Sesn	;
-				internal	Lazy< BDC_Parser_Destination	>	GetDestinationParser	()=> this._Proc_Dest	;
+				//internal	Lazy< BDC_Parser_Destination	>	GetDestinationParser	()=> this._Proc_Dest	;
 
 			#endregion
 

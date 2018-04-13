@@ -67,6 +67,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 										if ( ! this._RfcFncMngr.Value.ProfileExists( cz_BDCCall ) )
 											{
 												var	lo_Prof	= new BDCCall_Profile(	cz_BDCCall
+																													, BDC_Factory.Instance
 																													, BDCCall_Factory.Instance );
 
 												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );

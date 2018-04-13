@@ -35,9 +35,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				internal	readonly	Lazy<	BDCCall_IndexFNC >	_FNCIndex;
 				internal	readonly	Lazy<	BDCCall_IndexCTU >	_CTUIndex;
 
-				internal	readonly	Lazy<	BDC_IndexSPA >			_SPAIndex;
-				internal	readonly	Lazy<	BDC_IndexBDC >			_BDCIndex;
-				internal	readonly	Lazy<	BDC_IndexMSG >			_MSGIndex;
+				internal	readonly	Lazy<	BDC_IndexSPA >	_SPAIndex;
+				internal	readonly	Lazy<	BDC_IndexBDC >	_BDCIndex;
+				internal	readonly	Lazy<	BDC_IndexMSG >	_MSGIndex;
 
 			#endregion
 

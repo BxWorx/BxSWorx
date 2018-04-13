@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this._Grp		= this._PFactory.Value.GetGroupParser				();
 						this._Trn		= this._PFactory.Value.GetTransactionParser	();
 						this._Ssn		= this._PFactory.Value.GetSessionParser			();
-						this._Des		= this._PFactory.Value.GetDestinationParser	();
+						//this._Des		= this._PFactory.Value.GetDestinationParser	();
 						//.............................................
 						this.PoolID		= Guid.NewGuid();
 					}
@@ -39,7 +39,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				private		readonly	Lazy< BDC_Parser_Groups				>		_Grp;
 				private		readonly	Lazy< BDC_Parser_Transaction	>		_Trn;
 				private		readonly	Lazy< BDC_Parser_Session			>		_Ssn;
-				private		readonly	Lazy< BDC_Parser_Destination	>		_Des;
+				//private		readonly	Lazy< BDC_Parser_Destination	>		_Des;
 
 			#endregion
 
@@ -72,7 +72,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						if ( ! BDCRequest.IgnoreDestinationConfig )
 							{
-								this._Des.Value.Process( BDCRequest , BDCSession.DestinationConfig );
+								//this._Des.Value.Process( BDCRequest , BDCSession.DestinationConfig );
 							}
 						//.............................................
 						return	true;

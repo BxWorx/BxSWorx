@@ -1,7 +1,5 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
@@ -12,15 +10,17 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCTran_Profile(		string						fncName
-																	, BDCTran_Factory		factory	)	: base(		fncName )
+																	, BDC_Factory				bdcFactory
+																	, BDCTran_Factory		trnFactory	)	: base(		fncName )
 					{
-						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(BDCTran_Profile).Namespace}:- Factory null" );
+						this._BDCFactory	=	bdcFactory	??	throw		new	ArgumentException( $"{typeof(BDCTran_Profile).Namespace}:- BDC Factory null" );
+						this._TRNFactory	= trnFactory	??	throw		new	ArgumentException( $"{typeof(BDCTran_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this.FNCIndex		= this._Factory.CreateIndexFNC( this );
-						this.CTUIndex		= this._Factory.CreateIndexCTU( this );
-						this.SPAIndex		= this._Factory.CreateIndexSPA( this );
-						this.BDCIndex		= this._Factory.CreateIndexBDC( this );
-						this.MSGIndex		= this._Factory.CreateIndexMSG( this );
+						this._FNCIndex	=	new	Lazy<BDCTran_IndexFNC>(	()=>	this._TRNFactory.CreateIndexFNC()	);
+
+						this._SPAIndex	=	new Lazy<	BDC_IndexSPA >( ()=>	this._BDCFactory.CreateIndexSPA() );
+						this._BDCIndex	= new	Lazy< BDC_IndexBDC >( ()=>	this._BDCFactory.CreateIndexBDC() );
+						this._MSGIndex	= new	Lazy< BDC_IndexMSG >( ()=>	this._BDCFactory.CreateIndexMSG() );
 					}
 
 			#endregion
@@ -28,21 +28,23 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private		readonly	BDCTran_Factory		_Factory;
+				private		readonly	BDC_Factory				_BDCFactory;
+				private		readonly	BDCTran_Factory		_TRNFactory;
 				//.................................................
-				internal	readonly	BDCTran_IndexFNC	FNCIndex;
-				internal	readonly	BDC_IndexSPA			SPAIndex;
-				internal	readonly	BDC_IndexBDC			BDCIndex;
-				internal	readonly	BDC_IndexMSG			MSGIndex;
+				internal	readonly	Lazy<	BDCTran_IndexFNC >	_FNCIndex;
+
+				internal	readonly	Lazy<	BDC_IndexSPA >	_SPAIndex;
+				internal	readonly	Lazy<	BDC_IndexBDC >	_BDCIndex;
+				internal	readonly	Lazy<	BDC_IndexMSG >	_MSGIndex;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	SMC.RfcStructureMetadata	SPAStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabSPA].ValueMetadataAsTableMetadata.LineType	; } }
-				internal	SMC.RfcStructureMetadata	BDCStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabBDC].ValueMetadataAsTableMetadata.LineType	; } }
-				internal	SMC.RfcStructureMetadata	MSGStructure	{ get	{	return	this.Metadata[this.FNCIndex.TabMSG].ValueMetadataAsTableMetadata.LineType	; } }
+				//internal	SMC.RfcStructureMetadata	SPAStructure	{ get	{	return	this.Metadata[this._FNCIndex.TabSPA].ValueMetadataAsTableMetadata.LineType	; } }
+				//internal	SMC.RfcStructureMetadata	BDCStructure	{ get	{	return	this.Metadata[this._FNCIndex.TabBDC].ValueMetadataAsTableMetadata.LineType	; } }
+				//internal	SMC.RfcStructureMetadata	MSGStructure	{ get	{	return	this.Metadata[this._FNCIndex.TabMSG].ValueMetadataAsTableMetadata.LineType	; } }
 
 			#endregion
 
@@ -50,8 +52,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCTran_Header CreateBDCCallHeader	( bool withDefaults = true )	=>	this._Factory.CreateBDCHeader	( this.CTUIndex , withDefaults );
-				internal BDCTran_Data		CreateBDCCallData		()														=>	this._Factory.CreateBDCData		( this.SPAIndex , this.BDCIndex , this.MSGIndex );
+				internal BDC_Data				CreateBDCCallData		()														=>	this._BDCFactory	.CreateBDCData		( this._SPAIndex , this._BDCIndex , this._MSGIndex );
+				//internal BDCTran_Header CreateBDCCallHeader	( bool withDefaults = true )	=>	this._TRNFactory.CreateBDCHeader	( this.CTUIndex , withDefaults );
 
 			#endregion
 

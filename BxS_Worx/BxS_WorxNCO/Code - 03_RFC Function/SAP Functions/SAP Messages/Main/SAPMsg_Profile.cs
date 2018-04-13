@@ -1,7 +1,5 @@
 ﻿using System;
 //.........................................................
-using SMC	= SAP.Middleware.Connector;
-//.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.SAPMsg
@@ -16,8 +14,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(SAPMsg_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this.FNCIndex		= this._Factory.CreateIndexFNC( this );
-						this.TXTIndex		= this._Factory.CreateIndexTXT( this );
+						this._FNCIndex	=	new Lazy<SAPMsg_IndexFNC>(	()=>	this._Factory.CreateIndexFNC()	);
+						this._TXTIndex	=	new	Lazy<SAPMsg_IndexTXT>(	()=>	this._Factory.CreateIndexTXT()	);
 					}
 
 			#endregion
@@ -27,15 +25,15 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 
 				private		readonly	SAPMsg_Factory		_Factory;
 				//.................................................
-				internal	readonly	SAPMsg_IndexFNC		FNCIndex;
-				internal	readonly	SAPMsg_IndexTXT		TXTIndex;
+				internal	readonly	Lazy<	SAPMsg_IndexFNC	>		_FNCIndex;
+				internal	readonly	Lazy<	SAPMsg_IndexTXT >		_TXTIndex;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	SMC.RfcStructureMetadata	LNEStructure	{ get	{	return	this.Metadata[this.FNCIndex.MsgLT].ValueMetadataAsTableMetadata.LineType	; } }
+				//internal	SMC.RfcStructureMetadata	LNEStructure	{ get	{	return	this.Metadata[this._FNCIndex.Value.MsgLT].ValueMetadataAsTableMetadata.LineType	; } }
 
 			#endregion
 

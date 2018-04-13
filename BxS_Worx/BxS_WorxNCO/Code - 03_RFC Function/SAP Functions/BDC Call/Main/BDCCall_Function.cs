@@ -151,19 +151,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 							}
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadTable(		SMC.IRfcTable	data
-																, int						index
-																, bool					reverse = false )
-					{
-						SMC.IRfcTable lt_Tbl	= this.NCORfcFunction.GetTable( index );
-
-						if ( reverse )
-							{	data.Append( lt_Tbl ); }
-						else
-							{	lt_Tbl.Append( data ); }
-					}
-
 			#endregion
 
 		}

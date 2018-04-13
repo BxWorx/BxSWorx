@@ -56,8 +56,7 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Properties"
 
-				internal	SAPMsg_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value.FNCIndex; } }
-				internal	SAPMsg_IndexTXT	TXTIndex	{ get {	return	this.MyProfile.Value.TXTIndex; } }
+				private	SAPMsg_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value; } }
 
 				private	int		Idx_Langu		{ get {	return	this.FNCIndex.Langu	; } }
 				private	int		Idx_MsgID		{ get {	return	this.FNCIndex.MsgID	; } }
