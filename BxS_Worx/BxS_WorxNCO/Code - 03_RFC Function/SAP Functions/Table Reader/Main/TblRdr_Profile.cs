@@ -14,11 +14,17 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(TblRdr_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this._FNCIndex	=	new	Lazy<TblRdr_IndexFNC>( ()=>	this._Factory.CreateIndexFNC() );
-						this._OPTIndex	= new	Lazy<TblRdr_IndexOPT>( ()=>	this._Factory.CreateIndexOPT() );
-						this._FLDIndex	= new	Lazy<TblRdr_IndexFLD>( ()=>	this._Factory.CreateIndexFLD() );
-						this._OUTIndex	= new	Lazy<TblRdr_IndexOUT>( ()=>	this._Factory.CreateIndexOUT() );
+						this._FNCIndex	=	new	Lazy< TblRdr_IndexFNC >( ()=>	this._Factory.CreateIndexFNC() );
+						this._OPTIndex	= new	Lazy< TblRdr_IndexOPT >( ()=>	this._Factory.CreateIndexOPT() );
+						this._FLDIndex	= new	Lazy< TblRdr_IndexFLD >( ()=>	this._Factory.CreateIndexFLD() );
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal	string	OutTableName	{ get; set ;}
 
 			#endregion
 
@@ -30,7 +36,6 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 				internal	readonly	Lazy<	TblRdr_IndexFNC	>		_FNCIndex;
 				internal	readonly	Lazy<	TblRdr_IndexOPT	>		_OPTIndex;
 				internal	readonly	Lazy<	TblRdr_IndexFLD	>		_FLDIndex;
-				internal	readonly	Lazy<	TblRdr_IndexOUT	>		_OUTIndex;
 
 			#endregion
 
@@ -38,7 +43,9 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_Data	CreateTblRdrData	()	=>	this._Factory.CreateTblRdrData( this._OPTIndex , this._FLDIndex , this._OUTIndex );
+				internal	TblRdr_IndexOUT		CreateOutIndex		( string name )	=>	this._Factory.CreateIndexOUT( name );
+
+				internal	TblRdr_Data				CreateTblRdrData	()	=>	this._Factory.CreateTblRdrData( this._OPTIndex , this._FLDIndex ) ;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override void ReadyProfile()
@@ -47,7 +54,6 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 
 						this.LoadStructureIndex	( this._OPTIndex.Value );
 						this.LoadStructureIndex	( this._FLDIndex.Value );
-						this.LoadStructureIndex	( this._OUTIndex.Value );
 						//.............................................
 						base.ReadyProfile();
 					}

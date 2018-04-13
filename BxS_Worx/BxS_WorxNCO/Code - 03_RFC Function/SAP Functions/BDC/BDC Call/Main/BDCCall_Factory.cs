@@ -42,8 +42,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				// Profile objects
 				//.................................................
 				internal	BDCCall_Header		CreateBDCHeader	(		Lazy<	BDCCall_IndexCTU >	ctuIndex
-																											,	bool											withDefaults	= true	)=>		new BDCCall_Header(		ctuIndex
-																																																																	, withDefaults );
+																											,	bool											withDefaults	= true	)=>		new BDCCall_Header( ctuIndex , withDefaults );
 
 			#endregion
 

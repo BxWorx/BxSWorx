@@ -42,10 +42,10 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 						this._QryTable     = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "QUERY_TABLE"	) );
 						this._Delimeter    = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DELIMITER"		) );
 						this._NoData       = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "NO_DATA"			) );
-						this._SkipRows     = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "ROWSKIPS"		) );
-						this._RowsCount    = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "ROWCOUNT"		) );
+						this._SkipRows     = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "ROWSKIPS"			) );
+						this._RowsCount    = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "ROWCOUNT"			) );
 						this._Options      = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "OPTIONS"			) );
-						this._Fields       = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "FIELDS"			) );
+						this._Fields       = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "FIELDS"				) );
 						this._OutTable     = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "OUT_TABLE"		) );
 						//.............................................
 						this._OutTab128    = new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_OutTab128		) );

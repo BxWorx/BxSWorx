@@ -34,19 +34,17 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Index objects
 				//.................................................
-				internal	BDC_IndexSPA				CreateIndexSPA	()	=>	new BDC_IndexSPA();
-				internal	BDC_IndexBDC				CreateIndexBDC	()	=>	new BDC_IndexBDC();
-				internal	BDC_IndexMSG				CreateIndexMSG	()	=>	new BDC_IndexMSG();
+				internal	BDC_IndexSPA	CreateIndexSPA	()	=>	new BDC_IndexSPA();
+				internal	BDC_IndexBDC	CreateIndexBDC	()	=>	new BDC_IndexBDC();
+				internal	BDC_IndexMSG	CreateIndexMSG	()	=>	new BDC_IndexMSG();
 
 				//.................................................
 				//.................................................
 				// Profile objects
 				//.................................................
-				internal	BDC_Data						CreateBDCData		(		Lazy<	BDC_IndexSPA >	spaIndex
-																												,	Lazy<	BDC_IndexBDC > 	bdcIndex
-																												, Lazy<	BDC_IndexMSG >	msgIndex	)=>		new	BDC_Data	(		spaIndex
-																																																			, bdcIndex
-																																																			, msgIndex	);
+				internal	BDC_Data	CreateBDCData		(		Lazy<	BDC_IndexSPA >	spaIndex
+																							,	Lazy<	BDC_IndexBDC > 	bdcIndex
+																							, Lazy<	BDC_IndexMSG >	msgIndex	)=>		new	BDC_Data	( spaIndex , bdcIndex , msgIndex );
 
 			#endregion
 

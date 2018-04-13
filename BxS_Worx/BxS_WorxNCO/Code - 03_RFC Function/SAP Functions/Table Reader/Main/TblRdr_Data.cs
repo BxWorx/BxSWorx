@@ -13,16 +13,13 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal TblRdr_Data(		Lazy< TblRdr_IndexOPT >	optIndex
-															,	Lazy< TblRdr_IndexFLD >	fldIndex
-															,	Lazy< TblRdr_IndexOUT >	outIndex	)
+															,	Lazy< TblRdr_IndexFLD >	fldIndex	)
 					{
 						this._IndexOPT	= optIndex	??	throw		new	ArgumentException( $"{typeof(TblRdr_Data).Namespace}:- OPT index null" );
 						this._IndexFLD	= fldIndex	??	throw		new	ArgumentException( $"{typeof(TblRdr_Data).Namespace}:- FLD index null" );
-						this._IndexOUT	= outIndex	??	throw		new	ArgumentException( $"{typeof(TblRdr_Data).Namespace}:- OUT index null" );
 						//.............................................
 						this._OPTData		= new	Lazy< SMC.IRfcTable >( ()=> this._IndexOPT.Value.CreateTable() , cz_LM )	;
 						this._FLDData		=	new	Lazy< SMC.IRfcTable >( ()=> this._IndexFLD.Value.CreateTable() , cz_LM )	;
-						this._OUTData		=	new	Lazy< SMC.IRfcTable >( ()=> this._IndexOUT.Value.CreateTable() , cz_LM )	;
 				}
 
 			#endregion
@@ -32,7 +29,6 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 
 				private readonly	Lazy< TblRdr_IndexOPT >		_IndexOPT	;
 				private readonly	Lazy< TblRdr_IndexFLD >		_IndexFLD	;
-				private readonly	Lazy< TblRdr_IndexOUT >		_IndexOUT	;
 				//.................................................
 				private	readonly	Lazy< SMC.IRfcTable >		_OPTData	;
 				private	readonly	Lazy< SMC.IRfcTable >		_FLDData	;
@@ -49,9 +45,10 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 				public	int			SkipRows			{ get; set; }
 				public	int			ReturnRows		{ get; set; }
 				//.................................................
+				public	SMC.IRfcTable		OutData		{ get	; set; }
+				//.................................................
 				public	SMC.IRfcTable		Options		{ get	{	return	this._OPTData.Value; } }
 				public	SMC.IRfcTable		Fields		{ get	{	return	this._FLDData.Value; } }
-				public	SMC.IRfcTable		OutData		{ get	{	return	this._OUTData.Value; } }
 
 			#endregion
 

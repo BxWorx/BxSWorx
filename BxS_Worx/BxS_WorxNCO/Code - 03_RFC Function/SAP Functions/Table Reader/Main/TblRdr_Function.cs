@@ -63,9 +63,7 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Properties"
 
-				internal	TblRdr_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value	; } }
-				internal	TblRdr_IndexOPT	OPTIndex	{ get {	return	this.MyProfile.Value._OPTIndex.Value	; } }
-				internal	TblRdr_IndexFLD	FLDIndex	{ get {	return	this.MyProfile.Value._FLDIndex.Value	; } }
+				private	TblRdr_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value	; } }
 
 			#endregion
 
@@ -82,8 +80,7 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 								//.........................................
 								this.Invoke( rfcDestination );
 								//.........................................
-								this.LoadTable( dto.Fields	, this.FNCIndex.Fields );
-								this.LoadTable( dto.OutData , this.GetOutTableIndex( this.NCORfcFunction.GetString( this.FNCIndex.OutTable ) ) );
+								this.ProcessOutput( dto );
 							}
 						catch (Exception)
 							{
@@ -107,6 +104,20 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void ProcessOutput( TblRdr_Data dto )
+					{
+						string					lc_Nme	= this.NCORfcFunction.GetString				( this.FNCIndex.OutTable );
+						int							ln_Idx	= this.GetOutTableIndex								( lc_Nme );
+						TblRdr_IndexOUT	lo_Idx	= this.MyProfile.Value.CreateOutIndex	( lc_Nme );
+
+						this.MyProfile.Value.LoadStructureIndex( lo_Idx );
+						dto.OutData	= lo_Idx.CreateTable();
+						//.............................................
+						this.LoadTable( dto.Fields	, this.FNCIndex.Fields );
+						this.LoadTable( dto.OutData , ln_Idx );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Setup( TblRdr_Data dto )

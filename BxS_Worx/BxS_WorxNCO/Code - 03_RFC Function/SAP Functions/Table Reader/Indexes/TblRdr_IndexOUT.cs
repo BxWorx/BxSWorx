@@ -12,9 +12,9 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_IndexOUT()
+				internal TblRdr_IndexOUT( string name )
 					{
-						this.Name	=	cz_StrOUT;
+						this.Name	=	name;
 						//.............................................
 						this._WA	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "WA" ) );
 					}
@@ -24,14 +24,14 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy<int>		_WA	;
+				private	readonly	Lazy<int>	_WA	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		WA	{ get { return	this.IsLoaded	?	this._WA.Value : cz_Neg	; } }
+				internal	int	WA	{ get { return	this.IsLoaded	?	this._WA.Value : cz_Neg	; } }
 
 			#endregion
 
