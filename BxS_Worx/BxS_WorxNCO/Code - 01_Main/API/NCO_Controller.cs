@@ -135,8 +135,13 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	BDC_Session_Manager										CreateBDCSessionManager					( IRfcDestination rfcDestination )	=>	new BDC_Session_Manager( new BDC_Session_Factory( rfcDestination ) );
-				public	ProgressHandler< DTO_BDC_Progress >		CreateBDCSessionProgressHandler	()																	=>	this.UTL_Cntlr.CreateProgressHandler< DTO_BDC_Progress >( this.CreateProgress );
+				public	BDC_Session_Manager	CreateBDCSessionManager( IRfcDestination rfcDestination , bool useTranVersion )
+					{
+						return	new BDC_Session_Manager( new BDC_Session_Factory( rfcDestination , useTranVersion ) );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	ProgressHandler< DTO_BDC_Progress >		CreateBDCSessionProgressHandler	()	=>	this.UTL_Cntlr.CreateProgressHandler< DTO_BDC_Progress >( this.CreateProgress );
 
 			#endregion
 

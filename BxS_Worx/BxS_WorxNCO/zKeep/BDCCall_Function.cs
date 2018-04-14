@@ -8,7 +8,7 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_Function	: RfcFncBase
+	internal class BDC_Function	: RfcFncBase
 		{
 			#region "Documentation"
 
@@ -36,9 +36,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Function( BDCCall_Profile	profile	)	: base(	profile )
+				internal BDC_Function( BDC_Profile	profile	)	: base(	profile )
 					{
-						this.MyProfile	= new Lazy< BDCCall_Profile >	(	()=> (BDCCall_Profile) this.Profile , cz_LM );
+						this.MyProfile	= new Lazy< BDC_Profile >	(	()=> (BDC_Profile) this.Profile , cz_LM );
 					}
 
 			#endregion
@@ -46,14 +46,14 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				internal	readonly	Lazy< BDCCall_Profile >		MyProfile;
+				internal	readonly	Lazy< BDC_Profile >		MyProfile;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private	BDCCall_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value; } }
+				private	BDC_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value; } }
 
 				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.TCode		; } }
 				private	int		Idx_Skp		{ get {	return	this.FNCIndex.Skip1		; } }

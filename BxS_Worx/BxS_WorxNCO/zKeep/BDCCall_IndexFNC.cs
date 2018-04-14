@@ -41,9 +41,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this._Skip1			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "IF_SKIP_FIRST_SCREEN"	) );
 						this._CTUOpt		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "IS_OPTIONS"						) );
 
-						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrBDC	) );
-						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrMSG	) );
-						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrSPA	) );
+						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_BDCCall	) );
+						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_MSGCall	) );
+						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_SPACall	) );
 					}
 
 			#endregion

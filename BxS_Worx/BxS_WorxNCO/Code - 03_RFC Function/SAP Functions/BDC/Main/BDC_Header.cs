@@ -59,7 +59,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.SAPTCode		= dtoHead.SAPTCode;
 						this.Skip1st		= dtoHead.Skip1st	;
 						//.............................................
-						if ( this._IndexCTU == null )
+						if ( this._IndexCTU == null || this._IndexCTU.Value.Metadata == null )
 							{
 								this.DispMode	= dtoHead.CTUParms.DisplayMode.ToString();
 								this.UpdtMode	= dtoHead.CTUParms.UpdateMode	.ToString();
@@ -86,7 +86,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this.Skip1st	= false;
 						//.............................................
-						if ( this._IndexCTU == null )
+						if ( this._IndexCTU == null || this._IndexCTU.Value.Metadata == null )
 							{
 								this.DispMode	= cz_CTU_A.ToString();
 								this.UpdtMode	= cz_CTU_A.ToString();

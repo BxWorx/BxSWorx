@@ -26,9 +26,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_Factory( IRfcDestination	rfcDestination )
+				internal BDC_Session_Factory(		IRfcDestination	rfcDestination
+																			, bool						useTranVersion = false )
 					{
 						this.RfcDestination		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Session_Factory).Namespace}:- RfcDest Factory null" );
+						this._UseTrnVers			= useTranVersion	;
 						//.............................................
 						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance									, cz_LM	);
 						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this.RfcDestination )	,	cz_LM );
@@ -44,6 +46,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				private readonly	Lazy< BDC_Parser_Factory	>		_ParserFactory	;
 				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr		;
 				//.................................................
+				private readonly bool _UseTrnVers;
 				private bool _IsReady;
 
 			#endregion
@@ -66,11 +69,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 				internal	ProgressHandler<DTO_BDC_Progress>		CreateProgressHandler		( int interval = 10 )	=> this.UTL_Cntlr.CreateProgressHandler<DTO_BDC_Progress>( ()=> new DTO_BDC_Progress() , interval );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal async Task<bool> ReadyEnvironmentAsync( bool optimise = true , bool UseTranVersion = false )
 				internal async Task<bool> ReadyEnvironmentAsync( bool optimise = true )
 					{
 						if ( ! this._IsReady )
 							{
-								this._RfcFncCntlr.Value.RegisterBDCProfile();
+								this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseTrnVers );
 								this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
 								//.........................................
 								try
@@ -94,7 +98,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: SAP Messages"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	ObjectPool< BDC_Session_SAPMsgProcessor >	CreateSAPMsgsPool			()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_SAPMsgProcessor >( this.CreateSAPMsgsProcessor );
+				internal	ObjectPool< BDC_Session_SAPMsgProcessor >	CreateSAPMsgsPool()	=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_SAPMsgProcessor >( this.CreateSAPMsgsProcessor );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Session_SAPMsgProcessor > CreateSAPMsgsPoolConfig( bool defaults = true )
@@ -114,7 +118,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	ObjectPool< BDC_Session_TranProcess >	CreateBDCSessionPool		()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranProcess	>( this.CreateBDCSession );
+				internal	ObjectPool< BDC_Session_TranProcess >	CreateBDCSessionPool()	=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranProcess	>( this.CreateBDCSession );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Session_TranProcess > CreateBDCSessionPoolConfig( bool defaults = true )
@@ -125,8 +129,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Session_TranProcess CreateBDCSession()
 					{
-						BDC_Header lo_H	= this._RfcFncCntlr.Value.GetAddBDCCallProfile().CreateBDCHeader();
-						return	new	BDC_Session_TranProcess( lo_H , this.CreateBDCSessionConfig() );
+						return	new	BDC_Session_TranProcess( this.CreateBDCSessionConfig() );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -159,13 +162,35 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Transaction Consumer"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private		BDC_Session_TranConsumer								CreateBDCTrnConsumer			()=>	new	BDC_Session_TranConsumer	( this._RfcFncCntlr.Value.CreateBDCCallFunction() );
-				internal	ObjectPool< BDC_Session_TranConsumer >	CreateBDCTrnConsumerPool	()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranConsumer >	( this.CreateBDCTrnConsumer );
+				//private BDC_Session_TranConsumer	CreateBDCCallConsumer	()	=>	new	BDC_Session_TranConsumer( this._RfcFncCntlr.Value.CreateBDCFunction( false ) );
+				private BDC_Session_TranConsumer	CreateBDCTranConsumer	()	=>	new	BDC_Session_TranConsumer( this._RfcFncCntlr.Value.CreateBDCFunction( this._UseTrnVers ) );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTrnConsumerPoolConfig( bool defaults = true )
+				//internal ObjectPool< BDC_Session_TranConsumer > CreateBDCTransConsumerPool( bool UseTranVersion = false )
+				internal ObjectPool< BDC_Session_TranConsumer > CreateBDCTransConsumerPool()
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( this.CreateBDCTrnConsumer , defaults );
+						//if ( UseTranVersion )
+						//	{
+								return	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranConsumer >	( this.CreateBDCTranConsumer );
+						//	}
+						//else
+						//	{
+						//		return	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranConsumer >	( this.CreateBDCCallConsumer );
+						//	}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTransConsumerPoolConfig( bool defaults = true , bool UseTranVersion = false )
+				internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTransConsumerPoolConfig( bool defaults = true )
+					{
+						//if ( UseTranVersion )
+						//	{
+								return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( this.CreateBDCTranConsumer , defaults );
+						//	}
+						//else
+						//	{
+						//		return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( this.CreateBDCCallConsumer , defaults );
+						//	}
 					}
 
 			#endregion

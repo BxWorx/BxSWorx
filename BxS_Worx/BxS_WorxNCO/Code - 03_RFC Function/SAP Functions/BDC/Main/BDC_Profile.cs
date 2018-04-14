@@ -4,22 +4,24 @@ using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCCall_Profile : RfcFncProfile
+	internal class BDC_Profile : RfcFncProfile
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCCall_Profile(		string						fncName
-																	, BDC_Factory				bdcFactory	)	: base(		fncName )
+				internal BDC_Profile(		string				fncName
+															, BDC_Factory		bdcFactory
+															, bool					useTranVersion	= false	)	: base(	fncName )
 					{
-						this._BDCFactory		=	bdcFactory	??	throw		new	ArgumentException( $"{typeof(BDCCall_Profile).Namespace}:- BDC Factory null" );
+						this._BDCFactory		=	bdcFactory	??	throw		new	ArgumentException( $"{typeof(BDC_Profile).Namespace}:- BDC Factory null" );
+						this.IsTranVersion	= useTranVersion;
 						//.............................................
-						this._FNCIndex	=	new	Lazy<	BDCCall_IndexFNC >( ()=>	this._BDCFactory.CreateBDCIndexFNC() );
+						this._FNCIndex	=	new	Lazy<	BDC_IndexFNC >( ()=>	this._BDCFactory.CreateIndexFNC( this.IsTranVersion ) );
+						this._SPAIndex	=	new Lazy<	BDC_IndexSPA >( ()=>	this._BDCFactory.CreateIndexSPA( this.IsTranVersion ) );
+						this._BDCIndex	= new	Lazy< BDC_IndexBDC >( ()=>	this._BDCFactory.CreateIndexBDC( this.IsTranVersion ) );
+						this._MSGIndex	= new	Lazy< BDC_IndexMSG >( ()=>	this._BDCFactory.CreateIndexMSG( this.IsTranVersion ) );
 
 						this._CTUIndex	= new	Lazy< BDC_IndexCTU >( ()=>	this._BDCFactory.CreateIndexCTU() );
-						this._SPAIndex	=	new Lazy<	BDC_IndexSPA >( ()=>	this._BDCFactory.CreateIndexSPA() );
-						this._BDCIndex	= new	Lazy< BDC_IndexBDC >( ()=>	this._BDCFactory.CreateIndexBDC() );
-						this._MSGIndex	= new	Lazy< BDC_IndexMSG >( ()=>	this._BDCFactory.CreateIndexMSG() );
 					}
 
 			#endregion
@@ -27,14 +29,21 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private		readonly	BDC_Factory		_BDCFactory;
+				private		readonly	BDC_Factory		_BDCFactory	;
 				//.................................................
-				internal	readonly	Lazy<	BDCCall_IndexFNC >	_FNCIndex;
-				internal	readonly	Lazy<	BDC_IndexCTU >	_CTUIndex;
-
+				internal	readonly	Lazy<	BDC_IndexFNC >	_FNCIndex;
 				internal	readonly	Lazy<	BDC_IndexSPA >	_SPAIndex;
 				internal	readonly	Lazy<	BDC_IndexBDC >	_BDCIndex;
 				internal	readonly	Lazy<	BDC_IndexMSG >	_MSGIndex;
+
+				internal	readonly	Lazy<	BDC_IndexCTU >	_CTUIndex;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal	bool	IsTranVersion	{ get; }
 
 			#endregion
 
@@ -50,10 +59,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 					{
 						this.LoadFunctionIndex	( this._FNCIndex.Value );
 
-						this.LoadStructureIndex	( this._CTUIndex.Value );
 						this.LoadStructureIndex	( this._SPAIndex.Value );
 						this.LoadStructureIndex	( this._BDCIndex.Value );
 						this.LoadStructureIndex	( this._MSGIndex.Value );
+						//.............................................
+						if ( !this.IsTranVersion )		this.LoadStructureIndex	( this._CTUIndex.Value );
 						//.............................................
 						base.ReadyProfile();
 					}

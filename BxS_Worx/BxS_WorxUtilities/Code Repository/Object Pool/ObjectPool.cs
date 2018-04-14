@@ -308,7 +308,7 @@ namespace BxS_WorxUtil.ObjectPool
 								//.........................................
 								if ( config.Factory != null )
 									{
-										this._Config.Factory			=	config.Factory	;
+										this._Config.Factory	=	config.Factory	;
 									}
 								//.........................................
 								if ( this._Config.Throttled )

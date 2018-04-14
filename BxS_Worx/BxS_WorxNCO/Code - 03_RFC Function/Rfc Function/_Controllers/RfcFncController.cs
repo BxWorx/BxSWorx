@@ -68,38 +68,22 @@ namespace BxS_WorxNCO.RfcFunction.Main
 									{
 										if ( ! this._RfcFncMngr.Value.ProfileExists( lc_Name ) )
 											{
-												if ( TranVersion )
-													{
-														this._RfcFncMngr.Value.RegisterProfile( new BDCTran_Profile( lc_Name , BDC_Factory.Instance ) );
-													}
-												else
-													{
-														this._RfcFncMngr.Value.RegisterProfile( new BDCCall_Profile( lc_Name , BDC_Factory.Instance ) );
-													}
+												this._RfcFncMngr.Value.RegisterProfile( new BDC_Profile( lc_Name , BDC_Factory.Instance , TranVersion ) );
 											}
 									}
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCCall_Profile GetAddBDCCallProfile()
+				public BDC_Profile GetAddBDCProfile( bool TranVersion = false )
 					{
-						this.RegisterBDCProfile( false );
+						this.RegisterBDCProfile( TranVersion );
 						//.............................................
-						return	this._RfcFncMngr.Value.GetProfile< BDCCall_Profile >( cz_BDCCall );
+						return	this._RfcFncMngr.Value.GetProfile< BDC_Profile >( TranVersion ? cz_BDCTran : cz_BDCCall );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCTran_Profile GetAddBDCTranProfile()
-					{
-						this.RegisterBDCProfile( true );
-						//.............................................
-						return	this._RfcFncMngr.Value.GetProfile< BDCTran_Profile >( cz_BDCTran );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCCall_Function CreateBDCCallFunction	()=>	new	BDCCall_Function(	this.GetAddBDCCallProfile() );
-				public BDCTran_Function CreateBDCTranFunction	()=>	new	BDCTran_Function(	this.GetAddBDCTranProfile() );
+				public BDC_Function CreateBDCFunction	( bool TranVersion = false )=>	new	BDC_Function(	this.GetAddBDCProfile( TranVersion ) );
 
 			#endregion
 

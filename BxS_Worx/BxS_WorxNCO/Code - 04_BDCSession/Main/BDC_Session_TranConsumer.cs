@@ -18,11 +18,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_TranConsumer( BDCCall_Function	function )
+				internal BDC_Session_TranConsumer( BDC_Function	function )
 					{
-						this._Func		= function	;
+						this._Func	= function	;
 						//.............................................
-						this._BDCData	= new	Lazy<BDC_Data>	(	()=>	this._Func.MyProfile.Value.CreateBDCData() , cz_LM );
+						this._BDCHead	= new	Lazy< BDC_Header >	(	()=>	this._Func.MyProfile.Value.CreateBDCHeader() , cz_LM );
+						this._BDCData	= new	Lazy< BDC_Data >		(	()=>	this._Func.MyProfile.Value.CreateBDCData	() , cz_LM );
 					}
 
 			#endregion
@@ -30,7 +31,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	BDCCall_Function				_Func;
+				private readonly	BDC_Function	_Func;
+						//.............................................
+				private	readonly	Lazy< BDC_Header >	_BDCHead;
 				private	readonly	Lazy< BDC_Data >		_BDCData;
 
 			#endregion
@@ -46,11 +49,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Consume(	BDC_Header														header
+				internal void Consume(	DTO_BDC_Header														header
 															,	CancellationToken													CT
 															, BlockingCollection< DTO_BDC_Transaction >	queue
 															,	SMC.RfcDestination												rfcDestination	)
 					{
+						this._BDCHead.Value.Load( header );
+						//.............................................
 						foreach ( DTO_BDC_Transaction lo_Tran in queue.GetConsumingEnumerable( CT ) )
 							{
 								try
@@ -60,7 +65,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 										this._BDCData.Value.LoadSPA( lo_Tran.SPAData );
 										this._BDCData.Value.LoadBDC( lo_Tran.BDCData );
 										//.........................................
-										this._Func.Config( header );
+										this._Func.Config( this._BDCHead.Value );
 										this._Func.Process( this._BDCData.Value , rfcDestination );
 										//.........................................
 										this._BDCData.Value.LoadMsg( lo_Tran.MSGData );

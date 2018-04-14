@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxNCO.RfcFunction.BDCTran;
 
 using BxS_WorxUtil.ObjectPool;
 using BxS_WorxUtil.Progress;
@@ -19,10 +18,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_TranProcess(	BDC_Header				header
-																				,	DTO_BDC_SessionConfig	config	)
+				internal BDC_Session_TranProcess(	DTO_BDC_SessionConfig	config	)
 					{
-						this._Header	= header	;
 						this._Config	= config	;
 						//.............................................
 						this._Queue			= new	BlockingCollection< DTO_BDC_Transaction >();
@@ -39,7 +36,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	BDC_Header					_Header	;
 				private	readonly	DTO_BDC_SessionConfig		_Config	;
 				//.................................................
 				private	readonly	object							_Lock				;
@@ -76,20 +72,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 				// Process supplied BDC session
 				// Returns no of transactions processesed
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<int> Process_SessionAsync(	DTO_BDC_Session											bdcSession
-																										, CancellationToken										CT
-																										,	ProgressHandler< DTO_BDC_Progress >	progressHndlr
-																										, ObjectPool< BDC_Session_TranConsumer >		pool
-																										,	SMC.RfcDestination									rfcDestination	)
+				public async Task<int> Process_SessionAsync(	DTO_BDC_Session													bdcSession
+																										, CancellationToken												CT
+																										,	ProgressHandler< DTO_BDC_Progress >			progressHndlr
+																										, ObjectPool< BDC_Session_TranConsumer >	pool
+																										,	SMC.RfcDestination											rfcDestination	)
 					{
-						this.PrepareSession( bdcSession );
-
-						this._Header.Load	( bdcSession.Header );
-						this.LoadQueue		( bdcSession.Trans	);
+						this.PrepareSession	( bdcSession );
+						this.LoadQueue			( bdcSession.Trans );
 						//.............................................
 						if ( this._Queue.Count > 0 )
 							{
-								this.StartConsumers( CT , pool , rfcDestination );
+								this.StartConsumers( CT , pool , bdcSession.Header , rfcDestination );
 
 								if ( ! CT.IsCancellationRequested )
 									{
@@ -183,9 +177,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void StartConsumers(		CancellationToken									CT
+				private void StartConsumers(		CancellationToken												CT
 																			, ObjectPool< BDC_Session_TranConsumer >	pool
-																			,	SMC.RfcDestination								rfcDestination	)
+																			, DTO_BDC_Header													header
+																			,	SMC.RfcDestination											rfcDestination	)
 					{
 						int ln_MaxConsumers		=	this._Config.IsSequential ?	1 : ( this._Queue.Count < this._Config.ConsumersNo ? this._Queue.Count : this._Config.ConsumersNo ) ;
 
@@ -197,9 +192,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 									{
 										this._Consumers.Add(	Task<int>.Run( ()=>
 																						{
+																							// TO-DO: SHALLOW COPY
+																							DTO_BDC_Header lo_hdr	= header;
 																							using (	BDC_Session_TranConsumer lo_Cons = pool.Acquire() )
 																								{
-																									lo_Cons.Consume( this._Header , CT , this._Queue , rfcDestination );
+																									lo_Cons.Consume( lo_hdr , CT , this._Queue , rfcDestination );
 																									return	lo_Cons.TransactionsProcessed;
 																								}
 																						}

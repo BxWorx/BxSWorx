@@ -28,11 +28,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				void	RegisterBDCProfile( bool TranVersion = false );
 				//.................................................
-				BDCCall_Profile		GetAddBDCCallProfile()	;
-				BDCCall_Function	CreateBDCCallFunction()	;
-				//.................................................
-				BDCTran_Profile		GetAddBDCTranProfile()	;
-				BDCTran_Function	CreateBDCTranFunction()	;
+				BDC_Profile		GetAddBDCProfile	( bool TranVersion = false )	;
+				BDC_Function	CreateBDCFunction	( bool TranVersion = false )	;
 
 			#endregion
 

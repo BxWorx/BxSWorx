@@ -17,19 +17,17 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_400_BDCSession
 		{
-			private readonly	UT_000_NCO					co_NCO000				;
-			private readonly	INCO_Controller			co_NCOCntlr			;
-			private	readonly	BDC_Session_Factory	co_SessFact			;
-			private	readonly	BDC_Session_Factory	co_SessFactGUI	;
+			private readonly	UT_000_NCO					co_NCO000		;
+			private readonly	INCO_Controller			co_NCOCntlr	;
+			private	BDC_Session_Factory	co_SessFact	;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_400_BDCSession()
 				{
-					this.co_NCO000				= new	UT_000_NCO()					;
-					this.co_NCOCntlr			= this.co_NCO000._NCO_Cntlr	;
+					this.co_NCO000		= new	UT_000_NCO()					;
+					this.co_NCOCntlr	= this.co_NCO000._NCO_Cntlr	;
 
-					this.co_SessFact			=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() )	;
-					this.co_SessFactGUI		=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured( showSAPGui: true ) )	;
+					//this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() )	;
 					//...............................................
 					Assert.IsNotNull( this.co_NCOCntlr , "" );
 				}
@@ -38,10 +36,13 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_10_Instantiate()
 				{
+					this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() )	;
+
+					Assert.IsNotNull	( this.co_SessFact	, "a" );
+					//...............................................
 				  BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
-					Assert.IsNotNull	( this.co_SessFact	, "a" );
 					Assert.IsNotNull	( lo_BDCSess				, "b" );
 					Assert.IsNotNull	( lo_SessCfg				, "c" );
 				}
@@ -50,8 +51,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_20_Configure()
 				{
-				  BDC_Session_TranProcess						lo_BDCSess	= this.GetBDCSession();
-					DTO_BDC_SessionConfig	lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
+					this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() )	;
+
+				  BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession();
+					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 					lo_SessCfg.ConsumersNo	= 2	;
 					lo_SessCfg.ConsumersMax	= 4	;
@@ -63,18 +66,36 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public async Task UT_400_BCDSess_30_ProcessSimple()
+			public void UT_400_BCDSess_30_ProcessCall()
 				{
-					const	int ln_Trn	= 010;
+					Task.Run( async ()=> await this.BCDSess_Process( 1 , false ).ConfigureAwait(false)).Wait();
+				}
 
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_400_BCDSess_32_ProcessTran()
+				{
+					Task.Run( async ()=> await this.BCDSess_Process( 1 , true ).ConfigureAwait(false)).Wait();
+				}
+
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			private async Task BCDSess_Process( int ln_Trn = 200 , bool UseTrnVersn = false )
+				{
 					var CTS		= new CancellationTokenSource();
 
+					this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() , UseTrnVersn )	;
+
 					ProgressHandler<DTO_BDC_Progress>				lo_PH				= this.co_SessFact.CreateProgressHandler			();
-					ObjectPool<BDC_Session_TranConsumer>		lo_PoolTrn	= this.co_SessFact.CreateBDCTrnConsumerPool		();
+					ObjectPool<BDC_Session_TranConsumer>		lo_PoolTrn	= this.co_SessFact.CreateBDCTransConsumerPool	();
 					ObjectPool<BDC_Session_SAPMsgConsumer	>	lo_PoolMsg	= this.co_SessFact.CreateBDCSAPMsgConsumerPool();
 
-				  BDC_Session_SAPMsgProcessor	lo_SAPMsg		= this.GetConfiguredSAPMsgProcessor	( false , 5 , 5 , false  );
-				  BDC_Session_TranProcess			lo_BDCSess	= this.GetConfiguredBDCSession			( false , 5 , 5 , false  );
+					Task.Run( ()=>	this.co_SessFact.ReadyEnvironmentAsync( true )).Wait();
+
+				  BDC_Session_SAPMsgProcessor	lo_SAPMsg		= this.GetConfiguredSAPMsgProcessor	( false , 5 , 5	);
+				  BDC_Session_TranProcess			lo_BDCSess	= this.GetConfiguredBDCSession			( false , 5 , 5 );
 					DTO_BDC_Session							lo_SessDTO	=	this.co_SessFact.CreateSessionDTO	()												;
 
 					this.LoadBDCData( lo_SessDTO , ln_Trn , 'N' , true );
@@ -106,13 +127,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.AreEqual( ln_Trn , lo_SAPMsg.TransactionsProcessed , "" );
 				}
 
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_SAPMsgProcessor GetConfiguredSAPMsgProcessor( bool Seq = false, int No = 5, int Max = 5 , bool ShowGUI = false )
+				private	BDC_Session_SAPMsgProcessor GetConfiguredSAPMsgProcessor( bool Seq = false, int No = 5, int Max = 5 )
 					{
-						BDC_Session_SAPMsgProcessor		lo_MsgProc	= this.GetSAPMsgProcessor( ShowGUI );
+						BDC_Session_SAPMsgProcessor		lo_MsgProc	= this.co_SessFact.CreateSAPMsgsProcessor();
 						DTO_BDC_SessionConfig					lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 						lo_SessCfg.IsSequential	=	Seq	;
@@ -125,9 +143,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_TranProcess GetConfiguredBDCSession( bool Seq = false, int No = 5, int Max = 5 , bool ShowGUI = false )
+				private	BDC_Session_TranProcess GetConfiguredBDCSession( bool Seq = false, int No = 5, int Max = 5 )
 					{
-						BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession( ShowGUI );
+						BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession();
 						DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 						lo_SessCfg.IsSequential	=	Seq	;
@@ -140,30 +158,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_SAPMsgProcessor GetSAPMsgProcessor( bool ShowGUI = false )
+				private	BDC_Session_TranProcess GetBDCSession()
 					{
-						this.ReadyFactory( ShowGUI );
-						return	ShowGUI ?	this.co_SessFactGUI.CreateSAPMsgsProcessor() : this.co_SessFact.CreateSAPMsgsProcessor()	;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_TranProcess GetBDCSession( bool ShowGUI = false )
-					{
-						this.ReadyFactory( ShowGUI );
-						return	ShowGUI ?	this.co_SessFactGUI.CreateBDCSession() : this.co_SessFact.CreateBDCSession() ;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ReadyFactory( bool ShowGUI = false )
-					{
-						if ( ShowGUI )
-							{
-								Task.Run( ()=>	this.co_SessFactGUI	.ReadyEnvironmentAsync()).Wait();
-							}
-						else
-							{
-								Task.Run( ()=>	this.co_SessFact		.ReadyEnvironmentAsync()).Wait();
-							}
+						return	this.co_SessFact.CreateBDCSession() ;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

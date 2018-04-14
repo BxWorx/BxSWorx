@@ -43,9 +43,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this._Mode			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "MODE_VAL"		) );
 						this._Update		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "UPDATE_VAL"	) );
 						//.............................................
-						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrBDCTran	) );
-						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrMSGTran	) );
-						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_StrSPATran	) );
+						this._TabBDC		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_BDCTran	) );
+						this._TabMSG		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_MSGTran	) );
+						this._TabSPA		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_SPATran	) );
 					}
 
 			#endregion

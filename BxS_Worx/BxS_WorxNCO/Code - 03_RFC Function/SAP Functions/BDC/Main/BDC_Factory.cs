@@ -34,14 +34,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//.................................................
 				// Index objects
 				//.................................................
-				internal	BDCCall_IndexFNC	CreateBDCIndexFNC	()=>	new BDCCall_IndexFNC();
-				internal	BDCTran_IndexFNC	CreateTRNIndexFNC	()=>	new BDCTran_IndexFNC();
-
-				internal	BDC_IndexCTU	CreateIndexCTU	()=>	new BDC_IndexCTU();
-
+				internal	BDC_IndexFNC	CreateIndexFNC	( bool tranVersion = false )=>	new BDC_IndexFNC( tranVersion );
 				internal	BDC_IndexSPA	CreateIndexSPA	( bool tranVersion = false )=>	new BDC_IndexSPA( tranVersion );
 				internal	BDC_IndexBDC	CreateIndexBDC	( bool tranVersion = false )=>	new BDC_IndexBDC( tranVersion );
 				internal	BDC_IndexMSG	CreateIndexMSG	( bool tranVersion = false )=>	new BDC_IndexMSG( tranVersion );
+
+				internal	BDC_IndexCTU	CreateIndexCTU	()=>	new BDC_IndexCTU();
 
 				//.................................................
 				//.................................................

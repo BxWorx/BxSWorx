@@ -8,9 +8,30 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
-	internal class BDCTran_Function	: RfcFncBase
+	internal class BDC_Function	: RfcFncBase
 		{
 			#region "Documentation"
+
+				//	FUNCTION /isdfps/call_transaction.
+				//	*"----------------------------------------------------------------------
+				//	*"  IMPORTING
+				//	*"     VALUE(IF_TCODE)							TYPE	TCODE
+				//	*"     VALUE(IF_SKIP_FIRST_SCREEN)	TYPE	FLAG DEFAULT SPACE
+				//	*"     VALUE(IT_BDCDATA)						TYPE	BDCDATA_TAB OPTIONAL
+				//	*"     VALUE(IS_OPTIONS)						TYPE	CTU_PARAMS OPTIONAL
+				//	*"  EXPORTING
+				//	*"     VALUE(ET_MSG)								TYPE	ETTCD_MSG_TABTYPE
+				//	*"  TABLES
+				//	*"      CT_SETGET_PARAMETER					STRUCTURE	RFC_SPAGPA OPTIONAL
+				//	*"  EXCEPTIONS
+				//	*"      IMPORT_PARA_ERROR
+				//	*"      TCODE_ERROR
+				//	*"      AUTH_ERROR
+				//	*"      TRANS_ERROR
+				//	*"----------------------------------------------------------------------
+
+				// ****************************************************************************************
+				// ****************************************************************************************
 
 				//	FUNCTION abap4_call_transaction.
 				//	*"----------------------------------------------------------------------
@@ -37,9 +58,9 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCTran_Function( BDCTran_Profile profile	)	: base(	profile )
+				internal BDC_Function( BDC_Profile profile	)	: base(	profile )
 					{
-						this.MyProfile	= new Lazy< BDCTran_Profile >	(	()=> (BDCTran_Profile) this.Profile , cz_LM );
+						this.MyProfile	= new Lazy< BDC_Profile >	(	()=> (BDC_Profile) this.Profile , cz_LM );
 					}
 
 			#endregion
@@ -47,23 +68,25 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				internal readonly Lazy< BDCTran_Profile >		MyProfile;
+				internal readonly Lazy< BDC_Profile >		MyProfile;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private	BDCTran_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value; } }
+				private	BDC_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value; } }
 
 				private	int		Idx_Tcd		{ get {	return	this.FNCIndex.TCode		; } }
 				private	int		Idx_Skp		{ get {	return	this.FNCIndex.Skip1		; } }
-				private	int		Idx_Dsp		{ get {	return	this.FNCIndex.Mode		; } }
-				private	int		Idx_Upd		{ get {	return	this.FNCIndex.Update	; } }
 
 				private	int		Idx_SPA		{ get {	return	this.FNCIndex.TabSPA	; } }
 				private	int		Idx_BDC		{ get {	return	this.FNCIndex.TabBDC	; } }
 				private	int		Idx_MSG		{ get {	return	this.FNCIndex.TabMSG	; } }
+
+				private	int		Idx_CTU		{ get {	return	this.FNCIndex.CTUOpt	; } }
+				private	int		Idx_Dsp		{ get {	return	this.FNCIndex.Mode		; } }
+				private	int		Idx_Upd		{ get {	return	this.FNCIndex.Update	; } }
 
 			#endregion
 
@@ -81,8 +104,16 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						//.............................................
 						this.Set_SAPTCode	( config.SAPTCode	);
 						this.Set_Skip1st	(	config.Skip1st	);
-						this.Set_Mode			( config.DispMode );
-						this.Set_Update		( config.UpdtMode	);
+
+						if ( this.MyProfile.Value.IsTranVersion )
+							{
+									this.Set_Mode		( config.DispMode );
+									this.Set_Update	( config.UpdtMode	);
+							}
+						else
+							{
+									this.Set_CTU	( config.CTUParms	);
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -153,6 +184,17 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				private void Set_Update( string update )
 					{
 						this.NCORfcFunction.SetValue( this.Idx_Upd , update );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void Set_CTU( SMC.IRfcStructure ctu )
+					{
+						SMC.IRfcStructure ls_CTU	= this.NCORfcFunction.GetStructure( this.Idx_CTU );
+
+						for (int i = 0; i < ctu.Count; i++)
+							{
+								ls_CTU.SetValue( i , ctu.GetValue(i) );
+							}
 					}
 
 			#endregion

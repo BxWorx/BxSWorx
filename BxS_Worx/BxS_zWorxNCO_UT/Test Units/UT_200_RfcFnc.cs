@@ -46,11 +46,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcDestination	lo_DS	= this.co_NCO000.GetSAPDestConfigured();
 					IRfcFncManager	lo_FM = new RfcFncManager( lo_DS );
 					//...............................................
-					BDCCall_Profile lo_PR0	= this.CreateBDCCallProfile();
+					BDC_Profile lo_PR0	= this.CreateBDCProfile();
 					lo_FM.RegisterProfile	( lo_PR0 );
 					//...............................................
-					BDCCall_Profile lo_PR1	= lo_FM.GetProfile<BDCCall_Profile>( cz_FNme );
-					BDCCall_Profile lo_PR2	= lo_FM.GetProfile<BDCCall_Profile>( cz_FNme );
+					BDC_Profile lo_PR1	= lo_FM.GetProfile<BDC_Profile>( cz_FNme );
+					BDC_Profile lo_PR2	= lo_FM.GetProfile<BDC_Profile>( cz_FNme );
 
 					Assert.AreEqual	( lo_PR0 , lo_PR1 ,	"1" );
 					Assert.AreEqual	( lo_PR1 , lo_PR2 ,	"2" );
@@ -92,11 +92,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					IRfcDestination		lo_DS	= this.co_NCO000.GetSAPDestConfigured();
 					IRfcFncController	lo_FC = new RfcFncController( lo_DS );
 
-					lo_FC.RegisterBDCCallProfile();
+					lo_FC.RegisterBDCProfile();
 					lo_FC.RegisterSAPMsgProfile	();
 					await	lo_FC.ActivateProfilesAsync().ConfigureAwait(false);
 					//...............................................
-					BDCCall_Function	lo_FN1	=	lo_FC.CreateBDCCallFunction	();
+					BDC_Function			lo_FN1	=	lo_FC.CreateBDCFunction	();
 					SAPMsg_Function		lo_FN2	=	lo_FC.CreateSAPMsgFunction	();
 
 					Assert.AreNotEqual	(	-1	, lo_FN1.MyProfile.Value._FNCIndex.Value.Skip1	,	"" );
@@ -107,12 +107,12 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDCCall_Profile CreateBDCCallProfile()
+				private BDC_Profile CreateBDCProfile()
 					{
 						IRfcDestination	lo_DS	= this.co_NCO000.GetSAPDestConfigured();
-						BDCCall_Factory lo_FC	= BDCCall_Factory.Instance;
+						BDC_Factory			lo_FC	= BDC_Factory.Instance;
 
-						return	new BDCCall_Profile( cz_FNme , BDC_Factory.Instance , BDCCall_Factory.Instance );
+						return	new BDC_Profile( cz_FNme , BDC_Factory.Instance );
 					}
 
 		//
@@ -122,7 +122,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 		private class MyRfcFnc : RfcFncBase
 			{
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal MyRfcFnc( BDCCall_Profile profile ) : base( profile )
+				internal MyRfcFnc( BDC_Profile profile ) : base( profile )
 					{
 					}
 			}

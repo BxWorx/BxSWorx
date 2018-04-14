@@ -14,7 +14,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_IndexMSG( bool tranVersion = false )
 					{
-						this.Name		=	tranVersion	?	cz_StrMSGTran	:	cz_StrMSG;
+						this.Name		=	tranVersion	?	cz_MSGTran	:	cz_MSGCall;
 						//.............................................
 						this._TCode	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "TCODE"		) );
 						this._DynNm	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( "DYNAME"	) );

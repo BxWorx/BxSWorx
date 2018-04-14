@@ -75,6 +75,5 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						//...............................................
 						dto.LoadOption( "LAND1 EQ 'NA' " )	;
 					}
-
 		}
 }
