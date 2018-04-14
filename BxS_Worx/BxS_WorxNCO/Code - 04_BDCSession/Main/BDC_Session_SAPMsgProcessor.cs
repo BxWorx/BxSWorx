@@ -187,7 +187,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																							using (	BDC_Session_SAPMsgConsumer lo_Cons = pool.Acquire() )
 																								{
 																									lo_Cons.Consume( CT , this._Queue , rfcDestination );
-																									return	lo_Cons.TransactionsProcessed;
+																									return	lo_Cons.TransactionsRun;
 																								}
 																						}
 																				) );

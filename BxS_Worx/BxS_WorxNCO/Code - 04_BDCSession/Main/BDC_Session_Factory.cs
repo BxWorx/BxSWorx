@@ -69,7 +69,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 				internal	ProgressHandler<DTO_BDC_Progress>		CreateProgressHandler		( int interval = 10 )	=> this.UTL_Cntlr.CreateProgressHandler<DTO_BDC_Progress>( ()=> new DTO_BDC_Progress() , interval );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal async Task<bool> ReadyEnvironmentAsync( bool optimise = true , bool UseTranVersion = false )
 				internal async Task<bool> ReadyEnvironmentAsync( bool optimise = true )
 					{
 						if ( ! this._IsReady )
@@ -162,35 +161,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Transaction Consumer"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private BDC_Session_TranConsumer	CreateBDCCallConsumer	()	=>	new	BDC_Session_TranConsumer( this._RfcFncCntlr.Value.CreateBDCFunction( false ) );
 				private BDC_Session_TranConsumer	CreateBDCTranConsumer	()	=>	new	BDC_Session_TranConsumer( this._RfcFncCntlr.Value.CreateBDCFunction( this._UseTrnVers ) );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal ObjectPool< BDC_Session_TranConsumer > CreateBDCTransConsumerPool( bool UseTranVersion = false )
 				internal ObjectPool< BDC_Session_TranConsumer > CreateBDCTransConsumerPool()
 					{
-						//if ( UseTranVersion )
-						//	{
 								return	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranConsumer >	( this.CreateBDCTranConsumer );
-						//	}
-						//else
-						//	{
-						//		return	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranConsumer >	( this.CreateBDCCallConsumer );
-						//	}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTransConsumerPoolConfig( bool defaults = true , bool UseTranVersion = false )
 				internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTransConsumerPoolConfig( bool defaults = true )
 					{
-						//if ( UseTranVersion )
-						//	{
 								return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( this.CreateBDCTranConsumer , defaults );
-						//	}
-						//else
-						//	{
-						//		return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( this.CreateBDCCallConsumer , defaults );
-						//	}
 					}
 
 			#endregion

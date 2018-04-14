@@ -68,14 +68,14 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_30_ProcessCall()
 				{
-					Task.Run( async ()=> await this.BCDSess_Process( 1 , false ).ConfigureAwait(false)).Wait();
+					Task.Run( async ()=> await this.BCDSess_Process( 200 , false ).ConfigureAwait(false)).Wait();
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_32_ProcessTran()
 				{
-					Task.Run( async ()=> await this.BCDSess_Process( 1 , true ).ConfigureAwait(false)).Wait();
+					Task.Run( async ()=> await this.BCDSess_Process( 200 , true ).ConfigureAwait(false)).Wait();
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -106,7 +106,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 																																	,	lo_PoolTrn
 																																	,	this.co_SessFact.SMCDestination ).ConfigureAwait(false);
 
-					while (!ln_TrnCnt.Equals(lo_SessDTO.Trans.Count))
+					while ( ln_TrnCnt < lo_SessDTO.Trans.Count )
 						{
 							Thread.Sleep(10);
 						}
@@ -119,7 +119,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 																																	,	lo_PoolMsg
 																																	,	this.co_SessFact.SMCDestination ).ConfigureAwait(false);
 
-					while (!ln_MsgCnt.Equals(lo_SessDTO.Trans.Count))
+					while ( ln_MsgCnt < lo_SessDTO.Trans.Count )
 						{
 							Thread.Sleep(10);
 						}

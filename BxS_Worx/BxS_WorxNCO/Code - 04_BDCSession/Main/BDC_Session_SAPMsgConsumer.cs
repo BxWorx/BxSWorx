@@ -18,6 +18,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 				internal BDC_Session_SAPMsgConsumer( SAPMsg_Function	function )
 					{
 						this._Func	= function	;
+						//.............................................
+						this._TallyTotal	= 0	;
+						this._TallyRun		= 0	;
+						this._TallyOK			= 0	;
 					}
 
 			#endregion
@@ -26,13 +30,19 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Declarations"
 
 				private readonly	SAPMsg_Function		_Func;
+				//.................................................
+				private	int _TallyTotal	;
+				private int _TallyRun		;
+				private int _TallyOK		;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	TransactionsProcessed		{ get; private set; }
+				internal	int	TransactionsTotal		{ get	{ return	this._TallyTotal	; } }
+				internal	int	TransactionsRun			{ get	{ return	this._TallyRun		; } }
+				internal	int	TransactionsOK			{ get	{ return	this._TallyOK			; } }
 
 			#endregion
 
@@ -44,22 +54,30 @@ namespace BxS_WorxNCO.BDCSession.Main
 															, BlockingCollection< DTO_BDC_Transaction >	queue
 															,	SMC.RfcDestination												rfcDestination	)
 					{
+						int ln_Run	= 0	;
+						int ln_Ok		= 0	;
+						//.............................................
 						foreach ( DTO_BDC_Transaction lo_Tran in queue.GetConsumingEnumerable( CT ) )
 							{
 								try
 									{
-										foreach ( DTO_BDC_Msg item in lo_Tran.MSGData )
+										foreach ( DTO_BDC_Msg lo_Msg in lo_Tran.MSGData )
 											{
-												this._Func.Process( item , rfcDestination );
+												this._Func.Process( lo_Msg , rfcDestination );
 											}
+										ln_Ok ++;
 									}
 								catch
 									{	}
 								finally
 									{
-										this.TransactionsProcessed	++;
+										ln_Run ++;
 									}
 							}
+						//.............................................
+						Interlocked.Add			( ref this._TallyTotal	, ln_Run	)	;
+						Interlocked.Exchange( ref this._TallyRun		, ln_Run	)	;
+						Interlocked.Exchange( ref this._TallyOK			, ln_Ok		)	;
 					}
 
 			#endregion

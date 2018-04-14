@@ -24,6 +24,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 						//.............................................
 						this._BDCHead	= new	Lazy< BDC_Header >	(	()=>	this._Func.MyProfile.Value.CreateBDCHeader() , cz_LM );
 						this._BDCData	= new	Lazy< BDC_Data >		(	()=>	this._Func.MyProfile.Value.CreateBDCData	() , cz_LM );
+						//.............................................
+						this._TallyTotal	= 0	;
+						this._TallyRun		= 0	;
+						this._TallyOK			= 0	;
 					}
 
 			#endregion
@@ -32,16 +36,22 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Declarations"
 
 				private readonly	BDC_Function	_Func;
-						//.............................................
+				//.................................................
 				private	readonly	Lazy< BDC_Header >	_BDCHead;
 				private	readonly	Lazy< BDC_Data >		_BDCData;
+				//.................................................
+				private	int _TallyTotal	;
+				private int _TallyRun		;
+				private int _TallyOK		;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	TransactionsProcessed		{ get; private set; }
+				internal	int	TransactionsTotal		{ get	{ return	this._TallyTotal	; } }
+				internal	int	TransactionsRun			{ get	{ return	this._TallyRun		; } }
+				internal	int	TransactionsOK			{ get	{ return	this._TallyOK			; } }
 
 			#endregion
 
@@ -54,6 +64,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 															, BlockingCollection< DTO_BDC_Transaction >	queue
 															,	SMC.RfcDestination												rfcDestination	)
 					{
+						int ln_Run	= 0	;
+						int ln_Ok		= 0	;
+
 						this._BDCHead.Value.Load( header );
 						//.............................................
 						foreach ( DTO_BDC_Transaction lo_Tran in queue.GetConsumingEnumerable( CT ) )
@@ -72,6 +85,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 										this._BDCData.Value.PostProcess();
 										//.........................................
 										lo_Tran.Successful	= true;
+										ln_Ok ++;
 									}
 								catch
 									{
@@ -80,9 +94,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 								finally
 									{
 										lo_Tran.Processed	= true;
-										this.TransactionsProcessed	++;
+										ln_Run ++;
 									}
 							}
+						//.............................................
+						Interlocked.Add			( ref this._TallyTotal	, ln_Run	)	;
+						Interlocked.Exchange( ref this._TallyRun		, ln_Run	)	;
+						Interlocked.Exchange( ref this._TallyOK			, ln_Ok		)	;
 					}
 
 			#endregion

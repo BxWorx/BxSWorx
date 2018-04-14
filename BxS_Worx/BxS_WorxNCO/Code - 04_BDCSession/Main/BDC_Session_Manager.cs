@@ -19,11 +19,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-//																			,	bool								UseTranVersion	= false	)
 				internal BDC_Session_Manager(		BDC_Session_Factory factory )
 					{
-						this._Factory		=	factory					;
-						//this._TrnVers		= UseTranVersion	;
+						this._Factory		=	factory	;
 						//.............................................
 						this._ParserCfg			= new	Lazy< ObjectPoolConfig< BDC_Parser > >										(	()=>	this._Factory.CreateParserPoolConfig()					,	cz_LM );
 						this._ParserPool		= new	Lazy< ObjectPool			< BDC_Parser > >										(	()=>	this._Factory.CreateParserPool()								, cz_LM );
@@ -44,7 +42,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Declarations"
 
 				private	readonly	BDC_Session_Factory	_Factory	;
-				//private	readonly	bool								_TrnVers	;
 				//.................................................
 				private	readonly	Lazy< ObjectPoolConfig< BDC_Parser > >										_ParserCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_Parser > >										_ParserPool		;
@@ -121,8 +118,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 						using (	BDC_Parser lo_Parser = this._ParserPool.Value.Acquire() )
 							{
-								lb_ParseOk	=	await Task.Run(	()=>	lo_Parser.Parse( request , lo_DTOSession ) )
-																											.ConfigureAwait(false);
+								lb_ParseOk	=	await Task.Run(	()=>	lo_Parser.Parse( request , lo_DTOSession ) ).ConfigureAwait(false);
 							}
 						//.............................................
 						if ( lb_ParseOk )
@@ -133,8 +129,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 																																						, CT
 																																						, progressHndlr
 																																						, this._BDCConsPool.Value
-																																						,	this._Factory.SMCDestination )
-																							.ConfigureAwait(false);
+																																						,	this._Factory.SMCDestination ).ConfigureAwait(false);
 									}
 								////.............................................
 								//using ( BDC_Session_SAPMsgs lo_SAPMsgs	= this._SAPMsgPool.Value.Acquire() )

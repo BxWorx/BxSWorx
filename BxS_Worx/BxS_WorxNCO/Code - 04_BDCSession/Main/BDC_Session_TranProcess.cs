@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
@@ -65,12 +64,14 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Configure the BDC session operating environment
+				//
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ConfigureSession( DTO_BDC_SessionConfig dto )	=>	this._Config.Configure( dto );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Process supplied BDC session
 				// Returns no of transactions processesed
+				//
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task<int> Process_SessionAsync(	DTO_BDC_Session													bdcSession
 																										, CancellationToken												CT
@@ -87,9 +88,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 								if ( ! CT.IsCancellationRequested )
 									{
-										this.TransactionsProcessed	=	await ProcessConsumerResultsAsync(	CT
-																																										,	progressHndlr )
-																													.ConfigureAwait(false);
+										this.TransactionsProcessed	=	await ProcessConsumerResultsAsync( CT ,	progressHndlr ).ConfigureAwait(false);
 									}
 							}
 						//.............................................
@@ -182,7 +181,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 																			, DTO_BDC_Header													header
 																			,	SMC.RfcDestination											rfcDestination	)
 					{
-						int ln_MaxConsumers		=	this._Config.IsSequential ?	1 : ( this._Queue.Count < this._Config.ConsumersNo ? this._Queue.Count : this._Config.ConsumersNo ) ;
+						int ln_MaxConsumers		=	this._Config.IsSequential ?	1 : ( this._Queue.Count < this._Config.ConsumersNo	? this._Queue.Count
+																																																										: this._Config.ConsumersNo ) ;
 
 						for ( int i = 0; i < ln_MaxConsumers; i++ )
 							{
@@ -192,12 +192,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 									{
 										this._Consumers.Add(	Task<int>.Run( ()=>
 																						{
-																							// TO-DO: SHALLOW COPY
-																							DTO_BDC_Header lo_hdr	= header;
 																							using (	BDC_Session_TranConsumer lo_Cons = pool.Acquire() )
 																								{
-																									lo_Cons.Consume( lo_hdr , CT , this._Queue , rfcDestination );
-																									return	lo_Cons.TransactionsProcessed;
+																									DTO_BDC_Header lo_Hdr		= header ;
+																									lo_Cons.Consume( lo_Hdr , CT , this._Queue , rfcDestination );
+																									return	lo_Cons.TransactionsRun;
 																								}
 																						}
 																				) );
