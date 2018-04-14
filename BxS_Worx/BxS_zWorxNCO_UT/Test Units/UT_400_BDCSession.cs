@@ -26,8 +26,6 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					this.co_NCO000		= new	UT_000_NCO()					;
 					this.co_NCOCntlr	= this.co_NCO000._NCO_Cntlr	;
-
-					//this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() )	;
 					//...............................................
 					Assert.IsNotNull( this.co_NCOCntlr , "" );
 				}
@@ -40,7 +38,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					Assert.IsNotNull	( this.co_SessFact	, "a" );
 					//...............................................
-				  BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession();
+				  BDC_Session_TranProcessor	lo_BDCSess	= this.GetBDCSession();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 					Assert.IsNotNull	( lo_BDCSess				, "b" );
@@ -53,7 +51,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() )	;
 
-				  BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession();
+				  BDC_Session_TranProcessor	lo_BDCSess	= this.GetBDCSession();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 					lo_SessCfg.ConsumersNo	= 2	;
@@ -95,7 +93,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Task.Run( ()=>	this.co_SessFact.ReadyEnvironmentAsync( true )).Wait();
 
 				  BDC_Session_SAPMsgProcessor	lo_SAPMsg		= this.GetConfiguredSAPMsgProcessor	( false , 5 , 5	);
-				  BDC_Session_TranProcess			lo_BDCSess	= this.GetConfiguredBDCSession			( false , 5 , 5 );
+				  BDC_Session_TranProcessor			lo_BDCSess	= this.GetConfiguredBDCSession			( false , 5 , 5 );
 					DTO_BDC_Session							lo_SessDTO	=	this.co_SessFact.CreateSessionDTO	()												;
 
 					this.LoadBDCData( lo_SessDTO , ln_Trn , 'N' , true );
@@ -143,9 +141,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_TranProcess GetConfiguredBDCSession( bool Seq = false, int No = 5, int Max = 5 )
+				private	BDC_Session_TranProcessor GetConfiguredBDCSession( bool Seq = false, int No = 5, int Max = 5 )
 					{
-						BDC_Session_TranProcess	lo_BDCSess	= this.GetBDCSession();
+						BDC_Session_TranProcessor	lo_BDCSess	= this.GetBDCSession();
 						DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 						lo_SessCfg.IsSequential	=	Seq	;
@@ -158,7 +156,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_TranProcess GetBDCSession()
+				private	BDC_Session_TranProcessor GetBDCSession()
 					{
 						return	this.co_SessFact.CreateBDCSession() ;
 					}

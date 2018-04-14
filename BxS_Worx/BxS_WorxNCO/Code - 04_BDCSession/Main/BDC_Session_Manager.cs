@@ -26,14 +26,17 @@ namespace BxS_WorxNCO.BDCSession.Main
 						this._ParserCfg			= new	Lazy< ObjectPoolConfig< BDC_Parser > >										(	()=>	this._Factory.CreateParserPoolConfig()					,	cz_LM );
 						this._ParserPool		= new	Lazy< ObjectPool			< BDC_Parser > >										(	()=>	this._Factory.CreateParserPool()								, cz_LM );
 
-						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TranProcess > >				(	()=>	this._Factory.CreateBDCSessionPoolConfig()			,	cz_LM );
-						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session_TranProcess > >				(	()=>	this._Factory.CreateBDCSessionPool()						, cz_LM );
+						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TranProcessor > >			(	()=>	this._Factory.CreateBDCSessionPoolConfig()			,	cz_LM );
+						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session_TranProcessor > >			(	()=>	this._Factory.CreateBDCSessionPool()						, cz_LM );
 
 						this._SAPMsgCfg			= new	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgProcessor > >		(	()=>	this._Factory.CreateSAPMsgsPoolConfig()					,	cz_LM );
 						this._SAPMsgPool		= new	Lazy< ObjectPool			< BDC_Session_SAPMsgProcessor > >		(	()=>	this._Factory.CreateSAPMsgsPool()								, cz_LM );
 
 						this._BDCConsCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TranConsumer > >			(	()=>	this._Factory.CreateBDCTransConsumerPoolConfig	( true )	,	cz_LM );
 						this._BDCConsPool		= new	Lazy< ObjectPool			< BDC_Session_TranConsumer > >			(	()=>	this._Factory.CreateBDCTransConsumerPool				()				, cz_LM );
+
+						this._MsgConsCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgConsumer > >		(	()=>	this._Factory.CreateBDCSAPMsgConsumerPoolConfig	( true )	,	cz_LM );
+						this._MsgConsPool		= new	Lazy< ObjectPool			< BDC_Session_SAPMsgConsumer > >		(	()=>	this._Factory.CreateBDCSAPMsgConsumerPool				()				, cz_LM );
 					}
 
 			#endregion
@@ -46,8 +49,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 				private	readonly	Lazy< ObjectPoolConfig< BDC_Parser > >										_ParserCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_Parser > >										_ParserPool		;
 
-				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TranProcess > >				_BDCSessCfg		;
-				private	readonly	Lazy< ObjectPool			< BDC_Session_TranProcess >	>				_BDCSessPool	;
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TranProcessor > >			_BDCSessCfg		;
+				private	readonly	Lazy< ObjectPool			< BDC_Session_TranProcessor >	>			_BDCSessPool	;
 
 				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgProcessor > >		_SAPMsgCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_Session_SAPMsgProcessor > >		_SAPMsgPool		;
@@ -55,15 +58,19 @@ namespace BxS_WorxNCO.BDCSession.Main
 				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TranConsumer > >			_BDCConsCfg		;
 				private	readonly	Lazy< ObjectPool			< BDC_Session_TranConsumer > >			_BDCConsPool	;
 
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgConsumer > >		_MsgConsCfg		;
+				private	readonly	Lazy< ObjectPool			< BDC_Session_SAPMsgConsumer > >		_MsgConsPool	;
+
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal ObjectPoolConfig< BDC_Parser										> ParserConfiguration				{ get { return	this._ParserCfg	.Value	; } }
-				internal ObjectPoolConfig< BDC_Session_TranConsumer			> BDCConsumerConfiguration	{ get { return	this._BDCConsCfg.Value	; } }
-				internal ObjectPoolConfig< BDC_Session_TranProcess			> BDCSessionConfiguration		{ get { return	this._BDCSessCfg.Value	; } }
-				internal ObjectPoolConfig< BDC_Session_SAPMsgProcessor	> SAPMessageConfiguration		{ get { return	this._SAPMsgCfg	.Value	; } }
+				internal ObjectPoolConfig< BDC_Parser										> ParserConfiguration				{ get { return	this._ParserCfg		.Value	; } }
+				internal ObjectPoolConfig< BDC_Session_TranConsumer			> BDCConsumerConfiguration	{ get { return	this._BDCConsCfg	.Value	; } }
+				internal ObjectPoolConfig< BDC_Session_TranProcessor		> BDCSessionConfiguration		{ get { return	this._BDCSessCfg	.Value	; } }
+				internal ObjectPoolConfig< BDC_Session_SAPMsgProcessor	> SAPMessageConfiguration		{ get { return	this._SAPMsgCfg		.Value	; } }
+				internal ObjectPoolConfig< BDC_Session_SAPMsgConsumer		> MsgConsumerConfiguration	{ get { return	this._MsgConsCfg	.Value	; } }
 
 			#endregion
 
@@ -123,7 +130,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 						//.............................................
 						if ( lb_ParseOk )
 							{
-								using ( BDC_Session_TranProcess lo_BDCSession = this._BDCSessPool.Value.Acquire() )
+								using ( BDC_Session_TranProcessor lo_BDCSession = this._BDCSessPool.Value.Acquire() )
 									{
 										int ln_Trn	=	await	lo_BDCSession.Process_SessionAsync(		lo_DTOSession
 																																						, CT
@@ -131,16 +138,15 @@ namespace BxS_WorxNCO.BDCSession.Main
 																																						, this._BDCConsPool.Value
 																																						,	this._Factory.SMCDestination ).ConfigureAwait(false);
 									}
-								////.............................................
-								//using ( BDC_Session_SAPMsgs lo_SAPMsgs	= this._SAPMsgPool.Value.Acquire() )
-								//	{
-								//		int ln_Msg	=	await	lo_SAPMsgs.Process_SessionAsync(	lo_DTOSession
-								//																												, CT
-								//																												, progressHndlr
-								//																												, this._ _BDCConsPool.Value
-								//																												,	this._Factory.SMCDestination )
-								//													.ConfigureAwait(false);
-								//	}
+								//.............................................
+								using ( BDC_Session_SAPMsgProcessor lo_SAPMsgs	= this._SAPMsgPool.Value.Acquire() )
+									{
+										int ln_Msg	=	await	lo_SAPMsgs.Process_SessionAsync(	lo_DTOSession
+																																				, CT
+																																				, progressHndlr
+																																				, this._MsgConsPool.Value
+																																				,	this._Factory.SMCDestination ).ConfigureAwait(false);
+									}
 							}
 						//.............................................
 						return	lb_Ret;

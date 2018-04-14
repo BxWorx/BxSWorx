@@ -117,18 +117,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	ObjectPool< BDC_Session_TranProcess >	CreateBDCSessionPool()	=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranProcess	>( this.CreateBDCSession );
+				internal	ObjectPool< BDC_Session_TranProcessor >	CreateBDCSessionPool()	=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranProcessor	>( this.CreateBDCSession );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPoolConfig< BDC_Session_TranProcess > CreateBDCSessionPoolConfig( bool defaults = true )
+				internal ObjectPoolConfig< BDC_Session_TranProcessor > CreateBDCSessionPoolConfig( bool defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_TranProcess >( this.CreateBDCSession , defaults );
+						return	ObjectPoolFactory.CreateConfig< BDC_Session_TranProcessor >( this.CreateBDCSession , defaults );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_TranProcess CreateBDCSession()
+				internal BDC_Session_TranProcessor CreateBDCSession()
 					{
-						return	new	BDC_Session_TranProcess( this.CreateBDCSessionConfig() );
+						return	new	BDC_Session_TranProcessor( this.CreateBDCSessionConfig() );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
