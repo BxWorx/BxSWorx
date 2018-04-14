@@ -226,9 +226,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadBDCData( BDC_Data dtoLines, BDC_IndexBDC lo_Idx , bool UpdMode = false )
+				private void LoadBDCData( BDC_Data dtoLines, BDC_IndexBDC lo_Idx , bool ChgMode = false )
 					{
-						int	ln_Rows	= UpdMode ? 5 : 4;
+						int	ln_Rows	= ChgMode ? 5 : 4;
 
 						dtoLines.BDCData.Append(ln_Rows);
 						//.............................................
@@ -252,7 +252,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						//.............................................
 						dtoLines.BDCData.CurrentIndex	= 3;
 
-						if ( UpdMode )
+						if ( ChgMode )
 							{
 								dtoLines.BDCData.SetValue( lo_Idx.Prg	, "SAPMF02D"		);
 								dtoLines.BDCData.SetValue( lo_Idx.Dyn	, "0110"				);
