@@ -33,7 +33,7 @@ namespace BxS_WorxExcel
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IExcelBDCSessionWS	lo_WS		=	this._HndlrExcel.GetWSData();
+																		IExcelBDC_WS	lo_WS		=	this._HndlrExcel.GetWSData();
 																		this._HndlrBDC.WriteDataXML( lo_WS );
 																		//.....................
 																		this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );

@@ -32,15 +32,15 @@ namespace BxS_WorxExcel.Main
 				internal	void		ResetStatusBar	()							=>	this._ThisAPP.StatusBar = false	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList< IExcelBDCSessionWS > GetWBWSManifest( bool loadData = false )
+				internal IList< IExcelBDC_WS > GetWBWSManifest( bool loadData = false )
 					{
-						IList< IExcelBDCSessionWS >	lt_List		= new List< IExcelBDCSessionWS >();
+						IList< IExcelBDC_WS >	lt_List		= new List< IExcelBDC_WS >();
 						//.............................................
 						foreach ( Workbook lo_WB in this._ThisAPP.Workbooks )
 							{
 								foreach ( Worksheet lo_WS in lo_WB.Worksheets )
 									{
-										IExcelBDCSessionWS	lo_BDCWS =	this.CreateExcelWS( lo_WS, loadData );
+										IExcelBDC_WS	lo_BDCWS =	this.CreateExcelWS( lo_WS, loadData );
 										lt_List.Add( lo_BDCWS );
 									}
 							}
@@ -49,7 +49,7 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IExcelBDCSessionWS GetWSData( string WBID = null , string WSID = null )
+				internal IExcelBDC_WS GetWSData( string WBID = null , string WSID = null )
 					{
 						return	this.CreateExcelWS( this.GetWS( WBID , WSID ) , true );
 					}
@@ -60,9 +60,9 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IExcelBDCSessionWS CreateExcelWS( Worksheet lo_WS , bool loadData = false )
+				private IExcelBDC_WS CreateExcelWS( Worksheet lo_WS , bool loadData = false )
 					{
-						IExcelBDCSessionWS	lo_BDCWS	= Globals.ThisAddIn._IPXCntlr.Value.CreateBDCSessionWS();
+						IExcelBDC_WS	lo_BDCWS	= Globals.ThisAddIn._IPXCntlr.Value.CreateBDCSessionWS();
 						//.............................................
 						lo_BDCWS.WBID				= lo_WS.Parent.Name														;
 						lo_BDCWS.WSID				= lo_WS.Name																	;

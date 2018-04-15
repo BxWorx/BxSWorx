@@ -16,9 +16,8 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Handler_BDC()
 					{
-						this._IPXBDCParser		=	new	Lazy< IExcelBDCSession_Parser >		(	()=>	this._IPXCntlr.CreateBDCSessionParser	()	, cz_LM );
-						this._UTLSerialiser		=	new	Lazy< Serializer >								(	()=>	this._UTLCntlr.CreateSerializer				()	, cz_LM );
-						this._UTLIO						=	new	Lazy< IO >												(	()=>	this._UTLCntlr.CreateIO								()	, cz_LM );
+						this._UTLSerialiser		=	new	Lazy< Serializer >	(	()=>	this._UTLCntlr.CreateSerializer	()	, cz_LM );
+						this._UTLIO						=	new	Lazy< IO >					(	()=>	this._UTLCntlr.CreateIO					()	, cz_LM );
 					}
 
 			#endregion
@@ -36,7 +35,6 @@ namespace BxS_WorxExcel.Main
 
 				internal	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 
-				internal readonly Lazy< IExcelBDCSession_Parser >		_IPXBDCParser		;
 				internal readonly Lazy< Serializer >								_UTLSerialiser	;
 				internal readonly Lazy< IO >												_UTLIO					;
 
@@ -46,12 +44,12 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void WriteDataXML( IExcelBDCSessionWS DTO )
+				internal void WriteDataXML( IExcelBDC_WS DTO )
 					{
-						IExcelBDCSessionRequest lo_Req	= Globals.ThisAddIn._IPXCntlr.Value.CreateBDCSessionRequest();
-						this._IPXBDCParser.Value.ParseWStoRequest(DTO,lo_Req);
-						var lt = new List<Type>	{	typeof(ExcelBDCSessionRequest) };
-						string lc_XML		=	this._UTLSerialiser.Value.Serialize( lo_Req , lt );
+						IExcelBDC_Request lo_Req	= this._IPXCntlr.ParseWStoRequest( DTO );
+						var			lt				= new List<Type>	{	typeof(ExcelBDC_Request) };
+						string	lc_XML		=	this._UTLSerialiser.Value.Serialize( lo_Req , lt );
+
 						this._UTLIO.Value.WriteFile( $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" , lc_XML );
 					}
 
