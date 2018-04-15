@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
-//.........................................................
-using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.API;
 
-using BxS_WorxNCO.Destination.API			;
-
 using BxS_WorxNCO.BDCSession.DTO			;
 using BxS_WorxNCO.BDCSession.Parser		;
-
-using BxS_WorxNCO.RfcFunction.Main		;
-using BxS_WorxNCO.RfcFunction.BDCTran	;
 
 using BxS_WorxUtil.Main;
 using BxS_WorxUtil.ObjectPool;
@@ -23,41 +15,30 @@ namespace BxS_WorxNCO.BDCSession.Main
 {
 	internal sealed class BDC_Session_Factory
 		{
-			#region "Constructors"
+			#region "Constructors: Singleton"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_Factory(		IRfcDestination	rfcDestination
-																			, bool						useTranVersion = false )
+				private BDC_Session_Factory()
 					{
-						this.RfcDestination		= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Session_Factory).Namespace}:- RfcDest Factory null" );
-						this._UseTrnVers			= useTranVersion	;
-						//.............................................
-						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance									, cz_LM	);
-						this._RfcFncCntlr			= new	Lazy< IRfcFncController		>		(	()=>	new	RfcFncController( this.RfcDestination )	,	cz_LM );
-						//.............................................
-						this._IsReady	= false;
+						this._ParserFactory		= new Lazy< BDC_Parser_Factory	>		(	()=>	BDC_Parser_Factory.Instance	, cz_LM	);
 					}
+				//.................................................
+				private	static readonly		Lazy< BDC_Session_Factory >	_Instance		= new	Lazy< BDC_Session_Factory >( ()=> new BDC_Session_Factory() , cz_LM );
+				public	static						BDC_Session_Factory					Instance			{	get { return _Instance.Value; }	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy< BDC_Parser_Factory	>		_ParserFactory	;
-				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr		;
-				//.................................................
-				private readonly bool _UseTrnVers;
-				private bool _IsReady;
+				private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IRfcDestination			RfcDestination	{ get; }
-				internal	SMC.RfcDestination	SMCDestination	{ get	{	return	this.RfcDestination.SMCDestination; } }
-
-				private		IUTL_Controller			UTL_Cntlr				{ get { return	NCO_Controller.Instance.UTL_Cntlr	; } }
+				private	IUTL_Controller		UTL_Cntlr		{ get { return	NCO_Controller.Instance.UTL_Cntlr	; } }
 
 			#endregion
 
@@ -67,29 +48,6 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	DTO_BDC_SessionConfig								CreateBDCSessionConfig	()										=>	new	DTO_BDC_SessionConfig();
 				internal	ProgressHandler<DTO_BDC_Progress>		CreateProgressHandler		( int interval = 10 )	=> this.UTL_Cntlr.CreateProgressHandler<DTO_BDC_Progress>( ()=> new DTO_BDC_Progress() , interval );
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal async Task<bool> ReadyEnvironmentAsync( bool optimise = true )
-					{
-						if ( ! this._IsReady )
-							{
-								this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseTrnVers );
-								this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
-								//.........................................
-								try
-									{
-										await this.RfcDestination.FetchMetadataAsync( optimise )	.ConfigureAwait(false);
-										await	this._RfcFncCntlr.Value.ActivateProfilesAsync()			.ConfigureAwait(false);
-										this._IsReady		=	true;
-									}
-								catch (Exception ex)
-									{
-										throw new Exception( "Session factory ready fail" , ex );
-									}
-							}
-						//.................................................
-						return	this._IsReady;
-					}
 
 			#endregion
 
@@ -146,13 +104,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC SAP Message Consumer"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private		BDC_Session_SAPMsgConsumer								CreateBDCSAPMsgConsumer			()=>	new	BDC_Session_SAPMsgConsumer	( this._RfcFncCntlr.Value.CreateSAPMsgFunction() );
-				internal	ObjectPool< BDC_Session_SAPMsgConsumer >	CreateBDCSAPMsgConsumerPool	()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_SAPMsgConsumer >	( this.CreateBDCSAPMsgConsumer );
+				internal	ObjectPool< BDC_Session_SAPMsgConsumer >	CreateBDCSAPMsgConsumerPool( Func< BDC_Session_SAPMsgConsumer > factory )
+					{
+						return	this.UTL_Cntlr.CreateObjectPool( factory );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPoolConfig< BDC_Session_SAPMsgConsumer > CreateBDCSAPMsgConsumerPoolConfig( bool defaults = true )
+				internal ObjectPoolConfig< BDC_Session_SAPMsgConsumer > CreateBDCSAPMsgConsumerPoolConfig(	Func< BDC_Session_SAPMsgConsumer >	factory
+																																																	, bool																defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_SAPMsgConsumer >( this.CreateBDCSAPMsgConsumer , defaults );
+						return	ObjectPoolFactory.CreateConfig< BDC_Session_SAPMsgConsumer >( factory , defaults );
 					}
 
 			#endregion
@@ -161,18 +122,16 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Transaction Consumer"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Session_TranConsumer	CreateBDCTranConsumer	()	=>	new	BDC_Session_TranConsumer( this._RfcFncCntlr.Value.CreateBDCFunction( this._UseTrnVers ) );
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPool< BDC_Session_TranConsumer > CreateBDCTransConsumerPool()
+				internal ObjectPool< BDC_Session_TranConsumer > CreateBDCTransConsumerPool( Func< BDC_Session_TranConsumer > factory )
 					{
-								return	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranConsumer >	( this.CreateBDCTranConsumer );
+						return	this.UTL_Cntlr.CreateObjectPool( factory );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTransConsumerPoolConfig( bool defaults = true )
+				internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTransConsumerPoolConfig(		Func< BDC_Session_TranConsumer >	factory
+																																																,	bool															defaults = true )
 					{
-								return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( this.CreateBDCTranConsumer , defaults );
+						return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( factory , defaults );
 					}
 
 			#endregion

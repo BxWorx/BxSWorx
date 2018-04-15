@@ -24,8 +24,8 @@ namespace BxS_WorxNCO.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private NCO_Controller()
 					{
-						this._DestRepos		= new Lazy<Repository>		(	()=>	new Repository	(	( Guid ID )	=>	new RfcDestination( ID ) )	, cz_LM );
-						this._GlobalSetup	= new Lazy<IConfigGlobal>	( ()=>	new ConfigGlobal()																						, cz_LM );
+						this._DestRepos		= new Lazy< Repository >		(	()=>	new Repository	(	( Guid ID )	=>	new RfcDestination( ID ) )	, cz_LM );
+						this._GlobalSetup	= new Lazy< IConfigGlobal >	( ()=>	new ConfigGlobal()																						, cz_LM );
 					}
 				//.................................................
 				private	static readonly		Lazy< NCO_Controller >	_Instance		= new	Lazy< NCO_Controller >( ()=> new NCO_Controller() , cz_LM );
@@ -36,8 +36,8 @@ namespace BxS_WorxNCO.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy<Repository>			_DestRepos;
-				private readonly	Lazy<IConfigGlobal>		_GlobalSetup;
+				private readonly	Lazy< Repository >			_DestRepos;
+				private readonly	Lazy< IConfigGlobal >		_GlobalSetup;
 
 			#endregion
 
@@ -135,13 +135,17 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	BDC_Session_Manager	CreateBDCSessionManager( IRfcDestination rfcDestination , bool useTranVersion )
+				public BDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination rfcDestination
+																														, bool						useTranVersion )
 					{
-						return	new BDC_Session_Manager( new BDC_Session_Factory( rfcDestination , useTranVersion ) );
+						return	new BDC_Session_Manager( rfcDestination , useTranVersion );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	ProgressHandler< DTO_BDC_Progress >		CreateBDCSessionProgressHandler	()	=>	this.UTL_Cntlr.CreateProgressHandler< DTO_BDC_Progress >( this.CreateProgress );
+				public ProgressHandler< DTO_BDC_Progress > CreateBDCSessionProgressHandler()
+					{
+						return	this.UTL_Cntlr.CreateProgressHandler< DTO_BDC_Progress >( this.CreateProgress );
+					}
 
 			#endregion
 
