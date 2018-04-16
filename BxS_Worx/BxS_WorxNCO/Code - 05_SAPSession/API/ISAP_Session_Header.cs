@@ -1,8 +1,8 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCSession.API
+namespace BxS_WorxNCO.SAPSession.API
 {
-	public interface ISAPSession_Header
+	public interface ISAP_Session_Header
 		{
 			#region "Properties"
 

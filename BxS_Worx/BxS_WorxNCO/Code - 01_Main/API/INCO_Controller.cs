@@ -3,6 +3,7 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.BDCSession.API;
+using BxS_WorxNCO.SAPSession.API;
 
 using BxS_WorxIPX.Main;
 using BxS_WorxUtil.Main;
@@ -37,19 +38,11 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Exposed: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				IList< ISAPSession_Header >		SAPSessionList(		String		userId      = "*"
-																											,	String		sessionName	= "*"
-																											,	DateTime  dateFrom    =	default(DateTime)
-																											,	DateTime	dateTo      = default(DateTime)	);
+				ISAP_Session_Manager	CreateSAPSessionManager( IRfcDestination	rfcDestination );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				ISAPSession_Profile	SAPBDCSession(	string	sessionName
-																					,	string	QID
-																					, bool		onlyHeader	= false );
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				BDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination	rfcDestination
-																										, bool						useAltBDCFunction );
+				IBDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination	rfcDestination
+																											, bool						useAltBDCFunction );
 
 			#endregion
 

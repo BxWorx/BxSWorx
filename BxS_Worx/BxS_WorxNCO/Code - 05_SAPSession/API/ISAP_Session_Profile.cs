@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+//.........................................................
 using BxS_WorxNCO.BDCSession.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCSession.API
+namespace BxS_WorxNCO.SAPSession.API
 {
-	public interface ISAPSession_Profile
+	public interface ISAP_Session_Profile
 		{
 			#region "Properties"
 

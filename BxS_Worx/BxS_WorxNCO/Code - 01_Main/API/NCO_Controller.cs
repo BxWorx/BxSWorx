@@ -8,6 +8,7 @@ using BxS_WorxNCO.Destination.Main.Destination;
 
 using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.BDCSession.DTO;
+using BxS_WorxNCO.SAPSession.API;
 
 using BxS_WorxIPX.Main;
 using BxS_WorxUtil.Main;
@@ -118,7 +119,13 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination rfcDestination
+				public ISAP_Session_Manager	CreateSAPSessionManager( IRfcDestination rfcDestination )
+					{
+						return	new SAP_Session_Manager( rfcDestination );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IBDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination rfcDestination
 																														, bool						useAltBDCFunction )
 					{
 						return	new BDC_Session_Manager( rfcDestination , useAltBDCFunction );

@@ -117,6 +117,7 @@ namespace BxS_WorxNCO.BDCSession.API
 			//===========================================================================================
 			#region "Methods: Exposed: Session Handling"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task<bool>	ReadySessionAsync( bool optimise = true )
 					{
 						if ( ! this._IsReady )
