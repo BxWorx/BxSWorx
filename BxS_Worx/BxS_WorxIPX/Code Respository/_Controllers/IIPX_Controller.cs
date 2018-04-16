@@ -6,16 +6,20 @@ namespace BxS_WorxIPX.Main
 		{
 			#region "Methods: Exposed"
 
-				IExcelBDC_WS				CreateBDCSessionWS			();
-				IExcelBDC_Request		CreateBDCSessionRequest	();
-				//.............................................
-				IExcelBDC_Request		ParseWStoRequest( IExcelBDC_WS ws );
+				IExcelBDCSessionResult		CreateBDCSessionResult	();
 
 				//.............................................
 				//.............................................
+
 				//.............................................
-				IExcelBDCSessionResult		CreateBDCSessionResult	();
-	
+				IExcelBDC_Config		Create_BDCConfig();
+				IExcelBDC_Logon			Create_Logon();
+
+				IExcelBDC_WS				Create_BDCWS			();
+				IExcelBDC_Request		Create_BDCRequest	();
+				//.............................................
+				IExcelBDC_Request		ParseWStoRequest( IExcelBDC_WS worksheet );
+
 		#endregion
 
 		}

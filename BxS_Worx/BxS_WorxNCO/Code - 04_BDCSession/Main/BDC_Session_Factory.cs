@@ -46,8 +46,13 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	DTO_BDC_SessionConfig								CreateBDCSessionConfig	()										=>	new	DTO_BDC_SessionConfig();
-				internal	ProgressHandler<DTO_BDC_Progress>		CreateProgressHandler		( int interval = 10 )	=> this.UTL_Cntlr.CreateProgressHandler<DTO_BDC_Progress>( ()=> new DTO_BDC_Progress() , interval );
+				internal DTO_BDC_SessionConfig	CreateBDCSessionConfig()	=>	new	DTO_BDC_SessionConfig();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ProgressHandler<DTO_BDC_Progress> CreateProgressHandler( int interval = 10 )
+					{
+						return	this.UTL_Cntlr.CreateProgressHandler( ()=> new DTO_BDC_Progress() , interval );
+					}
 
 			#endregion
 
@@ -55,12 +60,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: SAP Messages"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	ObjectPool< BDC_Session_SAPMsgProcessor >	CreateSAPMsgsPool()	=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_SAPMsgProcessor >( this.CreateSAPMsgsProcessor );
+				internal	ObjectPool< BDC_Session_SAPMsgProcessor >	CreateSAPMsgsPool()	=>	this.UTL_Cntlr.CreateObjectPool( this.CreateSAPMsgsProcessor );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Session_SAPMsgProcessor > CreateSAPMsgsPoolConfig( bool defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_SAPMsgProcessor >( this.CreateSAPMsgsProcessor , defaults );
+						return	ObjectPoolFactory.CreateConfig( this.CreateSAPMsgsProcessor , defaults );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -75,12 +80,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	ObjectPool< BDC_Session_TranProcessor >	CreateBDCSessionPool()	=>	this.UTL_Cntlr.CreateObjectPool< BDC_Session_TranProcessor	>( this.CreateBDCSession );
+				internal	ObjectPool< BDC_Session_TranProcessor >	CreateBDCSessionPool()	=>	this.UTL_Cntlr.CreateObjectPool( this.CreateBDCSession );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Session_TranProcessor > CreateBDCSessionPoolConfig( bool defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_TranProcessor >( this.CreateBDCSession , defaults );
+						return	ObjectPoolFactory.CreateConfig( this.CreateBDCSession , defaults );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -113,7 +118,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				internal ObjectPoolConfig< BDC_Session_SAPMsgConsumer > CreateBDCSAPMsgConsumerPoolConfig(	Func< BDC_Session_SAPMsgConsumer >	factory
 																																																	, bool																defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_SAPMsgConsumer >( factory , defaults );
+						return	ObjectPoolFactory.CreateConfig( factory , defaults );
 					}
 
 			#endregion
@@ -131,7 +136,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				internal ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTransConsumerPoolConfig(		Func< BDC_Session_TranConsumer >	factory
 																																																,	bool															defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Session_TranConsumer >( factory , defaults );
+						return	ObjectPoolFactory.CreateConfig( factory , defaults );
 					}
 
 			#endregion
@@ -141,12 +146,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private		BDC_Parser								CreateParser			()=>	new	BDC_Parser	( this._ParserFactory );
-				internal	ObjectPool< BDC_Parser >	CreateParserPool	()=>	this.UTL_Cntlr.CreateObjectPool< BDC_Parser >	( this.CreateParser		);
+				internal	ObjectPool< BDC_Parser >	CreateParserPool	()=>	this.UTL_Cntlr.CreateObjectPool( this.CreateParser		);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ObjectPoolConfig< BDC_Parser > CreateParserPoolConfig( bool defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig< BDC_Parser >( this.CreateParser , defaults );
+						return	ObjectPoolFactory.CreateConfig( this.CreateParser , defaults );
 					}
 
 			#endregion

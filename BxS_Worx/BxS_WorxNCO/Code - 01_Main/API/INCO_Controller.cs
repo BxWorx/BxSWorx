@@ -19,7 +19,7 @@ namespace BxS_WorxNCO.API
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: Destination"
 
 				IList< string >								GetSAPINIList();
 				IList< ISAPSystemReference >	GetSAPSystems();

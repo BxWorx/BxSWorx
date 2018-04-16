@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public class ExcelBDC_Parser
+	internal class ExcelBDC_Parser
 		{
 			#region "Constructors"
 
@@ -16,7 +16,7 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void ParseWStoRequest( IExcelBDC_WS ws , IExcelBDC_Request request )
+				internal void ParseWStoRequest( IExcelBDC_WS ws , IExcelBDC_Request request )
 					{
 						var	lo_SB	= new StringBuilder();
 						//.............................................

@@ -62,7 +62,7 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IExcelBDC_WS CreateExcelWS( Worksheet lo_WS , bool loadData = false )
 					{
-						IExcelBDC_WS	lo_BDCWS	= Globals.ThisAddIn._IPXCntlr.Value.CreateBDCSessionWS();
+						IExcelBDC_WS	lo_BDCWS	= Globals.ThisAddIn._IPXCntlr.Value.Create_BDCWS();
 						//.............................................
 						lo_BDCWS.WBID				= lo_WS.Parent.Name														;
 						lo_BDCWS.WSID				= lo_WS.Name																	;

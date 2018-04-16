@@ -32,21 +32,23 @@ namespace BxS_WorxIPX.Main
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				public	IExcelBDC_WS				CreateBDCSessionWS			()	=> new ExcelBDC_WS			();
-				public	IExcelBDC_Request		CreateBDCSessionRequest	()	=> new ExcelBDC_Request	();
-
 				public	IExcelBDCSessionResult		CreateBDCSessionResult	()=> new ExcelBDCSessionResult	();
 
-
-
-
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IExcelBDC_Request ParseWStoRequest( IExcelBDC_WS ws )
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	IExcelBDC_Config		Create_BDCConfig	()	=>	new	ExcelBDC_Config		();
+				public	IExcelBDC_Logon			Create_Logon			()	=>	new	ExcelBDC_Logon		();
+
+				public	IExcelBDC_WS				Create_BDCWS			()	=>	new ExcelBDC_WS				();
+				public	IExcelBDC_Request		Create_BDCRequest	()	=>	new ExcelBDC_Request	();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IExcelBDC_Request ParseWStoRequest( IExcelBDC_WS worksheet )
 					{
-						IExcelBDC_Request	lo_Req	= this.CreateBDCSessionRequest();
-						this._WSParser.Value.ParseWStoRequest( ws , lo_Req );
+						IExcelBDC_Request	lo_Req	= this.Create_BDCRequest();
+						this._WSParser.Value.ParseWStoRequest( worksheet , lo_Req );
 						return	lo_Req;
 					}
 

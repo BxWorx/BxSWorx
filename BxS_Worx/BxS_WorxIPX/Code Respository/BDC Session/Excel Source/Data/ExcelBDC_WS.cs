@@ -3,6 +3,15 @@ namespace BxS_WorxIPX.BDC
 {
 	public class ExcelBDC_WS : IExcelBDC_WS
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ExcelBDC_WS()
+					{	}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
 
 				public	string	WBID					{ get; set;	}

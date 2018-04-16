@@ -26,9 +26,12 @@ namespace BxS_WorxUtil.Main
 				public	Serializer	CreateSerializer	()=> new Serializer()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public PriorityQueue		<T> CreatePriorityQueue		<T>	()																							where T: class				=>	new PriorityQueue		<T>();
-				public ObjectPool				<T>	CreateObjectPool			<T>	(	Func<T>	factory	= null )											where T: PooledObject	=>	new ObjectPool			<T>( factory );
-				public ProgressHandler	<T>	CreateProgressHandler	<T>	(	Func<T>	factory ,	int reportInterval	= 10 )	where T: class				=>	new ProgressHandler	<T>( factory , reportInterval );
+				public PriorityQueue		<T> CreatePriorityQueue	<T>	()													where T: class				=>	new PriorityQueue		<T>();
+				public ObjectPool				<T>	CreateObjectPool		<T>	(	Func<T>	factory	= null )	where T: PooledObject	=>	new ObjectPool			<T>( factory );
+
+				public ProgressHandler	<T>	CreateProgressHandler	<T>	(		Func<T>	factory
+																																,	int			reportInterval	= 10 )	where T: class	=>	new ProgressHandler	<T>(	factory
+																																																																							, reportInterval );
 
 			#endregion
 

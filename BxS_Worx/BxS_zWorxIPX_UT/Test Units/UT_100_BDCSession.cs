@@ -21,7 +21,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_ParseWS_10_Base()
 				{
-					IExcelBDC_WS			lo_WS		= this.co_Cntlr.CreateBDCSessionWS()			;
+					IExcelBDC_WS			lo_WS		= this.co_Cntlr.Create_BDCWS()			;
 					IExcelBDC_Request lo_R0		= this.co_Cntlr.ParseWStoRequest( lo_WS )	;
 
 					Assert.IsNotNull( lo_WS	, "" );
