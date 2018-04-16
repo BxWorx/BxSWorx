@@ -3,7 +3,7 @@ using	static	BxS_WorxNCO.Main								.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.DTO
 {
-	internal class DTO_BDC_CTU
+	public class DTO_BDC_CTU
 		{
 			#region "Documentation"
 

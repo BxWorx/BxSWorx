@@ -6,7 +6,7 @@ using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.Main;
 using BxS_WorxNCO.Destination.Main.Destination;
 
-using BxS_WorxNCO.BDCSession.Main;
+using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.BDCSession.DTO;
 
 using BxS_WorxIPX.Main;
@@ -108,37 +108,20 @@ namespace BxS_WorxNCO.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
-						this._DestRepos.Value.Reset();
-						this._GlobalSetup.Value.Settings.Clear();
+						this._DestRepos		.Value.Reset();
+						this._GlobalSetup	.Value.Settings.Clear();
 					}
 
 			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private ISAPSystemReference CreateSAPSysRef(	Guid		id
-																										,	string	name )
-					{
-						ISAPSystemReference lo	=	Destination_Factory.CreateSAPSystemReference();
-						//.............................................
-						lo.ID				= id		;
-						lo.SAPName	= name	;
-						//.............................................
-						return	lo;
-					}
-
-		#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination rfcDestination
-																														, bool						useTranVersion )
+																														, bool						useAltBDCFunction )
 					{
-						return	new BDC_Session_Manager( rfcDestination , useTranVersion );
+						return	new BDC_Session_Manager( rfcDestination , useAltBDCFunction );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -154,6 +137,14 @@ namespace BxS_WorxNCO.API
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	DTO_BDC_Progress CreateProgress	()=>	new	DTO_BDC_Progress();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private ISAPSystemReference CreateSAPSysRef(	Guid		id
+																										,	string	name
+																										,	bool		isSSO	= false	)
+					{
+						return	Destination_Factory.CreateSAPSystemReference( id , name , isSSO );
+					}
 
 			#endregion
 

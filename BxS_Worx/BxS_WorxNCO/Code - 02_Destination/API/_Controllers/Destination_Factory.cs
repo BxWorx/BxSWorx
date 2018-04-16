@@ -1,23 +1,31 @@
-﻿using SMC	= SAP.Middleware.Connector;
+﻿using System;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.Main.Destination;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public static class Destination_Factory
+	internal static class Destination_Factory
 		{
 			#region "Methods: Exposed"
 
-				internal	static	ISAPSystemReference			CreateSAPSystemReference	()=>	new SAPSystemReference			();
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	static	ISAPSystemReference			CreateSAPSystemReference	(		Guid		id		= default(Guid)
+																																							, string	name	= default(string)
+																																							, bool		isSSO = false						)
+					{
+						return	new SAPSystemReference( id , name	, isSSO );
+					}
 				//.................................................
-				public	static	SMC.RfcConfigParameters		CreateNCOConfig						()=>	new	SMC.RfcConfigParameters	();
+				internal	static	SMC.RfcConfigParameters		CreateNCOConfig						()=>	new	SMC.RfcConfigParameters	();
 				//.................................................
-				public	static	IConfigRepository					CreateRepositoryConfig		()=>	new ConfigRepository				();
-				public	static	IConfigDestination				CreateDestinationConfig		()=>	new ConfigDestination				();
-				public	static	IConfigGlobal							CreateGlobalConfig				()=>	new ConfigGlobal						();
+				internal	static	IConfigRepository					CreateRepositoryConfig		()=>	new ConfigRepository				();
+				internal	static	IConfigDestination				CreateDestinationConfig		()=>	new ConfigDestination				();
+				internal	static	IConfigGlobal							CreateGlobalConfig				()=>	new ConfigGlobal						();
 				//.................................................
-				public	static	IConfigLogon							CreateLogonConfig					( bool ForRepository = false )=>	new ConfigLogon ( ForRepository );
+				internal	static	IConfigLogon							CreateLogonConfig					( bool ForRepository = false )=>	new ConfigLogon ( ForRepository );
 
 			#endregion
 

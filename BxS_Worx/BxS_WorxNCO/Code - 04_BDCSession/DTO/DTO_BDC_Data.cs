@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.DTO
 {
-	internal class DTO_BDC_Data
+	public class DTO_BDC_Data
 		{
 			#region "Documentation"
 

@@ -11,25 +11,27 @@ using BxS_WorxUtil.Progress;
 
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.Main;
+using BxS_WorxNCO.BDCSession.Main;
 using BxS_WorxNCO.BDCSession.Parser;
 using BxS_WorxNCO.BDCSession.DTO;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.BDCSession.Main
+namespace BxS_WorxNCO.BDCSession.API
 {
-	public class BDC_Session_Manager
+	public class BDC_Session_Manager : IBDC_Session_Manager
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Session_Manager(		IRfcDestination	rfcDestination
-																			, bool						useTranVersion = false )
+																			, bool						useAltBDCFunction	= false )
 					{
 						this.RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Session_Manager).Namespace}:- RfcDest Factory null" );
-						this._UseTrnVers		= useTranVersion	;
+						this._UseAltFnc			= useAltBDCFunction	;
 						//.............................................
 						this._IsReady				= false;
+						//.............................................
 						this._Factory				= new	Lazy< BDC_Session_Factory >	( ()=>	BDC_Session_Factory.Instance								, cz_LM );
 						this._RfcFncCntlr		= new	Lazy< IRfcFncController		>	(	()=>	new	RfcFncController( this.RfcDestination )	,	cz_LM );
 						//.............................................
@@ -54,7 +56,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	bool	_UseTrnVers	;
+				private readonly	bool	_UseAltFnc	;
 				private						bool	_IsReady		;
 				//.................................................
 				private	readonly	Lazy< BDC_Session_Factory	>		_Factory			;
@@ -119,7 +121,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					{
 						if ( ! this._IsReady )
 							{
-								this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseTrnVers );
+								this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseAltFnc );
 								this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
 								//.........................................
 								try
@@ -190,10 +192,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 				// changes made are relevant based on the status of the individual pools.
 				//
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ReConfigureBDCSessionPool		()=>	this._BDCSessPool	.Value	.ConfigurePool( this._BDCSessCfg .Value );
-				internal void ReConfigureBDCConsumerPool	()=>	this._BDCConsPool	.Value	.ConfigurePool( this._BDCConsCfg .Value );
-				internal void ReConfigureParserPool				()=>	this._ParserPool	.Value	.ConfigurePool( this._ParserCfg	 .Value );
-				internal void ReConfigureSAPMsgPool				()=>	this._SAPMsgPool	.Value	.ConfigurePool( this._SAPMsgCfg	 .Value );
+				public void ReConfigureBDCSessionPool		()=>	this._BDCSessPool	.Value	.ConfigurePool( this._BDCSessCfg .Value );
+				public void ReConfigureBDCConsumerPool	()=>	this._BDCConsPool	.Value	.ConfigurePool( this._BDCConsCfg .Value );
+				public void ReConfigureParserPool				()=>	this._ParserPool	.Value	.ConfigurePool( this._ParserCfg	 .Value );
+				public void ReConfigureSAPMsgPool				()=>	this._SAPMsgPool	.Value	.ConfigurePool( this._SAPMsgCfg	 .Value );
 
 			#endregion
 
@@ -201,7 +203,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Methods: Private"
 
 				private BDC_Session_SAPMsgConsumer	CreateBDCSAPMsgConsumer	()=>	new	BDC_Session_SAPMsgConsumer	( this._RfcFncCntlr.Value.CreateSAPMsgFunction	() );
-				private BDC_Session_TranConsumer		CreateBDCTranConsumer		()=>	new	BDC_Session_TranConsumer		( this._RfcFncCntlr.Value.CreateBDCFunction			( this._UseTrnVers ) );
+				private BDC_Session_TranConsumer		CreateBDCTranConsumer		()=>	new	BDC_Session_TranConsumer		( this._RfcFncCntlr.Value.CreateBDCFunction			( this._UseAltFnc ) );
 
 			#endregion
 		}
