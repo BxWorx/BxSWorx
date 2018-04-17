@@ -11,6 +11,8 @@ namespace BxS_WorxNCO.Main
 				internal	const string	cz_Null		= ""	;
 				internal	const int			cz_Neg		= -1	;
 				//.................................................
+				internal	const	string	cz_DefDyn	= "0000"	;			// TO-DO: remove from BDC_Constants
+				//.................................................
 				internal	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 
 			#endregion

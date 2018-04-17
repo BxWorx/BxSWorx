@@ -9,17 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Code - 02_Destination\Other\**" />
+    <Compile Remove="Code - 020_Destination\Other\**" />
     <Compile Remove="Code - 90 Helpers\**" />
     <Compile Remove="zKeep\API\**" />
     <Compile Remove="zKeep\Code - 90 Helpers\**" />
     <Compile Remove="zKeep\Controller\**" />
-    <EmbeddedResource Remove="Code - 02_Destination\Other\**" />
+    <EmbeddedResource Remove="Code - 020_Destination\Other\**" />
     <EmbeddedResource Remove="Code - 90 Helpers\**" />
     <EmbeddedResource Remove="zKeep\API\**" />
     <EmbeddedResource Remove="zKeep\Code - 90 Helpers\**" />
     <EmbeddedResource Remove="zKeep\Controller\**" />
-    <None Remove="Code - 02_Destination\Other\**" />
+    <None Remove="Code - 020_Destination\Other\**" />
     <None Remove="Code - 90 Helpers\**" />
     <None Remove="zKeep\API\**" />
     <None Remove="zKeep\Code - 90 Helpers\**" />
@@ -27,15 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Code - 01_Main\API\BDC_Factory.cs" />
-    <Compile Remove="Code - 01_Main\API\Controller.cs" />
-    <Compile Remove="Code - 02_Destination\API\_Controllers\IDestinationController.cs" />
-    <Compile Remove="Code - 03_RFC Function\Rfc Function\Common\RfcFncIndexBase.cs" />
-    <Compile Remove="Code - 03_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
-    <Compile Remove="Code - 03_RFC Function\SAP Functions\BDC\Indexes\BDC_IndexSPAy.cs" />
-    <Compile Remove="Code - 03_RFC Function\SAP Functions\Table Reader\Indexes\TblRdr_IndexBase.cs" />
-    <Compile Remove="Code - 04_BDCSession\Main\BDC_SessionProgress.cs" />
-    <Compile Remove="Code - 04_BDCSession\Parser\Processors\BDC_Parser_Destination.cs" />
+    <Compile Remove="Code - 010_Main\API\BDC_Factory.cs" />
+    <Compile Remove="Code - 010_Main\API\Controller.cs" />
+    <Compile Remove="Code - 020_Destination\API\_Controllers\IDestinationController.cs" />
+    <Compile Remove="Code - 030_RFC Function\Rfc Function\Common\RfcFncIndexBase.cs" />
+    <Compile Remove="Code - 030_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
+    <Compile Remove="Code - 030_RFC Function\SAP Functions\BDC\Indexes\BDC_IndexSPAy.cs" />
+    <Compile Remove="Code - 030_RFC Function\SAP Functions\Table Reader\Indexes\TblRdr_IndexBase.cs" />
+    <Compile Remove="Code - 040_BDCSession\Main\BDC_SessionProgress.cs" />
+    <Compile Remove="Code - 040_BDCSession\Parser\Processors\BDC_Parser_Destination.cs" />
     <Compile Remove="zKeep\BDCCallTranConsumer.cs" />
     <Compile Remove="zKeep\BDCCallTranIndex.cs" />
     <Compile Remove="zKeep\BDCCallTranIndexSetup.cs" />

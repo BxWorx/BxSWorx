@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-//.........................................................
-using BxS_WorxNCO.BDCSession.DTO;
+﻿using BxS_WorxNCO.BDCSession.DTO;
+using BxS_WorxNCO.Common;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.SAPSession.API
 {
@@ -8,10 +7,11 @@ namespace BxS_WorxNCO.SAPSession.API
 		{
 			#region "Properties"
 
-				string							SessionName		{ get; set; }
-				string							SAPTCode			{ get; set; }
-				DTO_BDC_CTU					CTUParams			{ get; set; }
-				IList<DTO_BDC_Data>	BDCDataList		{ get; set; }
+				string	SessionName		{ get; set; }
+				string	SAPTCode			{ get; set; }
+				//.............................................
+				DTO_BDC_CTU			CTUParams		{ get; }
+				BDC_Collection	BDCData			{ get; }
 
 			#endregion
 

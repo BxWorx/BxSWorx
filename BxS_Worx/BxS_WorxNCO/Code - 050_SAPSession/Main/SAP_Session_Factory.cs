@@ -1,6 +1,9 @@
 ﻿using System;
 //.........................................................
+using BxS_WorxNCO.Common;
+
 using BxS_WorxNCO.SAPSession.API;
+using BxS_WorxNCO.BDCSession.DTO;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -25,7 +28,11 @@ namespace BxS_WorxNCO.SAPSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ISAP_Session_Header		CreateSAPHeader	()	=>	new SAP_Session_Header();
-				internal ISAP_Session_Profile		CreateSAPProfile()	=>	new SAP_Session_Profile();
+				internal ISAP_Session_Profile		CreateSAPProfile()	=>	new SAP_Session_Profile( this.CreateCTU() , this.CreateBDCData() );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	DTO_BDC_CTU			CreateCTU			()	=>	new DTO_BDC_CTU();
+				private	BDC_Collection	CreateBDCData	()	=>	new BDC_Collection();
 
 			#endregion
 

@@ -14,9 +14,9 @@ namespace BxS_WorxNCO.SAPSession.API
 																										,	DateTime	dateTo      = default(DateTime)	);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				ISAP_Session_Profile	SAPBDCSession(	string	sessionName
-																					,	string	QID
-																					, bool		onlyHeader	= false );
+				ISAP_Session_Profile	GetSAPSessionData(		string	sessionName
+																								,	string	QID
+																								, bool		onlyHeader	= false );
 
 			#endregion
 
