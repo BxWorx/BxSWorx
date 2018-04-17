@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -21,53 +22,43 @@ namespace BxS_WorxNCO.Destination.Config
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IList<string> LoadTblRdr_Header_Filter(	string			userID
-																							,	string			sessionName
-																							,	DateTime		dateFrom
-																							,	DateTime		dateTo		)
+				private IList<string> Compile_Data_Filter( string	qID )
 					{
-						IList<string>	lt_Filter	= new List<string>();
+						return	new List<string>	{								"			TRANS EQ '1'",
+																				String.Concat(" AND	QID		EQ ", "'", qID.ToUpper(), "'")
+																			};
+					}
 
-						lt_Filter.Add("    DESTSYS EQ SPACE"		);
-						lt_Filter.Add("AND DESTAPP EQ SPACE"		);
-						lt_Filter.Add("AND FORMID  EQ SPACE"		);
-						lt_Filter.Add("AND QATTRIB EQ SPACE"		);
-						lt_Filter.Add("AND MANDANT EQ SY-MANDT"	);
-						lt_Filter.Add("AND DATATYP EQ '%BDC'"		);
-
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IList<string> Compile_Header_Filter(	string			userID
+																										,	string			sessionName
+																										,	DateTime		dateFrom
+																										,	DateTime		dateTo		)
+					{
+						IList<string>	lt_Filter	= new List<string>
+							{
+									"    DESTSYS EQ SPACE"
+								,	"AND DESTAPP EQ SPACE"
+								,	"AND FORMID  EQ SPACE"
+								,	"AND QATTRIB EQ SPACE"
+								,	"AND MANDANT EQ SY-MANDT"
+								,	"AND DATATYP EQ '%BDC'"
+							};
+						//.............................................
+						//.............................................
 						if ( ! userID.Length.Equals(0) && ! userID.Equals("*")  )
 							{
-								lt_Filter.Add(	String.Concat(" AND CREATOR LIKE ", 
-																													"'", 
-																													i_UserId.Replace("*"c,"%"c).ToUpper(),
-																													"'" ) )
-
+								lt_Filter.Add(	String.Concat(" AND CREATOR LIKE " , "'" , userID.Replace("*","%").ToUpper() , "'" ) );
 							}
 
-				If Not i_UserId.Length.Equals(0) AndAlso Not i_UserId.Equals("*"c)
-					Me.co_TblRdr_Hdr.Value.Add_Filter(String.Concat(" AND CREATOR LIKE ", 
-																													"'", 
-																													i_UserId.Replace("*"c,"%"c).ToUpper(),
-																													"'" ) )
-				End If
+						if ( ! sessionName.Length.Equals(0) && ! sessionName.Equals("*")  )
+							{
+								lt_Filter.Add(	String.Concat(" AND GROUPID LIKE " , "'" , sessionName.Replace("*","%").ToUpper() , "'" ) );
+							}
 
-				If Not i_SessionName.Length.Equals(0) AndAlso Not i_SessionName.Equals("*"c)
-					Me.co_TblRdr_Hdr.Value.Add_Filter(String.Concat(" AND GROUPID LIKE ",
-																													"'", 
-																													i_SessionName.Replace("*"c,"%"c).ToUpper(), 
-																													"'" ) )
-				End If
-
-				Me.co_TblRdr_Hdr.Value.Add_Filter(String.Concat(" AND CREDATE BETWEEN ",
-																												"'", 
-																												i_DateFrom.ToString("yyyyMMdd", CultureInfo.InvariantCulture),
-																												"'",
-																												" AND ",
-																												"'", 
-																												i_DateTo.ToString("yyyyMMdd", CultureInfo.InvariantCulture),
-																												"'" ) )
-
-
+						lt_Filter.Add(String.Concat(	" AND CREDATE BETWEEN " , "'" , dateFrom	.ToString("yyyyMMdd", CultureInfo.InvariantCulture) , "'"
+																				,	                " AND " , "'" , dateTo		.ToString("yyyyMMdd", CultureInfo.InvariantCulture) , "'" ) );
+						//.............................................
 						return	lt_Filter;
 					}
 

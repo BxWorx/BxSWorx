@@ -96,6 +96,11 @@ namespace BxS_WorxNCO.SAPSession.API
 																													,	DateTime  dateFrom    =	default(DateTime)
 																													,	DateTime	dateTo      = default(DateTime)	)
 					{
+
+					
+
+
+
 						return	new List< ISAP_Session_Header >();
 					}
 
