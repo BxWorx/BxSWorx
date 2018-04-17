@@ -8,13 +8,13 @@ namespace BxS_WorxNCO.SAPSession.API
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				IList< ISAP_Session_Header > SAPSessionList(		string		userId      = "*"
+				IList< ISAP_Session_Header > SAPSessionList(	string		userId      = "*"
 																										,	string		sessionName	= "*"
 																										,	DateTime  dateFrom    =	default(DateTime)
 																										,	DateTime	dateTo      = default(DateTime)	);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				ISAP_Session_Profile	GetSAPSessionData(		string	sessionName
+				ISAP_Session_Profile	GetSAPSessionData(	string	sessionName
 																								,	string	QID
 																								, bool		onlyHeader	= false );
 

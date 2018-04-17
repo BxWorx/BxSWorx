@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="Test Resources\UT_000_NCO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test Units\UT_100_Dest.cs" />
+    <Compile Include="Test Units\UT_600_SAPSessionMngr.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

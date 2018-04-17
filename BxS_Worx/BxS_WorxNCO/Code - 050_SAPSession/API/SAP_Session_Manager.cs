@@ -37,16 +37,14 @@ namespace BxS_WorxNCO.SAPSession.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	bool	_UseAltFnc	;
-				//.................................................
 				private	readonly	Lazy< SAP_Session_Factory	>		_Factory			;
 				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr	;
 				//.................................................
 				private	readonly	Lazy< SAP_Session_HandlerHeader >		_SAPHdrHndlr;
 				private	readonly	Lazy< SAP_Session_HandlerData		>		_SAPDatHndlr;
 
-				private	readonly	Lazy< TblRdr_Function >				_TR_Header;
-				private	readonly	Lazy< TblRdr_Function >				_TR_Profile;
+				private	readonly	Lazy< TblRdr_Function >		_TR_Header;
+				private	readonly	Lazy< TblRdr_Function >		_TR_Profile;
 
 			#endregion
 
