@@ -23,6 +23,8 @@ namespace BxS_WorxNCO.SAPSession.API
 		{
 			#region "Constructors"
 
+
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal SAP_Session_Manager(	IRfcDestination	rfcDestination )
 					{
