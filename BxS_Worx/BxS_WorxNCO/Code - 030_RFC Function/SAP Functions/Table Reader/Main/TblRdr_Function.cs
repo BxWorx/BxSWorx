@@ -79,6 +79,8 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 					{
 						try
 							{
+						this.NCORfcFunction.GetTable( this.FNCIndex.Options ).Clear();
+						this.NCORfcFunction.GetTable( this.FNCIndex.Fields	).Clear();
 								this.Setup( dto );
 								//.........................................
 								this.Invoke( rfcDestination );
@@ -118,8 +120,8 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 						this.MyProfile.Value.LoadStructureIndex( lo_Idx );
 						dto.OutData	= lo_Idx.CreateTable();
 						//.............................................
-						this.LoadTable( dto.Fields	, this.FNCIndex.Fields );
-						this.LoadTable( dto.OutData , ln_Idx );
+						this.FetchTable( dto.Fields	, this.FNCIndex.Fields );
+						this.FetchTable( dto.OutData , ln_Idx );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -132,12 +134,21 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 
 						this.NCORfcFunction.SetValue( this.FNCIndex.NoData		,	dto.NoData	? cz_True	: cz_False	)	;
 						//.............................................
-						this.NCORfcFunction.GetTable( this.FNCIndex.Options )	.Append( dto.Options  );
-						this.NCORfcFunction.GetTable( this.FNCIndex.Fields )	.Append( dto.Fields		);
+						this.LoadTable( dto.Fields	, this.FNCIndex.Fields  );
+						this.LoadTable( dto.Options , this.FNCIndex.Options );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void LoadTable( SMC.IRfcTable	data , int index )
+					{
+						SMC.IRfcTable	lo_Tbl	= this.NCORfcFunction.GetTable( index );
+						//.............................................
+						lo_Tbl.Clear();
+						lo_Tbl.Append( data );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void FetchTable( SMC.IRfcTable	data , int index )
 					{
 						data.Clear();
 						//.............................................

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -25,11 +26,13 @@ namespace BxS_WorxNCO.SAPSession.API
 						this._Factory				= new	Lazy< SAP_Session_Factory >	( ()=>	SAP_Session_Factory.Instance								, cz_LM );
 						this._RfcFncCntlr		= new	Lazy< IRfcFncController		>	(	()=>	new	RfcFncController( this.RfcDestination )	,	cz_LM );
 						//.............................................
-						this._SAPHdrHndlr		= new Lazy< SAP_Session_HandlerHeader	>	( ()=>	new SAP_Session_HandlerHeader	()	, cz_LM );
-						this._SAPDatHndlr		= new Lazy< SAP_Session_HandlerData		>	( ()=>	new SAP_Session_HandlerData		()	, cz_LM );
+						this._SAPHdrHndlr		= new Lazy< SAP_Session_HandlerHeader	>	( ()=>	new SAP_Session_HandlerHeader	()			, cz_LM );
+						this._SAPDatHndlr		= new Lazy< SAP_Session_HandlerData		>	( ()=>	new SAP_Session_HandlerData		()			, cz_LM );
 
 						this._TR_Header			= new Lazy< TblRdr_Function >	( ()=>	this._RfcFncCntlr.Value.CreateTblRdrFunction()	,	cz_LM );
 						this._TR_Profile		= new Lazy< TblRdr_Function >	( ()=>	this._RfcFncCntlr.Value.CreateTblRdrFunction()	,	cz_LM );
+						//.............................................
+						this._IsReady				= false;
 					}
 
 			#endregion
@@ -37,6 +40,8 @@ namespace BxS_WorxNCO.SAPSession.API
 			//===========================================================================================
 			#region "Declarations"
 
+				private	bool	_IsReady		;
+				//.................................................
 				private	readonly	Lazy< SAP_Session_Factory	>		_Factory			;
 				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr	;
 				//.................................................
@@ -52,7 +57,7 @@ namespace BxS_WorxNCO.SAPSession.API
 			#region "Properties"
 
 				internal	IRfcDestination			RfcDestination	{ get; }
-				internal	SMC.RfcDestination	SMCDestination	{ get	{	return	this.RfcDestination.SMCDestination; } }
+				private		SMC.RfcDestination	SMCDestination	{ get	{	return	this.RfcDestination.SMCDestination; } }
 
 			#endregion
 
@@ -81,6 +86,28 @@ namespace BxS_WorxNCO.SAPSession.API
 			#region "Methods: Exposed: Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public async Task<bool>	ReadySessionAsync( bool optimise = true )
+					{
+						if ( ! this._IsReady )
+							{
+								this._RfcFncCntlr.Value.RegisterTableReaderProfile();	// TO-DO: check if this is still neccessary
+								//.........................................
+								try
+									{
+										await this.RfcDestination.FetchMetadataAsync( optimise )	.ConfigureAwait(false);
+										await	this._RfcFncCntlr.Value.ActivateProfilesAsync()			.ConfigureAwait(false);
+										this._IsReady		=	true;
+									}
+								catch (Exception ex)
+									{
+										throw new Exception( "SAP Session ready fail" , ex );
+									}
+							}
+						//.................................................
+						return	this._IsReady;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IList< ISAP_Session_Header > SAPSessionList(	String		userId      = "*"
 																													,	String		sessionName	= "*"
 																													,	DateTime  dateFrom    =	default(DateTime)
@@ -94,7 +121,7 @@ namespace BxS_WorxNCO.SAPSession.API
 
 						this._TR_Profile.Value.Process( lo_TRData , this.SMCDestination )	;
 
-						this._SAPHdrHndlr.Value.ProcessSAPSessionData( lo_TRData , lt_List );
+						this._SAPHdrHndlr.Value.ProcessSAPSessionData( lo_TRData , ref lt_List );
 						//.............................................
 						return	lt_List;
 					}

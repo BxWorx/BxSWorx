@@ -122,7 +122,7 @@ namespace BxS_WorxNCO.BDCSession.API
 					{
 						if ( ! this._IsReady )
 							{
-								this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseAltFnc );
+								this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseAltFnc );	// TO-DO: check if this is still neccessary
 								this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
 								//.........................................
 								try
@@ -133,7 +133,7 @@ namespace BxS_WorxNCO.BDCSession.API
 									}
 								catch (Exception ex)
 									{
-										throw new Exception( "Session factory ready fail" , ex );
+										throw new Exception( "BDC Session ready fail" , ex );
 									}
 							}
 						//.................................................

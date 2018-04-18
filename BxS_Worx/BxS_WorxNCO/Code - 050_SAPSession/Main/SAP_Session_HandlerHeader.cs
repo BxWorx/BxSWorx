@@ -25,7 +25,7 @@ namespace BxS_WorxNCO.SAPSession.Main
 			#region "Methods: Exposed"
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal void ProcessSAPSessionData( TblRdr_Data tblRdr , IList< ISAP_Session_Header > list )
+			internal void ProcessSAPSessionData( TblRdr_Data tblRdr , ref IList< ISAP_Session_Header > list )
 					{
 						IEnumerable< ISAP_Session_Header >	lq_Query	= from lc_Row	in tblRdr.OutData
 																															let lt_Flds	= lc_Row.GetString(0).Split( tblRdr.Delimeter )
@@ -58,16 +58,24 @@ namespace BxS_WorxNCO.SAPSession.Main
 						//.............................................
 						if ( ! userID.Length.Equals(0) && ! userID.Equals("*")  )
 							{
-								tblRdr.LoadOption( String.Concat(" AND CREATOR LIKE " , "'" , userID.Replace("*","%").ToUpper() , "'" ) );
+								tblRdr.LoadOption( String.Concat( "AND CREATOR LIKE " , "'" , userID.Replace("*","%").ToUpper() , "'" ) );
 							}
 						//.............................................
 						if ( ! sessionName.Length.Equals(0) && ! sessionName.Equals("*")  )
 							{
-								tblRdr.LoadOption( String.Concat(" AND GROUPID LIKE " , "'" , sessionName.Replace("*","%").ToUpper() , "'" ) );
+								tblRdr.LoadOption( String.Concat( "AND GROUPID LIKE " , "'" , sessionName.Replace("*","%").ToUpper() , "'" ) );
 							}
 						//.............................................
-						tblRdr.LoadOption( String.Concat(		" AND CREDATE BETWEEN " , "'" , dateFrom	.ToString("yyyyMMdd", CultureInfo.InvariantCulture) , "'"
-																							,	                " AND " , "'" , dateTo		.ToString("yyyyMMdd", CultureInfo.InvariantCulture) , "'" ) );
+						if (		dateFrom.Equals( default( DateTime ) )
+								&&	dateTo	.Equals( default( DateTime ) ) )
+							{
+								return;
+							}
+
+						DateTime	ld_To	=	dateTo.Equals( default( DateTime ) )	? DateTime.Now : dateTo;
+
+						tblRdr.LoadOption( String.Concat(		"AND CREDATE BETWEEN " , "'" , dateFrom	.ToString("yyyyMMdd", CultureInfo.InvariantCulture) , "'"
+																							,	               " AND " , "'" , ld_To		.ToString("yyyyMMdd", CultureInfo.InvariantCulture) , "'" ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
