@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.TableReader;
 using BxS_WorxNCO.SAPSession.API;
@@ -12,25 +11,64 @@ namespace BxS_WorxNCO.SAPSession.Main
 {
 	internal class SAP_Session_HandlerData
 		{
+			#region "Documentation"
+
+				//	*"----------------------------------------------------------------------
+				//	00:	QID				000000 000020 C Queue identification (unique key)
+				//	01:	TRANS			000020 000010 I Transaction counter: Batch input, statistics
+				//	02:	BLOCK			000030 000010 I Message counter: Batch input, statistics
+				//	03:	SEGMT			000040 000005 s Queue data segmentation number
+				//	04:	MSGCOUNT	000045 000005 s Queue data block number
+				//	05:	VARLEN		000050 000005 s Queue data length of user data
+				//	06:	VARDATA		000055 007902 C Long String Used to Store BDC Objects in the Database
+				//	*"----------------------------------------------------------------------
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private const char	cx_NullChar	= (char) 0;
+				//.................................................
+				private const int		cx_Blck	= 2;
+				private const int		cx_Segm	= 3;
+				private const int		cx_Data	= 6;
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void ProcessSAPSessionDataHeader( TblRdr_Data tblRdr , ISAP_Session_Profile profile )
+					{
+						string[] lt_Hdr	= tblRdr.OutData[0].GetString(0).Split( tblRdr.Delimeter );
+						//.............................................
+						profile.SAPTCode	= this.SetTransaction	( lt_Hdr[cx_Data] );
+
+						this.SetCTU( lt_Hdr[cx_Data] , profile.CTUParams	);
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void ProcessSAPSessionData( TblRdr_Data tblRdr , ISAP_Session_Profile profile )
 					{
-						const char vbNullChar = (char) 0;
-						//.............................................
-						IEnumerable< BDCSession_Raw >	lq_Query	= from lc_Row	in tblRdr.OutData
-																												let lt_Flds	= lc_Row.GetString(0).Split( tblRdr.Delimeter )
-																												let lt_Splt	= lt_Flds[6].Split( vbNullChar ).ToList()
-																													select new BDCSession_Raw {		Blockcount	= long	.Parse( lt_Flds[2] )
-																																											, SegmentNo		= int		.Parse( lt_Flds[3] )
-																																											, BDCList			= lt_Splt };
+						IList< BDCSession_Raw > lt_RawData	=	new	List< BDCSession_Raw >();
 
-						IList< BDCSession_Raw > lt_RawData	= lq_Query.OrderBy( x => x.Blockcount ).ToList();
+						string[]	lt_Rowdata;
+						string[]	lt_Values	;
 						//.............................................
-						this.SetTransaction	( lt_RawData[0].BDCList[0] , profile.SAPTCode	 );
-						this.SetCTU					( lt_RawData[0].BDCList[0] , profile.CTUParams );
+						for (int r = 1; r < tblRdr.OutData.Count; r++)
+							{
+								lt_Rowdata	= tblRdr.OutData[r].GetString(0).Split( tblRdr.Delimeter );
+								lt_Values		= lt_Rowdata[cx_Data].Split( cx_NullChar );
 
+								var lo	= new BDCSession_Raw {	Blockcount	= long.Parse( lt_Rowdata[cx_Blck] )
+																							, SegmentNo		= int	.Parse( lt_Rowdata[cx_Segm] )
+																							, BDCList			= lt_Values														};
+
+								lt_RawData.Add( lo );
+							}
+						//.............................................
 						for (int r = 1; r < lt_RawData.Count; r++)
 							{
 								if ( lt_RawData[r].BDCList[0].Substring(0,1).Equals("M") )
@@ -44,7 +82,7 @@ namespace BxS_WorxNCO.SAPSession.Main
 											{
 												if ( ! string.IsNullOrWhiteSpace( lt_RawData[r].BDCList[i] ) )
 													{
-														DTO_BDC_Data lo_Data	= profile.BDCData.CreateDataDTO();
+														DTO_BDC_Data lo_Data	= profile.Create_BDC_DTO();
 
 														lo_Data.FieldName		= lt_RawData[r].BDCList[ i   ];
 														lo_Data.FieldValue	= lt_RawData[r].BDCList[ i+1 ];
@@ -68,6 +106,7 @@ namespace BxS_WorxNCO.SAPSession.Main
 					{
 						tblRdr.Reset();
 						tblRdr.QueryTable	= "APQD";
+						tblRdr.Delimeter	= '|'		;
 					}
 
 			#endregion
@@ -76,9 +115,9 @@ namespace BxS_WorxNCO.SAPSession.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void SetTransaction( string rawData , string sapTCode )
+				private string SetTransaction( string rawData )
 					{
-						sapTCode	= rawData.Substring( 2 , 20 ).Trim()	?? "*****";
+						return	rawData.Substring( 2 , 20 ).Trim()	?? "*****";
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -114,13 +153,14 @@ namespace BxS_WorxNCO.SAPSession.Main
 			//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 			#region "Classes: Private"
 
+				//=========================================================================================
 				private class BDCSession_Raw
 					{
 						#region "Properties"
 
-							protected internal	long					Blockcount	;
-							protected internal	int						SegmentNo   ;
-							protected	internal	IList<string>	BDCList     ;
+							protected internal	long						Blockcount	;
+							protected internal	int							SegmentNo   ;
+							protected	internal	IList<string>		BDCList     ;
 
 						#endregion
 

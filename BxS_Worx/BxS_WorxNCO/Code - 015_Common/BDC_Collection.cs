@@ -21,7 +21,8 @@ namespace BxS_WorxNCO.Common
 			//===========================================================================================
 			#region "Properties"
 
-				public	IList< DTO_BDC_Data >	BDCData	{ get; }
+				public	IList< DTO_BDC_Data >	BDCData		{ get; }
+				public	int										Count			{ get { return	this.BDCData.Count; } }
 
 			#endregion
 

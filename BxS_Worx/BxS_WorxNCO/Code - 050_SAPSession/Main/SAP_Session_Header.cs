@@ -12,6 +12,7 @@ namespace BxS_WorxNCO.SAPSession.API
 			  public	TimeSpan	CreationTime  { get; set; }
 				public	int				Count         { get; set; }
 				public	string		QID           { get; set; }
+				public	string		SAPTCode			{ get; set; }
 
 			#endregion
 

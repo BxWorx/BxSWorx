@@ -62,11 +62,17 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_500_SAPSsnMngr_30_SAPDataList()
+			public void UT_500_SAPSsnMngr_30_SAPData()
 				{
-					IList<ISAP_Session_Header> lt_List = this.co_SAPMngr.SAPSessionList();
+					IList<ISAP_Session_Header> lt_L1 = this.co_SAPMngr.SAPSessionList( userId: "DER*" );
+					Assert.AreNotEqual(	0 , lt_L1.Count	, "" );
+					//...............................................
+					int i = lt_L1.Count - 1;
+					ISAP_Session_Profile lo_P1	= this.co_SAPMngr.GetSAPSessionData( lt_L1[i].SessionName , lt_L1[i].QID , true );
+					ISAP_Session_Profile lo_P2	= this.co_SAPMngr.GetSAPSessionData( lt_L1[i].SessionName , lt_L1[i].QID , false );
 
-					Assert.AreNotEqual(	0 , lt_List.Count	, "" );
+					Assert.AreEqual		(	0 , lo_P1.Count , "" );
+					Assert.AreNotEqual(	0 , lo_P2.Count , "" );
 				}
 
 		}

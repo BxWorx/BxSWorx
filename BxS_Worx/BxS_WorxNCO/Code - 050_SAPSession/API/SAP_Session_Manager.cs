@@ -113,8 +113,8 @@ namespace BxS_WorxNCO.SAPSession.API
 																													,	DateTime  dateFrom    =	default(DateTime)
 																													,	DateTime	dateTo      = default(DateTime)	)
 					{
-						IList< ISAP_Session_Header > lt_List	=	new List< ISAP_Session_Header >();
-						TblRdr_Data lo_TRData	= this._TR_Header.Value.CreateTblRdrData();
+						IList< ISAP_Session_Header >	lt_List		=	new List< ISAP_Session_Header >();
+						TblRdr_Data										lo_TRData	= this._TR_Header.Value.CreateTblRdrData();
 						//.............................................
 						this._SAPHdrHndlr.Value.LoadTblRdr			( lo_TRData );
 						this._SAPHdrHndlr.Value.Compile_Filter	( lo_TRData , userId , sessionName , dateFrom , dateTo )	;
@@ -122,6 +122,11 @@ namespace BxS_WorxNCO.SAPSession.API
 						this._TR_Profile.Value.Process( lo_TRData , this.SMCDestination )	;
 
 						this._SAPHdrHndlr.Value.ProcessSAPSessionData( lo_TRData , ref lt_List );
+						//.............................................
+						foreach (ISAP_Session_Header lo in lt_List)
+							{
+								lo.SAPTCode	= this.GetSAPSessionData( lo.SessionName , lo.QID , true ).SAPTCode;
+							}
 						//.............................................
 						return	lt_List;
 					}
@@ -139,7 +144,12 @@ namespace BxS_WorxNCO.SAPSession.API
 
 						this._TR_Profile.Value.Process( lo_TRData , this.SMCDestination )	;
 
-						this._SAPDatHndlr.Value.ProcessSAPSessionData( lo_TRData , lo_Profile );
+						this._SAPDatHndlr.Value.ProcessSAPSessionDataHeader	( lo_TRData , lo_Profile );
+
+						if ( ! onlyHeader )
+							{
+								this._SAPDatHndlr.Value.ProcessSAPSessionData		( lo_TRData , lo_Profile );
+							}
 						//.............................................
 						return	lo_Profile;
 					}

@@ -7,11 +7,20 @@ namespace BxS_WorxNCO.SAPSession.API
 		{
 			#region "Properties"
 
+				int	Count		{ get; }
+				//.................................................
 				string	SessionName		{ get; set; }
 				string	SAPTCode			{ get; set; }
-				//.............................................
+				//.................................................
 				DTO_BDC_CTU			CTUParams		{ get; }
 				BDC_Collection	BDCData			{ get; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				DTO_BDC_Data	Create_BDC_DTO();
 
 			#endregion
 
