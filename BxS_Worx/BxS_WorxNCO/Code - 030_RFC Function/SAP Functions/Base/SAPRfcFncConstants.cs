@@ -9,7 +9,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				internal	const	string	cz_BDCCall					= "/ISDFPS/CALL_TRANSACTION"	;
 				internal	const	string	cz_BDCTran					= "ABAP4_CALL_TRANSACTION"		;
 				internal	const	string	cz_SAPMsgCompiler		= "RPY_MESSAGE_COMPOSE"				;
-				internal	const	string	cz_DDICInfo					= "/ISDFPS/DD_FIELDINFO_GET"	;		//DDIF_FIELDINFO_GET
+				internal	const	string	cz_DDICInfo					= "DDIF_FIELDINFO_GET"				;		//ISDFPS/DD_FIELDINFO_GET
 
 			#endregion
 

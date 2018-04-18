@@ -2,20 +2,20 @@
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxNCO.RfcFunction.SAPMsg
+namespace BxS_WorxNCO.RfcFunction.DDIC
 {
-	internal class SAPMsg_Profile : RfcFncProfile
+	internal class DDICInfo_Profile : RfcFncProfile
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPMsg_Profile(	string					fncName
-																, SAPMsg_Factory	factory	)	: base( fncName )
+				internal DDICInfo_Profile(	string						fncName
+																	, DDICInfo_Factory	factory	)	: base( fncName )
 					{
-						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(SAPMsg_Profile).Namespace}:- Factory null" );
+						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(DDICInfo_Profile).Namespace}:- Factory null" );
 						//.............................................
-						this._FNCIndex	=	new Lazy<SAPMsg_IndexFNC>( ()=>	this._Factory.CreateIndexFNC()	);
-						this._TXTIndex	=	new	Lazy<SAPMsg_IndexTXT>( ()=>	this._Factory.CreateIndexTXT()	);
+						this._FNCIndex	=	new Lazy<DDICInfo_IndexFNC>		( ()=>	this._Factory.CreateIndexFNC()	);
+						this._DFSIndex	=	new	Lazy<DDICInfo_IndexDFIES>	( ()=>	this._Factory.CreateIndexDFS()	);
 					}
 
 			#endregion
@@ -23,10 +23,10 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Declarations"
 
-				private		readonly	SAPMsg_Factory		_Factory;
+				private		readonly	DDICInfo_Factory		_Factory;
 				//.................................................
-				internal	readonly	Lazy<	SAPMsg_IndexFNC	>		_FNCIndex;
-				internal	readonly	Lazy<	SAPMsg_IndexTXT >		_TXTIndex;
+				internal	readonly	Lazy<	DDICInfo_IndexFNC	>		_FNCIndex;
+				internal	readonly	Lazy<	DDICInfo_IndexDFIES >	_DFSIndex;
 
 			#endregion
 
@@ -37,7 +37,7 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 				public override void ReadyProfile()
 					{
 						this.LoadFunctionIndex	( this._FNCIndex.Value );
-						this.LoadStructureIndex	( this._TXTIndex.Value );
+						this.LoadStructureIndex	( this._DFSIndex.Value );
 						//.............................................
 						base.ReadyProfile();
 					}
