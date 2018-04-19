@@ -5,7 +5,7 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 		{
 			#region "Declarations"
 
-				internal	const	string	cz_DFies		= "DFIES"	;
+				internal	const	string	cz_DFies		= "DFIES_TAB"	;
 
 			#endregion
 

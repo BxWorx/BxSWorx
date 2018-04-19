@@ -111,49 +111,21 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				private void ProcessFields( string tableName ,	DDICInfo_FieldCollection	dto	)
 					{
 						IList<string>	lt_Nmes	= dto.GetFieldList( tableName ).Select( f => f.FldName ).ToList() ;
-						SMC.IRfcTable							lt_Flds	= this.NCORfcFunction.GetTable( this.Idx_DFTble );
+						SMC.IRfcTable	lt_Flds	= this.NCORfcFunction.GetTable( this.Idx_DFTble );
 
-						var y = lt_Flds.Where( r => { string n = r.GetString(this.TABIndex.Name);
-																					return	lt_Nmes.Contains( n );
-																				} ).Select
-
-
-						string[] lt = null;
-
-						x.w
-
-						IEnumerable< string >	lq_Query	= from lc_Row	in lt_Flds
-
-																								let lc_nme	= lc_Row.GetString( this.TABIndex.Name )
-
-																									join f in lt on 
-
-																								let lc_Txt	= lc_Row.GetString( this.TABIndex.Txt	 )
-			
-			
-			IEnumerable< ISAP_Session_Header >	lq_Query	= from lc_Row	in tblRdr.OutData
-																															let lt_Flds	= lc_Row.GetString(0).Split( tblRdr.Delimeter )
-																																select new SAP_Session_Header
-																																	{
-																																			UserID       = lt_Flds[cx_Idx_Usr].Trim()
-																																		,	SessionName  = lt_Flds[cx_Idx_Nme].Trim()
-																																		,	CreationDate = DateTime.ParseExact	( lt_Flds[cx_Idx_Dte] , "yyyyMMdd"	, CultureInfo.InvariantCulture)
-																																		,	CreationTime = TimeSpan.ParseExact	( lt_Flds[cx_Idx_Tme] , "hhmmss"		, CultureInfo.InvariantCulture)
-																																		,	Count        = int.Parse( lt_Flds[cx_Idx_Cnt] )
-																																		,	QID          = lt_Flds[cx_Idx_QID]
-																																	};
-
-						list	= lq_Query.ToList();
-
+						foreach (string lc_Nme in lt_Nmes)
+							{
+								foreach (SMC.IRfcStructure ls_Row in lt_Flds)
+									{
+										if ( ls_Row.GetString(this.TABIndex.Fld).Equals(lc_Nme) )
+											{
+												dto.AddUpdateText( tableName , lc_Nme , ls_Row.GetString(this.TABIndex.Txt) );
+											}
+									}
+							}
 					}
 
 			#endregion
-
-			private class FieldDTO
-			{
-				string fld { get;  set; }
-				string txt { get;  set; }
-			}
 
 		}
 }
