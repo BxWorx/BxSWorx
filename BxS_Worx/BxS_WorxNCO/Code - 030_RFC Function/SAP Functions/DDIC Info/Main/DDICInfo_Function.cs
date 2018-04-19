@@ -110,16 +110,19 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ProcessFields( string tableName ,	DDICInfo_FieldCollection	dto	)
 					{
-						SMC.IRfcTable x = this.NCORfcFunction.GetTable( this.Idx_DFTble );
+						IList<string>	lt_Nmes	= dto.GetFieldList( tableName ).Select( f => f.FldName ).ToList() ;
+						SMC.IRfcTable							lt_Flds	= this.NCORfcFunction.GetTable( this.Idx_DFTble );
 
-						var y = x.Where( z => )
+						var y = lt_Flds.Where( r => { string n = r.GetString(this.TABIndex.Name);
+																					return	lt_Nmes.Contains( n );
+																				} ).Select
 
 
 						string[] lt = null;
 
 						x.w
 
-						IEnumerable< string >	lq_Query	= from lc_Row	in x
+						IEnumerable< string >	lq_Query	= from lc_Row	in lt_Flds
 
 																								let lc_nme	= lc_Row.GetString( this.TABIndex.Name )
 
@@ -145,6 +148,12 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 					}
 
 			#endregion
+
+			private class FieldDTO
+			{
+				string fld { get;  set; }
+				string txt { get;  set; }
+			}
 
 		}
 }
