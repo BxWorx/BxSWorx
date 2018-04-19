@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 //.........................................................
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
@@ -13,6 +14,7 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				internal DDICInfo_FieldCollection()
 					{
 						this._DDICInfo	= new	Dictionary< string , IList< DTO_DDICInfo_Field > >();
+						this._DDIC			= new ConcurrentDictionary<string , ConcurrentDictionary<string , string>>();
 					}
 
 			#endregion
@@ -21,6 +23,8 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			#region "Declarations"
 
 				private readonly Dictionary< string , IList< DTO_DDICInfo_Field > >	_DDICInfo;
+
+				private readonly ConcurrentDictionary< string , ConcurrentDictionary<string , string> >	_DDIC;
 
 			#endregion
 
@@ -85,6 +89,33 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool AddUpdateText( string tableName , string	fieldName , string text = null )
 					{
+						ConcurrentDictionary<string, string> q = this._DDIC.GetOrAdd( tableName , new ConcurrentDictionary<string, string>() );
+						q.AddOrUpdate( fieldName , text , (k,v)=> text);
+
+
+						var q = new Dictionary<string , string>();
+						this._DDIC.AddOrUpdate( tableName , q );
+
+
+
+						var x = this._DDIC.GetOrAdd(	tableName
+																				, ( key , val )=>		{ var t = new Dictionary<string , string>();
+																															t.Add(key , string.Empty); );
+
+
+						var x = this._DDIC.GetOrAdd( tableName , ( key , val )=>  new Dictionary<string , string>().Add(key , string.Empty); );
+
+						if ( ! this._DDIC.ContainsKey( tableName ) )
+							{
+								this._DDIC.Add( tableName, new Dictionary<string, string>() );
+							}
+						//.............................................
+						if ( this._DDIC.TryGetValue( tableName , out Dictionary<string , string> lt_DTO ) )
+							{
+								if ( lt_DTO.ContainsKey(fieldName) )
+							}
+
+
 						if ( ! this._DDICInfo.ContainsKey( tableName ) )
 							{
 								this._DDICInfo.Add( tableName, new List< DTO_DDICInfo_Field >() );
