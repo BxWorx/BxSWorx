@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -60,16 +62,20 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			//===========================================================================================
 			#region "Properties"
 
-				private	DDICInfo_IndexFNC	FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value; } }
+				private	DDICInfo_IndexFNC			FNCIndex	{ get {	return	this.MyProfile.Value._FNCIndex.Value	; } }
+				private	DDICInfo_IndexDFIES		TABIndex	{ get {	return	this.MyProfile.Value._DFSIndex.Value	; } }
 
-				private	int		Idx_TabNme	{ get {	return	this.FNCIndex.TblNm	; } }
-				private	int		Idx_NoWrit	{ get {	return	this.FNCIndex.NoWrt	; } }
+				private	int		Idx_TabNme		{ get {	return	this.FNCIndex.TblNm	; } }
+				private	int		Idx_NoWrit		{ get {	return	this.FNCIndex.NoWrt	; } }
 				private	int		Idx_DFTble		{ get {	return	this.FNCIndex.DFIES	; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DDICInfo_FieldCollection	CreateFieldCollection()	=> this.MyProfile.Value.CreateFieldCollection();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void Process(	DDICInfo_FieldCollection	dto
@@ -79,8 +85,8 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 							{
 								foreach (	string lc_TblNme in dto.TableNames )
 									{
-										this.NCORfcFunction.SetValue( this.Idx_TabNme , lc_TblNme		);
-										this.NCORfcFunction.SetValue( this.Idx_NoWrit , cz_True );
+										this.NCORfcFunction.SetValue( this.Idx_TabNme , lc_TblNme	);
+										this.NCORfcFunction.SetValue( this.Idx_NoWrit , cz_True		);
 										//.............................................
 										this.Invoke( rfcDestination );
 										//.............................................
@@ -105,6 +111,37 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				private void ProcessFields( string tableName ,	DDICInfo_FieldCollection	dto	)
 					{
 						SMC.IRfcTable x = this.NCORfcFunction.GetTable( this.Idx_DFTble );
+
+						var y = x.Where( z => )
+
+
+						string[] lt = null;
+
+						x.w
+
+						IEnumerable< string >	lq_Query	= from lc_Row	in x
+
+																								let lc_nme	= lc_Row.GetString( this.TABIndex.Name )
+
+																									join f in lt on 
+
+																								let lc_Txt	= lc_Row.GetString( this.TABIndex.Txt	 )
+			
+			
+			IEnumerable< ISAP_Session_Header >	lq_Query	= from lc_Row	in tblRdr.OutData
+																															let lt_Flds	= lc_Row.GetString(0).Split( tblRdr.Delimeter )
+																																select new SAP_Session_Header
+																																	{
+																																			UserID       = lt_Flds[cx_Idx_Usr].Trim()
+																																		,	SessionName  = lt_Flds[cx_Idx_Nme].Trim()
+																																		,	CreationDate = DateTime.ParseExact	( lt_Flds[cx_Idx_Dte] , "yyyyMMdd"	, CultureInfo.InvariantCulture)
+																																		,	CreationTime = TimeSpan.ParseExact	( lt_Flds[cx_Idx_Tme] , "hhmmss"		, CultureInfo.InvariantCulture)
+																																		,	Count        = int.Parse( lt_Flds[cx_Idx_Cnt] )
+																																		,	QID          = lt_Flds[cx_Idx_QID]
+																																	};
+
+						list	= lq_Query.ToList();
+
 					}
 
 			#endregion

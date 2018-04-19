@@ -37,6 +37,12 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				internal	DDICInfo_IndexFNC			CreateIndexFNC()	=>	new	DDICInfo_IndexFNC();
 				internal	DDICInfo_IndexDFIES		CreateIndexDFS()	=>	new DDICInfo_IndexDFIES();
 
+				//.................................................
+				//.................................................
+				// Data objects
+				//.................................................
+				internal	DDICInfo_FieldCollection	CreateFieldCollection()	=>	new DDICInfo_FieldCollection();
+
 			#endregion
 
 		}

@@ -5,14 +5,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.TableReader;
+using BxS_WorxNCO.RfcFunction.DDIC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
 	[TestClass]
 	public class UT_320_DDICInfo
 		{
-			private const int cn_Recs	= 100;
-
 			private readonly	UT_000_NCO				co_NCO000			;
 			private readonly	IRfcDestination		co_RfcDestOn	;
 			private	readonly	IRfcFncController co_FCntlr			;
@@ -21,15 +20,15 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_320_DDICInfo()
 				{
-					this.co_NCO000			= new	UT_000_NCO()					;
-					this.co_RfcDestOn		= this.co_NCO000.GetSAPDestConfigured( true , true );
-					this.co_FCntlr			= new RfcFncController( this.co_RfcDestOn );
-					this.co_Fnctn				= this.co_FCntlr.CreateTblRdrFunction();
+					this.co_NCO000			= new	UT_000_NCO()	;
+					this.co_RfcDestOn		= this.co_NCO000.GetSAPDestConfigured( true , true )	;
+					this.co_FCntlr			= new RfcFncController( this.co_RfcDestOn )						;
+					this.co_Fnctn				= this.co_FCntlr.CreateDDICInfoFunction()							;
 					//...............................................
-					Assert.IsNotNull	( this.co_NCO000		, "" );
-					Assert.IsNotNull	( this.co_RfcDestOn , "" );
-					Assert.IsNotNull	( this.co_FCntlr		, "" );
-					Assert.IsNotNull	( this.co_Fnctn			, "" );
+					Assert.IsNotNull	( this.co_NCO000		, "" )	;
+					Assert.IsNotNull	( this.co_RfcDestOn , "" )	;
+					Assert.IsNotNull	( this.co_FCntlr		, "" )	;
+					Assert.IsNotNull	( this.co_Fnctn			, "" )	;
 					//...............................................
 					Task.Run( async ()=> await	this.co_FCntlr.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
 				}
@@ -38,42 +37,47 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_320_DDICInfo_10_Instantiate()
 				{
-					TblRdr_Data	lo_Data		=	this.co_Fnctn.MyProfile.Value.CreateTblRdrData();
+					DDICInfo_FieldCollection	lo_Data		=	this.co_Fnctn.CreateFieldCollection();
 
+					Assert.IsNotNull	( this.co_Fnctn.MyProfile	, "" );
 					Assert.IsNotNull	( lo_Data	, "" );
-					//...............................................
-					this.LoadSetup( lo_Data );
-
-					Assert.AreEqual	( 2, lo_Data.Fields.Count		, "" );
-					Assert.AreEqual	( 1, lo_Data.Options.Count	, "" );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_320_DDICInfo_20_GetData()
+			public void UT_320_DDICInfo_20_Collection()
 				{
-					TblRdr_Data	lo_Data		=	this.co_Fnctn.MyProfile.Value.CreateTblRdrData();
-					//...............................................
-					this.LoadSetup( lo_Data );
-					this.co_Fnctn.Process( lo_Data , this.co_RfcDestOn.SMCDestination );
+					DDICInfo_FieldCollection	lo_Data		=	this.co_Fnctn.CreateFieldCollection();
 
-					Assert.AreEqual	( cn_Recs	, lo_Data.OutData	.Count , "" );
-					Assert.AreEqual	( 2				, lo_Data.Fields	.Count , "" );
+					lo_Data.AddUpdateText( "KNA1" , "KUNNR" );
+					Assert.AreEqual	( 1	, lo_Data.TableCount				, "" );
+					Assert.AreEqual	( 1	, lo_Data.TableNames.Count	, "" );
+				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_320_DDICInfo_30_GetText()
+				{
+					DDICInfo_FieldCollection	lo_Data		=	this.co_Fnctn.CreateFieldCollection();
+					lo_Data.AddUpdateText( "KNA1" , "KUNNR" );
+					//...............................................
+					this.co_Fnctn.Process(lo_Data , this.co_RfcDestOn.SMCDestination );
+
 				}
 
 		//.
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void LoadSetup( TblRdr_Data	dto	)
-					{
-						dto.Delimeter		= '|'			;
-						dto.QueryTable	= "KNA1"	;
-						dto.ReturnRows	= cn_Recs			;
-						//...............................................
-						dto.LoadField( "MANDT" )	;
-						dto.LoadField( "KUNNR" )	;
-						//...............................................
-						dto.LoadOption( "LAND1 EQ 'NA' " )	;
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private	void LoadSetup( TblRdr_Data	dto	)
+				//	{
+				//		dto.Delimeter		= '|'			;
+				//		dto.QueryTable	= "KNA1"	;
+				//		dto.ReturnRows	= cn_Recs			;
+				//		//...............................................
+				//		dto.LoadField( "MANDT" )	;
+				//		dto.LoadField( "KUNNR" )	;
+				//		//...............................................
+				//		dto.LoadOption( "LAND1 EQ 'NA' " )	;
+				//	}
 		}
 }

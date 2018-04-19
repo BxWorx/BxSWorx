@@ -157,12 +157,11 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: Table Reader"
+			#region "Methods: Exposed: DDIC Info"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	DDICInfo_Function		CreateDDICInfoFunction()	=>	new DDICInfo_Function	( this.RegisterProfile( cz_DDICInfo , this.CreateDDICInfoProfile ) );
-				private	DDICInfo_Profile		CreateDDICInfoProfile	()	=>	new	DDICInfo_Profile	( cz_TableReader , DDICInfo_Factory.Instance );
-
+				private	DDICInfo_Profile		CreateDDICInfoProfile	()	=>	new	DDICInfo_Profile	( cz_DDICInfo , DDICInfo_Factory.Instance );
 
 			#endregion
 

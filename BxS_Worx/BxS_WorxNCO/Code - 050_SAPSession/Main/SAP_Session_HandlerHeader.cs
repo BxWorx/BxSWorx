@@ -33,8 +33,8 @@ namespace BxS_WorxNCO.SAPSession.Main
 																																	{
 																																			UserID       = lt_Flds[cx_Idx_Usr].Trim()
 																																		,	SessionName  = lt_Flds[cx_Idx_Nme].Trim()
-																																		,	CreationDate = DateTime.ParseExact	( lt_Flds[cx_Idx_Dte] , "yyyyMMdd"	,CultureInfo.InvariantCulture)
-																																		,	CreationTime = TimeSpan.ParseExact	( lt_Flds[cx_Idx_Tme] , "hhmmss"		,CultureInfo.InvariantCulture)
+																																		,	CreationDate = DateTime.ParseExact	( lt_Flds[cx_Idx_Dte] , "yyyyMMdd"	, CultureInfo.InvariantCulture)
+																																		,	CreationTime = TimeSpan.ParseExact	( lt_Flds[cx_Idx_Tme] , "hhmmss"		, CultureInfo.InvariantCulture)
 																																		,	Count        = int.Parse( lt_Flds[cx_Idx_Cnt] )
 																																		,	QID          = lt_Flds[cx_Idx_QID]
 																																	};
