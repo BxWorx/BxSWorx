@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.BDCTran;
+using BxS_WorxNCO.RfcFunction.DDIC;
 using BxS_WorxNCO.RfcFunction.SAPMsg;
 using BxS_WorxNCO.RfcFunction.TableReader;
 
@@ -152,6 +153,39 @@ namespace BxS_WorxNCO.RfcFunction.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public TblRdr_Function CreateTblRdrFunction()	=>	new TblRdr_Function( this.GetAddTblRdrProfile() );
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: Table Reader"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	DDICInfo_Function		CreateDDICInfoFunction()	=>	new DDICInfo_Function	( this.RegisterProfile( cz_DDICInfo , this.CreateDDICInfoProfile ) );
+				private	DDICInfo_Profile		CreateDDICInfoProfile	()	=>	new	DDICInfo_Profile	( cz_TableReader , DDICInfo_Factory.Instance );
+
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public T RegisterProfile<T>( string name , Func<T> factory )
+					{
+						if ( ! this._RfcFncMngr.Value.ProfileExists( name ) )
+							{
+								lock (this._Lock)
+									{
+										if ( ! this._RfcFncMngr.Value.ProfileExists( name ) )
+											{
+												var lo_Prof	= (IRfcFncProfile)	factory();
+												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
+											}
+									}
+							}
+						//.............................................
+						return	this._RfcFncMngr.Value.GetProfile<T>( name );
+					}
 
 			#endregion
 

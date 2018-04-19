@@ -3,7 +3,6 @@
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
-using BxS_WorxNCO.BDCSession.DTO;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -78,16 +77,14 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 					{
 						try
 							{
-								foreach (	string name in dto.TableNames )
+								foreach (	string lc_TblNme in dto.TableNames )
 									{
-										this.NCORfcFunction.SetValue( this.Idx_TabNme , name		);
+										this.NCORfcFunction.SetValue( this.Idx_TabNme , lc_TblNme		);
 										this.NCORfcFunction.SetValue( this.Idx_NoWrit , cz_True );
 										//.............................................
 										this.Invoke( rfcDestination );
 										//.............................................
-										var x = this.NCORfcFunction.GetTable( this.Idx_DFTble );
-										var t = dto.
-										dto.MsgST	= this.NCORfcFunction.GetString( this.Idx_MsgST );
+										this.ProcessFields( lc_TblNme , dto );
 									}
 							}
 						catch (Exception)
@@ -105,10 +102,9 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ProcessFields(	DDICInfo_FieldCollection	dto
-															, SMC.RfcDestination				rfcDestination )
+				private void ProcessFields( string tableName ,	DDICInfo_FieldCollection	dto	)
 					{
-
+						SMC.IRfcTable x = this.NCORfcFunction.GetTable( this.Idx_DFTble );
 					}
 
 			#endregion

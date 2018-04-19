@@ -12,7 +12,7 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DDICInfo_FieldCollection()
 					{
-						this._DDICInfo	= new	Dictionary<string, IList<DTO_DDICInfo_Field>>();
+						this._DDICInfo	= new	Dictionary< string , IList< DTO_DDICInfo_Field > >();
 					}
 
 			#endregion
@@ -29,7 +29,7 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 
 				public	int	TableCount	{ get { return	this._DDICInfo.Count; } }
 				//.................................................
-				public	Dictionary<string, IList<DTO_DDICInfo_Field>>.KeyCollection		TableNames	{ get	{	return	this._DDICInfo.Keys; } }
+				public	Dictionary< string , IList< DTO_DDICInfo_Field > >.KeyCollection	TableNames	{ get	{	return	this._DDICInfo.Keys; } }
 
 			#endregion
 
@@ -37,21 +37,20 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_DDICInfo_Field	CreateDataDTO()	=>	new DTO_DDICInfo_Field();
+				public DTO_DDICInfo_Field	CreateDTO()	=>	new DTO_DDICInfo_Field();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DTO_DDICInfo_Field	CreateDataDTO( string	tableName , string	fieldName	)
+				public DTO_DDICInfo_Field	CreateDTO( string	tableName , string	fieldName , string text = null )
 					{
-						DTO_DDICInfo_Field lo_Data = this.CreateDataDTO();
-
-						lo_Data.TabName		= tableName	;
-						lo_Data.FldName		= fieldName	;
-
-						return	lo_Data;
+						return	new DTO_DDICInfo_Field	{
+																								TabName	= tableName
+																							,	FldName	= fieldName
+																							, FldText	= text
+																						};
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddBDCData(	DTO_DDICInfo_Field dto )
+				public void AddData( DTO_DDICInfo_Field dto )
 					{
 						if ( ! this._DDICInfo.ContainsKey( dto.TabName ) )
 							{
@@ -65,13 +64,13 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddBDCData( string	tableName , string	fieldName	)
+				public void AddData( string	tableName , string	fieldName	)
 					{
-						this.AddBDCData( this.CreateDataDTO( tableName , fieldName ) );
+						this.AddData( this.CreateDTO( tableName , fieldName ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<DTO_DDICInfo_Field> GetFildList( string tableName )
+				public IList<DTO_DDICInfo_Field> GetFieldList( string tableName )
 					{
 						if ( this._DDICInfo.TryGetValue( tableName, out IList< DTO_DDICInfo_Field > lt_DTO ) )
 							{
@@ -80,6 +79,36 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 						else
 							{
 								return	new List< DTO_DDICInfo_Field >();
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool AddUpdateText( string tableName , string	fieldName , string text = null )
+					{
+						if ( ! this._DDICInfo.ContainsKey( tableName ) )
+							{
+								this._DDICInfo.Add( tableName, new List< DTO_DDICInfo_Field >() );
+							}
+						//.............................................
+						if ( this._DDICInfo.TryGetValue( tableName, out IList< DTO_DDICInfo_Field > lt_DTO ) )
+							{
+								DTO_DDICInfo_Field x = this.CreateDTO( tableName , fieldName , text );
+
+								int i = lt_DTO.IndexOf( x );
+
+								if ( i < 0 )
+									{
+										lt_DTO.Add( x );
+									}
+								else
+									{
+										lt_DTO[i]	= x;
+									}
+								return	true;
+							}
+						else
+							{
+								return	false;
 							}
 					}
 

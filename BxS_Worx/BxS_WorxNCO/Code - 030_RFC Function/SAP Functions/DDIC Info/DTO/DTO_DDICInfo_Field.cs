@@ -16,6 +16,18 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 
 			#endregion
 
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_DDICInfo_Field( string	tableName = null , string fieldName = null , string text = null )
+					{
+						this.TabName	=	tableName ?? string.Empty	;
+						this.FldName	=	fieldName ?? string.Empty	;
+						this.FldText	= text			?? string.Empty	;
+					}
+
+			#endregion
+
 			//===========================================================================================
 			#region "Properties"
 

@@ -3,6 +3,7 @@
 using BxS_WorxNCO.Destination.API;
 
 using BxS_WorxNCO.RfcFunction.BDCTran;
+using BxS_WorxNCO.RfcFunction.DDIC;
 using BxS_WorxNCO.RfcFunction.SAPMsg;
 using BxS_WorxNCO.RfcFunction.TableReader;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -52,5 +53,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				TblRdr_Function		CreateTblRdrFunction()	;
 
 			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: DDIC Info"
+
+				DDICInfo_Function		CreateDDICInfoFunction()	;
+
+			#endregion
+
 		}
 }
