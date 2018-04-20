@@ -91,13 +91,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					IRfcDestination		lo_DS	= this.co_NCO000.GetSAPDestConfigured();
 					IRfcFncController	lo_FC = new RfcFncController( lo_DS );
-
-					lo_FC.RegisterBDCProfile();
-					lo_FC.RegisterSAPMsgProfile	();
-					await	lo_FC.ActivateProfilesAsync().ConfigureAwait(false);
 					//...............................................
 					BDC_Function			lo_FN1	=	lo_FC.CreateBDCFunction	();
 					SAPMsg_Function		lo_FN2	=	lo_FC.CreateSAPMsgFunction	();
+
+					await	lo_FC.ActivateProfilesAsync().ConfigureAwait(false);
 
 					Assert.AreNotEqual	(	-1	, lo_FN1.MyProfile.Value._FNCIndex.Value.Skip1	,	"" );
 					Assert.AreNotEqual	(	-1	, lo_FN2.MyProfile.Value._FNCIndex.Value.MsgID	,	"" );
@@ -112,7 +110,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						IRfcDestination	lo_DS	= this.co_NCO000.GetSAPDestConfigured();
 						BDC_Factory			lo_FC	= BDC_Factory.Instance;
 
-						return	new BDC_Profile( cz_FNme , BDC_Factory.Instance );
+						return	new BDC_Profile( BDC_Factory.Instance );
 					}
 
 		//

@@ -139,17 +139,18 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_300_BCDCall_50_Multiple()
 				{
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
-					BDC_Profile		lo_Prof		= lo_FCnt.GetAddBDCProfile();
+					BDC_Function			lo_Fnc0		= lo_FCnt.CreateBDCFunction();
 
 					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
+					BDC_Profile		lo_Prof		= lo_Fnc0.MyProfile.Value;
 					BDC_Header		lo_Head		= lo_Prof.CreateBDCHeader( true )	;
 					//...............................................
 					lo_Head.SAPTCode	= "XD03";
 					lo_Head.CTUParms[ lo_Prof._CTUIndex.Value.NoBtcI ].SetValue( cz_False );
 					lo_Head.CTUParms[ lo_Prof._CTUIndex.Value.DspMde ].SetValue( cz_CTU_N );
 					//...............................................
-					const int ln_Trn	= 100;
+					const int ln_Trn	= 200;
 					const	int ln_Tsk	= 05;
 
 					int ln_Tal	= 00;

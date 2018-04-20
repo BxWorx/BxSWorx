@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.DDIC
 {
-	internal class DTO_DDICInfo_Field
+	public class DTO_DDICInfo_Field
 		{
 			#region "Documentation"
 

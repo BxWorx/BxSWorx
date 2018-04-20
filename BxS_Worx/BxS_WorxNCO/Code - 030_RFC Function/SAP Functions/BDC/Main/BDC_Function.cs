@@ -105,7 +105,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.Set_SAPTCode	( config.SAPTCode	);
 						this.Set_Skip1st	(	config.Skip1st	);
 
-						if ( this.MyProfile.Value.IsTranVersion )
+						if ( this.MyProfile.Value.IsAltVersion )
 							{
 									this.Set_Mode		( config.DispMode );
 									this.Set_Update	( config.UpdtMode	);

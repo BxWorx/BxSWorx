@@ -1,6 +1,8 @@
 ﻿using System;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.SAPMsg
 {
@@ -9,8 +11,7 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPMsg_Profile(	string					fncName
-																, SAPMsg_Factory	factory	)	: base( fncName )
+				internal SAPMsg_Profile( SAPMsg_Factory	factory	)	: base( cz_SAPMsgCompiler )
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(SAPMsg_Profile).Namespace}:- Factory null" );
 						//.............................................

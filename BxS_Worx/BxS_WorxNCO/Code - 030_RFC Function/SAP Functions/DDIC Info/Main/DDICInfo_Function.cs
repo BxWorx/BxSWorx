@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Concurrent;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -108,19 +107,24 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ProcessFields( string tableName ,	DDICInfo_FieldCollection	dto	)
+				private void ProcessFields( string tableName , DDICInfo_FieldCollection	dto	)
 					{
+						ConcurrentDictionary<string, string> lt_TabFlds		= dto.GetTableFieldData( tableName );
+						if ( lt_TabFlds.Count.Equals(0) )		return;
+						//.............................................
+						string				lc_Fld	= string.Empty;
+						int						ln_cnt	= lt_TabFlds.Count ;
 						SMC.IRfcTable	lt_Flds	= this.NCORfcFunction.GetTable( this.Idx_DFTble );
 						//.............................................
-						foreach ( string lc_Nme in dto.GetTableFieldList( tableName ) )
+						foreach ( SMC.IRfcStructure ls_Row in lt_Flds )
 							{
-								foreach ( SMC.IRfcStructure ls_Row in lt_Flds )
+								lc_Fld	= ls_Row.GetString( this.TABIndex.Fld );
+								if ( lt_TabFlds.ContainsKey( lc_Fld ) )
 									{
-										if ( ls_Row.GetString( this.TABIndex.Fld ).Equals( lc_Nme ) )
-											{
-												dto.AddUpdateText( tableName , lc_Nme , ls_Row.GetString( this.TABIndex.Txt ) );
-												break;
-											}
+										lt_TabFlds[lc_Fld]	= ls_Row.GetString( this.TABIndex.Txt );
+
+										if ( ln_cnt.Equals(1) )		break;
+										ln_cnt --;
 									}
 							}
 					}

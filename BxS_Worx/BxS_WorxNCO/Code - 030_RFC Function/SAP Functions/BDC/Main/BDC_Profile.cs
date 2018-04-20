@@ -1,6 +1,8 @@
 ﻿using System;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.BDCTran
 {
@@ -9,17 +11,16 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Profile(		string				fncName
-															, BDC_Factory		bdcFactory
-															, bool					useTranVersion	= false	)	: base(	fncName )
+				internal BDC_Profile(		BDC_Factory		bdcFactory
+															, bool					useAltVersion	= false	)	: base( useAltVersion ? cz_BDCTran : cz_BDCCall  )
 					{
 						this._BDCFactory		=	bdcFactory	??	throw		new	ArgumentException( $"{typeof(BDC_Profile).Namespace}:- BDC Factory null" );
-						this.IsTranVersion	= useTranVersion;
+						this.IsAltVersion	= useAltVersion;
 						//.............................................
-						this._FNCIndex	=	new	Lazy<	BDC_IndexFNC >( ()=>	this._BDCFactory.CreateIndexFNC( this.IsTranVersion ) );
-						this._SPAIndex	=	new Lazy<	BDC_IndexSPA >( ()=>	this._BDCFactory.CreateIndexSPA( this.IsTranVersion ) );
-						this._BDCIndex	= new	Lazy< BDC_IndexBDC >( ()=>	this._BDCFactory.CreateIndexBDC( this.IsTranVersion ) );
-						this._MSGIndex	= new	Lazy< BDC_IndexMSG >( ()=>	this._BDCFactory.CreateIndexMSG( this.IsTranVersion ) );
+						this._FNCIndex	=	new	Lazy<	BDC_IndexFNC >( ()=>	this._BDCFactory.CreateIndexFNC( this.IsAltVersion ) );
+						this._SPAIndex	=	new Lazy<	BDC_IndexSPA >( ()=>	this._BDCFactory.CreateIndexSPA( this.IsAltVersion ) );
+						this._BDCIndex	= new	Lazy< BDC_IndexBDC >( ()=>	this._BDCFactory.CreateIndexBDC( this.IsAltVersion ) );
+						this._MSGIndex	= new	Lazy< BDC_IndexMSG >( ()=>	this._BDCFactory.CreateIndexMSG( this.IsAltVersion ) );
 
 						this._CTUIndex	= new	Lazy< BDC_IndexCTU >( ()=>	this._BDCFactory.CreateIndexCTU() );
 					}
@@ -43,7 +44,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	bool	IsTranVersion	{ get; }
+				internal	bool	IsAltVersion	{ get; }
 
 			#endregion
 
@@ -63,7 +64,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.LoadStructureIndex	( this._BDCIndex.Value );
 						this.LoadStructureIndex	( this._MSGIndex.Value );
 						//.............................................
-						if ( !this.IsTranVersion )		this.LoadStructureIndex	( this._CTUIndex.Value );
+						if ( !this.IsAltVersion )		this.LoadStructureIndex	( this._CTUIndex.Value );
 						//.............................................
 						base.ReadyProfile();
 					}

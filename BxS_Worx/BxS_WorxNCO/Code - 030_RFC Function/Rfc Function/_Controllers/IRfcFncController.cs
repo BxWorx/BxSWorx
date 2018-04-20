@@ -27,19 +27,19 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed: BDC Call Transaction"
 
-				void	RegisterBDCProfile( bool TranVersion = false );
-				//.................................................
-				BDC_Profile		GetAddBDCProfile	( bool TranVersion = false )	;
-				BDC_Function	CreateBDCFunction	( bool TranVersion = false )	;
+				//void	RegisterBDCProfile( bool TranVersion = false );
+				////.................................................
+				//BDC_Profile		GetAddBDCProfile	( bool TranVersion = false )	;
+				BDC_Function	CreateBDCFunction	( bool UseAltVersion = false )	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: SAP Message compiler"
 
-				void	RegisterSAPMsgProfile();
-				//.................................................
-				SAPMsg_Profile		GetAddSAPMsgProfile()		;
+				//void	RegisterSAPMsgProfile();
+				////.................................................
+				//SAPMsg_Profile		GetAddSAPMsgProfile()		;
 				SAPMsg_Function		CreateSAPMsgFunction()	;
 
 			#endregion
@@ -47,9 +47,9 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Methods: Exposed: Table Reader"
 
-				void	RegisterTableReaderProfile();
-				//.................................................
-				TblRdr_Profile		GetAddTblRdrProfile()	;
+				//void	RegisterTableReaderProfile();
+				////.................................................
+				//TblRdr_Profile		GetAddTblRdrProfile()	;
 				TblRdr_Function		CreateTblRdrFunction()	;
 
 			#endregion

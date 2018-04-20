@@ -90,7 +90,7 @@ namespace BxS_WorxNCO.SAPSession.API
 					{
 						if ( ! this._IsReady )
 							{
-								this._RfcFncCntlr.Value.RegisterTableReaderProfile();	// TO-DO: check if this is still neccessary
+								//this._RfcFncCntlr.Value.RegisterTableReaderProfile();	// TO-DO: check if this is still neccessary
 								//.........................................
 								try
 									{
@@ -136,7 +136,7 @@ namespace BxS_WorxNCO.SAPSession.API
 																											,	string	QID
 																											, bool		onlyHeader	= false )
 					{
-						ISAP_Session_Profile	lo_Profile	=	this._Factory.Value.CreateSAPProfile();
+						ISAP_Session_Profile	lo_Profile	=	this._Factory		.Value.CreateSAPProfile();
 						TblRdr_Data						lo_TRData		= this._TR_Profile.Value.CreateTblRdrData();
 						//.............................................
 						this._SAPDatHndlr.Value.LoadTblRdr			( lo_TRData )				;

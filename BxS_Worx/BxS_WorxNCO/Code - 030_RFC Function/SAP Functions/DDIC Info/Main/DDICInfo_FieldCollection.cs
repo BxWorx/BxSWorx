@@ -5,14 +5,14 @@ using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.DDIC
 {
-	internal class DDICInfo_FieldCollection
+	public class DDICInfo_FieldCollection
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DDICInfo_FieldCollection()
 					{
-						this._DDIC			= new ConcurrentDictionary<string , ConcurrentDictionary<string , string>>();
+						this._DDIC	= new ConcurrentDictionary<string , ConcurrentDictionary<string , string>>();
 					}
 
 			#endregion
@@ -20,7 +20,7 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly ConcurrentDictionary< string , ConcurrentDictionary<string , string> >	_DDIC;
+				private readonly ConcurrentDictionary<string , ConcurrentDictionary<string , string>>	_DDIC;
 
 			#endregion
 
@@ -50,9 +50,16 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public ConcurrentDictionary<string , string> GetTableFieldData( string tableName )
+					{
+						return	this._DDIC.TryGetValue( tableName , out ConcurrentDictionary<string , string>	lo_Flds )
+							?	lo_Flds
+							:	new ConcurrentDictionary<string , string>();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IList<string> GetTableFieldList( string tableName )
 					{
-						//.............................................
 						return	this._DDIC.TryGetValue( tableName , out ConcurrentDictionary<string , string>	lo_Flds )
 							?	lo_Flds.Keys.ToList()
 							:	new List<string>();
@@ -64,7 +71,7 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 						var lt_List = new List< DTO_DDICInfo_Field >();
 						//.............................................
 						string	lc_SrchStr	= string.IsNullOrEmpty( tableName ) ? "" : tableName ;
-						var			lt_TabNames = this._DDIC	.Where(	kvp => kvp.Key.StartsWith(lc_SrchStr,StringComparison.OrdinalIgnoreCase) )
+						var			lt_TabNames = this._DDIC	.Where(	kvp => kvp.Key.StartsWith( lc_SrchStr , StringComparison.OrdinalIgnoreCase ) )
 																								.Select( kvp => kvp.Key )
 																									.ToList();
 
@@ -82,10 +89,13 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void AddUpdateText( string tableName , string fieldName , string text = null )
 					{
-						ConcurrentDictionary<string , string> q = this._DDIC.GetOrAdd( tableName , new	ConcurrentDictionary<string , string>() );
+						string lc_TN	= tableName.Trim().ToUpper();
+						string lc_FN	= fieldName.Trim().ToUpper();
+
+						ConcurrentDictionary<string , string> q = this._DDIC.GetOrAdd( lc_TN , new	ConcurrentDictionary<string , string>() );
 
 						#pragma warning disable RCS1163
-						q.AddOrUpdate( fieldName , text , (k,v)=> text );
+						q.AddOrUpdate( lc_FN , text , (k,v)=> text );
 						#pragma warning restore	RCS1163
 					}
 

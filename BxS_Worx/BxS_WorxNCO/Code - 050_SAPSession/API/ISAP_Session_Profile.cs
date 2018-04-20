@@ -1,5 +1,6 @@
-﻿using BxS_WorxNCO.BDCSession.DTO;
-using BxS_WorxNCO.Common;
+﻿using BxS_WorxNCO.Common;
+using BxS_WorxNCO.BDCSession.DTO;
+using BxS_WorxNCO.RfcFunction.DDIC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.SAPSession.API
 {
@@ -12,8 +13,9 @@ namespace BxS_WorxNCO.SAPSession.API
 				string	SessionName		{ get; set; }
 				string	SAPTCode			{ get; set; }
 				//.................................................
-				DTO_BDC_CTU			CTUParams		{ get; }
-				BDC_Collection	BDCData			{ get; }
+				DTO_BDC_CTU								CTUParams		{ get; }
+				BDC_Collection						BDCData			{ get; }
+				DDICInfo_FieldCollection	DDICInfo		{ get; }
 
 			#endregion
 

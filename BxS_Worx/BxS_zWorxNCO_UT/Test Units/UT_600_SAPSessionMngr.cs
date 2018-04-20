@@ -25,7 +25,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					this.co_RfcDest		= this.co_NCO000.GetSAPDestConfigured()	;
 
 					this.co_SAPMngr		= this.co_NCOCntlr.CreateSAPSessionManager( this.co_RfcDest )	;
-					Task.Run( ()=> this.co_SAPMngr.ReadySessionAsync() ).Wait();
+
+					Task.Run( ()=>			this.co_SAPMngr.ReadySessionAsync() ).Wait();
 					//...............................................
 					Assert.IsNotNull	( this.co_NCO000		, "A" );
 					Assert.IsNotNull	( this.co_NCOCntlr	, "B" );

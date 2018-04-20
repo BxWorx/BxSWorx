@@ -122,9 +122,9 @@ namespace BxS_WorxNCO.BDCSession.API
 					{
 						if ( ! this._IsReady )
 							{
-								this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseAltFnc );	// TO-DO: check if this is still neccessary
-								this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
-								//.........................................
+								//this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseAltFnc );	// TO-DO: check if this is still neccessary
+								//this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
+								////.........................................
 								try
 									{
 										await this.RfcDestination.FetchMetadataAsync( optimise )	.ConfigureAwait(false);

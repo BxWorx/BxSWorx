@@ -1,6 +1,8 @@
 ﻿using System;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.TableReader
 {
@@ -9,8 +11,7 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal TblRdr_Profile(		string					fncName
-																	, TblRdr_Factory	factory	)	: base( fncName )
+				internal TblRdr_Profile( TblRdr_Factory	factory	)	: base( cz_TableReader )
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(TblRdr_Profile).Namespace}:- Factory null" );
 						//.............................................

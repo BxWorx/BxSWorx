@@ -34,7 +34,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_10_Instantiate()
 				{
-					this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() )	;
+					this.co_SessFact	=	BDC_Session_Factory.Instance;
 
 					Assert.IsNotNull	( this.co_SessFact	, "a" );
 					//...............................................
@@ -49,7 +49,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_400_BCDSess_20_Configure()
 				{
-					this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() )	;
+					this.co_SessFact	=	BDC_Session_Factory.Instance;
 
 				  BDC_Session_TranProcessor	lo_BDCSess	= this.GetBDCSession();
 					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
@@ -80,11 +80,11 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			private async Task BCDSess_Process( int ln_Trn = 200 , bool UseTrnVersn = false )
+			private async Task BCDSess_Process( int ln_Trn = 200 , bool UseAltVersion = false )
 				{
 					var CTS		= new CancellationTokenSource();
 
-					this.co_SessFact	=	new	BDC_Session_Factory( this.co_NCO000.GetSAPDestConfigured() , UseTrnVersn )	;
+					this.co_SessFact	=	BDC_Session_Factory.Instance;
 
 					ProgressHandler<DTO_BDC_Progress>				lo_PH				= this.co_SessFact.CreateProgressHandler			();
 					ObjectPool<BDC_Session_TranConsumer>		lo_PoolTrn	= this.co_SessFact.CreateBDCTransConsumerPool	();
@@ -93,7 +93,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Task.Run( ()=>	this.co_SessFact.ReadyEnvironmentAsync( true )).Wait();
 
 				  BDC_Session_SAPMsgProcessor	lo_SAPMsg		= this.GetConfiguredSAPMsgProcessor	( false , 5 , 5	);
-				  BDC_Session_TranProcessor			lo_BDCSess	= this.GetConfiguredBDCSession			( false , 5 , 5 );
+				  BDC_Session_TranProcessor		lo_BDCSess	= this.GetConfiguredBDCSession			( false , 5 , 5 );
 					DTO_BDC_Session							lo_SessDTO	=	this.co_SessFact.CreateSessionDTO	()												;
 
 					this.LoadBDCData( lo_SessDTO , ln_Trn , 'N' , true );

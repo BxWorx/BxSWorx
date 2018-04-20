@@ -1,6 +1,8 @@
 ﻿using System;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
+
+using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.DDIC
 {
@@ -9,8 +11,7 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DDICInfo_Profile(	string						fncName
-																	, DDICInfo_Factory	factory	)	: base( fncName )
+				internal DDICInfo_Profile( DDICInfo_Factory	factory	)	: base( cz_DDICInfo )
 					{
 						this._Factory		= factory	??	throw		new	ArgumentException( $"{typeof(DDICInfo_Profile).Namespace}:- Factory null" );
 						//.............................................
