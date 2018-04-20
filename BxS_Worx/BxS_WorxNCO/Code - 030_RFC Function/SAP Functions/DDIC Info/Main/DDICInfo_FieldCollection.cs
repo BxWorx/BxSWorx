@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -58,13 +59,21 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<DTO_DDICInfo_Field> GetFields( string tableName )
+				public IList<DTO_DDICInfo_Field> GetFields( string tableName = null )
 					{
 						var lt_List = new List< DTO_DDICInfo_Field >();
 						//.............................................
-						if ( this._DDIC.TryGetValue( tableName , out ConcurrentDictionary<string , string>	lo_Flds ) )
+						string	lc_SrchStr	= string.IsNullOrEmpty( tableName ) ? "" : tableName ;
+						var			lt_TabNames = this._DDIC	.Where(	kvp => kvp.Key.StartsWith(lc_SrchStr,StringComparison.OrdinalIgnoreCase) )
+																								.Select( kvp => kvp.Key )
+																									.ToList();
+
+						foreach ( string lc_TabNme in lt_TabNames )
 							{
-								lo_Flds.Select( ls_kvp => this.CreateDTO( tableName , ls_kvp.Key , ls_kvp.Value ) );
+								if ( this._DDIC.TryGetValue( lc_TabNme , out ConcurrentDictionary<string , string>	lo_Flds ) )
+									{
+										lt_List.AddRange( lo_Flds.Select( ls_kvp => this.CreateDTO( lc_TabNme , ls_kvp.Key , ls_kvp.Value ) ).ToList() );
+									}
 							}
 						//.............................................
 						return	lt_List;

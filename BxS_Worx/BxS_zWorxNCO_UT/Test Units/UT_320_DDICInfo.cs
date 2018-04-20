@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 //.........................................................
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.Destination.API;
-using BxS_WorxNCO.RfcFunction.TableReader;
 using BxS_WorxNCO.RfcFunction.DDIC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
@@ -59,25 +59,17 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_320_DDICInfo_30_GetText()
 				{
 					DDICInfo_FieldCollection	lo_Data		=	this.co_Fnctn.CreateFieldCollection();
-					lo_Data.AddUpdateText( "KNA1" , "MANDT" );
-					lo_Data.AddUpdateText( "KNA1" , "KUNNR" );
-					//...............................................
-					this.co_Fnctn.Process(lo_Data , this.co_RfcDestOn.SMCDestination );
+
+					lo_Data.AddUpdateText( "KNA1"		, "MANDT" );
+					lo_Data.AddUpdateText( "KNA1"		, "KUNNR" );
+					lo_Data.AddUpdateText( "KNA1 "	, "NAME2" );
+					lo_Data.AddUpdateText( "RF02D"	, "KUNNR" );
+					lo_Data.AddUpdateText( "RF02D"	, "D0110" );
+				//...............................................
+					this.co_Fnctn.Process( lo_Data , this.co_RfcDestOn.SMCDestination );
+					IList<DTO_DDICInfo_Field> x = lo_Data.GetFields();
+
+					Assert.AreNotEqual( 0 , x.Count , "" )	;
 				}
-
-		//.
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private	void LoadSetup( TblRdr_Data	dto	)
-				//	{
-				//		dto.Delimeter		= '|'			;
-				//		dto.QueryTable	= "KNA1"	;
-				//		dto.ReturnRows	= cn_Recs			;
-				//		//...............................................
-				//		dto.LoadField( "MANDT" )	;
-				//		dto.LoadField( "KUNNR" )	;
-				//		//...............................................
-				//		dto.LoadOption( "LAND1 EQ 'NA' " )	;
-				//	}
 		}
 }
