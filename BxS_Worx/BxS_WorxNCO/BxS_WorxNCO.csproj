@@ -33,6 +33,7 @@
     <Compile Remove="Code - 030_RFC Function\Rfc Function\Common\RfcFncIndexBase.cs" />
     <Compile Remove="Code - 030_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\BDC\Indexes\BDC_IndexSPAy.cs" />
+    <Compile Remove="Code - 030_RFC Function\SAP Functions\DDIC Info\Main\DDICInfo_FieldCollection - Copy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\Table Reader\Indexes\TblRdr_IndexBase.cs" />
     <Compile Remove="Code - 040_BDCSession\Main\BDC_SessionProgress.cs" />
     <Compile Remove="Code - 040_BDCSession\Parser\Processors\BDC_Parser_Destination.cs" />

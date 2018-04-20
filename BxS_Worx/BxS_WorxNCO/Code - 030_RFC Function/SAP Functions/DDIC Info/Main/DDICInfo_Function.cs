@@ -87,9 +87,9 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 									{
 										this.NCORfcFunction.SetValue( this.Idx_TabNme , lc_TblNme	);
 										this.NCORfcFunction.SetValue( this.Idx_NoWrit , cz_True		);
-										//.............................................
+										//.....................................
 										this.Invoke( rfcDestination );
-										//.............................................
+										//.....................................
 										this.ProcessFields( lc_TblNme , dto );
 									}
 							}
@@ -110,16 +110,16 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ProcessFields( string tableName ,	DDICInfo_FieldCollection	dto	)
 					{
-						IList<string>	lt_Nmes	= dto.GetFieldList( tableName ).Select( f => f.FldName ).ToList() ;
 						SMC.IRfcTable	lt_Flds	= this.NCORfcFunction.GetTable( this.Idx_DFTble );
-
-						foreach (string lc_Nme in lt_Nmes)
+						//.............................................
+						foreach ( string lc_Nme in dto.GetTableFieldList( tableName ) )
 							{
-								foreach (SMC.IRfcStructure ls_Row in lt_Flds)
+								foreach ( SMC.IRfcStructure ls_Row in lt_Flds )
 									{
-										if ( ls_Row.GetString(this.TABIndex.Fld).Equals(lc_Nme) )
+										if ( ls_Row.GetString( this.TABIndex.Fld ).Equals( lc_Nme ) )
 											{
-												dto.AddUpdateText( tableName , lc_Nme , ls_Row.GetString(this.TABIndex.Txt) );
+												dto.AddUpdateText( tableName , lc_Nme , ls_Row.GetString( this.TABIndex.Txt ) );
+												break;
 											}
 									}
 							}

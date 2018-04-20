@@ -12,17 +12,17 @@ namespace BxS_Toolset.DataContainer
 {
 	[DataContract]
 
-	public class DataTable<TCls, TKey> where TCls : class
+	public class DataTable<TKey , TVal> where TVal : class
 		{
 			//===========================================================================================
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DataTable(Func<TKey, TCls> NewEntry)
+				public DataTable(Func<TKey, TVal> NewEntry)
 					{
 						this._CreateNew	= NewEntry;
 						//.............................................
-						this._DataTable	= new	ConcurrentDictionary<TKey, TCls>();
+						this._DataTable	= new	ConcurrentDictionary<TKey, TVal>();
 					}
 
 			#endregion
@@ -30,10 +30,10 @@ namespace BxS_Toolset.DataContainer
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy<Type>	_Type		= new Lazy<Type>(	() => typeof(TCls) , cz_LM );
+				private readonly	Lazy<Type>	_Type		= new Lazy<Type>(	() => typeof(TVal) , cz_LM );
 				//.................................................
-											private readonly	Func									<TKey, TCls>	_CreateNew;
-				[DataMember]	private	readonly	ConcurrentDictionary	<TKey, TCls>	_DataTable;
+											private readonly	Func									<TKey, TVal>	_CreateNew;
+				[DataMember]	private	readonly	ConcurrentDictionary	<TKey, TVal>	_DataTable;
 
 			#endregion
 
@@ -49,11 +49,11 @@ namespace BxS_Toolset.DataContainer
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void TransferTo(DataTable<TCls,TKey> DataTab, bool Reset	= true)
+				public void TransferTo(DataTable<TKey,TVal> DataTab, bool Reset	= true)
 					{
 						if (Reset)	DataTab.Clear();
 						//.............................................
-						foreach (KeyValuePair<TKey, TCls> ls_Kvp in this._DataTable)
+						foreach (KeyValuePair<TKey, TVal> ls_Kvp in this._DataTable)
 							{
 								DataTab.AddUpdate(ls_Kvp.Key, ls_Kvp.Value);
 							}
@@ -66,7 +66,7 @@ namespace BxS_Toolset.DataContainer
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public TCls Create(TKey ID	= default(TKey))
+				public TVal Create(TKey ID	= default(TKey))
 					{
 						return	this._CreateNew(ID);
 					}
@@ -82,9 +82,9 @@ namespace BxS_Toolset.DataContainer
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public TCls Get(TKey ID)
+				public TVal Get(TKey ID)
 					{
-						if (!this._DataTable.TryGetValue(ID, out TCls lo_DTO))
+						if (!this._DataTable.TryGetValue(ID, out TVal lo_DTO))
 							{	lo_DTO	= this.Create(); }
 						//.............................................
 						return	lo_DTO;
@@ -93,7 +93,7 @@ namespace BxS_Toolset.DataContainer
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public bool Remove(TKey ID)
 					{
-						bool lb_Ret	=	this._DataTable.TryRemove(ID , out TCls lo_Cls);
+						bool lb_Ret	=	this._DataTable.TryRemove(ID , out TVal lo_Cls);
 						if (lb_Ret)		this.IsDirty	= true;
 						return	lb_Ret;
 					}
@@ -122,7 +122,7 @@ namespace BxS_Toolset.DataContainer
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdate(TKey Key, TCls DTO)
+				public bool AddUpdate(TKey Key, TVal DTO)
 					{
 						bool	lb_Ret	= false;
 						//.............................................
@@ -177,7 +177,7 @@ namespace BxS_Toolset.DataContainer
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<TCls> ValueListFor(	string PropertyName		= default(string),	TKey ID		= default(TKey) ,
+				public IList<TVal> ValueListFor(	string PropertyName		= default(string),	TKey ID		= default(TKey) ,
 																					string PropertyName1	= default(string),	TKey ID1	= default(TKey)		)
 					{
 						PropertyInfo	lo_PI		= this.GetPropInfo(PropertyName	);

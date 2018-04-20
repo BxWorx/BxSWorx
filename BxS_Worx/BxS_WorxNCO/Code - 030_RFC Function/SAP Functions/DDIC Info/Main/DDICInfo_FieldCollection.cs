@@ -1,8 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-//.........................................................
-
-using static	BxS_WorxNCO.Main.NCO_Constants;
+using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.DDIC
 {
@@ -13,7 +11,6 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DDICInfo_FieldCollection()
 					{
-						this._DDICInfo	= new	Dictionary< string , IList< DTO_DDICInfo_Field > >();
 						this._DDIC			= new ConcurrentDictionary<string , ConcurrentDictionary<string , string>>();
 					}
 
@@ -22,8 +19,6 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Dictionary< string , IList< DTO_DDICInfo_Field > >	_DDICInfo;
-
 				private readonly ConcurrentDictionary< string , ConcurrentDictionary<string , string> >	_DDIC;
 
 			#endregion
@@ -31,9 +26,9 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			//===========================================================================================
 			#region "Properties"
 
-				public	int	TableCount	{ get { return	this._DDICInfo.Count; } }
+				public	int	TableCount	{ get { return	this._DDIC.Count; } }
 				//.................................................
-				public	Dictionary< string , IList< DTO_DDICInfo_Field > >.KeyCollection	TableNames	{ get	{	return	this._DDICInfo.Keys; } }
+				public	IList<string> TableNames	{ get	{	return	this._DDIC.Keys.ToList(); } }
 
 			#endregion
 
@@ -54,99 +49,41 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddData( DTO_DDICInfo_Field dto )
+				public IList<string> GetTableFieldList( string tableName )
 					{
-						if ( ! this._DDICInfo.ContainsKey( dto.TabName ) )
-							{
-								this._DDICInfo.Add( dto.TabName, new List< DTO_DDICInfo_Field >() );
-							}
 						//.............................................
-						if ( this._DDICInfo.TryGetValue( dto.TabName, out IList< DTO_DDICInfo_Field > lt_DTO ) )
-							{
-								lt_DTO.Add( dto );
-							}
+						return	this._DDIC.TryGetValue( tableName , out ConcurrentDictionary<string , string>	lo_Flds )
+							?	lo_Flds.Keys.ToList()
+							:	new List<string>();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddData( string	tableName , string	fieldName	)
+				public IList<DTO_DDICInfo_Field> GetFields( string tableName )
 					{
-						this.AddData( this.CreateDTO( tableName , fieldName ) );
+						var lt_List = new List< DTO_DDICInfo_Field >();
+						//.............................................
+						if ( this._DDIC.TryGetValue( tableName , out ConcurrentDictionary<string , string>	lo_Flds ) )
+							{
+								lo_Flds.Select( ls_kvp => this.CreateDTO( tableName , ls_kvp.Key , ls_kvp.Value ) );
+							}
+						//.............................................
+						return	lt_List;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<DTO_DDICInfo_Field> GetFieldList( string tableName )
+				public void AddUpdateText( string tableName , string fieldName , string text = null )
 					{
-						if ( this._DDICInfo.TryGetValue( tableName, out IList< DTO_DDICInfo_Field > lt_DTO ) )
-							{
-								return	lt_DTO;
-							}
-						else
-							{
-								return	new List< DTO_DDICInfo_Field >();
-							}
-					}
+						ConcurrentDictionary<string , string> q = this._DDIC.GetOrAdd( tableName , new	ConcurrentDictionary<string , string>() );
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool AddUpdateText( string tableName , string	fieldName , string text = null )
-					{
-						ConcurrentDictionary<string, string> q = this._DDIC.GetOrAdd( tableName , new ConcurrentDictionary<string, string>() );
-						q.AddOrUpdate( fieldName , text , (k,v)=> text);
-
-
-						var q = new Dictionary<string , string>();
-						this._DDIC.AddOrUpdate( tableName , q );
-
-
-
-						var x = this._DDIC.GetOrAdd(	tableName
-																				, ( key , val )=>		{ var t = new Dictionary<string , string>();
-																															t.Add(key , string.Empty); );
-
-
-						var x = this._DDIC.GetOrAdd( tableName , ( key , val )=>  new Dictionary<string , string>().Add(key , string.Empty); );
-
-						if ( ! this._DDIC.ContainsKey( tableName ) )
-							{
-								this._DDIC.Add( tableName, new Dictionary<string, string>() );
-							}
-						//.............................................
-						if ( this._DDIC.TryGetValue( tableName , out Dictionary<string , string> lt_DTO ) )
-							{
-								if ( lt_DTO.ContainsKey(fieldName) )
-							}
-
-
-						if ( ! this._DDICInfo.ContainsKey( tableName ) )
-							{
-								this._DDICInfo.Add( tableName, new List< DTO_DDICInfo_Field >() );
-							}
-						//.............................................
-						if ( this._DDICInfo.TryGetValue( tableName, out IList< DTO_DDICInfo_Field > lt_DTO ) )
-							{
-								DTO_DDICInfo_Field x = this.CreateDTO( tableName , fieldName , text );
-
-								int i = lt_DTO.IndexOf( x );
-
-								if ( i < 0 )
-									{
-										lt_DTO.Add( x );
-									}
-								else
-									{
-										lt_DTO[i]	= x;
-									}
-								return	true;
-							}
-						else
-							{
-								return	false;
-							}
+						#pragma warning disable RCS1163
+						q.AddOrUpdate( fieldName , text , (k,v)=> text );
+						#pragma warning restore	RCS1163
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear()
 					{
-						this._DDICInfo.Clear();
+						this._DDIC.Clear();
 					}
 
 			#endregion

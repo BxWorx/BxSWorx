@@ -59,10 +59,10 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_320_DDICInfo_30_GetText()
 				{
 					DDICInfo_FieldCollection	lo_Data		=	this.co_Fnctn.CreateFieldCollection();
+					lo_Data.AddUpdateText( "KNA1" , "MANDT" );
 					lo_Data.AddUpdateText( "KNA1" , "KUNNR" );
 					//...............................................
 					this.co_Fnctn.Process(lo_Data , this.co_RfcDestOn.SMCDestination );
-
 				}
 
 		//.
