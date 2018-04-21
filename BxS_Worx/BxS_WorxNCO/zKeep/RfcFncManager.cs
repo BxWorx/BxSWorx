@@ -9,14 +9,14 @@ using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main
 {
-	internal class RfcFncManager : IRfcFncManager
+	internal class RfcFncController : IRfcFncController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcFncManager( IRfcDestination rfcDestination )
+				internal RfcFncController( IRfcDestination rfcDestination )
 					{
-						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncManager).Namespace}:- RfcDestination null" );
+						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(RfcFncController).Namespace}:- RfcDestination null" );
 						//.............................................
 						this._RfcFncProfiles	= new ConcurrentDictionary< string , IRfcFncProfile >();
 					}
@@ -83,7 +83,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 										throw	new Exception( "Profile Metadata Load error" , ex );
 									}
 							}
-						}
+					}
 
 			#endregion
 

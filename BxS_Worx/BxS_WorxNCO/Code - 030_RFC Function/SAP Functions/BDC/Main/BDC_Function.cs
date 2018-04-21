@@ -107,12 +107,12 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 						if ( this.MyProfile.Value.IsAltVersion )
 							{
-									this.Set_Mode		( config.DispMode );
-									this.Set_Update	( config.UpdtMode	);
+									this.Set_CTU	( config.CTUParms	);
 							}
 						else
 							{
-									this.Set_CTU	( config.CTUParms	);
+									this.Set_Mode		( config.DispMode );
+									this.Set_Update	( config.UpdtMode	);
 							}
 					}
 

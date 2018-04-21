@@ -19,7 +19,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 		{
 			private readonly	UT_000_NCO					co_NCO000		;
 			private readonly	INCO_Controller			co_NCOCntlr	;
-			private	BDC_Session_Factory	co_SessFact	;
+			private						BDC_Session_Factory	co_SessFact	;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_400_BDCSession()
@@ -39,7 +39,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.IsNotNull	( this.co_SessFact	, "a" );
 					//...............................................
 				  BDC_Session_TranProcessor	lo_BDCSess	= this.GetBDCSession();
-					DTO_BDC_SessionConfig		lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
+					DTO_BDC_SessionConfig			lo_SessCfg	= this.co_SessFact.CreateBDCSessionConfig();
 
 					Assert.IsNotNull	( lo_BDCSess				, "b" );
 					Assert.IsNotNull	( lo_SessCfg				, "c" );

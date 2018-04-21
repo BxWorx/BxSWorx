@@ -30,7 +30,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.IsNotNull	( this.co_FCntlr		, "" )	;
 					Assert.IsNotNull	( this.co_Fnctn			, "" )	;
 					//...............................................
-					Task.Run( async ()=> await	this.co_FCntlr.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
+					Task.Run( async ()=> await	this.co_FCntlr.UpdateProfilesAsync().ConfigureAwait(false)).Wait();
 				}
 
 			[TestMethod]

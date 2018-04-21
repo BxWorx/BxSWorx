@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 //.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
 using BxS_WorxNCO.Destination.API;
 
 using BxS_WorxNCO.RfcFunction.BDCTran;
@@ -13,51 +15,41 @@ namespace BxS_WorxNCO.RfcFunction.Main
 		{
 			#region "Properties"
 
-				IRfcDestination	RfcDestination	{ get; }
+				IRfcDestination		RfcDestination	{ get; }
+				SMC.RfcRepository	SMCRepository		{ get; }
+				int								ProfileCount		{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: General"
 
-				Task ActivateProfilesAsync()	;
+				Task UpdateProfilesAsync( bool	optimiseMetadataFetch = true )	;
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: BDC Call Transaction"
+			#region "Methods: Exposed: Create Functions"
 
-				//void	RegisterBDCProfile( bool TranVersion = false );
-				////.................................................
-				//BDC_Profile		GetAddBDCProfile	( bool TranVersion = false )	;
-				BDC_Function	CreateBDCFunction	( bool UseAltVersion = false )	;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: SAP Message compiler"
-
-				//void	RegisterSAPMsgProfile();
-				////.................................................
-				//SAPMsg_Profile		GetAddSAPMsgProfile()		;
-				SAPMsg_Function		CreateSAPMsgFunction()	;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				BDC_Function				CreateBDCFunctionStd		();
+				BDC_Function				CreateBDCFunctionAlt		();
+				SAPMsg_Function			CreateSAPMsgFunction		();
+				TblRdr_Function			CreateTblRdrFunction		();
+				DDICInfo_Function		CreateDDICInfoFunction	();
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: Table Reader"
+			#region "Methods: Exposed: Registration"
 
-				//void	RegisterTableReaderProfile();
-				////.................................................
-				//TblRdr_Profile		GetAddTblRdrProfile()	;
-				TblRdr_Function		CreateTblRdrFunction()	;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				void	RegisterBDCStd	();
+				void	RegisterBDCAlt	();
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: DDIC Info"
-
-				DDICInfo_Function		CreateDDICInfoFunction()	;
+				void	RegisterSAPMsg	();
+				void	RegisterTblRdr	();
+				void	RegisterDDICIno	();
 
 			#endregion
 

@@ -95,7 +95,7 @@ namespace BxS_WorxNCO.SAPSession.API
 								try
 									{
 										await this.RfcDestination.FetchMetadataAsync( optimise )	.ConfigureAwait(false);
-										await	this._RfcFncCntlr.Value.ActivateProfilesAsync()			.ConfigureAwait(false);
+										await	this._RfcFncCntlr.Value.UpdateProfilesAsync()			.ConfigureAwait(false);
 										this._IsReady		=	true;
 									}
 								catch (Exception ex)

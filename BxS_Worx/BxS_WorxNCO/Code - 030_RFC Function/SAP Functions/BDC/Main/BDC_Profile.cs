@@ -12,10 +12,10 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Profile(		BDC_Factory		bdcFactory
-															, bool					useAltVersion	= false	)	: base( useAltVersion ? cz_BDCTran : cz_BDCCall  )
+															, bool					useAltVersion	= false	)	: base( useAltVersion ? cz_BDCAlt : cz_BDCStd  )
 					{
 						this._BDCFactory		=	bdcFactory	??	throw		new	ArgumentException( $"{typeof(BDC_Profile).Namespace}:- BDC Factory null" );
-						this.IsAltVersion	= useAltVersion;
+						this.IsAltVersion		= useAltVersion;
 						//.............................................
 						this._FNCIndex	=	new	Lazy<	BDC_IndexFNC >( ()=>	this._BDCFactory.CreateIndexFNC( this.IsAltVersion ) );
 						this._SPAIndex	=	new Lazy<	BDC_IndexSPA >( ()=>	this._BDCFactory.CreateIndexSPA( this.IsAltVersion ) );
@@ -64,7 +64,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 						this.LoadStructureIndex	( this._BDCIndex.Value );
 						this.LoadStructureIndex	( this._MSGIndex.Value );
 						//.............................................
-						if ( !this.IsAltVersion )		this.LoadStructureIndex	( this._CTUIndex.Value );
+						if ( this.IsAltVersion )		this.LoadStructureIndex	( this._CTUIndex.Value );
 						//.............................................
 						base.ReadyProfile();
 					}

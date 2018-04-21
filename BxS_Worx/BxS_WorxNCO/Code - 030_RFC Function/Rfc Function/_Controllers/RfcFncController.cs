@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using System.Linq;
+//.........................................................
+using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.BDCTran;
@@ -21,8 +26,10 @@ namespace BxS_WorxNCO.RfcFunction.Main
 					{
 						this.RfcDestination		= rfcDestination	??	throw		new ArgumentException( $"{typeof(BDC_Data).Namespace}:- BDCData null" );
 						//.............................................
-						this._RfcFncMngr	=	new	Lazy<IRfcFncManager>( ()=>	new	RfcFncManager( this.RfcDestination ) , cz_LM );
-						this._Lock				= new object();
+						this._FncProfFactory		= new	Lazy< Dictionary< string, Func<IRfcFncProfile> > >( ()=> this.LoadProfileFactories() );
+						//.............................................
+						this._RfcFncProfiles		= new ConcurrentDictionary< string , IRfcFncProfile >();
+						this._Lock							= new object();
 					}
 
 			#endregion
@@ -30,9 +37,10 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	Lazy<IRfcFncManager>	_RfcFncMngr	;
-				//.................................................
 				private readonly	object	_Lock	;
+				//.................................................
+				private	readonly	Lazy<	Dictionary< string , Func<IRfcFncProfile> > >	_FncProfFactory;
+				private readonly	ConcurrentDictionary< string , IRfcFncProfile >			_RfcFncProfiles;
 
 			#endregion
 
@@ -40,6 +48,8 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Properties"
 
 				public	IRfcDestination		RfcDestination	{ get; }
+				public	SMC.RfcRepository	SMCRepository		{ get { return this.RfcDestination.SMCRepository; } }
+				public	int								ProfileCount		{ get	{ return this._RfcFncProfiles.Count;				} }
 
 			#endregion
 
@@ -47,140 +57,48 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task ActivateProfilesAsync()
+				public async Task UpdateProfilesAsync( bool	optimiseMetadataFetch = true )
 					{
-						await	this._RfcFncMngr.Value.UpdateProfilesAsync().ConfigureAwait(false);
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: BDC Call"
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public void RegisterBDCProfile( bool TranVersion = false )
-				//	{
-				//		//string	lc_Name		= TranVersion ? cz_BDCTran : cz_BDCCall;
-				//		//.............................................
-				//		if ( ! this._RfcFncMngr.Value.ProfileExists( lc_Name ) )
-				//			{
-				//				lock (this._Lock)
-				//					{
-				//						if ( ! this._RfcFncMngr.Value.ProfileExists( lc_Name ) )
-				//							{
-				//								this._RfcFncMngr.Value.RegisterProfile( new BDC_Profile( BDC_Factory.Instance , TranVersion ) );
-				//							}
-				//					}
-				//			}
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public BDC_Profile GetAddBDCProfile( bool TranVersion = false )
-				//	{
-				//		this.RegisterBDCProfile( TranVersion );
-				//		//.............................................
-				//		return	this._RfcFncMngr.Value.GetProfile< BDC_Profile >( TranVersion ? cz_BDCTran : cz_BDCCall );
-				//	}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	BDC_Function	CreateBDCFunction	( bool UseAltVersion = false )
-					{
-						if ( UseAltVersion )
+						await	this.RfcDestination.FetchMetadataAsync( optimiseMetadataFetch ).ConfigureAwait(false);
+						//.............................................
+						foreach ( KeyValuePair< string , IRfcFncProfile > lo_Prof in this._RfcFncProfiles.Where( kvp => ! kvp.Value.IsReady ) )
 							{
-								return	new	BDC_Function(	this.RegisterProfile( cz_BDCTran , this.CreateBDCProfileALT ) );
-							}
-						else
-							{
-								return	new	BDC_Function(	this.RegisterProfile( cz_BDCCall , this.CreateBDCProfileSTD ) );
+								try
+									{
+										lo_Prof.Value.Metadata	= this.RfcDestination.FetchFunctionMetadata( lo_Prof.Value.FunctionName );
+										lo_Prof.Value.ReadyProfile();
+									}
+								catch ( Exception ex )
+									{
+										throw	new Exception( "Profile Metadata Load error" , ex );
+									}
 							}
 					}
 
-				private	BDC_Profile		CreateBDCProfileSTD	()	=>	new BDC_Profile	( BDC_Factory.Instance , false );
-				private	BDC_Profile		CreateBDCProfileALT	()	=>	new BDC_Profile	( BDC_Factory.Instance , true	 );
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: Create Functions"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	BDC_Function				CreateBDCFunctionStd		()=>	new	BDC_Function			( (BDC_Profile)				this.GetAddProfile( cz_BDCStd )					);
+				public	BDC_Function				CreateBDCFunctionAlt		()=>	new	BDC_Function			( (BDC_Profile)				this.GetAddProfile( cz_BDCAlt )					);
+				public	SAPMsg_Function			CreateSAPMsgFunction		()=>	new SAPMsg_Function		( (SAPMsg_Profile)		this.GetAddProfile( cz_SAPMsgCompiler	) );
+				public	TblRdr_Function			CreateTblRdrFunction		()=>	new TblRdr_Function		( (TblRdr_Profile)		this.GetAddProfile( cz_TableReader )		);
+				public	DDICInfo_Function		CreateDDICInfoFunction	()=>	new DDICInfo_Function	( (DDICInfo_Profile )	this.GetAddProfile( cz_DDICInfo )				);
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: SAP Message Compiler"
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public void RegisterSAPMsgProfile()
-				//	{
-				//		if ( ! this._RfcFncMngr.Value.ProfileExists( cz_SAPMsgCompiler ) )
-				//			{
-				//				lock (this._Lock)
-				//					{
-				//						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_SAPMsgCompiler ) )
-				//							{
-				//								var	lo_Prof	= new SAPMsg_Profile(		cz_SAPMsgCompiler
-				//																									, SAPMsg_Factory.Instance	);
-
-				//								this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
-				//							}
-				//					}
-				//			}
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public SAPMsg_Profile GetAddSAPMsgProfile()
-				//	{
-				//		this.RegisterSAPMsgProfile();
-				//		//.............................................
-				//		return	this._RfcFncMngr.Value.GetProfile< SAPMsg_Profile >( cz_SAPMsgCompiler );
-				//	}
+			#region "Methods: Exposed: Registration"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	SAPMsg_Function CreateSAPMsgFunction()	=>	new SAPMsg_Function	( this.RegisterProfile( cz_SAPMsgCompiler, this.CreateSAPMsgProfile ) );
-				private	SAPMsg_Profile	CreateSAPMsgProfile	()	=>	new SAPMsg_Profile	( SAPMsg_Factory.Instance	);
+				public	void	RegisterBDCStd	()=>	this.RegisterProfile( cz_BDCStd					);
+				public	void	RegisterBDCAlt	()=>	this.RegisterProfile( cz_BDCAlt					);
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: Table Reader"
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public void RegisterTableReaderProfile()
-				//	{
-				//		if ( ! this._RfcFncMngr.Value.ProfileExists( cz_TableReader ) )
-				//			{
-				//				lock (this._Lock)
-				//					{
-				//						if ( ! this._RfcFncMngr.Value.ProfileExists( cz_TableReader ) )
-				//							{
-				//								var	lo_Prof	= new TblRdr_Profile(		cz_TableReader
-				//																									, TblRdr_Factory.Instance	);
-
-				//								this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
-				//							}
-				//					}
-				//			}
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public TblRdr_Profile GetAddTblRdrProfile()
-				//	{
-				//		this.RegisterTableReaderProfile();
-				//		//.............................................
-				//		return	this._RfcFncMngr.Value.GetProfile< TblRdr_Profile >( cz_TableReader );
-				//	}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	void							RegisterTblRdr				()=>	this.RegisterProfile	( cz_TableReader , ()=>	new TblRdr_Profile( TblRdr_Factory.Instance	) );
-
-				public TblRdr_Function CreateTblRdrFunction	()
-					{
-						this.RegisterTblRdr();
-						return	new TblRdr_Function( this.GetProfile<TblRdr_Profile>( cz_TableReader ) );
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed: DDIC Info"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	DDICInfo_Function		CreateDDICInfoFunction()	=>	new DDICInfo_Function	( this.RegisterProfile( cz_DDICInfo , this.CreateDDICInfoProfile ) );
-				private	DDICInfo_Profile		CreateDDICInfoProfile	()	=>	new	DDICInfo_Profile	( DDICInfo_Factory.Instance );
+				public	void	RegisterSAPMsg	()=>	this.RegisterProfile( cz_SAPMsgCompiler	);
+				public	void	RegisterTblRdr	()=>	this.RegisterProfile( cz_TableReader		);
+				public	void	RegisterDDICIno	()=>	this.RegisterProfile( cz_DDICInfo				);
 
 			#endregion
 
@@ -188,22 +106,61 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private T GetProfile<T>( string name )
+				private bool ProfileExists( string name )=>	this._RfcFncProfiles.ContainsKey( name );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private Dictionary<string, Func<IRfcFncProfile>> LoadProfileFactories()
 					{
-						return	this._RfcFncMngr.Value.GetProfile<T>( name );
+						var X = new Dictionary<string, Func<IRfcFncProfile>>
+							{
+								{ cz_BDCStd, this.CreateBDCProfileSTD },
+								{ cz_BDCAlt, this.CreateBDCProfileALT },
+								{ cz_SAPMsgCompiler, this.CreateSAPMsgProfile },
+								{ cz_TableReader, this.CreateTblRdrProfile },
+								{ cz_DDICInfo, this.CreateDDICInfoProfile }
+							};
+						return	X;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void RegisterProfile<T>( string name , Func<T> factory )
+				// Factories for Profiles
+				//
+				private	BDC_Profile					CreateBDCProfileSTD		()=>	new BDC_Profile				( BDC_Factory.Instance , false	);
+				private	BDC_Profile					CreateBDCProfileALT		()=>	new BDC_Profile				( BDC_Factory.Instance , true		);
+
+				private	SAPMsg_Profile			CreateSAPMsgProfile		()=>	new SAPMsg_Profile		( SAPMsg_Factory.Instance		);
+				private	TblRdr_Profile			CreateTblRdrProfile		()=>	new TblRdr_Profile		( TblRdr_Factory.Instance		);
+				private	DDICInfo_Profile		CreateDDICInfoProfile	()=>	new	DDICInfo_Profile	( DDICInfo_Factory.Instance );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IRfcFncProfile GetAddProfile( string name )
 					{
-						if ( ! this._RfcFncMngr.Value.ProfileExists( name ) )
+						if ( ! this.ProfileExists( name ) )
+							{
+								this.RegisterProfile( name );
+							}
+						//.............................................
+						this._RfcFncProfiles.TryGetValue(	name , out IRfcFncProfile lo_Prof );
+						return	lo_Prof;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void RegisterProfile( string name )
+					{
+						if ( ! this.ProfileExists( name ) )
 							{
 								lock (this._Lock)
 									{
-										if ( ! this._RfcFncMngr.Value.ProfileExists( name ) )
+										if ( ! this.ProfileExists( name ) )
 											{
-												var lo_Prof	= (IRfcFncProfile)	factory();
-												this._RfcFncMngr.Value.RegisterProfile( lo_Prof );
+												if ( this._FncProfFactory.Value.TryGetValue( name , out Func<IRfcFncProfile> lo_Fact ) )
+													{
+														if ( this._RfcFncProfiles.TryAdd( name , lo_Fact() ) )
+															{
+																this.RfcDestination.RegisterRfcFunctionForMetadata( name );
+															}
+													}
 											}
 									}
 							}

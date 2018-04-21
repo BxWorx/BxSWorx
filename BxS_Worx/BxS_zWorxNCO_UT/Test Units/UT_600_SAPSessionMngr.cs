@@ -75,6 +75,5 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.AreEqual		(	0 , lo_P1.Count , "" );
 					Assert.AreNotEqual(	0 , lo_P2.Count , "" );
 				}
-
 		}
 }

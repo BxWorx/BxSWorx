@@ -32,6 +32,8 @@
     <Compile Remove="Code - 020_Destination\API\_Controllers\IDestinationController.cs" />
     <Compile Remove="Code - 030_RFC Function\Rfc Function\Common\RfcFncIndexBase.cs" />
     <Compile Remove="Code - 030_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
+    <Compile Remove="Code - 030_RFC Function\Rfc Function\Main\IRfcFncManager.cs" />
+    <Compile Remove="Code - 030_RFC Function\Rfc Function\Main\RfcFncManager.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\BDC\Indexes\BDC_IndexSPAy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\DDIC Info\Main\DDICInfo_FieldCollection - Copy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\Table Reader\Indexes\TblRdr_IndexBase.cs" />
@@ -62,10 +64,12 @@
     <Compile Remove="zKeep\IREPDestination.cs" />
     <Compile Remove="zKeep\IRfcDestination.cs" />
     <Compile Remove="zKeep\IRfcFncIndexMapper.cs" />
+    <Compile Remove="zKeep\IRfcFncManager.cs" />
     <Compile Remove="zKeep\PooledObjectWrapper.cs" />
     <Compile Remove="zKeep\REPDestination.cs" />
     <Compile Remove="zKeep\RfcDestination.cs" />
     <Compile Remove="zKeep\RfcFncIndexMapper.cs" />
+    <Compile Remove="zKeep\RfcFncManager.cs" />
     <Compile Remove="zKeep\RfcFncProfile - Copy.cs" />
     <Compile Remove="zKeep\SAPFncParmNameAttribute.cs" />
     <Compile Remove="zKeep\SAPMsg_IndexBase.cs" />
@@ -81,6 +85,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Code - 030_RFC Function\Rfc Function\Main\" />
     <Folder Include="Properties\" />
     <Folder Include="zKeep\" />
   </ItemGroup>

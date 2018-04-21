@@ -35,9 +35,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_300_BCDCall_10_Instantiate()
 				{
 					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDestOn );
-					BDC_Function			lo_Fnc1	= lo_FCnt.CreateBDCFunction();
+					BDC_Function			lo_Fnc1	= lo_FCnt.CreateBDCFunctionStd();
 
-					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
+					Task.Run( async ()=> await lo_FCnt.UpdateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDC_Header	lo_Head		= lo_Fnc1.CreateBDCHeader()	;
 					BDC_Data		lo_Lines	= lo_Fnc1.CreateBDCData()	;
@@ -52,9 +52,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_300_BCDCall_20_Basics()
 				{
 					IRfcFncController lo_FCnt	= new RfcFncController( this.co_RfcDestOn );
-					BDC_Function			lo_Fnc0	= lo_FCnt.CreateBDCFunction();
+					BDC_Function			lo_Fnc0	= lo_FCnt.CreateBDCFunctionAlt();
 
-					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
+					Task.Run( async ()=> await lo_FCnt.UpdateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDC_Header	lo_Head		= lo_Fnc0.CreateBDCHeader( true )	;
 					BDC_Data		lo_Lines	= lo_Fnc0.CreateBDCData()	;
@@ -74,28 +74,28 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_30_ProcessDspCall()
+			public void UT_300_BCDCall_30_ProcessDspStd()
 				{
 					this.BCDCall_Process( false , false , cz_CTU_A );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_32_ProcessDspTrn()
+			public void UT_300_BCDCall_32_ProcessDspAlt()
 				{
 					this.BCDCall_Process( true , false , cz_CTU_A );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_36_ProcessChgCall()
+			public void UT_300_BCDCall_36_ProcessChgStd()
 				{
 					this.BCDCall_Process( false , true , cz_CTU_A );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_300_BCDCall_38_ProcessChgTrn()
+			public void UT_300_BCDCall_38_ProcessChgAlt()
 				{
 					this.BCDCall_Process( true , true , cz_CTU_A );
 				}
@@ -105,12 +105,12 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_300_BCDCall_40_Many()
 				{
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
-					BDC_Function	lo_Fnc0		= lo_FCnt.CreateBDCFunction();
+					BDC_Function	lo_Fnc0				= lo_FCnt.CreateBDCFunctionAlt();
 
-					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
+					Task.Run( async ()=> await lo_FCnt.UpdateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDC_Header	lo_Head		= lo_Fnc0.CreateBDCHeader( true )	;
-					BDC_Data				lo_Lines	= lo_Fnc0.CreateBDCData()	;
+					BDC_Data		lo_Lines	= lo_Fnc0.CreateBDCData()	;
 
 					lo_Head.SAPTCode	= "XD03";
 					lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value._CTUIndex.Value.NoBtcI ].SetValue( cz_False );
@@ -139,9 +139,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_300_BCDCall_50_Multiple()
 				{
 					IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
-					BDC_Function			lo_Fnc0		= lo_FCnt.CreateBDCFunction();
+					BDC_Function			lo_Fnc0		= lo_FCnt.CreateBDCFunctionAlt();
 
-					Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
+					Task.Run( async ()=> await lo_FCnt.UpdateProfilesAsync().ConfigureAwait(false)).Wait();
 					//...............................................
 					BDC_Profile		lo_Prof		= lo_Fnc0.MyProfile.Value;
 					BDC_Header		lo_Head		= lo_Prof.CreateBDCHeader( true )	;
@@ -171,7 +171,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 						{
 							myTasks[i]	= Task.Factory.StartNew
 								(	()=>	{
-													BDC_Function	lo_Fnc	= lo_FCnt.CreateBDCFunction();
+													BDC_Function	lo_Fnc	= lo_FCnt.CreateBDCFunctionAlt();
 													lo_Fnc.Config( lo_Head );
 													foreach (BDC_Data lo_WorkItem in lo_BC.GetConsumingEnumerable() )
 														{
@@ -191,25 +191,25 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void BCDCall_Process( bool TrnVers = false , bool ChgMode = false , char DispMode = cz_CTU_N )
+				private void BCDCall_Process( bool AltVers = false , bool ChgMode = false , char DispMode = cz_CTU_N )
 					{
 						IRfcFncController lo_FCnt		= new RfcFncController( this.co_RfcDestOn );
-						BDC_Function			lo_Fnc0		= lo_FCnt.CreateBDCFunction( TrnVers );
+						BDC_Function			lo_Fnc0		=	AltVers ? lo_FCnt.CreateBDCFunctionAlt() : lo_FCnt.CreateBDCFunctionStd() ;
 
-						Task.Run( async ()=> await lo_FCnt.ActivateProfilesAsync().ConfigureAwait(false)).Wait();
+						Task.Run( async ()=> await lo_FCnt.UpdateProfilesAsync().ConfigureAwait(false)).Wait();
 						//...............................................
 						BDC_Header	lo_Head		= lo_Fnc0.CreateBDCHeader( true )	;
 						BDC_Data		lo_Lines	= lo_Fnc0.CreateBDCData()	;
 						//...............................................
 						lo_Head.SAPTCode	= ChgMode	? "XD02" : "XD03" ;
 
-						if ( TrnVers )
+						if ( AltVers )
 							{
-								lo_Head.DispMode	= DispMode.ToString();
+								lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value._CTUIndex.Value.DspMde ].SetValue( DispMode );
 							}
 						else
 							{
-								lo_Head.CTUParms[ lo_Fnc0.MyProfile.Value._CTUIndex.Value.DspMde ].SetValue( DispMode );
+								lo_Head.DispMode	= DispMode.ToString();
 							}
 
 						this.LoadBDCData( lo_Lines	, lo_Fnc0.MyProfile.Value , ChgMode );

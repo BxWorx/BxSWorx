@@ -128,7 +128,7 @@ namespace BxS_WorxNCO.BDCSession.API
 								try
 									{
 										await this.RfcDestination.FetchMetadataAsync( optimise )	.ConfigureAwait(false);
-										await	this._RfcFncCntlr.Value.ActivateProfilesAsync()			.ConfigureAwait(false);
+										await	this._RfcFncCntlr.Value.UpdateProfilesAsync()			.ConfigureAwait(false);
 										this._IsReady		=	true;
 									}
 								catch (Exception ex)
@@ -204,7 +204,8 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Private"
 
 				private BDC_Session_SAPMsgConsumer	CreateBDCSAPMsgConsumer	()=>	new	BDC_Session_SAPMsgConsumer	( this._RfcFncCntlr.Value.CreateSAPMsgFunction	() );
-				private BDC_Session_TranConsumer		CreateBDCTranConsumer		()=>	new	BDC_Session_TranConsumer		( this._RfcFncCntlr.Value.CreateBDCFunction			( this._UseAltFnc ) );
+				private BDC_Session_TranConsumer		CreateBDCTranConsumer		()=>	new	BDC_Session_TranConsumer		( this._UseAltFnc ? this._RfcFncCntlr.Value.CreateBDCFunctionAlt()
+																																																														: this._RfcFncCntlr.Value.CreateBDCFunctionStd() );
 
 			#endregion
 		}

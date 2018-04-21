@@ -11,7 +11,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 		{
 			#region "Documentation"
 
-				//	FUNCTION /isdfps/call_transaction.
+				//	FUNCTION /isdfps/call_transaction.  (THIS IS ALT VERSION)
 				//	*"----------------------------------------------------------------------
 				//	*"  IMPORTING
 				//	*"     VALUE(IF_TCODE)							TYPE	TCODE
@@ -57,16 +57,15 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_IndexFNC( bool useTranVersion )
+				internal BDC_IndexFNC( bool useAltVersion )
 					{
-						this._TrnVers	= useTranVersion;
+						this._AltVers	= useAltVersion;
 						//.............................................
-						this._TCode		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex(	this._TrnVers	?	cz_TCdTran : cz_TCdCall ) );
-						this._Skip1		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex(	this._TrnVers	?	cz_SkpTran : cz_SkpCall ) );
-
-						this._TabBDC	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( this._TrnVers	?	cz_BDCTran : cz_BDCCall	) );
-						this._TabMSG	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( this._TrnVers	?	cz_MSGTran : cz_MSGCall	) );
-						this._TabSPA	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( this._TrnVers	?	cz_SPATran : cz_SPACall	) );
+						this._TCode		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex(	this._AltVers	?	cz_TCdCall : cz_TCdTran ) );
+						this._Skip1		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex(	this._AltVers	?	cz_SkpCall : cz_SkpTran ) );
+						this._TabBDC	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( this._AltVers	?	cz_BDCCall : cz_BDCTran ) );
+						this._TabMSG	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( this._AltVers	?	cz_MSGCall : cz_MSGTran ) );
+						this._TabSPA	= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( this._AltVers	?	cz_SPACall : cz_SPATran ) );
 						//.............................................
 						this._Mode			= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_MdeTran ) );
 						this._Update		= new Lazy<int>( ()=> this.Metadata.TryNameToIndex( cz_UpdTran ) );
@@ -78,7 +77,7 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	bool	_TrnVers	;
+				private	readonly	bool	_AltVers	;
 				//.................................................
 				private	readonly	Lazy<int>		_TCode	;
 				private	readonly	Lazy<int>		_Skip1	;
