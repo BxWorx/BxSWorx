@@ -71,6 +71,7 @@
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Release" configuration is selected.
@@ -224,7 +225,7 @@
     <ManifestKeyFile>BxS_WorxExcel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6C22700541E71141990C36859E936260B525B4A6</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>8E8026148C3A875564F36237B1FAE3FD8BFEFCFC</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
