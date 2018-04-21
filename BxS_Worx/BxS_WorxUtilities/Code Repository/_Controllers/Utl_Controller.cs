@@ -12,18 +12,33 @@ namespace BxS_WorxUtil.Main
 		{
 			#region "Constructors: Singleton"
 
-				private UTL_Controller()	{	}
 				//.................................................
 				private	static readonly	Lazy< UTL_Controller >	_Instance		= new		Lazy< UTL_Controller >( ()=>		new UTL_Controller() , cz_LM );
 				public	static					UTL_Controller					Instance		{	get { return _Instance.Value; }	}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private UTL_Controller()
+					{
+						this._IO				= new	Lazy< IO >					( ()=> new	IO()					);
+						this._Serlizer	= new	Lazy< Serializer >	( ()=> new	Serializer()	);
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private	readonly Lazy< IO >						_IO;
+				private	readonly Lazy< Serializer >		_Serlizer;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				public	IO					CreateIO					()=> new IO()					;
-				public	Serializer	CreateSerializer	()=> new Serializer()	;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	IO					CreateIO					()=> this._IO				.Value	;
+				public	Serializer	CreateSerializer	()=> this._Serlizer	.Value	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public PriorityQueue		<T> CreatePriorityQueue	<T>	()													where T: class				=>	new PriorityQueue		<T>();
@@ -32,6 +47,9 @@ namespace BxS_WorxUtil.Main
 				public ProgressHandler	<T>	CreateProgressHandler	<T>	(		Func<T>	factory
 																																,	int			reportInterval	= 10 )	where T: class	=>	new ProgressHandler	<T>(	factory
 																																																																							, reportInterval );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+
 
 			#endregion
 

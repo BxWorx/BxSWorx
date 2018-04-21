@@ -35,8 +35,8 @@ namespace BxS_WorxExcel.Main
 
 				internal	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 
-				internal readonly Lazy< Serializer >								_UTLSerialiser	;
-				internal readonly Lazy< IO >												_UTLIO					;
+				internal readonly Lazy< Serializer >	_UTLSerialiser	;
+				internal readonly Lazy< IO >					_UTLIO					;
 
 			#endregion
 

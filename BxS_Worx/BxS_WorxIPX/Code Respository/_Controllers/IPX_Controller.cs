@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDC;
 
@@ -50,6 +51,32 @@ namespace BxS_WorxIPX.Main
 						IExcelBDC_Request	lo_Req	= this.Create_BDCRequest();
 						this._WSParser.Value.ParseWStoRequest( worksheet , lo_Req );
 						return	lo_Req;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public bool ExcelWStoXMLFile( IExcelBDC_WS worksheet , string PathName )
+					{
+						bool lb_Ret	= false;
+						//.............................................
+						try
+							{
+								IExcelBDC_Request lo_Req	= this.ParseWStoRequest( worksheet );
+								var			lt			= new List<Type>	{	typeof(ExcelBDC_Request) };
+								string	lc_XML	=	this.Serialize( lo_Req , lt );
+
+						this._UTLIO.Value.WriteFile( $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" , lc_XML );
+
+								lb_Ret	= true;
+							}
+						catch (Exception ex)
+							{
+								throw	new	Exception( "" , ex );
+							}
+
+
+
+						//.............................................
+						return	lb_Ret;
 					}
 
 			#endregion

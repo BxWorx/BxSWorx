@@ -64,9 +64,9 @@ namespace BxS_WorxExcel.Main
 					{
 						IExcelBDC_WS	lo_BDCWS	= Globals.ThisAddIn._IPXCntlr.Value.Create_BDCWS();
 						//.............................................
-						lo_BDCWS.WBID				= lo_WS.Parent.Name														;
-						lo_BDCWS.WSID				= lo_WS.Name																	;
-						lo_BDCWS.UsedAddress = lo_WS.UsedRange.Address										;
+						lo_BDCWS.WBID					= lo_WS.Parent.Name														;
+						lo_BDCWS.WSID					= lo_WS.Name																	;
+						lo_BDCWS.UsedAddress	= lo_WS.UsedRange.Address										;
 						lo_BDCWS.WSCells			= loadData	?	lo_WS.UsedRange.Value	: null	;
 						//.............................................
 						return	lo_BDCWS;

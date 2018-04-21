@@ -18,7 +18,8 @@ namespace BxS_WorxIPX.Main
 				IExcelBDC_WS				Create_BDCWS			();
 				IExcelBDC_Request		Create_BDCRequest	();
 				//.............................................
-				IExcelBDC_Request		ParseWStoRequest( IExcelBDC_WS worksheet );
+				IExcelBDC_Request		ParseWStoRequest	( IExcelBDC_WS worksheet );
+				bool								ExcelWStoXMLFile	( IExcelBDC_WS worksheet , string PathName );
 
 		#endregion
 

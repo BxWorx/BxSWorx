@@ -36,8 +36,8 @@
 			{
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group1 = this.Factory.CreateRibbonGroup();
-			this.button1 = this.Factory.CreateRibbonButton();
 			this.button2 = this.Factory.CreateRibbonButton();
+			this.button1 = this.Factory.CreateRibbonButton();
 			this.tab1.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.SuspendLayout();
@@ -56,15 +56,16 @@
 			this.group1.Label = "group1";
 			this.group1.Name = "group1";
 			// 
-			// button1
-			// 
-			this.button1.Label = "button1";
-			this.button1.Name = "button1";
-			// 
 			// button2
 			// 
 			this.button2.Label = "button2";
 			this.button2.Name = "button2";
+			// 
+			// button1
+			// 
+			this.button1.Label = "button write";
+			this.button1.Name = "button1";
+			this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button1_Click);
 			// 
 			// BxS_WorxMain
 			// 
