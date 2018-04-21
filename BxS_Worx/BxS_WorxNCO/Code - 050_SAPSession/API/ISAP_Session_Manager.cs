@@ -29,7 +29,8 @@ namespace BxS_WorxNCO.SAPSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				ISAP_Session_Profile	GetSAPSessionData(	string	sessionName
 																								,	string	QID
-																								, bool		onlyHeader	= false );
+																								, bool		onlyHeader	= false
+																								, bool		inclDDIC		= true	);
 
 			#endregion
 

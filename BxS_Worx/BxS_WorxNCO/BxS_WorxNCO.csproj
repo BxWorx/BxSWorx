@@ -10,16 +10,19 @@
 
   <ItemGroup>
     <Compile Remove="Code - 020_Destination\Other\**" />
+    <Compile Remove="Code - 030_RFC Function\Rfc Function\Main\**" />
     <Compile Remove="Code - 90 Helpers\**" />
     <Compile Remove="zKeep\API\**" />
     <Compile Remove="zKeep\Code - 90 Helpers\**" />
     <Compile Remove="zKeep\Controller\**" />
     <EmbeddedResource Remove="Code - 020_Destination\Other\**" />
+    <EmbeddedResource Remove="Code - 030_RFC Function\Rfc Function\Main\**" />
     <EmbeddedResource Remove="Code - 90 Helpers\**" />
     <EmbeddedResource Remove="zKeep\API\**" />
     <EmbeddedResource Remove="zKeep\Code - 90 Helpers\**" />
     <EmbeddedResource Remove="zKeep\Controller\**" />
     <None Remove="Code - 020_Destination\Other\**" />
+    <None Remove="Code - 030_RFC Function\Rfc Function\Main\**" />
     <None Remove="Code - 90 Helpers\**" />
     <None Remove="zKeep\API\**" />
     <None Remove="zKeep\Code - 90 Helpers\**" />
@@ -32,8 +35,6 @@
     <Compile Remove="Code - 020_Destination\API\_Controllers\IDestinationController.cs" />
     <Compile Remove="Code - 030_RFC Function\Rfc Function\Common\RfcFncIndexBase.cs" />
     <Compile Remove="Code - 030_RFC Function\Rfc Function\Common\SAPFncParmNameAttribute.cs" />
-    <Compile Remove="Code - 030_RFC Function\Rfc Function\Main\IRfcFncManager.cs" />
-    <Compile Remove="Code - 030_RFC Function\Rfc Function\Main\RfcFncManager.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\BDC\Indexes\BDC_IndexSPAy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\DDIC Info\Main\DDICInfo_FieldCollection - Copy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\Table Reader\Indexes\TblRdr_IndexBase.cs" />
@@ -85,7 +86,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code - 030_RFC Function\Rfc Function\Main\" />
     <Folder Include="Properties\" />
     <Folder Include="zKeep\" />
   </ItemGroup>

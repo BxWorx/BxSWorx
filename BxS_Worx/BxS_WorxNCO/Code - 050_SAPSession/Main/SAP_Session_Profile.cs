@@ -9,11 +9,13 @@ namespace BxS_WorxNCO.SAPSession.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAP_Session_Profile(		DTO_BDC_CTU				dtoCTU
-																			, BDC_Collection	bdcData )
+				internal SAP_Session_Profile(		DTO_BDC_CTU								dtoCTU
+																			, BDC_Collection						bdcData
+																			,	DDICInfo_FieldCollection	ddicInfo	)
 					{
-						this.CTUParams	= dtoCTU	;
-						this.BDCData		= bdcData	;
+						this.CTUParams	= dtoCTU		;
+						this.BDCData		= bdcData		;
+						this.DDICInfo		= ddicInfo	;
 					}
 
 			#endregion

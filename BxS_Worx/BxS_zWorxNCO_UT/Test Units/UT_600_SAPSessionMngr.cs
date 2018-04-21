@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BxS_WorxNCO.API;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.SAPSession.API;
+using BxS_WorxNCO.RfcFunction.DDIC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
@@ -69,11 +70,20 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					Assert.AreNotEqual(	0 , lt_L1.Count	, "" );
 					//...............................................
 					int i = lt_L1.Count - 1;
-					ISAP_Session_Profile lo_P1	= this.co_SAPMngr.GetSAPSessionData( lt_L1[i].SessionName , lt_L1[i].QID , true );
-					ISAP_Session_Profile lo_P2	= this.co_SAPMngr.GetSAPSessionData( lt_L1[i].SessionName , lt_L1[i].QID , false );
 
+					ISAP_Session_Profile lo_P1	= this.co_SAPMngr.GetSAPSessionData( lt_L1[i].SessionName , lt_L1[i].QID , true	 , false );
+					ISAP_Session_Profile lo_P2	= this.co_SAPMngr.GetSAPSessionData( lt_L1[i].SessionName , lt_L1[i].QID , false				 );
+					ISAP_Session_Profile lo_P3	= this.co_SAPMngr.GetSAPSessionData( lt_L1[i].SessionName , lt_L1[i].QID , true	 , true	 );
+					ISAP_Session_Profile lo_P4	= this.co_SAPMngr.GetSAPSessionData( lt_L1[i].SessionName , lt_L1[i].QID , false , true	 );
+
+					Assert.IsNotNull	( lo_P1.SAPTCode	, "" );
 					Assert.AreEqual		(	0 , lo_P1.Count , "" );
+					Assert.AreEqual		(	0 , lo_P3.Count , "" );
 					Assert.AreNotEqual(	0 , lo_P2.Count , "" );
+					Assert.AreNotEqual(	0 , lo_P4.Count , "" );
+
+					IList<DTO_DDICInfo_Field> t = lo_P4.DDICInfo.GetFields();
+					Assert.IsFalse ( string.IsNullOrEmpty( t[0].FldText ) );
 				}
 		}
 }

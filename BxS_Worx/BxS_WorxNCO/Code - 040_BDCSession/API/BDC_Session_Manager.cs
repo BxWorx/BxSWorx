@@ -122,12 +122,14 @@ namespace BxS_WorxNCO.BDCSession.API
 					{
 						if ( ! this._IsReady )
 							{
-								//this._RfcFncCntlr.Value.RegisterBDCProfile		( this._UseAltFnc );	// TO-DO: check if this is still neccessary
-								//this._RfcFncCntlr.Value.RegisterSAPMsgProfile	();
+								if ( this._UseAltFnc )	{	this._RfcFncCntlr.Value.RegisterBDCAlt();	}
+								else										{	this._RfcFncCntlr.Value.RegisterBDCStd();	}
+
+								this._RfcFncCntlr.Value.RegisterSAPMsg();
 								////.........................................
 								try
 									{
-										await this.RfcDestination.FetchMetadataAsync( optimise )	.ConfigureAwait(false);
+										await this.RfcDestination.FetchMetadataAsync( optimise ).ConfigureAwait(false);
 										await	this._RfcFncCntlr.Value.UpdateProfilesAsync()			.ConfigureAwait(false);
 										this._IsReady		=	true;
 									}
@@ -204,6 +206,7 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Private"
 
 				private BDC_Session_SAPMsgConsumer	CreateBDCSAPMsgConsumer	()=>	new	BDC_Session_SAPMsgConsumer	( this._RfcFncCntlr.Value.CreateSAPMsgFunction	() );
+
 				private BDC_Session_TranConsumer		CreateBDCTranConsumer		()=>	new	BDC_Session_TranConsumer		( this._UseAltFnc ? this._RfcFncCntlr.Value.CreateBDCFunctionAlt()
 																																																														: this._RfcFncCntlr.Value.CreateBDCFunctionStd() );
 

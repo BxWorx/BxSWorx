@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 //.........................................................
 using BxS_WorxNCO.RfcFunction.TableReader;
 using BxS_WorxNCO.SAPSession.API;
@@ -38,6 +39,22 @@ namespace BxS_WorxNCO.SAPSession.Main
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void ProcessSAPSessionDDICInfo( ISAP_Session_Profile profile )
+					{
+						foreach (DTO_BDC_Data lo_Data in profile.BDCData.BDCData.Where( x=>			! string.IsNullOrEmpty	( x.FieldName  )
+																																								&&	! x.FieldName.Equals		( "BDC_OKCODE" )
+																																								&&  ! x.FieldName.Equals		( "BDC_CURSOR" )	)	)
+							{
+								string[] lt_Split = lo_Data.FieldName.Split('-');
+
+								if (lt_Split.Length.Equals(2))
+									{
+										profile.DDICInfo.AddUpdateText( lt_Split[0] , lt_Split[1] );
+									}
+							}
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void ProcessSAPSessionDataHeader( TblRdr_Data tblRdr , ISAP_Session_Profile profile )

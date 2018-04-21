@@ -7,6 +7,7 @@ using SMC	= SAP.Middleware.Connector;
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.RfcFunction.Main;
 using BxS_WorxNCO.RfcFunction.TableReader;
+using BxS_WorxNCO.RfcFunction.DDIC;
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.SAPSession.Main;
 
@@ -23,14 +24,15 @@ namespace BxS_WorxNCO.SAPSession.API
 					{
 						this.RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(SAP_Session_Manager).Namespace}:- RfcDest Factory null" );
 						//.............................................
-						this._Factory				= new	Lazy< SAP_Session_Factory >	( ()=>	SAP_Session_Factory.Instance								, cz_LM );
-						this._RfcFncCntlr		= new	Lazy< IRfcFncController		>	(	()=>	new	RfcFncController( this.RfcDestination )	,	cz_LM );
+						this._Factory				= new	Lazy< SAP_Session_Factory >	( ()=>	SAP_Session_Factory.Instance										, cz_LM );
+						this._RfcFncCntlr		= new	Lazy< IRfcFncController		>	(	()=>	new	RfcFncController( this.RfcDestination )			,	cz_LM );
 						//.............................................
-						this._SAPHdrHndlr		= new Lazy< SAP_Session_HandlerHeader	>	( ()=>	new SAP_Session_HandlerHeader	()			, cz_LM );
-						this._SAPDatHndlr		= new Lazy< SAP_Session_HandlerData		>	( ()=>	new SAP_Session_HandlerData		()			, cz_LM );
+						this._SAPHdrHndlr		= new Lazy< SAP_Session_HandlerHeader	>	( ()=>	new SAP_Session_HandlerHeader	()					, cz_LM );
+						this._SAPDatHndlr		= new Lazy< SAP_Session_HandlerData		>	( ()=>	new SAP_Session_HandlerData		()					, cz_LM );
 
-						this._TR_Header			= new Lazy< TblRdr_Function >	( ()=>	this._RfcFncCntlr.Value.CreateTblRdrFunction()	,	cz_LM );
-						this._TR_Profile		= new Lazy< TblRdr_Function >	( ()=>	this._RfcFncCntlr.Value.CreateTblRdrFunction()	,	cz_LM );
+						this._TR_Header			= new Lazy< TblRdr_Function >		( ()=>	this._RfcFncCntlr.Value.CreateTblRdrFunction()		,	cz_LM );
+						this._TR_Profile		= new Lazy< TblRdr_Function >		( ()=>	this._RfcFncCntlr.Value.CreateTblRdrFunction()		,	cz_LM );
+						this._DDICInfo			= new Lazy< DDICInfo_Function	>	( ()=>	this._RfcFncCntlr.Value.CreateDDICInfoFunction()	, cz_LM );
 						//.............................................
 						this._IsReady				= false;
 					}
@@ -50,6 +52,8 @@ namespace BxS_WorxNCO.SAPSession.API
 
 				private	readonly	Lazy< TblRdr_Function >		_TR_Header;
 				private	readonly	Lazy< TblRdr_Function >		_TR_Profile;
+
+				private	readonly	Lazy< DDICInfo_Function >	_DDICInfo;
 
 			#endregion
 
@@ -90,7 +94,8 @@ namespace BxS_WorxNCO.SAPSession.API
 					{
 						if ( ! this._IsReady )
 							{
-								//this._RfcFncCntlr.Value.RegisterTableReaderProfile();	// TO-DO: check if this is still neccessary
+								this._RfcFncCntlr.Value.RegisterTblRdr();
+								this._RfcFncCntlr.Value.RegisterDDICIno();
 								//.........................................
 								try
 									{
@@ -134,35 +139,36 @@ namespace BxS_WorxNCO.SAPSession.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public ISAP_Session_Profile GetSAPSessionData(	string	sessionName
 																											,	string	QID
-																											, bool		onlyHeader	= false )
+																											, bool		onlyHeader	= false
+																											,	bool		inclDDIC		= true	)
 					{
 						ISAP_Session_Profile	lo_Profile	=	this._Factory		.Value.CreateSAPProfile();
 						TblRdr_Data						lo_TRData		= this._TR_Profile.Value.CreateTblRdrData();
 						//.............................................
-						this._SAPDatHndlr.Value.LoadTblRdr			( lo_TRData )				;
-						this._SAPDatHndlr.Value.Compile_Filter	( lo_TRData , QID )	;
+						lo_Profile.SessionName	= sessionName	;
+						//.............................................
+						this._SAPDatHndlr.Value.LoadTblRdr		( lo_TRData )				;
+						this._SAPDatHndlr.Value.Compile_Filter( lo_TRData , QID )	;
 
 						this._TR_Profile.Value.Process( lo_TRData , this.SMCDestination )	;
 
-						this._SAPDatHndlr.Value.ProcessSAPSessionDataHeader	( lo_TRData , lo_Profile );
-
+						this._SAPDatHndlr.Value.ProcessSAPSessionDataHeader( lo_TRData , lo_Profile );
+						//.............................................
 						if ( ! onlyHeader )
 							{
-								this._SAPDatHndlr.Value.ProcessSAPSessionData		( lo_TRData , lo_Profile );
+								this._SAPDatHndlr.Value.ProcessSAPSessionData( lo_TRData , lo_Profile );
+
+								if ( inclDDIC )
+									{
+										this._SAPDatHndlr.Value.ProcessSAPSessionDDICInfo	( lo_Profile );
+										this._DDICInfo.Value.Process( lo_Profile.DDICInfo , this.SMCDestination );
+									}
 							}
 						//.............................................
 						return	lo_Profile;
 					}
 
 			#endregion
-
-			////===========================================================================================
-			//#region "Methods: Private"
-
-			//	private BDC_Session_SAPMsgConsumer	CreateBDCSAPMsgConsumer	()=>	new	BDC_Session_SAPMsgConsumer	( this._RfcFncCntlr.Value.CreateSAPMsgFunction	() );
-			//	private BDC_Session_TranConsumer		CreateBDCTranConsumer		()=>	new	BDC_Session_TranConsumer		( this._RfcFncCntlr.Value.CreateBDCFunction			( this._UseAltFnc ) );
-
-			//#endregion
 
 		}
 }
