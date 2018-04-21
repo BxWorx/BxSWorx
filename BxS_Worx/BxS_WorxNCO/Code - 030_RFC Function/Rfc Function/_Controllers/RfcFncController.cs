@@ -165,8 +165,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	TblRdr_Function CreateTblRdrFunction()	=>	new TblRdr_Function	( this.RegisterProfile( cz_TableReader , this.CreateTblRdrProfile ) );
-				private	TblRdr_Profile	CreateTblRdrProfile	()	=>	new TblRdr_Profile	( TblRdr_Factory.Instance	);
+				public	void							RegisterTblRdr				()=>	this.RegisterProfile	( cz_TableReader , ()=>	new TblRdr_Profile( TblRdr_Factory.Instance	) );
+
+				public TblRdr_Function CreateTblRdrFunction	()
+					{
+						this.RegisterTblRdr();
+						return	new TblRdr_Function( this.GetProfile<TblRdr_Profile>( cz_TableReader ) );
+					}
 
 			#endregion
 
@@ -183,7 +188,13 @@ namespace BxS_WorxNCO.RfcFunction.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public T RegisterProfile<T>( string name , Func<T> factory )
+				private T GetProfile<T>( string name )
+					{
+						return	this._RfcFncMngr.Value.GetProfile<T>( name );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void RegisterProfile<T>( string name , Func<T> factory )
 					{
 						if ( ! this._RfcFncMngr.Value.ProfileExists( name ) )
 							{
@@ -196,8 +207,6 @@ namespace BxS_WorxNCO.RfcFunction.Main
 											}
 									}
 							}
-						//.............................................
-						return	this._RfcFncMngr.Value.GetProfile<T>( name );
 					}
 
 			#endregion
