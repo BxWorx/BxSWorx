@@ -34,55 +34,18 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IExcel_BDCRequestManager	Create_ExcelBDCRequestManager()	=> this._IPXCntlr.Create_ExcelBDCRequestManager();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IExcel_BDCRequest Create_ExcelBDCRequest()	=>	this._IPXCntlr.Create_ExcelBDCRequest();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void WriteDataXML( IExcel_WSSource DTO )
 					{
-						this._IPXCntlr.ExcelBDCWStoRequestXMLFile( DTO , $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" );
+						//this._IPXCntlr.ExcelBDCWStoRequestXMLFile( DTO , $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" );
 					}
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal DTO_BDCSessionRequest CreateBDCSessionRequest()
-				//	{
-				//		return	this._IPXCntlr.Value.CreateBDCSessionRequest();
-				//	}
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal DTO_BDCSessionResult CreateBDCSessionResult()
-				//	{
-				//		return	this._IPXCntlr.Value.CreateBDCSessionResult();
-				//	}
-
 			#endregion
-
-			////===========================================================================================
-			//#region "Methods: Private"
-
-			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			//	private void Parse2Dto1D( DTO_BDCSessionRequest DTO, bool resetSource = true )
-			//		{
-			//			DTO.RowLB	= DTO.WSCells.GetLowerBound(0);
-			//			DTO.RowUB	= DTO.WSCells.GetUpperBound(0);
-			//			DTO.ColLB	= DTO.WSCells.GetLowerBound(1);
-			//			DTO.ColUB	= DTO.WSCells.GetUpperBound(1);
-
-			//			DTO.WSData1D.Clear();
-			//			//.............................................
-			//			for (int r = DTO.RowLB; r <= DTO.RowUB; r++)
-			//				{
-			//					for (int c = DTO.ColLB; c <= DTO.ColUB; c++)
-			//						{
-			//							if ( DTO.WSCells[r,c] != null )
-			//								{
-			//									string lc_Key	= $"{r.ToString()},{c.ToString()}";
-
-			//									DTO.WSData1D.Add( lc_Key , DTO.WSCells[r,c].ToString() );
-			//								}
-			//						}
-			//				}
-			//			//.............................................
-			//			if ( resetSource )	DTO.WSCells = null;
-			//		}
-
-			//#endregion
 
 		}
 }

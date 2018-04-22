@@ -68,6 +68,14 @@ namespace BxS_WorxIPX.Main
 				public	IExcel_BDCRequest		Create_ExcelBDCRequest	()	=>	new	Excel_BDCRequest( this.Create_SAPLogon() )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	IExcel_BDCRequestManager	Create_ExcelBDCRequestManager()
+					{
+						return	new	Excel_BDCRequestManager(	this.Create_ExcelBDCRequest()
+																								, this.Create_SAPLogon
+																								, this.Create_ExcelWSSource			);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IExcel_WSRequest ParseWStoRequest( IExcel_WSSource worksheet )
 					{
 						IExcel_WSRequest	lo_Req	= this.Create_ExcelWSRequest();

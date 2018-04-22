@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Threading;
 //.........................................................
 using Microsoft.Office.Tools.Ribbon;
@@ -33,7 +34,10 @@ namespace BxS_WorxExcel
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IExcel_WSSource	lo_WS		=	this._HndlrExcel.GetWSData();
+																		IExcel_WSSource		lo_WS		=	this._HndlrExcel.GetWSData();
+																		IExcel_BDCRequestManager	lo_RM	= this._HndlrBDC.Create_ExcelBDCRequestManager();
+
+
 																		this._HndlrBDC.WriteDataXML( lo_WS );
 																		//.....................
 																		this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );
@@ -46,9 +50,22 @@ namespace BxS_WorxExcel
 				//this._HndlrExcel._WSDTOParser.Value.Parse1Dto2D( X );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Button2_Click( object sender , RibbonControlEventArgs e )
+				private async void Button2_Click( object sender , RibbonControlEventArgs e )
 					{
-						//IList<Main.DTO_ExcelAppManifest> x = this._HndlrExcel.GetWBWSManifest();
+						IList<IExcel_WSSource> x = this._HndlrExcel.GetWBWSManifest( true );
+
+						
+
+
+						await Task.Run( () => {
+																		IExcel_WSSource	lo_WS		=	this._HndlrExcel.GetWSData();
+																		this._HndlrBDC.WriteDataXML( lo_WS );
+																		//.....................
+																		this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );
+																		Thread.Sleep(300);
+																		this._HndlrExcel.ResetStatusBar();
+																	} ).ConfigureAwait(false);
+
 					}
 
 				#pragma warning	restore	RCS1163

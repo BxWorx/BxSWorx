@@ -63,9 +63,9 @@ namespace BxS_WorxExcel.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IExcel_WSSource CreateExcelWS(		Worksheet lo_WS
-																						, bool			loadData	= false
-																						, bool			isTest		= false
-																						, bool			isOnline	= false	)
+																							, bool			loadData	= false
+																							, bool			isTest		= false
+																							, bool			isOnline	= false	)
 					{
 						IExcel_WSSource	lo_BDCWS	= this.IPXCntlr.Create_ExcelWSSource();
 						//.............................................

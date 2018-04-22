@@ -14,8 +14,12 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				void Set_SAPLogon	( ISAP_Logon		logon	);
-				void Add_ExcelWS	( IExcel_WSSource	ws		);
+				ISAP_Logon				Create_SAPLogon();
+				IExcel_WSSource		Create_WSSource();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				void Set_SAPLogon	( ISAP_Logon			sapLogon	);
+				void Add_ExcelWS	( IExcel_WSSource	wsSrce		);
 
 			#endregion
 

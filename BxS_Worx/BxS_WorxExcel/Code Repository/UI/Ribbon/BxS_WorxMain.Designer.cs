@@ -58,12 +58,13 @@
 			// 
 			// button2
 			// 
-			this.button2.Label = "button2";
+			this.button2.Label = "Write ALL";
 			this.button2.Name = "button2";
+			this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button2_Click);
 			// 
 			// button1
 			// 
-			this.button1.Label = "button write";
+			this.button1.Label = "Write Active";
 			this.button1.Name = "button1";
 			this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button1_Click);
 			// 
