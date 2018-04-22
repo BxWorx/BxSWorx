@@ -1,19 +1,17 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.SAPBDCSession
 {
-	[DataContract()]
-	[KnownType( typeof(SAP_Logon)					)]
-	[KnownType( typeof(Excel_WSRequest)	)]
-
-	public class SAP_BDCRequest : ISAP_BDCRequest
+	public interface ISAP_BDCRequest
 		{
 			#region "Properties"
 
-				[DataMember]	public	ISAP_Logon					SAPLogon					{ get; set;	}
-				[DataMember]	public	IExcel_WSRequest		ExcelBDCRequest		{ get; set;	}
+				ISAP_Logon	SAPLogon		{ get; set;	}
+				//...
+				Dictionary< Guid , ISAP_BDCSession >	Sessions		{ get; set;	}
 
 			#endregion
 		}

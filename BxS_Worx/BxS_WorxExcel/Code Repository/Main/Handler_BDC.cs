@@ -34,13 +34,13 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IExcel_BDCRequestManager	Create_ExcelBDCRequestManager()	=> this._IPXCntlr.Create_ExcelBDCRequestManager();
+				internal IBDCRequestManager	Create_ExcelBDCRequestManager()	=> this._IPXCntlr.Create_BDCRequestManager();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IExcel_BDCRequest Create_ExcelBDCRequest()	=>	this._IPXCntlr.Create_ExcelBDCRequest();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void WriteDataXML( IExcel_WSSource DTO )
+				internal void WriteDataXML( IExcel_BDCWorksheet DTO )
 					{
 						//this._IPXCntlr.ExcelBDCWStoRequestXMLFile( DTO , $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" );
 					}

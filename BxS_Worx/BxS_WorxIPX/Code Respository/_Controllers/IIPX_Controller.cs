@@ -13,20 +13,19 @@ namespace BxS_WorxIPX.Main
 				//.............................................
 
 				//.............................................
-				ISAP_Logon					Create_SAPLogon				();
+				ISAP_Logon	Create_SAPLogon()	;
 				//.............................................
-				ISAP_BDCRequest			Create_SAPBDCRequest();
+				ISAP_BDCRequest		Create_SAPBDCRequest()	;
+				ISAP_BDCSession		Create_SAPBDCSession()	;
 				//.............................................
-				IExcel_WSSource			Create_ExcelWSSource	();
-				IExcel_WSRequest		Create_ExcelWSRequest	();
-				//...
-				IExcel_BDCRequest		Create_ExcelBDCRequest();
+				IExcel_BDCRequest			Create_ExcelBDCRequest()		;
+				IExcel_BDCWorksheet		Create_ExcelBDCWorksheet()	;
 				//.............................................
-				IExcel_WSRequest	ParseWStoRequest			( IExcel_WSSource worksheet );
-				IExcel_BDCRequest	ReadExcelBDCRequest		( string pathName );
-				void							WriteExcelBDCRequest	( IExcel_BDCRequest request , string pathName );
-
-				IExcel_BDCRequestManager	Create_ExcelBDCRequestManager();
+				ISAP_BDCRequest		ParseRequest		( IExcel_BDCRequest request );
+				ISAP_BDCRequest		ReadBDCRequest	( string pathName );
+				void							WriteBDCRequest	( ISAP_BDCRequest	request , string pathName );
+				//.............................................
+				IBDCRequestManager	Create_BDCRequestManager();
 
 		#endregion
 

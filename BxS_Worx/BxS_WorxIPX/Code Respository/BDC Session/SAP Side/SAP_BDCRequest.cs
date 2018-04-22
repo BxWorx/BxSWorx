@@ -1,29 +1,33 @@
-﻿using System.Security;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+//.........................................................
+using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.BDC
+namespace BxS_WorxIPX.SAPBDCSession
 {
 	[DataContract()]
-	public class SAP_Logon : ISAP_Logon
+	[KnownType( typeof(SAP_Logon)				)]
+	[KnownType( typeof(SAP_BDCSession)	)]
+
+	public class SAP_BDCRequest : ISAP_BDCRequest
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAP_Logon()
-					{	}
+				internal SAP_BDCRequest()
+					{
+						this.Sessions		= new	Dictionary<Guid , ISAP_BDCSession>();
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public	string	SAPSysID					{ get; set; }
-				[DataMember]	public	string	Client						{ get; set; }
-				[DataMember]	public	string	User							{ get; set; }
-				[DataMember]	public	string	Lang							{ get; set; }
-				[DataMember]	public	string	Pwrd							{ get; set; }
-
-				[DataMember]	public	SecureString	SecurePwrd	{ get; set; }
+				[DataMember]	public	ISAP_Logon	SAPLogon	{ get; set;	}
+				//...
+				[DataMember]	public	Dictionary<Guid , ISAP_BDCSession>		Sessions { get; set;	}
 
 			#endregion
 

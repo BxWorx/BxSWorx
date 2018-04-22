@@ -47,7 +47,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Parse(	IExcel_WSRequest	BDCRequest
+				internal bool Parse(	ISAP_BDCSession	BDCRequest
 														, DTO_BDC_Session					BDCSession		)
 					{
 						DTO_ParserRequest	lo_DTOParserReq	= this._PFactory.Value.CreateDTOParserRequest();
@@ -84,7 +84,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool Parse1Dto2D(		IExcel_WSRequest request
+				private bool Parse1Dto2D(		ISAP_BDCSession request
 																	, DTO_ParserRequest				dto			)
 					{
 						bool	lb_Ret	= true;

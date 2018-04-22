@@ -12,7 +12,7 @@ namespace BxS_WorxIPX.BDC
 					{
 						this.SAPLogon		= sapLogon;
 						//.............................................
-						this.Worksheets		= new	Dictionary< Guid , IExcel_WSSource >();
+						this.Worksheets		= new	Dictionary< Guid , IExcel_BDCWorksheet >();
 					}
 
 			#endregion
@@ -22,7 +22,7 @@ namespace BxS_WorxIPX.BDC
 
 				public	ISAP_Logon	SAPLogon		{ get; }
 				//.................................................
-				public	Dictionary< Guid , IExcel_WSSource >		Worksheets		{ get; }
+				public	Dictionary< Guid , IExcel_BDCWorksheet >		Worksheets		{ get; }
 
 			#endregion
 

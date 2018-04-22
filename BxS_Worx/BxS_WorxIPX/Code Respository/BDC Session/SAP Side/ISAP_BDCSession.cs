@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IExcel_WSRequest
+	public interface ISAP_BDCSession
 		{
 			#region "Properties"
 

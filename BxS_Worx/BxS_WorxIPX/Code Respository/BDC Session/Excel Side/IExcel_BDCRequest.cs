@@ -9,7 +9,7 @@ namespace BxS_WorxIPX.BDC
 
 				ISAP_Logon	SAPLogon	{ get; }
 				//.................................................
-				Dictionary< Guid , IExcel_WSSource >		Worksheets	{ get; }
+				Dictionary<Guid , IExcel_BDCWorksheet>	Worksheets	{ get; }
 
 			#endregion
 		}

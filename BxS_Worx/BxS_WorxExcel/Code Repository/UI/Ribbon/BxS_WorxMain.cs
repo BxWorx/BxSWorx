@@ -34,8 +34,8 @@ namespace BxS_WorxExcel
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IExcel_WSSource		lo_WS		=	this._HndlrExcel.GetWSData();
-																		IExcel_BDCRequestManager	lo_RM	= this._HndlrBDC.Create_ExcelBDCRequestManager();
+																		IExcel_BDCWorksheet		lo_WS		=	this._HndlrExcel.GetWSData();
+																		IBDCRequestManager	lo_RM	= this._HndlrBDC.Create_ExcelBDCRequestManager();
 
 
 																		this._HndlrBDC.WriteDataXML( lo_WS );
@@ -52,13 +52,13 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void Button2_Click( object sender , RibbonControlEventArgs e )
 					{
-						IList<IExcel_WSSource> x = this._HndlrExcel.GetWBWSManifest( true );
+						IList<IExcel_BDCWorksheet> x = this._HndlrExcel.GetWBWSManifest( true );
 
 						
 
 
 						await Task.Run( () => {
-																		IExcel_WSSource	lo_WS		=	this._HndlrExcel.GetWSData();
+																		IExcel_BDCWorksheet	lo_WS		=	this._HndlrExcel.GetWSData();
 																		this._HndlrBDC.WriteDataXML( lo_WS );
 																		//.....................
 																		this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );

@@ -16,7 +16,7 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				Task<bool>	ReadySessionAsync( bool optimise = true );
 
-				Task<bool>	Process(	IExcel_WSRequest										request
+				Task<bool>	Process(	ISAP_BDCSession										request
 														,	CancellationToken										CT
 														, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
 

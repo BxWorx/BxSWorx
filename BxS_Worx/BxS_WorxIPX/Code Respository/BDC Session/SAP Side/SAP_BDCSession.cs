@@ -6,12 +6,12 @@ namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
 
-	public class Excel_WSRequest : IExcel_WSRequest
+	public class SAP_BDCSession : ISAP_BDCSession
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Excel_WSRequest()
+				internal SAP_BDCSession()
 					{
 						this.WSData1D	= new	Dictionary<string, string>();
 					}
@@ -36,6 +36,7 @@ namespace BxS_WorxIPX.BDC
 				[DataMember]	public	bool		IsBDCSession			{ get; set;	}
 				//.................................................
 				[DataMember]	public	string	XMLConfig					{ get; set; }
+
 				[DataMember]	public	int			RowLB							{ get; set;	}
 				[DataMember]	public	int			RowUB							{ get; set;	}
 				[DataMember]	public	int			ColLB							{ get; set;	}

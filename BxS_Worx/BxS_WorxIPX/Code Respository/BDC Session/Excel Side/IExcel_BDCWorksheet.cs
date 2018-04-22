@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IExcel_WSSource
+	public interface IExcel_BDCWorksheet
 		{
 			#region "Properties"
 
