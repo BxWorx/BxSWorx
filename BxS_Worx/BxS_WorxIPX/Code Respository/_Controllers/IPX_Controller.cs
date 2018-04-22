@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.SAPBDCSession;
 
-using BxS_WorxUtil.General;
 using BxS_WorxUtil.Main;
+using BxS_WorxUtil.General;
 
 using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -21,8 +22,10 @@ namespace BxS_WorxIPX.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IPX_Controller()
 					{
-						this._WSParser	= new	Lazy< ExcelBDC_Parser >( ()=>	new	ExcelBDC_Parser()		);
-						this._UtlCntlr	= new	Lazy< IUTL_Controller >( ()=>	UTL_Controller.Instance );
+						this._WSParser	= new	Lazy< ExcelBDC_Parser >	( ()=>	new	ExcelBDC_Parser()		, cz_LM	);
+						this._UtlCntlr	= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance , cz_LM );
+						//.............................................
+						this._SRTypes		= new	Lazy< List<Type> >			(	()=>	new List<Type>	{	typeof(Excel_BDCRequest) });
 					}
 
 			#endregion
@@ -38,72 +41,72 @@ namespace BxS_WorxIPX.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy< ExcelBDC_Parser >	_WSParser;
-				private	readonly	Lazy< IUTL_Controller >	_UtlCntlr;
+				private	readonly	Lazy< ExcelBDC_Parser >		_WSParser;
+				private	readonly	Lazy< IUTL_Controller >		_UtlCntlr;
+				//.................................................
+				private readonly	Lazy< List<Type>	>		_SRTypes;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				public	IExcelBDCSessionResult		CreateBDCSessionResult	()=> new ExcelBDCSessionResult	();
+				public	IExcelBDCSessionResult	CreateBDCSessionResult	()=> new ExcelBDCSessionResult	();
+				public	IExcelBDC_Config				Create_BDCConfig	()	=>	new	ExcelBDC_Config		();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+
+				public	ISAP_Logon					Create_SAPLogon					()	=>	new	SAP_Logon()					;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	ISAP_BDCRequest			Create_SAPBDCRequest		()	=>	new	SAP_BDCRequest()	;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	IExcel_WSSource			Create_ExcelWSSource		()	=>	new Excel_WSSource	()	;
+				public	IExcel_WSRequest		Create_ExcelWSRequest		()	=>	new Excel_WSRequest	()	;
+				//...
+				public	IExcel_BDCRequest		Create_ExcelBDCRequest	()	=>	new	Excel_BDCRequest( this.Create_SAPLogon() )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IExcelBDC_Config		Create_BDCConfig	()	=>	new	ExcelBDC_Config		();
-				public	ISAP_Logon			Create_Logon			()	=>	new	SAP_Logon		();
-
-				public	IExcelBDC_WS				Create_ExcelBDCWS				()	=>	new ExcelBDC_WS				();
-				public	IExcelBDC_Request		Create_ExcelBDCRequest	()	=>	new ExcelBDC_Request	();
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IExcelBDC_Request ParseWStoRequest( IExcelBDC_WS worksheet )
+				public IExcel_WSRequest ParseWStoRequest( IExcel_WSSource worksheet )
 					{
-						IExcelBDC_Request	lo_Req	= this.Create_ExcelBDCRequest();
+						IExcel_WSRequest	lo_Req	= this.Create_ExcelWSRequest();
 						this._WSParser.Value.ParseWStoRequest( worksheet , lo_Req );
 						return	lo_Req;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool ExcelBDCWStoRequestXMLFile( IExcelBDC_WS worksheet , string pathName )
+				public IExcel_BDCRequest ReadExcelBDCRequest( string pathName )
 					{
-						bool lb_Ret	= false;
-						//.............................................
 						try
 							{
-								IExcelBDC_Request lo_Req	= this.ParseWStoRequest( worksheet );
-								//...
-								var			lt			= new List<Type>	{	typeof(ExcelBDC_Request) };
-								string	lc_XML	=	this.Serializer.Serialize( lo_Req , lt );
-								//...
-								this.IO.WriteFile( pathName , lc_XML );
-								//...
-								lb_Ret	= true;
+								return	this.DeSerialiseExcelBDCRequest( this.ReadXMLFile( pathName ) );
 							}
 						catch (Exception ex)
 							{
-								throw	new	Exception( "Excel WS to XML file failure" , ex );
+								throw	new	Exception( "Excel BDC Request from XML file failure" , ex );
 							}
-						//.............................................
-						return	lb_Ret;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IExcelBDC_Request XMLFiletoExcelBDCRequest( string pathName )
+				public void WriteExcelBDCRequest( IExcel_BDCRequest request , string pathName )
 					{
 						try
 							{
-								string	lc_XML	= this.IO.ReadFile( pathName );
-								var			lt			= new List<Type>	{	typeof(ExcelBDC_Request) };
-								return	this.Serializer.DeSerialize<IExcelBDC_Request>( lc_XML , lt );
+								this.WriteXMLtoFile( this.SerialiseExcelBDCRequest( request ) , pathName );
 							}
 						catch (Exception ex)
 							{
-								throw	new	Exception("XML to Request Failure" , ex );
+								throw	new	Exception( "Excel BDC Request to XML file failure" , ex );
 							}
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	string						SerialiseExcelBDCRequest	( IExcel_BDCRequest request )	=>	this.Serializer.Serialize											( request		, this._SRTypes.Value )	;
+				private	IExcel_BDCRequest	DeSerialiseExcelBDCRequest( string serializedObj )			=>	this.Serializer.DeSerialize<IExcel_BDCRequest>( serializedObj )	;
+				//...
+				private	void		WriteXMLtoFile( string serializedObj , string fullPath )	=>	this.IO.WriteFile	( fullPath	, serializedObj )	;
+				private	string	ReadXMLFile		( string fullPath )													=>	this.IO.ReadFile	( fullPath )									;
 
 			#endregion
 

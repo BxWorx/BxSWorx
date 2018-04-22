@@ -36,8 +36,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					try
 						{
-							const string	lc_Path	= "XXXX";
-							IExcelBDC_Request lo_R0		= this.co_Cntlr.XMLFiletoExcelBDCRequest( lc_Path );
+							const string			lc_Path	= "XXXX";
+							IExcel_BDCRequest	lo_R0		= this.co_Cntlr.ReadExcelBDCRequest( lc_Path );
 							Assert.Fail( "A" );
 						}
 					catch	{	}
@@ -47,19 +47,19 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_ParseWS_30_FileToRequestPass()
 				{
-					IExcelBDC_Request lo_R0	= null;
+					IExcel_BDCRequest lo_R0	= null;
 
 					try
 						{
-							lo_R0	= this.co_Cntlr.XMLFiletoExcelBDCRequest( this._Full );
+							lo_R0		= this.co_Cntlr.ReadExcelBDCRequest( this._Full );
 						}
 					catch
 						{
 							Assert.Fail( "A" );
 						}
 
-					Assert.IsNotNull		(				lo_R0				, "" );
-					Assert.AreNotEqual	( -1 ,	lo_R0.RowLB , "" );
+					Assert.IsNotNull(	lo_R0							, "" );
+					Assert.IsNotNull(	lo_R0.Worksheets	, "" );
 				}
 
 			//[TestMethod]

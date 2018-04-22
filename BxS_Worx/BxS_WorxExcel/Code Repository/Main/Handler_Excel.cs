@@ -34,15 +34,15 @@ namespace BxS_WorxExcel.Main
 				internal	void		ResetStatusBar	()							=>	this.ThisAPP.StatusBar = false	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList< IExcelBDC_WS > GetWBWSManifest( bool loadData = false )
+				internal IList< IExcel_WSSource > GetWBWSManifest( bool loadData = false )
 					{
-						IList< IExcelBDC_WS >	lt_List		= new List< IExcelBDC_WS >();
+						IList< IExcel_WSSource >	lt_List		= new List< IExcel_WSSource >();
 						//.............................................
 						foreach ( Workbook lo_WB in this.ThisAPP.Workbooks )
 							{
 								foreach ( Worksheet lo_WS in lo_WB.Worksheets )
 									{
-										IExcelBDC_WS	lo_BDCWS =	this.CreateExcelWS( lo_WS, loadData );
+										IExcel_WSSource	lo_BDCWS =	this.CreateExcelWS( lo_WS, loadData );
 										lt_List.Add( lo_BDCWS );
 									}
 							}
@@ -51,7 +51,7 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IExcelBDC_WS GetWSData( string WBID = null , string WSID = null )
+				internal IExcel_WSSource GetWSData( string WBID = null , string WSID = null )
 					{
 						return	this.CreateExcelWS( this.GetWS( WBID , WSID ) , true );
 					}
@@ -62,12 +62,12 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IExcelBDC_WS CreateExcelWS(		Worksheet lo_WS
+				private IExcel_WSSource CreateExcelWS(		Worksheet lo_WS
 																						, bool			loadData	= false
 																						, bool			isTest		= false
 																						, bool			isOnline	= false	)
 					{
-						IExcelBDC_WS	lo_BDCWS	= this.IPXCntlr.Create_ExcelBDCWS();
+						IExcel_WSSource	lo_BDCWS	= this.IPXCntlr.Create_ExcelWSSource();
 						//.............................................
 						lo_BDCWS.IsTest				= isTest						;
 						lo_BDCWS.IsOnline			= isOnline					;

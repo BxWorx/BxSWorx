@@ -6,12 +6,12 @@ namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
 
-	public class ExcelBDC_Request : IExcelBDC_Request
+	public class Excel_WSRequest : IExcel_WSRequest
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ExcelBDC_Request()
+				internal Excel_WSRequest()
 					{
 						this.WSData1D	= new	Dictionary<string, string>();
 					}

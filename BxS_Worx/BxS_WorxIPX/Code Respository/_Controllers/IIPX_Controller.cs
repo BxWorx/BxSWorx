@@ -7,23 +7,22 @@ namespace BxS_WorxIPX.Main
 		{
 			#region "Methods: Exposed"
 
-				IExcelBDCSessionResult		CreateBDCSessionResult	();
-
-				//.............................................
-				//.............................................
-
-				//.............................................
+				IExcelBDCSessionResult	CreateBDCSessionResult	();
 				IExcelBDC_Config		Create_BDCConfig	();
-				ISAP_Logon					Create_Logon			();
 
-				ISAP_BDCSessionRequest	Create_SAPBDCSessionRequest();
-
-				IExcelBDC_WS				Create_ExcelBDCWS				();
-				IExcelBDC_Request		Create_ExcelBDCRequest	();
 				//.............................................
-				IExcelBDC_Request		ParseWStoRequest						( IExcelBDC_WS worksheet );
-				bool								ExcelBDCWStoRequestXMLFile	( IExcelBDC_WS worksheet , string pathName );
-				IExcelBDC_Request		XMLFiletoExcelBDCRequest		( string pathName );
+				ISAP_Logon					Create_SAPLogon				();
+				//.............................................
+				ISAP_BDCRequest			Create_SAPBDCRequest();
+				//.............................................
+				IExcel_WSSource			Create_ExcelWSSource	();
+				IExcel_WSRequest		Create_ExcelWSRequest	();
+				//...
+				IExcel_BDCRequest		Create_ExcelBDCRequest();
+				//.............................................
+				IExcel_WSRequest	ParseWStoRequest			( IExcel_WSSource worksheet );
+				IExcel_BDCRequest	ReadExcelBDCRequest		( string pathName );
+				void							WriteExcelBDCRequest	( IExcel_BDCRequest request , string pathName );
 
 		#endregion
 

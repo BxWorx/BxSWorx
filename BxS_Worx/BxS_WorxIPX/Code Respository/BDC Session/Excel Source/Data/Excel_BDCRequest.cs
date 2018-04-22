@@ -3,16 +3,16 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	internal class ExcelBDC_Session : IExcelBDC_Session
+	internal class Excel_BDCRequest : IExcel_BDCRequest
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ExcelBDC_Session( ISAP_Logon	sapLogon )
+				internal Excel_BDCRequest( ISAP_Logon	sapLogon )
 					{
 						this.SAPLogon		= sapLogon;
 						//.............................................
-						this.Worksheets		= new	Dictionary< Guid , IExcelBDC_WS >();
+						this.Worksheets		= new	Dictionary< Guid , IExcel_WSSource >();
 					}
 
 			#endregion
@@ -22,7 +22,7 @@ namespace BxS_WorxIPX.BDC
 
 				public	ISAP_Logon	SAPLogon		{ get; }
 				//.................................................
-				public	Dictionary< Guid , IExcelBDC_WS >		Worksheets		{ get; }
+				public	Dictionary< Guid , IExcel_WSSource >		Worksheets		{ get; }
 
 			#endregion
 

@@ -143,7 +143,7 @@ namespace BxS_WorxNCO.BDCSession.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<bool> Process(	IExcelBDC_Request										request
+				public async Task<bool> Process(	IExcel_WSRequest										request
 																				,	CancellationToken										CT
 																				, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{

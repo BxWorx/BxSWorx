@@ -1,12 +1,13 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public class ExcelBDC_WS : IExcelBDC_WS
+	public class Excel_WSSource : IExcel_WSSource
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ExcelBDC_WS()
+				internal Excel_WSSource()
 					{	}
 
 			#endregion
@@ -14,6 +15,8 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
+				public	Guid		WSGuid				{ get; set;	}
+				//.................................................
 				public  bool		IsTest				{ get; set;	}
 				public  bool		IsOnline			{ get; set;	}
 				//.................................................

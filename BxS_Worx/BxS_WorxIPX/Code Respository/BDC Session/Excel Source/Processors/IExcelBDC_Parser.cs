@@ -5,7 +5,7 @@ namespace BxS_WorxIPX.BDC
 		{
 			#region "Methods: Exposed"
 
-				void ParseWStoRequest( IExcelBDC_WS ws , IExcelBDC_Request request );
+				void ParseWStoRequest( IExcel_WSSource ws , IExcel_WSRequest request );
 
 			#endregion
 		}

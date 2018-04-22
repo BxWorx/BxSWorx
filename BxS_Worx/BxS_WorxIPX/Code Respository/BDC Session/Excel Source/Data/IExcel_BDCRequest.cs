@@ -3,13 +3,13 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	internal interface IExcelBDC_Session
+	public interface IExcel_BDCRequest
 		{
 			#region "Properties"
 
-				ISAP_Logon		SAPLogon		{ get; }
+				ISAP_Logon	SAPLogon	{ get; }
 				//.................................................
-				Dictionary< Guid , IExcelBDC_WS >		Worksheets		{ get; }
+				Dictionary< Guid , IExcel_WSSource >		Worksheets	{ get; }
 
 			#endregion
 		}

@@ -34,7 +34,7 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void WriteDataXML( IExcelBDC_WS DTO )
+				internal void WriteDataXML( IExcel_WSSource DTO )
 					{
 						this._IPXCntlr.ExcelBDCWStoRequestXMLFile( DTO , $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" );
 					}

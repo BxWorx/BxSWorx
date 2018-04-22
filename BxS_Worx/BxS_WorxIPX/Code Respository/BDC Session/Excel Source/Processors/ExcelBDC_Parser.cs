@@ -16,7 +16,7 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ParseWStoRequest( IExcelBDC_WS ws , IExcelBDC_Request request )
+				internal void ParseWStoRequest( IExcel_WSSource ws , IExcel_WSRequest request )
 					{
 						const string	lz_Cfg	= "BDCXMLConfig";
 

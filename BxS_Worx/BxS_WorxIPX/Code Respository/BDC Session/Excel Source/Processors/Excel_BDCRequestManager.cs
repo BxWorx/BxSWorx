@@ -1,12 +1,12 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public class ExcelBDC_SessionManager : IExcelBDC_SessionManager
+	public class Excel_BDCRequestManager : IExcel_BDCRequestManager
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ExcelBDC_SessionManager( IExcelBDC_Session	excelBDCSession )
+				internal Excel_BDCRequestManager( IExcel_BDCRequest	excelBDCSession )
 					{
 						this._Session		= excelBDCSession;
 					}
@@ -16,7 +16,7 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IExcelBDC_Session		_Session;
+				private	readonly	IExcel_BDCRequest		_Session;
 
 			#endregion
 
@@ -45,7 +45,7 @@ namespace BxS_WorxIPX.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Add_ExcelWS( IExcelBDC_WS ws )
+				public void Add_ExcelWS( IExcel_WSSource ws )
 					{
 						this._Session.Worksheets.Add( ws.WSGuid , ws );
 					}

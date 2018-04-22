@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IExcelBDC_SessionManager
+	public interface IExcel_BDCRequestManager
 		{
 			//===========================================================================================
 			#region "Properties"
@@ -15,7 +15,7 @@ namespace BxS_WorxIPX.BDC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				void Set_SAPLogon	( ISAP_Logon		logon	);
-				void Add_ExcelWS	( IExcelBDC_WS	ws		);
+				void Add_ExcelWS	( IExcel_WSSource	ws		);
 
 			#endregion
 

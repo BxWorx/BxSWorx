@@ -6,14 +6,14 @@ namespace BxS_WorxIPX.SAPBDCSession
 {
 	[DataContract()]
 	[KnownType( typeof(SAP_Logon)					)]
-	[KnownType( typeof(ExcelBDC_Request)	)]
+	[KnownType( typeof(Excel_WSRequest)	)]
 
-	public class SAP_BDCSessionRequest
+	public class SAP_BDCRequest : ISAP_BDCRequest
 		{
 			#region "Properties"
 
 				[DataMember]	public	ISAP_Logon					SAPLogon					{ get; set;	}
-				[DataMember]	public	IExcelBDC_Request		ExcelBDCRequest		{ get; set;	}
+				[DataMember]	public	IExcel_WSRequest		ExcelBDCRequest		{ get; set;	}
 
 			#endregion
 		}
