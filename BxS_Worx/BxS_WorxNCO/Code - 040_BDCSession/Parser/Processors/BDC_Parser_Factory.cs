@@ -31,7 +31,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this._Proc_Sesn		=	new Lazy< BDC_Parser_Session			>	(	()=>	new BDC_Parser_Session			( _Instance ) , cz_LM );
 						//this._Proc_Dest		=	new Lazy< BDC_Parser_Destination	>	(	()=>	new BDC_Parser_Destination	( _Instance ) , cz_LM );
 						//.............................................
-						this._Serializer	= new Lazy< UTL.Serializer					>	(	()=>	this._NCO_Cntlr.Value.UTL_Cntlr.CreateSerializer() , cz_LM );
+						this._Serializer	= new Lazy< UTL.Serializer					>	(	()=>	this._NCO_Cntlr.Value.UTL_Cntlr.Serializer , cz_LM );
 					}
 
 			#endregion

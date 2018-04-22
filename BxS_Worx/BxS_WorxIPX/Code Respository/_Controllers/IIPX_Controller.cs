@@ -12,14 +12,15 @@ namespace BxS_WorxIPX.Main
 				//.............................................
 
 				//.............................................
-				IExcelBDC_Config		Create_BDCConfig();
-				IExcelBDC_Logon			Create_Logon();
+				IExcelBDC_Config		Create_BDCConfig	();
+				IExcelBDC_Logon			Create_Logon			();
 
-				IExcelBDC_WS				Create_BDCWS			();
-				IExcelBDC_Request		Create_BDCRequest	();
+				IExcelBDC_WS				Create_ExcelBDCWS				();
+				IExcelBDC_Request		Create_ExcelBDCRequest	();
 				//.............................................
-				IExcelBDC_Request		ParseWStoRequest	( IExcelBDC_WS worksheet );
-				bool								ExcelWStoXMLFile	( IExcelBDC_WS worksheet , string PathName );
+				IExcelBDC_Request		ParseWStoRequest						( IExcelBDC_WS worksheet );
+				bool								ExcelBDCWStoRequestXMLFile	( IExcelBDC_WS worksheet , string pathName );
+				IExcelBDC_Request		XMLFiletoExcelBDCRequest		( string pathName );
 
 		#endregion
 

@@ -15,10 +15,7 @@ namespace BxS_WorxExcel.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Handler_BDC()
-					{
-						this._UTLSerialiser		=	new	Lazy< Serializer >	(	()=>	this._UTLCntlr.CreateSerializer	()	, cz_LM );
-						this._UTLIO						=	new	Lazy< IO >					(	()=>	this._UTLCntlr.CreateIO					()	, cz_LM );
-					}
+					{	}
 
 			#endregion
 
@@ -26,18 +23,11 @@ namespace BxS_WorxExcel.Main
 			#region "Properties"
 
 				private	IIPX_Controller	_IPXCntlr		{ get	{	return	Globals.ThisAddIn._IPXCntlr.Value	; } }
-				private	IUTL_Controller	_UTLCntlr		{ get	{	return	Globals.ThisAddIn._UTLCntlr.Value	; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
-
-				internal	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
-
-				internal readonly Lazy< Serializer >	_UTLSerialiser	;
-				internal readonly Lazy< IO >					_UTLIO					;
-
 			#endregion
 
 			//===========================================================================================
@@ -46,11 +36,7 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void WriteDataXML( IExcelBDC_WS DTO )
 					{
-						IExcelBDC_Request lo_Req	= this._IPXCntlr.ParseWStoRequest( DTO );
-						var			lt				= new List<Type>	{	typeof(ExcelBDC_Request) };
-						string	lc_XML		=	this._UTLSerialiser.Value.Serialize( lo_Req , lt );
-
-						this._UTLIO.Value.WriteFile( $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" , lc_XML );
+						this._IPXCntlr.ExcelBDCWStoRequestXMLFile( DTO , $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" );
 					}
 
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

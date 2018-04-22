@@ -25,4 +25,8 @@
     <Compile Remove="Code Respository\BDC Session\DTO_BDC_Trans.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BxS_WorxUtilities\BxS_WorxUtilities.csproj" />
+  </ItemGroup>
+
 </Project>

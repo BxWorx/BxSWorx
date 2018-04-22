@@ -10,13 +10,18 @@ namespace BxS_WorxIPX.BDC
 				Guid		ID								{ get; set; }
 				int			Priority					{ get; set; }
 				//.................................................
+				bool		IsTest						{ get; set;	}
+				bool		IsOnline					{ get; set;	}
+				//.................................................
 				string	WBID							{ get; set; }
 				string	WSID							{ get; set;	}
 				int			WSNo							{ get; set;	}
 				string	UsedAddress				{ get; set;	}
-				bool		IsTest						{ get; set;	}
-				bool		IsActive					{ get; set;	}
 				//.................................................
+				bool		IsActive					{ get; set;	}
+				bool		IsBDCSession			{ get; set;	}
+				//.................................................
+				string	XMLConfig					{ get; set; }
 				int			RowLB							{ get; set;	}
 				int			RowUB							{ get; set;	}
 				int			ColLB							{ get; set;	}

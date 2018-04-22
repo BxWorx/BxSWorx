@@ -88,9 +88,7 @@ namespace BxS_WorxUtil.ObjectPool
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ConfigurePool( ObjectPoolConfig<T> config )
 					{
-						if ( config == null )
-							{	}
-						else
+						if ( config != null )
 							{
 								if ( config.IsDirty )
 									{

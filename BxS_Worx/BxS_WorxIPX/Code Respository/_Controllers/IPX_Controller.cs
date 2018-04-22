@@ -3,6 +3,9 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDC;
 
+using BxS_WorxUtil.General;
+using BxS_WorxUtil.Main;
+
 using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.Main
@@ -18,8 +21,17 @@ namespace BxS_WorxIPX.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IPX_Controller()
 					{
-						this._WSParser	= new	Lazy< ExcelBDC_Parser >( ()=>	new	ExcelBDC_Parser() );
+						this._WSParser	= new	Lazy< ExcelBDC_Parser >( ()=>	new	ExcelBDC_Parser()		);
+						this._UtlCntlr	= new	Lazy< IUTL_Controller >( ()=>	UTL_Controller.Instance );
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				private	IO					IO					{ get	{ return	this._UtlCntlr.Value.IO					; } }
+				private	Serializer	Serializer	{ get	{ return	this._UtlCntlr.Value.Serializer	; } }
 
 			#endregion
 
@@ -27,6 +39,7 @@ namespace BxS_WorxIPX.Main
 			#region "Declarations"
 
 				private	readonly	Lazy< ExcelBDC_Parser >	_WSParser;
+				private	readonly	Lazy< IUTL_Controller >	_UtlCntlr;
 
 			#endregion
 
@@ -42,41 +55,54 @@ namespace BxS_WorxIPX.Main
 				public	IExcelBDC_Config		Create_BDCConfig	()	=>	new	ExcelBDC_Config		();
 				public	IExcelBDC_Logon			Create_Logon			()	=>	new	ExcelBDC_Logon		();
 
-				public	IExcelBDC_WS				Create_BDCWS			()	=>	new ExcelBDC_WS				();
-				public	IExcelBDC_Request		Create_BDCRequest	()	=>	new ExcelBDC_Request	();
+				public	IExcelBDC_WS				Create_ExcelBDCWS				()	=>	new ExcelBDC_WS				();
+				public	IExcelBDC_Request		Create_ExcelBDCRequest	()	=>	new ExcelBDC_Request	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IExcelBDC_Request ParseWStoRequest( IExcelBDC_WS worksheet )
 					{
-						IExcelBDC_Request	lo_Req	= this.Create_BDCRequest();
+						IExcelBDC_Request	lo_Req	= this.Create_ExcelBDCRequest();
 						this._WSParser.Value.ParseWStoRequest( worksheet , lo_Req );
 						return	lo_Req;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public bool ExcelWStoXMLFile( IExcelBDC_WS worksheet , string PathName )
+				public bool ExcelBDCWStoRequestXMLFile( IExcelBDC_WS worksheet , string pathName )
 					{
 						bool lb_Ret	= false;
 						//.............................................
 						try
 							{
 								IExcelBDC_Request lo_Req	= this.ParseWStoRequest( worksheet );
+								//...
 								var			lt			= new List<Type>	{	typeof(ExcelBDC_Request) };
-								string	lc_XML	=	this.Serialize( lo_Req , lt );
-
-						this._UTLIO.Value.WriteFile( $@"C:\ProgramData\BxS_Worx\{DTO.WSID}.xml" , lc_XML );
-
+								string	lc_XML	=	this.Serializer.Serialize( lo_Req , lt );
+								//...
+								this.IO.WriteFile( pathName , lc_XML );
+								//...
 								lb_Ret	= true;
 							}
 						catch (Exception ex)
 							{
-								throw	new	Exception( "" , ex );
+								throw	new	Exception( "Excel WS to XML file failure" , ex );
 							}
-
-
-
 						//.............................................
 						return	lb_Ret;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IExcelBDC_Request XMLFiletoExcelBDCRequest( string pathName )
+					{
+						try
+							{
+								string	lc_XML	= this.IO.ReadFile( pathName );
+								var			lt			= new List<Type>	{	typeof(ExcelBDC_Request) };
+								return	this.Serializer.DeSerialize<IExcelBDC_Request>( lc_XML , lt );
+							}
+						catch (Exception ex)
+							{
+								throw	new	Exception("XML to Request Failure" , ex );
+							}
 					}
 
 			#endregion

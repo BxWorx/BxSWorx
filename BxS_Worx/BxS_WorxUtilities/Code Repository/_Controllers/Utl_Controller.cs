@@ -19,8 +19,8 @@ namespace BxS_WorxUtil.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private UTL_Controller()
 					{
-						this._IO				= new	Lazy< IO >					( ()=> new	IO()					);
-						this._Serlizer	= new	Lazy< Serializer >	( ()=> new	Serializer()	);
+						this._IO					= new	Lazy< IO >					( ()=> new	IO()					, cz_LM	);
+						this._Serializer	= new	Lazy< Serializer >	( ()=> new	Serializer()	, cz_LM	);
 					}
 
 			#endregion
@@ -29,16 +29,20 @@ namespace BxS_WorxUtil.Main
 			#region "Declarations"
 
 				private	readonly Lazy< IO >						_IO;
-				private	readonly Lazy< Serializer >		_Serlizer;
+				private	readonly Lazy< Serializer >		_Serializer;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				public	IO					IO					{ get	{	return	this._IO.Value					; } }
+				public	Serializer	Serializer	{ get	{	return	this._Serializer.Value	; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IO					CreateIO					()=> this._IO				.Value	;
-				public	Serializer	CreateSerializer	()=> this._Serlizer	.Value	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public PriorityQueue		<T> CreatePriorityQueue	<T>	()													where T: class				=>	new PriorityQueue		<T>();
@@ -47,9 +51,6 @@ namespace BxS_WorxUtil.Main
 				public ProgressHandler	<T>	CreateProgressHandler	<T>	(		Func<T>	factory
 																																,	int			reportInterval	= 10 )	where T: class	=>	new ProgressHandler	<T>(	factory
 																																																																							, reportInterval );
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-
 
 			#endregion
 

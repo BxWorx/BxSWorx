@@ -106,9 +106,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						if ( !column.Cursor.Equals( string.Empty ) )
 							{
-								if ( column.DoCursorIndex && this._CsrIndex.Equals(-1) )
-									{ }
-								else
+								if ( ! column.DoCursorIndex || ! this._CsrIndex.Equals(-1) )
 									{
 										string lc_CsrFld;
 
@@ -132,9 +130,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						if ( !value.Equals( cz_Sym_ActionCol ) )
 							{
-								if ( column.DoFieldIndex && this._FldIndex.Equals(-1) )
-									{ }
-								else
+								if ( ! column.DoFieldIndex || ! this._FldIndex.Equals(-1) )
 									{
 										string	lc_Fld;
 										string	lc_Val	= value;
