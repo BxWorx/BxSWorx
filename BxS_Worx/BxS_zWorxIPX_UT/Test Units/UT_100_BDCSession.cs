@@ -8,9 +8,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_100_BDCSession
 		{
-			private	const string	_Nme	=   "xx.xml"									;
-			private	const string	_Path	=  @"C:\ProgramData\BxS_Worx"	;
-			private				string	_Full	;
+			private	const			string	_Nme	=   "xx.xml"									;
+			private	const			string	_Path	=  @"C:\ProgramData\BxS_Worx"	;
+			private	readonly	string	_Full	;
 
 			private	readonly IPX_Controller	co_Cntlr;
 

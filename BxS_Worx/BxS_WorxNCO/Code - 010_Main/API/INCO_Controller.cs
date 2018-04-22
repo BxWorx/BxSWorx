@@ -42,7 +42,7 @@ namespace BxS_WorxNCO.API
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				IBDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination	rfcDestination
-																											, bool						useAltBDCFunction );
+																											, bool						useAltBDCFunction	= false );
 
 			#endregion
 

@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
+
 	public class ExcelBDC_Request : IExcelBDC_Request
 		{
 			#region "Constructors"

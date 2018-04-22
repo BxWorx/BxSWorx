@@ -53,7 +53,7 @@ namespace BxS_WorxIPX.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	IExcelBDC_Config		Create_BDCConfig	()	=>	new	ExcelBDC_Config		();
-				public	IExcelBDC_Logon			Create_Logon			()	=>	new	ExcelBDC_Logon		();
+				public	ISAP_Logon			Create_Logon			()	=>	new	SAP_Logon		();
 
 				public	IExcelBDC_WS				Create_ExcelBDCWS				()	=>	new ExcelBDC_WS				();
 				public	IExcelBDC_Request		Create_ExcelBDCRequest	()	=>	new ExcelBDC_Request	();

@@ -126,7 +126,7 @@ namespace BxS_WorxNCO.API
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IBDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination rfcDestination
-																														, bool						useAltBDCFunction )
+																														, bool						useAltBDCFunction = false )
 					{
 						return	new BDC_Session_Manager( rfcDestination , useAltBDCFunction );
 					}

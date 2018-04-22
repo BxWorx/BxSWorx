@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IExcelBDC_Logon
+	public interface ISAP_Logon
 		{
 			#region "Properties"
 

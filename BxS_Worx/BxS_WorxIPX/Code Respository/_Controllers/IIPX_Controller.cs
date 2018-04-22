@@ -1,4 +1,5 @@
 ﻿using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.SAPBDCSession;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.Main
 {
@@ -13,7 +14,9 @@ namespace BxS_WorxIPX.Main
 
 				//.............................................
 				IExcelBDC_Config		Create_BDCConfig	();
-				IExcelBDC_Logon			Create_Logon			();
+				ISAP_Logon					Create_Logon			();
+
+				ISAP_BDCSessionRequest	Create_SAPBDCSessionRequest();
 
 				IExcelBDC_WS				Create_ExcelBDCWS				();
 				IExcelBDC_Request		Create_ExcelBDCRequest	();
