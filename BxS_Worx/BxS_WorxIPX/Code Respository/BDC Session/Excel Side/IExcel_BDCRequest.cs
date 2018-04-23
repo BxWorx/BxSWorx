@@ -12,5 +12,13 @@ namespace BxS_WorxIPX.BDC
 				Dictionary<Guid , IExcel_BDCWorksheet>	Worksheets	{ get; }
 
 			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				void Clear();
+
+			#endregion
+
 		}
 }

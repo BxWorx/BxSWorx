@@ -37,7 +37,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					try
 						{
 							const string			lc_Path	= "XXXX";
-							IExcel_BDCRequest	lo_R0		= this.co_Cntlr.ReadExcelBDCRequest( lc_Path );
+							//IExcel_BDCRequest	lo_R0		= this.co_Cntlr.ReadExcelBDCRequest( lc_Path );
 							Assert.Fail( "A" );
 						}
 					catch	{	}
@@ -51,7 +51,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					try
 						{
-							lo_R0		= this.co_Cntlr.ReadExcelBDCRequest( this._Full );
+							//lo_R0		= this.co_Cntlr.ReadExcelBDCRequest( this._Full );
 						}
 					catch
 						{

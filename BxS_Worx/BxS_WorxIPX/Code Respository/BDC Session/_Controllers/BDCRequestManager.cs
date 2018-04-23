@@ -1,4 +1,6 @@
 ﻿using System;
+//.........................................................
+using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
@@ -7,13 +9,11 @@ namespace BxS_WorxIPX.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCRequestManager(		IExcel_BDCRequest						excelBDCRequest
-																		, Func<ISAP_Logon>						sapLogonFactory
-																		, Func<IExcel_BDCWorksheet>		bdcWSFactory		)
+				internal BDCRequestManager(	Lazy<BDC_Factory>	factory )
 					{
-						this._ExcelBDCRequest		= excelBDCRequest	;
-						this._SAPLogonFactory		= sapLogonFactory	;
-						this._BDCWSFactory			= bdcWSFactory		;
+						this._Factory	= factory;
+						//...
+						this._ExcelBDCRequest		= new	Lazy<IExcel_BDCRequest>( ()=> this._Factory.Value.Create_ExcelBDCRequest() , cz_LM );
 					}
 
 			#endregion
@@ -21,19 +21,15 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IExcel_BDCRequest		_ExcelBDCRequest	;
-				//...
-				private	readonly	Func<ISAP_Logon>						_SAPLogonFactory	;
-				private	readonly	Func<IExcel_BDCWorksheet>		_BDCWSFactory			;
+				private	readonly	Lazy<BDC_Factory>					_Factory					;
+				private	readonly	Lazy<IExcel_BDCRequest>		_ExcelBDCRequest	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	int		WSCount		{ get { return	this._ExcelBDCRequest.Worksheets.Count; }	}
-				//.................................................
-				private	ISAP_Logon	SessionLogon	{ get	{	return	this._ExcelBDCRequest.SAPLogon; } }
+				public	int	WSCount		{ get { return	this._ExcelBDCRequest.Value.Worksheets.Count; }	}
 
 			#endregion
 
@@ -41,12 +37,16 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ISAP_Logon						Create_SAPLogon			()	=> this._SAPLogonFactory()	;
-				public IExcel_BDCWorksheet	Create_BDCWorksheet	()	=> this._BDCWSFactory()			;
+				public ISAP_Logon						Create_SAPLogon			()	=> this._Factory.Value.Create_SAPLogon()					;
+				public IExcel_BDCWorksheet	Create_BDCWorksheet	()	=> this._Factory.Value.Create_ExcelBDCWorksheet()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Set_SAPLogon			( ISAP_Logon sapLogon )				=>	this.SessionLogon.Transfer( sapLogon );
-				public void Add_BDCWorksheet	( IExcel_BDCWorksheet bdcWS )	=>	this._ExcelBDCRequest.Worksheets.Add( bdcWS.WSGuid , bdcWS );
+				public void Set_SAPLogon			( ISAP_Logon					sapLogon	)	=>	this._ExcelBDCRequest.Value.SAPLogon.Transfer( sapLogon );
+				public void Add_BDCWorksheet	( IExcel_BDCWorksheet bdcWS			)	=>	this._ExcelBDCRequest.Value.Worksheets.Add( bdcWS.WSGuid , bdcWS );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Write_BDCRequest( string pathName )	=> this._Factory.Value.WriteBDCRequest(		this._Factory.Value.ParseRequest( this._ExcelBDCRequest.Value )
+																																																, pathName )	;
 
 			#endregion
 

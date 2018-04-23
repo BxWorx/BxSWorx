@@ -20,6 +20,8 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				void Set_SAPLogon			( ISAP_Logon					sapLogon	)	;
 				void Add_BDCWorksheet	( IExcel_BDCWorksheet	bdcWS )			;
+				//...
+				void Write_BDCRequest( string pathName )	;
 
 			#endregion
 
