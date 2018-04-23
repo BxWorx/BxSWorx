@@ -35,8 +35,6 @@ namespace BxS_WorxIPX.BDC
 				[DataMember]	public	bool		IsActive					{ get; set;	}
 				[DataMember]	public	bool		IsBDCSession			{ get; set;	}
 				//.................................................
-				[DataMember]	public	string	XMLConfig					{ get; set; }
-
 				[DataMember]	public	int			RowLB							{ get; set;	}
 				[DataMember]	public	int			RowUB							{ get; set;	}
 				[DataMember]	public	int			ColLB							{ get; set;	}

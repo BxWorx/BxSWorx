@@ -43,13 +43,13 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		DspMde	{ get { return	this.IsLoaded	?	this._DspMde.Value : cz_Neg	; } }
-				internal	int		UpdMde	{ get { return	this.IsLoaded	?	this._UpdMde.Value : cz_Neg	; } }
-				internal	int		CATMde	{ get { return	this.IsLoaded	?	this._CATMde.Value : cz_Neg	; } }
-				internal	int		DefSze	{ get { return	this.IsLoaded	?	this._DefSze.Value : cz_Neg	; } }
-				internal	int		NoComm	{ get { return	this.IsLoaded	?	this._NoComm.Value : cz_Neg	; } }
-				internal	int		NoBtcI	{ get { return	this.IsLoaded	?	this._NoBtcI.Value : cz_Neg	; } }
-				internal	int		NoBtcE	{ get { return	this.IsLoaded	?	this._NoBtcE.Value : cz_Neg	; } }
+				internal	int		DspMde	{ get { return	this.IsLoaded	?	this._DspMde.Value : cz_Neg1	; } }
+				internal	int		UpdMde	{ get { return	this.IsLoaded	?	this._UpdMde.Value : cz_Neg1	; } }
+				internal	int		CATMde	{ get { return	this.IsLoaded	?	this._CATMde.Value : cz_Neg1	; } }
+				internal	int		DefSze	{ get { return	this.IsLoaded	?	this._DefSze.Value : cz_Neg1	; } }
+				internal	int		NoComm	{ get { return	this.IsLoaded	?	this._NoComm.Value : cz_Neg1	; } }
+				internal	int		NoBtcI	{ get { return	this.IsLoaded	?	this._NoBtcI.Value : cz_Neg1	; } }
+				internal	int		NoBtcE	{ get { return	this.IsLoaded	?	this._NoBtcE.Value : cz_Neg1	; } }
 
 			#endregion
 

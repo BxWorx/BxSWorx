@@ -68,15 +68,15 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		Langu		{ get { return	this.IsLoaded	?	this._Langu.Value : cz_Neg	; } }
-				internal	int		MsgID		{ get { return	this.IsLoaded	?	this._MsgID.Value : cz_Neg	; } }
-				internal	int		MsgNo		{ get { return	this.IsLoaded	?	this._MsgNo.Value : cz_Neg	; } }
-				internal	int		MsgV1		{ get { return	this.IsLoaded	?	this._MsgV1.Value : cz_Neg	; } }
-				internal	int		MsgV2		{ get { return	this.IsLoaded	?	this._MsgV2.Value : cz_Neg	; } }
-				internal	int		MsgV3		{ get { return	this.IsLoaded	?	this._MsgV3.Value : cz_Neg	; } }
-				internal	int		MsgV4		{ get { return	this.IsLoaded	?	this._MsgV4.Value : cz_Neg	; } }
-				internal	int		MsgST		{ get { return	this.IsLoaded	?	this._MsgST.Value : cz_Neg	; } }
-				internal	int		MsgLT		{ get { return	this.IsLoaded	?	this._MsgLT.Value : cz_Neg	; } }
+				internal	int		Langu		{ get { return	this.IsLoaded	?	this._Langu.Value : cz_Neg1	; } }
+				internal	int		MsgID		{ get { return	this.IsLoaded	?	this._MsgID.Value : cz_Neg1	; } }
+				internal	int		MsgNo		{ get { return	this.IsLoaded	?	this._MsgNo.Value : cz_Neg1	; } }
+				internal	int		MsgV1		{ get { return	this.IsLoaded	?	this._MsgV1.Value : cz_Neg1	; } }
+				internal	int		MsgV2		{ get { return	this.IsLoaded	?	this._MsgV2.Value : cz_Neg1	; } }
+				internal	int		MsgV3		{ get { return	this.IsLoaded	?	this._MsgV3.Value : cz_Neg1	; } }
+				internal	int		MsgV4		{ get { return	this.IsLoaded	?	this._MsgV4.Value : cz_Neg1	; } }
+				internal	int		MsgST		{ get { return	this.IsLoaded	?	this._MsgST.Value : cz_Neg1	; } }
+				internal	int		MsgLT		{ get { return	this.IsLoaded	?	this._MsgLT.Value : cz_Neg1	; } }
 
 			#endregion
 

@@ -9,7 +9,9 @@ namespace BxS_WorxNCO.Main
 				internal	const string	cz_True		= "X"	;
 				internal	const string	cz_False	= " "	;
 				internal	const string	cz_Null		= ""	;
-				internal	const int			cz_Neg		= -1	;
+				//...
+				internal	const int			cz_Neg1		= -1	;
+				internal	const char		cz_Coma		= ','	;
 				//.................................................
 				internal	const	string	cz_DefDyn	= "0000"	;			// TO-DO: remove from BDC_Constants
 				//.................................................

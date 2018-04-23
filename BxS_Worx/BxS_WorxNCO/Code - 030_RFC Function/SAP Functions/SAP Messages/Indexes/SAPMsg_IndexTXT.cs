@@ -33,8 +33,8 @@ namespace BxS_WorxNCO.RfcFunction.SAPMsg
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	Fmt		{ get { return	this.IsLoaded	?	this._Fmt.Value	:	cz_Neg	; } }
-				internal	int	Lne		{ get { return	this.IsLoaded	?	this._Lne.Value	:	cz_Neg	; } }
+				internal	int	Fmt		{ get { return	this.IsLoaded	?	this._Fmt.Value	:	cz_Neg1	; } }
+				internal	int	Lne		{ get { return	this.IsLoaded	?	this._Lne.Value	:	cz_Neg1	; } }
 
 			#endregion
 

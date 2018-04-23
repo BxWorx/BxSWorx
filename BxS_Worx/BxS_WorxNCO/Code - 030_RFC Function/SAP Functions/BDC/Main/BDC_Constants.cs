@@ -5,8 +5,6 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 		{
 			#region "Declarations"
 
-				internal	const	string	cz_DefDyn		= "0000"	;
-				//.................................................
 				internal	const char		cz_CTU_A		= 'A'	;
 				internal	const char		cz_CTU_E		= 'E'	;
 				internal	const char		cz_CTU_N		= 'N'	;

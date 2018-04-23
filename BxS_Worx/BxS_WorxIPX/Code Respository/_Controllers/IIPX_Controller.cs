@@ -1,5 +1,4 @@
 ﻿using BxS_WorxIPX.BDC;
-using BxS_WorxIPX.SAPBDCSession;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.Main
 {
@@ -9,7 +8,7 @@ namespace BxS_WorxIPX.Main
 
 				IBDCRequestManager	Create_BDCRequestManager();
 
-		#endregion
+			#endregion
 
 		}
 }

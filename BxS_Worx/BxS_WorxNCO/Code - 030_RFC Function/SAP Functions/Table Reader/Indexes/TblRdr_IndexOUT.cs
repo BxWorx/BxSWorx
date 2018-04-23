@@ -31,7 +31,7 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	WA	{ get { return	this.IsLoaded	?	this._WA.Value : cz_Neg	; } }
+				internal	int	WA	{ get { return	this.IsLoaded	?	this._WA.Value : cz_Neg1	; } }
 
 			#endregion
 

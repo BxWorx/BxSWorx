@@ -79,19 +79,19 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		QryTable			{ get { return	this.IsLoaded	?	this._QryTable		.Value : cz_Neg	; } }
-				internal	int		Delimeter			{ get { return	this.IsLoaded	?	this._Delimeter		.Value : cz_Neg	; } }
-				internal	int		NoData				{ get { return	this.IsLoaded	?	this._NoData			.Value : cz_Neg	; } }
-				internal	int		SkipRows			{ get { return	this.IsLoaded	?	this._SkipRows		.Value : cz_Neg	; } }
-				internal	int		RowsCount			{ get { return	this.IsLoaded	?	this._RowsCount		.Value : cz_Neg	; } }
-				internal	int		Options				{ get { return	this.IsLoaded	?	this._Options			.Value : cz_Neg	; } }
-				internal	int		Fields				{ get { return	this.IsLoaded	?	this._Fields			.Value : cz_Neg	; } }
-				internal	int		OutTable			{ get { return	this.IsLoaded	?	this._OutTable		.Value : cz_Neg	; } }
-				internal	int		OutTab128			{ get { return	this.IsLoaded	?	this._OutTab128		.Value : cz_Neg	; } }
-				internal	int		OutTab512			{ get { return	this.IsLoaded	?	this._OutTab512		.Value : cz_Neg	; } }
-				internal	int		OutTab2048		{ get { return	this.IsLoaded	?	this._OutTab2048	.Value : cz_Neg	; } }
-				internal	int		OutTab8192		{ get { return	this.IsLoaded	?	this._OutTab8192	.Value : cz_Neg	; } }
-				internal	int		OutTab30000		{ get { return	this.IsLoaded	?	this._OutTab30000	.Value : cz_Neg	; } }
+				internal	int		QryTable			{ get { return	this.IsLoaded	?	this._QryTable		.Value : cz_Neg1	; } }
+				internal	int		Delimeter			{ get { return	this.IsLoaded	?	this._Delimeter		.Value : cz_Neg1	; } }
+				internal	int		NoData				{ get { return	this.IsLoaded	?	this._NoData			.Value : cz_Neg1	; } }
+				internal	int		SkipRows			{ get { return	this.IsLoaded	?	this._SkipRows		.Value : cz_Neg1	; } }
+				internal	int		RowsCount			{ get { return	this.IsLoaded	?	this._RowsCount		.Value : cz_Neg1	; } }
+				internal	int		Options				{ get { return	this.IsLoaded	?	this._Options			.Value : cz_Neg1	; } }
+				internal	int		Fields				{ get { return	this.IsLoaded	?	this._Fields			.Value : cz_Neg1	; } }
+				internal	int		OutTable			{ get { return	this.IsLoaded	?	this._OutTable		.Value : cz_Neg1	; } }
+				internal	int		OutTab128			{ get { return	this.IsLoaded	?	this._OutTab128		.Value : cz_Neg1	; } }
+				internal	int		OutTab512			{ get { return	this.IsLoaded	?	this._OutTab512		.Value : cz_Neg1	; } }
+				internal	int		OutTab2048		{ get { return	this.IsLoaded	?	this._OutTab2048	.Value : cz_Neg1	; } }
+				internal	int		OutTab8192		{ get { return	this.IsLoaded	?	this._OutTab8192	.Value : cz_Neg1	; } }
+				internal	int		OutTab30000		{ get { return	this.IsLoaded	?	this._OutTab30000	.Value : cz_Neg1	; } }
 
 			#endregion
 

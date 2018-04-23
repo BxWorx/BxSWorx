@@ -56,7 +56,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				internal	const	string	cz_Token_DataCol	=	"<DATASTARTCOL>"			;
 				internal	const	string	cz_Token_DataRow	=	"<DATASTARTROW>"			;
 
-				internal const	string	cz_Token_XCfg			= "</DTO_BDCXMLConfig>"	;
+				internal const	string	cz_Token_XmlCfg		= "</DTO_BDCXMLConfig>"	;
 
 				internal	const	string	cz_Token_SAPTCode	=	"<SAPTCODE>"	;
 				internal	const	string	cz_Token_Skip1st	=	"<SKIP1ST>"		;

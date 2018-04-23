@@ -21,8 +21,6 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const string	cz_Cfg	= "BDCXMLConfig";
-				//.................................................
 				private	readonly	Func<ISAP_BDCSession>		_Factory;
 
 			#endregion
@@ -58,7 +56,7 @@ namespace BxS_WorxIPX.BDC
 						lo_Ssn.WBID					= ws.WBID					;
 						lo_Ssn.WSID					= ws.WSID					;
 						lo_Ssn.WSNo					= ws.WSNo					;
-						lo_Ssn.UsedAddress		= ws.UsedAddress	;
+						lo_Ssn.UsedAddress	= ws.UsedAddress	;
 						//.............................................
 						lo_Ssn.IsTest				= ws.IsTest				;
 						lo_Ssn.IsOnline			= ws.IsOnline			;
@@ -77,7 +75,6 @@ namespace BxS_WorxIPX.BDC
 						else
 							{
 								var		lo_SB				= new StringBuilder();
-								bool	lb_SrchCfg	= true;
 								//.........................................
 								lo_Ssn.RowLB		= ws.WSCells.GetLowerBound(0);
 								lo_Ssn.RowUB		= ws.WSCells.GetUpperBound(0);
@@ -90,18 +87,6 @@ namespace BxS_WorxIPX.BDC
 											{
 												if ( ws.WSCells[r,c] != null )
 													{
-														// Search for CONFIG cell, store seperately and do not write to container.
-														//
-														if ( lb_SrchCfg )
-															{
-																if ( ws.WSCells[r,c].ToString().Contains( cz_Cfg ) )
-																	{
-																		lo_Ssn.XMLConfig	= ws.WSCells[r,c].ToString();
-																		lb_SrchCfg	= false;
-																		continue;
-																	}
-															}
-														//.............................
 														lo_SB.Clear();
 														lo_SB.AppendFormat( $"{r.ToString()},{c.ToString()}" );
 

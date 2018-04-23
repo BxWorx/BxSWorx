@@ -95,9 +95,9 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	Tbl		{ get { return	this.IsLoaded	?	this._Tbl.Value	:	cz_Neg	; } }
-				internal	int	Fld		{ get { return	this.IsLoaded	?	this._Fld.Value	:	cz_Neg	; } }
-				internal	int	Txt		{ get { return	this.IsLoaded	?	this._Txt.Value	:	cz_Neg	; } }
+				internal	int	Tbl		{ get { return	this.IsLoaded	?	this._Tbl.Value	:	cz_Neg1	; } }
+				internal	int	Fld		{ get { return	this.IsLoaded	?	this._Fld.Value	:	cz_Neg1	; } }
+				internal	int	Txt		{ get { return	this.IsLoaded	?	this._Txt.Value	:	cz_Neg1	; } }
 
 			#endregion
 

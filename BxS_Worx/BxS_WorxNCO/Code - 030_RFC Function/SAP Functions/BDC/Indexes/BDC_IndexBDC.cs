@@ -39,11 +39,11 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	Prg		{ get { return	this.IsLoaded	?	this._Prg.Value	:	cz_Neg	; } }
-				internal	int	Dyn		{ get { return	this.IsLoaded	?	this._Dyn.Value	:	cz_Neg	; } }
-				internal	int	Bgn		{ get { return	this.IsLoaded	?	this._Bgn.Value	:	cz_Neg	; } }
-				internal	int	Fld		{ get { return	this.IsLoaded	?	this._Fld.Value	:	cz_Neg	; } }
-				internal	int	Val		{ get { return	this.IsLoaded	?	this._Val.Value	:	cz_Neg	; } }
+				internal	int	Prg		{ get { return	this.IsLoaded	?	this._Prg.Value	:	cz_Neg1	; } }
+				internal	int	Dyn		{ get { return	this.IsLoaded	?	this._Dyn.Value	:	cz_Neg1	; } }
+				internal	int	Bgn		{ get { return	this.IsLoaded	?	this._Bgn.Value	:	cz_Neg1	; } }
+				internal	int	Fld		{ get { return	this.IsLoaded	?	this._Fld.Value	:	cz_Neg1	; } }
+				internal	int	Val		{ get { return	this.IsLoaded	?	this._Val.Value	:	cz_Neg1	; } }
 
 			#endregion
 

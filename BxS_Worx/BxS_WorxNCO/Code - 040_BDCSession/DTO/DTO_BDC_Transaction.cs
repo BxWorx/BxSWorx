@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using BxS_WorxNCO.Main;
-using BxS_WorxNCO.RfcFunction.BDCTran;
+using static	BxS_WorxNCO.Main	.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.DTO
 {
@@ -46,17 +45,17 @@ namespace BxS_WorxNCO.BDCSession.DTO
 				public DTO_BDC_Msg	CreateMsgDTO	()=>	new DTO_BDC_Msg()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddBDCData(		string	programName	= NCO_Constants.cz_Null
+				public void AddBDCData(		string	programName	= cz_Null
 																,	int			dynpro			= 0
 																,	bool		begin				= false
-																,	string	field				= NCO_Constants.cz_Null
-																,	string	value				= NCO_Constants.cz_Null	)
+																,	string	field				= cz_Null
+																,	string	value				= cz_Null	)
 					{
 						DTO_BDC_Data lo_Data = this.CreateDataDTO();
 
 						lo_Data.ProgramName		= programName;
-						lo_Data.Dynpro				= dynpro.ToString(BDC_Constants.cz_DefDyn);
-						lo_Data.Begin					= begin ? NCO_Constants.cz_True : NCO_Constants.cz_False ;
+						lo_Data.Dynpro				= dynpro.ToString( cz_DefDyn );
+						lo_Data.Begin					= begin ? cz_True : cz_False ;
 						lo_Data.FieldName			= field;
 						lo_Data.FieldValue		= value;
 

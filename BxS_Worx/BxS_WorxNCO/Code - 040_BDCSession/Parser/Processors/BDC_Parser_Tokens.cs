@@ -196,7 +196,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this.AddToken( dtoProfile, cz_Token_MsgCol	,	-1 ,  1 );
 						this.AddToken( dtoProfile, cz_Token_ExeCol	,	-1 ,  3 );
 						this.AddToken( dtoProfile, cz_Token_DataCol	,	-1 ,  5 );
-						this.AddToken( dtoProfile, cz_Token_XCfg		,	-1 , -1 );
+						this.AddToken( dtoProfile, cz_Token_XmlCfg		,	-1 , -1 );
 						//.............................................
 						this.AddToken( dtoProfile, cz_Instr_Post	,	-1 , -1 );
 					}
@@ -319,12 +319,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ExtractXMLConfig( DTO_ParserProfile dtoProfile )
 					{
-						if ( dtoProfile.Tokens.TryGetValue( cz_Token_XCfg , out DTO_ParserToken token ) )
+						if ( dtoProfile.Tokens.TryGetValue( cz_Token_XmlCfg , out DTO_ParserToken token ) )
 							{
 								try
 									{
 										dtoProfile.XMLConfig	= this._PFactory.Value.Serializer
-																							.DeSerialize< DTO_ParserXMLConfig >(	token.Value );
+																							.DeSerialize< DTO_ParserXMLConfig >( token.Value );
 										return;
 									}
 								catch

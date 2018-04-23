@@ -94,15 +94,15 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	TCode			{ get { return	this.IsLoaded	?	this._TCode	.Value	: cz_Neg	; } }
-				internal	int	Skip1			{ get { return	this.IsLoaded	?	this._Skip1	.Value	: cz_Neg	; } }
-				internal	int	TabBDC		{ get { return	this.IsLoaded	?	this._TabBDC.Value	: cz_Neg	; } }
-				internal	int	TabMSG		{ get { return	this.IsLoaded	?	this._TabMSG.Value	: cz_Neg	; } }
-				internal	int	TabSPA		{ get { return	this.IsLoaded	?	this._TabSPA.Value	: cz_Neg	; } }
+				internal	int	TCode			{ get { return	this.IsLoaded	?	this._TCode	.Value	: cz_Neg1	; } }
+				internal	int	Skip1			{ get { return	this.IsLoaded	?	this._Skip1	.Value	: cz_Neg1	; } }
+				internal	int	TabBDC		{ get { return	this.IsLoaded	?	this._TabBDC.Value	: cz_Neg1	; } }
+				internal	int	TabMSG		{ get { return	this.IsLoaded	?	this._TabMSG.Value	: cz_Neg1	; } }
+				internal	int	TabSPA		{ get { return	this.IsLoaded	?	this._TabSPA.Value	: cz_Neg1	; } }
 
-				internal	int	CTUOpt		{ get { return	this.IsLoaded	?	this._CTUOpt.Value	: cz_Neg	; } }
-				internal	int	Mode			{ get { return	this.IsLoaded	?	this._Mode	.Value	: cz_Neg	; } }
-				internal	int	Update		{ get { return	this.IsLoaded	?	this._Update.Value	: cz_Neg	; } }
+				internal	int	CTUOpt		{ get { return	this.IsLoaded	?	this._CTUOpt.Value	: cz_Neg1	; } }
+				internal	int	Mode			{ get { return	this.IsLoaded	?	this._Mode	.Value	: cz_Neg1	; } }
+				internal	int	Update		{ get { return	this.IsLoaded	?	this._Update.Value	: cz_Neg1	; } }
 
 			#endregion
 

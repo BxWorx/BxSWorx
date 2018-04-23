@@ -33,8 +33,8 @@ namespace BxS_WorxNCO.RfcFunction.BDCTran
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int	MID		{ get { return	this.IsLoaded	?	this._MID.Value	: cz_Neg	; } }
-				internal	int	Val		{ get { return	this.IsLoaded	?	this._Val.Value	: cz_Neg	; } }
+				internal	int	MID		{ get { return	this.IsLoaded	?	this._MID.Value	: cz_Neg1	; } }
+				internal	int	Val		{ get { return	this.IsLoaded	?	this._Val.Value	: cz_Neg1	; } }
 
 			#endregion
 

@@ -21,7 +21,6 @@ namespace BxS_WorxIPX.BDC
 				bool		IsActive					{ get; set;	}
 				bool		IsBDCSession			{ get; set;	}
 				//.................................................
-				string	XMLConfig					{ get; set; }
 				int			RowLB							{ get; set;	}
 				int			RowUB							{ get; set;	}
 				int			ColLB							{ get; set;	}

@@ -84,20 +84,20 @@ namespace BxS_WorxNCO.RfcFunction.DDIC
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		TblNm		{ get { return	this.IsLoaded	?	this._TblNm.Value : cz_Neg	; } }
-				internal	int		FldNm		{ get { return	this.IsLoaded	?	this._FldNm.Value : cz_Neg	; } }
-				internal	int		Langu		{ get { return	this.IsLoaded	?	this._Langu.Value : cz_Neg	; } }
-				internal	int		LFldN		{ get { return	this.IsLoaded	?	this._LFldN.Value : cz_Neg	; } }
-				internal	int		AllTp		{ get { return	this.IsLoaded	?	this._AllTp.Value : cz_Neg	; } }
-				internal	int		GrpNm		{ get { return	this.IsLoaded	?	this._GrpNm.Value : cz_Neg	; } }
-				internal	int		UCLen		{ get { return	this.IsLoaded	?	this._UCLen.Value : cz_Neg	; } }
-				internal	int		NoWrt		{ get { return	this.IsLoaded	?	this._NoWrt.Value : cz_Neg	; } }
-				internal	int		X03wa		{ get { return	this.IsLoaded	?	this._X03wa.Value : cz_Neg	; } }
-				internal	int		DDObj		{ get { return	this.IsLoaded	?	this._DDObj.Value : cz_Neg	; } }
-				internal	int		DFsWa		{ get { return	this.IsLoaded	?	this._DFSWa.Value : cz_Neg	; } }
-				internal	int		LnDes		{ get { return	this.IsLoaded	?	this._LnDes.Value : cz_Neg	; } }
-				internal	int		DFIES		{ get { return	this.IsLoaded	?	this._DFIES.Value : cz_Neg	; } }
-				internal	int		Fixed		{ get { return	this.IsLoaded	?	this._Fixed.Value : cz_Neg	; } }
+				internal	int		TblNm		{ get { return	this.IsLoaded	?	this._TblNm.Value : cz_Neg1	; } }
+				internal	int		FldNm		{ get { return	this.IsLoaded	?	this._FldNm.Value : cz_Neg1	; } }
+				internal	int		Langu		{ get { return	this.IsLoaded	?	this._Langu.Value : cz_Neg1	; } }
+				internal	int		LFldN		{ get { return	this.IsLoaded	?	this._LFldN.Value : cz_Neg1	; } }
+				internal	int		AllTp		{ get { return	this.IsLoaded	?	this._AllTp.Value : cz_Neg1	; } }
+				internal	int		GrpNm		{ get { return	this.IsLoaded	?	this._GrpNm.Value : cz_Neg1	; } }
+				internal	int		UCLen		{ get { return	this.IsLoaded	?	this._UCLen.Value : cz_Neg1	; } }
+				internal	int		NoWrt		{ get { return	this.IsLoaded	?	this._NoWrt.Value : cz_Neg1	; } }
+				internal	int		X03wa		{ get { return	this.IsLoaded	?	this._X03wa.Value : cz_Neg1	; } }
+				internal	int		DDObj		{ get { return	this.IsLoaded	?	this._DDObj.Value : cz_Neg1	; } }
+				internal	int		DFsWa		{ get { return	this.IsLoaded	?	this._DFSWa.Value : cz_Neg1	; } }
+				internal	int		LnDes		{ get { return	this.IsLoaded	?	this._LnDes.Value : cz_Neg1	; } }
+				internal	int		DFIES		{ get { return	this.IsLoaded	?	this._DFIES.Value : cz_Neg1	; } }
+				internal	int		Fixed		{ get { return	this.IsLoaded	?	this._Fixed.Value : cz_Neg1	; } }
 
 			#endregion
 

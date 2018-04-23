@@ -39,11 +39,11 @@ namespace BxS_WorxNCO.RfcFunction.TableReader
 			//===========================================================================================
 			#region "Properties"
 
-				internal	int		FldNme	{ get { return	this.IsLoaded	?	this._FldNme	.Value	:	cz_Neg	; } }
-				internal	int		OffSet	{ get { return	this.IsLoaded	?	this._OffSet	.Value	:	cz_Neg	; } }
-				internal	int		Length	{ get { return	this.IsLoaded	?	this._Length	.Value	:	cz_Neg	; } }
-				internal	int		Type		{ get { return	this.IsLoaded	?	this._Type		.Value	:	cz_Neg	; } }
-				internal	int		FldTxt	{ get { return	this.IsLoaded	?	this._FldTxt	.Value	:	cz_Neg	; } }
+				internal	int		FldNme	{ get { return	this.IsLoaded	?	this._FldNme	.Value	:	cz_Neg1	; } }
+				internal	int		OffSet	{ get { return	this.IsLoaded	?	this._OffSet	.Value	:	cz_Neg1	; } }
+				internal	int		Length	{ get { return	this.IsLoaded	?	this._Length	.Value	:	cz_Neg1	; } }
+				internal	int		Type		{ get { return	this.IsLoaded	?	this._Type		.Value	:	cz_Neg1	; } }
+				internal	int		FldTxt	{ get { return	this.IsLoaded	?	this._FldTxt	.Value	:	cz_Neg1	; } }
 
 			#endregion
 
