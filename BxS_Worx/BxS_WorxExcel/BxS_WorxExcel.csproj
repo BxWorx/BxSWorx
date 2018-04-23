@@ -159,7 +159,6 @@
   -->
   <ItemGroup>
     <Compile Include="Code Repository\Main\EXL_Constants.cs" />
-    <Compile Include="Code Repository\Main\Handler_BDC.cs" />
     <Compile Include="Code Repository\Main\Handler_Excel.cs" />
     <Compile Include="Code Repository\UI\Ribbon\BxS_WorxMain.cs">
       <SubType>Component</SubType>

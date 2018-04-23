@@ -7,6 +7,7 @@ using BxS_WorxIPX.BDC;
 namespace BxS_WorxIPX.SAPBDCSession
 {
 	[DataContract()]
+	[KnownType( typeof(SAP_BDCRequest)	)]
 	[KnownType( typeof(SAP_Logon)				)]
 	[KnownType( typeof(SAP_BDCSession)	)]
 
@@ -15,8 +16,9 @@ namespace BxS_WorxIPX.SAPBDCSession
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAP_BDCRequest()
+				internal SAP_BDCRequest( ISAP_Logon	sapLogon )
 					{
+						this.SAPLogon		= sapLogon;
 						this.Sessions		= new	Dictionary<Guid , ISAP_BDCSession>();
 					}
 

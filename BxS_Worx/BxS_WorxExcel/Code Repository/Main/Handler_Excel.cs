@@ -3,7 +3,6 @@
 using Microsoft.Office.Interop.Excel;
 //.........................................................
 using BxS_WorxIPX.BDC;
-using BxS_WorxIPX.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
@@ -20,8 +19,7 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Properties"
 
-				private	Application				ThisAPP		{ get { return	Globals.ThisAddIn.Application			; } }
-				private	IIPX_Controller		IPXCntlr	{ get	{	return	Globals.ThisAddIn._IPXCntlr.Value	; } }
+				private	Application	ThisAPP		{ get { return	Globals.ThisAddIn.Application			; } }
 
 			#endregion
 
@@ -34,16 +32,15 @@ namespace BxS_WorxExcel.Main
 				internal	void		ResetStatusBar	()							=>	this.ThisAPP.StatusBar = false	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList< IExcel_BDCWorksheet > GetWBWSManifest( bool loadData = false )
+				internal IList< Worksheet > GetWBWSManifest()
 					{
-						IList< IExcel_BDCWorksheet >	lt_List		= new List< IExcel_BDCWorksheet >();
+						IList< Worksheet >	lt_List		= new List< Worksheet >();
 						//.............................................
 						foreach ( Workbook lo_WB in this.ThisAPP.Workbooks )
 							{
 								foreach ( Worksheet lo_WS in lo_WB.Worksheets )
 									{
-										IExcel_BDCWorksheet	lo_BDCWS =	this.CreateExcelWS( lo_WS, loadData );
-										lt_List.Add( lo_BDCWS );
+										lt_List.Add( lo_WS );
 									}
 							}
 						//.............................................
@@ -51,9 +48,9 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IExcel_BDCWorksheet GetWSData( string WBID = null , string WSID = null )
+				internal void GetWSData( IExcel_BDCWorksheet bdcWS , string WBID = null , string WSID = null , bool loadData = true , bool isTest = false , bool isOnline = false )
 					{
-						return	this.CreateExcelWS( this.GetWS( WBID , WSID ) , true );
+						this.CreateExcelWS( bdcWS , this.GetWS( WBID , WSID ) , loadData , isTest , isOnline );
 					}
 
 			#endregion
@@ -62,23 +59,21 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IExcel_BDCWorksheet CreateExcelWS(		Worksheet lo_WS
-																							, bool			loadData	= false
-																							, bool			isTest		= false
-																							, bool			isOnline	= false	)
+				private void CreateExcelWS(		IExcel_BDCWorksheet bdcWS
+																		,	Worksheet lo_WS
+																		, bool			loadData	= false
+																		, bool			isTest		= false
+																		, bool			isOnline	= false	)
 					{
-						IExcel_BDCWorksheet	lo_BDCWS	= this.IPXCntlr.Create_ExcelBDCWorksheet();
-						//.............................................
-						lo_BDCWS.IsTest				= isTest						;
-						lo_BDCWS.IsOnline			= isOnline					;
-						lo_BDCWS.WBID					= lo_WS.Parent.Name	;
-						lo_BDCWS.WSID					= lo_WS.Name				;
-						lo_BDCWS.WSNo					= lo_WS.Index				;
-
-						lo_BDCWS.UsedAddress	= lo_WS.UsedRange.Address										;
-						lo_BDCWS.WSCells			= loadData	?	lo_WS.UsedRange.Value	: null	;
-						//.............................................
-						return	lo_BDCWS;
+						bdcWS.IsTest				= isTest						;
+						bdcWS.IsOnline			= isOnline					;
+						//...
+						bdcWS.WBID					= lo_WS.Parent.Name	;
+						bdcWS.WSID					= lo_WS.Name				;
+						bdcWS.WSNo					= lo_WS.Index				;
+						//...
+						bdcWS.UsedAddress	= lo_WS.UsedRange.Address										;
+						bdcWS.WSCells			= loadData	?	lo_WS.UsedRange.Value	: null	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

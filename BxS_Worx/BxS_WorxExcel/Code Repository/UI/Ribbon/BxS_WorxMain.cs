@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
 using System.Threading;
 //.........................................................
@@ -13,8 +13,9 @@ namespace BxS_WorxExcel
 		{
 			#region "Declarations"
 
+				internal Lazy<IBDCRequestManager>	_BDCMngr;
+
 				internal Handler_Excel	_HndlrExcel	;
-				internal Handler_BDC		_HndlrBDC		;
 
 			#endregion
 
@@ -24,8 +25,9 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
+						this._BDCMngr	= new	Lazy<IBDCRequestManager>( ()=>		Globals.ThisAddIn._IPXCntlr.Value.Create_BDCRequestManager()
+																																, LazyThreadSafetyMode.ExecutionAndPublication );
 						this._HndlrExcel	= new	Handler_Excel	();
-						this._HndlrBDC		= new	Handler_BDC		();
 					}
 
 				#pragma warning	disable	RCS1163
@@ -34,37 +36,35 @@ namespace BxS_WorxExcel
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IExcel_BDCWorksheet		lo_WS		=	this._HndlrExcel.GetWSData();
-																		IBDCRequestManager	lo_RM	= this._HndlrBDC.Create_ExcelBDCRequestManager();
-
-
-																		this._HndlrBDC.WriteDataXML( lo_WS );
+																		IExcel_BDCWorksheet		lo_WS		=	this._BDCMngr.Value.Create_BDCWorksheet();
+																		//.............................................
+																		this._HndlrExcel.GetWSData( lo_WS );
+																		this._BDCMngr.Value.Clear();
+																		this._BDCMngr.Value.Add_BDCWorksheet( lo_WS );
+																		this._BDCMngr.Value.Write_BDCRequest( $@"C:\ProgramData\BxS_Worx\{lo_WS.WSID}.xml" );
 																		//.....................
-																		this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );
+																		this._HndlrExcel.WriteStatusbar( lo_WS.WSCells.GetUpperBound(0).ToString() );
 																		Thread.Sleep(300);
 																		this._HndlrExcel.ResetStatusBar();
 																	} ).ConfigureAwait(false);
 					}
 
-				//DTO_ExcelWorksheet X = this._HndlrExcel._ObjSerialiser.Value.DeSerialize<DTO_ExcelWorksheet>( lc_XML );
-				//this._HndlrExcel._WSDTOParser.Value.Parse1Dto2D( X );
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void Button2_Click( object sender , RibbonControlEventArgs e )
 					{
-						IList<IExcel_BDCWorksheet> x = this._HndlrExcel.GetWBWSManifest( true );
+						//IList<IExcel_BDCWorksheet> x = this._HndlrExcel.GetWBWSManifest( true );
 
 						
 
 
-						await Task.Run( () => {
-																		IExcel_BDCWorksheet	lo_WS		=	this._HndlrExcel.GetWSData();
-																		this._HndlrBDC.WriteDataXML( lo_WS );
-																		//.....................
-																		this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );
-																		Thread.Sleep(300);
-																		this._HndlrExcel.ResetStatusBar();
-																	} ).ConfigureAwait(false);
+						//await Task.Run( () => {
+						//												IExcel_BDCWorksheet	lo_WS		=	this._HndlrExcel.GetWSData();
+						//												this._HndlrBDC.WriteDataXML( lo_WS );
+						//												//.....................
+						//												this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );
+						//												Thread.Sleep(300);
+						//												this._HndlrExcel.ResetStatusBar();
+						//											} ).ConfigureAwait(false);
 
 					}
 

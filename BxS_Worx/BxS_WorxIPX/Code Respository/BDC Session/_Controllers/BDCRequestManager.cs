@@ -48,6 +48,8 @@ namespace BxS_WorxIPX.BDC
 				public void Write_BDCRequest( string pathName )	=> this._Factory.Value.WriteBDCRequest(		this._Factory.Value.ParseRequest( this._ExcelBDCRequest.Value )
 																																																, pathName )	;
 
+				public void Clear() => this._ExcelBDCRequest.Value.Clear();
+
 			#endregion
 
 		}

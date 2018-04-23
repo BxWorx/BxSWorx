@@ -22,6 +22,8 @@ namespace BxS_WorxIPX.BDC
 				void Add_BDCWorksheet	( IExcel_BDCWorksheet	bdcWS )			;
 				//...
 				void Write_BDCRequest( string pathName )	;
+				//...
+				void Clear();
 
 			#endregion
 

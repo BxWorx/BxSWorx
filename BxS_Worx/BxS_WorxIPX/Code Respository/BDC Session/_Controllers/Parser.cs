@@ -35,7 +35,7 @@ namespace BxS_WorxIPX.BDC
 					{
 						// Convert the SAP logon
 						//
-						sap.SAPLogon.Transfer( excel.SAPLogon );
+						sap.SAPLogon?.Transfer( excel.SAPLogon );
 
 						// process each worksheet into a BDC Session
 						//
