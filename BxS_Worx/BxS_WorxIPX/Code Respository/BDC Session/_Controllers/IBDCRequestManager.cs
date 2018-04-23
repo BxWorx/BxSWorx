@@ -1,4 +1,5 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using BxS_WorxIPX.SAPBDCSession;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
 	public interface IBDCRequestManager
@@ -21,7 +22,8 @@ namespace BxS_WorxIPX.BDC
 				void Set_SAPLogon			( ISAP_Logon					sapLogon	)	;
 				void Add_BDCWorksheet	( IExcel_BDCWorksheet	bdcWS )			;
 				//...
-				void Write_BDCRequest( string pathName )	;
+				void						Write_BDCRequest	( string pathName )	;
+				ISAP_BDCRequest	Read_BDCRequest		( string pathName )	;
 				//...
 				void Clear();
 

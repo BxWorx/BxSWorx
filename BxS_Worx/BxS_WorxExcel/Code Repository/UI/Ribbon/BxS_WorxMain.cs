@@ -8,6 +8,8 @@ using Microsoft.Office.Interop.Excel;
 //.........................................................
 using BxS_WorxExcel.Main;
 using BxS_WorxIPX.BDC;
+
+using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
 	{
@@ -27,8 +29,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._BDCMngr	= new	Lazy<IBDCRequestManager>( ()=>		Globals.ThisAddIn._IPXCntlr.Value.Create_BDCRequestManager()
-																																, LazyThreadSafetyMode.ExecutionAndPublication );
+						this._BDCMngr			= new	Lazy< IBDCRequestManager >( ()=>	Globals.ThisAddIn._IPXCntlr.Value.Create_BDCRequestManager() , cz_LM );
 						this._HndlrExcel	= new	Handler_Excel	();
 					}
 
@@ -60,11 +61,14 @@ namespace BxS_WorxExcel
 																		foreach ( Worksheet lo_WS in this._HndlrExcel.GetWBWSManifest() )
 																			{
 																				IExcel_BDCWorksheet		lo_BDCWS		=	this._BDCMngr.Value.Create_BDCWorksheet();
-																				this._HndlrExcel.CreateExcelWS( lo_BDCWS , lo_WS );
+																				this._HndlrExcel.CreateExcelWS( lo_BDCWS , lo_WS , true );
 																				this._BDCMngr.Value.Add_BDCWorksheet( lo_BDCWS );
 																			}
-
-																			this._BDCMngr.Value.Write_BDCRequest( $@"C:\ProgramData\BxS_Worx\DPB.xml" );
+																		this._BDCMngr.Value.Write_BDCRequest( $@"C:\ProgramData\BxS_Worx\DPB.xml" );
+																		//.....................
+																		this._HndlrExcel.WriteStatusbar( this._BDCMngr.Value.WSCount.ToString() );
+																		Thread.Sleep(300);
+																		this._HndlrExcel.ResetStatusBar();
 																	} ).ConfigureAwait(false);
 					}
 

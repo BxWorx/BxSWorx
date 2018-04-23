@@ -8,7 +8,9 @@ namespace BxS_WorxIPX.BDC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Excel_BDCWorksheet()
-					{	}
+					{
+						this.WSGuid	= Guid.NewGuid();
+					}
 
 			#endregion
 

@@ -23,7 +23,6 @@ namespace BxS_WorxIPX.BDC
 					{
 						this._UtlCntlr	= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance										, cz_LM );
 						this._Parser		= new	Lazy< Parser >					( ()=>	new	Parser( this.Create_SAPBDCSession )		, cz_LM	);
-						this._SRTypes		= new	Lazy< List<Type> >			(	()=>	new List<Type> { typeof(SAP_BDCRequest)	}	, cz_LM	);
 					}
 
 			#endregion
@@ -41,7 +40,6 @@ namespace BxS_WorxIPX.BDC
 
 				private	readonly	Lazy< IUTL_Controller >		_UtlCntlr;
 				private	readonly	Lazy< Parser >						_Parser;
-				private readonly	Lazy< List<Type>	>				_SRTypes;
 
 			#endregion
 
@@ -98,8 +96,8 @@ namespace BxS_WorxIPX.BDC
 				private	ISAP_BDCSession		Create_SAPBDCSession	()=>	new SAP_BDCSession()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	string						SerialiseBDCRequest		( ISAP_BDCRequest request )	=>	this.Serializer.Serialize											( request	); //	, this._SRTypes.Value )	;
-				private	ISAP_BDCRequest		DeSerialiseBDCRequest	( string serializedObj )		=>	this.Serializer.DeSerialize<ISAP_BDCRequest>	( serializedObj )										;
+				private	string						SerialiseBDCRequest		( ISAP_BDCRequest request )	=>	this.Serializer.Serialize											( request	)				;
+				private	ISAP_BDCRequest		DeSerialiseBDCRequest	( string serializedObj )		=>	this.Serializer.DeSerialize<SAP_BDCRequest>	( serializedObj )	;
 				//...
 				private	void		WriteXMLtoFile( string serializedObj , string fullPath )		=>	this.IO.WriteFile	( fullPath	, serializedObj )	;
 				private	string	ReadXMLFile		( string fullPath )														=>	this.IO.ReadFile	( fullPath )									;
