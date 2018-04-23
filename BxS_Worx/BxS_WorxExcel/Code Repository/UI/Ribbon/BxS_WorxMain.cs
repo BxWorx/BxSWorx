@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 //.........................................................
 using Microsoft.Office.Tools.Ribbon;
+using Microsoft.Office.Interop.Excel;
 //.........................................................
 using BxS_WorxExcel.Main;
 using BxS_WorxIPX.BDC;
@@ -52,20 +54,18 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void Button2_Click( object sender , RibbonControlEventArgs e )
 					{
-						//IList<IExcel_BDCWorksheet> x = this._HndlrExcel.GetWBWSManifest( true );
+						this._BDCMngr.Value.Clear();
+						//.............................................
+						await Task.Run( () => {
+																		foreach ( Worksheet lo_WS in this._HndlrExcel.GetWBWSManifest() )
+																			{
+																				IExcel_BDCWorksheet		lo_BDCWS		=	this._BDCMngr.Value.Create_BDCWorksheet();
+																				this._HndlrExcel.CreateExcelWS( lo_BDCWS , lo_WS );
+																				this._BDCMngr.Value.Add_BDCWorksheet( lo_BDCWS );
+																			}
 
-						
-
-
-						//await Task.Run( () => {
-						//												IExcel_BDCWorksheet	lo_WS		=	this._HndlrExcel.GetWSData();
-						//												this._HndlrBDC.WriteDataXML( lo_WS );
-						//												//.....................
-						//												this._HndlrExcel.WriteStatusbar( lo_WS.WSNo.ToString() );
-						//												Thread.Sleep(300);
-						//												this._HndlrExcel.ResetStatusBar();
-						//											} ).ConfigureAwait(false);
-
+																			this._BDCMngr.Value.Write_BDCRequest( $@"C:\ProgramData\BxS_Worx\DPB.xml" );
+																	} ).ConfigureAwait(false);
 					}
 
 				#pragma warning	restore	RCS1163

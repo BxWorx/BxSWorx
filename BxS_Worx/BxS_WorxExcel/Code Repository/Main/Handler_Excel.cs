@@ -59,7 +59,7 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CreateExcelWS(		IExcel_BDCWorksheet bdcWS
+				internal void CreateExcelWS(		IExcel_BDCWorksheet bdcWS
 																		,	Worksheet lo_WS
 																		, bool			loadData	= false
 																		, bool			isTest		= false
