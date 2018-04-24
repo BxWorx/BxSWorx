@@ -1,0 +1,90 @@
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:d1p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDCSAP"
+  i:type="d1p1:SAP_BDCRequest" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+  <d1p1:SAPLogon xmlns:d2p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"
+    i:type="d2p1:SAP_Logon">
+    <d2p1:Client
+      i:nil="true" />
+    <d2p1:Lang
+      i:nil="true" />
+    <d2p1:Pwrd
+      i:nil="true" />
+    <d2p1:SAPSysID
+      i:nil="true" />
+    <d2p1:SecurePwrd xmlns:d3p1="http://schemas.datacontract.org/2004/07/System.Security"
+      i:nil="true" />
+    <d2p1:User
+      i:nil="true" />
+  </d1p1:SAPLogon>
+  <d1p1:Sessions xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <d2p1:KeyValueOfguidanyType>
+      <d2p1:Key>5a0aa91e-e99c-4488-b361-1e0a29188824</d2p1:Key>
+      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"
+        i:type="d4p1:SAP_BDCSession">
+        <d4p1:ColLB>1</d4p1:ColLB>
+        <d4p1:ColUB>14</d4p1:ColUB>
+        <d4p1:ID>00000000-0000-0000-0000-000000000000</d4p1:ID>
+        <d4p1:IsActive>false</d4p1:IsActive>
+        <d4p1:IsBDCSession>false</d4p1:IsBDCSession>
+        <d4p1:IsOnline>false</d4p1:IsOnline>
+        <d4p1:IsTest>false</d4p1:IsTest>
+        <d4p1:Priority>0</d4p1:Priority>
+        <d4p1:RowLB>1</d4p1:RowLB>
+        <d4p1:RowUB>17</d4p1:RowUB>
+        <d4p1:UsedAddress>$A$2:$N$18</d4p1:UsedAddress>
+        <d4p1:WBID>TestRunnerNo.xlsx</d4p1:WBID>
+        <d4p1:WSData1D>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>1,12</d2p1:Key>
+            <d2p1:Value>SDFSD</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>2,2</d2p1:Key>
+            <d2p1:Value>SDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>3,14</d2p1:Key>
+            <d2p1:Value>asdasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>4,1</d2p1:Key>
+            <d2p1:Value>SDFSDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>6,14</d2p1:Key>
+            <d2p1:Value>asdasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>7,12</d2p1:Key>
+            <d2p1:Value>SDFSDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>9,14</d2p1:Key>
+            <d2p1:Value>adasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>10,12</d2p1:Key>
+            <d2p1:Value>SDFSDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>12,12</d2p1:Key>
+            <d2p1:Value>SDFSD</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>13,14</d2p1:Key>
+            <d2p1:Value>asdasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>16,12</d2p1:Key>
+            <d2p1:Value>SDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>17,14</d2p1:Key>
+            <d2p1:Value>asdasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+        </d4p1:WSData1D>
+        <d4p1:WSID>Test-04</d4p1:WSID>
+        <d4p1:WSNo>5</d4p1:WSNo>
+      </d2p1:Value>
+    </d2p1:KeyValueOfguidanyType>
+  </d1p1:Sessions>
+</z:anyType>

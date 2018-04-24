@@ -2,7 +2,7 @@
 //.........................................................
 using Microsoft.Office.Interop.Excel;
 //.........................................................
-using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.BDCExcel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
@@ -48,22 +48,22 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void GetWSData( IExcel_BDCWorksheet bdcWS , string WBID = null , string WSID = null , bool loadData = true , bool isTest = false , bool isOnline = false )
+				internal void GetWSData(	IExcel_BDCWorksheet bdcWS
+																, string							WBID			= null
+																, string							WSID			= null
+																, bool								loadData	= true
+																, bool								isTest		= false
+																, bool								isOnline	= false )
 					{
 						this.CreateExcelWS( bdcWS , this.GetWS( WBID , WSID ) , loadData , isTest , isOnline );
 					}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void CreateExcelWS(		IExcel_BDCWorksheet bdcWS
-																		,	Worksheet lo_WS
-																		, bool			loadData	= false
-																		, bool			isTest		= false
-																		, bool			isOnline	= false	)
+				internal void CreateExcelWS(	IExcel_BDCWorksheet bdcWS
+																		,	Worksheet						lo_WS
+																		, bool								loadData	= false
+																		, bool								isTest		= false
+																		, bool								isOnline	= false	)
 					{
 						bdcWS.IsTest				= isTest						;
 						bdcWS.IsOnline			= isOnline					;
@@ -75,6 +75,19 @@ namespace BxS_WorxExcel.Main
 						bdcWS.UsedAddress	= lo_WS.UsedRange.Address										;
 						bdcWS.WSCells			= loadData	?	lo_WS.UsedRange.Value	: null	;
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void WriteConfig( string xml , string address = "$A$1" )
+					{
+						Worksheet x = this.GetWS( null , null );
+						Range     r = x.Range[address];
+						r.Value	= xml;
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private Worksheet GetWS( string forWB , string forWS )

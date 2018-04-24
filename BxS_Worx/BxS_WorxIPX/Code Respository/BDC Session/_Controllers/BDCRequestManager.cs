@@ -1,7 +1,7 @@
 ﻿using System;
 //.........................................................
-using BxS_WorxIPX.ExcelBDC;
-using BxS_WorxIPX.SAPBDC;
+using BxS_WorxIPX.BDCExcel;
+using BxS_WorxIPX.BDCSAP;
 
 using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -16,7 +16,7 @@ namespace BxS_WorxIPX.BDC
 					{
 						this._Factory	= factory;
 						//...
-						this._ExcelBDCRequest		= new	Lazy<IExcel_BDCRequest>( ()=> this._Factory.Value.Create_ExcelBDCRequest() , cz_LM );
+						this._ExcelBDCRequest		= new	Lazy<IExcel_BDCRequest>( ()=>	this._Factory.Value.Create_ExcelBDCRequest() , cz_LM );
 					}
 
 			#endregion
@@ -44,7 +44,8 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public ISAP_Logon						Create_SAPLogon			()	=> this.Factory.Create_SAPLogon()						;
 				public IExcel_BDCWorksheet	Create_BDCWorksheet	()	=> this.Factory.Create_ExcelBDCWorksheet()	;
-				public BDCXMLConfig					Create_BDCXmlConfig	()	=> this.Factory.Create_BDCXmlConfig()				;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public BDCXMLConfig		Create_BDCXmlConfig	( bool withDefaults = true )	=> this.Factory.Create_BDCXmlConfig( withDefaults)	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Set_SAPLogon			( ISAP_Logon					sapLogon	)	=>	this._ExcelBDCRequest.Value.SAPLogon.Transfer( sapLogon );

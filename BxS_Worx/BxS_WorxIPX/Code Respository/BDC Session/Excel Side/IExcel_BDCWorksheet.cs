@@ -1,6 +1,6 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.ExcelBDC
+namespace BxS_WorxIPX.BDCExcel
 {
 	public interface IExcel_BDCWorksheet
 		{

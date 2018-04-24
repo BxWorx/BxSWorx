@@ -1,11 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 //.........................................................
-
 using static	BxS_WorxIPX.Main	.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
+	[KnownType( typeof(BDCXMLConfig) )]
+
 	public class BDCXMLConfig
 		{
 			#region "Constructors"
@@ -13,7 +15,7 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCXMLConfig( bool SetDefaults = true )
 					{
-						if (SetDefaults)	this.SetDefaults();
+						if ( SetDefaults )	this.SetDefaults();
 					}
 
 			#endregion
@@ -21,7 +23,7 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public string		GUID						{ get; set; }
+				[DataMember]	public Guid			GUID						{ get; set; }
 
 				[DataMember]	public string		IsActive        { get; set; }
 
@@ -53,6 +55,9 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void SetDefaults()
 					{
+						this.GUID	= Guid.NewGuid();
+
+
 						this.CTU_DefSize  = cz_True;
 						this.CTU_DisMode  = cz_CTU_N.ToString();
 						this.CTU_UpdMode	= cz_CTU_A.ToString();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.SAPBDC
+namespace BxS_WorxIPX.BDCSAP
 {
 	public interface ISAP_BDCRequest
 		{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.ExcelBDC
+namespace BxS_WorxIPX.BDCExcel
 {
 	public interface IExcel_BDCRequest
 		{

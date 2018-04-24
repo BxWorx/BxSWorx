@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 //.........................................................
-using BxS_WorxIPX.SAPBDC;
-using BxS_WorxIPX.ExcelBDC;
+using BxS_WorxIPX.BDCSAP;
+using BxS_WorxIPX.BDCExcel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {

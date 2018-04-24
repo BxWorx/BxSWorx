@@ -1,7 +1,7 @@
 ﻿using System;
 //.........................................................
-using BxS_WorxIPX.ExcelBDC;
-using BxS_WorxIPX.SAPBDC;
+using BxS_WorxIPX.BDCExcel;
+using BxS_WorxIPX.BDCSAP;
 
 using BxS_WorxUtil.Main;
 using BxS_WorxUtil.General;
@@ -106,7 +106,6 @@ namespace BxS_WorxIPX.BDC
 				//...
 				private	void		WriteXMLtoFile( string serializedObj , string fullPath )		=>	this.IO.WriteFile	( fullPath	, serializedObj )	;
 				private	string	ReadXMLFile		( string fullPath )														=>	this.IO.ReadFile	( fullPath )									;
-
 
 			#endregion
 

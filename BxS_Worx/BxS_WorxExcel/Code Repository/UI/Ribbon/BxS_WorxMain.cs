@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 //.........................................................
@@ -8,6 +7,7 @@ using Microsoft.Office.Interop.Excel;
 //.........................................................
 using BxS_WorxExcel.Main;
 using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.BDCExcel;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -16,6 +16,8 @@ namespace BxS_WorxExcel
 	public partial class BxS_WorxMain
 		{
 			#region "Declarations"
+
+				private	const	string	cz_Path	=  @"C:\Users\BMA\GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
 
 				internal Lazy<IBDCRequestManager>	_BDCMngr;
 
@@ -44,7 +46,7 @@ namespace BxS_WorxExcel
 																		this._HndlrExcel.GetWSData( lo_WS );
 																		this._BDCMngr.Value.Clear();
 																		this._BDCMngr.Value.Add_BDCWorksheet( lo_WS );
-																		this._BDCMngr.Value.Write_BDCRequest( $@"C:\ProgramData\BxS_Worx\{lo_WS.WSID}.xml" );
+																		this._BDCMngr.Value.Write_BDCRequest( $@"{cz_Path}\{lo_WS.WSID}.xml" );
 																		//.....................
 																		this._HndlrExcel.WriteStatusbar( lo_WS.WSCells.GetUpperBound(0).ToString() );
 																		Thread.Sleep(300);
@@ -64,11 +66,20 @@ namespace BxS_WorxExcel
 																				this._HndlrExcel.CreateExcelWS( lo_BDCWS , lo_WS , true );
 																				this._BDCMngr.Value.Add_BDCWorksheet( lo_BDCWS );
 																			}
-																		this._BDCMngr.Value.Write_BDCRequest( $@"C:\ProgramData\BxS_Worx\DPB.xml" );
+																		this._BDCMngr.Value.Write_BDCRequest( $@"{cz_Path}\DPB.xml" );
 																		//.....................
 																		this._HndlrExcel.WriteStatusbar( this._BDCMngr.Value.WSCount.ToString() );
 																		Thread.Sleep(300);
 																		this._HndlrExcel.ResetStatusBar();
+																	} ).ConfigureAwait(false);
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private async void Button3_Click( object sender , RibbonControlEventArgs e )
+					{
+						await Task.Run( () => {
+																		BDCXMLConfig x = this._BDCMngr.Value.Create_BDCXmlConfig();
+																		this._HndlrExcel.WriteConfig( this._BDCMngr.Value.SerializeXMLConfig( x ) );
 																	} ).ConfigureAwait(false);
 					}
 
