@@ -2,7 +2,7 @@
 
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.BDC;
-using BxS_WorxIPX.SAPBDCSession;
+using BxS_WorxIPX.SAPBDC;
 
 namespace BxS_zWorx_UT_Destination.Test_Units
 {

@@ -1,4 +1,5 @@
-﻿using BxS_WorxIPX.SAPBDCSession;
+﻿using BxS_WorxIPX.ExcelBDC;
+using BxS_WorxIPX.SAPBDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
@@ -17,6 +18,7 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				ISAP_Logon						Create_SAPLogon()			;
 				IExcel_BDCWorksheet		Create_BDCWorksheet()	;
+				BDCXMLConfig					Create_BDCXmlConfig()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				void Set_SAPLogon			( ISAP_Logon					sapLogon	)	;
@@ -24,6 +26,9 @@ namespace BxS_WorxIPX.BDC
 				//...
 				void						Write_BDCRequest	( string pathName )	;
 				ISAP_BDCRequest	Read_BDCRequest		( string pathName )	;
+				//...
+				string				SerializeXMLConfig		( BDCXMLConfig config )	;
+				BDCXMLConfig	DeserializeXMLConfig	( string config  )			;
 				//...
 				void Clear();
 

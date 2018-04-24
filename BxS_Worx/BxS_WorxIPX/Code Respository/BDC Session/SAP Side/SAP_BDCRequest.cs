@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 //.........................................................
 using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.SAPBDCSession
+namespace BxS_WorxIPX.SAPBDC
 {
 	[DataContract()]
 	[KnownType( typeof(SAP_BDCRequest)	)]

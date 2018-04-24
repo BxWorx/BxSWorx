@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+//.........................................................
+using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.BDC
+namespace BxS_WorxIPX.ExcelBDC
 {
 	public interface IExcel_BDCRequest
 		{

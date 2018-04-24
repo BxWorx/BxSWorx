@@ -1,6 +1,7 @@
 ﻿using System;
 //.........................................................
-using BxS_WorxIPX.SAPBDCSession;
+using BxS_WorxIPX.ExcelBDC;
+using BxS_WorxIPX.SAPBDC;
 
 using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -41,16 +42,21 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ISAP_Logon						Create_SAPLogon			()	=> this.Factory.Create_SAPLogon()					;
+				public ISAP_Logon						Create_SAPLogon			()	=> this.Factory.Create_SAPLogon()						;
 				public IExcel_BDCWorksheet	Create_BDCWorksheet	()	=> this.Factory.Create_ExcelBDCWorksheet()	;
+				public BDCXMLConfig					Create_BDCXmlConfig	()	=> this.Factory.Create_BDCXmlConfig()				;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Set_SAPLogon			( ISAP_Logon					sapLogon	)	=>	this._ExcelBDCRequest.Value.SAPLogon.Transfer( sapLogon );
+				public void	Set_SAPLogon			( ISAP_Logon					sapLogon	)	=>	this._ExcelBDCRequest.Value.SAPLogon.Transfer( sapLogon );
 				public void Add_BDCWorksheet	( IExcel_BDCWorksheet bdcWS			)	=>	this._ExcelBDCRequest.Value.Worksheets.Add( bdcWS.WSGuid , bdcWS );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void							Write_BDCRequest( string pathName )	=>	this.Factory.WriteBDCRequest( this.Factory.ParseRequest( this._ExcelBDCRequest.Value ) , pathName )	;
 				public ISAP_BDCRequest	Read_BDCRequest	( string pathName )	=>	this.Factory.ReadBDCRequest	( pathName );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public string				SerializeXMLConfig		( BDCXMLConfig config )	=>	this.Factory.SerialiseXMLConfig		( config )	;
+				public BDCXMLConfig	DeserializeXMLConfig	( string config  )			=>	this.Factory.DeSerialiseXMLConfig	( config )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Clear() => this._ExcelBDCRequest.Value.Clear();

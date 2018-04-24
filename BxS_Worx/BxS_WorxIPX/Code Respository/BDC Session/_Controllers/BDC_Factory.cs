@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 //.........................................................
-using BxS_WorxIPX.SAPBDCSession;
+using BxS_WorxIPX.ExcelBDC;
+using BxS_WorxIPX.SAPBDC;
 
 using BxS_WorxUtil.Main;
 using BxS_WorxUtil.General;
@@ -21,8 +21,8 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDC_Factory()
 					{
-						this._UtlCntlr	= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance										, cz_LM );
-						this._Parser		= new	Lazy< Parser >					( ()=>	new	Parser( this.Create_SAPBDCSession )		, cz_LM	);
+						this._UtlCntlr	= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance									, cz_LM );
+						this._Parser		= new	Lazy< Parser >					( ()=>	new	Parser( this.Create_SAPBDCSession )	, cz_LM	);
 					}
 
 			#endregion
@@ -49,8 +49,13 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	ISAP_Logon		Create_SAPLogon	()=>	new	SAP_Logon()	;
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	IExcel_BDCRequest			Create_ExcelBDCRequest		()=>	new	Excel_BDCRequest( this.Create_SAPLogon() )	;
+				internal	BDCXMLConfig	Create_BDCXmlConfig	( bool withDefaults = true )=> new BDCXMLConfig( withDefaults );
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	IExcel_BDCRequest			Create_ExcelBDCRequest		()=>	new	Excel_BDCRequest		( this.Create_SAPLogon() )	;
 				internal	IExcel_BDCWorksheet		Create_ExcelBDCWorksheet	()=>	new Excel_BDCWorksheet	()	;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	string				SerialiseXMLConfig		( BDCXMLConfig config )		=>	this.Serializer.Serialize									( config )				;
+				internal	BDCXMLConfig	DeSerialiseXMLConfig	( string serializedObj )	=>	this.Serializer.DeSerialize<BDCXMLConfig>	( serializedObj )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal ISAP_BDCRequest ParseRequest( IExcel_BDCRequest request )
@@ -96,11 +101,12 @@ namespace BxS_WorxIPX.BDC
 				private	ISAP_BDCSession		Create_SAPBDCSession	()=>	new SAP_BDCSession()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	string						SerialiseBDCRequest		( ISAP_BDCRequest request )	=>	this.Serializer.Serialize											( request	)				;
+				private	string						SerialiseBDCRequest		( ISAP_BDCRequest request )	=>	this.Serializer.Serialize										( request	)				;
 				private	ISAP_BDCRequest		DeSerialiseBDCRequest	( string serializedObj )		=>	this.Serializer.DeSerialize<SAP_BDCRequest>	( serializedObj )	;
 				//...
 				private	void		WriteXMLtoFile( string serializedObj , string fullPath )		=>	this.IO.WriteFile	( fullPath	, serializedObj )	;
 				private	string	ReadXMLFile		( string fullPath )														=>	this.IO.ReadFile	( fullPath )									;
+
 
 			#endregion
 
