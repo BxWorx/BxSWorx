@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.BDC
+namespace BxS_WorxIPX.BDCSAP
 {
 	public interface ISAP_BDCSession
 		{

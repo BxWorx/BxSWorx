@@ -17,55 +17,25 @@
   </d1p1:SAPLogon>
   <d1p1:Sessions xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
     <d2p1:KeyValueOfguidanyType>
-      <d2p1:Key>8ef51848-a506-4edf-bf09-10f64d712154</d2p1:Key>
-      <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"
-        i:type="d4p1:SAP_BDCSession">
-        <d4p1:ColLB>1</d4p1:ColLB>
-        <d4p1:ColUB>17</d4p1:ColUB>
-        <d4p1:ID>00000000-0000-0000-0000-000000000000</d4p1:ID>
-        <d4p1:IsActive>false</d4p1:IsActive>
-        <d4p1:IsBDCSession>false</d4p1:IsBDCSession>
-        <d4p1:IsOnline>false</d4p1:IsOnline>
-        <d4p1:IsTest>false</d4p1:IsTest>
-        <d4p1:Priority>0</d4p1:Priority>
-        <d4p1:RowLB>1</d4p1:RowLB>
-        <d4p1:RowUB>110</d4p1:RowUB>
-        <d4p1:UsedAddress>$B$1:$R$110</d4p1:UsedAddress>
-        <d4p1:WBID>TestRunnerNo.xlsx</d4p1:WBID>
-        <d4p1:WSData1D>
+      <d2p1:Key>5a01faa4-477a-4811-93f4-10f522ae684a</d2p1:Key>
+      <d2p1:Value
+        i:type="d1p1:SAP_BDCSession">
+        <d1p1:ColLB>1</d1p1:ColLB>
+        <d1p1:ColUB>17</d1p1:ColUB>
+        <d1p1:ID>00000000-0000-0000-0000-000000000000</d1p1:ID>
+        <d1p1:IsActive>false</d1p1:IsActive>
+        <d1p1:IsBDCSession>false</d1p1:IsBDCSession>
+        <d1p1:IsOnline>false</d1p1:IsOnline>
+        <d1p1:IsTest>false</d1p1:IsTest>
+        <d1p1:Priority>0</d1p1:Priority>
+        <d1p1:RowLB>1</d1p1:RowLB>
+        <d1p1:RowUB>110</d1p1:RowUB>
+        <d1p1:UsedAddress>$B$1:$R$110</d1p1:UsedAddress>
+        <d1p1:WBID>TestRunnerNo.xlsx</d1p1:WBID>
+        <d1p1:WSData1D>
           <d2p1:KeyValueOfstringstring>
             <d2p1:Key>3,1</d2p1:Key>
-            <d2p1:Value>&lt;BDCXMLConfig xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"&gt;
-  &lt;CTU_DefSize&gt;X&lt;/CTU_DefSize&gt;
-  &lt;CTU_DisMode&gt;N&lt;/CTU_DisMode&gt;
-  &lt;CTU_UpdMode&gt;A&lt;/CTU_UpdMode&gt;
-  &lt;Col_Active
-    i:nil="true" /&gt;
-  &lt;Col_DataStart
-    i:nil="true" /&gt;
-  &lt;Col_Exec
-    i:nil="true" /&gt;
-  &lt;Col_ID
-    i:nil="true" /&gt;
-  &lt;Col_Msg
-    i:nil="true" /&gt;
-  &lt;GUID&gt;4cd7f54c-29dc-49fa-96cd-0479417e5084&lt;/GUID&gt;
-  &lt;IsActive
-    i:nil="true" /&gt;
-  &lt;IsProtected
-    i:nil="true" /&gt;
-  &lt;Password
-    i:nil="true" /&gt;
-  &lt;PauseTime
-    i:nil="true" /&gt;
-  &lt;Row_DataStart
-    i:nil="true" /&gt;
-  &lt;SAPBDCSessionID
-    i:nil="true" /&gt;
-  &lt;SAPTCode&gt;xd03&lt;/SAPTCode&gt;
-  &lt;Skip1st
-    i:nil="true" /&gt;
-&lt;/BDCXMLConfig&gt;</d2p1:Value>
+            <d2p1:Value>&lt;BDCXMLConfig xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"&gt;  &lt;CTU_DefSize&gt;X&lt;/CTU_DefSize&gt;  &lt;CTU_DisMode&gt;N&lt;/CTU_DisMode&gt;  &lt;CTU_UpdMode&gt;A&lt;/CTU_UpdMode&gt;  &lt;Col_Active    i:nil="true" /&gt;  &lt;Col_DataStart    i:nil="true" /&gt;  &lt;Col_Exec    i:nil="true" /&gt;  &lt;Col_ID    i:nil="true" /&gt;  &lt;Col_Msg    i:nil="true" /&gt;  &lt;GUID&gt;022db422-3a0b-436e-adb0-64f01ad4d450&lt;/GUID&gt;  &lt;IsActive    i:nil="true" /&gt;  &lt;IsProtected    i:nil="true" /&gt;  &lt;Password    i:nil="true" /&gt;  &lt;PauseTime    i:nil="true" /&gt;  &lt;Row_DataStart    i:nil="true" /&gt;  &lt;SAPBDCSessionID    i:nil="true" /&gt;  &lt;SAPTCode&gt;xd03&lt;/SAPTCode&gt;  &lt;Skip1st    i:nil="true" /&gt;&lt;/BDCXMLConfig&gt;</d2p1:Value>
           </d2p1:KeyValueOfstringstring>
           <d2p1:KeyValueOfstringstring>
             <d2p1:Key>3,3</d2p1:Key>
@@ -5517,9 +5487,9 @@
             <d2p1:Key>110,17</d2p1:Key>
             <d2p1:Value>0</d2p1:Value>
           </d2p1:KeyValueOfstringstring>
-        </d4p1:WSData1D>
-        <d4p1:WSID>Test-00</d4p1:WSID>
-        <d4p1:WSNo>1</d4p1:WSNo>
+        </d1p1:WSData1D>
+        <d1p1:WSID>Test-00</d1p1:WSID>
+        <d1p1:WSNo>1</d1p1:WSNo>
       </d2p1:Value>
     </d2p1:KeyValueOfguidanyType>
   </d1p1:Sessions>

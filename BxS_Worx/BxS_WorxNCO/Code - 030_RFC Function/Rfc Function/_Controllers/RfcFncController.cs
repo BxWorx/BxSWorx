@@ -12,7 +12,6 @@ using BxS_WorxNCO.RfcFunction.DDIC;
 using BxS_WorxNCO.RfcFunction.SAPMsg;
 using BxS_WorxNCO.RfcFunction.TableReader;
 
-using static	BxS_WorxNCO.Main							.NCO_Constants;
 using	static	BxS_WorxNCO.RfcFunction.Main	.SAPRfcFncConstants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.RfcFunction.Main

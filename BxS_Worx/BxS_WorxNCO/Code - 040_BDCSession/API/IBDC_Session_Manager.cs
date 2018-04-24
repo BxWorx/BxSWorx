@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxNCO.BDCSession.DTO;
 
-using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.BDCSAP;
 using BxS_WorxUtil.Progress;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API

@@ -57,7 +57,6 @@ namespace BxS_WorxIPX.BDC
 					{
 						this.GUID	= Guid.NewGuid();
 
-
 						this.CTU_DefSize  = cz_True;
 						this.CTU_DisMode  = cz_CTU_N.ToString();
 						this.CTU_UpdMode	= cz_CTU_A.ToString();

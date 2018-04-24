@@ -7,9 +7,6 @@ using BxS_WorxIPX.BDC;
 namespace BxS_WorxIPX.BDCSAP
 {
 	[DataContract()]
-	[KnownType( typeof(SAP_BDCRequest)	)]
-	[KnownType( typeof(SAP_Logon)				)]
-	[KnownType( typeof(SAP_BDCSession)	)]
 
 	public class SAP_BDCRequest : ISAP_BDCRequest
 		{

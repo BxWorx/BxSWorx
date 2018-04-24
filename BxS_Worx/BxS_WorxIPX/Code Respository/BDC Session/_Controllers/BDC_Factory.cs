@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDCExcel;
 using BxS_WorxIPX.BDCSAP;
@@ -21,8 +22,11 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDC_Factory()
 					{
-						this._UtlCntlr	= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance									, cz_LM );
-						this._Parser		= new	Lazy< Parser >					( ()=>	new	Parser( this.Create_SAPBDCSession )	, cz_LM	);
+						this._UtlCntlr	= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance											, cz_LM );
+						this._Parser		= new	Lazy< Parser >					( ()=>	new	Parser( this.Create_SAPBDCSession )			, cz_LM	);
+						this._STypes		= new Lazy< List<Type> >			( ()=>  new List<Type> {	typeof(SAP_BDCRequest)
+																																									,	typeof(SAP_BDCSession)
+																																									, typeof(SAP_Logon)				}	, cz_LM );
 					}
 
 			#endregion
@@ -40,6 +44,7 @@ namespace BxS_WorxIPX.BDC
 
 				private	readonly	Lazy< IUTL_Controller >		_UtlCntlr;
 				private	readonly	Lazy< Parser >						_Parser;
+				private	readonly	Lazy< List<Type> >				_STypes;
 
 			#endregion
 
@@ -102,7 +107,7 @@ namespace BxS_WorxIPX.BDC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	string						SerialiseBDCRequest		( ISAP_BDCRequest request )	=>	this.Serializer.Serialize										( request	)				;
-				private	ISAP_BDCRequest		DeSerialiseBDCRequest	( string serializedObj )		=>	this.Serializer.DeSerialize<SAP_BDCRequest>	( serializedObj )	;
+				private	ISAP_BDCRequest		DeSerialiseBDCRequest	( string serializedObj )		=>	this.Serializer.DeSerialize<ISAP_BDCRequest>	( serializedObj , this._STypes.Value )	;
 				//...
 				private	void		WriteXMLtoFile( string serializedObj , string fullPath )		=>	this.IO.WriteFile	( fullPath	, serializedObj )	;
 				private	string	ReadXMLFile		( string fullPath )														=>	this.IO.ReadFile	( fullPath )									;

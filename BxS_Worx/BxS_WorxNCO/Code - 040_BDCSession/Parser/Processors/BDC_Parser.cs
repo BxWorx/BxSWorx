@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.BDCSAP;
 using BxS_WorxUtil.ObjectPool;
 
 using BxS_WorxNCO.BDCSession.DTO;
@@ -49,12 +49,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Parse(	ISAP_BDCSession	BDCRequest
-														, DTO_BDC_Session	BDCSession		)
+				internal bool Parse(	ISAP_BDCSession	BDCSession
+														, DTO_BDC_Session	dtoSession		)
 					{
 						DTO_ParserRequest	lo_DTOParserReq	= this._PFactory.Value.CreateDTOParserRequest();
 
-						if ( ! this.Parse1Dto2D( BDCRequest , lo_DTOParserReq ) )
+						if ( ! this.Parse1Dto2D( BDCSession , lo_DTOParserReq ) )
 							{
 								return	false;
 							}
@@ -65,7 +65,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						this._Col.Value.Process( lo_DTOParserReq	,	lo_DTOProfile	);
 						this._Grp.Value.Process( lo_DTOParserReq	,	lo_DTOProfile	);
 
-						this._Trn.Value.Process( lo_DTOParserReq	, lo_DTOProfile	, BDCSession );
+						this._Trn.Value.Process( lo_DTOParserReq	, lo_DTOProfile	, dtoSession );
 						//.............................................
 						//if ( ! BDCRequest.IgnoreSessionConfig )
 						//	{
