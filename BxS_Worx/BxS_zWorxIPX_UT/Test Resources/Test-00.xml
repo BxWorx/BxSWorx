@@ -17,7 +17,7 @@
   </d1p1:SAPLogon>
   <d1p1:Sessions xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
     <d2p1:KeyValueOfguidanyType>
-      <d2p1:Key>4cd4dd2a-4598-4f16-85c2-f104ccfa10ff</d2p1:Key>
+      <d2p1:Key>8ef51848-a506-4edf-bf09-10f64d712154</d2p1:Key>
       <d2p1:Value xmlns:d4p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"
         i:type="d4p1:SAP_BDCSession">
         <d4p1:ColLB>1</d4p1:ColLB>
@@ -33,6 +33,40 @@
         <d4p1:UsedAddress>$B$1:$R$110</d4p1:UsedAddress>
         <d4p1:WBID>TestRunnerNo.xlsx</d4p1:WBID>
         <d4p1:WSData1D>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>3,1</d2p1:Key>
+            <d2p1:Value>&lt;BDCXMLConfig xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"&gt;
+  &lt;CTU_DefSize&gt;X&lt;/CTU_DefSize&gt;
+  &lt;CTU_DisMode&gt;N&lt;/CTU_DisMode&gt;
+  &lt;CTU_UpdMode&gt;A&lt;/CTU_UpdMode&gt;
+  &lt;Col_Active
+    i:nil="true" /&gt;
+  &lt;Col_DataStart
+    i:nil="true" /&gt;
+  &lt;Col_Exec
+    i:nil="true" /&gt;
+  &lt;Col_ID
+    i:nil="true" /&gt;
+  &lt;Col_Msg
+    i:nil="true" /&gt;
+  &lt;GUID&gt;4cd7f54c-29dc-49fa-96cd-0479417e5084&lt;/GUID&gt;
+  &lt;IsActive
+    i:nil="true" /&gt;
+  &lt;IsProtected
+    i:nil="true" /&gt;
+  &lt;Password
+    i:nil="true" /&gt;
+  &lt;PauseTime
+    i:nil="true" /&gt;
+  &lt;Row_DataStart
+    i:nil="true" /&gt;
+  &lt;SAPBDCSessionID
+    i:nil="true" /&gt;
+  &lt;SAPTCode&gt;xd03&lt;/SAPTCode&gt;
+  &lt;Skip1st
+    i:nil="true" /&gt;
+&lt;/BDCXMLConfig&gt;</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
           <d2p1:KeyValueOfstringstring>
             <d2p1:Key>3,3</d2p1:Key>
             <d2p1:Value>Program Name: </d2p1:Value>

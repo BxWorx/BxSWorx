@@ -56,7 +56,7 @@ namespace BxS_WorxIPX.BDC
 				public ISAP_BDCRequest	Read_BDCRequest	( string pathName )	=>	this.Factory.ReadBDCRequest	( pathName );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public string				SerializeXMLConfig		( BDCXMLConfig config )	=>	this.Factory.SerialiseXMLConfig		( config )	;
+				public string				SerializeXMLConfig		( BDCXMLConfig config )	=>	this.Factory.SerialiseXMLConfig		( config ).Replace("\n","").Replace("\r","")	;
 				public BDCXMLConfig	DeserializeXMLConfig	( string config  )			=>	this.Factory.DeSerialiseXMLConfig	( config )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

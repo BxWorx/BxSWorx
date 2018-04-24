@@ -79,7 +79,9 @@ namespace BxS_WorxExcel
 					{
 						await Task.Run( () => {
 																		BDCXMLConfig x = this._BDCMngr.Value.Create_BDCXmlConfig();
-																		this._HndlrExcel.WriteConfig( this._BDCMngr.Value.SerializeXMLConfig( x ) );
+																		x.SAPTCode = "xd03";
+
+																		this._HndlrExcel.WriteConfig( this._BDCMngr.Value.SerializeXMLConfig( x ) , "B3" );
 																	} ).ConfigureAwait(false);
 					}
 
