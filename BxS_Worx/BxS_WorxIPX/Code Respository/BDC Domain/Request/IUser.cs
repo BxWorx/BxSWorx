@@ -2,21 +2,21 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IBDCUser
+	public interface IUser
 		{
 			#region "Properties"
 
 				Guid			GUID				{ get; set; }
 
 				DateTime	Timestamp		{ get; set; }
-				String		User				{ get; set; }
+				String		Name				{ get; set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void Transfer( IBDCUser user );
+				void Transfer( IUser user );
 
 			#endregion
 		}

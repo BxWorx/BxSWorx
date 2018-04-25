@@ -1,8 +1,7 @@
-﻿using BxS_WorxIPX.BDCExcel;
-//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IBDCRequestController
+	public interface IBDC_Controller
 		{
 			//===========================================================================================
 			#region "Properties"
@@ -15,7 +14,17 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				IBDCRequest	Create_BDCRequest()	;
+				ISession		Create_Session();
+				IRequest		Create_Request();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				void				DispatchRequest_ToFile	( IRequest request , string fullPath );
+				IRequest ReceiveRequest_FromFile	( string fullPath );
+
+
+
+
+
 
 
 
@@ -23,20 +32,14 @@ namespace BxS_WorxIPX.BDC
 
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				ISAP_Logon						Create_SAPLogon()			;
-				IExcel_BDCWorksheet		Create_BDCWorksheet()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				void Set_SAPLogon			( ISAP_Logon					sapLogon	)	;
-				void Add_BDCWorksheet	( IExcel_BDCWorksheet	bdcWS )			;
 				//...
 				void				Write_BDCRequest	( string pathName )	;
-				IBDCRequest	Read_BDCRequest		( string pathName )	;
+				IRequest	Read_BDCRequest		( string pathName )	;
 				//...
-				string				SerializeXMLConfig		( BDCXMLConfig config )	;
-				BDCXMLConfig	DeserializeXMLConfig	( string config  )			;
-				//...
-				void Clear();
+				string				SerializeXMLConfig		( XMLConfig config )	;
+				XMLConfig	DeserializeXMLConfig	( string config  )			;
 
 			#endregion
 

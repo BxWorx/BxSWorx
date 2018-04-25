@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IBDCSession
+	public interface ISession
 		{
 			#region "Properties"
 
@@ -26,7 +26,7 @@ namespace BxS_WorxIPX.BDC
 				int			ColLB						{ get; set;	}
 				int			ColUB						{ get; set;	}
 				//.................................................
-				IBDCXMLConfig									XMLConfig		{ get; set;	}
+				IXMLConfig									XMLConfig		{ get; set;	}
 				Dictionary< string , string >	WSData			{ get; set; }
 				object[,]											WSCells			{ get; set;	}
 

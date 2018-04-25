@@ -5,12 +5,12 @@ namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
 
-	public class BDCUser : IBDCUser
+	public class User : IUser
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCUser( bool SetDefaults = true )
+				internal User( bool SetDefaults = true )
 					{
 						if ( SetDefaults )	this.SetDefaults();
 					}
@@ -20,10 +20,10 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public Guid			GUID						{ get; set; }
+				[DataMember]	public Guid			GUID				{ get; set; }
 				//...
-				[DataMember]	public DateTime	Timestamp				{ get; set; }
-				[DataMember]	public String		User						{ get; set; }
+				[DataMember]	public DateTime	Timestamp		{ get; set; }
+				[DataMember]	public String		Name				{ get; set; }
 
 			#endregion
 
@@ -31,11 +31,11 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Transfer( IBDCUser user )
+				public void Transfer( IUser user )
 					{
 						this.GUID				= user.GUID				;
 						this.Timestamp	= user.Timestamp	;
-						this.User				= user.User				;
+						this.Name				= user.Name				;
 					}
 
 			#endregion

@@ -1,21 +1,17 @@
 ﻿using System;
 //.........................................................
-using BxS_WorxIPX.BDCExcel;
-
 using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public partial class BDCRequestController : IBDCRequestController
+	public partial class BDC_Controller : IBDC_Controller
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCRequestController(	Lazy<BDCRequest_Factory>	factory )
+				internal BDC_Controller(	Lazy<BDC_Factory>	factory )
 					{
 						this._Factory	= factory;
-						//...
-						this._ExcelBDCRequest		= new	Lazy<IExcel_BDCRequest>( ()=>	this._Factory.Value.Create_ExcelBDCRequest() , cz_LM );
 					}
 
 			#endregion
@@ -23,17 +19,14 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy<BDC_Factory>					_Factory					;
-				private	readonly	Lazy<IExcel_BDCRequest>		_ExcelBDCRequest	;
+				private	readonly	Lazy<BDC_Factory>		_Factory	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	int	WSCount		{ get { return	this._ExcelBDCRequest.Value.Worksheets.Count; }	}
-				//...
-				private BDCRequest_Factory		Factory		{ get { return	this._Factory.Value; }	}
+				private BDC_Factory		Factory		{ get { return	this._Factory.Value; }	}
 
 			#endregion
 
@@ -41,9 +34,20 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IBDCRequest	Create_BDCRequest() =>	this.Factory.Create_SAPBDCRequest()	;
+				public	ISession		Create_Session()	=>	this.Factory.Create_Session();
+				public	IRequest		Create_Request()	=>	this.Factory.Create_Request()	;
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void DispatchRequest_ToFile(		IRequest request
+																						, string fullPath			)
+					{ 
+					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IRequest ReceiveRequest_FromFile( string fullPath )
+					{
+
+					}
 
 
 
@@ -51,25 +55,13 @@ namespace BxS_WorxIPX.BDC
 
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ISAP_Logon						Create_SAPLogon			()	=> this.Factory.Create_SAPLogon()						;
-				public IExcel_BDCWorksheet	Create_BDCWorksheet	()	=> this.Factory.Create_ExcelBDCWorksheet()	;
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BDCXMLConfig		Create_BDCXmlConfig	( bool withDefaults = true )	=> this.Factory.Create_BDCXmlConfig( withDefaults)	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Set_SAPLogon			( ISAP_Logon					sapLogon	)	=>	this._ExcelBDCRequest.Value.SAPLogon.Transfer( sapLogon );
-				public void Add_BDCWorksheet	( IExcel_BDCWorksheet bdcWS			)	=>	this._ExcelBDCRequest.Value.Worksheets.Add( bdcWS.WSGuid , bdcWS );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void					Write_BDCRequest( string pathName )	=>	this.Factory.WriteBDCRequest( this.Factory.ParseRequest( this._ExcelBDCRequest.Value ) , pathName )	;
-				public IBDCRequest	Read_BDCRequest	( string pathName )	=>	this.Factory.ReadBDCRequest	( pathName );
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public string				SerializeXMLConfig		( BDCXMLConfig config )	=>	this.Factory.SerialiseXMLConfig		( config ).Replace("\n","").Replace("\r","")	;
-				public BDCXMLConfig	DeserializeXMLConfig	( string config  )			=>	this.Factory.DeSerialiseXMLConfig	( config )	;
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Clear() => this._ExcelBDCRequest.Value.Clear();
+				public IRequest	Read_BDCRequest	( string pathName )	=>	this.Factory.ReadBDCRequest	( pathName );
 
 			#endregion
 

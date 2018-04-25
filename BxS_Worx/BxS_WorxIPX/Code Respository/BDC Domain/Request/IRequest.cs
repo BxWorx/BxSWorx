@@ -3,14 +3,16 @@ using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IBDCRequest
+	public interface IRequest
 		{
 			#region "Properties"
 
-				IBDCUser		User			{ get; }
+				int	Count	{ get; }
+				//...
+				IUser		User			{ get; }
 				ISAP_Logon	SAPLogon	{ get; }
 				//...
-				Dictionary< Guid , IBDCSession >	Sessions		{ get; }
+				Dictionary< Guid , ISession >	Sessions	{ get; }
 
 			#endregion
 
@@ -18,10 +20,10 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				void Set_User				( IBDCUser		user		)	;
-				void Set_Logon			( ISAP_Logon	logon		)	;
+				void	Set_User	( IUser		user	)	;
+				void	Set_Logon	( ISAP_Logon	logon	)	;
 				//...
-				void Add_BDCSession	( IBDCSession	session )	;
+				void	Add_Session( ISession	session )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				void Clear();

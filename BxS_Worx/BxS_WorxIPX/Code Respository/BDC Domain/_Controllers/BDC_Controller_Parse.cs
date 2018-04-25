@@ -11,20 +11,20 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PreTransport( IBDCRequest request )
+				private void PreTransport( IRequest request )
 					{
 						//
-						foreach (	KeyValuePair<Guid , IBDCSession> ls_kvp in request.Sessions )
+						foreach (	KeyValuePair<Guid , ISession> ls_kvp in request.Sessions )
 							{
 								this.WSToSession( ls_kvp.Value );
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PostTransport( IBDCRequest request )
+				private void PostTransport( IRequest request )
 					{
 						//
-						foreach (	KeyValuePair<Guid , IBDCSession> ls_kvp in request.Sessions )
+						foreach (	KeyValuePair<Guid , ISession> ls_kvp in request.Sessions )
 							{
 								this.SessionToWS( ls_kvp.Value );
 							}
@@ -36,7 +36,7 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void SessionToWS( IBDCSession	session )
+				private void SessionToWS( ISession	session )
 					{
 						if ( session.WSData.Count.Equals(0) )		return;
 						//.............................................
@@ -68,7 +68,7 @@ namespace BxS_WorxIPX.BDC
 				// process each worksheet object array into dictionary with dictionary key having the 
 				// syntax of WSCell[row , col ] == "row,col"
 				//
-				private void WSToSession( IBDCSession session )
+				private void WSToSession( ISession session )
 					{
 						session.WSData.Clear();
 						//...

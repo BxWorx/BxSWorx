@@ -6,14 +6,14 @@ using static	BxS_WorxIPX.Main	.IPX_Constants;
 namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
-	[KnownType( typeof(BDCXMLConfig) )]
+	[KnownType( typeof(XMLConfig) )]
 
-	public class BDCXMLConfig : IBDCXMLConfig
+	public class XMLConfig : IXMLConfig
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCXMLConfig( bool SetDefaults = true )
+				internal XMLConfig( bool SetDefaults = true )
 					{
 						if ( SetDefaults )	this.SetDefaults();
 					}

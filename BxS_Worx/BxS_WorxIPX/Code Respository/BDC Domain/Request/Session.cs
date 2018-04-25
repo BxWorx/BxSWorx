@@ -6,12 +6,12 @@ namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
 
-	public class BDCSession : IBDCSession
+	public class Session : ISession
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCSession()
+				internal Session()
 					{
 						this.ID	= Guid.NewGuid();
 						//...
@@ -42,7 +42,7 @@ namespace BxS_WorxIPX.BDC
 				[DataMember]	public	int			ColLB							{ get; set;	}
 				[DataMember]	public	int			ColUB							{ get; set;	}
 				//.................................................
-				[DataMember]	public	IBDCXMLConfig									XMLConfig		{ get; set;	}
+				[DataMember]	public	IXMLConfig									XMLConfig		{ get; set;	}
 				[DataMember]	public	Dictionary< string , string >	WSData			{ get; set; }
 				//...
 											public	object[,]											WSCells			{ get; set;	}

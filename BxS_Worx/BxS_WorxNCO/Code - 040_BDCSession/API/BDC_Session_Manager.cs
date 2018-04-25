@@ -143,7 +143,7 @@ namespace BxS_WorxNCO.BDCSession.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<bool> Process(	IBDCSession										request
+				public async Task<bool> Process(	ISession										request
 																				,	CancellationToken										CT
 																				, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{
