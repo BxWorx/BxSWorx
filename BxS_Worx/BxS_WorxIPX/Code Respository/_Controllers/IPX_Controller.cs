@@ -21,14 +21,8 @@ namespace BxS_WorxIPX.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IPX_Controller()
 					{
-						this._UtlCntlr		= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance	, cz_LM );
-						this._BDCFactory	= new	Lazy< BDC_Factory >			( ()=>	BDC_Factory		.Instance	, cz_LM );
-
-						this._STypes			= new Lazy< List<Type> >			( ()=>  new List<Type> {	typeof(Request)
-																																										,	typeof(Session)
-																																										, typeof(SAP_Logon)
-																																										, typeof(User)
-																																										,	typeof(XMLConfig)	}		, cz_LM );
+						this._IPXToolset	= new	Lazy< IPX_ToolSet >		( ()=>	IPX_ToolSet	.Instance	, cz_LM );
+						this._IPXFactory	= new	Lazy< IPX_Factory >		( ()=>	IPX_Factory	.Instance	, cz_LM );
 					}
 
 			#endregion
@@ -36,19 +30,15 @@ namespace BxS_WorxIPX.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy< IPX_ToolSet >				_IPXToolset	;
-
-				private readonly	Lazy< BDC_Factory >				_BDCFactory;
-				private	readonly	Lazy< IUTL_Controller >		_UtlCntlr;
-				private	readonly	Lazy< List<Type> >				_STypes;
+				private	readonly	Lazy< IPX_ToolSet >		_IPXToolset	;
+				private readonly	Lazy< IPX_Factory >		_IPXFactory;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private	IO					IO					{ get	{ return	this._UtlCntlr.Value.IO					; } }
-				private	Serializer	Serializer	{ get	{ return	this._UtlCntlr.Value.Serializer	; } }
+				private	Serializer	Serializer	{ get	{ return	this._IPXToolset.Value.Serializer	; } }
 
 			#endregion
 
@@ -56,16 +46,16 @@ namespace BxS_WorxIPX.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	ISAP_Logon	Create_SAPLogon()	=>	new	SAP_Logon();
+				public	ISAP_Logon	Create_SAPLogon()	=>	this._IPXFactory.Value.Create_SAPLogon();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IXMLConfig	Create_BDCXmlConfig	( bool withDefaults = true )=> new XMLConfig( withDefaults );
+				public	IXMLConfig	Create_XMLConfig		( bool withDefaults = true )	=>	this._IPXFactory.Value.Create_XmlConfig( withDefaults );
 				//...
-				public	string			SerialiseXMLConfig	( XMLConfig config	 )		=>	this.Serializer.Serialize( config ).Replace("\n","").Replace("\r","")				;
-				public	IXMLConfig	DeSerialiseXMLConfig( string serializedObj )	=>	this.Serializer.DeSerialize<IXMLConfig>	( serializedObj , this._STypes.Value )	;
+				public	string			SerializeXMLConfig	( IXMLConfig config )	=>	this.Serializer.Serialize								( config ).Replace("\n","").Replace("\r","")				;
+				public	IXMLConfig	DeserializeXMLConfig( string config )			=>	this.Serializer.DeSerialize<IXMLConfig>	( config , this._IPXFactory.Value.XMLConfigTypes )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IBDC_Controller	Create_BDCController()	=>	new	BDC_Controller( this._BDCFactory );
+				public	IBDC_Controller		Create_BDCController()	=>	new	BDC_Controller( this._IPXToolset , this._IPXFactory );
 
 			#endregion
 

@@ -71,7 +71,7 @@ namespace BxS_WorxIPX.BDC
 				private void WSToSession( ISession session )
 					{
 						session.WSData.Clear();
-						//...
+						//.............................................
 						if ( session.WSCells == null )
 							{
 								session.RowLB		= -1	;
@@ -82,12 +82,12 @@ namespace BxS_WorxIPX.BDC
 						else
 							{
 								var	lo_SB		= new StringBuilder();
-								//.........................................
+								//...
 								session.RowLB		= session.WSCells.GetLowerBound(0);
 								session.RowUB		= session.WSCells.GetUpperBound(0);
 								session.ColLB		= session.WSCells.GetLowerBound(1);
 								session.ColUB		= session.WSCells.GetUpperBound(1);
-								//.........................................
+								//...
 								for ( int	r = session.RowLB; r <= session.RowUB; r++ )
 									{
 										for ( int c = session.ColLB; c <= session.ColUB; c++ )
@@ -96,19 +96,20 @@ namespace BxS_WorxIPX.BDC
 													{
 														if ( session.WSCells[r,c].ToString().Contains( cz_XmlCfgTag ) )
 															{
-																session.XMLConfig	=	this._Factory.Value.DeSerialiseXMLConfig( session.WSCells[r,c].ToString() );
+																session.XMLConfig		=	this.Serializer.DeSerialize<IXMLConfig>(	session.WSCells[r,c].ToString()
+																																															, this._Factory.Value.XMLConfigTypes	);
 																continue;
 															}
 														//...
 														lo_SB.Clear();
 														lo_SB.AppendFormat( $"{r.ToString()},{c.ToString()}" );
-
+														//...
 														session.WSData.Add( lo_SB.ToString() , session.WSCells[r,c].ToString() );
 													}
 											}
 									}
 							}
-						//...
+						//.............................................
 						session.WSCells		= null;
 					}
 

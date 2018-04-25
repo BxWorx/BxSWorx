@@ -11,13 +11,13 @@ namespace BxS_WorxIPX.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Request(	IUser					user
-														,	ISAP_Logon				sapLogon	)
+				internal Request(		IUser				user
+													,	ISAP_Logon	sapLogon	)
 					{
 						this.User				= user			;
 						this.SAPLogon		= sapLogon	;
 						//...
-						this.Sessions		= new	Dictionary<Guid , ISession>();
+						this.Sessions		= new	Dictionary<Guid , ISession>()	;
 					}
 
 			#endregion
@@ -27,10 +27,10 @@ namespace BxS_WorxIPX.BDC
 
 				public	int	Count		{ get { return	this.Sessions.Count; } }
 				//.................................................
-				[DataMember]	public	IUser			User			{ get; }
-				[DataMember]	public	ISAP_Logon		SAPLogon	{ get; }
+				[DataMember]	public	IUser				User			{ get; }
+				[DataMember]	public	ISAP_Logon	SAPLogon	{ get; }
 				//...
-				[DataMember]	public	Dictionary<Guid , ISession>		Sessions { get; }
+				[DataMember]	public	Dictionary<Guid , ISession>		Sessions	{ get; }
 
 			#endregion
 
@@ -38,7 +38,7 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	void	Set_User	( IUser		user	)	=>	this.User			.Transfer	( user	)	;
+				public	void	Set_User	( IUser				user	)	=>	this.User			.Transfer	( user	)	;
 				public	void	Set_Logon	( ISAP_Logon	logon	)	=>	this.SAPLogon	.Transfer	( logon )	;
 				//...
 				public	void	Add_Session( ISession	session )	=>	this.Sessions	.Add( session.ID , session );

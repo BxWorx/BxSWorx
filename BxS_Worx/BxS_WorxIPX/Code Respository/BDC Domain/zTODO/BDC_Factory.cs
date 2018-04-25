@@ -21,7 +21,7 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private BDC_Factory()
 					{
-						this._UtlCntlr	= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance											, cz_LM );
+						this._UtlCntlr	= new	Lazy< IUTL_Controller >	( ()=>	UTL_Controller.Instance	, cz_LM );
 
 						this._STypes		= new Lazy< List<Type> >			( ()=>  new List<Type> {	typeof(Request)
 																																									,	typeof(Session)
@@ -71,32 +71,6 @@ namespace BxS_WorxIPX.BDC
 				internal	IXMLConfig	DeSerialiseXMLConfig	( string serializedObj )	=>	this.Serializer.DeSerialize<IXMLConfig>	( serializedObj , this._STypes.Value )	;
 
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IRequest ReadBDCRequest( string pathName )
-					{
-						try
-							{
-								return	this.DeSerialiseBDCRequest( this.ReadXMLFile( pathName ) );
-							}
-						catch (Exception ex)
-							{
-								throw	new	Exception( "BDC Request from XML file failure" , ex );
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void WriteBDCRequest( IRequest request , string pathName )
-					{
-						try
-							{
-								this.WriteXMLtoFile( this.SerialiseBDCRequest( request ) , pathName );
-							}
-						catch (Exception ex)
-							{
-								throw	new	Exception( "BDC Request to XML file failure" , ex );
-							}
-					}
-
 			#endregion
 
 			//===========================================================================================
@@ -110,16 +84,6 @@ namespace BxS_WorxIPX.BDC
 
 
 
-
-
-
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	string				SerialiseBDCRequest		( IRequest request )	=>	this.Serializer.Serialize										( request	)				;
-				private	IRequest		DeSerialiseBDCRequest	( string serializedObj )		=>	this.Serializer.DeSerialize<IRequest>( serializedObj , this._STypes.Value )	;
-				//...
-				private	void		WriteXMLtoFile( string serializedObj , string fullPath )		=>	this.IO.WriteFile	( fullPath	, serializedObj )	;
-				private	string	ReadXMLFile		( string fullPath )														=>	this.IO.ReadFile	( fullPath )									;
 
 			#endregion
 
