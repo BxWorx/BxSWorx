@@ -29,4 +29,8 @@
     <ProjectReference Include="..\BxS_WorxUtilities\BxS_WorxUtilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Code Respository\BDC Session\Common\" />
+  </ItemGroup>
+
 </Project>

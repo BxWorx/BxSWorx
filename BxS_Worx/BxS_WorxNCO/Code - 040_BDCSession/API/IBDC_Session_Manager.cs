@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 //.........................................................
 using BxS_WorxNCO.BDCSession.DTO;
 
-using BxS_WorxIPX.BDCSAP;
+using BxS_WorxIPX.BDC;
 using BxS_WorxUtil.Progress;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
@@ -16,7 +16,7 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				Task<bool>	ReadySessionAsync( bool optimise = true );
 
-				Task<bool>	Process(	ISAP_BDCSession										request
+				Task<bool>	Process(	IBDCSession										request
 														,	CancellationToken										CT
 														, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
 

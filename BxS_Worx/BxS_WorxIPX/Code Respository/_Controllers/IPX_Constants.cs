@@ -17,10 +17,13 @@ namespace BxS_WorxIPX.Main
 				internal	const string	cz_True		= "X"	;
 				internal	const string	cz_False	= " "	;
 				internal	const string	cz_Null		= ""	;
+				internal	const char		cz_Coma		= ','	;
 
 				//.................................................
-				// CTU setup
+				// XML Config
 				//.................................................
+				internal	const string	cz_XmlCfgTag	= "BDCXMLConfig";
+
 				internal	const char		cz_CTU_A		= 'A'	;
 				internal	const char		cz_CTU_N		= 'N'	;
 

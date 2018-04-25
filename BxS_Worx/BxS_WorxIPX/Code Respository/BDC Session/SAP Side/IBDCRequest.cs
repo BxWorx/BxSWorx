@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-//.........................................................
-using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.BDCSAP
+namespace BxS_WorxIPX.BDC
 {
-	public interface ISAP_BDCRequest
+	public interface IBDCRequest
 		{
 			#region "Properties"
 
-				ISAP_Logon	SAPLogon		{ get; set;	}
+				IBDCUser		User			{ get; set;	}
+				ISAP_Logon	SAPLogon	{ get; set;	}
 				//...
-				Dictionary< Guid , ISAP_BDCSession >	Sessions		{ get; set;	}
+				Dictionary< Guid , IBDCSession >	Sessions		{ get; set;	}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				void Clear();
 
 			#endregion
 		}

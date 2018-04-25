@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.BDCSAP
+namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
 
-	public class SAP_BDCSession : ISAP_BDCSession
+	public class BDCSession : IBDCSession
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAP_BDCSession()
+				internal BDCSession()
 					{
-						this.WSData1D	= new	Dictionary<string, string>();
+						this.ID	= Guid.NewGuid();
+						//...
+						this.WSData	= new	Dictionary<string, string>();
 					}
 
 			#endregion
@@ -40,7 +42,10 @@ namespace BxS_WorxIPX.BDCSAP
 				[DataMember]	public	int			ColLB							{ get; set;	}
 				[DataMember]	public	int			ColUB							{ get; set;	}
 				//.................................................
-				[DataMember]	public	Dictionary< string , string >	WSData1D	{ get; set; }
+				[DataMember]	public	IBDCXMLConfig									XMLConfig		{ get; set;	}
+				[DataMember]	public	Dictionary< string , string >	WSData			{ get; set; }
+				//...
+											public	object[,]											WSCells			{ get; set;	}
 
 			#endregion
 

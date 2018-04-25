@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
-using BxS_WorxIPX.BDCSAP;
+using BxS_WorxIPX.BDC;
 using BxS_WorxUtil.ObjectPool;
 
 using BxS_WorxNCO.BDCSession.DTO;
@@ -49,7 +49,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Parse(	ISAP_BDCSession	BDCSession
+				internal bool Parse(	IBDCSession	BDCSession
 														, DTO_BDC_Session	dtoSession		)
 					{
 						DTO_ParserRequest	lo_DTOParserReq	= this._PFactory.Value.CreateDTOParserRequest();
@@ -86,12 +86,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool Parse1Dto2D(		ISAP_BDCSession		request
+				private bool Parse1Dto2D(		IBDCSession		request
 																	, DTO_ParserRequest	dto			)
 					{
 						bool	lb_Ret	= true;
 						//.............................................
-						if ( request.WSData1D.Count.Equals(0) )
+						if ( request.WSData.Count.Equals(0) )
 							{
 								lb_Ret	= false;
 							}
@@ -110,7 +110,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 								int	ln_Row	= 0;
 								int ln_Col	= 0;
 
-								foreach ( KeyValuePair<string, string> ls_kvp in request.WSData1D )
+								foreach ( KeyValuePair<string, string> ls_kvp in request.WSData )
 									{
 										string[] lt_Idx		= ls_kvp.Key.Split( cz_Coma );
 

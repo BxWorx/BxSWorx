@@ -1,13 +1,12 @@
 ﻿using System;
 //.........................................................
 using BxS_WorxIPX.BDCExcel;
-using BxS_WorxIPX.BDCSAP;
 
 using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public class BDCRequestManager : IBDCRequestManager
+	public partial class BDCRequestManager : IBDCRequestManager
 		{
 			#region "Constructors"
 
@@ -42,6 +41,16 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	IBDCRequest	Create_BDCRequest() =>	this.Factory.Create_SAPBDCRequest()	;
+
+
+
+
+
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public ISAP_Logon						Create_SAPLogon			()	=> this.Factory.Create_SAPLogon()						;
 				public IExcel_BDCWorksheet	Create_BDCWorksheet	()	=> this.Factory.Create_ExcelBDCWorksheet()	;
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -52,8 +61,8 @@ namespace BxS_WorxIPX.BDC
 				public void Add_BDCWorksheet	( IExcel_BDCWorksheet bdcWS			)	=>	this._ExcelBDCRequest.Value.Worksheets.Add( bdcWS.WSGuid , bdcWS );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void							Write_BDCRequest( string pathName )	=>	this.Factory.WriteBDCRequest( this.Factory.ParseRequest( this._ExcelBDCRequest.Value ) , pathName )	;
-				public ISAP_BDCRequest	Read_BDCRequest	( string pathName )	=>	this.Factory.ReadBDCRequest	( pathName );
+				public void					Write_BDCRequest( string pathName )	=>	this.Factory.WriteBDCRequest( this.Factory.ParseRequest( this._ExcelBDCRequest.Value ) , pathName )	;
+				public IBDCRequest	Read_BDCRequest	( string pathName )	=>	this.Factory.ReadBDCRequest	( pathName );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public string				SerializeXMLConfig		( BDCXMLConfig config )	=>	this.Factory.SerialiseXMLConfig		( config ).Replace("\n","").Replace("\r","")	;

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
-//.........................................................
-using static	BxS_WorxIPX.Main	.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
 
-	public class BDCUser
+	public class BDCUser : IBDCUser
 		{
 			#region "Constructors"
 

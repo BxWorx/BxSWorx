@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
-using BxS_WorxIPX.BDCSAP;
+using BxS_WorxIPX.BDC;
 
 using BxS_WorxUtil.ObjectPool;
 using BxS_WorxUtil.Progress;
@@ -143,7 +143,7 @@ namespace BxS_WorxNCO.BDCSession.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<bool> Process(	ISAP_BDCSession										request
+				public async Task<bool> Process(	IBDCSession										request
 																				,	CancellationToken										CT
 																				, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{

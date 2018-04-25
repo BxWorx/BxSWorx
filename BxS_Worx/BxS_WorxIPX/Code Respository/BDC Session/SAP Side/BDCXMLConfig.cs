@@ -8,7 +8,7 @@ namespace BxS_WorxIPX.BDC
 	[DataContract()]
 	[KnownType( typeof(BDCXMLConfig) )]
 
-	public class BDCXMLConfig
+	public class BDCXMLConfig : IBDCXMLConfig
 		{
 			#region "Constructors"
 
