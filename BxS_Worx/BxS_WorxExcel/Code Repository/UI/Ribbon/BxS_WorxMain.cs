@@ -17,7 +17,13 @@ namespace BxS_WorxExcel
 		{
 			#region "Declarations"
 
-				private	const	string	cz_Path	=  @"C:\Users\BMA\GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
+				private	const	string	cz_Path	=  @"GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
+
+				private	const	string	_Nme	=  "Test-00"									;
+				private	const	string	_Path	=  @"GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
+
+				private				string	_User	;
+				private				string	_Full	;
 
 				internal Lazy<IBDCRequestManager>	_BDCMngr;
 
@@ -33,6 +39,8 @@ namespace BxS_WorxExcel
 					{
 						this._BDCMngr			= new	Lazy< IBDCRequestManager >( ()=>	Globals.ThisAddIn._IPXCntlr.Value.Create_BDCRequestManager() , cz_LM );
 						this._HndlrExcel	= new	Handler_Excel	();
+						//...
+						this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 					}
 
 				#pragma warning	disable	RCS1163
@@ -44,9 +52,11 @@ namespace BxS_WorxExcel
 																		IExcel_BDCWorksheet		lo_WS		=	this._BDCMngr.Value.Create_BDCWorksheet();
 																		//.............................................
 																		this._HndlrExcel.GetWSData( lo_WS );
+																		this.SetFullPath(lo_WS.WSID);
+																		//...
 																		this._BDCMngr.Value.Clear();
 																		this._BDCMngr.Value.Add_BDCWorksheet( lo_WS );
-																		this._BDCMngr.Value.Write_BDCRequest( $@"{cz_Path}\{lo_WS.WSID}.xml" );
+																		this._BDCMngr.Value.Write_BDCRequest( this._Full );
 																		//.....................
 																		this._HndlrExcel.WriteStatusbar( lo_WS.WSCells.GetUpperBound(0).ToString() );
 																		Thread.Sleep(300);
@@ -66,7 +76,8 @@ namespace BxS_WorxExcel
 																				this._HndlrExcel.CreateExcelWS( lo_BDCWS , lo_WS , true );
 																				this._BDCMngr.Value.Add_BDCWorksheet( lo_BDCWS );
 																			}
-																		this._BDCMngr.Value.Write_BDCRequest( $@"{cz_Path}\DPB.xml" );
+																		this.SetFullPath("DPB");
+																		this._BDCMngr.Value.Write_BDCRequest( this._Full );
 																		//.....................
 																		this._HndlrExcel.WriteStatusbar( this._BDCMngr.Value.WSCount.ToString() );
 																		Thread.Sleep(300);
@@ -85,6 +96,13 @@ namespace BxS_WorxExcel
 					}
 
 				#pragma warning	restore	RCS1163
+
+				//.
+
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					private void SetFullPath( string name )	=>	this._Full	= $@"{this._User}\{_Path}\{name}.xml" ;
+
+				//.
 
 			#endregion
 

@@ -15,10 +15,13 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_410_BDCSessionParser
 		{
-			private	const	string	_Nme	=  "Test-00"									;
-			private	const	string	_Path	=  @"C:\Users\BMA\GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
-			private				string	_Full	;
 			private	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
+
+			private	const	string	_Nme	=  "Test-00"									;
+			private	const	string	_Path	=  @"GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
+
+			private				string	_User	;
+			private				string	_Full	;
 
 			private	readonly	IPX_Controller			co_Cntlr	;
 			private	readonly	IBDCRequestManager	co_RM			;
@@ -36,6 +39,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					this._ParserFactory		= new Lazy< BDC_Parser_Factory >(	()=>	BDC_Parser_Factory.Instance	, cz_LM	);
 					this._Parser					=	new	BDC_Parser	( this._ParserFactory );
 					this.co_BSFact				= BDC_Session_Factory.Instance;
+
+					this._User						= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 				}
 
 			[TestMethod]
@@ -81,7 +86,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 		//.
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			private void SetFullPath( string name )	=>	this._Full	= $@"{_Path}\{name}.xml" ;
+			private void SetFullPath( string name )	=>	this._Full	= $@"{this._User}\{_Path}\{name}.xml" ;
 
 		//.
 

@@ -107,7 +107,7 @@ namespace BxS_WorxIPX.BDC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	string						SerialiseBDCRequest		( ISAP_BDCRequest request )	=>	this.Serializer.Serialize										( request	)				;
-				private	ISAP_BDCRequest		DeSerialiseBDCRequest	( string serializedObj )		=>	this.Serializer.DeSerialize<ISAP_BDCRequest>	( serializedObj , this._STypes.Value )	;
+				private	ISAP_BDCRequest		DeSerialiseBDCRequest	( string serializedObj )		=>	this.Serializer.DeSerialize<ISAP_BDCRequest>( serializedObj , this._STypes.Value )	;
 				//...
 				private	void		WriteXMLtoFile( string serializedObj , string fullPath )		=>	this.IO.WriteFile	( fullPath	, serializedObj )	;
 				private	string	ReadXMLFile		( string fullPath )														=>	this.IO.ReadFile	( fullPath )									;
