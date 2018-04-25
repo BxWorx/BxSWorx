@@ -6,12 +6,12 @@ using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public partial class BDCRequestManager : IBDCRequestManager
+	public partial class BDCRequestController : IBDCRequestController
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCRequestManager(	Lazy<BDC_Factory>	factory )
+				internal BDCRequestController(	Lazy<BDCRequest_Factory>	factory )
 					{
 						this._Factory	= factory;
 						//...
@@ -33,7 +33,7 @@ namespace BxS_WorxIPX.BDC
 
 				public	int	WSCount		{ get { return	this._ExcelBDCRequest.Value.Worksheets.Count; }	}
 				//...
-				private BDC_Factory		Factory		{ get { return	this._Factory.Value; }	}
+				private BDCRequest_Factory		Factory		{ get { return	this._Factory.Value; }	}
 
 			#endregion
 

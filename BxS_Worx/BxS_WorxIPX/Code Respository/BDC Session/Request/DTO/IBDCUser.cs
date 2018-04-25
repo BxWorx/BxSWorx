@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IBDCRequest
+	public interface IBDCUser
 		{
 			#region "Properties"
 
-				IBDCUser		User			{ get; set;	}
-				ISAP_Logon	SAPLogon	{ get; set;	}
-				//...
-				Dictionary< Guid , IBDCSession >	Sessions		{ get; set;	}
+				Guid			GUID				{ get; set; }
+
+				DateTime	Timestamp		{ get; set; }
+				String		User				{ get; set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void Clear();
+				void Transfer( IBDCUser user );
 
 			#endregion
 		}

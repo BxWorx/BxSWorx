@@ -33,7 +33,7 @@ namespace BxS_WorxIPX.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IBDCRequestManager	Create_BDCRequestManager()	=>	new	BDCRequestManager( this._BDCFactory );
+				public	IBDC_Controller	Create_BDCRequestManager()	=>	new	BDC_Controller( this._BDCFactory );
 
 			#endregion
 

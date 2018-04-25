@@ -1,18 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
 
-	public class BDCUser : IBDCUser
+	public class BDCRequest : IBDCRequest
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCUser( bool SetDefaults = true )
+				internal BDCRequest(	IBDCUser		user
+														,	ISAP_Logon	sapLogon )
 					{
-						if ( SetDefaults )	this.SetDefaults();
+						this.User				= user			;
+						this.SAPLogon		= sapLogon	;
+						//...
+						this.Sessions		= new	Dictionary<Guid , IBDCSession>();
 					}
 
 			#endregion
@@ -20,23 +25,25 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public Guid			GUID						{ get; set; }
-
-				[DataMember]	public DateTime	Timestamp				{ get; set; }
-				[DataMember]	public String		User						{ get; set; }
+				[DataMember]	public	IBDCUser			User			{ get; }
+				[DataMember]	public	ISAP_Logon		SAPLogon	{ get; }
+				//...
+				[DataMember]	public	Dictionary<Guid , IBDCSession>		Sessions { get; }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private"
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void SetDefaults()
-					{
-						this.GUID	= Guid.NewGuid();
-					}
+				public void Set_User	( IBDCUser		user	)	=>	this.User			.Transfer	( user	)	;
+				public void Set_Logon	( ISAP_Logon	logon	)	=>	this.SAPLogon	.Transfer	( logon )	;
+				//...
+				public void Add_BDCSession( IBDCSession	session )	=>	this.Sessions	.Add( session.ID , session );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	Clear()	=>	this.Sessions.Clear();
 
 			#endregion
-
 		}
 }

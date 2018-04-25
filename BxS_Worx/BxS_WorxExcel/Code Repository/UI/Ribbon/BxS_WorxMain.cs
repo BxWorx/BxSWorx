@@ -25,7 +25,7 @@ namespace BxS_WorxExcel
 				private				string	_User	;
 				private				string	_Full	;
 
-				internal Lazy<IBDCRequestManager>	_BDCMngr;
+				internal Lazy<IBDC_Controller>	_BDCMngr;
 
 				internal Handler_Excel	_HndlrExcel	;
 
@@ -37,7 +37,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._BDCMngr			= new	Lazy< IBDCRequestManager >( ()=>	Globals.ThisAddIn._IPXCntlr.Value.Create_BDCRequestManager() , cz_LM );
+						this._BDCMngr			= new	Lazy< IBDC_Controller >( ()=>	Globals.ThisAddIn._IPXCntlr.Value.Create_BDCRequestManager() , cz_LM );
 						this._HndlrExcel	= new	Handler_Excel	();
 						//...
 						this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

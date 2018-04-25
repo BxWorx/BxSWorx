@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
 
-	public class BDCRequest : IBDCRequest
+	public class BDCUser : IBDCUser
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDCRequest(	IBDCUser		user
-														,	ISAP_Logon	sapLogon )
+				internal BDCUser( bool SetDefaults = true )
 					{
-						this.User				= user			;
-						this.SAPLogon		= sapLogon	;
-						//...
-						this.Sessions		= new	Dictionary<Guid , IBDCSession>();
+						if ( SetDefaults )	this.SetDefaults();
 					}
 
 			#endregion
@@ -25,10 +20,10 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public	IBDCUser			User			{ get; set;	}
-				[DataMember]	public	ISAP_Logon		SAPLogon	{ get; set;	}
+				[DataMember]	public Guid			GUID						{ get; set; }
 				//...
-				[DataMember]	public	Dictionary<Guid , IBDCSession>		Sessions { get; set;	}
+				[DataMember]	public DateTime	Timestamp				{ get; set; }
+				[DataMember]	public String		User						{ get; set; }
 
 			#endregion
 
@@ -36,8 +31,25 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Clear()	=>	this.Sessions.Clear();
+				public void Transfer( IBDCUser user )
+					{
+						this.GUID				= user.GUID				;
+						this.Timestamp	= user.Timestamp	;
+						this.User				= user.User				;
+					}
 
 			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void SetDefaults()
+					{
+						this.GUID	= Guid.NewGuid();
+					}
+
+			#endregion
+
 		}
 }

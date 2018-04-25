@@ -6,7 +6,7 @@ using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public partial class BDCRequestManager
+	public partial class BDC_Controller
 		{
 			#region "Methods: Exposed"
 

@@ -1,13 +1,16 @@
-﻿using BxS_WorxIPX.BDCExcel;
+﻿using System;
+using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public interface IBDCRequestManager
+	public interface IBDCRequest
 		{
-			//===========================================================================================
 			#region "Properties"
 
-				int WSCount	{ get; }
+				IBDCUser		User			{ get; }
+				ISAP_Logon	SAPLogon	{ get; }
+				//...
+				Dictionary< Guid , IBDCSession >	Sessions		{ get; }
 
 			#endregion
 
@@ -15,27 +18,14 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				IBDCRequest	Create_BDCRequest()	;
-
-
+				void Set_User				( IBDCUser		user		)	;
+				void Set_Logon			( ISAP_Logon	logon		)	;
+				//...
+				void Add_BDCSession	( IBDCSession	session )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				ISAP_Logon						Create_SAPLogon()			;
-				IExcel_BDCWorksheet		Create_BDCWorksheet()	;
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				void Set_SAPLogon			( ISAP_Logon					sapLogon	)	;
-				void Add_BDCWorksheet	( IExcel_BDCWorksheet	bdcWS )			;
-				//...
-				void				Write_BDCRequest	( string pathName )	;
-				IBDCRequest	Read_BDCRequest		( string pathName )	;
-				//...
-				string				SerializeXMLConfig		( BDCXMLConfig config )	;
-				BDCXMLConfig	DeserializeXMLConfig	( string config  )			;
-				//...
 				void Clear();
 
 			#endregion
-
 		}
 }
