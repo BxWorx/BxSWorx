@@ -10,12 +10,6 @@ namespace BxS_WorxIPX.Main
 				ISAP_Logon		Create_SAPLogon()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				IXMLConfig		Create_XMLConfig( bool withDefaults = true )	;
-				//...
-				string				SerializeXMLConfig		( IXMLConfig config )		;
-				IXMLConfig		DeserializeXMLConfig	( string config  )			;
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				IBDC_Controller	Create_BDCController();
 
 			#endregion

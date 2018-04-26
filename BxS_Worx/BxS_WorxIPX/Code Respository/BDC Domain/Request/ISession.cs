@@ -26,7 +26,7 @@ namespace BxS_WorxIPX.BDC
 				int			ColLB						{ get; set;	}
 				int			ColUB						{ get; set;	}
 				//.................................................
-				IXMLConfig									XMLConfig		{ get; set;	}
+				IXMLConfig										XMLConfig		{ get; set;	}
 				Dictionary< string , string >	WSData			{ get; set; }
 				object[,]											WSCells			{ get; set;	}
 

@@ -15,14 +15,16 @@ namespace BxS_WorxIPX.BDC
 				internal BDC_Controller(	Lazy<IPX_ToolSet>		toolSet
 																,	Lazy<IPX_Factory>		factory	)
 					{
-						this._Toolset		= toolSet	;
-						this._Factory		= factory	;
+						this._Toolset		= toolSet		??	throw		new ArgumentException( $"{typeof(BDC_Controller).Namespace}:- Toolset null" )	;
+						this._Factory		= factory		??	throw		new ArgumentException( $"{typeof(BDC_Controller).Namespace}:- Factory null" )	;
 						//...
 						this._ReqTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	Request		)
 																																							,	typeof(	Session		)
 																																							, typeof(	SAP_Logon	)
 																																							, typeof(	User			)
 																																							,	typeof(	XMLConfig	)	}		, cz_LM );
+
+						this._CfgTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	XMLConfig	)	}		, cz_LM );
 					}
 
 			#endregion
@@ -34,6 +36,7 @@ namespace BxS_WorxIPX.BDC
 				private	readonly	Lazy<IPX_Factory>		_Factory	;
 				//...
 				private	readonly	Lazy< List<Type> >	_ReqTypes	;
+				private	readonly	Lazy< List<Type> >	_CfgTypes	;
 
 			#endregion
 
@@ -50,8 +53,11 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	ISession	Create_Session	()=>	new	Session()	;
-				public	IRequest	Create_Request	()=>	new	Request( this.Factory.Create_User() , this.Factory.Create_SAPLogon() )	;
+				public	IXMLConfig	Create_XMLConfig	( bool withDefaults = true )	=> new XMLConfig( withDefaults );
+				//...
+				public	IUser			Create_User			()=>	new User();
+				public	ISession	Create_Session	()=>	new	Session( this.Create_XMLConfig() )	;
+				public	IRequest	Create_Request	()=>	new	Request( this.Create_User() , this.Factory.Create_SAPLogon() )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void DispatchRequest_ToFile(		IRequest	request
@@ -59,8 +65,9 @@ namespace BxS_WorxIPX.BDC
 					{
 						try
 							{
+								this.PreTransport( request );
 								this.IO.WriteFile(	fullPath
-																	, this.Serializer.Serialize( request ) );
+																	, this.Serializer.Serialize( request , this._ReqTypes.Value ) );
 							}
 						catch (Exception ex)
 							{
@@ -73,14 +80,20 @@ namespace BxS_WorxIPX.BDC
 					{
 						try
 							{
-								return	this.Serializer.DeSerialize<IRequest>(	this.IO.ReadFile( fullPath )
-																															, this._ReqTypes.Value					);
+								IRequest	lo_Req	= this.Serializer.DeSerialize<IRequest>(	this.IO.ReadFile( fullPath )
+																																					, this._ReqTypes.Value					);
+								this.PostTransport( lo_Req );
+								return	lo_Req;
 							}
 						catch (Exception ex)
 							{
 								throw	new	Exception( "Request from XML file failure" , ex );
 							}
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	string			SerializeXMLConfig	( IXMLConfig config )	=>	this.Serializer.Serialize								( config ).Replace("\n","").Replace("\r","")	;
+				public	IXMLConfig	DeserializeXMLConfig( string config )			=>	this.Serializer.DeSerialize<IXMLConfig>	( config , this._CfgTypes.Value )							;
 
 			#endregion
 

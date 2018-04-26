@@ -27,10 +27,10 @@ namespace BxS_WorxIPX.BDC
 
 				public	int	Count		{ get { return	this.Sessions.Count; } }
 				//.................................................
-				[DataMember]	public	IUser				User			{ get; }
-				[DataMember]	public	ISAP_Logon	SAPLogon	{ get; }
+				[DataMember]	public	IUser				User			{ get; set; }
+				[DataMember]	public	ISAP_Logon	SAPLogon	{ get; set; }
 				//...
-				[DataMember]	public	Dictionary<Guid , ISession>		Sessions	{ get; }
+				[DataMember]	public	Dictionary<Guid , ISession>		Sessions	{ get; set; }
 
 			#endregion
 

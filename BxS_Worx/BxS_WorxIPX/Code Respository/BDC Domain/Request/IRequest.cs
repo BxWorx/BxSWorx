@@ -9,10 +9,10 @@ namespace BxS_WorxIPX.BDC
 
 				int	Count	{ get; }
 				//...
-				IUser		User			{ get; }
-				ISAP_Logon	SAPLogon	{ get; }
+				IUser				User			{ get; set; }
+				ISAP_Logon	SAPLogon	{ get; set; }
 				//...
-				Dictionary< Guid , ISession >	Sessions	{ get; }
+				Dictionary< Guid , ISession >	Sessions	{ get; set; }
 
 			#endregion
 
@@ -20,7 +20,7 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				void	Set_User	( IUser		user	)	;
+				void	Set_User	( IUser				user	)	;
 				void	Set_Logon	( ISAP_Logon	logon	)	;
 				//...
 				void	Add_Session( ISession	session )	;

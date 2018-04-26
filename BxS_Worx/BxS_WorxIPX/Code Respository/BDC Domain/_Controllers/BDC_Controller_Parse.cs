@@ -97,7 +97,7 @@ namespace BxS_WorxIPX.BDC
 														if ( session.WSCells[r,c].ToString().Contains( cz_XmlCfgTag ) )
 															{
 																session.XMLConfig		=	this.Serializer.DeSerialize<IXMLConfig>(	session.WSCells[r,c].ToString()
-																																															, this._Factory.Value.XMLConfigTypes	);
+																																															, this._CfgTypes.Value						);
 																continue;
 															}
 														//...
