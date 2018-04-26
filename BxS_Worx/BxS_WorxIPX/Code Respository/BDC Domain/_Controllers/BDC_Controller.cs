@@ -92,8 +92,8 @@ namespace BxS_WorxIPX.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	string			SerializeXMLConfig	( IXMLConfig config )	=>	this.Serializer.Serialize								( config ).Replace("\n","").Replace("\r","")	;
-				public	IXMLConfig	DeserializeXMLConfig( string config )			=>	this.Serializer.DeSerialize<IXMLConfig>	( config , this._CfgTypes.Value )							;
+				public	string			SerializeXMLConfig	( IXMLConfig config )	=>	this.Serializer.Serialize								( config , this._CfgTypes.Value , true );
+				public	IXMLConfig	DeserializeXMLConfig( string config )			=>	this.Serializer.DeSerialize<XMLConfig>	( config , this._CfgTypes.Value )	;
 
 			#endregion
 

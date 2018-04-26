@@ -7,7 +7,6 @@ using Microsoft.Office.Interop.Excel;
 //.........................................................
 using BxS_WorxExcel.Main;
 using BxS_WorxIPX.BDC;
-using BxS_WorxIPX.BDCExcel;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -27,6 +26,8 @@ namespace BxS_WorxExcel
 
 				internal Lazy< IBDC_Controller >	_BDCCntlr		;
 				internal Lazy< Handler_Excel >		_HndlrExcel	;
+
+				private	IBDC_Controller	BDCCntlr	{ get { return	this._BDCCntlr.Value	;	}	}
 
 			#endregion
 
@@ -48,39 +49,39 @@ namespace BxS_WorxExcel
 				private async void Button1_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IExcel_BDCWorksheet		lo_WS		=	this._BDCCntlr.Value.Create_BDCWorksheet();
+																		IRequest	x = this.BDCCntlr.Create_Request();
+																		ISession	s	= this.BDCCntlr.Create_Session();
 																		//.............................................
-																		this._HndlrExcel.GetWSData( lo_WS );
-																		this.SetFullPath(lo_WS.WSID);
+																		this._HndlrExcel.Value.LoadWSData( s );
+																		this.SetFullPath(s.WSID);
 																		//...
-																		this._BDCCntlr.Value.Clear();
-																		this._BDCCntlr.Value.Add_BDCWorksheet( lo_WS );
-																		this._BDCCntlr.Value.Write_BDCRequest( this._Full );
+																		x.Add_Session( s );
+																		this._BDCCntlr.Value.DispatchRequest_ToFile( x , this._Full );
 																		//.....................
-																		this._HndlrExcel.WriteStatusbar( lo_WS.WSCells.GetUpperBound(0).ToString() );
+																		this._HndlrExcel.Value.WriteStatusbar( s.WSData.Count.ToString() );
 																		Thread.Sleep(300);
-																		this._HndlrExcel.ResetStatusBar();
+																		this._HndlrExcel.Value.ResetStatusBar();
 																	} ).ConfigureAwait(false);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void Button2_Click( object sender , RibbonControlEventArgs e )
 					{
-						this._BDCCntlr.Value.Clear();
-						//.............................................
 						await Task.Run( () => {
-																		foreach ( Worksheet lo_WS in this._HndlrExcel.GetWBWSManifest() )
+																		IRequest x = this.BDCCntlr.Create_Request();
+																		//...
+																		foreach ( Worksheet lo_WS in this._HndlrExcel.Value.GetWBWSManifest() )
 																			{
-																				IExcel_BDCWorksheet		lo_BDCWS		=	this._BDCCntlr.Value.Create_BDCWorksheet();
-																				this._HndlrExcel.CreateExcelWS( lo_BDCWS , lo_WS , true );
-																				this._BDCCntlr.Value.Add_BDCWorksheet( lo_BDCWS );
+																				ISession	s	= this.BDCCntlr.Create_Session();
+																				this._HndlrExcel.Value.LoadWSdataIntoSession( s , lo_WS , true );
+																				x.Add_Session( s );
 																			}
 																		this.SetFullPath("DPB");
-																		this._BDCCntlr.Value.Write_BDCRequest( this._Full );
+																		this._BDCCntlr.Value.DispatchRequest_ToFile( x , this._Full );
 																		//.....................
-																		this._HndlrExcel.WriteStatusbar( this._BDCCntlr.Value.WSCount.ToString() );
+																		this._HndlrExcel.Value.WriteStatusbar( x.Count.ToString() );
 																		Thread.Sleep(300);
-																		this._HndlrExcel.ResetStatusBar();
+																		this._HndlrExcel.Value.ResetStatusBar();
 																	} ).ConfigureAwait(false);
 					}
 
@@ -88,9 +89,9 @@ namespace BxS_WorxExcel
 				private async void Button3_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		XMLConfig x = this._BDCCntlr.Value.Create_BDCXmlConfig();
+																		IXMLConfig x = this._BDCCntlr.Value.Create_XMLConfig();
 																		x.SAPTCode = "XD03";
-																		this._HndlrExcel.WriteConfig( this._BDCCntlr.Value.SerializeXMLConfig( x ) , "B3" );
+																		this._HndlrExcel.Value.WriteConfig( this._BDCCntlr.Value.SerializeXMLConfig( x ) , "B3" );
 																	} ).ConfigureAwait(false);
 					}
 

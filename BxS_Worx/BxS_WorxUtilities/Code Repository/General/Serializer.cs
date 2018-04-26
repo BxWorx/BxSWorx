@@ -21,15 +21,16 @@ namespace BxS_WorxUtil.General
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public string Serialize<T>( T classObject )
+				public string Serialize<T>( T classObject , bool removeLinefeed	= false	)
 					{
 						var	lt_Types	= new List<Type>();
-						return	this.Serialize( classObject , lt_Types );
+						return	this.Serialize( classObject , lt_Types , removeLinefeed );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public string Serialize<T>(		T						classObject
-																		,	List<Type>	knownTypes	)
+																		,	List<Type>	knownTypes
+																		, bool				removeLinefeed	= false	)
 					{
 						var lo_XWSettings		= new XmlWriterSettings	{		Indent							= true
 																													,	OmitXmlDeclaration	= true
@@ -44,7 +45,7 @@ namespace BxS_WorxUtil.General
 								lo_XMLSer.WriteObject( lo_XMLWriter , classObject );
 								lo_XMLWriter.Flush();
 
-								return	lo_StrBld.ToString();
+								return	removeLinefeed	?	lo_StrBld.ToString().Replace("\n","").Replace("\r","") :	lo_StrBld.ToString();
 							}
 					}
 

@@ -22,7 +22,7 @@ namespace BxS_WorxIPX.Main
 				//.................................................
 				// XML Config
 				//.................................................
-				internal	const string	cz_XmlCfgTag	= "BDCXMLConfig";
+				internal	const string	cz_XmlCfgTag	= "XMLConfig";
 
 				internal	const char		cz_CTU_A		= 'A'	;
 				internal	const char		cz_CTU_N		= 'N'	;

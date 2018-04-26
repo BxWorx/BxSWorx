@@ -24,7 +24,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			private				string	_Full	;
 
 			private	readonly	IPX_Controller			co_Cntlr	;
-			private	readonly	IBDCRequestManager	co_RM			;
+			private	readonly	IBDC_Controller			co_BC			;
 			private	readonly	BDC_Session_Factory	co_BSFact	;
 			//...
 			private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
@@ -34,7 +34,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public UT_410_BDCSessionParser()
 				{
 					this.co_Cntlr		= IPX_Controller.Instance	;
-					this.co_RM			= this.co_Cntlr.Create_BDCRequestManager();
+					this.co_BC			= this.co_Cntlr.Create_BDCController();
 					//...
 					this._ParserFactory		= new Lazy< BDC_Parser_Factory >(	()=>	BDC_Parser_Factory.Instance	, cz_LM	);
 					this._Parser					=	new	BDC_Parser	( this._ParserFactory );
@@ -48,7 +48,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_410_BCDParser_10_Instantiate()
 				{
 					Assert.IsNotNull	( this.co_Cntlr		, "C" );
-					Assert.IsNotNull	( this.co_RM			, "C" );
+					Assert.IsNotNull	( this.co_BC			, "C" );
 					Assert.IsNotNull	( this.co_BSFact	, "C" );
 					Assert.IsNotNull	( this._Parser		, "C" );
 				}
@@ -60,12 +60,12 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					this.SetFullPath(_Nme);
 					//...
 					DTO_BDC_Session lo_DTO	= this.co_BSFact.CreateSessionDTO();
-					ISAP_BDCRequest lo_R0		= this.co_RM.Read_BDCRequest( this._Full );
+					IRequest lo_R0					= this.co_BC.ReceiveRequest_FromFile( this._Full );
 					Assert.IsNotNull	( lo_DTO	, "C" );
 					Assert.IsNotNull	( lo_R0		, "C" );
 					//...
-					var							lt_Guids	= new Guid[lo_R0.Sessions.Keys.Count];
-					ISAP_BDCSession lo_BS			= null;
+					var				lt_Guids	= new Guid[lo_R0.Sessions.Keys.Count];
+					ISession	lo_BS			= null;
 
 					lo_R0.Sessions.Keys.CopyTo(lt_Guids,0);
 					lo_BS	= lo_R0.Sessions[lt_Guids[0]];
@@ -78,7 +78,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				{
 					this.SetFullPath("DPB");
 					//...
-					ISAP_BDCRequest lo_R0	= this.co_RM.Read_BDCRequest( this._Full );
+					IRequest lo_R0	= this.co_BC.ReceiveRequest_FromFile( this._Full );
 					Assert.IsNotNull	( lo_R0	, "C" );
 					//...
 				}

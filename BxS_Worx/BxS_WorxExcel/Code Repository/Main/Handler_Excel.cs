@@ -2,7 +2,7 @@
 //.........................................................
 using Microsoft.Office.Interop.Excel;
 //.........................................................
-using BxS_WorxIPX.BDCExcel;
+using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
@@ -48,32 +48,32 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void GetWSData(	IExcel_BDCWorksheet bdcWS
-																, string							WBID			= null
-																, string							WSID			= null
-																, bool								loadData	= true
-																, bool								isTest		= false
-																, bool								isOnline	= false )
+				internal void LoadWSData(	ISession	session
+																, string		WBID			= null
+																, string		WSID			= null
+																, bool			loadData	= true
+																, bool			isTest		= false
+																, bool			isOnline	= false )
 					{
-						this.CreateExcelWS( bdcWS , this.GetWS( WBID , WSID ) , loadData , isTest , isOnline );
+						this.LoadWSdataIntoSession( session , this.GetWS( WBID , WSID ) , loadData , isTest , isOnline );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void CreateExcelWS(	IExcel_BDCWorksheet bdcWS
-																		,	Worksheet						lo_WS
-																		, bool								loadData	= false
-																		, bool								isTest		= false
-																		, bool								isOnline	= false	)
+				internal void LoadWSdataIntoSession(	ISession	session
+																		,	Worksheet	lo_WS
+																		, bool			loadData	= false
+																		, bool			isTest		= false
+																		, bool			isOnline	= false	)
 					{
-						bdcWS.IsTest				= isTest						;
-						bdcWS.IsOnline			= isOnline					;
+						session.IsTest				= isTest						;
+						session.IsOnline			= isOnline					;
 						//...
-						bdcWS.WBID					= lo_WS.Parent.Name	;
-						bdcWS.WSID					= lo_WS.Name				;
-						bdcWS.WSNo					= lo_WS.Index				;
+						session.WBID					= lo_WS.Parent.Name	;
+						session.WSID					= lo_WS.Name				;
+						session.WSNo					= lo_WS.Index				;
 						//...
-						bdcWS.UsedAddress	= lo_WS.UsedRange.Address										;
-						bdcWS.WSCells			= loadData	?	lo_WS.UsedRange.Value	: null	;
+						session.UsedAddress	= lo_WS.UsedRange.Address										;
+						session.WSCells			= loadData	?	lo_WS.UsedRange.Value	: null	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

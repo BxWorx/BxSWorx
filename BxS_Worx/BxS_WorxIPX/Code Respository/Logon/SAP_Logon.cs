@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
+
 	public class SAP_Logon : ISAP_Logon
 		{
 			#region "Constructors"

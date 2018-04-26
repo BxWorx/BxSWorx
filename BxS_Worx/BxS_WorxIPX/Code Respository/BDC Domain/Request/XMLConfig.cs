@@ -6,7 +6,6 @@ using static	BxS_WorxIPX.Main	.IPX_Constants;
 namespace BxS_WorxIPX.BDC
 {
 	[DataContract()]
-	[KnownType( typeof(XMLConfig) )]
 
 	public class XMLConfig : IXMLConfig
 		{

@@ -1,0 +1,125 @@
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:d1p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"
+  i:type="d1p1:Request" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+  <d1p1:SAPLogon
+    i:type="d1p1:SAP_Logon">
+    <d1p1:Client
+      i:nil="true" />
+    <d1p1:Lang
+      i:nil="true" />
+    <d1p1:Pwrd
+      i:nil="true" />
+    <d1p1:SAPSysID
+      i:nil="true" />
+    <d1p1:SecurePwrd xmlns:d3p1="http://schemas.datacontract.org/2004/07/System.Security"
+      i:nil="true" />
+    <d1p1:User
+      i:nil="true" />
+  </d1p1:SAPLogon>
+  <d1p1:Sessions xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <d2p1:KeyValueOfguidanyType>
+      <d2p1:Key>4748cfaf-6886-431e-9698-5545a9898735</d2p1:Key>
+      <d2p1:Value
+        i:type="d1p1:Session">
+        <d1p1:ColLB>1</d1p1:ColLB>
+        <d1p1:ColUB>14</d1p1:ColUB>
+        <d1p1:ID>4748cfaf-6886-431e-9698-5545a9898735</d1p1:ID>
+        <d1p1:IsActive>false</d1p1:IsActive>
+        <d1p1:IsBDCSession>false</d1p1:IsBDCSession>
+        <d1p1:IsOnline>false</d1p1:IsOnline>
+        <d1p1:IsTest>false</d1p1:IsTest>
+        <d1p1:Priority>0</d1p1:Priority>
+        <d1p1:RowLB>1</d1p1:RowLB>
+        <d1p1:RowUB>18</d1p1:RowUB>
+        <d1p1:UsedAddress>$A$1:$N$18</d1p1:UsedAddress>
+        <d1p1:WBID>TestRunnerNo.xlsx</d1p1:WBID>
+        <d1p1:WSData>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>2,12</d2p1:Key>
+            <d2p1:Value>SDFSD</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>4,14</d2p1:Key>
+            <d2p1:Value>asdasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>5,1</d2p1:Key>
+            <d2p1:Value>SDFSDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>7,14</d2p1:Key>
+            <d2p1:Value>asdasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>8,12</d2p1:Key>
+            <d2p1:Value>SDFSDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>10,14</d2p1:Key>
+            <d2p1:Value>adasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>11,12</d2p1:Key>
+            <d2p1:Value>SDFSDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>13,12</d2p1:Key>
+            <d2p1:Value>SDFSD</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>14,14</d2p1:Key>
+            <d2p1:Value>asdasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>17,12</d2p1:Key>
+            <d2p1:Value>SDF</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+          <d2p1:KeyValueOfstringstring>
+            <d2p1:Key>18,14</d2p1:Key>
+            <d2p1:Value>asdasd</d2p1:Value>
+          </d2p1:KeyValueOfstringstring>
+        </d1p1:WSData>
+        <d1p1:WSID>Test-04</d1p1:WSID>
+        <d1p1:WSNo>5</d1p1:WSNo>
+        <d1p1:XMLConfig
+          i:type="d1p1:XMLConfig">
+          <d1p1:CTU_DefSize>X</d1p1:CTU_DefSize>
+          <d1p1:CTU_DisMode>N</d1p1:CTU_DisMode>
+          <d1p1:CTU_UpdMode>A</d1p1:CTU_UpdMode>
+          <d1p1:Col_Active
+            i:nil="true" />
+          <d1p1:Col_DataStart
+            i:nil="true" />
+          <d1p1:Col_Exec
+            i:nil="true" />
+          <d1p1:Col_ID
+            i:nil="true" />
+          <d1p1:Col_Msg
+            i:nil="true" />
+          <d1p1:GUID>4ddbab1c-6ea8-46f0-90c5-0695169df02a</d1p1:GUID>
+          <d1p1:IsActive
+            i:nil="true" />
+          <d1p1:IsProtected
+            i:nil="true" />
+          <d1p1:Password
+            i:nil="true" />
+          <d1p1:PauseTime
+            i:nil="true" />
+          <d1p1:Row_DataStart
+            i:nil="true" />
+          <d1p1:SAPBDCSessionID
+            i:nil="true" />
+          <d1p1:SAPTCode>XD03</d1p1:SAPTCode>
+          <d1p1:Skip1st
+            i:nil="true" />
+        </d1p1:XMLConfig>
+      </d2p1:Value>
+    </d2p1:KeyValueOfguidanyType>
+  </d1p1:Sessions>
+  <d1p1:User
+    i:type="d1p1:User">
+    <d1p1:GUID>8eb07254-0013-4d81-b506-0e8a96e4f1c4</d1p1:GUID>
+    <d1p1:Name
+      i:nil="true" />
+    <d1p1:Timestamp>0001-01-01T00:00:00</d1p1:Timestamp>
+  </d1p1:User>
+</z:anyType>
