@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 //.........................................................
-using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants		;
+using BxS_WorxIPX.BDC;
+
+using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants				;
 using static	BxS_WorxNCO.BDCSession.Parser		.BDC_Parser_Constants	;
 using static	BxS_WorxNCO.Main								.NCO_Constants				;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -14,8 +16,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_Parser_Tokens( Lazy< BDC_Parser_Factory > factory ) : base( factory )
-					{
-					}
+					{	}
 
 			#endregion
 
@@ -23,7 +24,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	DTO_ParserRequest	dtoRequest
+				internal void	Process(	ISession					dtoRequest
 															,	DTO_ParserProfile	dtoProfile )
 					{
 						if (dtoRequest.WSData == null)	return;
@@ -55,11 +56,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void Prepare(		DTO_ParserRequest	dtoRequest
+				private	void Prepare(		ISession					dtoRequest
 															,	DTO_ParserProfile	dtoProfile )
 					{
 						//.............................................
-						// Calculate Excel to array offsets
+						// Calculate Excel to array offsets as [0,0] could be TL address of $B$7 as example so
+						// offset must be row=7 (7) and col=1 (B)
 						//
 						string[]	lt_Addr = dtoRequest.UsedAddress.Split(':');
 						string[]	lt_TLft = lt_Addr[0].Split('$');
@@ -79,12 +81,12 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						// Calculate data array bounds
 						//
-						dtoProfile.RowLB		= dtoRequest.WSData.GetLowerBound(0)	;
-						dtoProfile.RowUB		= dtoRequest.WSData.GetUpperBound(0)	;
-						dtoProfile.ColLB		= dtoRequest.WSData.GetLowerBound(1)	;
-						dtoProfile.ColUB		= dtoRequest.WSData.GetUpperBound(1)	;
+						dtoProfile.RowLB		= dtoRequest.RowLB	;
+						dtoProfile.RowUB		= dtoRequest.RowUB	;
+						dtoProfile.ColLB		= dtoRequest.ColLB	;
+						dtoProfile.ColUB		= dtoRequest.ColUB	;
 						//.............................................
-						// Search for DATAROWSTART token to lessen remainder of search rows as all token should be
+						// Search for DATAROWSTART token to lessen remainder of search rows as all tokens should be
 						// in header section
 						//
 						DTO_ParserToken lo_DataRowToken	=	this.CreateToken( cz_Token_DataRow , 10 , -1 , cz_Token_xInst );
@@ -96,7 +98,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void UpdateToken(		DTO_ParserToken		token
-																	,	DTO_ParserRequest	dtoRequest
+																	,	ISession					dtoRequest
 																	, int fromRow , int toRow
 																	, int fromCol , int toCol				)
 					{
@@ -104,9 +106,9 @@ namespace BxS_WorxNCO.BDCSession.Parser
 							{
 								for ( int c = fromCol; c < toCol; c++ )
 									{
-										if ( dtoRequest.WSData[r,c] != null )
+										if ( dtoRequest.WSCells[r,c] != null )
 											{
-												if ( Regex.IsMatch( dtoRequest.WSData[r,c] , cz_Cmd_Prefix , RegexOptions.IgnoreCase ) )
+												if ( Regex.IsMatch( dtoRequest.WSCells[r,c] , cz_Cmd_Prefix , RegexOptions.IgnoreCase ) )
 													{
 														if ( Regex.IsMatch( dtoRequest.WSData[r,c] , token.ID , RegexOptions.IgnoreCase ) )
 															{

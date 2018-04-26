@@ -8,7 +8,6 @@ using BxS_WorxNCO.BDCSession.Parser;
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.BDC;
-using BxS_WorxIPX.BDCSAP;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
