@@ -91,7 +91,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 					{
 						bool	lb_Ret	= true;
 						//.............................................
-						if ( request.WSData.Count.Equals(0) )
+						if ( request.WSStore.Count.Equals(0) )
 							{
 								lb_Ret	= false;
 							}
@@ -110,7 +110,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 								int	ln_Row	= 0;
 								int ln_Col	= 0;
 
-								foreach ( KeyValuePair<string, string> ls_kvp in request.WSData )
+								foreach ( KeyValuePair<string, string> ls_kvp in request.WSStore )
 									{
 										string[] lt_Idx		= ls_kvp.Key.Split( cz_Coma );
 

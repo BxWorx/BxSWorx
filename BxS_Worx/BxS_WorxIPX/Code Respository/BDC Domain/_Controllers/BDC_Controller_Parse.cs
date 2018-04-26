@@ -38,7 +38,7 @@ namespace BxS_WorxIPX.BDC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SessionToWS( ISession	session )
 					{
-						if ( session.WSData.Count.Equals(0) )		return;
+						if ( session.WSStore.Count.Equals(0) )		return;
 						//.............................................
 						int[]	lt_UB		= new int[2];
 						int[]	lt_LB		= new int[2];
@@ -53,7 +53,7 @@ namespace BxS_WorxIPX.BDC
 						int	ln_Row	= 0;
 						int ln_Col	= 0;
 
-						foreach ( KeyValuePair<string, string> ls_kvp in session.WSData )
+						foreach ( KeyValuePair<string, string> ls_kvp in session.WSStore )
 							{
 								string[] lt_Idx		= ls_kvp.Key.Split( cz_Coma );
 
@@ -70,7 +70,7 @@ namespace BxS_WorxIPX.BDC
 				//
 				private void WSToSession( ISession session )
 					{
-						session.WSData.Clear();
+						session.WSStore.Clear();
 						//.............................................
 						if ( session.WSCells == null )
 							{
@@ -104,7 +104,7 @@ namespace BxS_WorxIPX.BDC
 														lo_SB.Clear();
 														lo_SB.AppendFormat( $"{r.ToString()},{c.ToString()}" );
 														//...
-														session.WSData.Add( lo_SB.ToString() , session.WSCells[r,c].ToString() );
+														session.WSStore.Add( lo_SB.ToString() , session.WSCells[r,c].ToString() );
 													}
 											}
 									}

@@ -16,7 +16,7 @@ namespace BxS_WorxIPX.BDC
 						this.XMLConfig	= xmlConfig;
 						//...
 						this.ID			= Guid.NewGuid();
-						this.WSData	= new	Dictionary<string, string>();
+						this.WSStore	= new	Dictionary<string, string>();
 					}
 
 			#endregion
@@ -44,9 +44,10 @@ namespace BxS_WorxIPX.BDC
 				[DataMember]	public	int			ColUB							{ get; set;	}
 				//.................................................
 				[DataMember]	public	IXMLConfig										XMLConfig		{ get; set;	}
-				[DataMember]	public	Dictionary< string , string >	WSData			{ get; set; }
+				[DataMember]	public	Dictionary< string , string >	WSStore			{ get; set; }
 				//...
 											public	object[,]											WSCells			{ get; set;	}
+											public	string[,]											WSx			{ get; set;	}
 
 			#endregion
 

@@ -73,7 +73,7 @@ namespace BxS_WorxExcel.Main
 						session.WSNo					= lo_WS.Index				;
 						//...
 						session.UsedAddress	= lo_WS.UsedRange.Address										;
-						session.WSCells			= loadData	?	lo_WS.UsedRange.Value	: null	;
+						session.WSCells			= loadData	? lo_WS.UsedRange.Value	: null	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

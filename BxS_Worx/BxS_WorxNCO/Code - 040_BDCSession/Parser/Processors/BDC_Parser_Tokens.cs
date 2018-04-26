@@ -27,7 +27,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				internal void	Process(	ISession					dtoRequest
 															,	DTO_ParserProfile	dtoProfile )
 					{
-						if (dtoRequest.WSData == null)	return;
+						if (dtoRequest.WSStore == null)	return;
 						this.Prepare( dtoRequest , dtoProfile );
 						//.............................................
 						this.LoadTokens( dtoProfile );
@@ -92,6 +92,10 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						DTO_ParserToken lo_DataRowToken	=	this.CreateToken( cz_Token_DataRow , 10 , -1 , cz_Token_xInst );
 
 						this.UpdateToken( lo_DataRowToken , dtoRequest , dtoProfile.RowLB , dtoProfile.RowUB , dtoProfile.ColLB , dtoProfile.ColUB );
+
+
+
+
 						dtoProfile.RowDataStart	= lo_DataRowToken.Row;
 						if (lo_DataRowToken.FoundAlt)	dtoProfile.RowDataStart ++;
 					}
@@ -110,11 +114,11 @@ namespace BxS_WorxNCO.BDCSession.Parser
 											{
 												if ( Regex.IsMatch( dtoRequest.WSCells[r,c] , cz_Cmd_Prefix , RegexOptions.IgnoreCase ) )
 													{
-														if ( Regex.IsMatch( dtoRequest.WSData[r,c] , token.ID , RegexOptions.IgnoreCase ) )
+														if ( Regex.IsMatch( dtoRequest.WSStore[r,c] , token.ID , RegexOptions.IgnoreCase ) )
 															{
 																token.Row		= r;
 																token.Col		= c;
-																token.Value	= dtoRequest.WSData[r,c].Replace( cz_Cmd_Prefix , "" );
+																token.Value	= dtoRequest.WSStore[r,c].Replace( cz_Cmd_Prefix , "" );
 																token.Found	= true;
 															}
 													}
@@ -136,13 +140,13 @@ namespace BxS_WorxNCO.BDCSession.Parser
 									{
 										for ( int c = fromCol; c < toCol; c++ )
 											{
-												if ( dtoRequest.WSData[r,c] != null )
+												if ( dtoRequest.WSStore[r,c] != null )
 													{
-														if ( Regex.IsMatch( dtoRequest.WSData[r,c] , token.AltID , RegexOptions.IgnoreCase ) )
+														if ( Regex.IsMatch( dtoRequest.WSStore[r,c] , token.AltID , RegexOptions.IgnoreCase ) )
 															{
 																token.Row				= r;
 																token.Col				= c;
-																token.Value			= dtoRequest.WSData[r,c].Replace( cz_Cmd_Prefix , "" );
+																token.Value			= dtoRequest.WSStore[r,c].Replace( cz_Cmd_Prefix , "" );
 																token.Found			= true;
 																token.FoundAlt	= true;
 															}
