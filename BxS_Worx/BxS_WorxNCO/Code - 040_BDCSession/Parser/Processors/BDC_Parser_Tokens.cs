@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	DTO_ParserRequest	dtoRequest
+				internal void	Process(	DTO_ParserSession	dtoRequest
 															,	DTO_ParserProfile	dtoProfile )
 					{
 						if (dtoRequest.WSData	== null)	return;
@@ -42,7 +42,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						if ( this.UpdateHeaderRowReference( dtoProfile ) )
 							{
-								this.ExtractXMLConfig						( dtoProfile );
+								//this.ExtractXMLConfig						( dtoProfile );
 								this.ExtractBDCTokenValues			( dtoProfile );
 								this.ExtractSpecificTokenValues	( dtoProfile );
 							}
@@ -54,7 +54,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void Prepare(		DTO_ParserRequest	dtoRequest
+				private	void Prepare(		DTO_ParserSession	dtoRequest
 															,	DTO_ParserProfile	dtoProfile )
 					{
 						//.............................................
@@ -97,7 +97,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void UpdateToken(		DTO_ParserToken		token
-																	,	DTO_ParserRequest	dtoRequest
+																	,	DTO_ParserSession	dtoRequest
 																	, int fromRow , int toRow
 																	, int fromCol , int toCol				)
 					{
@@ -317,52 +317,52 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						return	string.Empty;
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ExtractXMLConfig( DTO_ParserProfile dtoProfile )
-					{
-						if ( dtoProfile.Tokens.TryGetValue( cz_Token_XmlCfg , out DTO_ParserToken token ) )
-							{
-								try
-									{
-										dtoProfile.XMLConfig	= this._PFactory.Value.Serializer
-																							.DeSerialize< DTO_ParserXMLConfig >( token.Value );
-										return;
-									}
-								catch
-									{
-										// NO-OP
-									}
-							}
-						//.............................................
-						const string lz_2	= "2";
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private void ExtractXMLConfig( DTO_ParserProfile dtoProfile )
+				//	{
+				//		if ( dtoProfile.Tokens.TryGetValue( cz_Token_XmlCfg , out DTO_ParserToken token ) )
+				//			{
+				//				try
+				//					{
+				//						dtoProfile.XMLConfig	= this._PFactory.Value.Serializer
+				//																			.DeSerialize< DTO_ParserXMLConfig >( token.Value );
+				//						return;
+				//					}
+				//				catch
+				//					{
+				//						// NO-OP
+				//					}
+				//			}
+				//		//.............................................
+				//		const string lz_2	= "2";
 
-						DTO_ParserXMLConfig lo_Cfg	= this._PFactory.Value.CreateDTOXMLCfg();
+				//		DTO_ParserXMLConfig lo_Cfg	= this._PFactory.Value.CreateDTOXMLCfg();
 
-						lo_Cfg.Col_Msg				= "1";
-						lo_Cfg.Col_Active			= lz_2;
-						lo_Cfg.Col_ID					= lz_2;
-						lo_Cfg.Col_Exec				= lz_2;
-						lo_Cfg.Col_Active			= lz_2;
-						lo_Cfg.Col_DataStart	= lz_2;
-						lo_Cfg.Row_DataStart	= lz_2;
+				//		lo_Cfg.Col_Msg				= "1";
+				//		lo_Cfg.Col_Active			= lz_2;
+				//		lo_Cfg.Col_ID					= lz_2;
+				//		lo_Cfg.Col_Exec				= lz_2;
+				//		lo_Cfg.Col_Active			= lz_2;
+				//		lo_Cfg.Col_DataStart	= lz_2;
+				//		lo_Cfg.Row_DataStart	= lz_2;
 
-						lo_Cfg.GUID							= Guid.NewGuid().ToString();
+				//		lo_Cfg.GUID							= Guid.NewGuid().ToString();
 
-						lo_Cfg.CTU_DefSize			= cz_True;
-						lo_Cfg.IsActive					= cz_True;
-						lo_Cfg.IsProtected			= cz_True;
-						lo_Cfg.Skip1st					= cz_False;
-						lo_Cfg.SAPTCode					= cz_Null;
-						lo_Cfg.SAPBDCSessionID	= cz_Null;
-						lo_Cfg.Password					= cz_Null;
+				//		lo_Cfg.CTU_DefSize			= cz_True;
+				//		lo_Cfg.IsActive					= cz_True;
+				//		lo_Cfg.IsProtected			= cz_True;
+				//		lo_Cfg.Skip1st					= cz_False;
+				//		lo_Cfg.SAPTCode					= cz_Null;
+				//		lo_Cfg.SAPBDCSessionID	= cz_Null;
+				//		lo_Cfg.Password					= cz_Null;
 
-						lo_Cfg.CTU_DisMode			= cz_CTU_N.ToString();
-						lo_Cfg.CTU_UpdMode			= cz_CTU_N.ToString();
+				//		lo_Cfg.CTU_DisMode			= cz_CTU_N.ToString();
+				//		lo_Cfg.CTU_UpdMode			= cz_CTU_N.ToString();
 
-						lo_Cfg.PauseTime				= "0";
+				//		lo_Cfg.PauseTime				= "0";
 
-						dtoProfile.XMLConfig		= lo_Cfg;
-					}
+				//		dtoProfile.XMLConfig		= lo_Cfg;
+				//	}
 
 			#endregion
 

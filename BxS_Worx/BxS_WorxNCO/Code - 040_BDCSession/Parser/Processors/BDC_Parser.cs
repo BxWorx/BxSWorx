@@ -19,13 +19,6 @@ namespace BxS_WorxNCO.BDCSession.Parser
 					{
 						this._PFactory	= factory	??	throw		new	ArgumentException( $"{typeof(BDC_Parser).Namespace}:- Factory null" );
 						//.............................................
-						this._Tkn		=	this._PFactory.Value.GetTokenParser				();
-						this._Col		= this._PFactory.Value.GetColumnParser			();
-						this._Grp		= this._PFactory.Value.GetGroupParser				();
-						this._Trn		= this._PFactory.Value.GetTransactionParser	();
-						this._Ssn		= this._PFactory.Value.GetSessionParser			();
-						//this._Des		= this._PFactory.Value.GetDestinationParser	();
-						//.............................................
 						this.PoolID		= Guid.NewGuid();
 					}
 
@@ -34,13 +27,15 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	readonly	Lazy< BDC_Parser_Factory			>		_PFactory;
+				protected	readonly	Lazy< BDC_Parser_Factory >		_PFactory;
 				//.................................................
-				private		readonly	Lazy< BDC_Parser_Tokens				>		_Tkn;
-				private		readonly	Lazy< BDC_Parser_Columns			>		_Col;
-				private		readonly	Lazy< BDC_Parser_Groups				>		_Grp;
-				private		readonly	Lazy< BDC_Parser_Transaction	>		_Trn;
-				private		readonly	Lazy< BDC_Parser_Session			>		_Ssn;
+				private	BDC_Parser_Factory			Factory		{ get	{	return	this._PFactory.Value	;	}	}
+				//...
+				private	BDC_Parser_Tokens				Tkn		{ get	{	return	this.Factory.TokenParser				;	}	}
+				private	BDC_Parser_Columns			Col		{ get	{	return	this.Factory.ColumnParser				;	}	}
+				private	BDC_Parser_Groups				Grp		{ get	{	return	this.Factory.GroupParser				;	}	}
+				private	BDC_Parser_Transaction	Trn		{ get	{	return	this.Factory.TransactionParser	;	}	}
+				private	BDC_Parser_Session			Ssn		{ get	{	return	this.Factory.SessionParser			;	}	}
 				//private		readonly	Lazy< BDC_Parser_Destination	>		_Des;
 
 			#endregion
@@ -49,23 +44,48 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool Parse(	ISession				BDCSession
-														, DTO_BDC_Session	dtoSession		)
+				internal bool ParseRequest(		IRequest				bdcRequest
+																		, DTO_BDC_Request	dtoRequest	)
 					{
-						DTO_ParserRequest	lo_DTOParserReq	= this._PFactory.Value.CreateDTOParserRequest();
+						bool	lb_Ret	= true;
+						//...
+						foreach ( KeyValuePair<Guid , ISession> ls_kvp in bdcRequest.Sessions )
+							{
+								DTO_BDC_Session lo_Session = dtoRequest.CreateSessionDTO();
+								//...
+								if ( this.Parse( ls_kvp.Value , lo_Session ) )
+									{
+										dtoRequest.Add_Session( lo_Session );
+									}
+								else
+									{
+										lb_Ret	= false;
+									}
+							}
+						//...
+						return	lb_Ret;
+					}
 
-						if ( ! this.Parse1Dto2D( BDCSession , lo_DTOParserReq ) )
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal bool Parse(	ISession				bdcSession
+														, DTO_BDC_Session	dtoSession	)
+					{
+						DTO_ParserSession	lo_DTOSession	= this.Factory.CreateDTOParserRequest();
+
+						if ( ! this.Parse1Dto2D( bdcSession , lo_DTOSession ) )
 							{
 								return	false;
 							}
 						//.............................................
-						DTO_ParserProfile	lo_DTOProfile		= this._PFactory.Value.CreateDTOProfile();
-						//.............................................
-						this._Tkn.Value.Process( lo_DTOParserReq	,	lo_DTOProfile	);
-						this._Col.Value.Process( lo_DTOParserReq	,	lo_DTOProfile	);
-						this._Grp.Value.Process( lo_DTOParserReq	,	lo_DTOProfile	);
+						DTO_ParserProfile	lo_DTOProfile		= this.Factory.CreateDTOProfile();
 
-						this._Trn.Value.Process( lo_DTOParserReq	, lo_DTOProfile	, dtoSession );
+						lo_DTOProfile.XMLConfig	=	bdcSession.XMLConfig.ShallowCopy();
+						//.............................................
+						this.Tkn.Process( lo_DTOSession	,	lo_DTOProfile	);
+						this.Col.Process( lo_DTOSession	,	lo_DTOProfile	);
+						this.Grp.Process( lo_DTOSession	,	lo_DTOProfile	);
+
+						this.Trn.Process( lo_DTOSession	, lo_DTOProfile	, dtoSession );
 						//.............................................
 						//if ( ! BDCRequest.IgnoreSessionConfig )
 						//	{
@@ -87,7 +107,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private bool Parse1Dto2D(		ISession					BDCSession
-																	, DTO_ParserRequest	dto					)
+																	, DTO_ParserSession	dto					)
 					{
 						if ( BDCSession.WSData.Count.Equals(0) )
 							{
@@ -108,7 +128,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						lt_LB[0]	=	dto.RowLB;
 						lt_LB[1]	=	dto.ColLB;
 
-						dto.WSData	    = ( string[,] ) Array.CreateInstance( typeof( string ) , lt_UB, lt_LB );
+						dto.WSData	= ( string[,] ) Array.CreateInstance( typeof( string ) , lt_UB, lt_LB );
 						//.............................................
 						int	ln_Row	= 0;
 						int ln_Col	= 0;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+//.........................................................
+using BxS_WorxIPX.BDC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
@@ -31,7 +33,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				internal	Dictionary<	int			, List<int>					>	TranRows	{ get; }
 				//.................................................
 				internal	DTO_ParserHeaderRowRef	BDCHeaderRowRef		{ get; }
-				internal	DTO_ParserXMLConfig			XMLConfig					{ get; set; }
+				internal	IXMLConfig							XMLConfig					{ get; set; }
 				//.................................................
 				internal	bool	IsTest	{ get; set; }
 

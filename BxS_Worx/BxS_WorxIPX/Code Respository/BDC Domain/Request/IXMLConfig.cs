@@ -32,5 +32,8 @@ namespace BxS_WorxIPX.BDC
 
 			#endregion
 
+				IXMLConfig	ShallowCopy();
+
+
 		}
 }

@@ -100,8 +100,17 @@ namespace BxS_WorxNCO.BDCSession.Main
 						var lo_CTU	= new DTO_BDC_CTU		();
 						var lo_Hed	= new DTO_BDC_Header( lo_CTU );
 						//.............................................
-						return	new DTO_BDC_Session( lo_Hed );
+						return	new DTO_BDC_Session( lo_Hed , this.CreateBDCTransaction );
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_BDC_Request CreateRequestDTO()
+					{
+						return	new DTO_BDC_Request( this.CreateSessionDTO );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	DTO_BDC_Transaction	CreateBDCTransaction( int No )	=>	new DTO_BDC_Transaction( No );
 
 			#endregion
 

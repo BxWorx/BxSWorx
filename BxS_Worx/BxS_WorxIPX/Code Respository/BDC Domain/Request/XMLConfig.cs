@@ -49,7 +49,12 @@ namespace BxS_WorxIPX.BDC
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private"
+			#region "Methods: Exposed"
+
+				public IXMLConfig	ShallowCopy()
+					{
+						return (IXMLConfig) this.MemberwiseClone();
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void SetDefaults()

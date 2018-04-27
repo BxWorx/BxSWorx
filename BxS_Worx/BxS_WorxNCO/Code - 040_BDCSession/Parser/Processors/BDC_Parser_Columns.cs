@@ -29,7 +29,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed: Columns"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	DTO_ParserRequest	dtoRequest
+				internal void	Process(	DTO_ParserSession	dtoRequest
 															,	DTO_ParserProfile	dtoProfile )
 					{
 						if (dtoRequest.WSData == null)	return;

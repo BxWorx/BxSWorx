@@ -13,7 +13,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DTO_ParserXMLConfig( bool SetDefaults = false )
 					{
-						if (SetDefaults)	this.SetDefaults();
+						if ( SetDefaults )	this.SetDefaults();
 					}
 
 			#endregion

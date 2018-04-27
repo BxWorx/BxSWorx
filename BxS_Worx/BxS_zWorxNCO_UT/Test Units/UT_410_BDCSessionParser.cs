@@ -69,6 +69,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 					lo_R0.Sessions.Keys.CopyTo(lt_Guids,0);
 					lo_BS	= lo_R0.Sessions[lt_Guids[0]];
 					this._Parser.Parse( lo_BS , lo_DTO );
+
+					Assert.IsNotNull	( lo_DTO.Trans.Count , "C" );
 				}
 
 			[TestMethod]

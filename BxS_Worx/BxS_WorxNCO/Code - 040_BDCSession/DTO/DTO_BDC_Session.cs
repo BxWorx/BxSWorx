@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -9,9 +10,11 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_BDC_Session( DTO_BDC_Header header )
+				internal DTO_BDC_Session(		DTO_BDC_Header									header
+																	,	Func<int , DTO_BDC_Transaction>	factory)
 					{
-						this.Header	= header;
+						this.Header		= header	;
+						this._Factory	= factory	;
 						//.............................................
 						this.Trans	= new	ConcurrentQueue< DTO_BDC_Transaction >();
 					}
@@ -19,7 +22,16 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			#endregion
 
 			//===========================================================================================
+			#region "Declarations"
+
+				private	readonly	Func< int , DTO_BDC_Transaction >		_Factory;
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
+
+				internal	Guid	ID { get; set; }
 
 				internal	bool	UseSessionConfig	{ get; set; }
 				//.................................................
@@ -35,7 +47,7 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_BDC_Transaction	CreateTransDTO( int No = 0 )=>	new DTO_BDC_Transaction( No );
+				internal DTO_BDC_Transaction	CreateTransDTO( int No = 0 )=>	this._Factory( No )	;
 
 			#endregion
 

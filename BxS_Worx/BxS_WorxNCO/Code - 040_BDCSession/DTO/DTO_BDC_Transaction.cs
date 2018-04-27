@@ -14,9 +14,9 @@ namespace BxS_WorxNCO.BDCSession.DTO
 					{
 						this.TranNo		= tranNo;
 						//.............................................
-						this.BDCData	= new List<	DTO_BDC_Data >();
-						this.SPAData	= new List<	DTO_BDC_SPA >	();
-						this.MSGData	= new List<	DTO_BDC_Msg >	();
+						this.BDCData	= new List<DTO_BDC_Data>();
+						this.SPAData	= new List<DTO_BDC_SPA>	();
+						this.MSGData	= new List<DTO_BDC_Msg>	();
 					}
 
 			#endregion
