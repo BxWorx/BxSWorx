@@ -11,9 +11,10 @@ namespace BxS_WorxIPX.BDC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+//				internal Session( IXMLConfig xmlConfig )
 				internal Session( IXMLConfig xmlConfig )
 					{
-						this.XMLConfig	= xmlConfig;
+						//this.XMLConfig	= xmlConfig;
 						//...
 						this.ID			= Guid.NewGuid();
 						this.WSStore	= new	Dictionary<string, string>();
@@ -43,11 +44,11 @@ namespace BxS_WorxIPX.BDC
 				[DataMember]	public	int			ColLB							{ get; set;	}
 				[DataMember]	public	int			ColUB							{ get; set;	}
 				//.................................................
-				[DataMember]	public	IXMLConfig										XMLConfig		{ get; set;	}
+				//[DataMember]	public	IXMLConfig										XMLConfig		{ get; set;	}
 				[DataMember]	public	Dictionary< string , string >	WSStore			{ get; set; }
-				//...
-											public	object[,]											WSCells			{ get; set;	}
-											public	string[,]											WSx			{ get; set;	}
+				////...
+				//							public	object[,]											WSCells			{ get; set;	}
+				//							public	string[,]											WSx			{ get; set;	}
 
 			#endregion
 

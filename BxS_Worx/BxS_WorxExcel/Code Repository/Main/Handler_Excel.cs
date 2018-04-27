@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Text;
+using System.Collections.Generic;
 //.........................................................
 using Microsoft.Office.Interop.Excel;
 //.........................................................
@@ -60,20 +61,24 @@ namespace BxS_WorxExcel.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void LoadWSdataIntoSession(	ISession	session
-																		,	Worksheet	lo_WS
-																		, bool			loadData	= false
-																		, bool			isTest		= false
-																		, bool			isOnline	= false	)
+																						,	Worksheet	lo_WS
+																						, bool			loadData	= false
+																						, bool			isTest		= false
+																						, bool			isOnline	= false	)
 					{
-						session.IsTest				= isTest						;
-						session.IsOnline			= isOnline					;
+						session.IsTest		= isTest		;
+						session.IsOnline	= isOnline	;
 						//...
-						session.WBID					= lo_WS.Parent.Name	;
-						session.WSID					= lo_WS.Name				;
-						session.WSNo					= lo_WS.Index				;
+						session.WBID	= lo_WS.Parent.Name	;
+						session.WSID	= lo_WS.Name				;
+						session.WSNo	= lo_WS.Index				;
 						//...
-						session.UsedAddress	= lo_WS.UsedRange.Address										;
-						session.WSCells			= loadData	? lo_WS.UsedRange.Value	: null	;
+						session.UsedAddress	= lo_WS.UsedRange.Address	;
+
+						if ( loadData )
+							{
+								this.WSToSession( session , lo_WS );
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -81,6 +86,7 @@ namespace BxS_WorxExcel.Main
 					{
 						Worksheet x = this.GetWS( null , null );
 						Range     r = x.Range[address];
+						//...
 						r.Value	= xml;
 					}
 
@@ -99,6 +105,49 @@ namespace BxS_WorxExcel.Main
 						else
 							{
 								return	this.ThisAPP.Workbooks[forWB].Worksheets[forWS] as Worksheet;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				// process each worksheet object array into dictionary with dictionary key having the 
+				// syntax of WSCell[row , col ] == "row,col"
+				//
+				private void WSToSession(		ISession	session
+																	,	Worksheet	lo_WS		)
+					{
+						object[,]	la_WSCells	=	lo_WS.UsedRange.Value	;
+						//.............................................
+						session.WSStore.Clear();
+
+						if ( la_WSCells == null )
+							{
+								session.RowLB		= -1;
+								session.RowUB		= -1;
+								session.ColLB		= -1;
+								session.ColUB		= -1;
+							}
+						else
+							{
+								var	lo_SB		= new StringBuilder();
+								//...
+								session.RowLB		= la_WSCells.GetLowerBound(0);
+								session.RowUB		= la_WSCells.GetUpperBound(0);
+								session.ColLB		= la_WSCells.GetLowerBound(1);
+								session.ColUB		= la_WSCells.GetUpperBound(1);
+								//...
+								for ( int	r = session.RowLB; r <= session.RowUB; r++ )
+									{
+										for ( int c = session.ColLB; c <= session.ColUB; c++ )
+											{
+												if ( la_WSCells[r,c] != null )
+													{
+														lo_SB.Clear();
+														lo_SB.AppendFormat( $"{r.ToString()},{c.ToString()}" );
+														//...
+														session.WSStore.Add( lo_SB.ToString() , la_WSCells[r,c].ToString() );
+													}
+											}
+									}
 							}
 					}
 
