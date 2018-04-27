@@ -1,9 +1,12 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Collections.Generic;
 //.........................................................
 using Microsoft.Office.Interop.Excel;
 //.........................................................
 using BxS_WorxIPX.BDC;
+
+using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
@@ -13,14 +16,24 @@ namespace BxS_WorxExcel.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal Handler_Excel()
-					{	}
+					{
+						this._BDCCntlr		= new	Lazy< IBDC_Controller >	( ()=>	Globals.ThisAddIn._IPXCntlr.Value.Create_BDCController() , cz_LM );
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				internal Lazy< IBDC_Controller >	_BDCCntlr		;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private	Application	ThisAPP		{ get { return	Globals.ThisAddIn.Application			; } }
+				private	Application			ThisAPP		{ get { return	Globals.ThisAddIn.Application	; } }
+				private IBDC_Controller BDCCntlr	{ get { return	this._BDCCntlr.Value					; } }
 
 			#endregion
 
@@ -117,7 +130,7 @@ namespace BxS_WorxExcel.Main
 					{
 						object[,]	la_WSCells	=	lo_WS.UsedRange.Value	;
 						//.............................................
-						session.WSStore.Clear();
+						session.WSData.Clear();
 
 						if ( la_WSCells == null )
 							{
@@ -141,10 +154,16 @@ namespace BxS_WorxExcel.Main
 											{
 												if ( la_WSCells[r,c] != null )
 													{
+														if ( la_WSCells[r,c].ToString().Contains( this.BDCCntlr.XmlConfigTag ) )
+															{
+																session.XMLConfig		=	this.BDCCntlr.DeserializeXMLConfig( la_WSCells[r,c].ToString() );
+																continue;
+															}
+														//...
 														lo_SB.Clear();
 														lo_SB.AppendFormat( $"{r.ToString()},{c.ToString()}" );
 														//...
-														session.WSStore.Add( lo_SB.ToString() , la_WSCells[r,c].ToString() );
+														session.WSData.Add( lo_SB.ToString() , la_WSCells[r,c].ToString() );
 													}
 											}
 									}

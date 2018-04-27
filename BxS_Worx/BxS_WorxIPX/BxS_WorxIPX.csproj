@@ -38,6 +38,7 @@
     <Compile Remove="Code Respository\BDC Domain\zTODO\BDC_Factory.cs" />
     <Compile Remove="Code Respository\BDC Domain\zTODO\ExcelBDCSessionResult.cs" />
     <Compile Remove="Code Respository\BDC Domain\zTODO\IExcelBDCSessionResult.cs" />
+    <Compile Remove="Code Respository\BDC Domain\_Controllers\BDC_Controller_Parse.cs" />
     <Compile Remove="Code Respository\BDC Domain\_Controllers\BDC_Factory.cs" />
   </ItemGroup>
 

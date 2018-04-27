@@ -17,12 +17,12 @@
   </d1p1:SAPLogon>
   <d1p1:Sessions xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
     <d2p1:KeyValueOfguidanyType>
-      <d2p1:Key>4748cfaf-6886-431e-9698-5545a9898735</d2p1:Key>
+      <d2p1:Key>b6369045-793f-474b-bf68-7cc2a6fa5baf</d2p1:Key>
       <d2p1:Value
         i:type="d1p1:Session">
         <d1p1:ColLB>1</d1p1:ColLB>
         <d1p1:ColUB>14</d1p1:ColUB>
-        <d1p1:ID>4748cfaf-6886-431e-9698-5545a9898735</d1p1:ID>
+        <d1p1:ID>b6369045-793f-474b-bf68-7cc2a6fa5baf</d1p1:ID>
         <d1p1:IsActive>false</d1p1:IsActive>
         <d1p1:IsBDCSession>false</d1p1:IsBDCSession>
         <d1p1:IsOnline>false</d1p1:IsOnline>
@@ -95,7 +95,7 @@
             i:nil="true" />
           <d1p1:Col_Msg
             i:nil="true" />
-          <d1p1:GUID>4ddbab1c-6ea8-46f0-90c5-0695169df02a</d1p1:GUID>
+          <d1p1:GUID>ad47f14a-e80c-43c4-af69-0eefa8aa6a91</d1p1:GUID>
           <d1p1:IsActive
             i:nil="true" />
           <d1p1:IsProtected
@@ -117,7 +117,7 @@
   </d1p1:Sessions>
   <d1p1:User
     i:type="d1p1:User">
-    <d1p1:GUID>8eb07254-0013-4d81-b506-0e8a96e4f1c4</d1p1:GUID>
+    <d1p1:GUID>552bf3af-dcab-46b2-b2aa-975ac8307a7c</d1p1:GUID>
     <d1p1:Name
       i:nil="true" />
     <d1p1:Timestamp>0001-01-01T00:00:00</d1p1:Timestamp>

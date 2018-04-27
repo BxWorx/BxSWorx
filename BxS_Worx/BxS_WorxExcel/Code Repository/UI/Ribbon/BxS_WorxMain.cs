@@ -58,7 +58,7 @@ namespace BxS_WorxExcel
 																		x.Add_Session( s );
 																		this._BDCCntlr.Value.DispatchRequest_ToFile( x , this._Full );
 																		//.....................
-																		this._HndlrExcel.Value.WriteStatusbar( s.WSStore.Count.ToString() );
+																		this._HndlrExcel.Value.WriteStatusbar( s.WSData.Count.ToString() );
 																		Thread.Sleep(300);
 																		this._HndlrExcel.Value.ResetStatusBar();
 																	} ).ConfigureAwait(false);

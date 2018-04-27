@@ -43,9 +43,11 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				private	IPX_Factory	Factory			{ get	{ return	this._Factory.Value							; } }
-				private	IO					IO					{ get	{ return	this._Toolset.Value.IO					; } }
-				private	Serializer	Serializer	{ get	{ return	this._Toolset.Value.Serializer	; } }
+				public	string	XmlConfigTag	{ get	{	return	cz_XmlCfgTag	; } }
+				//...
+				private	IPX_Factory	Factory				{ get	{ return	this._Factory.Value							; } }
+				private	IO					IO						{ get	{ return	this._Toolset.Value.IO					; } }
+				private	Serializer	Serializer		{ get	{ return	this._Toolset.Value.Serializer	; } }
 
 			#endregion
 
@@ -65,7 +67,6 @@ namespace BxS_WorxIPX.BDC
 					{
 						try
 							{
-								this.PreTransport( request );
 								this.IO.WriteFile(	fullPath
 																	, this.Serializer.Serialize( request , this._ReqTypes.Value ) );
 							}
@@ -80,10 +81,8 @@ namespace BxS_WorxIPX.BDC
 					{
 						try
 							{
-								IRequest	lo_Req	= this.Serializer.DeSerialize<IRequest>(	this.IO.ReadFile( fullPath )
-																																					, this._ReqTypes.Value					);
-								this.PostTransport( lo_Req );
-								return	lo_Req;
+								return	this.Serializer.DeSerialize<IRequest>(	this.IO.ReadFile( fullPath )
+																															, this._ReqTypes.Value					);
 							}
 						catch (Exception ex)
 							{

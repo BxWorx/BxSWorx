@@ -19,8 +19,8 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			private	const	string	_Nme	=  "Test-00"									;
 			private	const	string	_Path	=  @"GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
 
-			private				string	_User	;
-			private				string	_Full	;
+			private	readonly	string	_User	;
+			private						string	_Full	;
 
 			private	readonly	IPX_Controller			co_Cntlr	;
 			private	readonly	IBDC_Controller			co_BC			;

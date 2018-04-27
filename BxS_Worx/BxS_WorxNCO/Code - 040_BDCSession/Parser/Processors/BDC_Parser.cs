@@ -86,42 +86,44 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private bool Parse1Dto2D(		ISession		request
-																	, DTO_ParserRequest	dto			)
+				private bool Parse1Dto2D(		ISession					BDCSession
+																	, DTO_ParserRequest	dto					)
 					{
-						bool	lb_Ret	= true;
-						//.............................................
-						if ( request.WSStore.Count.Equals(0) )
+						if ( BDCSession.WSData.Count.Equals(0) )
 							{
-								lb_Ret	= false;
-							}
-						else
-							{
-								int[]	lt_UB	= new int[2];
-								int[]	lt_LB = new int[2];
-
-								lt_UB[0]	=	request.RowUB;
-								lt_UB[1]	=	request.ColUB;
-								lt_LB[0]	=	request.RowLB;
-								lt_LB[1]	=	request.ColLB;
-
-								dto.WSData	= ( string[,] ) Array.CreateInstance( typeof( string ) , lt_UB, lt_LB );
-								//.............................................
-								int	ln_Row	= 0;
-								int ln_Col	= 0;
-
-								foreach ( KeyValuePair<string, string> ls_kvp in request.WSStore )
-									{
-										string[] lt_Idx		= ls_kvp.Key.Split( cz_Coma );
-
-										ln_Row	= int.Parse( lt_Idx[0] );
-										ln_Col	= int.Parse( lt_Idx[1] );
-
-										dto.WSData[ln_Row , ln_Col]		= ls_kvp.Value;
-									}
+								return	false;
 							}
 						//.............................................
-						return	lb_Ret;
+						dto.RowLB	      =	BDCSession.RowLB;
+						dto.RowUB	      =	BDCSession.RowUB;
+						dto.ColLB	      =	BDCSession.ColLB;
+						dto.ColUB	      =	BDCSession.ColUB;
+						dto.UsedAddress	= BDCSession.UsedAddress	;
+						//.............................................
+						int[]	lt_UB	= new int[2];
+						int[]	lt_LB = new int[2];
+
+						lt_UB[0]	=	dto.RowUB;
+						lt_UB[1]	=	dto.ColUB;
+						lt_LB[0]	=	dto.RowLB;
+						lt_LB[1]	=	dto.ColLB;
+
+						dto.WSData	    = ( string[,] ) Array.CreateInstance( typeof( string ) , lt_UB, lt_LB );
+						//.............................................
+						int	ln_Row	= 0;
+						int ln_Col	= 0;
+
+						foreach ( KeyValuePair<string, string> ls_kvp in BDCSession.WSData )
+							{
+								string[] lt_Idx		= ls_kvp.Key.Split( cz_Coma );
+
+								ln_Row	= int.Parse( lt_Idx[0] );
+								ln_Col	= int.Parse( lt_Idx[1] );
+
+								dto.WSData[ln_Row , ln_Col]		= ls_kvp.Value;
+							}
+						//.............................................
+						return	true;
 					}
 
 			#endregion

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 //.........................................................
-using BxS_WorxIPX.BDC;
-
 using static	BxS_WorxNCO.RfcFunction.BDCTran	.BDC_Constants				;
 using static	BxS_WorxNCO.BDCSession.Parser		.BDC_Parser_Constants	;
 using static	BxS_WorxNCO.Main								.NCO_Constants				;
@@ -24,10 +22,10 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Process(	ISession					dtoRequest
+				internal void	Process(	DTO_ParserRequest	dtoRequest
 															,	DTO_ParserProfile	dtoProfile )
 					{
-						if (dtoRequest.WSStore == null)	return;
+						if (dtoRequest.WSData	== null)	return;
 						this.Prepare( dtoRequest , dtoProfile );
 						//.............................................
 						this.LoadTokens( dtoProfile );
@@ -56,7 +54,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void Prepare(		ISession					dtoRequest
+				private	void Prepare(		DTO_ParserRequest	dtoRequest
 															,	DTO_ParserProfile	dtoProfile )
 					{
 						//.............................................
@@ -93,16 +91,13 @@ namespace BxS_WorxNCO.BDCSession.Parser
 
 						this.UpdateToken( lo_DataRowToken , dtoRequest , dtoProfile.RowLB , dtoProfile.RowUB , dtoProfile.ColLB , dtoProfile.ColUB );
 
-
-
-
 						dtoProfile.RowDataStart	= lo_DataRowToken.Row;
 						if (lo_DataRowToken.FoundAlt)	dtoProfile.RowDataStart ++;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void UpdateToken(		DTO_ParserToken		token
-																	,	ISession					dtoRequest
+																	,	DTO_ParserRequest	dtoRequest
 																	, int fromRow , int toRow
 																	, int fromCol , int toCol				)
 					{
@@ -110,15 +105,15 @@ namespace BxS_WorxNCO.BDCSession.Parser
 							{
 								for ( int c = fromCol; c < toCol; c++ )
 									{
-										if ( dtoRequest.WSCells[r,c] != null )
+										if ( dtoRequest.WSData[r,c] != null )
 											{
-												if ( Regex.IsMatch( dtoRequest.WSCells[r,c] , cz_Cmd_Prefix , RegexOptions.IgnoreCase ) )
+												if ( Regex.IsMatch( dtoRequest.WSData[r,c] , cz_Cmd_Prefix , RegexOptions.IgnoreCase ) )
 													{
-														if ( Regex.IsMatch( dtoRequest.WSStore[r,c] , token.ID , RegexOptions.IgnoreCase ) )
+														if ( Regex.IsMatch( dtoRequest.WSData[r,c] , token.ID , RegexOptions.IgnoreCase ) )
 															{
 																token.Row		= r;
 																token.Col		= c;
-																token.Value	= dtoRequest.WSStore[r,c].Replace( cz_Cmd_Prefix , "" );
+																token.Value	= dtoRequest.WSData[r,c].Replace( cz_Cmd_Prefix , "" );
 																token.Found	= true;
 															}
 													}
@@ -134,19 +129,19 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						// Search for alternate token if supplied and original not found
 						//
-						if ( !token.AltID.Equals(string.Empty) )
+						if ( ! token.AltID.Equals(string.Empty) )
 							{
 								for ( int r = fromRow; r < toRow; r++ )
 									{
 										for ( int c = fromCol; c < toCol; c++ )
 											{
-												if ( dtoRequest.WSStore[r,c] != null )
+												if ( dtoRequest.WSData[r,c] != null )
 													{
-														if ( Regex.IsMatch( dtoRequest.WSStore[r,c] , token.AltID , RegexOptions.IgnoreCase ) )
+														if ( Regex.IsMatch( dtoRequest.WSData[r,c] , token.AltID , RegexOptions.IgnoreCase ) )
 															{
 																token.Row				= r;
 																token.Col				= c;
-																token.Value			= dtoRequest.WSStore[r,c].Replace( cz_Cmd_Prefix , "" );
+																token.Value			= dtoRequest.WSData[r,c].Replace( cz_Cmd_Prefix , "" );
 																token.Found			= true;
 																token.FoundAlt	= true;
 															}
