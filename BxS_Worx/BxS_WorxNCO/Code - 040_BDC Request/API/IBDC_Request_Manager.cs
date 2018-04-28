@@ -20,6 +20,10 @@ namespace BxS_WorxNCO.BDCSession.API
 														,	CancellationToken										CT
 														, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
 
+				Task<bool>	ProcessAsync(	IRequest												request
+														,	CancellationToken										CT
+														, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
+
 				void ReConfigureBDCSessionPool		();
 				void ReConfigureBDCConsumerPool		();
 				void ReConfigureParserPool				();

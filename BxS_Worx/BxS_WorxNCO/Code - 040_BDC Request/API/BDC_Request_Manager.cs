@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 //.........................................................
 using SMC	= SAP.Middleware.Connector;
 //.........................................................
@@ -141,6 +142,19 @@ namespace BxS_WorxNCO.BDCSession.API
 							}
 						//.................................................
 						return	this._IsReady;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public async Task<bool> ProcessAsync(		IRequest														request
+																							,	CancellationToken										CT
+																							, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
+					{
+						BlockingCollection<ISession>	lo_PsrQueue	=	new BlockingCollection<ISession>();
+						BlockingCollection<ISession>	lo_SsnQueue	=	new BlockingCollection<ISession>();
+						BlockingCollection<ISession>	lo_MsgQueue	=	new BlockingCollection<ISession>();
+
+
+
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
