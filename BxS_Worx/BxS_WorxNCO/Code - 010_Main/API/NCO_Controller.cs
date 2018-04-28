@@ -116,7 +116,7 @@ namespace BxS_WorxNCO.API
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: Session Handling"
+			#region "Methods: Exposed: SAP Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public ISAP_Session_Manager	CreateSAPSessionManager( IRfcDestination rfcDestination )
@@ -124,11 +124,16 @@ namespace BxS_WorxNCO.API
 						return	new SAP_Session_Manager( rfcDestination );
 					}
 
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: BDC Request Handling"
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IBDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination rfcDestination
+				public IBDC_Request_Manager	CreateBDCRequestManager(	IRfcDestination rfcDestination
 																														, bool						useAltBDCFunction = false )
 					{
-						return	new BDC_Session_Manager( rfcDestination , useAltBDCFunction );
+						return	new BDC_Request_Manager( rfcDestination , useAltBDCFunction );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

@@ -19,15 +19,15 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
 {
-	public class BDC_Session_Manager : IBDC_Session_Manager
+	public class BDC_Request_Manager : IBDC_Request_Manager
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_Manager(		IRfcDestination	rfcDestination
+				internal BDC_Request_Manager(		IRfcDestination	rfcDestination
 																			, bool						useAltBDCFunction	= false )
 					{
-						this.RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Session_Manager).Namespace}:- RfcDest Factory null" );
+						this.RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Request_Manager).Namespace}:- RfcDest Factory null" );
 						this._UseAltFnc			= useAltBDCFunction	;
 						//.............................................
 						this._IsReady				= false;
@@ -37,6 +37,7 @@ namespace BxS_WorxNCO.BDCSession.API
 						//.............................................
 						this._ParserCfg			= new	Lazy< ObjectPoolConfig< BDC_Parser > >										(	()=>	this._Factory.Value.CreateParserPoolConfig()					,	cz_LM );
 						this._ParserPool		= new	Lazy< ObjectPool			< BDC_Parser > >										(	()=>	this._Factory.Value.CreateParserPool()								, cz_LM );
+
 
 						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TranProcessor > >			(	()=>	this._Factory.Value.CreateBDCSessionPoolConfig()			,	cz_LM );
 						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session_TranProcessor > >			(	()=>	this._Factory.Value.CreateBDCSessionPool()						, cz_LM );
@@ -143,7 +144,7 @@ namespace BxS_WorxNCO.BDCSession.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<bool> Process(	ISession										request
+				public async Task<bool> Process(	ISession														request
 																				,	CancellationToken										CT
 																				, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{

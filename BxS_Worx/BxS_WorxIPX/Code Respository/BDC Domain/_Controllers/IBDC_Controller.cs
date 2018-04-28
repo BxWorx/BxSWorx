@@ -19,6 +19,7 @@ namespace BxS_WorxIPX.BDC
 				IUser			Create_User()			;
 				ISession	Create_Session()	;
 				IRequest	Create_Request()	;
+				IRequest_Config	Create_RequestConfig()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				void			DispatchRequest_ToFile	( IRequest request , string fullPath )	;

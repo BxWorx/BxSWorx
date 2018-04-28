@@ -38,9 +38,9 @@
     <Compile Remove="Code - 030_RFC Function\SAP Functions\BDC\Indexes\BDC_IndexSPAy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\DDIC Info\Main\DDICInfo_FieldCollection - Copy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\Table Reader\Indexes\TblRdr_IndexBase.cs" />
-    <Compile Remove="Code - 040_BDCSession\Main\BDC_SessionProgress.cs" />
-    <Compile Remove="Code - 040_BDCSession\Parser\DTO\DTO_ParserXMLConfig.cs" />
-    <Compile Remove="Code - 040_BDCSession\Parser\Processors\BDC_Parser_Destination.cs" />
+    <Compile Remove="Code - 040_BDC Request\Main - Session\BDC_SessionProgress.cs" />
+    <Compile Remove="Code - 040_BDC Request\Main - Session\Session - Parser Handling\Parser\DTO\DTO_ParserXMLConfig.cs" />
+    <Compile Remove="Code - 040_BDC Request\Main - Session\Session - Parser Handling\Parser\Processors\BDC_Parser_Destination.cs" />
     <Compile Remove="zKeep\BDCCallTranConsumer.cs" />
     <Compile Remove="zKeep\BDCCallTranIndex.cs" />
     <Compile Remove="zKeep\BDCCallTranIndexSetup.cs" />
@@ -62,6 +62,7 @@
     <Compile Remove="zKeep\BDC_SessionProgress.cs" />
     <Compile Remove="zKeep\ConfigLogon - Copy.cs" />
     <Compile Remove="zKeep\Controller.cs" />
+    <Compile Remove="zKeep\DTO_ParserXMLConfig.cs" />
     <Compile Remove="zKeep\IBDCSession.cs" />
     <Compile Remove="zKeep\IREPDestination.cs" />
     <Compile Remove="zKeep\IRfcDestination.cs" />
@@ -87,6 +88,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Code - 040_BDC Request\Main - Request\" />
     <Folder Include="Properties\" />
     <Folder Include="zKeep\" />
   </ItemGroup>

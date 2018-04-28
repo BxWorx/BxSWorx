@@ -65,7 +65,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void CompileBDCEntries(		DTO_BDC_Transaction bdcTran
 																				, DTO_ParserColumn		column
-																				, string					value		)
+																				, string							value		)
 					{
 						if ( column.DoOnlyIfValue && value.Equals(string.Empty) )
 								{

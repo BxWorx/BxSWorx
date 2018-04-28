@@ -59,7 +59,9 @@ namespace BxS_WorxIPX.BDC
 				//...
 				public	IUser			Create_User			()=>	new User();
 				public	ISession	Create_Session	()=>	new	Session( this.Create_XMLConfig() )	;
-				public	IRequest	Create_Request	()=>	new	Request( this.Create_User() , this.Factory.Create_SAPLogon() )	;
+				public	IRequest_Config	Create_RequestConfig()	=> new Request_Config()	;
+
+				public	IRequest	Create_Request	()=>	new	Request( this.Create_User() , this.Factory.Create_SAPLogon() , this.Create_RequestConfig() )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void DispatchRequest_ToFile(		IRequest	request

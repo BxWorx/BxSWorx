@@ -35,6 +35,7 @@
     <Compile Remove="Code Respository\BDC Domain\DTO_BDC_SessionConfig.cs" />
     <Compile Remove="Code Respository\BDC Domain\DTO_BDC_SPA.cs" />
     <Compile Remove="Code Respository\BDC Domain\DTO_BDC_Trans.cs" />
+    <Compile Remove="Code Respository\BDC Domain\zTODO\BDC_Controller_Parse.cs" />
     <Compile Remove="Code Respository\BDC Domain\zTODO\BDC_Factory.cs" />
     <Compile Remove="Code Respository\BDC Domain\zTODO\ExcelBDCSessionResult.cs" />
     <Compile Remove="Code Respository\BDC Domain\zTODO\IExcelBDCSessionResult.cs" />

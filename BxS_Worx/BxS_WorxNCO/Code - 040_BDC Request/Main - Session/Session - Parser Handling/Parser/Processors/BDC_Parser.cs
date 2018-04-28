@@ -35,7 +35,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 				private	BDC_Parser_Columns			Col		{ get	{	return	this.Factory.ColumnParser				;	}	}
 				private	BDC_Parser_Groups				Grp		{ get	{	return	this.Factory.GroupParser				;	}	}
 				private	BDC_Parser_Transaction	Trn		{ get	{	return	this.Factory.TransactionParser	;	}	}
-				private	BDC_Parser_Session			Ssn		{ get	{	return	this.Factory.SessionParser			;	}	}
+				//private	BDC_Parser_Session			Ssn		{ get	{	return	this.Factory.SessionParser			;	}	}
 				//private		readonly	Lazy< BDC_Parser_Destination	>		_Des;
 
 			#endregion

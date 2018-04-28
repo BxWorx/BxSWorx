@@ -41,7 +41,7 @@ namespace BxS_WorxNCO.API
 				ISAP_Session_Manager	CreateSAPSessionManager( IRfcDestination	rfcDestination );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				IBDC_Session_Manager	CreateBDCSessionManager(	IRfcDestination	rfcDestination
+				IBDC_Request_Manager	CreateBDCRequestManager(	IRfcDestination	rfcDestination
 																											, bool						useAltBDCFunction	= false );
 
 			#endregion

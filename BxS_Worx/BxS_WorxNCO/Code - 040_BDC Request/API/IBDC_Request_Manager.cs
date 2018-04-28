@@ -8,7 +8,7 @@ using BxS_WorxUtil.Progress;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
 {
-	public interface IBDC_Session_Manager
+	public interface IBDC_Request_Manager
 		{
 			#region "Methods: Exposed"
 
@@ -16,7 +16,7 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				Task<bool>	ReadySessionAsync( bool optimise = true );
 
-				Task<bool>	Process(	ISession										request
+				Task<bool>	Process(	ISession														request
 														,	CancellationToken										CT
 														, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
 
