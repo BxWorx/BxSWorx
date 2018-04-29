@@ -13,11 +13,5 @@ namespace BxS_WorxIPX.BDC
 
 			#endregion
 
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				void Transfer( IUser user );
-
-			#endregion
 		}
 }

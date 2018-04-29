@@ -18,11 +18,5 @@ namespace BxS_WorxIPX.BDC
 
 			#endregion
 
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				void Transfer( IRequest_Config config );
-
-			#endregion
 		}
 }

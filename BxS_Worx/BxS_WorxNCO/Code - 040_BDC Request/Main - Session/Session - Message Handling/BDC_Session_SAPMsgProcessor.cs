@@ -17,13 +17,11 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_SAPMsgProcessor(		DTO_BDC_SessionConfig											config
-																							, BlockingCollection< DTO_BDC_Transaction > queue		)
+				internal BDC_Session_SAPMsgProcessor(		DTO_BDC_SessionConfig	config	)
 					{
 						this.Config	= config	;
-						this._Queue	= queue		;
 						//.............................................
-						//this._Queue				= new	BlockingCollection< DTO_BDC_Transaction >();
+						this._Queue				= new	BlockingCollection< DTO_BDC_Transaction >();
 						this._Consumers		= new List< Task<int> >	();
 						//.............................................
 						this.TasksCompleted		= new ConcurrentQueue< Task<int> >();

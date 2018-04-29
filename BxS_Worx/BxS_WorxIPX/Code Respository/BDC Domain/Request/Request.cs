@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+//.........................................................
+using BxS_WorxIPX.Toolset;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
@@ -41,9 +43,9 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	void	Set_User		( IUser				user	)				=>	this.User			.Transfer	( user	)		;
-				public	void	Set_Logon		( ISAP_Logon	logon	)				=>	this.SAPLogon	.Transfer	( logon )		;
-				public	void	Set_Config	( IRequest_Config	config )	=>	this.Config		.Transfer ( config )	;
+				public	void	Set_User		( IUser				user	)				=>	this.User			.CopyPropertiesFrom	( user )		;
+				public	void	Set_Logon		( ISAP_Logon	logon	)				=>	this.SAPLogon	.CopyPropertiesFrom	( logon )		;
+				public	void	Set_Config	( IRequest_Config	config )	=>	this.Config		.CopyPropertiesFrom	( config )	;
 				//...
 				public	void	Add_Session( ISession	session )	=>	this.Sessions	.Add( session.ID , session );
 

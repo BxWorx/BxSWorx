@@ -235,9 +235,9 @@ namespace BxS_WorxUtil.ObjectPool
 					{
 						T newObject;
 
-						if ( this._Config.Factory != null )
+						if ( this._Config.CreateConsumer != null )
 							{
-								newObject = this._Config.Factory();
+								newObject = this._Config.CreateConsumer();
 							}
 						else
 							{
@@ -304,9 +304,9 @@ namespace BxS_WorxUtil.ObjectPool
 								this._Config.Throttled		=	config.Throttled		;
 								this._Config.AutoStartup	=	config.AutoStartup	;
 								//.........................................
-								if ( config.Factory != null )
+								if ( config.CreateConsumer != null )
 									{
-										this._Config.Factory	=	config.Factory	;
+										this._Config.CreateConsumer	=	config.CreateConsumer	;
 									}
 								//.........................................
 								if ( this._Config.Throttled )

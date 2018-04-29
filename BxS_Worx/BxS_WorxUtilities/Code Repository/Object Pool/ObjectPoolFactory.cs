@@ -7,11 +7,12 @@ namespace BxS_WorxUtil.ObjectPool
 			#region "Methods: Static"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static ObjectPoolConfig<T>	CreateConfig<T>( Func<T> factory , bool defaults = true ) where T:PooledObject
+				public static ObjectPoolConfig<T>	CreateConfig<T>(	Func<T> createConsumer
+																													, bool		defaults = true ) where T:PooledObject
 					{
 						var lo_Cfg = new ObjectPoolConfig<T>
 															{
-																Factory = factory
+																CreateConsumer = createConsumer
 															};
 						//.............................................
 						if ( defaults )

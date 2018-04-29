@@ -3,6 +3,8 @@
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.BDC;
 
+using BxS_WorxIPX.Toolset;
+
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
 	[TestClass]
@@ -32,6 +34,23 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					Assert.IsNotNull( lo_RM	, "" );
 					Assert.IsNotNull( lo_SL	, "" );
+				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_010_IPXCntlr_30_ExtensionMethods()
+				{
+					IUser	l0	= new User();
+					IUser l1	= new User();
+					//...
+					l0.Name	= "A";
+					l1.Name	= "B";
+
+					l0.CopyPropertiesFrom( l1 );
+
+					Assert.AreEqual( l0.Name , l1.Name	, "" );
+					l1.Name	="C";
+					Assert.AreNotEqual( l0.Name , l1.Name	, "" );
 				}
 		}
 

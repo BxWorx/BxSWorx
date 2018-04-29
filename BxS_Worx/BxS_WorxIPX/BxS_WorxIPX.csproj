@@ -13,17 +13,14 @@
     <Compile Remove="Code Respository\BDC Domain\Request\Controllers\**" />
     <Compile Remove="Code Respository\BDC Domain\zTODO\Configuration\**" />
     <Compile Remove="Code Respository\BDC Domain\zTODO\Excel Side\**" />
-    <Compile Remove="Code Respository\Helpers\**" />
     <EmbeddedResource Remove="Code Respository\BDC Domain\Excel Side\**" />
     <EmbeddedResource Remove="Code Respository\BDC Domain\Request\Controllers\**" />
     <EmbeddedResource Remove="Code Respository\BDC Domain\zTODO\Configuration\**" />
     <EmbeddedResource Remove="Code Respository\BDC Domain\zTODO\Excel Side\**" />
-    <EmbeddedResource Remove="Code Respository\Helpers\**" />
     <None Remove="Code Respository\BDC Domain\Excel Side\**" />
     <None Remove="Code Respository\BDC Domain\Request\Controllers\**" />
     <None Remove="Code Respository\BDC Domain\zTODO\Configuration\**" />
     <None Remove="Code Respository\BDC Domain\zTODO\Excel Side\**" />
-    <None Remove="Code Respository\Helpers\**" />
   </ItemGroup>
 
   <ItemGroup>

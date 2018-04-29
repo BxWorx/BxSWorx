@@ -19,15 +19,15 @@ namespace BxS_WorxUtil.ObjectPool
 
 				private	const		int	cz_DefMinSize	=	00	;
 				private const		int	cz_DefMaxSize	=	05	;
-				//.................................................
+				//...
 				private int			_MinimumPoolSize			;
 				private int			_MaximumPoolSize			;
 				private int			_MaxIdleTime					;
 				private bool		_Throttled						;
 				private bool		_ActivateDiagnostics	;
 				private bool		_AutoStartup					;
-
-				private Func<T>	_Factory							;
+				//...
+				private Func<T>	_CreateCons	;
 
 			#endregion
 
@@ -42,8 +42,8 @@ namespace BxS_WorxUtil.ObjectPool
 				public	bool	Throttled							{ get	{	return	this._Throttled						; } set	{	if ( this._Throttled						!= value )	{	this._Throttled						= value	; this.IsDirty	= true;  } } }
 				public	bool	ActivateDiagnostics		{ get	{	return	this._ActivateDiagnostics	; } set	{	if ( this._ActivateDiagnostics	!= value )	{	this._ActivateDiagnostics	= value	; this.IsDirty	= true;  } } }
 				public	bool	AutoStartup						{ get	{	return	this._AutoStartup					; } set	{	if ( this._AutoStartup					!= value )	{	this._AutoStartup					= value	; this.IsDirty	= true;  } } }
-				//.................................................
-				public	Func<T>	Factory							{ get	{	return	this._Factory							; } set	{	if ( this._Factory							!= value )	{	this._Factory							= value	; this.IsDirty	= true;  } } }
+				//...
+				public	Func<T>	CreateConsumer			{ get	{	return	this._CreateCons							; } set	{	if ( this._CreateCons								!= value )	{	this._CreateCons							= value	; this.IsDirty	= true;  } } }
 
 			#endregion
 
@@ -76,8 +76,8 @@ namespace BxS_WorxUtil.ObjectPool
 						this.Throttled						= false;
 						this.ActivateDiagnostics	= true;
 						this.AutoStartup					= false;
-
-						this.Factory	= null;
+						//...
+						this.CreateConsumer	= null;
 					}
 
 			#endregion

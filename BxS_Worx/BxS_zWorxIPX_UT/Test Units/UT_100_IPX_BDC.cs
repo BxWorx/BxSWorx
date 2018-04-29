@@ -88,18 +88,18 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_IPXBDC_40_RequestIO()
 				{
-					IRequest	r = this.co_BC.Create_Request();
-					//...
-					ISession	s = this.co_BC.Create_Session();
+					//IRequest	r = this.co_BC.Create_Request();
+					////...
+					//ISession	s = this.co_BC.Create_Session();
 
-					s.WSCells	= (object[,]) Array.CreateInstance( typeof( object ) , 5 , 5 );
-					s.WSCells[1,1] = "A";
-					r.Add_Session( s );
-					this.co_BC.DispatchRequest_ToFile( r , this._Full );
+					//s.WSCells	= (object[,]) Array.CreateInstance( typeof( object ) , 5 , 5 );
+					//s.WSCells[1,1] = "A";
+					//r.Add_Session( s );
+					//this.co_BC.DispatchRequest_ToFile( r , this._Full );
 
-					IRequest x = this.co_BC.ReceiveRequest_FromFile( this._Full );
+					//IRequest x = this.co_BC.ReceiveRequest_FromFile( this._Full );
 
-					Assert.AreEqual	( 1 , x.Count , "" );
+					//Assert.AreEqual	( 1 , x.Count , "" );
 				}
 
 			//.

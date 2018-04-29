@@ -28,7 +28,7 @@ namespace BxS_WorxNCO.BDCSession.API
 				internal BDC_Request_Manager(		IRfcDestination	rfcDestination
 																			, bool						useAltBDCFunction	= false )
 					{
-						this.RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Request_Manager).Namespace}:- RfcDest Factory null" );
+						this.RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Request_Manager).Namespace}:- RfcDest null" );
 						this._UseAltFnc			= useAltBDCFunction	;
 						//.............................................
 						this._IsReady				= false;
@@ -151,11 +151,38 @@ namespace BxS_WorxNCO.BDCSession.API
 					{
 						BlockingCollection<ISession>	lo_PsrQueue	=	new BlockingCollection<ISession>();
 						BlockingCollection<ISession>	lo_SsnQueue	=	new BlockingCollection<ISession>();
-						BlockingCollection<ISession>	lo_MsgQueue	=	new BlockingCollection<ISession>();
 
+						BlockingCollection<DTO_BDC_Session>	lo_MsgQueue	=	new BlockingCollection<DTO_BDC_Session>();
+						BlockingCollection<DTO_BDC_Session>	lo_ResQueue	=	new BlockingCollection<DTO_BDC_Session>();
+
+
+						
+						
 
 
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public async Task ProcessSAPMsgPipelineAsync(		BlockingCollection<DTO_BDC_Session>				queueIn
+																											, BlockingCollection<DTO_BDC_Session>				queueOut
+																											, CancellationToken													CT
+																											,	ProgressHandler< DTO_BDC_Progress >				progressHndlr )
+					{
+						using ( BDC_Session_SAPMsgProcessor lo_SAPMsgs	= this._SAPMsgPool.Value.Acquire() )
+							{
+								foreach ( DTO_BDC_Session lo_DTOSession in queueIn.GetConsumingEnumerable() )
+									{
+										int ln_Msg	=	await	lo_SAPMsgs.Process_SessionAsync(	lo_DTOSession
+																																				, CT
+																																				, progressHndlr
+																																				, this._MsgConsPool.Value
+																																				,	this.SMCDestination ).ConfigureAwait(false);
+										queueOut.Add(lo_DTOSession);
+									}
+							}
+					}
+
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task<bool> Process(	ISession														request
