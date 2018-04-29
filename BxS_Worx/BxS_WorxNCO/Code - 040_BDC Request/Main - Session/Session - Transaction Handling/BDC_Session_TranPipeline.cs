@@ -17,24 +17,26 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDC_Session_SAPMsgPipeline
+	internal class BDC_Session_TranPipeline
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_SAPMsgPipeline(	IRfcDestination							rfcDestination
+				internal BDC_Session_TranPipeline(		IRfcDestination							rfcDestination
 																						, Lazy< IRfcFncController		>	rfcFncCntlr
-																						, Lazy< BDC_Session_Factory > factory					)
+																						, Lazy< BDC_Session_Factory > factory
+																						, bool						useAltBDCFunction	= false )
 					{
 						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Session_SAPMsgPipeline).Namespace}:- RfcDest null"		);
 						this._Factory					= factory					??	throw		new	ArgumentException( $"{typeof(BDC_Session_SAPMsgPipeline).Namespace}:- Factory null"		);
 						this._RfcFncCntlr			= rfcFncCntlr			??	throw		new	ArgumentException( $"{typeof(BDC_Session_SAPMsgPipeline).Namespace}:- FNC Cntlr null" );
+						this._UseAltFnc				= useAltBDCFunction	;
 						//...
-						this._SAPMsgCfg			= new	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgProcessor > >		(	()=>	this.CreateSAPMsgsPoolConfig()	,	cz_LM );
-						this._SAPMsgPool		= new	Lazy< ObjectPool			< BDC_Session_SAPMsgProcessor > >		(	()=>	this.CreateSAPMsgsPool()				, cz_LM );
+						this._BDCSessCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TranProcessor > >			(	()=>	this.CreateBDCSessionPoolConfig()			,	cz_LM );
+						this._BDCSessPool		= new	Lazy< ObjectPool			< BDC_Session_TranProcessor > >			(	()=>	this.CreateBDCSessionPool()						, cz_LM );
 
-						this._MsgConsCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgConsumer > >		(	()=>	this.CreateBDCSAPMsgConsumerPoolConfig	( this.CreateBDCSAPMsgConsumer , true )	,	cz_LM );
-						this._MsgConsPool		= new	Lazy< ObjectPool			< BDC_Session_SAPMsgConsumer > >		(	()=>	this.CreateBDCSAPMsgConsumerPool				( this.CreateBDCSAPMsgConsumer )				, cz_LM );
+						this._BDCConsCfg		= new	Lazy< ObjectPoolConfig< BDC_Session_TranConsumer > >			(	()=>	this.CreateBDCTransConsumerPoolConfig	( this.CreateBDCTranConsumer , true )	,	cz_LM );
+						this._BDCConsPool		= new	Lazy< ObjectPool			< BDC_Session_TranConsumer > >			(	()=>	this.CreateBDCTransConsumerPool				( this.CreateBDCTranConsumer )				, cz_LM );
 					}
 
 			#endregion
@@ -42,15 +44,17 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
+				private readonly	bool	_UseAltFnc	;
+				//...
 				private	readonly	IRfcDestination								_RfcDestination	;
 				private	readonly	Lazy< BDC_Session_Factory	>		_Factory				;
 				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr		;
 				//...
-				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgProcessor > >		_SAPMsgCfg		;
-				private	readonly	Lazy< ObjectPool			< BDC_Session_SAPMsgProcessor > >		_SAPMsgPool		;
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TranProcessor > >			_BDCSessCfg		;
+				private	readonly	Lazy< ObjectPool			< BDC_Session_TranProcessor >	>			_BDCSessPool	;
 
-				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_SAPMsgConsumer > >		_MsgConsCfg		;
-				private	readonly	Lazy< ObjectPool			< BDC_Session_SAPMsgConsumer > >		_MsgConsPool	;
+				private	readonly	Lazy< ObjectPoolConfig< BDC_Session_TranConsumer > >			_BDCConsCfg		;
+				private	readonly	Lazy< ObjectPool			< BDC_Session_TranConsumer > >			_BDCConsPool	;
 
 			#endregion
 
@@ -91,37 +95,55 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Methods: Private"
 
-			
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	ObjectPool< BDC_Session_SAPMsgProcessor >	CreateSAPMsgsPool()	=>	this.UTL_Cntlr.CreateObjectPool( this.CreateSAPMsgsProcessor );
+				internal	ObjectPool< BDC_Session_TranProcessor >	CreateBDCSessionPool()	=>	this.UTL_Cntlr.CreateObjectPool( this.CreateBDCSession );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	ObjectPoolConfig< BDC_Session_SAPMsgProcessor > CreateSAPMsgsPoolConfig( bool defaults = true )
+				internal ObjectPoolConfig< BDC_Session_TranProcessor > CreateBDCSessionPoolConfig( bool defaults = true )
 					{
-						return	ObjectPoolFactory.CreateConfig( this.CreateSAPMsgsProcessor , defaults );
+						return	ObjectPoolFactory.CreateConfig( this.CreateBDCSession , defaults );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BDC_Session_SAPMsgProcessor CreateSAPMsgsProcessor()
+				internal BDC_Session_TranProcessor CreateBDCSession()
 					{
-						return	new	BDC_Session_SAPMsgProcessor( this._Factory.Value.CreateBDCSessionConfig() );
+						return	new	BDC_Session_TranProcessor( this._Factory.Value.CreateBDCSessionConfig() );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	ObjectPool< BDC_Session_SAPMsgConsumer >	CreateBDCSAPMsgConsumerPool( Func< BDC_Session_SAPMsgConsumer > factory )
+				internal DTO_BDC_Session CreateSessionDTO()
+					{
+						var lo_CTU	= new DTO_BDC_CTU		();
+						var lo_Hed	= new DTO_BDC_Header( lo_CTU );
+						//.............................................
+						return	new DTO_BDC_Session( lo_Hed , this.CreateBDCTransaction );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal DTO_BDC_Request CreateRequestDTO()
+					{
+						return	new DTO_BDC_Request( this.CreateSessionDTO );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	DTO_BDC_Transaction	CreateBDCTransaction( int No )	=>	new DTO_BDC_Transaction( No );
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private ObjectPool< BDC_Session_TranConsumer > CreateBDCTransConsumerPool( Func< BDC_Session_TranConsumer > factory )
 					{
 						return	this.UTL_Cntlr.CreateObjectPool( factory );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private ObjectPoolConfig< BDC_Session_SAPMsgConsumer > CreateBDCSAPMsgConsumerPoolConfig(	Func< BDC_Session_SAPMsgConsumer >	factory
-																																																	, bool																defaults = true )
+				private ObjectPoolConfig< BDC_Session_TranConsumer > CreateBDCTransConsumerPoolConfig(		Func< BDC_Session_TranConsumer >	factory
+																																																,	bool															defaults = true )
 					{
 						return	ObjectPoolFactory.CreateConfig( factory , defaults );
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BDC_Session_SAPMsgConsumer	CreateBDCSAPMsgConsumer	()=>	new	BDC_Session_SAPMsgConsumer	( this._RfcFncCntlr.Value.CreateSAPMsgFunction	() );
+				private BDC_Session_TranConsumer		CreateBDCTranConsumer		()=>	new	BDC_Session_TranConsumer		( this._UseAltFnc ? this._RfcFncCntlr.Value.CreateBDCFunctionAlt()
+																																																														: this._RfcFncCntlr.Value.CreateBDCFunctionStd() );
 
 			#endregion
 
