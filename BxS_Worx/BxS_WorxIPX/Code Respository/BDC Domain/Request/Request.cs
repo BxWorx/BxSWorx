@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Threading;
 //.........................................................
 using BxS_WorxIPX.Toolset;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -21,8 +22,16 @@ namespace BxS_WorxIPX.BDC
 						this.SAPLogon		= sapLogon	;
 						this.Config			= config		;
 						//...
-						this.Sessions		= new	Dictionary<Guid , ISession>()	;
+						this.Sessions		= new	Dictionary<int , ISession>()	;
+						this._Index			= 0;
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private	int _Index;
 
 			#endregion
 
@@ -35,7 +44,7 @@ namespace BxS_WorxIPX.BDC
 				[DataMember]	public	ISAP_Logon			SAPLogon	{ get; set; }
 				[DataMember]	public	IRequest_Config	Config		{ get; set; }
 				//...
-				[DataMember]	public	Dictionary<Guid , ISession>		Sessions	{ get; set; }
+				[DataMember]	public	Dictionary<int , ISession>	Sessions	{ get; set; }
 
 			#endregion
 
@@ -46,8 +55,13 @@ namespace BxS_WorxIPX.BDC
 				public	void	Set_User		( IUser				user	)				=>	this.User			.CopyPropertiesFrom	( user )		;
 				public	void	Set_Logon		( ISAP_Logon	logon	)				=>	this.SAPLogon	.CopyPropertiesFrom	( logon )		;
 				public	void	Set_Config	( IRequest_Config	config )	=>	this.Config		.CopyPropertiesFrom	( config )	;
-				//...
-				public	void	Add_Session( ISession	session )	=>	this.Sessions	.Add( session.ID , session );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	void	Add_Session	( ISession	session )
+					{
+						Interlocked.Increment( ref	this._Index )		;
+						this.Sessions.Add( this._Index , session )	;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Clear()	=>	this.Sessions.Clear();

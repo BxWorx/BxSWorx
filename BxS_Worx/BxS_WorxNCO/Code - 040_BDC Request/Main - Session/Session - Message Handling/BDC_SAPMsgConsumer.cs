@@ -10,12 +10,12 @@ using BxS_WorxUtil.ObjectPool;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDC_Session_SAPMsgConsumer : PooledObject
+	internal class BDC_SAPMsgConsumer : PooledObject
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_SAPMsgConsumer( SAPMsg_Function	function )
+				internal BDC_SAPMsgConsumer( SAPMsg_Function	function )
 					{
 						this._Func	= function	;
 						//.............................................

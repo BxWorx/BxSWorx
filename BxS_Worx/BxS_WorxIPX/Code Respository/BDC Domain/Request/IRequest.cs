@@ -13,7 +13,7 @@ namespace BxS_WorxIPX.BDC
 				ISAP_Logon			SAPLogon	{ get; set; }
 				IRequest_Config	Config		{ get; set; }
 				//...
-				Dictionary<Guid , ISession>	Sessions	{ get; set; }
+				Dictionary< int , ISession>	Sessions	{ get; set; }
 
 			#endregion
 

@@ -18,9 +18,9 @@ namespace BxS_WorxUtil.Main
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				PriorityQueue<T>		CreatePriorityQueue<T>		()																											where T: class				;
-				ObjectPool<T>				CreateObjectPool<T>				(	Func<T>	factory	= null )															where T: PooledObject	;
-				ProgressHandler<T>	CreateProgressHandler<T>	(	Func<T>	factory = null ,	int reportInterval	= 10 )	where T:class					;
+				PriorityQueue<T>		CreatePriorityQueue<T>		()																															where T: class				;
+				ObjectPool<T>				CreateObjectPool<T>				(	Func<T>	createConsumer	= null )															where T: PooledObject	;
+				ProgressHandler<T>	CreateProgressHandler<T>	(	Func<T>	factory					= null ,	int reportInterval	= 10 )	where T:class					;
 
 			#endregion
 

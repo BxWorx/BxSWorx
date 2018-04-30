@@ -38,6 +38,7 @@
     <Compile Remove="Code - 030_RFC Function\SAP Functions\BDC\Indexes\BDC_IndexSPAy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\DDIC Info\Main\DDICInfo_FieldCollection - Copy.cs" />
     <Compile Remove="Code - 030_RFC Function\SAP Functions\Table Reader\Indexes\TblRdr_IndexBase.cs" />
+    <Compile Remove="Code - 040_BDC Request\API\BDC_Request_Manager - Copy.cs" />
     <Compile Remove="Code - 040_BDC Request\Main - Session\BDC_SessionProgress.cs" />
     <Compile Remove="Code - 040_BDC Request\Main - Session\Session - Parser Handling\Parser\DTO\DTO_ParserXMLConfig.cs" />
     <Compile Remove="Code - 040_BDC Request\Main - Session\Session - Parser Handling\Parser\Processors\BDC_Parser_Destination.cs" />

@@ -12,12 +12,12 @@ using BxS_WorxUtil.Progress;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDC_Session_SAPMsgProcessor : PooledObject
+	internal class BDC_SAPMsgProcessor : PooledObject
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_SAPMsgProcessor(		DTO_BDC_SessionConfig	config	)
+				internal BDC_SAPMsgProcessor(		DTO_BDC_SessionConfig	config	)
 					{
 						this.Config	= config	;
 						//.............................................
@@ -68,7 +68,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				public async Task<int> Process_SessionAsync(	DTO_BDC_Session														bdcSession
 																										, CancellationToken													CT
 																										,	ProgressHandler< DTO_BDC_Progress >				progressHndlr
-																										, ObjectPool< BDC_Session_SAPMsgConsumer >	pool
+																										, ObjectPool< BDC_SAPMsgConsumer >	pool
 																										,	SMC.RfcDestination												rfcDestination	)
 					{
 						this.PrepareSession	( bdcSession				);
@@ -171,7 +171,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void StartConsumers(		CancellationToken													CT
-																			, ObjectPool< BDC_Session_SAPMsgConsumer >	pool
+																			, ObjectPool< BDC_SAPMsgConsumer >	pool
 																			,	SMC.RfcDestination												rfcDestination	)
 					{
 						int ln_MaxConsumers		=	this.Config.IsSequential ?	1 : ( this._Queue.Count < this.Config.ConsumersNo ? this._Queue.Count : this.Config.ConsumersNo ) ;
@@ -184,7 +184,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 									{
 										this._Consumers.Add(	Task<int>.Run( ()=>
 																						{
-																							using (	BDC_Session_SAPMsgConsumer lo_Cons = pool.Acquire() )
+																							using (	BDC_SAPMsgConsumer lo_Cons = pool.Acquire() )
 																								{
 																									lo_Cons.Consume( CT , this._Queue , rfcDestination );
 																									return	lo_Cons.TransactionsRun;

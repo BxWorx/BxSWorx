@@ -12,12 +12,12 @@ using BxS_WorxUtil.Progress;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Main
 {
-	internal class BDC_Session_TranProcessor : PooledObject
+	internal class BDC_TranProcessor : PooledObject
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Session_TranProcessor(	DTO_BDC_SessionConfig	config )
+				internal BDC_TranProcessor(	DTO_BDC_SessionConfig	config )
 					{
 						this._Config	= config	;
 						//.............................................
@@ -76,7 +76,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 				public async Task<int> Process_SessionAsync(	DTO_BDC_Session													bdcSession
 																										, CancellationToken												CT
 																										,	ProgressHandler< DTO_BDC_Progress >			progressHndlr
-																										, ObjectPool< BDC_Session_TranConsumer >	pool
+																										, ObjectPool< BDC_TranConsumer >	pool
 																										,	SMC.RfcDestination											rfcDestination	)
 					{
 						this.PrepareSession	( bdcSession );
@@ -177,7 +177,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void StartConsumers(		CancellationToken												CT
-																			, ObjectPool< BDC_Session_TranConsumer >	pool
+																			, ObjectPool< BDC_TranConsumer >	pool
 																			, DTO_BDC_Header													header
 																			,	SMC.RfcDestination											rfcDestination	)
 					{
@@ -192,7 +192,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 									{
 										this._Consumers.Add(	Task<int>.Run( ()=>
 																						{
-																							using (	BDC_Session_TranConsumer lo_Cons = pool.Acquire() )
+																							using (	BDC_TranConsumer lo_Cons = pool.Acquire() )
 																								{
 																									DTO_BDC_Header lo_Hdr		= header ;
 																									lo_Cons.Consume( lo_Hdr , CT , this._Queue , rfcDestination );

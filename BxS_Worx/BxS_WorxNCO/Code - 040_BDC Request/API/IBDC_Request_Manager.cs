@@ -14,20 +14,16 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				DTO_BDC_SessionConfig CreateSessionConfig();
 
-				Task<bool>	ReadySessionAsync( bool optimise = true );
-
-				Task<bool>	Process(	ISession														request
-														,	CancellationToken										CT
-														, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
+				Task<bool>	ReadyAsync( bool optimise = true );
 
 				Task<bool>	ProcessAsync(	IRequest												request
 														,	CancellationToken										CT
 														, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
 
-				void ReConfigureBDCSessionPool		();
-				void ReConfigureBDCConsumerPool		();
-				void ReConfigureParserPool				();
-				void ReConfigureSAPMsgPool				();
+				//void ReConfigureBDCSessionPool		();
+				//void ReConfigureBDCConsumerPool		();
+				//void ReConfigureParserPool				();
+				//void ReConfigureSAPMsgPool				();
 
 			#endregion
 

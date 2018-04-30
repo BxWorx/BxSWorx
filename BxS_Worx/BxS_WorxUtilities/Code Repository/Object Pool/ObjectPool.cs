@@ -46,7 +46,7 @@ namespace BxS_WorxUtil.ObjectPool
 
 				private	const	LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
 				//.................................................
-				private	static	SemaphoreSlim	_SlimLock	;
+				private	SemaphoreSlim	_SlimLock	;
 
 				private	bool	_IsActive			;
 				private int		_CurPoolSize	;
@@ -98,6 +98,19 @@ namespace BxS_WorxUtil.ObjectPool
 									}
 							}
 					}
+
+				//public async T AcquireAsync( CancellationToken CT )
+				//	{
+				//		await this._SlimLock.WaitAsync( CT ).ConfigureAwait(false);
+				//		// get existing object from pool
+				//		//
+				//		if ( this.Pool.TryTake( out T lo_Object ) )
+				//			{
+				//				if ( this.DiagnosticsActive ) this._Diag.Value.UpHitCount();
+				//				return	lo_Object;
+				//			}
+				//	}
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public T Acquire()
@@ -196,16 +209,18 @@ namespace BxS_WorxUtil.ObjectPool
 													{
 														this.Pool.Add( (T) objectToReturn );
 														if ( this.DiagnosticsActive )		this._Diag.Value.UpReturnedCount();
-														return;
 													}
 											}
 									}
-								//.............................................
-								// Pool's upper limit has been exceeded.
-								// No need to add back into the pool, destroy.
-								//
-								if ( this.DiagnosticsActive )		this._Diag.Value.UpOverflowCount();
-								this.DestroyObject( objectToReturn );
+								else
+									{
+										//.............................................
+										// Pool's upper limit has been exceeded.
+										// No need to add back into the pool, destroy.
+										//
+										if ( this.DiagnosticsActive )		this._Diag.Value.UpOverflowCount();
+										this.DestroyObject( objectToReturn );
+									}
 							}
 					}
 
