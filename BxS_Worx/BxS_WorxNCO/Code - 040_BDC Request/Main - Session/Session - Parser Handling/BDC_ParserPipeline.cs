@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-//.........................................................
-using SMC	= SAP.Middleware.Connector;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.BDCSession.Parser;
@@ -73,20 +70,19 @@ namespace BxS_WorxNCO.BDCSession.Main
 																				, CancellationToken										CT
 																				,	ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{
-						//...
-						await Task.Delay(1000).ConfigureAwait(false);
-			//using ( BDC_Session_SAPMsgProcessor lo_SAPMsgs	= this._SAPMsgPool.Value.Acquire() )
-			//				{
-			//					foreach ( DTO_BDC_Session lo_DTOSession in queueIn.GetConsumingEnumerable() )
-			//						{
-			//							int ln_Msg	=	await	lo_SAPMsgs.Process_SessionAsync(	lo_DTOSession
-			//																																	, CT
-			//																																	, progressHndlr
-			//																																	, this._MsgConsPool.Value
-			//																																	,	this._SMCDestination ).ConfigureAwait(false);
-			//							queueOut.Add(lo_DTOSession);
-									//}
-							//}
+						using ( BDC_Parser lo_Parser	= this._Pool.Value.Acquire() )
+							{
+								foreach ( ISession lo_SsnIn in queueIn.GetConsumingEnumerable( CT ) )
+									{
+										DTO_BDC_Session lo_SsnOut	=	this._ReqFactory.Value.CreateSessionDTO();
+										if ( await Task.Run( ()=> lo_Parser.Parse( lo_SsnIn , lo_SsnOut ) ).ConfigureAwait(false) )
+											{
+												queueOut.Add( lo_SsnOut );
+												DTO_BDC_Progress x = progressHndlr.Create();
+												progressHndlr.Report( x );
+											}
+									}
+							}
 					}
 
 			#endregion

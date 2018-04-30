@@ -39,7 +39,7 @@ namespace BxS_WorxNCO.BDCSession.API
 						this._PLSAPMsg	= new	Lazy< BDC_SAPMsgPipeline >	( ()=> new BDC_SAPMsgPipeline	( this.RfcDestination , this._RfcFncCntlr , this._Factory											) );
 						//.............................................
 						this._IsReady		= false;
-						this._Lock			= new SemaphoreSlim(0 , 1);
+						this._SlimLock	= new SemaphoreSlim(0 , 1);
 
 						if ( autoReady )
 							{
@@ -53,14 +53,16 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				private readonly	bool					_UseAltFnc	;
 				private						bool					_IsReady		;
-				private	readonly	SemaphoreSlim _Lock				;
+				private	readonly	SemaphoreSlim _SlimLock				;
 				//.................................................
 				private	readonly	Lazy< BDC_Session_Factory	>		_Factory			;
 				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr	;
 				//.................................................
-				private	readonly Lazy< BDC_ParserPipeline >	_PLParser;
-				private	readonly Lazy< BDC_TranPipeline		>	_PLBDCTrn;
-				private	readonly Lazy< BDC_SAPMsgPipeline >	_PLSAPMsg;
+				private	readonly	Lazy< BDC_ParserPipeline >	_PLParser;
+				private	readonly	Lazy< BDC_TranPipeline		>	_PLBDCTrn;
+				private	readonly	Lazy< BDC_SAPMsgPipeline >	_PLSAPMsg;
+
+				private	readonly	Lazy< ObjectPool<BDC_Parser> >	_Pool			;
 
 			#endregion
 
@@ -107,7 +109,7 @@ namespace BxS_WorxNCO.BDCSession.API
 					{
 						if ( ! this._IsReady )
 							{
-								await	this._Lock.WaitAsync().ConfigureAwait(false);
+								await	this._SlimLock.WaitAsync().ConfigureAwait(false);
 
 								try
 									{
@@ -134,7 +136,7 @@ namespace BxS_WorxNCO.BDCSession.API
 									}
 								finally
 									{
-										this._Lock.Release();
+										this._SlimLock.Release();
 									}
 							}
 						//.................................................
@@ -154,8 +156,8 @@ namespace BxS_WorxNCO.BDCSession.API
 									}
 							}
 						//.............................................
+						var	lo_SsnQueue		=	new BlockingCollection<ISession>();
 
-						var	lo_SsnQueue		=	new BlockingCollection<ISession>				();
 						var	lo_PsrQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
 						var	lo_TrnQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
 						var	lo_MsgQueue	  =	new BlockingCollection<DTO_BDC_Session>	();

@@ -106,18 +106,18 @@ namespace BxS_WorxNCO.BDCSession.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDC_TranProcessor CreateBDCSession()	=>	new	BDC_TranProcessor( this._Factory.Value.CreateBDCSessionConfig() );
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_BDC_Session CreateSessionDTO()
-					{
-						var lo_CTU	= new DTO_BDC_CTU		();
-						var lo_Hed	= new DTO_BDC_Header( lo_CTU );
-						//.............................................
-						return	new DTO_BDC_Session( lo_Hed , this.CreateBDCTransaction );
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal DTO_BDC_Session CreateSessionDTO()
+				//	{
+				//		var lo_CTU	= new DTO_BDC_CTU		();
+				//		var lo_Hed	= new DTO_BDC_Header( lo_CTU );
+				//		//.............................................
+				//		return	new DTO_BDC_Session( lo_Hed , this.CreateBDCTransaction );
+				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_BDC_Request		CreateRequestDTO()							=>	new DTO_BDC_Request( this.CreateSessionDTO );
-				private	DTO_BDC_Transaction	CreateBDCTransaction( int No )	=>	new DTO_BDC_Transaction( No );
+				internal DTO_BDC_Request		CreateRequestDTO()							=>	new DTO_BDC_Request( this._Factory.Value.CreateSessionDTO );
+				//private	DTO_BDC_Transaction	CreateBDCTransaction( int No )	=>	new DTO_BDC_Transaction( No );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private ObjectPool<BDC_TranConsumer> CreateBDCTransConsumerPool( Func<BDC_TranConsumer> factory )

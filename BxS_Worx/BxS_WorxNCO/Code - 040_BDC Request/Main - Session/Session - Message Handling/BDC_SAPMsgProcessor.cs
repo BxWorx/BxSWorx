@@ -136,8 +136,8 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async Task<int> ProcessConsumerResultsAsync(	CancellationToken										CT
-																														,	ProgressHandler< DTO_BDC_Progress >	progressHndlr	)
+				private async Task<int> ProcessConsumerResultsAsync(	CancellationToken									CT
+																														,	ProgressHandler<DTO_BDC_Progress>	progressHndlr	)
 					{
 						int	ln_Ret	= 0;
 						Task< int > lo_Task;
@@ -170,9 +170,9 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void StartConsumers(		CancellationToken													CT
-																			, ObjectPool< BDC_SAPMsgConsumer >	pool
-																			,	SMC.RfcDestination												rfcDestination	)
+				private void StartConsumers(		CancellationToken								CT
+																			, ObjectPool<BDC_SAPMsgConsumer>	pool
+																			,	SMC.RfcDestination							rfcDestination	)
 					{
 						int ln_MaxConsumers		=	this.Config.IsSequential ?	1 : ( this._Queue.Count < this.Config.ConsumersNo ? this._Queue.Count : this.Config.ConsumersNo ) ;
 
@@ -196,7 +196,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadQueue( ConcurrentQueue< DTO_BDC_Transaction > transactions )
+				private void LoadQueue( ConcurrentQueue<DTO_BDC_Transaction> transactions )
 					{
 						foreach ( DTO_BDC_Transaction lo_Tran in transactions )
 							{

@@ -7,6 +7,7 @@ using BxS_WorxUtil.ObjectPool;
 using BxS_WorxNCO.BDCSession.DTO;
 
 using static	BxS_WorxNCO.Main	.NCO_Constants;
+using BxS_WorxIPX.Toolset;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.Parser
 {
@@ -44,29 +45,6 @@ namespace BxS_WorxNCO.BDCSession.Parser
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal bool ParseRequest(		IRequest				bdcRequest
-																		, DTO_BDC_Request	dtoRequest	)
-					{
-						bool	lb_Ret	= true;
-						//...
-						foreach ( KeyValuePair<Guid , ISession> ls_kvp in bdcRequest.Sessions )
-							{
-								DTO_BDC_Session lo_Session = dtoRequest.CreateSessionDTO();
-								//...
-								if ( this.Parse( ls_kvp.Value , lo_Session ) )
-									{
-										dtoRequest.Add_Session( lo_Session );
-									}
-								else
-									{
-										lb_Ret	= false;
-									}
-							}
-						//...
-						return	lb_Ret;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal bool Parse(	ISession				bdcSession
 														, DTO_BDC_Session	dtoSession	)
 					{
@@ -79,7 +57,7 @@ namespace BxS_WorxNCO.BDCSession.Parser
 						//.............................................
 						DTO_ParserProfile	lo_DTOProfile		= this.Factory.CreateDTOProfile();
 
-						lo_DTOProfile.XMLConfig	=	bdcSession.XMLConfig.ShallowCopy();
+						lo_DTOProfile.XMLConfig.CopyPropertiesFrom( bdcSession.XMLConfig );
 						//.............................................
 						this.Tkn.Process( lo_DTOSession	,	lo_DTOProfile	);
 						this.Col.Process( lo_DTOSession	,	lo_DTOProfile	);

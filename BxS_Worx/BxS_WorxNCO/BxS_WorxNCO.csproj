@@ -90,6 +90,7 @@
 
   <ItemGroup>
     <Folder Include="Code - 040_BDC Request\Main - Request\" />
+    <Folder Include="Code - 040_BDC Request\Main - Session\Session - Session Handling\" />
     <Folder Include="Properties\" />
     <Folder Include="zKeep\" />
   </ItemGroup>
