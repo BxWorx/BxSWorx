@@ -1,5 +1,17 @@
 <z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:d1p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.BDC"
   i:type="d1p1:Request" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+  <d1p1:Config
+    i:type="d1p1:Request_Config">
+    <d1p1:DoLogonCheck>false</d1p1:DoLogonCheck>
+    <d1p1:IdleCheckTime>0</d1p1:IdleCheckTime>
+    <d1p1:IdleTimeout>0</d1p1:IdleTimeout>
+    <d1p1:IsSequential>false</d1p1:IsSequential>
+    <d1p1:MaxPoolWaitTime>0</d1p1:MaxPoolWaitTime>
+    <d1p1:PeakConnLimit>0</d1p1:PeakConnLimit>
+    <d1p1:PoolIdleTimeout>0</d1p1:PoolIdleTimeout>
+    <d1p1:PoolSize>0</d1p1:PoolSize>
+    <d1p1:RepoIdleTimeout>0</d1p1:RepoIdleTimeout>
+  </d1p1:Config>
   <d1p1:SAPLogon
     i:type="d1p1:SAP_Logon">
     <d1p1:Client
@@ -16,13 +28,13 @@
       i:nil="true" />
   </d1p1:SAPLogon>
   <d1p1:Sessions xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-    <d2p1:KeyValueOfguidanyType>
-      <d2p1:Key>6f84fe43-e202-49be-a649-a7e9639c6e74</d2p1:Key>
+    <d2p1:KeyValueOfintanyType>
+      <d2p1:Key>1</d2p1:Key>
       <d2p1:Value
         i:type="d1p1:Session">
         <d1p1:ColLB>1</d1p1:ColLB>
         <d1p1:ColUB>17</d1p1:ColUB>
-        <d1p1:ID>6f84fe43-e202-49be-a649-a7e9639c6e74</d1p1:ID>
+        <d1p1:ID>3f11555e-a939-4289-a187-3c3c11ec0d53</d1p1:ID>
         <d1p1:IsActive>false</d1p1:IsActive>
         <d1p1:IsBDCSession>false</d1p1:IsBDCSession>
         <d1p1:IsOnline>false</d1p1:IsOnline>
@@ -5501,11 +5513,11 @@
             i:nil="true" />
         </d1p1:XMLConfig>
       </d2p1:Value>
-    </d2p1:KeyValueOfguidanyType>
+    </d2p1:KeyValueOfintanyType>
   </d1p1:Sessions>
   <d1p1:User
     i:type="d1p1:User">
-    <d1p1:GUID>07be1a67-da66-4670-909f-d1da41d43091</d1p1:GUID>
+    <d1p1:GUID>0ab21ce4-46aa-4a26-a96a-b40409b21c2d</d1p1:GUID>
     <d1p1:Name
       i:nil="true" />
     <d1p1:Timestamp>0001-01-01T00:00:00</d1p1:Timestamp>

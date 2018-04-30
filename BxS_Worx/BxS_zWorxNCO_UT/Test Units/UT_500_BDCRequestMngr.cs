@@ -1,88 +1,75 @@
 ﻿using System;
-using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 //.........................................................
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //.........................................................
 using BxS_WorxNCO.BDCSession.Main;
-using BxS_WorxNCO.BDCSession.Parser;
-using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxIPX.Main;
+using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.Toolset;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_zWorx_UT_Destination.Test_Units
 {
 	[TestClass]
-	public class UT_410_BDCSessionParser
+	public class UT_500_BDCRequestMngr
 		{
-			private	const LazyThreadSafetyMode	cz_LM		= LazyThreadSafetyMode.ExecutionAndPublication;
-
 			private	const	string	_Nme	=  "Test-00"									;
 			private	const	string	_Path	=  @"GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
 
 			private	readonly	string	_User	;
 			private						string	_Full	;
 
-			private	readonly	IPX_Controller			co_Cntlr	;
-			private	readonly	IBDC_Controller			co_BC			;
-			private	readonly	BDC_Session_Factory	co_BSFact	;
-			//...
-			private readonly	Lazy< BDC_Parser_Factory >	_ParserFactory	;
-			private	readonly	BDC_Parser									_Parser					;
+			private readonly	UT_000_NCO						co_NCO;
+			private	readonly	IBDC_Request_Manager	co_RMngr;
+			private	readonly	IPX_Controller				co_Cntlr	;
+			private	readonly	IBDC_Controller				co_BC			;
+			private	readonly	BDC_Session_Factory		co_BSFact	;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public UT_410_BDCSessionParser()
+			public UT_500_BDCRequestMngr()
 				{
+					this.co_NCO			= new	UT_000_NCO();
+					this.co_RMngr	= new	BDC_Request_Manager( this.co_NCO.GetSAPDestConfigured() );
+					//...............................................
 					this.co_Cntlr		= IPX_Controller.Instance	;
 					this.co_BC			= this.co_Cntlr.Create_BDCController();
-					//...
-					this._ParserFactory		= new Lazy< BDC_Parser_Factory >(	()=>	BDC_Parser_Factory.Instance	, cz_LM	);
-					this._Parser					=	new	BDC_Parser	( this._ParserFactory );
-					this.co_BSFact				= BDC_Session_Factory.Instance;
-
-					this._User						= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+					//...............................................
+					this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_410_BCDParser_10_Instantiate()
+			public void UT_500_BCDRMngr_10_Instantiate()
 				{
-					Assert.IsNotNull	( this.co_Cntlr		, "C" );
-					Assert.IsNotNull	( this.co_BC			, "C" );
-					Assert.IsNotNull	( this.co_BSFact	, "C" );
-					Assert.IsNotNull	( this._Parser		, "C" );
+					Assert.IsNotNull	( this.co_RMngr	, "C" );
 				}
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_410_BCDParser_20_ParseSession()
+			public void UT_500_BCDRMngr_20_Process()
 				{
 					this.SetFullPath(_Nme);
-					//...
-					DTO_BDC_Session lo_DTO	= this.co_BSFact.CreateSessionDTO();
-					IRequest lo_R0					= this.co_BC.ReceiveRequest_FromFile( this._Full );
-					Assert.IsNotNull	( lo_DTO	, "C" );
-					Assert.IsNotNull	( lo_R0		, "C" );
-					//...
+					IRequest	lo_R0	= this.co_BC.ReceiveRequest_FromFile( this._Full );
+					ISession	lo_BS	= null;
 					var				lt_Guids	= new int[lo_R0.Sessions.Keys.Count];
-					ISession	lo_BS			= null;
-
 					lo_R0.Sessions.Keys.CopyTo(lt_Guids,0);
 					lo_BS	= lo_R0.Sessions[lt_Guids[0]];
-					this._Parser.Parse( lo_BS , lo_DTO );
 
-					Assert.IsNotNull	( lo_DTO.Trans.Count , "C" );
-				}
+					for ( int i = 0; i < 100; i++ )
+						{
+							ISession lo_XX = this.co_BC.Create_Session();
+							lo_XX.CopyPropertiesFrom( lo_BS );
+							lo_XX.ID				= Guid.NewGuid();
+							
+							lo_R0.Add_Session( lo_XX );
+						}
 
-			[TestMethod]
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_410_BCDParser_30_ParseRequest()
-				{
-					this.SetFullPath("DPB");
-					//...
-					IRequest lo_R0	= this.co_BC.ReceiveRequest_FromFile( this._Full );
-					Assert.IsNotNull	( lo_R0	, "C" );
 					//...
 				}
+		//.
 
 		//.
 

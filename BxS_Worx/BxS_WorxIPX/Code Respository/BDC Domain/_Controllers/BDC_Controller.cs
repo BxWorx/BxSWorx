@@ -18,13 +18,14 @@ namespace BxS_WorxIPX.BDC
 						this._Toolset		= toolSet		??	throw		new ArgumentException( $"{typeof(BDC_Controller).Namespace}:- Toolset null" )	;
 						this._Factory		= factory		??	throw		new ArgumentException( $"{typeof(BDC_Controller).Namespace}:- Factory null" )	;
 						//...
-						this._ReqTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	Request		)
-																																							,	typeof(	Session		)
-																																							, typeof(	SAP_Logon	)
-																																							, typeof(	User			)
-																																							,	typeof(	XMLConfig	)	}		, cz_LM );
+						this._ReqTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	Request					)
+																																							,	typeof(	Session					)
+																																							, typeof(	SAP_Logon				)
+																																							, typeof(	User						)
+																																							,	typeof(	XMLConfig				)
+																																							, typeof( Request_Config	) }	, cz_LM );
 
-						this._CfgTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	XMLConfig	)	}		, cz_LM );
+						this._CfgTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	XMLConfig	)	}	, cz_LM );
 					}
 
 			#endregion

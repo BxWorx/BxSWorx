@@ -16,6 +16,7 @@ using BxS_WorxNCO.BDCSession.Main;
 using BxS_WorxNCO.BDCSession.DTO;
 
 using static	BxS_WorxNCO.Main.NCO_Constants;
+using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.BDCSession.API
 {
@@ -62,7 +63,7 @@ namespace BxS_WorxNCO.BDCSession.API
 				private	readonly	Lazy< BDC_TranPipeline		>	_PLBDCTrn;
 				private	readonly	Lazy< BDC_SAPMsgPipeline >	_PLSAPMsg;
 
-				private	readonly	Lazy< ObjectPool<BDC_Parser> >	_Pool			;
+				//private	readonly	Lazy< ObjectPool<BDC_Parser> >	_Pool			;
 
 			#endregion
 
@@ -158,13 +159,38 @@ namespace BxS_WorxNCO.BDCSession.API
 						//.............................................
 						var	lo_SsnQueue		=	new BlockingCollection<ISession>();
 
-						var	lo_PsrQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
-						var	lo_TrnQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
-						var	lo_MsgQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
+						Task[] lt_SsnTasks	=
+							Enumerable.Range(0,1)
+								.Select( _ =>
+									Task.Run( ()	=>
+										{
+											var	lo_PsrQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
+											var	lo_TrnQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
+											var	lo_MsgQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
 
-						await this._PLSAPMsg.Value.ProcessAsync( lo_TrnQueue , lo_MsgQueue , CT , progressHndlr ).ConfigureAwait(false);
-						await	this._PLBDCTrn.Value.ProcessAsync( lo_PsrQueue , lo_TrnQueue , CT , progressHndlr ).ConfigureAwait(false);
-						await this._PLParser.Value.ProcessAsync( lo_SsnQueue , lo_PsrQueue , CT , progressHndlr ).ConfigureAwait(false);
+											Task lo_TaskMPL = this._PLSAPMsg.Value.ProcessAsync( lo_TrnQueue , lo_MsgQueue , CT , progressHndlr )	;	//.ConfigureAwait(false);
+											Task lo_TaskTPL = this._PLBDCTrn.Value.ProcessAsync( lo_PsrQueue , lo_TrnQueue , CT , progressHndlr )	;	//.ConfigureAwait(false);
+											Task lo_TaskPPL = this._PLParser.Value.ProcessAsync( lo_SsnQueue , lo_PsrQueue , CT , progressHndlr )	;	//.ConfigureAwait(false);
+
+											lo_TaskPPL.Wait( CT );
+											lo_PsrQueue.CompleteAdding();
+											lo_TaskTPL.Wait( CT );
+											lo_TrnQueue.CompleteAdding();
+											lo_TaskMPL.Wait( CT );
+											lo_MsgQueue.CompleteAdding();
+										}	))
+										.ToArray();
+
+
+
+
+						//var	lo_PsrQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
+						//var	lo_TrnQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
+						//var	lo_MsgQueue	  =	new BlockingCollection<DTO_BDC_Session>	();
+
+						//await this._PLSAPMsg.Value.ProcessAsync( lo_TrnQueue , lo_MsgQueue , CT , progressHndlr ).ConfigureAwait(false);
+						//await	this._PLBDCTrn.Value.ProcessAsync( lo_PsrQueue , lo_TrnQueue , CT , progressHndlr ).ConfigureAwait(false);
+						//await this._PLParser.Value.ProcessAsync( lo_SsnQueue , lo_PsrQueue , CT , progressHndlr ).ConfigureAwait(false);
 						//...
 						foreach ( KeyValuePair<int , ISession> ls_kvp in request.Sessions )
 							{
@@ -194,6 +220,11 @@ namespace BxS_WorxNCO.BDCSession.API
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				
+
+
+
 			#endregion
 		}
 }

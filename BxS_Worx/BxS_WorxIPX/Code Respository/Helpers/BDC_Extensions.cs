@@ -5,17 +5,20 @@ namespace BxS_WorxIPX.Toolset
 	public static class BDC_Extensions
 		{
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public static void CopyPropertiesFrom( this	object self, object From )
+			public static void CopyPropertiesFrom( this	object self, object from )
 				{
-					if ( self.GetType() == From.GetType() )
+					if ( from != null && self != null )
 						{
-							PropertyInfo[]	fromProperties	= From.GetType().GetProperties(	BindingFlags.Public | BindingFlags.Instance);
-							//...
-							foreach ( PropertyInfo fromProperty in fromProperties )
+							if ( self.GetType() == from.GetType() )
 								{
-									PropertyInfo lo_Me = self.GetType().GetProperty( fromProperty.Name );
+									PropertyInfo[]	fromProperties	= from.GetType().GetProperties(	BindingFlags.Public | BindingFlags.Instance );
+									//...
+									foreach ( PropertyInfo fromProperty in fromProperties )
+										{
+											PropertyInfo lo_Me = self.GetType().GetProperty( fromProperty.Name );
 
-									lo_Me.SetValue(self , fromProperty.GetValue( From ) );
+											lo_Me.SetValue(self , fromProperty.GetValue( from ) );
+										}
 								}
 						}
 				}
