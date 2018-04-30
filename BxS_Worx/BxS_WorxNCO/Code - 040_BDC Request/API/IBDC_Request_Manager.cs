@@ -14,6 +14,8 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				DTO_BDC_SessionConfig CreateSessionConfig();
 
+				ProgressHandler< DTO_BDC_Progress >	CreateProgressHandler();
+
 				Task<bool>	ReadyAsync( bool optimise = true );
 
 				Task<bool>	ProcessAsync(	IRequest												request

@@ -20,10 +20,10 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public Guid			GUID				{ get; set; }
+				[Skip]	[DataMember]	public Guid			GUID				{ get; set; }
 				//...
-				[DataMember]	public DateTime	Timestamp		{ get; set; }
-				[DataMember]	public String		Name				{ get; set; }
+								[DataMember]	public DateTime	Timestamp		{ get; set; }
+								[DataMember]	public String		Name				{ get; set; }
 
 			#endregion
 

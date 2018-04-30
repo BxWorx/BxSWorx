@@ -84,8 +84,10 @@ namespace BxS_WorxIPX.BDC
 					{
 						try
 							{
-								return	this.Serializer.DeSerialize<IRequest>(	this.IO.ReadFile( fullPath )
-																															, this._ReqTypes.Value					);
+								IRequest lo_Req	=	this.Serializer.DeSerialize<IRequest>(	this.IO.ReadFile( fullPath )
+																																				, this._ReqTypes.Value					);
+								lo_Req.Sync();
+								return	lo_Req;
 							}
 						catch (Exception ex)
 							{

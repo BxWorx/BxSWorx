@@ -22,29 +22,29 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
-				[DataMember]	public Guid			GUID						{ get; set; }
+				[Skip]	[DataMember]	public Guid			GUID						{ get; set; }
 
-				[DataMember]	public string		IsActive        { get; set; }
+								[DataMember]	public string		IsActive        { get; set; }
 
-				[DataMember]	public string		SAPBDCSessionID	{ get; set; }
-				[DataMember]	public string		SAPTCode        { get; set; }
+								[DataMember]	public string		SAPBDCSessionID	{ get; set; }
+								[DataMember]	public string		SAPTCode        { get; set; }
 
-				[DataMember]	public string		PauseTime       { get; set; }
-				[DataMember]	public string		Skip1st					{ get; set; }
+								[DataMember]	public string		PauseTime       { get; set; }
+								[DataMember]	public string		Skip1st					{ get; set; }
 
-				[DataMember]	public string		Col_ID					{ get; set; }
-				[DataMember]	public string		Col_Active			{ get; set; }
-				[DataMember]	public string		Col_Exec				{ get; set; }
-				[DataMember]	public string		Col_Msg					{ get; set; }
-				[DataMember]	public string		Col_DataStart		{ get; set; }
-				[DataMember]	public string		Row_DataStart		{ get; set; }
+								[DataMember]	public string		Col_ID					{ get; set; }
+								[DataMember]	public string		Col_Active			{ get; set; }
+								[DataMember]	public string		Col_Exec				{ get; set; }
+								[DataMember]	public string		Col_Msg					{ get; set; }
+								[DataMember]	public string		Col_DataStart		{ get; set; }
+								[DataMember]	public string		Row_DataStart		{ get; set; }
 
-				[DataMember]	public string		CTU_DisMode			{ get; set; }
-				[DataMember]	public string		CTU_UpdMode			{ get; set; }
-				[DataMember]	public string		CTU_DefSize			{ get; set; }
+								[DataMember]	public string		CTU_DisMode			{ get; set; }
+								[DataMember]	public string		CTU_UpdMode			{ get; set; }
+								[DataMember]	public string		CTU_DefSize			{ get; set; }
 
-				[DataMember]	public string		IsProtected			{ get; set; }
-				[DataMember]	public string		Password    		{ get; set; }
+								[DataMember]	public string		IsProtected			{ get; set; }
+								[DataMember]	public string		Password    		{ get; set; }
 
 			#endregion
 

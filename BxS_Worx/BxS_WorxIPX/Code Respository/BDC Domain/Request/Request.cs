@@ -64,7 +64,8 @@ namespace BxS_WorxIPX.BDC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Clear()	=>	this.Sessions.Clear();
+				public	void	Clear()	=>	this.Sessions.Clear();
+				public	void	Sync()	=>	Interlocked.Exchange( ref	this._Index	, this.Sessions.Count );
 
 			#endregion
 

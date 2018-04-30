@@ -28,7 +28,8 @@ namespace BxS_WorxIPX.BDC
 				void	Add_Session( ISession	session )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				void Clear();
+				void	Sync();
+				void	Clear();
 
 			#endregion
 		}

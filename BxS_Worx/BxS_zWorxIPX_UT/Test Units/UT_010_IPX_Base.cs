@@ -38,22 +38,36 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 			[TestMethod]
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public void UT_010_IPXCntlr_30_ExtensionMethods()
+			public void UT_010_IPXCntlr_30_ExtMth()
 				{
 					IUser	l0	= new User();
 					IUser l1	= new User();
 					//...
 					l0.Name	= "A";
 					l1.Name	= "B";
-
 					l0.CopyPropertiesFrom( l1 );
-
 					Assert.AreEqual( l0.Name , l1.Name	, "" );
+					//...
 					l1.Name	="C";
 					Assert.AreNotEqual( l0.Name , l1.Name	, "" );
 				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_010_IPXCntlr_32_ExtMth_Skip()
+				{
+					IXMLConfig	lo_X	= new XMLConfig();
+					ISession		l0		= new Session( lo_X );
+					ISession		l1		= new Session( lo_X	);
+					//...
+					l1.WBID	= "X";
+					l0.CopyPropertiesFrom( l1 );
+
+					Assert.AreEqual		( l0.WBID , l1.WBID	, "" );
+					Assert.AreNotEqual( l0.ID		, l1.ID		, "" );
+				}
+
+			//.
+
 		}
-
-	//.
-
 	}
