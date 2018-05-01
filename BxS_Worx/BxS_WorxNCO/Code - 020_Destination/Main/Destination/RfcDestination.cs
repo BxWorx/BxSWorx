@@ -63,6 +63,15 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	SMC.RfcConfigParameters		CreateNCOConfig						()=>	Destination_Factory.CreateNCOConfig();
+				//...
+				public	IConfigLogon							CreateLogonConfig					( bool ForRepository = false )=>	Destination_Factory.CreateLogonConfig ( ForRepository );
+				//...
+				public	IConfigRepository					CreateRepositoryConfig		()=>	Destination_Factory.CreateRepositoryConfig();
+				public	IConfigDestination				CreateDestinationConfig		()=>	Destination_Factory.CreateDestinationConfig();
+				public	IConfigGlobal							CreateGlobalConfig				()=>	Destination_Factory.CreateGlobalConfig();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig( SMC.RfcConfigParameters config )
 					{
 						foreach (KeyValuePair<string, string> ls_kvp in config)

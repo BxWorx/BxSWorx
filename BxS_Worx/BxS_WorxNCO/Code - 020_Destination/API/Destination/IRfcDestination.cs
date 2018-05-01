@@ -24,6 +24,14 @@ namespace BxS_WorxNCO.Destination.API
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				SMC.RfcConfigParameters		CreateNCOConfig();
+				//...
+				IConfigLogon				CreateLogonConfig( bool ForRepository = false );
+				//...
+				IConfigRepository		CreateRepositoryConfig()	;
+				IConfigDestination	CreateDestinationConfig()	;
+				IConfigGlobal				CreateGlobalConfig()			;
+				//.................................................
 				void	LoadConfig	( SMC.RfcConfigParameters	config );
 				void	LoadConfig	( IConfigLogon	config );
 				void	LoadConfig	( IConfigBase		config );
