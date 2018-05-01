@@ -19,9 +19,9 @@ namespace BxS_WorxNCO.Destination.Config
 				//.................................................
 				public	bool	DoLogonCheck		{ set	{ this.Set( SMC.RfcConfigParameters.LogonCheck						, value ? "1":"0"	 );	} }
 				//.................................................
-				public	int	SAPGUINotUse			{ get { return	int.Parse( SAPSDM.UseSAPGUINotUse )	;	} }
-				public	int	SAPGUIUse					{ get { return	int.Parse( SAPSDM.UseSAPGUIUse		)	;	} }
-				public	int	SAPGUIHidden			{ get { return	int.Parse( SAPSDM.UseSAPGUIHidden	)	;	} }
+				public	int	SAPGUINotUse			{ get { return	int.Parse( SAPDM.UseSAPGUINotUse )	;	} }
+				public	int	SAPGUIUse					{ get { return	int.Parse( SAPDM.UseSAPGUIUse		)	;	} }
+				public	int	SAPGUIHidden			{ get { return	int.Parse( SAPDM.UseSAPGUIHidden	)	;	} }
 
 			#endregion
 

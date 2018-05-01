@@ -32,6 +32,8 @@ namespace BxS_WorxNCO.Destination.API
 				IConfigDestination	CreateDestinationConfig()	;
 				IConfigGlobal				CreateGlobalConfig()			;
 				//.................................................
+				SMC.RfcDestination	CreateSMCDestination( IConfigLogon config );
+
 				void	LoadConfig	( SMC.RfcConfigParameters	config );
 				void	LoadConfig	( IConfigLogon	config );
 				void	LoadConfig	( IConfigBase		config );

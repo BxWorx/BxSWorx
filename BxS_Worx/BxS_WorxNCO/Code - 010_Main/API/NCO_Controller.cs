@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
+using SMC	= SAP.Middleware.Connector;
+//.........................................................
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.Main;
@@ -50,10 +52,26 @@ namespace BxS_WorxNCO.API
 				//.................................................
 				private	int		LoadedSystemCount				{ get { return	this._DestRepos.Value.Count; } }
 
+				private	SAPINI	SAPINI	{ get	{	return	SAPINI.Instance; } }
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Destination"
+
+				public IRfcDestination GetDestinationFromSAPIni( string ID )
+					{
+						SMC.RfcConfigParameters c		= this.SAPINI.GetIniParameters( ID );
+						IRfcDestination			lo	= this._DestRepos.Value.GetDestination( ID );
+
+						if ( this._GlobalSetup.IsValueCreated )
+							{
+								lo.LoadConfig( this._GlobalSetup.Value );
+							}
+						lo.LoadConfig( c );
+						return	lo;
+					}
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// List as per SAP Logon GUI setup

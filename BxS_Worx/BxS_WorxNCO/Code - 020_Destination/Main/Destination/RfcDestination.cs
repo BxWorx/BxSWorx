@@ -22,8 +22,8 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 						this.SAPGUIID	= ID	;
 						this.MyID			= Guid.NewGuid();
 						//.............................................
-						this._RfcConfig				=	new Lazy< SMC.RfcConfigParameters >	( ()=>	SAPSDM.Instance.CreateNCOConfig()												, cz_LM )	;
-						this._SMCDestination	= new Lazy< SMC.RfcDestination >			( ()=>	SAPSDM.Instance.GetDestination( this._RfcConfig.Value ) , cz_LM )	;
+						this._RfcConfig				=	new Lazy< SMC.RfcConfigParameters >	( ()=>	SAPDM.Instance.CreateNCOConfig()												, cz_LM )	;
+						this._SMCDestination	= new Lazy< SMC.RfcDestination >			( ()=>	SAPDM.Instance.GetDestination( this._RfcConfig.Value )	, cz_LM )	;
 						//.............................................
 						this._Fncs	= new List<string>()					;
 						this._Lock	= new SemaphoreSlim( 1 , 1 )	;
@@ -35,6 +35,8 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 			//===========================================================================================
 			#region "Declarations"
+			
+
 
 				private	readonly Lazy< SMC.RfcDestination >				_SMCDestination	;
 				private	readonly Lazy< SMC.RfcConfigParameters >	_RfcConfig			;
@@ -49,6 +51,8 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 			//===========================================================================================
 			#region "Properties"
 
+				private	SAPDM	_SDM	{ get { return	SAPDM.Instance; } }
+
 				public	Guid	MyID			{ get; }
 				public	Guid	SAPGUIID	{ get; }
 				//.................................................
@@ -61,6 +65,25 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public SMC.RfcDestination	CreateSMCDestination( IConfigLogon config )
+					{
+						SMC.RfcConfigParameters lo_RfcCfg	= this._SDM.CreateNCOConfig();
+						//...
+						foreach ( KeyValuePair<string , string> ls_kvp in this._RfcConfig.Value )
+							{
+								lo_RfcCfg[ls_kvp.Key]	= ls_kvp.Value;
+							}
+						//...
+						foreach (	KeyValuePair<string, string> ls_kvp in config.Settings )
+							{
+								lo_RfcCfg[ ls_kvp.Key ]	= ls_kvp.Value ;
+							}
+						//...
+						return	this._SDM.GetDestination( lo_RfcCfg );
+					}
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	SMC.RfcConfigParameters		CreateNCOConfig						()=>	Destination_Factory.CreateNCOConfig();
@@ -84,18 +107,12 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( IConfigBase config )
-					{
-						foreach (	KeyValuePair<string, string> ls_kvp in config.Settings )
-							{
-								this._RfcConfig.Value[ ls_kvp.Key ]	= ls_kvp.Value ;
-							}
-					}
+				public void LoadConfig( IConfigBase config )	=> this.TransferConfig( config );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig( IConfigLogon config )
 					{
-						this.LoadConfig( (IConfigBase)config );
+						this.TransferConfig( (IConfigBase)config );
 						//.............................................
 						if ( config.SecurePassword != null )
 							{
@@ -166,6 +183,20 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SMC.RfcFunctionMetadata FetchFunctionMetadata( string fncName )	=>	this.SMCRepository.GetFunctionMetadata( fncName );
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void TransferConfig( IConfigBase config )
+					{
+						foreach (	KeyValuePair<string, string> ls_kvp in config.Settings )
+							{
+								this._RfcConfig.Value[ ls_kvp.Key ]	= ls_kvp.Value ;
+							}
+					}
 
 			#endregion
 

@@ -40,8 +40,9 @@ namespace BxS_WorxNCO.Destination.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<string>						GetSAPINIList			()									=>	this._SAPINI.Value.GetEntries();
-				public SMC.RfcConfigParameters	GetIniParameters	( string lc_SAPID )	=>	this._SAPINI.Value.GetParameters( lc_SAPID )	?? new SMC.RfcConfigParameters();
+				public IList<string>	GetSAPINIList()	=>	this._SAPINI.Value.GetEntries();
+				//...
+				public SMC.RfcConfigParameters	GetIniParameters( string lc_SAPID )	=>	this._SAPINI.Value.GetParameters( lc_SAPID )	?? new SMC.RfcConfigParameters();
 
 			#endregion
 

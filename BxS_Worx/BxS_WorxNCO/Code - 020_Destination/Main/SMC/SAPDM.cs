@@ -7,22 +7,22 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main
 {
-	internal sealed class SAPSDM
+	internal sealed class SAPDM
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// Singleton
 				//
-				private	static readonly	Lazy< SAPSDM >		_Instance		= new Lazy< SAPSDM >( ()=>	new SAPSDM() , cz_LM );
+				private	static readonly	Lazy<SAPDM>	_Instance		= new Lazy< SAPDM >( ()=>	new SAPDM() , cz_LM );
 
-				internal static SAPSDM Instance
+				internal static SAPDM Instance
 					{
 						get { return _Instance.Value; }
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private SAPSDM()
+				private SAPDM()
 					{	}
 
 			#endregion
@@ -40,12 +40,12 @@ namespace BxS_WorxNCO.Destination.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.RfcConfigParameters		CreateNCOConfig				()																		=>	new	SMC.RfcConfigParameters	();
+				public SMC.RfcConfigParameters		CreateNCOConfig()	=>	new	SMC.RfcConfigParameters	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.RfcDestination					GetDestination				( string ID )													=>	SDM.GetDestination( ID );
-				public SMC.RfcCustomDestination		GetCustomDestination	( string ID )													=>	SDM.GetDestination( ID ).CreateCustomDestination();
-
+				public SMC.RfcDestination					GetDestination				( string ID )	=>	SDM.GetDestination( ID );
+				public SMC.RfcCustomDestination		GetCustomDestination	( string ID )	=>	SDM.GetDestination( ID ).CreateCustomDestination();
+				//...
 				public SMC.RfcDestination					GetDestination				( SMC.RfcConfigParameters rfcConfig )	=>	SDM.GetDestination( rfcConfig );
 				public SMC.RfcCustomDestination		GetCustomDestination	( SMC.RfcConfigParameters rfcConfig )	=>	SDM.GetDestination( rfcConfig ).CreateCustomDestination();
 

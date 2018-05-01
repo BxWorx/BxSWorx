@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using SMC	= SAP.Middleware.Connector;
+
 using BxS_WorxNCO.Destination.API;
 using BxS_WorxNCO.API;
 
@@ -109,5 +111,24 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 
 					lo_Dest.LoadConfig( lo_Logon )	;
 				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_100_Dest_60_DestViaINI()
+				{
+					string					lc_ID			= this.co_NCO000.GetSAPID();
+					IRfcDestination	lo_Dest		= this.co_NCOCntlr.GetDestinationFromSAPIni( lc_ID );
+					//...
+					IConfigLogon		lo_Logon	= lo_Dest.CreateLogonConfig( false );
+
+					lo_Logon.Client		= UT_000_NCO.cz_Client	;
+					lo_Logon.User			= UT_000_NCO.cz_User		;
+					lo_Logon.Password	= UT_000_NCO.cz_PWrd		;
+					//...
+					SMC.RfcDestination c	= lo_Dest.CreateSMCDestination( lo_Logon );
+
+					c.Ping();
+				}
+
 		}
 }
