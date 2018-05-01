@@ -14,8 +14,10 @@ namespace BxS_WorxUtil.Progress
 						this._Factory				= factory					;
 						this._RepInterval		= reportInterval	;
 						//.............................................
+						this.IsActive		= false	;
+						//...
 						this._HitCount	= 0;
-						this._ChKCount	= this._RepInterval - 1	;
+						this._ChkCount	= this._RepInterval - 1	;
 						this._Handler		= new	Lazy< IProgress<T> >( ()=>	new Progress<T>() );
 					}
 
@@ -28,7 +30,7 @@ namespace BxS_WorxUtil.Progress
 				private readonly Lazy< IProgress<T> >	_Handler;
 
 				private int _RepInterval	;
-				private int _ChKCount			;
+				private int _ChkCount			;
 				private	int _HitCount			;
 
 			#endregion
@@ -36,11 +38,13 @@ namespace BxS_WorxUtil.Progress
 			//===========================================================================================
 			#region "Properties"
 
-				public	int		ReportInterval	{ get { return	this._RepInterval; }
-																				set { this._RepInterval = value;	this._ChKCount	= value -1 ; } }
+				public	bool	IsActive				{ get; set; }
+
+				public	int		ReportInterval	{ get { return	this._RepInterval;																}
+																				set { this._RepInterval = value;	this._ChkCount	= value -1 ;	} }
 
 				public	bool	GoingToHit			{ get {	Interlocked.Increment( ref this._HitCount )	;
-																							return	this._HitCount >= this._ChKCount		; } }
+																							return	this._HitCount >= this._ChkCount		; } }
 
 			#endregion
 

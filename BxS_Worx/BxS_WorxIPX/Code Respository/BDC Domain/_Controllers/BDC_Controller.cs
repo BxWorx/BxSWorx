@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //.........................................................
+using BxS_WorxIPX.NCO;
 using BxS_WorxUtil.General;
 
 using static	BxS_WorxIPX.Main.IPX_Constants;
@@ -56,7 +57,8 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IXMLConfig	Create_XMLConfig	( bool withDefaults = true )	=> new XMLConfig( withDefaults );
+				public	ISAP_Logon	Create_SAPLogon	()														=>	this.Factory.Create_SAPLogon();
+				public	IXMLConfig	Create_XMLConfig( bool withDefaults = true )	=>	new XMLConfig( withDefaults );
 				//...
 				public	IUser			Create_User			()=>	new User();
 				public	ISession	Create_Session	()=>	new	Session( this.Create_XMLConfig() )	;

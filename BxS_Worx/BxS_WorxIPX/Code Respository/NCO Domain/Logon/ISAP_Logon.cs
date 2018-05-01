@@ -1,6 +1,7 @@
 ﻿using System.Security;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.BDC
+namespace BxS_WorxIPX.NCO
+
 {
 	public interface ISAP_Logon
 		{

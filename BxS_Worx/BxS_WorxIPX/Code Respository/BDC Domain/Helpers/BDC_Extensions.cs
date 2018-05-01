@@ -15,7 +15,7 @@ namespace BxS_WorxIPX.Toolset
 									//...
 									foreach ( PropertyInfo lo_FP in lt_PI )
 										{
-											if ( lo_FP.GetCustomAttributes(true).Length.Equals(1) )
+											if ( lo_FP.GetCustomAttributes(true).Length <= 1 )
 												{
 													PropertyInfo lo_Me = self.GetType().GetProperty( lo_FP.Name );
 													lo_Me.SetValue(self , lo_FP.GetValue( from ) );

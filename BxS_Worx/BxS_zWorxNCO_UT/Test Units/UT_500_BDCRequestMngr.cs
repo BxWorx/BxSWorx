@@ -52,12 +52,13 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_500_BCDRMngr_20_Process()
 				{
-					IRequest	lo_R0	= this.LoadRequest( _Nme );
+					IRequest	lo_R0	= this.LoadRequest( _Nme , 500 );
 					//...
 					var																x = new CancellationTokenSource();
 					ProgressHandler<DTO_BDC_Progress> p = this.co_RMngr.CreateProgressHandler();
 					//...
 					Task.Run( ()=> this.co_RMngr.ProcessAsync( lo_R0 , x.Token , p )).Wait();
+					
 				}
 
 		//.

@@ -18,9 +18,9 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				Task<bool>	ReadyAsync( bool optimise = true );
 
-				Task<bool>	ProcessAsync(	IRequest												request
-														,	CancellationToken										CT
-														, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
+				Task<bool>	ProcessAsync(		IRequest														request
+																	,	CancellationToken										CT
+																	, ProgressHandler< DTO_BDC_Progress >	progressHndlr );
 
 				//void ReConfigureBDCSessionPool		();
 				//void ReConfigureBDCConsumerPool		();

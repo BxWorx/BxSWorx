@@ -4,6 +4,10 @@ using System.Collections.Generic;
 //.........................................................
 using Microsoft.Office.Interop.Excel;
 //.........................................................
+using BxS_WorxNCO.API;
+using BxS_WorxNCO.Destination.API;
+
+using BxS_WorxIPX.Main;
 using BxS_WorxIPX.BDC;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
@@ -15,9 +19,14 @@ namespace BxS_WorxExcel.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Handler_Excel()
+				internal Handler_Excel( Application application )
 					{
-						this._BDCCntlr		= new	Lazy< IBDC_Controller >	( ()=>	Globals.ThisAddIn._IPXCntlr.Value.Create_BDCController() , cz_LM );
+						this._App	= application;
+						//...
+						this._NCOCntlr		= new	Lazy<INCO_Controller>	(	()=>	NCO_Controller.Instance	, cz_LM );
+						this._IPXCntlr		= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM );
+						//...
+						this._BDCCntlr		= new	Lazy<IBDC_Controller>	( ()=>	this._IPXCntlr.Value.Create_BDCController() , cz_LM );
 					}
 
 			#endregion
@@ -25,6 +34,10 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Declarations"
 
+				private readonly	Application	_App;
+				//...
+				internal Lazy< INCO_Controller >	_NCOCntlr	;
+				internal Lazy< IIPX_Controller >	_IPXCntlr	;
 				internal Lazy< IBDC_Controller >	_BDCCntlr		;
 
 			#endregion
@@ -39,6 +52,9 @@ namespace BxS_WorxExcel.Main
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				internal	IList<string>	GetSAPSystems()	=>	this._NCOCntlr.Value.GetSAPINIList();
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	string	GetStatusbar		()							=>	this.ThisAPP.StatusBar					;

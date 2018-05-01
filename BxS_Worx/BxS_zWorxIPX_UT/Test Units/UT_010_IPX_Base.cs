@@ -57,13 +57,13 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_010_IPXCntlr_32_ExtMth_Skip()
 				{
 					IXMLConfig	lo_X	= new XMLConfig();
-					ISession		l0		= new Session( lo_X );
-					ISession		l1		= new Session( lo_X	);
+					ISession		l0		= new Session( lo_X )	{ WBID	= "Y" }	;
+					ISession		l1		= new Session( lo_X	) { WBID	= "X" } ;
 					//...
-					l1.WBID	= "X";
 					l0.CopyPropertiesFrom( l1 );
 
 					Assert.AreEqual		( l0.WBID , l1.WBID	, "" );
+					Assert.AreEqual		( "X"			, l0.WBID	, "" );
 					Assert.AreNotEqual( l0.ID		, l1.ID		, "" );
 				}
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,16 +24,12 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_ParserPipeline(	IRfcDestination							rfcDestination
-																		, Lazy< IRfcFncController		>	rfcFncCntlr
-																		, Lazy< BDC_Session_Factory > factory					)
+				internal BDC_ParserPipeline( Lazy<BDC_Session_Factory>	factory )
 					{
-						this._RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_ParserPipeline).Namespace}:- RfcDest null"		);
-						this._ReqFactory			= factory					??	throw		new	ArgumentException( $"{typeof(BDC_ParserPipeline).Namespace}:- Factory null"		);
-						this._RfcFncCntlr			= rfcFncCntlr			??	throw		new	ArgumentException( $"{typeof(BDC_ParserPipeline).Namespace}:- FNC Cntlr null" );
+						this._BDCFactory	= factory	??	throw		new	ArgumentException( $"{typeof(BDC_ParserPipeline).Namespace}:- Factory null"		);
 						//...
-						this._Factory		= new Lazy<BDC_Parser_Factory>				(	()=>	BDC_Parser_Factory.Instance	, cz_LM	);
-						this._Pool			= new	Lazy< ObjectPool<BDC_Parser> >	(	()=>	this.CreatePool()						, cz_LM );
+						this._Factory		= new Lazy<BDC_Parser_Factory>			(	()=>	BDC_Parser_Factory.Instance	, cz_LM	);
+						this._Pool			= new	Lazy<ObjectPool<BDC_Parser>>	(	()=>	this.CreatePool()						, cz_LM );
 					}
 
 			#endregion
@@ -40,12 +37,10 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IRfcDestination								_RfcDestination	;
-				private	readonly	Lazy< BDC_Session_Factory	>		_ReqFactory			;
-				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr		;
+				private	readonly	Lazy<BDC_Session_Factory>			_BDCFactory	;
 				//...
-				private readonly	Lazy< BDC_Parser_Factory >			_Factory	;
-				private	readonly	Lazy< ObjectPool<BDC_Parser> >	_Pool			;
+				private readonly	Lazy<BDC_Parser_Factory>			_Factory	;
+				private	readonly	Lazy<ObjectPool<BDC_Parser>>	_Pool			;
 
 			#endregion
 
@@ -65,21 +60,30 @@ namespace BxS_WorxNCO.BDCSession.Main
 				public void													Configure( ObjectPoolConfig<BDC_Parser> config )	=>	this._Pool.Value.ConfigurePool( config );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task ProcessAsync(		BlockingCollection<ISession>				queueIn
-																				, BlockingCollection<DTO_BDC_Session>	queueOut
-																				, CancellationToken										CT
-																				,	ProgressHandler< DTO_BDC_Progress >	progressHndlr )
+				public void Process(	IRequest														request
+														, BlockingCollection<DTO_BDC_Session>	TranQueue
+														, CancellationToken										CT
+														,	ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{
 						using ( BDC_Parser lo_Parser	= this._Pool.Value.Acquire() )
 							{
-								foreach ( ISession lo_SsnIn in queueIn.GetConsumingEnumerable( CT ) )
+								foreach ( KeyValuePair<int , ISession> ls_kvp in request.Sessions )
 									{
-										DTO_BDC_Session lo_SsnOut	=	this._ReqFactory.Value.CreateSessionDTO();
-										if ( await Task.Run( ()=> lo_Parser.Parse( lo_SsnIn , lo_SsnOut ) ).ConfigureAwait(false) )
+										if ( ! CT.IsCancellationRequested )
 											{
-												queueOut.Add( lo_SsnOut );
-												DTO_BDC_Progress x = progressHndlr.Create();
-												progressHndlr.Report( x );
+												DTO_BDC_Session lo_SsnOut	=	this._BDCFactory.Value.CreateSessionDTO();
+												//...
+												//if ( await Task.Run( ()=> lo_Parser.Parse( ls_kvp.Value , lo_SsnOut ) ).ConfigureAwait(false) )
+												if ( lo_Parser.Parse( ls_kvp.Value , lo_SsnOut ) )
+													{
+														TranQueue.Add( lo_SsnOut );
+														//..
+														if ( progressHndlr.IsActive && progressHndlr.GoingToHit )
+															{
+																DTO_BDC_Progress x = progressHndlr.Create();
+																progressHndlr.Report( x );
+															}
+													}
 											}
 									}
 							}

@@ -1,7 +1,8 @@
 ﻿using System;
 //.........................................................
+using BxS_WorxExcel.Main;
 using BxS_WorxIPX.Main;
-//using BxS_WorxUtil.Main;
+using BxS_WorxNCO.API;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -11,7 +12,8 @@ namespace BxS_WorxExcel
 		{
 			#region "Declarations"
 
-				internal Lazy< IIPX_Controller >		_IPXCntlr	;
+				//internal Lazy<Handler_Excel>		_ExlHndlr	;
+				//internal Lazy< IIPX_Controller >		_IPXCntlr	;
 
 			#endregion
 
@@ -21,7 +23,8 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ThisAddIn_Startup(object sender, System.EventArgs e)
 					{
-						this._IPXCntlr	= new	Lazy< IIPX_Controller >	(	()=>	IPX_Controller.Instance	, cz_LM );
+						//this._ExlHndlr	= new	Lazy<Handler_Excel>	(	()=>	new	Handler_Excel( Globals.ThisAddIn.Application ) , cz_LM );
+						//this._IPXCntlr	= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

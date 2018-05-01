@@ -8,9 +8,9 @@ namespace BxS_WorxNCO.BDCSession.DTO
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_BDC_Request( Func< DTO_BDC_Session >	factory )
+				internal DTO_BDC_Request( Func< DTO_BDC_Session >	createSession )
 					{
-						this._Factory		= factory;
+						this._Factory		= createSession;
 						//...
 						this.Sessions		= new	Dictionary<Guid, DTO_BDC_Session>();
 					}
@@ -32,6 +32,7 @@ namespace BxS_WorxNCO.BDCSession.DTO
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal DTO_BDC_Session	CreateSessionDTO()	=>	this._Factory();
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	Add_Session( DTO_BDC_Session dto )	=>	this.Sessions.Add( dto.ID , dto );
 
 			#endregion

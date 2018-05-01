@@ -1,4 +1,4 @@
-﻿using BxS_WorxUtil.General;
+﻿using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
@@ -14,12 +14,13 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				IXMLConfig		Create_XMLConfig( bool withDefaults = true )	;
+				ISAP_Logon	Create_SAPLogon()	;
+				IXMLConfig	Create_XMLConfig( bool withDefaults = true )	;
 				//...
-				IUser			Create_User()			;
-				ISession	Create_Session()	;
-				IRequest	Create_Request()	;
-				IRequest_Config	Create_RequestConfig()	;
+				IUser							Create_User()			;
+				ISession					Create_Session()	;
+				IRequest					Create_Request()	;
+				IRequest_Config		Create_RequestConfig()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				void			DispatchRequest_ToFile	( IRequest request , string fullPath )	;

@@ -12,19 +12,19 @@
     <d1p1:PoolSize>0</d1p1:PoolSize>
     <d1p1:RepoIdleTimeout>0</d1p1:RepoIdleTimeout>
   </d1p1:Config>
-  <d1p1:SAPLogon
-    i:type="d1p1:SAP_Logon">
-    <d1p1:Client
+  <d1p1:SAPLogon xmlns:d2p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.NCO"
+    i:type="d2p1:SAP_Logon">
+    <d2p1:Client
       i:nil="true" />
-    <d1p1:Lang
+    <d2p1:Lang
       i:nil="true" />
-    <d1p1:Pwrd
+    <d2p1:Pwrd
       i:nil="true" />
-    <d1p1:SAPSysID
+    <d2p1:SAPSysID
       i:nil="true" />
-    <d1p1:SecurePwrd xmlns:d3p1="http://schemas.datacontract.org/2004/07/System.Security"
+    <d2p1:SecurePwrd xmlns:d3p1="http://schemas.datacontract.org/2004/07/System.Security"
       i:nil="true" />
-    <d1p1:User
+    <d2p1:User
       i:nil="true" />
   </d1p1:SAPLogon>
   <d1p1:Sessions xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
@@ -34,7 +34,7 @@
         i:type="d1p1:Session">
         <d1p1:ColLB>1</d1p1:ColLB>
         <d1p1:ColUB>17</d1p1:ColUB>
-        <d1p1:ID>3f11555e-a939-4289-a187-3c3c11ec0d53</d1p1:ID>
+        <d1p1:ID>fbebb19a-032f-441a-be6a-7ae1b17e5d67</d1p1:ID>
         <d1p1:IsActive>false</d1p1:IsActive>
         <d1p1:IsBDCSession>false</d1p1:IsBDCSession>
         <d1p1:IsOnline>false</d1p1:IsOnline>
@@ -5517,7 +5517,7 @@
   </d1p1:Sessions>
   <d1p1:User
     i:type="d1p1:User">
-    <d1p1:GUID>0ab21ce4-46aa-4a26-a96a-b40409b21c2d</d1p1:GUID>
+    <d1p1:GUID>cc80f9af-19e5-4d86-ab1c-cf93e6d2b696</d1p1:GUID>
     <d1p1:Name
       i:nil="true" />
     <d1p1:Timestamp>0001-01-01T00:00:00</d1p1:Timestamp>
