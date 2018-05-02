@@ -14,17 +14,19 @@ using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
-	internal class Handler_Excel
+	internal class Handler_BDC
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Handler_Excel()
+				internal Handler_BDC( Application application )
 					{
-						//this._NCOCntlr		= new	Lazy<INCO_Controller>	(	()=>	NCO_Controller.Instance	, cz_LM );
-						//this._IPXCntlr		= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM );
-						////...
-						//this._BDCCntlr		= new	Lazy<IBDC_Controller>	( ()=>	this._IPXCntlr.Value.Create_BDCController() , cz_LM );
+						this._App	= application;
+						//...
+						this._NCOCntlr		= new	Lazy<INCO_Controller>	(	()=>	NCO_Controller.Instance	, cz_LM );
+						this._IPXCntlr		= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM );
+						//...
+						this._BDCCntlr		= new	Lazy<IBDC_Controller>	( ()=>	this._IPXCntlr.Value.Create_BDCController() , cz_LM );
 					}
 
 			#endregion
@@ -32,93 +34,57 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				//internal Lazy< INCO_Controller >	_NCOCntlr	;
-				//internal Lazy< IIPX_Controller >	_IPXCntlr	;
-				//internal Lazy< IBDC_Controller >	_BDCCntlr		;
+				private readonly	Application	_App;
+				//...
+				internal Lazy< INCO_Controller >	_NCOCntlr	;
+				internal Lazy< IIPX_Controller >	_IPXCntlr	;
+				internal Lazy< IBDC_Controller >	_BDCCntlr		;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private	Application			ThisApp		{ get { return	Globals.ThisAddIn.Application	; } }
-				//private IBDC_Controller BDCCntlr	{ get { return	this._BDCCntlr.Value					; } }
+				private	Application			ThisAPP		{ get { return	Globals.ThisAddIn.Application	; } }
+				private IBDC_Controller BDCCntlr	{ get { return	this._BDCCntlr.Value					; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList<WSNode>	GetManifest()
+				internal IRequest CreateRequest( IList<string> wsList )
 					{
-						IList<WSNode>	lt	= new List<WSNode>();
-						//...
-						foreach ( Workbook lo_WB in this.ThisApp.Workbooks )
-							{
-								foreach ( Worksheet lo_WS in lo_WB.Worksheets )
-									{
-										var ls_Node = new WSNode	{
-																									WBName = lo_WB.Name
-																								,	WSName = lo_WS.Name
-																							};
-										lt.Add( ls_Node );
-									}
-							}
-						//...
-						return	lt;
-					}
+						var x = this._BDCCntlr.Value.Create_Request();
+						//.............................................
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal WSData GetWSData(	string	WBID	= null
-																	, string	WSID	= null )
-					{
-						Worksheet lo_WS = this.GetWS( WBID , WSID );
-						//...
-						return	new WSData	{
-																		WBID        = lo_WS.Parent.Name
-																	,	WSID        = lo_WS.Name
-																	,	UsedAddress = lo_WS.UsedRange.Address
-																	,	WSCells     = lo_WS.UsedRange.Value
-																};
-					}
-
-
-
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal IRequest CreateRequest( IList<string> wsList )
-				//	{
-				//		var x = this._BDCCntlr.Value.Create_Request();
-				//		//.............................................
-
-				//		var lo_Ssn	= this._BDCCntlr.Value.Create_Session();
+						var lo_Ssn	= this._BDCCntlr.Value.Create_Session();
 				
 
-				//		x.Add_Session( lo_Ssn );
-				//		//.............................................
-				//		return	x;
-				//	}
+						x.Add_Session( lo_Ssn );
+						//.............................................
+						return	x;
+					}
 
 
 
 
 
-				//internal	IList<string>	GetSAPSystems()	=>	this._NCOCntlr.Value.GetSAPINIList();
+				internal	IList<string>	GetSAPSystems()	=>	this._NCOCntlr.Value.GetSAPINIList();
 
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	string	GetStatusbar		()							=>	this.ThisApp.StatusBar					;
-				internal	void		WriteStatusbar	( string msg )	=>	this.ThisApp.StatusBar = msg		;
-				internal	void		ResetStatusBar	()							=>	this.ThisApp.StatusBar = false	;
+				internal	string	GetStatusbar		()							=>	this.ThisAPP.StatusBar					;
+				internal	void		WriteStatusbar	( string msg )	=>	this.ThisAPP.StatusBar = msg		;
+				internal	void		ResetStatusBar	()							=>	this.ThisAPP.StatusBar = false	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IList< Worksheet > GetWBWSManifest()
 					{
 						IList< Worksheet >	lt_List		= new List< Worksheet >();
 						//.............................................
-						foreach ( Workbook lo_WB in this.ThisApp.Workbooks )
+						foreach ( Workbook lo_WB in this.ThisAPP.Workbooks )
 							{
 								foreach ( Worksheet lo_WS in lo_WB.Worksheets )
 									{
@@ -177,20 +143,6 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Worksheet GetWS( string forWB , string forWS )
-					{
-						if ( string.IsNullOrEmpty( forWS ) || string.IsNullOrEmpty( forWB ) )
-							{
-								return	this.ThisApp.ActiveSheet as Worksheet;
-							}
-						else
-							{
-								return	this.ThisApp.Workbooks[forWB].Worksheets[forWS] as Worksheet;
-							}
-					}
-
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// process each worksheet object array into dictionary with dictionary key having the 
 				// syntax of WSCell[row , col ] == "row,col"
 				//
@@ -239,15 +191,7 @@ namespace BxS_WorxExcel.Main
 							}
 					}
 
-		#endregion
-
-
-		//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-		internal struct WSNode
-			{
-				internal	string	WBName { get; set; }
-				internal	string	WSName { get; set; }
-			}
+			#endregion
 
 		}
 }

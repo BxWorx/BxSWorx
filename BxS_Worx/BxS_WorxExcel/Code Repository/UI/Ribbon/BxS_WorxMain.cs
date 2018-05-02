@@ -38,7 +38,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._HndlrExcel	= new	Lazy<Handler_Excel>		( ()=>	new	Handler_Excel( Globals.ThisAddIn.Application )			, cz_LM );
+						this._HndlrExcel	= new	Lazy<Handler_Excel>		( ()=>	new	Handler_Excel()			, cz_LM );
 						//...
 						this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 					}
