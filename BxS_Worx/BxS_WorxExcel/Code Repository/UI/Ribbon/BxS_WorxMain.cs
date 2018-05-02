@@ -1,14 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Linq;
 //.........................................................
 using Microsoft.Office.Tools.Ribbon;
-using Microsoft.Office.Interop.Excel;
 //.........................................................
 using BxS_WorxExcel.Main;
+using BxS_WorxExcel.DTO;
 using BxS_WorxIPX.BDC;
-using BxS_WorxNCO.Destination.API;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -26,9 +25,11 @@ namespace BxS_WorxExcel
 				private				string	_User	;
 				private				string	_Full	;
 
-				internal Lazy< Handler_Excel >		_HndlrExcel	;
+				private Lazy<BxSExcel>	_BxS;
 
-				private	IBDC_Controller	BDCCntlr	{ get { return	this._HndlrExcel.Value._BDCCntlr.Value	;	}	}
+				//internal Lazy< Excel_Handler >		_HndlrExcel	;
+
+				//private	IBDC_Controller	BDCCntlr	{ get { return	this._HndlrExcel.Value._BDCCntlr.Value	;	}	}
 
 			#endregion
 
@@ -38,7 +39,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._HndlrExcel	= new	Lazy<Handler_Excel>		( ()=>	new	Handler_Excel()			, cz_LM );
+						this._BxS	= new	Lazy<BxSExcel>	( ()=>	new	BxSExcel()	, cz_LM );
 						//...
 						this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 					}
@@ -48,7 +49,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void DropDown1_Load(object sender , RibbonControlEventArgs e)
 					{
-						foreach ( string lo_SS in this._HndlrExcel.Value.GetSAPSystems() )
+						foreach ( string lo_SS in this._BxS.Value.GetSAPiniList() )
 							{
 								RibbonDropDownItem x = this.Factory.CreateRibbonDropDownItem();
 								x.Label	= lo_SS	;				//$"{lo_SS.ID} | {lo_SS.SAPName} | {lo_SS.IsSSO} ";
@@ -58,52 +59,62 @@ namespace BxS_WorxExcel
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async void Button1_Click( object sender , RibbonControlEventArgs e )
+				private async void WriteActive_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IRequest	x = this.BDCCntlr.Create_Request();
-																		ISession	s	= this.BDCCntlr.Create_Session();
+																		DTO_WSNode	x = this._BxS.Value.GetActiveWSNode();
+																		IRequest		r =	this._BxS.Value.CreateRequest();
+																		//...
+																		this.SetFullPath( x.WSName );
+																		this._BxS.Value.WriteRequestToFile( r , this._Full );
+																		//IRequest	x = this.BDCCntlr.Create_Request();
+																		//ISession	s	= this.BDCCntlr.Create_Session();
 																		//.............................................
-																		this._HndlrExcel.Value.LoadWSData( s );
-																		this.SetFullPath(s.WSID);
-																		//...
-																		x.Add_Session( s );
-																		this.BDCCntlr.DispatchRequest_ToFile( x , this._Full );
+																		//this._HndlrExcel.Value.LoadWSData( s );
+																		//this.SetFullPath(s.WSID);
+																		////...
+																		//x.Add_Session( s );
+																		//this.BDCCntlr.DispatchRequest_ToFile( x , this._Full );
 																		//.....................
-																		this._HndlrExcel.Value.WriteStatusbar( s.WSData.Count.ToString() );
-																		Thread.Sleep(300);
-																		this._HndlrExcel.Value.ResetStatusBar();
+																		//this._HndlrExcel.Value.WriteStatusbar( s.WSData.Count.ToString() );
+																		//Thread.Sleep(300);
+																		//this._HndlrExcel.Value.ResetStatusBar();
 																	} ).ConfigureAwait(false);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async void Button2_Click( object sender , RibbonControlEventArgs e )
+				private async void WriteAll_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IRequest x = this.BDCCntlr.Create_Request();
-																		//...
-																		foreach ( Worksheet lo_WS in this._HndlrExcel.Value.GetWBWSManifest() )
-																			{
-																				ISession	s	= this.BDCCntlr.Create_Session();
-																				this._HndlrExcel.Value.LoadWSdataIntoSession( s , lo_WS , true );
-																				x.Add_Session( s );
-																			}
 																		this.SetFullPath("DPB");
-																		this.BDCCntlr.DispatchRequest_ToFile( x , this._Full );
+																		//...
+																		IList<DTO_WSNode> x = this._BxS.Value.GetManifest();
+																		IRequest					r =	this._BxS.Value.CreateRequest( x );
+																		this._BxS.Value.WriteRequestToFile( r , this._Full );
+
+																		//IRequest x = this.BDCCntlr.Create_Request();
+																		////...
+																		//foreach ( Worksheet lo_WS in this._HndlrExcel.Value.GetWBWSManifest() )
+																		//	{
+																		//		ISession	s	= this.BDCCntlr.Create_Session();
+																		//		this._HndlrExcel.Value.LoadWSdataIntoSession( s , lo_WS , true );
+																		//		x.Add_Session( s );
+																		//	}
+																		//this.BDCCntlr.DispatchRequest_ToFile( x , this._Full );
 																		//.....................
-																		this._HndlrExcel.Value.WriteStatusbar( x.Count.ToString() );
-																		Thread.Sleep(300);
-																		this._HndlrExcel.Value.ResetStatusBar();
+																		//this._HndlrExcel.Value.WriteStatusbar( x.Count.ToString() );
+																		//Thread.Sleep(300);
+																		//this._HndlrExcel.Value.ResetStatusBar();
 																	} ).ConfigureAwait(false);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async void Button3_Click( object sender , RibbonControlEventArgs e )
+				private async void SaveXMLCfg_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IXMLConfig x = this.BDCCntlr.Create_XMLConfig();
+																		IXMLConfig x = this._BxS.Value.CreateXMLConfig();
 																		x.SAPTCode = "XD03";
-																		this._HndlrExcel.Value.WriteConfig( this.BDCCntlr.SerializeXMLConfig( x ) , "B3" );
+																		this._BxS.Value.WriteConfig( x , "B3" );
 																	} ).ConfigureAwait(false);
 					}
 

@@ -1,16 +1,12 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxIPX.BDC
+namespace BxS_WorxExcel.DTO
 {
-	internal class WSData
+	internal struct DTO_WSNode
 		{
 			#region "Properties"
 
-				internal	string		WBID				{ get; set; }
-				internal	string		WSID				{ get; set;	}
-				internal	int				WSNo				{ get; set;	}
-				internal	string		UsedAddress	{ get; set;	}
-				//...
-				internal	object[,]	WSCells			{ get; set;	}
+				internal	string	WBName { get; set; }
+				internal	string	WSName { get; set; }
 
 			#endregion
 

@@ -11,11 +11,13 @@
     <d1p1:PoolIdleTimeout>0</d1p1:PoolIdleTimeout>
     <d1p1:PoolSize>0</d1p1:PoolSize>
     <d1p1:RepoIdleTimeout>0</d1p1:RepoIdleTimeout>
+    <d1p1:UseAltBDC>false</d1p1:UseAltBDC>
   </d1p1:Config>
   <d1p1:SAPLogon xmlns:d2p1="http://schemas.datacontract.org/2004/07/BxS_WorxIPX.NCO"
     i:type="d2p1:SAP_Logon">
     <d2p1:Client
       i:nil="true" />
+    <d2p1:IsSAPINI>false</d2p1:IsSAPINI>
     <d2p1:Lang
       i:nil="true" />
     <d2p1:Pwrd
@@ -34,7 +36,7 @@
         i:type="d1p1:Session">
         <d1p1:ColLB>1</d1p1:ColLB>
         <d1p1:ColUB>17</d1p1:ColUB>
-        <d1p1:ID>fbebb19a-032f-441a-be6a-7ae1b17e5d67</d1p1:ID>
+        <d1p1:ID>3da1bb2c-626c-452e-8c86-7ca450c3901a</d1p1:ID>
         <d1p1:IsActive>false</d1p1:IsActive>
         <d1p1:IsBDCSession>false</d1p1:IsBDCSession>
         <d1p1:IsOnline>false</d1p1:IsOnline>
@@ -5479,7 +5481,7 @@
           </d2p1:KeyValueOfstringstring>
         </d1p1:WSData>
         <d1p1:WSID>Test-00</d1p1:WSID>
-        <d1p1:WSNo>1</d1p1:WSNo>
+        <d1p1:WSNo>0</d1p1:WSNo>
         <d1p1:XMLConfig
           i:type="d1p1:XMLConfig">
           <d1p1:CTU_DefSize>X</d1p1:CTU_DefSize>
@@ -5517,7 +5519,7 @@
   </d1p1:Sessions>
   <d1p1:User
     i:type="d1p1:User">
-    <d1p1:GUID>cc80f9af-19e5-4d86-ab1c-cf93e6d2b696</d1p1:GUID>
+    <d1p1:GUID>25810c27-a586-40d0-8f0a-45a19bee60ab</d1p1:GUID>
     <d1p1:Name
       i:nil="true" />
     <d1p1:Timestamp>0001-01-01T00:00:00</d1p1:Timestamp>

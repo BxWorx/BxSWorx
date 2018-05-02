@@ -36,12 +36,12 @@
 			{
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group1 = this.Factory.CreateRibbonGroup();
-			this.button1 = this.Factory.CreateRibbonButton();
-			this.button2 = this.Factory.CreateRibbonButton();
-			this.button3 = this.Factory.CreateRibbonButton();
+			this.btn_SaveAct = this.Factory.CreateRibbonButton();
+			this.btn_SaveAll = this.Factory.CreateRibbonButton();
+			this.btn_XmlCfg = this.Factory.CreateRibbonButton();
 			this.xbg_SAPLogon = this.Factory.CreateRibbonGroup();
-			this.dropDown1 = this.Factory.CreateRibbonDropDown();
 			this.button4 = this.Factory.CreateRibbonButton();
+			this.dropDown1 = this.Factory.CreateRibbonDropDown();
 			this.tab1.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
@@ -57,29 +57,29 @@
 			// 
 			// group1
 			// 
-			this.group1.Items.Add(this.button1);
-			this.group1.Items.Add(this.button2);
-			this.group1.Items.Add(this.button3);
+			this.group1.Items.Add(this.btn_SaveAct);
+			this.group1.Items.Add(this.btn_SaveAll);
+			this.group1.Items.Add(this.btn_XmlCfg);
 			this.group1.Label = "group1";
 			this.group1.Name = "group1";
 			// 
-			// button1
+			// btn_SaveAct
 			// 
-			this.button1.Label = "Write Active";
-			this.button1.Name = "button1";
-			this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button1_Click);
+			this.btn_SaveAct.Label = "Write Active";
+			this.btn_SaveAct.Name = "btn_SaveAct";
+			this.btn_SaveAct.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.WriteActive_Click);
 			// 
-			// button2
+			// btn_SaveAll
 			// 
-			this.button2.Label = "Write ALL";
-			this.button2.Name = "button2";
-			this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button2_Click);
+			this.btn_SaveAll.Label = "Write ALL";
+			this.btn_SaveAll.Name = "btn_SaveAll";
+			this.btn_SaveAll.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.WriteAll_Click);
 			// 
-			// button3
+			// btn_XmlCfg
 			// 
-			this.button3.Label = "Add Config";
-			this.button3.Name = "button3";
-			this.button3.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button3_Click);
+			this.btn_XmlCfg.Label = "Add Config";
+			this.btn_XmlCfg.Name = "btn_XmlCfg";
+			this.btn_XmlCfg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SaveXMLCfg_Click);
 			// 
 			// xbg_SAPLogon
 			// 
@@ -88,16 +88,16 @@
 			this.xbg_SAPLogon.Label = "SAP logon";
 			this.xbg_SAPLogon.Name = "xbg_SAPLogon";
 			// 
+			// button4
+			// 
+			this.button4.Label = "Request";
+			this.button4.Name = "button4";
+			// 
 			// dropDown1
 			// 
 			this.dropDown1.Label = "dropDown1";
 			this.dropDown1.Name = "dropDown1";
 			this.dropDown1.ItemsLoading += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DropDown1_Load);
-			// 
-			// button4
-			// 
-			this.button4.Label = "Request";
-			this.button4.Name = "button4";
 			// 
 			// BxS_WorxMain
 			// 
@@ -119,9 +119,9 @@
 
 		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton button3;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btn_SaveAct;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btn_SaveAll;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btn_XmlCfg;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup xbg_SAPLogon;
 		internal Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDown1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;

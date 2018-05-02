@@ -181,11 +181,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Code Repository\DTO\DTO_WSNode.cs" />
     <Compile Include="Code Repository\Main\EXL_Constants.cs" />
     <Compile Include="Code Repository\Main\BxSExcel.cs" />
-    <Compile Include="Code Repository\Main\Handler_BDC.cs" />
-    <Compile Include="Code Repository\Main\Handler_Excel.cs" />
-    <Compile Include="Code Repository\Main\Session.cs" />
+    <Compile Include="Code Repository\Main\BDC_Handler.cs" />
+    <Compile Include="Code Repository\Main\Excel_Handler.cs" />
+    <Compile Include="Code Repository\DTO\DTO_WSData.cs" />
     <Compile Include="Code Repository\UI\Ribbon\BxS_WorxMain.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -252,7 +253,7 @@
     <ManifestKeyFile>BxS_WorxExcel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6C22700541E71141990C36859E936260B525B4A6</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>EB39F895789A7D23F9F03549550DF7C8BCFB6F6A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup />
   <!-- Include the build rules for a C# project. -->
