@@ -20,7 +20,7 @@ namespace BxS_WorxNCO.SAPSession.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAP_Session_Manager(	IRfcDestination	rfcDestination )
+				internal SAP_Session_Manager(	IBxSDestination	rfcDestination )
 					{
 						this.RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(SAP_Session_Manager).Namespace}:- RfcDest Factory null" );
 						//.............................................
@@ -60,7 +60,7 @@ namespace BxS_WorxNCO.SAPSession.API
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IRfcDestination			RfcDestination	{ get; }
+				internal	IBxSDestination			RfcDestination	{ get; }
 				private		SMC.RfcDestination	SMCDestination	{ get	{	return	this.RfcDestination.SMCDestination; } }
 
 			#endregion

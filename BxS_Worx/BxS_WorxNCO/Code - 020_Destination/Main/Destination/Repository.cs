@@ -14,9 +14,9 @@ namespace BxS_WorxNCO.Destination.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Repository( Func< Guid , IRfcDestination >	createDestination  )
+				internal Repository( Func< Guid , IBxSDestination >	createDestination  )
 					{
-						this._CreateDestination	= createDestination;
+						this._CreateDestFunc	= createDestination;
 						//.............................................
 						this.SAPSystems	= new Dictionary< Guid		, string >									()	;
 						this._Map				= new Dictionary< string	, Guid >										()	;
@@ -37,7 +37,7 @@ namespace BxS_WorxNCO.Destination.Main
 				private readonly	Dictionary< string	,	Guid >										_Map;
 				private readonly	Dictionary< Guid		, SMC.RfcConfigParameters >	_Des;
 				//.................................................
-				private	readonly	Func< Guid , IRfcDestination >									_CreateDestination;
+				private	readonly	Func< Guid , IBxSDestination >									_CreateDestFunc;
 				//.................................................
 				private readonly	object	_Lock;
 
@@ -72,36 +72,43 @@ namespace BxS_WorxNCO.Destination.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IRfcDestination GetDestination( string ID )
+				public IBxSDestination GetDestination( string ID , bool useSAPINI = true )
 					{
 						Guid lg = this.GetAddIDFor( ID , true );
 						//.............................................
-						return	this.GetDestination( lg );
+						return	this.GetDestination( lg , useSAPINI );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IRfcDestination GetDestination( Guid ID )
+				public IBxSDestination GetDestination( Guid ID , bool useSAPINI = true )
 					{
 						if ( !this._Des.TryGetValue( ID , out SMC.RfcConfigParameters lo_Cnf ) )
 							{
-							lock ( this._Lock )
-								{
-									if ( !this._Des.TryGetValue(ID, out lo_Cnf)	)
-										{
-											if ( this.SAPSystems.TryGetValue( ID , out string lc_SAPID ) )
-												{
-													lo_Cnf	= this._SAPINI.Value.GetIniParameters(lc_SAPID)	?? new SMC.RfcConfigParameters();
-													this._Des.Add( ID , lo_Cnf );
-												}
-											else
-												{
-													lo_Cnf	= null;
-												}
-										}
+								lock ( this._Lock )
+									{
+										if ( !this._Des.TryGetValue(ID, out lo_Cnf)	)
+											{
+												if ( this.SAPSystems.TryGetValue( ID , out string lc_SAPID ) )
+													{
+														if ( useSAPINI )
+															{
+																lo_Cnf	= this._SAPINI.Value.GetIniParameters( lc_SAPID )	?? new SMC.RfcConfigParameters();
+															}
+														else
+															{
+															}
+														//...
+														this._Des.Add( ID , lo_Cnf );
+													}
+												else
+													{
+														lo_Cnf	= null;
+													}
+											}
+									}
 								}
-							}
 						//.............................................
-						IRfcDestination	lo_Des = this._CreateDestination( ID );
+						IBxSDestination	lo_Des = this._CreateDestFunc( ID );
 						lo_Des.LoadConfig( lo_Cnf );
 						//.............................................
 						return lo_Des;

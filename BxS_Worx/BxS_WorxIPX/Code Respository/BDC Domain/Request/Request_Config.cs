@@ -16,6 +16,7 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Properties"
 
+				[DataMember]	public	bool	UseAltBDC			{ get; set; }
 				[DataMember]	public	bool	IsSequential	{ get; set; }
 
 				[DataMember]	public	int			IdleTimeout				{ get; set; }

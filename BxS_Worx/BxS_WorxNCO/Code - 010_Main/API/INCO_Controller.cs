@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
+
 using BxS_WorxNCO.BDCSession.API;
+
 using BxS_WorxNCO.SAPSession.API;
 
 using BxS_WorxIPX.Main;
+using BxS_WorxIPX.NCO;
+
 using BxS_WorxUtil.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.API
@@ -25,12 +29,12 @@ namespace BxS_WorxNCO.API
 				IList< string >								GetSAPINIList();
 				IList< ISAPSystemReference >	GetSAPSystems();
 				//.................................................
-				void	LoadGlobalConfig( IConfigGlobal config );
-				//.................................................
-				IRfcDestination		GetDestinationFromSAPIni( string ID );
+				IConfigGlobal	CreateGlobalConfig();
 				//...
-				IRfcDestination		GetDestination( Guid		ID );
-				IRfcDestination		GetDestination( string	ID );
+				void LoadGlobalConfig( IConfigGlobal config );
+				//.................................................
+				IBxSDestination		GetDestination( Guid		ID , bool useSAPINI = true );
+				IBxSDestination		GetDestination( string	ID , bool useSAPINI = true );
 				//.................................................
 				void	Reset();
 
@@ -40,11 +44,10 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Exposed: BDC Session"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				ISAP_Session_Manager	CreateSAPSessionManager( IRfcDestination	rfcDestination );
+				IBDC_Request_Manager	CreateBDCRequestManager( ISAP_Logon	sapLogon );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				IBDC_Request_Manager	CreateBDCRequestManager(	IRfcDestination	rfcDestination
-																											, bool						useAltBDCFunction	= false );
+				ISAP_Session_Manager	CreateSAPSessionManager( IBxSDestination	rfcDestination );
 
 			#endregion
 

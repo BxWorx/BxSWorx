@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-//.........................................................
-using SMC	= SAP.Middleware.Connector;
+using System.Threading;
 //.........................................................
 using BxS_WorxNCO.Destination.API;
-using BxS_WorxNCO.Destination.Config;
 using BxS_WorxNCO.Destination.Main;
 using BxS_WorxNCO.Destination.Main.Destination;
+using BxS_WorxNCO.Destination.Config;
 
 using BxS_WorxNCO.BDCSession.API;
 using BxS_WorxNCO.BDCSession.DTO;
 using BxS_WorxNCO.SAPSession.API;
 
 using BxS_WorxIPX.Main;
+using BxS_WorxIPX.NCO;
+
 using BxS_WorxUtil.Main;
 using BxS_WorxUtil.Progress;
 
@@ -27,12 +28,13 @@ namespace BxS_WorxNCO.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private NCO_Controller()
 					{
-						this._DestRepos		= new Lazy< Repository >		(	()=>	new Repository	(	( Guid ID )	=>	new RfcDestination( ID ) )	, cz_LM );
-						this._GlobalSetup	= new Lazy< IConfigGlobal >	( ()=>	new ConfigGlobal()																						, cz_LM );
+						this._DestRepos			= new Lazy<Repository>		(	()=>	new Repository	( this.CreateDestination )	, cz_LM );
+						this._GlobalSetup		= new Lazy<IConfigGlobal>	( ()=>	new ConfigGlobal()													, cz_LM );
 					}
 				//.................................................
 				private	static readonly		Lazy< NCO_Controller >	_Instance		= new	Lazy< NCO_Controller >( ()=> new NCO_Controller() , cz_LM );
-				public	static						NCO_Controller					Instance			{	get { return _Instance.Value; }	}
+
+				public	static	NCO_Controller	Instance	{	get { return _Instance.Value; }	}
 
 			#endregion
 
@@ -52,34 +54,18 @@ namespace BxS_WorxNCO.API
 				//.................................................
 				private	int		LoadedSystemCount				{ get { return	this._DestRepos.Value.Count; } }
 
-				private	SAPINI	SAPINI	{ get	{	return	SAPINI.Instance; } }
-
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed: Destination"
 
-				public IRfcDestination GetDestinationFromSAPIni( string ID )
-					{
-						SMC.RfcConfigParameters c		= this.SAPINI.GetIniParameters( ID );
-						IRfcDestination			lo	= this._DestRepos.Value.GetDestination( ID );
-
-						if ( this._GlobalSetup.IsValueCreated )
-							{
-								lo.LoadConfig( this._GlobalSetup.Value );
-							}
-						lo.LoadConfig( c );
-						return	lo;
-					}
-
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// List as per SAP Logon GUI setup
 				//
-				public IList<string> GetSAPINIList()	=>	SAPINI.Instance.GetSAPINIList();
+				public IList<string> GetSAPINIList()	=>	this._DestRepos.Value.GetSAPINIList();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// List of only requested SAP systems
+				// List of requested SAP systems
 				//
 				public IList<ISAPSystemReference> GetSAPSystems()
 					{
@@ -94,26 +80,37 @@ namespace BxS_WorxNCO.API
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IRfcDestination GetDestination( string ID )
+				public IBxSDestination GetDestination( string ID , bool useSAPINI = true )
 					{
-						IRfcDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						IBxSDestination lo_BxSDest	= this._DestRepos.Value.GetDestination( ID , useSAPINI );
+
 						if ( this._GlobalSetup.IsValueCreated )
 							{
-								lo.LoadConfig( this._GlobalSetup.Value );
+								lo_BxSDest.LoadConfig( this._GlobalSetup.Value );
 							}
-						return	lo;
+						//...
+						return	lo_BxSDest;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IRfcDestination GetDestination( Guid ID )
+				public IBxSDestination GetDestination( Guid ID , bool useSAPINI = true )
 					{
-						IRfcDestination lo	= this._DestRepos.Value.GetDestination( ID );
+						IBxSDestination lo_BxSDest	= this._DestRepos.Value.GetDestination( ID , useSAPINI );
 						if ( this._GlobalSetup.IsValueCreated )
 							{
-								lo.LoadConfig( this._GlobalSetup.Value );
+								lo_BxSDest.LoadConfig( this._GlobalSetup.Value );
 							}
-						return	lo;
+						//...
+						return	lo_BxSDest;
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: General"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IConfigGlobal	CreateGlobalConfig()	=>	new ConfigGlobal();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadGlobalConfig( IConfigGlobal config )
@@ -127,8 +124,8 @@ namespace BxS_WorxNCO.API
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Reset()
 					{
-						this._DestRepos		.Value.Reset();
-						this._GlobalSetup	.Value.Settings.Clear();
+						if ( this._DestRepos	.IsValueCreated )		this._DestRepos		.Value.Reset();
+						if ( this._GlobalSetup.IsValueCreated )		this._GlobalSetup	.Value.Settings.Clear();
 					}
 
 			#endregion
@@ -137,7 +134,7 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Exposed: SAP Session Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public ISAP_Session_Manager	CreateSAPSessionManager( IRfcDestination rfcDestination )
+				public ISAP_Session_Manager	CreateSAPSessionManager( IBxSDestination rfcDestination )
 					{
 						return	new SAP_Session_Manager( rfcDestination );
 					}
@@ -148,10 +145,22 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Exposed: BDC Request Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IBDC_Request_Manager	CreateBDCRequestManager(	IRfcDestination rfcDestination
-																														, bool						useAltBDCFunction = false )
+				public IBDC_Request_Manager	CreateBDCRequestManager( ISAP_Logon	sapLogon )
 					{
-						return	new BDC_Request_Manager( rfcDestination , useAltBDCFunction );
+						IBxSDestination lo_BxSDest	= this.GetDestination(	sapLogon.SAPSysID
+																															, sapLogon.IsSAPINI );
+						//...
+						IConfigLogon lo_Cfg = Destination_Factory.CreateLogonConfig();
+
+						lo_Cfg.Client						= sapLogon.Client			;
+						lo_Cfg.User							= sapLogon.User				;
+						lo_Cfg.Language					= sapLogon.Lang				;
+						lo_Cfg.Password					= sapLogon.Pwrd				;
+						lo_Cfg.SecurePassword		= sapLogon.SecurePwrd	;
+
+						lo_BxSDest.LoadConfig( lo_Cfg );
+						//...
+						return	new BDC_Request_Manager( lo_BxSDest );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -166,7 +175,8 @@ namespace BxS_WorxNCO.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	DTO_BDC_Progress CreateProgress	()=>	new	DTO_BDC_Progress();
+				private	IBxSDestination		CreateDestination	( Guid ID )	=>	new BxSDestination( ID )	;
+				private	DTO_BDC_Progress	CreateProgress		()					=>	new	DTO_BDC_Progress()		;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private ISAPSystemReference CreateSAPSysRef(	Guid		id

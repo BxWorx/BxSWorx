@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_TranPipeline(		IRfcDestination						rfcDestination
+				internal BDC_TranPipeline(		IBxSDestination						rfcDestination
 																	, Lazy< IRfcFncController		>	rfcFncCntlr
 																	, Lazy< BDC_Session_Factory > factory
 																	, bool												useAltBDCFunction	= false )
@@ -46,7 +46,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 
 				private readonly	bool	_UseAltFnc	;
 				//...
-				private	readonly	IRfcDestination								_RfcDestination	;
+				private	readonly	IBxSDestination								_RfcDestination	;
 				private	readonly	Lazy< BDC_Session_Factory	>		_Factory				;
 				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr		;
 				//...

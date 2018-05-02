@@ -22,7 +22,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_SAPMsgPipeline(	IRfcDestination							rfcDestination
+				internal BDC_SAPMsgPipeline(	IBxSDestination							rfcDestination
 																		, Lazy< IRfcFncController		>	rfcFncCntlr
 																		, Lazy< BDC_Session_Factory > factory					)
 					{
@@ -42,7 +42,7 @@ namespace BxS_WorxNCO.BDCSession.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IRfcDestination							_RfcDestination	;
+				private	readonly	IBxSDestination							_RfcDestination	;
 				//...
 				private	readonly	Lazy<BDC_Session_Factory>		_Factory				;
 				private	readonly	Lazy<IRfcFncController>			_RfcFncCntlr		;

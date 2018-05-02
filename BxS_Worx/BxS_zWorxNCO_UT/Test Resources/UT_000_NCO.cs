@@ -38,9 +38,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal IRfcDestination GetSAPDest()
+			internal IBxSDestination GetSAPDest()
 				{
-					IRfcDestination lo_Dest = this._NCO_Cntlr.GetDestination( this.GetSAPID() );
+					IBxSDestination lo_Dest = this._NCO_Cntlr.GetDestination( this.GetSAPID() );
 					//...............................................
 					Assert.IsNotNull	( lo_Dest	, "" );
 					//...............................................
@@ -48,9 +48,9 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 				}
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			internal IRfcDestination GetSAPDestConfigured( bool DoLogonCheck = false , bool showSAPGui = false )
+			internal IBxSDestination GetSAPDestConfigured( bool DoLogonCheck = false , bool showSAPGui = false )
 				{
-					IRfcDestination			lo_Dest		=	this.GetSAPDest			();
+					IBxSDestination			lo_Dest		=	this.GetSAPDest			();
 					IConfigDestination	lo_Cnfg		=	this.GetDestConfig	();
 					IConfigLogon				lo_Logon	=	this.GetLogonConfig	();
 					IConfigRepository		lo_Repos	= this.GetReposConfig	();

@@ -7,6 +7,7 @@ namespace BxS_WorxIPX.NCO
 		{
 			#region "Properties"
 
+				bool    IsSAPINI	{ get; set; }
 				string	SAPSysID	{ get; set; }
 				string	Client		{ get; set; }
 				string	User			{ get; set; }

@@ -16,8 +16,6 @@ namespace BxS_WorxNCO.BDCSession.API
 
 				ProgressHandler< DTO_BDC_Progress >	CreateProgressHandler();
 
-				Task<bool>	ReadyAsync( bool optimise = true );
-
 				Task<bool>	ProcessAsync(		IRequest														request
 																	,	CancellationToken										CT
 																	, ProgressHandler< DTO_BDC_Progress >	progressHndlr );

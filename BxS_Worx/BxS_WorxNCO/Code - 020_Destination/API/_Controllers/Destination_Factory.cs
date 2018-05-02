@@ -19,13 +19,12 @@ namespace BxS_WorxNCO.Destination.API
 						return	new SAPSystemReference( id , name	, isSSO );
 					}
 				//.................................................
-				internal	static	SMC.RfcConfigParameters		CreateNCOConfig						()=>	new	SMC.RfcConfigParameters	();
+				internal	static	SMC.RfcConfigParameters		CreateNCOConfig()		=>	new	SMC.RfcConfigParameters();
 				//.................................................
-				internal	static	IConfigRepository					CreateRepositoryConfig		()=>	new ConfigRepository				();
-				internal	static	IConfigDestination				CreateDestinationConfig		()=>	new ConfigDestination				();
-				internal	static	IConfigGlobal							CreateGlobalConfig				()=>	new ConfigGlobal						();
+				internal	static	IConfigRepository		CreateRepositoryConfig()	=>	new ConfigRepository();
+				internal	static	IConfigDestination	CreateDestinationConfig()	=>	new ConfigDestination();
 				//.................................................
-				internal	static	IConfigLogon							CreateLogonConfig					( bool ForRepository = false )=>	new ConfigLogon ( ForRepository );
+				internal	static	IConfigLogon	CreateLogonConfig( bool ForRepository = false )	=>	new ConfigLogon ( ForRepository );
 
 			#endregion
 

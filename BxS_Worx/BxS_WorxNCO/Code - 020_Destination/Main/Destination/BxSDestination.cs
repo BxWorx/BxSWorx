@@ -12,46 +12,46 @@ using static	BxS_WorxNCO.Main.NCO_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.Main.Destination
 {
-	public class RfcDestination : IRfcDestination
+	public class BxSDestination : IBxSDestination
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal RfcDestination( Guid ID )
+				internal BxSDestination( Guid ID )
 					{
 						this.SAPGUIID	= ID	;
 						this.MyID			= Guid.NewGuid();
 						//.............................................
-						this._RfcConfig				=	new Lazy< SMC.RfcConfigParameters >	( ()=>	SAPDM.Instance.CreateNCOConfig()												, cz_LM )	;
-						this._SMCDestination	= new Lazy< SMC.RfcDestination >			( ()=>	SAPDM.Instance.GetDestination( this._RfcConfig.Value )	, cz_LM )	;
+						this._SMCDestination	= new Lazy<SMC.RfcDestination>	( ()=>	this.SDM.GetDestination( this._RfcConfig )	, cz_LM )	;
 						//.............................................
+						this._RfcConfig		=	this.SDM.CreateNCOConfig();
+
 						this._Fncs	= new List<string>()					;
-						this._Lock	= new SemaphoreSlim( 1 , 1 )	;
+						this._MLck	= new SemaphoreSlim( 0 , 1 )	;
+						this._ILck	= new SemaphoreSlim( 0 , 1 )	;
 						//.............................................
-						this._IsDirty		= 0	;
+						this._IsMetaDirty		= 0	;
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
-			
 
-
-				private	readonly Lazy< SMC.RfcDestination >				_SMCDestination	;
-				private	readonly Lazy< SMC.RfcConfigParameters >	_RfcConfig			;
+				private	readonly	Lazy<SMC.RfcDestination>	_SMCDestination	;
+				//.................................................
+				private	readonly	SMC.RfcConfigParameters		_RfcConfig	;
 				//.................................................
 				private	readonly	IList<String>		_Fncs ;
-				private readonly	SemaphoreSlim		_Lock	;
+				private readonly	SemaphoreSlim		_MLck	;
+				private readonly	SemaphoreSlim		_ILck	;
 				//.................................................
-				private	int	_IsDirty	;
+				private	int	_IsMetaDirty	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
-
-				private	SAPDM	_SDM	{ get { return	SAPDM.Instance; } }
 
 				public	Guid	MyID			{ get; }
 				public	Guid	SAPGUIID	{ get; }
@@ -61,29 +61,13 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				//.................................................
 				public	bool	IsConnected		{ get { return this.Ping(); } }
 
+				//.................................................
+				private	SAPDM	SDM		{ get { return	SAPDM.Instance; } }
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SMC.RfcDestination	CreateSMCDestination( IConfigLogon config )
-					{
-						SMC.RfcConfigParameters lo_RfcCfg	= this._SDM.CreateNCOConfig();
-						//...
-						foreach ( KeyValuePair<string , string> ls_kvp in this._RfcConfig.Value )
-							{
-								lo_RfcCfg[ls_kvp.Key]	= ls_kvp.Value;
-							}
-						//...
-						foreach (	KeyValuePair<string, string> ls_kvp in config.Settings )
-							{
-								lo_RfcCfg[ ls_kvp.Key ]	= ls_kvp.Value ;
-							}
-						//...
-						return	this._SDM.GetDestination( lo_RfcCfg );
-					}
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	SMC.RfcConfigParameters		CreateNCOConfig						()=>	Destination_Factory.CreateNCOConfig();
@@ -92,34 +76,42 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				//...
 				public	IConfigRepository					CreateRepositoryConfig		()=>	Destination_Factory.CreateRepositoryConfig();
 				public	IConfigDestination				CreateDestinationConfig		()=>	Destination_Factory.CreateDestinationConfig();
-				public	IConfigGlobal							CreateGlobalConfig				()=>	Destination_Factory.CreateGlobalConfig();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig( SMC.RfcConfigParameters config )
 					{
+						if ( this._SMCDestination.IsValueCreated )	return;
+						//...
 						foreach (KeyValuePair<string, string> ls_kvp in config)
 							{
-								this._RfcConfig.Value[ls_kvp.Key]	= ls_kvp.Value;
+								this._RfcConfig[ls_kvp.Key]	= ls_kvp.Value;
 							}
-						//.............................................
-						this._RfcConfig.Value.SecureRepositoryPassword	= config.SecureRepositoryPassword	;
-						this._RfcConfig.Value.SecurePassword						= config.SecurePassword						;
+						//...
+						this._RfcConfig.SecureRepositoryPassword	= config.SecureRepositoryPassword	;
+						this._RfcConfig.SecurePassword						= config.SecurePassword						;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( IConfigBase config )	=> this.TransferConfig( config );
+				public void LoadConfig( IConfigBase config )
+					{
+						if ( this._SMCDestination.IsValueCreated )	return;
+						//...
+						this.TransferConfig( config );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadConfig( IConfigLogon config )
 					{
+						if ( this._SMCDestination.IsValueCreated )	return;
+						//...
 						this.TransferConfig( (IConfigBase)config );
 						//.............................................
 						if ( config.SecurePassword != null )
 							{
 								if ( config.ForRepository )
-									{	this._RfcConfig.Value.SecureRepositoryPassword	= config.SecurePassword;	}
+									{	this._RfcConfig.SecureRepositoryPassword	= config.SecurePassword;	}
 								else
-									{	this._RfcConfig.Value.SecurePassword						= config.SecurePassword;	}
+									{	this._RfcConfig.SecurePassword						= config.SecurePassword;	}
 							}
 					}
 
@@ -147,19 +139,24 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void RegisterRfcFunctionForMetadata( string fncName )
 					{
-						this._Lock.Wait();
+						this._MLck.Wait();
 						this._Fncs.Add( fncName );
-						Interlocked.Exchange( ref this._IsDirty , 1 );
-						this._Lock.Release();
+						Interlocked.Exchange( ref this._IsMetaDirty , 1 );
+						this._MLck.Release();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task FetchMetadataAsync( bool	optimiseMetadataFetch = true )
 					{
-						if ( this._IsDirty.Equals(0) )		return;
+						if ( this._IsMetaDirty.Equals(0) )		return;
 						//.............................................
-						this._Lock.Wait();
-						if ( this._IsDirty.Equals(0) )		return;
+						this._MLck.Wait();
+
+						if ( this._IsMetaDirty.Equals(0) )
+							{
+								this._MLck.Release();
+								return;
+							}
 						//.............................................
 						SMC.RfcLookupErrorList	lo_NCOLookupErrors;
 
@@ -174,8 +171,8 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 								this.SMCDestination.Repository.UseRoundtripOptimization = optimiseMetadataFetch;
 								await Task.Run(	()=>	lo_NCOLookupErrors	= this.SMCRepository.MetadataBatchQuery( lt_Fnc, lt_Str, lt_Tbl, lt_Cls ) )
 																															.ConfigureAwait(false);
-								Interlocked.Exchange( ref this._IsDirty , 0 );
-								this._Lock.Release();
+								Interlocked.Exchange( ref this._IsMetaDirty , 0 );
+								this._MLck.Release();
 							}
 						catch ( Exception ex )
 							{	throw	new Exception("Metadata ASYNC fail", ex ); }
@@ -194,7 +191,7 @@ namespace BxS_WorxNCO.Destination.Main.Destination
 					{
 						foreach (	KeyValuePair<string, string> ls_kvp in config.Settings )
 							{
-								this._RfcConfig.Value[ ls_kvp.Key ]	= ls_kvp.Value ;
+								this._RfcConfig[ ls_kvp.Key ]	= ls_kvp.Value ;
 							}
 					}
 

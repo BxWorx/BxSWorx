@@ -7,7 +7,7 @@ using BxS_WorxNCO.Destination.Config;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxNCO.Destination.API
 {
-	public interface IRfcDestination
+	public interface IBxSDestination
 		{
 			#region "Properties"
 
@@ -30,10 +30,7 @@ namespace BxS_WorxNCO.Destination.API
 				//...
 				IConfigRepository		CreateRepositoryConfig()	;
 				IConfigDestination	CreateDestinationConfig()	;
-				IConfigGlobal				CreateGlobalConfig()			;
 				//.................................................
-				SMC.RfcDestination	CreateSMCDestination( IConfigLogon config );
-
 				void	LoadConfig	( SMC.RfcConfigParameters	config );
 				void	LoadConfig	( IConfigLogon	config );
 				void	LoadConfig	( IConfigBase		config );

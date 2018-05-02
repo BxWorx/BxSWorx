@@ -41,6 +41,7 @@
 			this.button3 = this.Factory.CreateRibbonButton();
 			this.xbg_SAPLogon = this.Factory.CreateRibbonGroup();
 			this.dropDown1 = this.Factory.CreateRibbonDropDown();
+			this.button4 = this.Factory.CreateRibbonButton();
 			this.tab1.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
@@ -82,6 +83,7 @@
 			// 
 			// xbg_SAPLogon
 			// 
+			this.xbg_SAPLogon.Items.Add(this.button4);
 			this.xbg_SAPLogon.Items.Add(this.dropDown1);
 			this.xbg_SAPLogon.Label = "SAP logon";
 			this.xbg_SAPLogon.Name = "xbg_SAPLogon";
@@ -91,6 +93,11 @@
 			this.dropDown1.Label = "dropDown1";
 			this.dropDown1.Name = "dropDown1";
 			this.dropDown1.ItemsLoading += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DropDown1_Load);
+			// 
+			// button4
+			// 
+			this.button4.Label = "Request";
+			this.button4.Name = "button4";
 			// 
 			// BxS_WorxMain
 			// 
@@ -117,6 +124,7 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton button3;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup xbg_SAPLogon;
 		internal Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDown1;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;
 		}
 
 	partial class ThisRibbonCollection

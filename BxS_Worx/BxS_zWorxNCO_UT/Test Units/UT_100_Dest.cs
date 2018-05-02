@@ -49,7 +49,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_30_Dest()
 				{
-					IRfcDestination lo_Dest =	this.co_NCO000.GetSAPDest();
+					IBxSDestination lo_Dest =	this.co_NCO000.GetSAPDest();
 					//...............................................
 					IList< ISAPSystemReference >	lt_Rep	= this.co_NCOCntlr.GetSAPSystems();
 					Assert.AreEqual	(	1	, lt_Rep.Count	, "" );
@@ -59,7 +59,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_40_Connect()
 				{
-					IRfcDestination lo_Dest =	this.co_NCO000.GetSAPDest();
+					IBxSDestination lo_Dest =	this.co_NCO000.GetSAPDest();
 					//...............................................
 					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig();
 
@@ -77,7 +77,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_100_Dest_42_ConnectSecure()
 				{
 					var lc_Pwd	= new SecureString();
-					IRfcDestination lo_Dest =	this.co_NCO000.GetSAPDest();
+					IBxSDestination lo_Dest =	this.co_NCO000.GetSAPDest();
 					//...............................................
 					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig();
 
@@ -101,7 +101,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_Dest_50_ConnectRepos()
 				{
-					IRfcDestination lo_Dest =	this.co_NCO000.GetSAPDest();
+					IBxSDestination lo_Dest =	this.co_NCO000.GetSAPDest();
 					//...............................................
 					IConfigLogon	lo_Logon	= Destination_Factory.CreateLogonConfig( true );
 
@@ -117,7 +117,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_100_Dest_60_DestViaINI()
 				{
 					string					lc_ID			= this.co_NCO000.GetSAPID();
-					IRfcDestination	lo_Dest		= this.co_NCOCntlr.GetDestinationFromSAPIni( lc_ID );
+					IBxSDestination	lo_Dest		= this.co_NCOCntlr.GetDestinationFromSAPIni( lc_ID );
 					//...
 					IConfigLogon		lo_Logon	= lo_Dest.CreateLogonConfig( false );
 

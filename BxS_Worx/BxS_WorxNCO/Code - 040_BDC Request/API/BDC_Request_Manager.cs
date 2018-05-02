@@ -25,19 +25,19 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Request_Manager(		IRfcDestination	rfcDestination
+				internal BDC_Request_Manager(		IBxSDestination	BxSDestination
 																			, bool						useAltBDCFunction	= false
 																			, bool						autoReady					= false )
 					{
-						this.RfcDestination	= rfcDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Request_Manager).Namespace}:- RfcDest null" );
+						this.BxSDestination	= BxSDestination	??	throw		new	ArgumentException( $"{typeof(BDC_Request_Manager).Namespace}:- RfcDest null" );
 						this._UseAltFnc			= useAltBDCFunction	;
 						//.............................................
 						this._Factory				= new	Lazy< BDC_Session_Factory >	( ()=>	BDC_Session_Factory.Instance								, cz_LM );
-						this._RfcFncCntlr		= new	Lazy< IRfcFncController		>	(	()=>	new	RfcFncController( this.RfcDestination )	,	cz_LM );
+						this._RfcFncCntlr		= new	Lazy< IRfcFncController		>	(	()=>	new	RfcFncController( this.BxSDestination )	,	cz_LM );
 						//.............................................
 						this._PLParser	= new	Lazy<BDC_ParserPipeline>	( ()=>	new	BDC_ParserPipeline	( this._Factory ) );
-						this._PLBDCTrn	= new	Lazy<BDC_TranPipeline>		( ()=>	new BDC_TranPipeline		( this.RfcDestination , this._RfcFncCntlr , this._Factory	, useAltBDCFunction ) );
-						this._PLSAPMsg	= new	Lazy<BDC_SAPMsgPipeline>	( ()=>	new BDC_SAPMsgPipeline	( this.RfcDestination , this._RfcFncCntlr , this._Factory											) );
+						this._PLBDCTrn	= new	Lazy<BDC_TranPipeline>		( ()=>	new BDC_TranPipeline		( this.BxSDestination , this._RfcFncCntlr , this._Factory	, useAltBDCFunction ) );
+						this._PLSAPMsg	= new	Lazy<BDC_SAPMsgPipeline>	( ()=>	new BDC_SAPMsgPipeline	( this.BxSDestination , this._RfcFncCntlr , this._Factory											) );
 						//.............................................
 						this._IsReady		= false;
 						this._SlimLock	= new SemaphoreSlim(0 , 1);
@@ -52,9 +52,9 @@ namespace BxS_WorxNCO.BDCSession.API
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	bool					_UseAltFnc	;
+				private 					bool					_UseAltFnc	;
 				private						bool					_IsReady		;
-				private	readonly	SemaphoreSlim _SlimLock				;
+				private	readonly	SemaphoreSlim _SlimLock		;
 				//.................................................
 				private	readonly	Lazy< BDC_Session_Factory	>		_Factory			;
 				private	readonly	Lazy< IRfcFncController		>		_RfcFncCntlr	;
@@ -70,8 +70,8 @@ namespace BxS_WorxNCO.BDCSession.API
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IRfcDestination			RfcDestination	{ get; }
-				internal	SMC.RfcDestination	SMCDestination	{ get	{	return	this.RfcDestination.SMCDestination; } }
+				internal	IBxSDestination			BxSDestination	{ get; }
+				internal	SMC.RfcDestination	SMCDestination	{ get	{	return	this.BxSDestination.SMCDestination; } }
 				//.................................................
 				//internal ObjectPoolConfig< BDC_Parser						> ParserConfiguration				{ get { return	this._ParserCfg		.Value	; } }
 				//internal ObjectPoolConfig< BDC_TranConsumer			> BDCConsumerConfiguration	{ get { return	this._BDCConsCfg	.Value	; } }
@@ -114,6 +114,9 @@ namespace BxS_WorxNCO.BDCSession.API
 																							,	CancellationToken										CT
 																							, ProgressHandler< DTO_BDC_Progress >	progressHndlr )
 					{
+						this._UseAltFnc	= request.Config.UseAltBDC	;
+
+
 						//if ( ! this._IsReady )
 						//	{
 						//		if ( ! await this.ReadyAsync().ConfigureAwait(false) )
@@ -196,7 +199,7 @@ namespace BxS_WorxNCO.BDCSession.API
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public async Task<bool>	ReadyAsync( bool optimise = true )
+				private async Task<bool>	ReadyAsync( bool optimise = true )
 					{
 						if ( ! this._IsReady )
 							{
@@ -215,7 +218,7 @@ namespace BxS_WorxNCO.BDCSession.API
 												//.........................................
 												// fetch metadata from SAP destination, update profiles
 												//
-												await this.RfcDestination.FetchMetadataAsync( optimise ).ConfigureAwait(false);
+												await this.BxSDestination.FetchMetadataAsync( optimise ).ConfigureAwait(false);
 												await	this._RfcFncCntlr.Value.UpdateProfilesAsync()			.ConfigureAwait(false);
 
 												this._IsReady	=	true;
@@ -233,9 +236,6 @@ namespace BxS_WorxNCO.BDCSession.API
 						//.................................................
 						return	this._IsReady;
 					}
-				
-
-
 
 			#endregion
 		}

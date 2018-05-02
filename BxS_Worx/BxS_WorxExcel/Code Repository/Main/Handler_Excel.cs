@@ -53,6 +53,24 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IRequest CreateRequest( IList<string> wsList )
+					{
+						var x = this._BDCCntlr.Value.Create_Request();
+						//.............................................
+
+						var lo_Ssn	= this._BDCCntlr.Value.Create_Session();
+				
+
+						x.Add_Session( lo_Ssn );
+						//.............................................
+						return	x;
+					}
+
+
+
+
+
 				internal	IList<string>	GetSAPSystems()	=>	this._NCOCntlr.Value.GetSAPINIList();
 
 

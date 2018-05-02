@@ -5,6 +5,7 @@ namespace BxS_WorxIPX.BDC
 		{
 			#region "Properties"
 
+				bool	UseAltBDC			{ get; set; }
 				bool	IsSequential	{ get; set; }
 
 				int			IdleTimeout				{ get; set; }

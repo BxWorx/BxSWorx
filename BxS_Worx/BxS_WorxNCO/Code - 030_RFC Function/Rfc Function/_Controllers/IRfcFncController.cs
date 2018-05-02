@@ -15,7 +15,7 @@ namespace BxS_WorxNCO.RfcFunction.Main
 		{
 			#region "Properties"
 
-				IRfcDestination		RfcDestination	{ get; }
+				IBxSDestination		RfcDestination	{ get; }
 				SMC.RfcRepository	SMCRepository		{ get; }
 				int								ProfileCount		{ get; }
 

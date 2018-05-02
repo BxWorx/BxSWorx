@@ -18,6 +18,7 @@ namespace BxS_WorxIPX.NCO
 			//===========================================================================================
 			#region "Properties"
 
+				[DataMember]	public	bool    IsSAPINI					{ get; set; }
 				[DataMember]	public	string	SAPSysID					{ get; set; }
 				[DataMember]	public	string	Client						{ get; set; }
 				[DataMember]	public	string	User							{ get; set; }
