@@ -11,10 +11,6 @@ namespace BxS_WorxExcel
 	public partial class ThisAddIn
 		{
 			#region "Declarations"
-
-				//internal Lazy<Handler_Excel>		_ExlHndlr	;
-				//internal Lazy< IIPX_Controller >		_IPXCntlr	;
-
 			#endregion
 
 			//===========================================================================================
@@ -23,8 +19,6 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ThisAddIn_Startup(object sender, System.EventArgs e)
 					{
-						//this._ExlHndlr	= new	Lazy<Handler_Excel>	(	()=>	new	Handler_Excel( Globals.ThisAddIn.Application ) , cz_LM );
-						//this._IPXCntlr	= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

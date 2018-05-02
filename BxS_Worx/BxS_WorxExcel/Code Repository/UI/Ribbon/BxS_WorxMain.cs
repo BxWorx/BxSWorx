@@ -25,11 +25,14 @@ namespace BxS_WorxExcel
 				private				string	_User	;
 				private				string	_Full	;
 
-				private Lazy<BxSExcel>	_BxS;
+				private Lazy<BxS_Controller>	_BxS;
 
-				//internal Lazy< Excel_Handler >		_HndlrExcel	;
+			#endregion
 
-				//private	IBDC_Controller	BDCCntlr	{ get { return	this._HndlrExcel.Value._BDCCntlr.Value	;	}	}
+			//===========================================================================================
+			#region "Properties"
+
+				private BxS_Controller BxSWorx	{ get	{	return	this._BxS.Value;	}	}
 
 			#endregion
 
@@ -39,7 +42,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._BxS	= new	Lazy<BxSExcel>	( ()=>	new	BxSExcel()	, cz_LM );
+						this._BxS	= new	Lazy<BxS_Controller>	( ()=>	new	BxS_Controller()	, cz_LM );
 						//...
 						this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 					}
@@ -49,7 +52,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void DropDown1_Load(object sender , RibbonControlEventArgs e)
 					{
-						foreach ( string lo_SS in this._BxS.Value.GetSAPiniList() )
+						foreach ( string lo_SS in this.BxSWorx.GetSAPiniList() )
 							{
 								RibbonDropDownItem x = this.Factory.CreateRibbonDropDownItem();
 								x.Label	= lo_SS	;				//$"{lo_SS.ID} | {lo_SS.SAPName} | {lo_SS.IsSSO} ";
@@ -61,61 +64,43 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void WriteActive_Click( object sender , RibbonControlEventArgs e )
 					{
-						await Task.Run( () => {
-																		DTO_WSNode	x = this._BxS.Value.GetActiveWSNode();
-																		IRequest		r =	this._BxS.Value.CreateRequest();
-																		//...
-																		this.SetFullPath( x.WSName );
-																		this._BxS.Value.WriteRequestToFile( r , this._Full );
-																		//IRequest	x = this.BDCCntlr.Create_Request();
-																		//ISession	s	= this.BDCCntlr.Create_Session();
-																		//.............................................
-																		//this._HndlrExcel.Value.LoadWSData( s );
-																		//this.SetFullPath(s.WSID);
-																		////...
-																		//x.Add_Session( s );
-																		//this.BDCCntlr.DispatchRequest_ToFile( x , this._Full );
-																		//.....................
-																		//this._HndlrExcel.Value.WriteStatusbar( s.WSData.Count.ToString() );
-																		//Thread.Sleep(300);
-																		//this._HndlrExcel.Value.ResetStatusBar();
-																	} ).ConfigureAwait(false);
-					}
+						await Task.Run( (Action) (() => {
+																							DTO_WSNode  x = this.BxSWorx.GetActiveWSNode();
+																							IRequest    r =	this.BxSWorx.CreateRequest( x.WBName );
+																							//...
+																							this.SetFullPath( x.WSName );
+																							this.BxSWorx.WriteRequestToFile( r , this._Full );
+																							//.....................
+																							//this._HndlrExcel.Value.WriteStatusbar( s.WSData.Count.ToString() );
+																							//Thread.Sleep(300);
+																							//this._HndlrExcel.Value.ResetStatusBar();
+																						}) ).ConfigureAwait(false);
+										}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void WriteAll_Click( object sender , RibbonControlEventArgs e )
 					{
-						await Task.Run( () => {
+						await Task.Run( (Action) (() => {
 																		this.SetFullPath("DPB");
-																		//...
-																		IList<DTO_WSNode> x = this._BxS.Value.GetManifest();
-																		IRequest					r =	this._BxS.Value.CreateRequest( x );
-																		this._BxS.Value.WriteRequestToFile( r , this._Full );
-
-																		//IRequest x = this.BDCCntlr.Create_Request();
-																		////...
-																		//foreach ( Worksheet lo_WS in this._HndlrExcel.Value.GetWBWSManifest() )
-																		//	{
-																		//		ISession	s	= this.BDCCntlr.Create_Session();
-																		//		this._HndlrExcel.Value.LoadWSdataIntoSession( s , lo_WS , true );
-																		//		x.Add_Session( s );
-																		//	}
-																		//this.BDCCntlr.DispatchRequest_ToFile( x , this._Full );
+							//...
+							IList<DTO_WSNode> x = this.BxSWorx.GetManifest();
+							IRequest          r =	this.BxSWorx.CreateRequest( x , "DPB" );
+																		this.BxSWorx.WriteRequestToFile( r , this._Full );
 																		//.....................
 																		//this._HndlrExcel.Value.WriteStatusbar( x.Count.ToString() );
 																		//Thread.Sleep(300);
 																		//this._HndlrExcel.Value.ResetStatusBar();
-																	} ).ConfigureAwait(false);
+																	}) ).ConfigureAwait(false);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void SaveXMLCfg_Click( object sender , RibbonControlEventArgs e )
 					{
-						await Task.Run( () => {
-																		IXMLConfig x = this._BxS.Value.CreateXMLConfig();
+						await Task.Run( (Action) (() => {
+							IXMLConfig x = this.BxSWorx.CreateXMLConfig();
 																		x.SAPTCode = "XD03";
-																		this._BxS.Value.WriteConfig( x , "B3" );
-																	} ).ConfigureAwait(false);
+																		this.BxSWorx.WriteConfig( x , "B3" );
+																	}) ).ConfigureAwait(false);
 					}
 
 				#pragma warning	restore	RCS1163

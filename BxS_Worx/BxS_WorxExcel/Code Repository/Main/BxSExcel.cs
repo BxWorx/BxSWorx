@@ -12,12 +12,12 @@ using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
-	internal class BxSExcel
+	internal class BxS_Controller
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BxSExcel()
+				internal BxS_Controller()
 					{
 						this._NCOCntlr	= new	Lazy<INCO_Controller>	(	()=>	NCO_Controller.Instance	, cz_LM )	;
 						this._IPXCntlr	= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM )	;
@@ -66,23 +66,24 @@ namespace BxS_WorxExcel.Main
 				internal	void	WriteRequestToFile( IRequest request , string fullPath )	=> this.BDCCntlr.DispatchRequest_ToFile( request , fullPath );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IRequest CreateRequest()
+				internal IRequest CreateRequest( string ID )
 					{
 						IList<DTO_WSNode> lt = new List<DTO_WSNode>	{	this.GetActiveWSNode() };
 						//.............................................
-						return	this.CreateRequest( lt );
+						return	this.CreateRequest( lt , ID );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IRequest CreateRequest( IList<DTO_WSNode> wsList )
+				internal IRequest CreateRequest( IList<DTO_WSNode> wsList , string ID )
 					{
 						IRequest lo_Reqst		= this.BDCCntlr.Create_Request();
+						lo_Reqst.ID	= ID;
 						//.............................................
 						foreach ( DTO_WSNode lo_Node in wsList )
 							{
 								ISession		lo_Ssn	= this.BDCCntlr.Create_Session();
 								DTO_WSData	lo_WSD	= this.XLHndlr.GetWSData( lo_Node );
-								this._BDCHndlr.Value.TransaferWStoSession( lo_WSD , lo_Ssn );
+								this._BDCHndlr.Value.TransferWStoSession( lo_WSD , lo_Ssn );
 								lo_Reqst.Add_Session( lo_Ssn );
 							}
 						//.............................................

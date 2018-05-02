@@ -39,10 +39,12 @@ namespace BxS_WorxIPX.BDC
 			#region "Properties"
 
 				public	int	Count		{ get { return	this.Sessions.Count; } }
-				//.................................................
-				[DataMember]	public	IUser						User			{ get; set; }
-				[DataMember]	public	ISAP_Logon			SAPLogon	{ get; set; }
-				[DataMember]	public	IRequest_Config	Config		{ get; set; }
+				//...
+				[DataMember]	public	string	ID	{ get; set; }
+				//...
+				[DataMember]	public	IUser							User			{ get; set; }
+				[DataMember]	public	ISAP_Logon				SAPLogon	{ get; set; }
+				[DataMember]	public	IRequest_Config		Config		{ get; set; }
 				//...
 				[DataMember]	public	Dictionary<int , ISession>	Sessions	{ get; set; }
 

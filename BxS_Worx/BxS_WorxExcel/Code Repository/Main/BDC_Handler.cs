@@ -32,7 +32,7 @@ namespace BxS_WorxExcel.Main
 				internal IXMLConfig CreateXMLConfig()	=> this._BDCCntlr.Value.Create_XMLConfig();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void TransaferWStoSession(		DTO_WSData	wsData
+				internal void TransferWStoSession(		DTO_WSData	wsData
 																						,	ISession		session	)
 					{
 						session.WBID				= wsData.WBID	;
