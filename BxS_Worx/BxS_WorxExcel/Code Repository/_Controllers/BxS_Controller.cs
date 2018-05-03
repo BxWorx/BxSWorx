@@ -7,9 +7,11 @@ using BxS_WorxNCO.API;
 
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.NCO;
 
 using BxS_WorxUtil.Main;
 using BxS_WorxUtil.General;
+using BxS_Toolset.DataContainer;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -30,7 +32,9 @@ namespace BxS_WorxExcel.Main
 						//...
 						this._XLHndlr		= new Lazy<Excel_Handler>		( ()=>	new	Excel_Handler	()									, cz_LM )	;
 						this._BDCHndlr	= new	Lazy<BDC_Handler>			( ()=>	new	BDC_Handler		( this._BDCCntlr )	, cz_LM )	;
-						this._FavHndlr	= new	Lazy<BxS_Favourites>	( ()=>	new	BxS_Favourites( this._BDCCntlr.Value.Create_SAPLogon )	, cz_LM )	;
+
+						this._FavHndlr	= new	Lazy<BxS_Favourites>	( ()=>	new	BxS_Favourites(		this._BDCCntlr.Value.Create_SAPLogon
+																																										, this._UTLCntlr.Value.Serializer				)	, cz_LM )	;
 					}
 
 			#endregion
@@ -58,6 +62,8 @@ namespace BxS_WorxExcel.Main
 				private IBDC_Controller BDCCntlr	{ get { return	this._BDCCntlr.Value	; } }
 				private	Excel_Handler		XLHndlr		{ get { return	this._XLHndlr	.Value	; } }
 
+				internal	DataTable<int , ISAP_Logon> Favourites	{ get { return	this._FavHndlr.Value.List; } }
+
 			#endregion
 
 			//===========================================================================================
@@ -76,7 +82,6 @@ namespace BxS_WorxExcel.Main
 						//...
 						Properties.Settings.Default.Save();
 					}
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	IList<string>			GetSAPiniList()		=>	this.NCOCntlr	.GetSAPINIList();
