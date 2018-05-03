@@ -34,7 +34,7 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
-			this.tab1 = this.Factory.CreateRibbonTab();
+			this.rtb_BxS = this.Factory.CreateRibbonTab();
 			this.group1 = this.Factory.CreateRibbonGroup();
 			this.btn_SaveAct = this.Factory.CreateRibbonButton();
 			this.btn_SaveAll = this.Factory.CreateRibbonButton();
@@ -42,18 +42,19 @@
 			this.xbg_SAPLogon = this.Factory.CreateRibbonGroup();
 			this.button4 = this.Factory.CreateRibbonButton();
 			this.dropDown1 = this.Factory.CreateRibbonDropDown();
-			this.tab1.SuspendLayout();
+			this.btn_Submit = this.Factory.CreateRibbonButton();
+			this.rtb_BxS.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// tab1
+			// rtb_BxS
 			// 
-			this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-			this.tab1.Groups.Add(this.group1);
-			this.tab1.Groups.Add(this.xbg_SAPLogon);
-			this.tab1.Label = "TabAddIns";
-			this.tab1.Name = "tab1";
+			this.rtb_BxS.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
+			this.rtb_BxS.Groups.Add(this.group1);
+			this.rtb_BxS.Groups.Add(this.xbg_SAPLogon);
+			this.rtb_BxS.Label = "BxSAP";
+			this.rtb_BxS.Name = "rtb_BxS";
 			// 
 			// group1
 			// 
@@ -85,6 +86,7 @@
 			// 
 			this.xbg_SAPLogon.Items.Add(this.button4);
 			this.xbg_SAPLogon.Items.Add(this.dropDown1);
+			this.xbg_SAPLogon.Items.Add(this.btn_Submit);
 			this.xbg_SAPLogon.Label = "SAP logon";
 			this.xbg_SAPLogon.Name = "xbg_SAPLogon";
 			// 
@@ -99,14 +101,19 @@
 			this.dropDown1.Name = "dropDown1";
 			this.dropDown1.ItemsLoading += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DropDown1_Load);
 			// 
+			// btn_Submit
+			// 
+			this.btn_Submit.Label = "Submit";
+			this.btn_Submit.Name = "btn_Submit";
+			// 
 			// BxS_WorxMain
 			// 
 			this.Name = "BxS_WorxMain";
 			this.RibbonType = "Microsoft.Excel.Workbook";
-			this.Tabs.Add(this.tab1);
+			this.Tabs.Add(this.rtb_BxS);
 			this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.BxS_WorxMain_Load);
-			this.tab1.ResumeLayout(false);
-			this.tab1.PerformLayout();
+			this.rtb_BxS.ResumeLayout(false);
+			this.rtb_BxS.PerformLayout();
 			this.group1.ResumeLayout(false);
 			this.group1.PerformLayout();
 			this.xbg_SAPLogon.ResumeLayout(false);
@@ -117,7 +124,7 @@
 
 		#endregion
 
-		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
+		internal Microsoft.Office.Tools.Ribbon.RibbonTab rtb_BxS;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton btn_SaveAct;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton btn_SaveAll;
@@ -125,6 +132,7 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup xbg_SAPLogon;
 		internal Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDown1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btn_Submit;
 		}
 
 	partial class ThisRibbonCollection

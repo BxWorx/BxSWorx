@@ -8,6 +8,9 @@ using BxS_WorxNCO.API;
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.BDC;
 
+using BxS_WorxUtil.Main;
+using BxS_WorxUtil.General;
+
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
@@ -21,11 +24,13 @@ namespace BxS_WorxExcel.Main
 					{
 						this._NCOCntlr	= new	Lazy<INCO_Controller>	(	()=>	NCO_Controller.Instance	, cz_LM )	;
 						this._IPXCntlr	= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM )	;
+						this._UTLCntlr	= new	Lazy<IUTL_Controller>	(	()=>	UTL_Controller.Instance	, cz_LM )	;
 						//...
 						this._BDCCntlr	= new	Lazy<IBDC_Controller>	( ()=>	this._IPXCntlr.Value.Create_BDCController() , cz_LM )	;
 						//...
-						this._XLHndlr		= new Lazy<Excel_Handler>	( ()=>	new	Excel_Handler	()									, cz_LM )	;
-						this._BDCHndlr	= new	Lazy<BDC_Handler>		( ()=>	new	BDC_Handler		( this._BDCCntlr )	, cz_LM )	;
+						this._XLHndlr		= new Lazy<Excel_Handler>		( ()=>	new	Excel_Handler	()									, cz_LM )	;
+						this._BDCHndlr	= new	Lazy<BDC_Handler>			( ()=>	new	BDC_Handler		( this._BDCCntlr )	, cz_LM )	;
+						this._FavHndlr	= new	Lazy<BxS_Favourites>	( ()=>	new	BxS_Favourites( this._BDCCntlr.Value.Create_SAPLogon )	, cz_LM )	;
 					}
 
 			#endregion
@@ -35,11 +40,13 @@ namespace BxS_WorxExcel.Main
 
 				private readonly Lazy< INCO_Controller >	_NCOCntlr	;
 				private readonly Lazy< IIPX_Controller >	_IPXCntlr	;
+				private readonly Lazy< IUTL_Controller >	_UTLCntlr	;
 				//...
 				private readonly Lazy< IBDC_Controller >	_BDCCntlr	;
 				//...
-				private	readonly	Lazy<Excel_Handler>	_XLHndlr	;
-				private	readonly	Lazy<BDC_Handler>		_BDCHndlr	;
+				private	readonly	Lazy<Excel_Handler>		_XLHndlr	;
+				private	readonly	Lazy<BDC_Handler>			_BDCHndlr	;
+				private	readonly	Lazy<BxS_Favourites>	_FavHndlr	;
 
 			#endregion
 
@@ -55,6 +62,21 @@ namespace BxS_WorxExcel.Main
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	void Startup()
+					{
+						this._FavHndlr.Value.Load();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	void Shutdown()
+					{
+						this._FavHndlr.Value.Save();
+						//...
+						Properties.Settings.Default.Save();
+					}
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	IList<string>			GetSAPiniList()		=>	this.NCOCntlr	.GetSAPINIList();

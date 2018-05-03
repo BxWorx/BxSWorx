@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BxS_WorxExcel.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="xxxx" Type="System.String" Scope="Application">
+    <Setting Name="XML_FavList" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

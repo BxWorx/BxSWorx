@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Threading;
 
 using static	BxS_WorxUtil.Main.UTL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -18,7 +17,8 @@ namespace BxS_Toolset.DataContainer
 			#region "Constructor"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public DataTable(Func<TKey, TVal> NewEntry)
+				//public DataTable(Func<TKey, TVal> NewEntry)
+				public DataTable(Func<TVal> NewEntry)
 					{
 						this._CreateNew	= NewEntry;
 						//.............................................
@@ -32,7 +32,8 @@ namespace BxS_Toolset.DataContainer
 
 				private readonly	Lazy<Type>	_Type		= new Lazy<Type>(	() => typeof(TVal) , cz_LM );
 				//.................................................
-											private readonly	Func									<TKey, TVal>	_CreateNew;
+//											private readonly	Func									<TKey, TVal>	_CreateNew;
+											private readonly	Func									<TVal>				_CreateNew;
 				[DataMember]	private	readonly	ConcurrentDictionary	<TKey, TVal>	_DataTable;
 
 			#endregion
@@ -66,9 +67,10 @@ namespace BxS_Toolset.DataContainer
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public TVal Create(TKey ID	= default(TKey))
+				//public TVal Create(TKey ID	= default(TKey))
+				public TVal Create()
 					{
-						return	this._CreateNew(ID);
+						return	this._CreateNew();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

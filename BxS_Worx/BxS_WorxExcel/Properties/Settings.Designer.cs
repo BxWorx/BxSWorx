@@ -23,12 +23,15 @@ namespace BxS_WorxExcel.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string xxxx {
+        public string XML_FavList {
             get {
-                return ((string)(this["xxxx"]));
+                return ((string)(this["XML_FavList"]));
+            }
+            set {
+                this["XML_FavList"] = value;
             }
         }
     }
