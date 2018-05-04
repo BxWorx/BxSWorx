@@ -181,7 +181,6 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="Code Repository\DTO\DTO_Favourites.cs" />
     <Compile Include="Code Repository\DTO\DTO_WSNode.cs" />
     <Compile Include="Code Repository\Main\BxS_Favourites.cs" />
     <Compile Include="Code Repository\Main\EXL_Constants.cs" />

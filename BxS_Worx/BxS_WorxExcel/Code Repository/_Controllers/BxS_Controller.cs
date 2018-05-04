@@ -32,9 +32,10 @@ namespace BxS_WorxExcel.Main
 						//...
 						this._XLHndlr		= new Lazy<Excel_Handler>		( ()=>	new	Excel_Handler	()									, cz_LM )	;
 						this._BDCHndlr	= new	Lazy<BDC_Handler>			( ()=>	new	BDC_Handler		( this._BDCCntlr )	, cz_LM )	;
-
-						this._FavHndlr	= new	Lazy<BxS_Favourites>	( ()=>	new	BxS_Favourites(		this._BDCCntlr.Value.Create_SAPLogon
-																																										, this._UTLCntlr.Value.Serializer				)	, cz_LM )	;
+						//...
+						this._FavHndlr	= new	Lazy<BxS_Favourites<ISAP_Logon>>	( ()=>	new	BxS_Favourites<ISAP_Logon>(		this._UTLCntlr.Value.CreateTopTenList<ISAP_Logon>()
+																																																						,	this._UTLCntlr.Value.Serializer
+																																																						,	this._BDCCntlr.Value.Create_SAPLogon								)	, cz_LM )	;
 					}
 
 			#endregion
@@ -50,7 +51,8 @@ namespace BxS_WorxExcel.Main
 				//...
 				private	readonly	Lazy<Excel_Handler>		_XLHndlr	;
 				private	readonly	Lazy<BDC_Handler>			_BDCHndlr	;
-				private	readonly	Lazy<BxS_Favourites>	_FavHndlr	;
+				//...
+				private	readonly	Lazy<BxS_Favourites<ISAP_Logon>>	_FavHndlr	;
 
 			#endregion
 
@@ -61,8 +63,8 @@ namespace BxS_WorxExcel.Main
 				//...
 				private IBDC_Controller BDCCntlr	{ get { return	this._BDCCntlr.Value	; } }
 				private	Excel_Handler		XLHndlr		{ get { return	this._XLHndlr	.Value	; } }
-
-				internal	DataTable<int , ISAP_Logon> Favourites	{ get { return	this._FavHndlr.Value.List; } }
+				//...
+				internal	BxS_Favourites<ISAP_Logon>	FavHndlr	{ get { return	this._FavHndlr.Value;	} }
 
 			#endregion
 
@@ -122,6 +124,11 @@ namespace BxS_WorxExcel.Main
 					{
 						this.XLHndlr.WriteConfig( this.BDCCntlr.SerializeXMLConfig( config ) , address );
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed: Request"
 
 			#endregion
 

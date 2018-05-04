@@ -25,14 +25,14 @@ namespace BxS_WorxExcel
 				private				string	_User	;
 				private				string	_Full	;
 
-				private Lazy<BxS_Controller>	_BxS;
+				private Lazy<BxS_Controller>	_BxSCntlr;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private BxS_Controller BxSWorx	{ get	{	return	this._BxS.Value;	}	}
+				private BxS_Controller BxSCntlr	{ get	{	return	this._BxSCntlr.Value;	}	}
 
 			#endregion
 
@@ -42,9 +42,10 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._BxS	= new	Lazy<BxS_Controller>	( ()=>	new	BxS_Controller()	, cz_LM );
+						this._BxSCntlr	= new	Lazy<BxS_Controller>	( ()=>	new	BxS_Controller()	, cz_LM );
 						//...
 						this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
 					}
 
 				#pragma warning	disable	RCS1163
@@ -52,7 +53,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void DropDown1_Load(object sender , RibbonControlEventArgs e)
 					{
-						foreach ( string lo_SS in this.BxSWorx.GetSAPiniList() )
+						foreach ( string lo_SS in this.BxSCntlr.GetSAPiniList() )
 							{
 								RibbonDropDownItem x = this.Factory.CreateRibbonDropDownItem();
 								x.Label	= lo_SS	;				//$"{lo_SS.ID} | {lo_SS.SAPName} | {lo_SS.IsSSO} ";
@@ -62,14 +63,24 @@ namespace BxS_WorxExcel
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void Submit_Click( object sender , RibbonControlEventArgs e )
+					{
+						var x = this.BxSCntlr.FavHndlr.CreateEntry();
+
+						x.SAPSysID	= this.dropDown1.SelectedItem.Label;
+
+						this.BxSCntlr.FavHndlr.TopTen.Add( x );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private async void WriteActive_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( (Action) (() => {
-																							DTO_WSNode  x = this.BxSWorx.GetActiveWSNode();
-																							IRequest    r =	this.BxSWorx.CreateRequest( x.WBName );
+																							DTO_WSNode  x = this.BxSCntlr.GetActiveWSNode();
+																							IRequest    r =	this.BxSCntlr.CreateRequest( x.WBName );
 																							//...
 																							this.SetFullPath( x.WSName );
-																							this.BxSWorx.WriteRequestToFile( r , this._Full );
+																							this.BxSCntlr.WriteRequestToFile( r , this._Full );
 																							//.....................
 																							//this._HndlrExcel.Value.WriteStatusbar( s.WSData.Count.ToString() );
 																							//Thread.Sleep(300);
@@ -83,9 +94,9 @@ namespace BxS_WorxExcel
 						await Task.Run( (Action) (() => {
 																		this.SetFullPath("DPB");
 							//...
-							IList<DTO_WSNode> x = this.BxSWorx.GetManifest();
-							IRequest          r =	this.BxSWorx.CreateRequest( x , "DPB" );
-																		this.BxSWorx.WriteRequestToFile( r , this._Full );
+							IList<DTO_WSNode> x = this.BxSCntlr.GetManifest();
+							IRequest          r =	this.BxSCntlr.CreateRequest( x , "DPB" );
+																		this.BxSCntlr.WriteRequestToFile( r , this._Full );
 																		//.....................
 																		//this._HndlrExcel.Value.WriteStatusbar( x.Count.ToString() );
 																		//Thread.Sleep(300);
@@ -97,9 +108,9 @@ namespace BxS_WorxExcel
 				private async void SaveXMLCfg_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( (Action) (() => {
-							IXMLConfig x = this.BxSWorx.CreateXMLConfig();
+							IXMLConfig x = this.BxSCntlr.CreateXMLConfig();
 																		x.SAPTCode = "XD03";
-																		this.BxSWorx.WriteConfig( x , "B3" );
+																		this.BxSCntlr.WriteConfig( x , "B3" );
 																	}) ).ConfigureAwait(false);
 					}
 

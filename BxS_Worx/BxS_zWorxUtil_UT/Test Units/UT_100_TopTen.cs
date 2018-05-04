@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using BxS_WorxUtil.General;
 
@@ -95,19 +93,31 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_TopTen_50_Object()
 				{
-					var x = new MyClass();
+					var x = new MyClass("A");
 					this.co_TO.Add( x );
 					Assert.AreEqual	( 1	, this.co_TO.Count	, "" );
 					this.co_TO.Add( x );
 					Assert.AreEqual	( 1	, this.co_TO.Count	, "" );
-					var y = new MyClass();
+					var y = new MyClass("B");
+					this.co_TO.Add( y );
+					Assert.AreEqual	( 2	, this.co_TO.Count	, "" );
+					this.co_TO.Add( x );
+					Assert.AreEqual	( 2	, this.co_TO.Count	, "" );
+					Assert.IsTrue		(	this.co_TO.List[0].ID.Equals(x.ID)	, ""	);
+					var z = new MyClass("C");
+					this.co_TO.Add( z );
+					Assert.IsTrue		(	this.co_TO.List[0].ID.Equals(z.ID)	, ""	);
 				}
 
 		//.
 
 		private class MyClass
 			{
-				private MyCl
+				internal MyClass( string id )
+					{
+						this.ID	= id;
+					}
+
 				public string ID { get; set;}
 			}
 

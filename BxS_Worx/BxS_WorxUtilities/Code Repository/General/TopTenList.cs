@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxUtil.General
 {
+	[DataContract()]
+
 	public class TopTenList<T>
 		{
 			#region "Constructors"
@@ -11,7 +15,8 @@ namespace BxS_WorxUtil.General
 					{
 						this.Size		= Size	;
 						//.............................................
-						this.List	= new	List<T>(Size);
+						this.List		= new	List<T>(Size);
+						this.Types	= new	List<Type>() {	typeof( TopTenList<T> ) , typeof( T )	};
 					}
 
 			#endregion
@@ -26,12 +31,13 @@ namespace BxS_WorxUtil.General
 			//===========================================================================================
 			#region "Properties"
 
-				public	int Size		{ get { return	this._Size; }
-															set { this.Resize(value); } }
+											public	int					Size		{ get { return	this._Size; }
+																										set { this.Resize(value); } }
 
-				public	int	Count		{ get { return	this.List.Count; } }
+											public	int					Count		{ get { return	this.List.Count; } }
+											public	List<Type>	Types		{ get; }
 				//...
-				public	IList<T>	List	{ get; }
+				[DataMember]	public	IList<T>	List	{ get; }
 
 			#endregion
 

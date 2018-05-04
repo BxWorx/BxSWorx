@@ -45,6 +45,7 @@ namespace BxS_WorxUtil.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public TopTenList				<T> CreateTopTenList		<T>	( int size = 10 )										where T: class				=>	new	TopTenList<T>( size );
 				public PriorityQueue		<T> CreatePriorityQueue	<T>	()																	where T: class				=>	new PriorityQueue<T>();
 				public ObjectPool				<T>	CreateObjectPool		<T>	(	Func<T>	createConsumer	= null )	where T: PooledObject	=>	new ObjectPool<T>		( createConsumer );
 
