@@ -11,7 +11,7 @@ namespace BxS_WorxUtil.General
 					{
 						this.Size		= Size	;
 						//.............................................
-						this._List	= new	List<T>(Size);
+						this.List	= new	List<T>(Size);
 					}
 
 			#endregion
@@ -19,7 +19,6 @@ namespace BxS_WorxUtil.General
 			//===========================================================================================
 			#region "Declarations"
 
-				private IList<T>	_List;
 				private	int	_Size;
 
 			#endregion
@@ -27,12 +26,12 @@ namespace BxS_WorxUtil.General
 			//===========================================================================================
 			#region "Properties"
 
-				public	int Size	{ get { return	this._Size; }
-														set { this.Resize(value); } }
+				public	int Size		{ get { return	this._Size; }
+															set { this.Resize(value); } }
 
-				public	int	Count	{ get { return	this._List.Count; } }
+				public	int	Count		{ get { return	this.List.Count; } }
 				//...
-				public	IList<T>	List	{ get {	return	this._List; } }
+				public	IList<T>	List	{ get; }
 
 			#endregion
 
@@ -42,42 +41,39 @@ namespace BxS_WorxUtil.General
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Add( T value)
 					{
-						if ( !this._List.Count.Equals(0) )
+						if ( !this.List.Count.Equals(0) )
 							{
-								if ( this._List[0].Equals(value) )	return;
+								if ( this.List[0].Equals(value) )	return;
 								//.............................................
 								for ( int i = 1; i < this.Count ; i++ )
 									{
-										if ( this._List[i].Equals(value) )
+										if ( this.List[i].Equals(value) )
 											{
-												this._List.RemoveAt(i);
+												this.List.RemoveAt(i);
 												break;
 											}
 									}
 								//.............................................
-								if ( this._List.Count.Equals( this.Size ) )
+								if ( this.List.Count.Equals( this.Size ) )
 									{
-										this._List.RemoveAt( this.Size - 1 );
+										this.List.RemoveAt( this.Size - 1 );
 									}
 							}
 						//.............................................
-						this._List.Insert(0,value);
+						this.List.Insert(0,value);
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Remove( T value)
 					{
 						try
-							{	this._List.RemoveAt( this._List.IndexOf( value ) );	}
+							{	this.List.RemoveAt( this.List.IndexOf( value ) );	}
 						catch
 							{	}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Clear()
-					{
-						this._List.Clear();
-					}
+				public void Clear()	=>	this.List.Clear();
 
 			#endregion
 
@@ -92,7 +88,7 @@ namespace BxS_WorxUtil.General
 								int s = this.Count - 1;
 								for ( int i = s; i >= size; i-- )
 									{
-										this._List.RemoveAt( i );
+										this.List.RemoveAt( i );
 									}
 							}
 						//...

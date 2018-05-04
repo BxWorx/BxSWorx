@@ -9,12 +9,14 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 	[TestClass]
 	public class UT_100_TopTen
 		{
-			private	readonly TopTenList<string>	co_TT;
+			private	readonly TopTenList<string>		co_TT;
+			private	readonly TopTenList<MyClass>	co_TO;
 
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public UT_100_TopTen()
 				{
 					this.co_TT	= new TopTenList<string>();
+					this.co_TO	= new TopTenList<MyClass>();
 				}
 
 			[TestMethod]
@@ -22,6 +24,7 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			public void UT_100_TopTen_10_Instantiate()
 				{
 					Assert.IsNotNull	( this.co_TT	, "" );
+					Assert.IsNotNull	( this.co_TO	, "" );
 				}
 
 			[TestMethod]
@@ -75,18 +78,38 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 							this.co_TT.Add(i.ToString());
 						}
 					Assert.AreEqual	( this.co_TT.Size , this.co_TT.Count	, "" );
+					//...
 					this.co_TT.Size = 5;
 					Assert.AreEqual	( this.co_TT.Size , this.co_TT.Count	, "" );
 					Assert.AreEqual	( 5								, this.co_TT.Count	, "" );
+					//...
 					this.co_TT.Size = 10;
 					for ( int i = 0; i < 10; i++ )
 						{
 							this.co_TT.Add(i.ToString());
 						}
 					Assert.AreEqual	( this.co_TT.Size , this.co_TT.Count	, "" );
-			}
+				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_100_TopTen_50_Object()
+				{
+					var x = new MyClass();
+					this.co_TO.Add( x );
+					Assert.AreEqual	( 1	, this.co_TO.Count	, "" );
+					this.co_TO.Add( x );
+					Assert.AreEqual	( 1	, this.co_TO.Count	, "" );
+					var y = new MyClass();
+				}
 
 		//.
+
+		private class MyClass
+			{
+				private MyCl
+				public string ID { get; set;}
+			}
 
 		}
 
