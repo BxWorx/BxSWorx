@@ -9,6 +9,9 @@ using BxS_WorxExcel.Main;
 using BxS_WorxExcel.DTO;
 using BxS_WorxIPX.BDC;
 
+using BxS_WorxExcel.Code_Repository.UI.SAP;
+
+
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
@@ -26,6 +29,8 @@ namespace BxS_WorxExcel
 				private				string	_Full	;
 
 				private Lazy<BxS_Controller>	_BxSCntlr;
+
+		
 
 			#endregion
 
@@ -65,11 +70,20 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Submit_Click( object sender , RibbonControlEventArgs e )
 					{
-						var x = this.BxSCntlr.FavHndlr.CreateEntry();
+						var y = new SAPSystems();
 
-						x.SAPSysID	= this.dropDown1.SelectedItem.Label;
+						y.Show();
 
-						this.BxSCntlr.FavHndlr.TopTen.Add( x );
+						//var x = new SAPFavourites();
+
+						//x.Show();
+
+
+						//var x = this.BxSCntlr.FavHndlr.CreateEntry();
+
+						//x.SAPSysID	= this.dropDown1.SelectedItem.Label;
+
+						//this.BxSCntlr.FavHndlr.TopTen.Add( x );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
