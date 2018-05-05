@@ -1,6 +1,6 @@
 ﻿namespace BxS_WorxExcel.Code_Repository.UI.SAP
 	{
-	partial class SAPFavourites
+	partial class UC_SAPFavourites
 		{
 		/// <summary> 
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 			{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAPFavourites));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_SAPFavourites));
 			this.BxSDGV = new System.Windows.Forms.DataGridView();
 			this.bs_Clients = new System.Windows.Forms.BindingSource(this.components);
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -178,13 +178,14 @@
 			this.toolStripContainer1.Text = "toolStripContainer1";
 			this.toolStripContainer1.TopToolStripPanelVisible = false;
 			// 
-			// SAPFavourites
+			// UC_SAPFavourites
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.toolStripContainer1);
-			this.Name = "SAPFavourites";
+			this.Name = "UC_SAPFavourites";
 			this.Size = new System.Drawing.Size(688, 227);
+			this.Load += new System.EventHandler(this.ev_UCLoad);
 			((System.ComponentModel.ISupportInitialize)(this.BxSDGV)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.bs_Clients)).EndInit();
 			this.toolStrip1.ResumeLayout(false);

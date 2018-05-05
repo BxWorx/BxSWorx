@@ -185,11 +185,11 @@
     <Compile Include="Code Repository\DTO\Worksheet\DTO_WSNode.cs" />
     <Compile Include="Code Repository\Main\BxS_Favourites.cs" />
     <Compile Include="Code Repository\Main\EXL_Constants.cs" />
-    <Compile Include="Code Repository\UI\SAP\Favourites\SAPFavourites.cs">
+    <Compile Include="Code Repository\UI\SAP\Favourites\UC_SAPFavourites.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Code Repository\UI\SAP\Favourites\SAPFavourites.Designer.cs">
-      <DependentUpon>SAPFavourites.cs</DependentUpon>
+    <Compile Include="Code Repository\UI\SAP\Favourites\UC_SAPFavourites.Designer.cs">
+      <DependentUpon>UC_SAPFavourites.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Repository\UI\SAP\Favourites\SAPFavWindow.cs">
       <SubType>Form</SubType>
@@ -219,8 +219,8 @@
     <EmbeddedResource Include="Code Repository\UI\Ribbon\BxS_WorxMain.resx">
       <DependentUpon>BxS_WorxMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Repository\UI\SAP\Favourites\SAPFavourites.resx">
-      <DependentUpon>SAPFavourites.cs</DependentUpon>
+    <EmbeddedResource Include="Code Repository\UI\SAP\Favourites\UC_SAPFavourites.resx">
+      <DependentUpon>UC_SAPFavourites.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Code Repository\UI\SAP\Favourites\SAPFavWindow.resx">
       <DependentUpon>SAPFavWindow.cs</DependentUpon>

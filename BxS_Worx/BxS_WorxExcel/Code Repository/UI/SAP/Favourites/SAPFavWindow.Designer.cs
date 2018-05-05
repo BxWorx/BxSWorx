@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 			{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.sapFavourites1 = new BxS_WorxExcel.Code_Repository.UI.SAP.SAPFavourites();
+			this.sapFavourites1 = new BxS_WorxExcel.Code_Repository.UI.SAP.UC_SAPFavourites();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -74,6 +74,6 @@
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
-		private SAPFavourites sapFavourites1;
+		private UC_SAPFavourites sapFavourites1;
 		}
 	}
