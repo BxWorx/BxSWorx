@@ -16,7 +16,7 @@ namespace BxS_WorxUtil.General
 						this.Size		= Size	;
 						//.............................................
 						this.List		= new	List<T>(Size);
-						this.Types	= new	List<Type>() {	typeof( TopTenList<T> ) , typeof( T )	};
+						this.Types	= new	List<Type>()	{	typeof ( TopTenList<T> ) , typeof( T )	};
 					}
 
 			#endregion
@@ -37,7 +37,7 @@ namespace BxS_WorxUtil.General
 											public	int					Count		{ get { return	this.List.Count; } }
 											public	List<Type>	Types		{ get; }
 				//...
-				[DataMember]	public	IList<T>	List	{ get; }
+				[DataMember]	public	IList<T>		List		{ get; }
 
 			#endregion
 
@@ -45,7 +45,7 @@ namespace BxS_WorxUtil.General
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Add( T value)
+				public void Add( T value )
 					{
 						if ( !this.List.Count.Equals(0) )
 							{
@@ -70,7 +70,7 @@ namespace BxS_WorxUtil.General
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Remove( T value)
+				public void Remove( T value )
 					{
 						try
 							{	this.List.RemoveAt( this.List.IndexOf( value ) );	}

@@ -13,6 +13,7 @@ using BxS_WorxExcel.Code_Repository.UI.SAP;
 
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
+using BxS_WorxExcel.Code_Repository.UI.SAP.Favourites;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
 	{
@@ -70,7 +71,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Submit_Click( object sender , RibbonControlEventArgs e )
 					{
-						var y = new SAPSystems();
+						var y = new SAPFavWindow();
 
 						y.Show();
 

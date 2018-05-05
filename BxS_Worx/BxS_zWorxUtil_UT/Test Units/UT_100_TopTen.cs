@@ -93,32 +93,65 @@ namespace BxS_zWorx_UT_Destination.Test_Units
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			public void UT_100_TopTen_50_Object()
 				{
-					var x = new MyClass("A");
-					this.co_TO.Add( x );
-					Assert.AreEqual	( 1	, this.co_TO.Count	, "" );
-					this.co_TO.Add( x );
-					Assert.AreEqual	( 1	, this.co_TO.Count	, "" );
+					var x	=	new MyClass("A" , "B");
 					var y = new MyClass("B");
+					var z = new MyClass("C");
+
+					this.co_TO.Add( x );
+					Assert.AreEqual	( 1	, this.co_TO.Count	, "" );
+					this.co_TO.Add( x );
+					Assert.AreEqual	( 1	, this.co_TO.Count	, "" );
 					this.co_TO.Add( y );
 					Assert.AreEqual	( 2	, this.co_TO.Count	, "" );
 					this.co_TO.Add( x );
 					Assert.AreEqual	( 2	, this.co_TO.Count	, "" );
 					Assert.IsTrue		(	this.co_TO.List[0].ID.Equals(x.ID)	, ""	);
-					var z = new MyClass("C");
 					this.co_TO.Add( z );
 					Assert.IsTrue		(	this.co_TO.List[0].ID.Equals(z.ID)	, ""	);
+				}
+
+			[TestMethod]
+			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			public void UT_100_TopTen_60_Token()
+				{
+					var x = new MyClass("AAAAAAAAAAAAA");
+					var y = new MyClass("AAAAAAAAAAAAA");
+					var z = new MyClass("AAAAAAAAAAAAA");
+
+					int a = x.ID.GetHashCode();
+					var b = y.ID.GetHashCode();
+					var c = z.ID.GetHashCode();
+
+					Assert.AreEqual	( a	, b , "" );
+					Assert.AreEqual	( b	, c , "" );
+					Assert.AreEqual	( c	, a , "" );
+
+					var z1	=	new MyClass("A","B","C");
+					var z2	=	new MyClass("A","B","C");
+					var y1	=	new MyClass("A","B","D");
+
+					Assert.AreEqual			( z1.Hash	, z2.Hash , "" );
+					Assert.AreNotEqual	( z1.Hash	, y1.Hash , "" );
+					Assert.AreNotEqual	( z2.Hash	, y1.Hash , "" );
 				}
 
 		//.
 
 		private class MyClass
 			{
-				internal MyClass( string id )
+				internal MyClass( string id , string cl = "" , string ss = "" )
 					{
 						this.ID	= id;
+						this.CL	= cl;
+						this.SS	= ss;
 					}
 
-				public string ID { get; set;}
+				public	string ID	{ get; set;}
+				public	string CL	{ get; set;}
+				public	string SS	{ get; set;}
+
+				public	int	Hash { get { return		( this.ID , this.CL , this.SS  ).GetHashCode(); } }
+
 			}
 
 		}

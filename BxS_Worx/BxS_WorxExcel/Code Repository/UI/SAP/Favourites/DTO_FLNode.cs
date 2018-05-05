@@ -7,7 +7,7 @@ namespace BxS_WorxExcel.DTO
 			#region "Properties"
 
 				//...
-				internal	string	SAPID		{ get; set; }
+				public	string	SAPID		{ get; set; }
 				internal	string	Client	{ get; set; }
 				internal	string	User		{ get; set; }
 				internal	SecureString	Pwrd		{ get; set; }

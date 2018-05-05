@@ -181,15 +181,21 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="Code Repository\DTO\Favourites\DTO_FLNode.cs" />
+    <Compile Include="Code Repository\UI\SAP\Favourites\DTO_FLNode.cs" />
     <Compile Include="Code Repository\DTO\Worksheet\DTO_WSNode.cs" />
     <Compile Include="Code Repository\Main\BxS_Favourites.cs" />
     <Compile Include="Code Repository\Main\EXL_Constants.cs" />
-    <Compile Include="Code Repository\UI\SAP\SAPFavourites.cs">
+    <Compile Include="Code Repository\UI\SAP\Favourites\SAPFavourites.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Code Repository\UI\SAP\SAPFavourites.Designer.cs">
+    <Compile Include="Code Repository\UI\SAP\Favourites\SAPFavourites.Designer.cs">
       <DependentUpon>SAPFavourites.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Code Repository\UI\SAP\Favourites\SAPFavWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Code Repository\UI\SAP\Favourites\SAPFavWindow.Designer.cs">
+      <DependentUpon>SAPFavWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Repository\UI\SAP\SAPSystems.cs">
       <SubType>Form</SubType>
@@ -213,8 +219,11 @@
     <EmbeddedResource Include="Code Repository\UI\Ribbon\BxS_WorxMain.resx">
       <DependentUpon>BxS_WorxMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Repository\UI\SAP\SAPFavourites.resx">
+    <EmbeddedResource Include="Code Repository\UI\SAP\Favourites\SAPFavourites.resx">
       <DependentUpon>SAPFavourites.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Code Repository\UI\SAP\Favourites\SAPFavWindow.resx">
+      <DependentUpon>SAPFavWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Code Repository\UI\SAP\SAPSystems.resx">
       <DependentUpon>SAPSystems.cs</DependentUpon>
@@ -288,7 +297,7 @@
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
-        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
         <Host Name="Excel" GeneratedCodeNamespace="BxS_WorxExcel" IconIndex="0">
           <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
         </Host>
