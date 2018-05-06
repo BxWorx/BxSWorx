@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_WorxExcel.DTO;
 
-using BxS_WorxNCO.API;
+//using BxS_WorxNCO.API;
 
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.BDC;
@@ -24,7 +24,7 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BxS_Controller()
 					{
-						this._NCOCntlr	= new	Lazy<INCO_Controller>	(	()=>	NCO_Controller.Instance	, cz_LM )	;
+						//this._NCOCntlr	= new	Lazy<INCO_Controller>	(	()=>	NCO_Controller.Instance	, cz_LM )	;
 						this._IPXCntlr	= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM )	;
 						this._UTLCntlr	= new	Lazy<IUTL_Controller>	(	()=>	UTL_Controller.Instance	, cz_LM )	;
 						//...
@@ -43,7 +43,7 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy< INCO_Controller >	_NCOCntlr	;
+				//private readonly Lazy< INCO_Controller >	_NCOCntlr	;
 				private readonly Lazy< IIPX_Controller >	_IPXCntlr	;
 				private readonly Lazy< IUTL_Controller >	_UTLCntlr	;
 				//...
@@ -59,7 +59,11 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Properties"
 
-				private INCO_Controller	NCOCntlr	{ get { return	this._NCOCntlr.Value	; } }
+				
+
+
+
+				//private INCO_Controller	NCOCntlr	{ get { return	this._NCOCntlr.Value	; } }
 				//...
 				private IBDC_Controller BDCCntlr	{ get { return	this._BDCCntlr.Value	; } }
 				private	Excel_Handler		XLHndlr		{ get { return	this._XLHndlr	.Value	; } }
@@ -86,7 +90,7 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	IList<string>			GetSAPiniList()		=>	this.NCOCntlr	.GetSAPINIList();
+				//internal	IList<string>			GetSAPiniList()		=>	this.NCOCntlr	.GetSAPINIList();
 				internal	IList<DTO_WSNode>	GetManifest()			=>	this.XLHndlr	.GetManifest();
 				internal	IXMLConfig				CreateXMLConfig()	=>	this.BDCCntlr	.Create_XMLConfig();
 				//...

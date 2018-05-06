@@ -34,6 +34,7 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
+			Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
 			this.xtab_BxS = this.Factory.CreateRibbonTab();
 			this.group1 = this.Factory.CreateRibbonGroup();
 			this.btn_SaveAct = this.Factory.CreateRibbonButton();
@@ -49,10 +50,15 @@
 			this.button2 = this.Factory.CreateRibbonButton();
 			this.comboBox1 = this.Factory.CreateRibbonComboBox();
 			this.menu1 = this.Factory.CreateRibbonMenu();
+			this.tab1 = this.Factory.CreateRibbonTab();
+			this.group3 = this.Factory.CreateRibbonGroup();
+			this.dropDown2 = this.Factory.CreateRibbonDropDown();
 			this.xtab_BxS.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
 			this.group2.SuspendLayout();
+			this.tab1.SuspendLayout();
+			this.group3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// xtab_BxS
@@ -102,6 +108,7 @@
 			// 
 			this.button4.Label = "Request";
 			this.button4.Name = "button4";
+			this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Request_Click);
 			// 
 			// btn_Submit
 			// 
@@ -151,11 +158,31 @@
 			this.menu1.Label = "menu1";
 			this.menu1.Name = "menu1";
 			// 
+			// tab1
+			// 
+			this.tab1.Groups.Add(this.group3);
+			this.tab1.Label = "tab1";
+			this.tab1.Name = "tab1";
+			// 
+			// group3
+			// 
+			this.group3.DialogLauncher = ribbonDialogLauncherImpl1;
+			this.group3.Items.Add(this.dropDown2);
+			this.group3.Label = "group3";
+			this.group3.Name = "group3";
+			// 
+			// dropDown2
+			// 
+			this.dropDown2.Label = "dropDown2";
+			this.dropDown2.Name = "dropDown2";
+			this.dropDown2.ShowLabel = false;
+			// 
 			// BxS_WorxMain
 			// 
 			this.Name = "BxS_WorxMain";
 			this.RibbonType = "Microsoft.Excel.Workbook";
 			this.Tabs.Add(this.xtab_BxS);
+			this.Tabs.Add(this.tab1);
 			this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.BxS_WorxMain_Load);
 			this.xtab_BxS.ResumeLayout(false);
 			this.xtab_BxS.PerformLayout();
@@ -165,6 +192,10 @@
 			this.xbg_SAPLogon.PerformLayout();
 			this.group2.ResumeLayout(false);
 			this.group2.PerformLayout();
+			this.tab1.ResumeLayout(false);
+			this.tab1.PerformLayout();
+			this.group3.ResumeLayout(false);
+			this.group3.PerformLayout();
 			this.ResumeLayout(false);
 
 			}
@@ -186,6 +217,9 @@
 		private Microsoft.Office.Tools.Ribbon.RibbonButton button2;
 		internal Microsoft.Office.Tools.Ribbon.RibbonComboBox comboBox1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu1;
+		private Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
+		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
+		internal Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDown2;
 		}
 
 	partial class ThisRibbonCollection

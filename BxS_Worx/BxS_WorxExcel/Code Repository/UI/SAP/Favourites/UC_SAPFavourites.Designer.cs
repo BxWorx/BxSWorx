@@ -31,24 +31,20 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_SAPFavourites));
 			this.BxSDGV = new System.Windows.Forms.DataGridView();
-			this.bs_Clients = new System.Windows.Forms.BindingSource(this.components);
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+			this.tsl_Main = new System.Windows.Forms.ToolStrip();
 			this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+			this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.BxSDGV)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.bs_Clients)).BeginInit();
-			this.toolStrip1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
+			this.tsl_Main.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// BxSDGV
@@ -64,34 +60,43 @@
 			this.BxSDGV.Size = new System.Drawing.Size(664, 227);
 			this.BxSDGV.TabIndex = 1;
 			// 
-			// toolStrip1
+			// toolStripContainer1
 			// 
-			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripButton,
+			this.toolStripContainer1.BottomToolStripPanelVisible = false;
+			// 
+			// toolStripContainer1.ContentPanel
+			// 
+			this.toolStripContainer1.ContentPanel.Controls.Add(this.BxSDGV);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(664, 227);
+			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			// 
+			// toolStripContainer1.LeftToolStripPanel
+			// 
+			this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.tsl_Main);
+			this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+			this.toolStripContainer1.Name = "toolStripContainer1";
+			this.toolStripContainer1.RightToolStripPanelVisible = false;
+			this.toolStripContainer1.Size = new System.Drawing.Size(688, 227);
+			this.toolStripContainer1.TabIndex = 2;
+			this.toolStripContainer1.Text = "toolStripContainer1";
+			this.toolStripContainer1.TopToolStripPanelVisible = false;
+			// 
+			// tsl_Main
+			// 
+			this.tsl_Main.Dock = System.Windows.Forms.DockStyle.None;
+			this.tsl_Main.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.tsl_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripButton,
             this.saveToolStripButton,
             this.toolStripSeparator,
             this.cutToolStripButton,
-            this.copyToolStripButton,
-            this.pasteToolStripButton,
-            this.toolStripSeparator1,
-            this.helpToolStripButton});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 3);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(24, 175);
-			this.toolStrip1.TabIndex = 0;
-			this.toolStrip1.Text = "toolStrip1";
-			// 
-			// newToolStripButton
-			// 
-			this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-			this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.newToolStripButton.Name = "newToolStripButton";
-			this.newToolStripButton.Size = new System.Drawing.Size(22, 20);
-			this.newToolStripButton.Text = "&New";
+            this.copyToolStripButton});
+			this.tsl_Main.Location = new System.Drawing.Point(0, 3);
+			this.tsl_Main.Name = "tsl_Main";
+			this.tsl_Main.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.tsl_Main.Size = new System.Drawing.Size(24, 100);
+			this.tsl_Main.TabIndex = 0;
+			this.tsl_Main.Text = "UCToolstrip";
 			// 
 			// openToolStripButton
 			// 
@@ -124,6 +129,7 @@
 			this.cutToolStripButton.Name = "cutToolStripButton";
 			this.cutToolStripButton.Size = new System.Drawing.Size(22, 20);
 			this.cutToolStripButton.Text = "C&ut";
+			this.cutToolStripButton.Click += new System.EventHandler(this.Cut_Click);
 			// 
 			// copyToolStripButton
 			// 
@@ -134,49 +140,9 @@
 			this.copyToolStripButton.Size = new System.Drawing.Size(22, 20);
 			this.copyToolStripButton.Text = "&Copy";
 			// 
-			// pasteToolStripButton
+			// bindingSource1
 			// 
-			this.pasteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.pasteToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripButton.Image")));
-			this.pasteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.pasteToolStripButton.Name = "pasteToolStripButton";
-			this.pasteToolStripButton.Size = new System.Drawing.Size(22, 20);
-			this.pasteToolStripButton.Text = "&Paste";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(22, 6);
-			// 
-			// helpToolStripButton
-			// 
-			this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
-			this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.helpToolStripButton.Name = "helpToolStripButton";
-			this.helpToolStripButton.Size = new System.Drawing.Size(22, 20);
-			this.helpToolStripButton.Text = "He&lp";
-			// 
-			// toolStripContainer1
-			// 
-			this.toolStripContainer1.BottomToolStripPanelVisible = false;
-			// 
-			// toolStripContainer1.ContentPanel
-			// 
-			this.toolStripContainer1.ContentPanel.Controls.Add(this.BxSDGV);
-			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(664, 227);
-			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			// 
-			// toolStripContainer1.LeftToolStripPanel
-			// 
-			this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.toolStrip1);
-			this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-			this.toolStripContainer1.Name = "toolStripContainer1";
-			this.toolStripContainer1.RightToolStripPanelVisible = false;
-			this.toolStripContainer1.Size = new System.Drawing.Size(688, 227);
-			this.toolStripContainer1.TabIndex = 2;
-			this.toolStripContainer1.Text = "toolStripContainer1";
-			this.toolStripContainer1.TopToolStripPanelVisible = false;
+			this.bindingSource1.DataSource = typeof(BxS_WorxExcel.Main.BxS_Controller);
 			// 
 			// UC_SAPFavourites
 			// 
@@ -185,33 +151,29 @@
 			this.Controls.Add(this.toolStripContainer1);
 			this.Name = "UC_SAPFavourites";
 			this.Size = new System.Drawing.Size(688, 227);
-			this.Load += new System.EventHandler(this.ev_UCLoad);
+			this.Load += new System.EventHandler(this.UC_Load);
 			((System.ComponentModel.ISupportInitialize)(this.BxSDGV)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.bs_Clients)).EndInit();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
 			this.toolStripContainer1.ContentPanel.ResumeLayout(false);
 			this.toolStripContainer1.LeftToolStripPanel.ResumeLayout(false);
 			this.toolStripContainer1.LeftToolStripPanel.PerformLayout();
 			this.toolStripContainer1.ResumeLayout(false);
 			this.toolStripContainer1.PerformLayout();
+			this.tsl_Main.ResumeLayout(false);
+			this.tsl_Main.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
 			this.ResumeLayout(false);
 
 			}
 
 		#endregion
 		private System.Windows.Forms.DataGridView BxSDGV;
-		private System.Windows.Forms.BindingSource bs_Clients;
-		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripButton newToolStripButton;
+		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+		private System.Windows.Forms.ToolStrip tsl_Main;
 		private System.Windows.Forms.ToolStripButton openToolStripButton;
 		private System.Windows.Forms.ToolStripButton saveToolStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
 		private System.Windows.Forms.ToolStripButton cutToolStripButton;
 		private System.Windows.Forms.ToolStripButton copyToolStripButton;
-		private System.Windows.Forms.ToolStripButton pasteToolStripButton;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripButton helpToolStripButton;
-		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+		private System.Windows.Forms.BindingSource bindingSource1;
 		}
 	}

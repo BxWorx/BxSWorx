@@ -1,18 +1,20 @@
-﻿using System.Security;
+﻿using System;
+using System.ComponentModel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.DTO
 {
-	internal struct DTO_FLNode
+	internal struct DTO_WSConfig : INotifyPropertyChanged
 		{
 			#region "Properties"
 
-				public	string	SAPID		{ get; set; }
-				public	string	Name		{ get; set; }
-				public	string	Client	{ get; set; }
-				public	string	User		{ get; set; }
-				public	SecureString	Pwrd		{ get; set; }
-				//...
-				public	bool		IsSSO		{ get; set; }
+				public	Guid	GUID		{ get; set; }
+
+			public event PropertyChangedEventHandler PropertyChanged;
+
+			private	void NotifyPropertyChanged( string name )
+				{
+					this.PropertyChanged?.Invoke( this , new PropertyChangedEventArgs(name) );
+				}
 
 			#endregion
 
