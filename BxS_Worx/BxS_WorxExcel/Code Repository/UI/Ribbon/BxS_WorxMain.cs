@@ -15,6 +15,7 @@ using BxS_WorxExcel.Code_Repository.UI.SAP;
 using static	BxS_WorxExcel.Main.EXL_Constants;
 using BxS_WorxExcel.Code_Repository.UI.SAP.Favourites;
 using BxS_WorxExcel.Code_Repository.UI.User_Controls;
+using BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
 	{

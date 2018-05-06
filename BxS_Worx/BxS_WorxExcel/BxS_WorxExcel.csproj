@@ -182,6 +182,9 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Code Repository\Common\IView.cs" />
+    <Compile Include="Code Repository\Common\NotifyPropertyChangedBase.cs" />
+    <Compile Include="Code Repository\Common\VMBase.cs" />
     <Compile Include="Code Repository\UI\SAP\Favourites\DTO_FLNode.cs" />
     <Compile Include="Code Repository\DTO\Worksheet\DTO_WSNode.cs" />
     <Compile Include="Code Repository\Main\BxS_Favourites.cs" />
@@ -204,19 +207,19 @@
     <Compile Include="Code Repository\UI\SAP\SAPSystems.Designer.cs">
       <DependentUpon>SAPSystems.cs</DependentUpon>
     </Compile>
-    <Compile Include="Code Repository\UI\User Controls\Form1.cs">
+    <Compile Include="Code Repository\UI\User Controls\WSConfig\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Code Repository\UI\User Controls\Form1.Designer.cs">
+    <Compile Include="Code Repository\UI\User Controls\WSConfig\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Code Repository\UI\User Controls\UC_Config.cs">
+    <Compile Include="Code Repository\UI\User Controls\WSConfig\UC_WSConfigVW.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Code Repository\UI\User Controls\UC_Config.Designer.cs">
-      <DependentUpon>UC_Config.cs</DependentUpon>
+    <Compile Include="Code Repository\UI\User Controls\WSConfig\UC_WSConfigVW.Designer.cs">
+      <DependentUpon>UC_WSConfigVW.cs</DependentUpon>
     </Compile>
-    <Compile Include="Code Repository\UI\User Controls\WSConfig\DTO_WSConfig.cs" />
+    <Compile Include="Code Repository\UI\User Controls\WSConfig\WSConfigVM.cs" />
     <Compile Include="Code Repository\_Controllers\BxS_Controller.cs" />
     <Compile Include="Code Repository\Main\BDC_Handler.cs" />
     <Compile Include="Code Repository\Main\Excel_Handler.cs" />
@@ -242,11 +245,11 @@
     <EmbeddedResource Include="Code Repository\UI\SAP\SAPSystems.resx">
       <DependentUpon>SAPSystems.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Repository\UI\User Controls\Form1.resx">
+    <EmbeddedResource Include="Code Repository\UI\User Controls\WSConfig\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Repository\UI\User Controls\UC_Config.resx">
-      <DependentUpon>UC_Config.cs</DependentUpon>
+    <EmbeddedResource Include="Code Repository\UI\User Controls\WSConfig\UC_WSConfigVW.resx">
+      <DependentUpon>UC_WSConfigVW.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -281,6 +284,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Code Repository\zKeep\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
@@ -304,7 +308,7 @@
     <ManifestKeyFile>BxS_WorxExcel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>EB39F895789A7D23F9F03549550DF7C8BCFB6F6A</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>6C22700541E71141990C36859E936260B525B4A6</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup />
   <!-- Include the build rules for a C# project. -->
@@ -315,7 +319,7 @@
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
-        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
         <Host Name="Excel" GeneratedCodeNamespace="BxS_WorxExcel" IconIndex="0">
           <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
         </Host>
