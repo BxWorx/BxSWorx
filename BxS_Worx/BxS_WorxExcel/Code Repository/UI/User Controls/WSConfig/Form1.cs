@@ -22,11 +22,13 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 				this.UC_WSConfig.ViewModel	= this.x;
 
 				this.xcbx_Active.DataBindings.Add( this.CreateBinding( "Checked"	, "Active"	) );
+				this.button1.DataBindings.Add( this.CreateBinding( "Text"	, "DisMode"	) );
 			}
 
 		private void button1_Click(object sender , EventArgs e)
 			{
 				this.x.GUID	= Guid.NewGuid();
+				
 			}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

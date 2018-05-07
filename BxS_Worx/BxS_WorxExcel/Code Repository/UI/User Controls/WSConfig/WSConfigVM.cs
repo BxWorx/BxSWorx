@@ -16,9 +16,9 @@ namespace BxS_WorxExcel.UI.UC
 				private	int			_pausetime	;
 				private	bool		_skip1st		;
 
-				private	char		_disMode		;
+				private	string	_disMode		;
 				private	char		_updMode		;
-				private	char		_defSize		;
+				private	bool		_defSize		;
 
 				private	string	_colid			;
 				private	string	_colactive	;
@@ -42,9 +42,9 @@ namespace BxS_WorxExcel.UI.UC
 				public	int						PauseTime		{ get	=> this._pausetime	;		set	{ this.SetProperty( ref this._pausetime	, value ); } }
 				public	bool					Skip1st			{ get	=> this._skip1st		;		set	{ this.SetProperty( ref this._skip1st		, value ); } }
 
-				public	char					DefSize			{ get	=> this._defSize		;		set	{ this.SetProperty( ref this._defSize		, value ); } }
-				public	char					DisMode			{ get	=> this._disMode		;		set	{ this.SetProperty( ref this._disMode		, value ); } }
+				public	string				DisMode			{ get	=> this._disMode		;		set	{ this.SetProperty( ref this._disMode		, value ); } }
 				public	char					UpdMode			{ get	=> this._updMode		;		set	{ this.SetProperty( ref this._updMode		, value ); } }
+				public	bool					DefSize			{ get	=> this._defSize		;		set	{ this.SetProperty( ref this._defSize		, value ); } }
 
 				public	SecureString	Password		{ get	=> this._password		;		set	{ this.SetProperty( ref this._password	, value ); } }
 

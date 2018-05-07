@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
-			BxS_WorxExcel.UI.UC.WSConfigVM wsConfigVM2 = new BxS_WorxExcel.UI.UC.WSConfigVM();
+			BxS_WorxExcel.UI.UC.WSConfigVM wsConfigVM1 = new BxS_WorxExcel.UI.UC.WSConfigVM();
 			this.button1 = new System.Windows.Forms.Button();
 			this.xcbx_Active = new System.Windows.Forms.CheckBox();
 			this.UC_WSConfig = new BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig.UC_WSConfigVW();
@@ -36,7 +36,7 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(13, 123);
+			this.button1.Location = new System.Drawing.Point(12, 145);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 1;
@@ -47,7 +47,7 @@
 			// xcbx_Active
 			// 
 			this.xcbx_Active.AutoSize = true;
-			this.xcbx_Active.Location = new System.Drawing.Point(171, 126);
+			this.xcbx_Active.Location = new System.Drawing.Point(167, 145);
 			this.xcbx_Active.Name = "xcbx_Active";
 			this.xcbx_Active.Size = new System.Drawing.Size(80, 17);
 			this.xcbx_Active.TabIndex = 2;
@@ -60,24 +60,24 @@
 			this.UC_WSConfig.Name = "UC_WSConfig";
 			this.UC_WSConfig.Size = new System.Drawing.Size(332, 106);
 			this.UC_WSConfig.TabIndex = 3;
-			wsConfigVM2.Active = false;
-			wsConfigVM2.Col_Active = null;
-			wsConfigVM2.Col_Exec = null;
-			wsConfigVM2.Col_ID = null;
-			wsConfigVM2.Col_Msg = null;
-			wsConfigVM2.DataCol = null;
-			wsConfigVM2.DataRow = 0;
-			wsConfigVM2.DefSize = '\0';
-			wsConfigVM2.DisMode = '\0';
-			wsConfigVM2.GUID = new System.Guid("00000000-0000-0000-0000-000000000000");
-			wsConfigVM2.Password = null;
-			wsConfigVM2.PauseTime = 0;
-			wsConfigVM2.Protected = false;
-			wsConfigVM2.SAPTCode = null;
-			wsConfigVM2.SessionID = null;
-			wsConfigVM2.Skip1st = false;
-			wsConfigVM2.UpdMode = '\0';
-			this.UC_WSConfig.ViewModel = wsConfigVM2;
+			wsConfigVM1.Active = false;
+			wsConfigVM1.Col_Active = null;
+			wsConfigVM1.Col_Exec = null;
+			wsConfigVM1.Col_ID = null;
+			wsConfigVM1.Col_Msg = null;
+			wsConfigVM1.DataCol = null;
+			wsConfigVM1.DataRow = 0;
+			wsConfigVM1.DefSize = false;
+			wsConfigVM1.DisMode = null;
+			wsConfigVM1.GUID = new System.Guid("00000000-0000-0000-0000-000000000000");
+			wsConfigVM1.Password = null;
+			wsConfigVM1.PauseTime = 0;
+			wsConfigVM1.Protected = false;
+			wsConfigVM1.SAPTCode = null;
+			wsConfigVM1.SessionID = null;
+			wsConfigVM1.Skip1st = false;
+			wsConfigVM1.UpdMode = '\0';
+			this.UC_WSConfig.ViewModel = wsConfigVM1;
 			// 
 			// Form1
 			// 

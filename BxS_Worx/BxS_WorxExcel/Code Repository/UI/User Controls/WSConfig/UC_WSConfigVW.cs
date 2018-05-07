@@ -38,14 +38,28 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected override void OnLoad( EventArgs e )
 					{
-						this.xtbx_GUID		.DataBindings.Add( this.CreateBinding( "Text"			, "GUID"		) );
-						this.xcbx_Active	.DataBindings.Add( this.CreateBinding( "Checked"	, "Active"	) );
+						this.ConfigureBindings();
+
+						this.loadCTU();
+
+						this.xcbx_CTUDisp.DataSource	= this._CTUDisp;
+						this.xcbx_CTUDisp.DisplayMember	= "Desc";
+						this.xcbx_CTUDisp.ValueMember		= "ID"	;
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void ConfigureBindings()
+					{
+						this.xtbx_GUID		.DataBindings.Add( this.CreateBinding( "Text"			, "GUID"		) );
+						this.xcbx_Active	.DataBindings.Add( this.CreateBinding( "Checked"	, "Active"	) );
+						this.xcbx_CTUDisp	.DataBindings.Add( this.CreateBinding( "SelectedItem"	, "DisMode"	)	);
+						this.label1				.DataBindings.Add( this.CreateBinding( "Text"					, "DisMode"	)	);
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	Binding CreateBinding( string vwName , string vmName )
@@ -57,6 +71,37 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 																, DataSourceUpdateMode.OnPropertyChanged );
 					}
 
-			#endregion
+		#endregion
+
+
+			private List<CTU> _CTUDisp	= new List<CTU>();
+			private List<CTU> _CTUUpdt	= new List<CTU>();
+
+
+			private void loadCTU()
+			{
+				this._CTUDisp.Add( new CTU { Desc = "tEST1" , ID = "1" } );
+				this._CTUDisp.Add( new CTU { Desc = "tEST2" , ID = "2" } );
+				this._CTUDisp.Add( new CTU { Desc = "tEST3" , ID = "3" } );
+			}
+
+			private struct CTU
+			{
+				public string Desc	{get; set;}
+				public string	ID		{get; set;}
+			}
+
+		private void xcbx_CTUDisp_SelectedValueChanged(object sender , EventArgs e)
+			{
+				var x = ViewModel.DisMode;
+			}
+
+
+
+
+		//private void label1_Click(object sender , EventArgs e)
+		//	{
+
+		//	}
 		}
 }
