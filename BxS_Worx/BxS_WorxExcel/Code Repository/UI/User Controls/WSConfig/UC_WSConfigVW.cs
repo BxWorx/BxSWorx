@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BxS_WorxExcel.UI.UC;
 using BxS_WorxExcel.UI;
@@ -20,8 +13,18 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 				public UC_WSConfigVW()
 					{
 						InitializeComponent();
+						//.............................................
 						this.ViewModel	= new	WSConfigVM();
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private	const	string	PropNme_SelVal	= "SelectedValue";
+				private	const	string	PropNme_Text		= "Text";
+				private	const	string	PropNme_Checkd	= "Checked";
 
 			#endregion
 
@@ -38,13 +41,9 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected override void OnLoad( EventArgs e )
 					{
-						this.ConfigureBindings();
-
-						this.loadCTU();
-
-						this.xcbx_CTUDisp.DataSource	= this._CTUDisp;
-						this.xcbx_CTUDisp.DisplayMember	= "Desc";
-						this.xcbx_CTUDisp.ValueMember		= "ID"	;
+						this.LoadIDPage()	;
+						this.LoadSAPPage();
+						this.LoadWSPage()	;
 					}
 
 			#endregion
@@ -53,55 +52,47 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void ConfigureBindings()
+				private void LoadIDPage()
 					{
-						this.xtbx_GUID		.DataBindings.Add( this.CreateBinding( "Text"			, "GUID"		) );
-						this.xcbx_Active	.DataBindings.Add( this.CreateBinding( "Checked"	, "Active"	) );
-						this.xcbx_CTUDisp	.DataBindings.Add( this.CreateBinding( "SelectedItem"	, "DisMode"	)	);
-						this.label1				.DataBindings.Add( this.CreateBinding( "Text"					, "DisMode"	)	);
+						this.xtbx_GUID	.DataBindings.Add( this.ViewModel.BindGUID		( PropNme_Text		) );
+						this.xcbx_Active.DataBindings.Add( this.ViewModel.BindIsActive( PropNme_Checkd	) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Binding CreateBinding( string vwName , string vmName )
+				private void LoadWSPage()
 					{
-						return	new	Binding(	vwName
-																, this.ViewModel
-																, vmName
-																, true
-																, DataSourceUpdateMode.OnPropertyChanged );
 					}
 
-		#endregion
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadSAPPage()
+					{
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindSessionID		( PropNme_Text ) );
+						this.xtbx_SAPTCde	.DataBindings.Add( this.ViewModel.BindSAPTCode		( PropNme_Text ) );
+						this.xtbx_Pause		.DataBindings.Add( this.ViewModel.BindPauseTime		( PropNme_Text ) );
+						this.xcbx_Skip1st	.DataBindings.Add( this.ViewModel.BindSkip1st			( PropNme_Text ) );
+						//...
+						this.xcbx_CTUDisp.DataSource			= this.ViewModel.CTUDspList;
+						this.xcbx_CTUDisp.DisplayMember		=	this.ViewModel.DisplayMem	;
+						this.xcbx_CTUDisp.ValueMember			= this.ViewModel.ValueMem		;
 
+						this.xcbx_CTUDisp	.DataBindings.Add( this.ViewModel.BindCTUDispList( PropNme_SelVal ) );
+						//.............................................
+						this.xcbx_CTUUpdt.DataSource			= this.ViewModel.CTUUpdList	;
+						this.xcbx_CTUUpdt.DisplayMember		=	this.ViewModel.DisplayMem	;
+						this.xcbx_CTUUpdt.ValueMember			= this.ViewModel.ValueMem		;
 
-			private List<CTU> _CTUDisp	= new List<CTU>();
-			private List<CTU> _CTUUpdt	= new List<CTU>();
+						this.xcbx_CTUUpdt	.DataBindings.Add(	this.ViewModel.BindCTUUpdtList( PropNme_SelVal	)	);
+						//.............................................
+						this.xcbx_CTUDflt	.DataBindings.Add(	this.ViewModel.BindDefltSize	(	PropNme_Checkd	) );
+					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	Binding CreateBinding( string vwName , string vmName , DataSourceUpdateMode mode	= DataSourceUpdateMode.OnPropertyChanged )
+					{
+						return	new	Binding(	vwName , this.ViewModel	, vmName , true , mode );
+					}
 
-			private void loadCTU()
-			{
-				this._CTUDisp.Add( new CTU { Desc = "tEST1" , ID = "1" } );
-				this._CTUDisp.Add( new CTU { Desc = "tEST2" , ID = "2" } );
-				this._CTUDisp.Add( new CTU { Desc = "tEST3" , ID = "3" } );
-			}
+			#endregion
 
-			private struct CTU
-			{
-				public string Desc	{get; set;}
-				public string	ID		{get; set;}
-			}
-
-		private void xcbx_CTUDisp_SelectedValueChanged(object sender , EventArgs e)
-			{
-				var x = ViewModel.DisMode;
-			}
-
-
-
-
-		//private void label1_Click(object sender , EventArgs e)
-		//	{
-
-		//	}
 		}
 }

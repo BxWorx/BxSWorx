@@ -32,11 +32,16 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.xcbx_Active = new System.Windows.Forms.CheckBox();
 			this.UC_WSConfig = new BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig.UC_WSConfigVW();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(12, 145);
+			this.button1.Location = new System.Drawing.Point(3, 3);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 1;
@@ -47,7 +52,7 @@
 			// xcbx_Active
 			// 
 			this.xcbx_Active.AutoSize = true;
-			this.xcbx_Active.Location = new System.Drawing.Point(167, 145);
+			this.xcbx_Active.Location = new System.Drawing.Point(3, 30);
 			this.xcbx_Active.Name = "xcbx_Active";
 			this.xcbx_Active.Size = new System.Drawing.Size(80, 17);
 			this.xcbx_Active.TabIndex = 2;
@@ -56,9 +61,10 @@
 			// 
 			// UC_WSConfig
 			// 
-			this.UC_WSConfig.Location = new System.Drawing.Point(16, 14);
+			this.UC_WSConfig.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.UC_WSConfig.Location = new System.Drawing.Point(0, 0);
 			this.UC_WSConfig.Name = "UC_WSConfig";
-			this.UC_WSConfig.Size = new System.Drawing.Size(332, 106);
+			this.UC_WSConfig.Size = new System.Drawing.Size(487, 246);
 			this.UC_WSConfig.TabIndex = 3;
 			wsConfigVM1.Active = false;
 			wsConfigVM1.Col_Active = null;
@@ -79,18 +85,39 @@
 			wsConfigVM1.UpdMode = '\0';
 			this.UC_WSConfig.ViewModel = wsConfigVM1;
 			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Name = "splitContainer1";
+			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.button1);
+			this.splitContainer1.Panel1.Controls.Add(this.xcbx_Active);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.UC_WSConfig);
+			this.splitContainer1.Size = new System.Drawing.Size(487, 318);
+			this.splitContainer1.SplitterDistance = 68;
+			this.splitContainer1.TabIndex = 4;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(385, 237);
-			this.Controls.Add(this.UC_WSConfig);
-			this.Controls.Add(this.xcbx_Active);
-			this.Controls.Add(this.button1);
+			this.ClientSize = new System.Drawing.Size(487, 318);
+			this.Controls.Add(this.splitContainer1);
 			this.Name = "Form1";
 			this.Text = "Form1";
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel1.PerformLayout();
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 			}
 
@@ -98,5 +125,6 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.CheckBox xcbx_Active;
 		private UC_WSConfigVW UC_WSConfig;
+		private System.Windows.Forms.SplitContainer splitContainer1;
 		}
 	}
