@@ -98,10 +98,23 @@ namespace BxS_WorxExcel.UI.UC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//... ID Section
+				//
 				public Binding	BindGUID			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.GUID		) );
 				public Binding	BindIsActive	( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Active	) );
 
+				//... WS Section
+				//
+				public Binding	BindProtected		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Protected	) );
+				public Binding	BindPassword		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Password	) );
+				public Binding	BindCol_ID			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Col_ID		) );
+				public Binding	BindCol_Active	( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Col_Active) );
+				public Binding	BindCol_Exec		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Col_Exec	) );
+				public Binding	BindCol_Msg			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Col_Msg		) );
+				public Binding	BindDataRow			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.DataRow		) );
+				public Binding	BindDataCol			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.DataCol		) );
+
 				//... SAP Section
+				//
 				public Binding	BindSessionID		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.SessionID	) );
 				public Binding	BindSAPTCode		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.SAPTCode	) );
 				public Binding	BindPauseTime		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.PauseTime	) );

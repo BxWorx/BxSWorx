@@ -61,6 +61,14 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadWSPage()
 					{
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindProtected		( PropNme_Text ) );
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindPassword		( PropNme_Text ) );
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindCol_ID			( PropNme_Text ) );
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindCol_Active	( PropNme_Text ) );
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindCol_Exec		( PropNme_Text ) );
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindCol_Msg			( PropNme_Text ) );
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindDataRow			( PropNme_Text ) );
+						this.xtbx_SsnNme	.DataBindings.Add( this.ViewModel.BindDataCol			( PropNme_Text ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -86,13 +94,7 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 						this.xcbx_CTUDflt	.DataBindings.Add(	this.ViewModel.BindDefltSize	(	PropNme_Checkd	) );
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Binding CreateBinding( string vwName , string vmName , DataSourceUpdateMode mode	= DataSourceUpdateMode.OnPropertyChanged )
-					{
-						return	new	Binding(	vwName , this.ViewModel	, vmName , true , mode );
-					}
-
-			#endregion
+		#endregion
 
 		}
 }
