@@ -53,6 +53,7 @@
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group3 = this.Factory.CreateRibbonGroup();
 			this.dropDown2 = this.Factory.CreateRibbonDropDown();
+			this.xbtn_Session = this.Factory.CreateRibbonButton();
 			this.xtab_BxS.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
@@ -98,6 +99,7 @@
 			// 
 			// xbg_SAPLogon
 			// 
+			this.xbg_SAPLogon.Items.Add(this.xbtn_Session);
 			this.xbg_SAPLogon.Items.Add(this.button4);
 			this.xbg_SAPLogon.Items.Add(this.btn_Submit);
 			this.xbg_SAPLogon.Items.Add(this.dropDown1);
@@ -177,6 +179,12 @@
 			this.dropDown2.Name = "dropDown2";
 			this.dropDown2.ShowLabel = false;
 			// 
+			// xbtn_Session
+			// 
+			this.xbtn_Session.Label = "Session";
+			this.xbtn_Session.Name = "xbtn_Session";
+			this.xbtn_Session.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Session_Click);
+			// 
 			// BxS_WorxMain
 			// 
 			this.Name = "BxS_WorxMain";
@@ -220,6 +228,7 @@
 		private Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
 		internal Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDown2;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_Session;
 		}
 
 	partial class ThisRibbonCollection

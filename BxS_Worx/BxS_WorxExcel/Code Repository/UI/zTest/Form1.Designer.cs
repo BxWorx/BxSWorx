@@ -79,7 +79,10 @@
 			this.ClientSize = new System.Drawing.Size(487, 318);
 			this.Controls.Add(this.splitContainer1);
 			this.Name = "Form1";
+			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Form1";
+			this.TopMost = true;
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
