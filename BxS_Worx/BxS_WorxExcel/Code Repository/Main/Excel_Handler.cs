@@ -6,7 +6,7 @@ using BxS_WorxExcel.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
-	internal class Excel_Handler
+	internal class Excel_Handler : IExcel
 		{
 			#region "Constructors"
 
@@ -19,7 +19,7 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Properties"
 
-				private	Application	ThisApp		{ get { return	Globals.ThisAddIn.Application	; } }
+				public	string	CurrentAddress	{ get	{	return	this.ThisApp.ActiveCell.Address; } }
 
 			#endregion
 
@@ -88,7 +88,13 @@ namespace BxS_WorxExcel.Main
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private"
+			#region "Methods: Everything Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	Application	ThisApp		{ get { return	Globals.ThisAddIn.Application	; } }
+
+				//_________________________________________________________________________________________
+				//_________________________________________________________________________________________
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private Worksheet GetWS( DTO_WSNode wsNode )

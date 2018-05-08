@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security;
-using System.Windows.Forms;
+//.........................................................
+using BxS_WorxExcel.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.UC
 {
@@ -36,14 +36,13 @@ namespace BxS_WorxExcel.UI.UC
 				private	char		_updMode		;
 				private	bool		_defSize		;
 
+				private	string	_data				;
 				private	string	_colid			;
 				private	string	_colactive	;
 				private	string	_colexec		;
 				private	string	_colmsg			;
 
-				private	SecureString	_password	;
-				//...
-				private readonly DataSourceUpdateMode _DSMode	= DataSourceUpdateMode.OnPropertyChanged;
+				private	string	_password		;
 
 			#endregion
 
@@ -52,88 +51,62 @@ namespace BxS_WorxExcel.UI.UC
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//.................................................
-				// ID Section
+				// ID Page
 				//
-				public	Guid					GUID				{ get	=> this._guid				;		set	{ this.SetProperty( ref this._guid			, value ); } }
-				public	bool					Active			{ get	=> this._active			;		set	{ this.SetProperty( ref this._active		, value ); } }
+				public	Guid		GUID				{ get	=> this._guid				;		set	{ this.SetProperty( ref this._guid			, value ); } }
+				public	bool		Active			{ get	=> this._active			;		set	{ this.SetProperty( ref this._active		, value ); } }
+				public	bool		Protected		{ get	=> this._protected	;		set	{ this.SetProperty( ref this._protected	, value ); } }
+				public	string	Password		{ get	=> this._password		;		set	{ this.SetProperty( ref this._password	, value ); } }
 
 				//.................................................
-				// SAP Section
+				// SAP Page
 				//
-				public	string				SessionID		{ get	=> this._sessionid	;		set	{ this.SetProperty( ref this._sessionid	, value ); } }
-				public	string				SAPTCode		{ get	=> this._saptcode		;		set	{ this.SetProperty( ref this._saptcode	, value ); } }
-				public	int						PauseTime		{ get	=> this._pausetime	;		set	{ this.SetProperty( ref this._pausetime	, value ); } }
-				public	bool					Skip1st			{ get	=> this._skip1st		;		set	{ this.SetProperty( ref this._skip1st		, value ); } }
+				public	string	SessionID		{ get	=> this._sessionid	;		set	{ this.SetProperty( ref this._sessionid	, value ); } }
+				public	string	SAPTCode		{ get	=> this._saptcode		;		set	{ this.SetProperty( ref this._saptcode	, value ); } }
+				public	int			PauseTime		{ get	=> this._pausetime	;		set	{ this.SetProperty( ref this._pausetime	, value ); } }
+				public	bool		Skip1st			{ get	=> this._skip1st		;		set	{ this.SetProperty( ref this._skip1st		, value ); } }
 				//...
-				public	string				DisMode			{ get	=> this._disMode		;		set	{ this.SetProperty( ref this._disMode		, value ); } }
-				public	char					UpdMode			{ get	=> this._updMode		;		set	{ this.SetProperty( ref this._updMode		, value ); } }
-				public	bool					DefSize			{ get	=> this._defSize		;		set	{ this.SetProperty( ref this._defSize		, value ); } }
+				public	string	DisMode			{ get	=> this._disMode		;		set	{ this.SetProperty( ref this._disMode		, value ); } }
+				public	char		UpdMode			{ get	=> this._updMode		;		set	{ this.SetProperty( ref this._updMode		, value ); } }
+				public	bool		DefSize			{ get	=> this._defSize		;		set	{ this.SetProperty( ref this._defSize		, value ); } }
 
 				//.................................................
-				// WS Section
+				// WS Page
 				//
-				public	bool					Protected		{ get	=> this._protected	;		set	{ this.SetProperty( ref this._protected	, value ); } }
-				public	SecureString	Password		{ get	=> this._password		;		set	{ this.SetProperty( ref this._password	, value ); } }
+				public	string	Col_ID			{ get	=> this._colid			;		set	{ this.SetProperty( ref this._colid			, value ); } }
+				public	string	Col_Active	{ get	=> this._colactive	;		set	{ this.SetProperty( ref this._colactive	, value ); } }
+				public	string	Col_Exec		{ get	=> this._colexec		;		set	{ this.SetProperty( ref this._colexec		, value ); } }
+				public	string	Col_Msg			{ get	=> this._colmsg			;		set	{ this.SetProperty( ref this._colmsg		, value ); } }
 				//...
-				public	string				Col_ID			{ get	=> this._colid			;		set	{ this.SetProperty( ref this._colid			, value ); } }
-				public	string				Col_Active	{ get	=> this._colactive	;		set	{ this.SetProperty( ref this._colactive	, value ); } }
-				public	string				Col_Exec		{ get	=> this._colexec		;		set	{ this.SetProperty( ref this._colexec		, value ); } }
-				public	string				Col_Msg			{ get	=> this._colmsg			;		set	{ this.SetProperty( ref this._colmsg		, value ); } }
-				//...
-				public	int						DataRow			{ get	=> this._pausetime	;		set	{ this.SetProperty( ref this._pausetime	, value ); } }
-				public	string				DataCol			{ get	=> this._saptcode		;		set	{ this.SetProperty( ref this._saptcode	, value ); } }
+				public	string	Data				{ get	=> this._data				;		set	{ this.SetProperty( ref this._data			, value ); } }
 				//.................................................
-				// UI Section
+				// UI Data
 				//
 				public	List<CTU>		CTUDspList	{ get; }
 				public	List<CTU>		CTUUpdList	{ get; }
 				//...
 				public	string			DisplayMem	{ get	=>	nameof(CTU.Desc)				; }
 				public	string			ValueMem		{ get	=>	nameof(CTU.ReturnValue)	;	}
+				//.................................................
+				// Setter Injection
+				//
+				public IExcel	XLHndlr	{ private get; set; }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Methods: Exposed: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//... ID Section
-				//
-				public Binding	BindGUID			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.GUID		) );
-				public Binding	BindIsActive	( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Active	) );
-
-				//... WS Section
-				//
-				public Binding	BindProtected		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Protected	) );
-				public Binding	BindPassword		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Password	) );
-				public Binding	BindCol_ID			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Col_ID		) );
-				public Binding	BindCol_Active	( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Col_Active) );
-				public Binding	BindCol_Exec		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Col_Exec	) );
-				public Binding	BindCol_Msg			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Col_Msg		) );
-				public Binding	BindDataRow			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.DataRow		) );
-				public Binding	BindDataCol			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.DataCol		) );
-
-				//... SAP Section
-				//
-				public Binding	BindSessionID		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.SessionID	) );
-				public Binding	BindSAPTCode		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.SAPTCode	) );
-				public Binding	BindPauseTime		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.PauseTime	) );
-				public Binding	BindSkip1st			( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.Skip1st		) );
-
-				public Binding	BindCTUDispList	( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.DisMode ) );
-				public Binding	BindCTUUpdtList	( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.UpdMode ) );
-				public Binding	BindDefltSize		( string vwCntlrProperty )	=> this.CreateBinding( vwCntlrProperty , nameof( this.DefSize ) );
+				public string GetExcelAddress()
+					{
+						return	this.XLHndlr?.CurrentAddress ?? "Error";
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Binding CreateBinding( string vwName , string vmName )
-					{
-						return	new	Binding(	vwName , this	, vmName , true , this._DSMode );
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadCTU()

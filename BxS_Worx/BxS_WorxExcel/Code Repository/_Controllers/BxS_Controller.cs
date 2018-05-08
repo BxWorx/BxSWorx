@@ -59,14 +59,10 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Properties"
 
-				
-
-
-
 				//private INCO_Controller	NCOCntlr	{ get { return	this._NCOCntlr.Value	; } }
 				//...
 				private IBDC_Controller BDCCntlr	{ get { return	this._BDCCntlr.Value	; } }
-				private	Excel_Handler		XLHndlr		{ get { return	this._XLHndlr	.Value	; } }
+				internal	Excel_Handler		XLHndlr		{ get { return	this._XLHndlr	.Value	; } }
 				//...
 				internal	BxS_Favourites<ISAP_Logon>	FavHndlr	{ get { return	this._FavHndlr.Value;	} }
 
