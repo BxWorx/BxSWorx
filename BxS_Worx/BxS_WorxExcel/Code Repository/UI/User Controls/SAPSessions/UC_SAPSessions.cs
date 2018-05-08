@@ -20,7 +20,7 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UC_SAPSessions(SAPSessionsVM	vm)
+				public UC_SAPSessions( SAPSessionsVM	vm )
 					{
 						InitializeComponent();
 						//.............................................
@@ -55,6 +55,12 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected override void OnLoad( EventArgs e )
 					{
+						this.ViewModel.SuspendLayout	+=	this.OnSuspendLayout	;
+						this.ViewModel.ResumeLayout		+=	this.OnResumeLayout		;
+						//.............................................
+						this.xtbn_Load.Click	+=	this.ViewModel.LoadSessionEventHandler	;
+						this.xtbn_Reset.Click	+=	this.ViewModel.ResetEventHandler				;
+						//.............................................
 						var x				= new DataGridViewCellStyle { BackColor	= Color.WhiteSmoke };
 						this._DGV   = new DataGridView	{
 																								Dock                            = DockStyle.Fill
@@ -78,6 +84,10 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected void OnSuspendLayout()	=>	this._BS.SuspendBinding()	;	//	this._DGV.SuspendLayout()	;
+				protected void OnResumeLayout()		=>	this._BS.ResumeBinding()	;	//  this._DGV.ResumeLayout()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BindSelection()
@@ -119,25 +129,27 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 																												,	DataPropertyName	= this.ViewModel.PName_User
 																											};
 						//...
-						const	string	NAME	= "NAME";
+						const	string	NAME	= "Name";
 
 						var lo_C2 = new DataGridViewTextBoxColumn	{
 																													Name							= NAME
-																												,	HeaderText				= "Name"
+																												,	HeaderText				= NAME
 																												,	DataPropertyName	= this.ViewModel.PName_Session
 																											};
 						//...
-						const	string	CLIENT	= "CLIENT";
+						const	string	CLIENT	= "Client";
 
 						var lo_C3 = new DataGridViewTextBoxColumn	{
 																													Name							= CLIENT
-																												,	HeaderText				= "Client"
+																												,	HeaderText				= CLIENT
 																												,	DataPropertyName	= this.ViewModel.PName_SAPTCde
 																											};
+						//...
+						const	string	DATE	= "Date";
 
 						var lo_C4 = new DataGridViewTextBoxColumn	{
-																													Name							= "Date"
-																												,	HeaderText				= "Date"
+																													Name							= DATE
+																												,	HeaderText				= DATE
 																												,	DataPropertyName	= this.ViewModel.PName_Date
 																											};
 						//...
@@ -149,7 +161,7 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 						this._DGV.Columns["Date"].DefaultCellStyle.Format = " yyyy/MM/dd";
 					}
 
-			#endregion
+		#endregion
 
 		}
 }

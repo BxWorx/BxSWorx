@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using BxS_WorxExcel.DTO;
 //.........................................................
-using BxS_WorxExcel.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.UC
 {
@@ -14,6 +13,9 @@ namespace BxS_WorxExcel.UI.UC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SAPSessionsVM()
 					{
+						this.LoadSessionEventHandler	+= this.OnLoad	;
+						this.ResetEventHandler				+= this.OnReset	;
+						//.............................................
 						this.List		= new	BindingList<DTO_Session>();
 					}
 
@@ -22,6 +24,12 @@ namespace BxS_WorxExcel.UI.UC
 			//===========================================================================================
 			#region "Declarations"
 
+				public	event	Action	SuspendLayout	;
+				public	event	Action	ResumeLayout	;
+				//...
+				public	EventHandler	LoadSessionEventHandler;
+				public	EventHandler	ResetEventHandler;
+				//.................................................
 				public	string		_user	;
 				public	string		_name	;
 				public	DateTime	_sdte	;
@@ -61,16 +69,50 @@ namespace BxS_WorxExcel.UI.UC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	LoadList( List<DTO_Session> list )
 					{
+						this.SuspendLayout();
+						this.List.Clear();
+						//...
 						foreach ( DTO_Session lo_Ssn in list )
 							{
 								this.List.Add( lo_Ssn	);
 							}
+						//...
+						this.ResumeLayout();
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected void OnReset( object sender , EventArgs e )
+					{
+						this.SuspendLayout();
+						this.List.Clear();
+						this.ResumeLayout();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected void OnLoad( object sender , EventArgs e )
+					{
+						List<DTO_Session>	lt	= new List<DTO_Session>();
+						//...
+						for ( int i = 0; i < 10; i++ )
+							{
+								DTO_Session		d = this.CreateNew();
+								d.UserID				= $"User-{i.ToString()}";
+								d.SessionName		= $"Session-{i.ToString()}";
+								d.CreationDate	=  DateTime.Today;
+								d.CreationTime	=	new TimeSpan( DateTime.Now.Hour , DateTime.Now.Minute , DateTime.Now.Second );
+								d.SAPTCode			= $"SAPTCde-{i.ToString()}";
+
+								lt.Add( d );
+							}
+						//...
+						this.LoadList( lt );
+					}
+
 			#endregion
 
 		}

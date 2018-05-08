@@ -5,12 +5,13 @@ using BxS_WorxExcel.DTO;
 using BxS_WorxExcel.UI.UC;
 
 namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
-	{
+{
 	public partial class Form1 : Form
 		{
 			private readonly WSConfigVM x;
 			private readonly SAPSessionsVM y;
 
+		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 		public Form1( bool ssn = false)
 			{
 				InitializeComponent();
@@ -19,19 +20,6 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 				var ucs	= new UC_SAPSessions( this.y ) {	Name			= "UC_SAPSessions"
 																								,	Dock			= DockStyle.Fill
 																								, ViewModel	= this.y			};
-
-					for ( int i = 0; i < 10; i++ )
-						{
-							DTO_Session		d = this.y.CreateNew();
-							d.UserID				= $"User-{i.ToString()}";
-							d.SessionName		= $"Session-{i.ToString()}";
-							d.CreationDate	=  DateTime.Today;
-							d.CreationTime	=	new TimeSpan( DateTime.Now.Hour , DateTime.Now.Minute , DateTime.Now.Second );
-							d.SAPTCode			= $"SAPTCde-{i.ToString()}";
-
-							this.y.Load( d );
-						}
-
 				//...
 				this.x = new WSConfigVM	{		XLHndlr = Globals.ThisAddIn._XLHndlr.Value
 																	,	GUID = Guid.NewGuid()												};
@@ -54,19 +42,20 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 					}
 			}
 
+		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 		private void Button1_Click(object sender , EventArgs e)
 			{
 				this.x.GUID	= Guid.NewGuid();
 			}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Binding CreateBinding( string vwName , string vmName )
-					{
-						return	new	Binding(	vwName
-																, this.x
-																, vmName
-																, true
-																, DataSourceUpdateMode.OnPropertyChanged );
-					}
+		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+		private	Binding CreateBinding( string vwName , string vmName )
+			{
+				return	new	Binding(	vwName
+														, this.x
+														, vmName
+														, true
+														, DataSourceUpdateMode.OnPropertyChanged );
+			}
 		}
-	}
+}
