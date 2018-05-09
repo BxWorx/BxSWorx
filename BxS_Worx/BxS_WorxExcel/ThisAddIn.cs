@@ -12,7 +12,7 @@ namespace BxS_WorxExcel
 		{
 			#region "Declarations"
 
-				internal	Lazy<IExcel>	_XLHndlr	;
+				internal	Lazy<IExcel>	XLHndlr	;
 
 			#endregion
 
@@ -22,7 +22,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ThisAddIn_Startup(object sender, System.EventArgs e)
 					{
-						this._XLHndlr		= new Lazy<IExcel>	( ()=>	new	Excel_Handler	()	, cz_LM )	;
+						this.XLHndlr		= new Lazy<IExcel>	( ()=>	new	Excel_Handler	()	, cz_LM )	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

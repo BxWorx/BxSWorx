@@ -21,7 +21,7 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 																								,	Dock			= DockStyle.Fill
 																								, ViewModel	= this.y			};
 				//...
-				this.x = new WSConfigVM	{		XLHndlr = Globals.ThisAddIn._XLHndlr.Value
+				this.x = new WSConfigVM	{		XLHndlr = Globals.ThisAddIn.XLHndlr.Value
 																	,	GUID = Guid.NewGuid()												};
 
 				var ucc = new UC_WSConfigVW( this.x )	{		Name			= "UC_WSConfig"

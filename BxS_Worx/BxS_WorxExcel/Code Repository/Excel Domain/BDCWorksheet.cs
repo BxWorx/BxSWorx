@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 //.........................................................
+using Microsoft.Office.Interop.Excel;
+//.........................................................
 using BxS_WorxIPX.BDC;
 using BxS_WorxExcel.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -19,26 +21,15 @@ namespace BxS_WorxExcel.Main
 
 			//===========================================================================================
 			#region "Declarations"
-
-				private readonly Lazy<IBDC_Controller>	_BDCCntlr;
-
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IXMLConfig CreateXMLConfig()	=> this._BDCCntlr.Value.Create_XMLConfig();
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void TransferWStoSession(		DTO_WSData	wsData
-																						,	ISession		session	)
+				internal void Format( Worksheet WS )
 					{
-						session.WBID				= wsData.WBID	;
-						session.WSID				= wsData.WSID	;
-						session.UsedAddress	= wsData.UsedAddress	;
-						//...
-						this.WSToSession( wsData , session );
+						this.FormatHeader( WS );
 					}
 
 			#endregion
@@ -47,50 +38,21 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				// process each worksheet object array into dictionary with dictionary key having the 
-				// syntax of WSCell[row , col ] == "row,col"
-				//
-				private void WSToSession(		DTO_WSData	wsData
-																	,	ISession		session	)
+				private void FormatHeader( Worksheet WS )
 					{
-						session.WSData.Clear();
-
-						if ( wsData.WSCells == null )
+						Style x = Globals.ThisAddIn.Application.ActiveWorkbook.Styles.Add("BxS");
+						Interior I;
+						foreach ( Style lo in Globals.ThisAddIn.Application.ActiveWorkbook.Styles )
 							{
-								session.RowLB		= -1;
-								session.RowUB		= -1;
-								session.ColLB		= -1;
-								session.ColUB		= -1;
-							}
-						else
-							{
-								var	lo_SB		= new StringBuilder();
-								//...
-								session.RowLB		= wsData.WSCells.GetLowerBound(0);
-								session.RowUB		= wsData.WSCells.GetUpperBound(0);
-								session.ColLB		= wsData.WSCells.GetLowerBound(1);
-								session.ColUB		= wsData.WSCells.GetUpperBound(1);
-								//...
-								for ( int	r = session.RowLB; r <= session.RowUB; r++ )
+								I = lo.Interior;
+								if (lo.Name.Equals("20% - Accent1"))
 									{
-										for ( int c = session.ColLB; c <= session.ColUB; c++ )
-											{
-												if ( wsData.WSCells[r,c] != null )
-													{
-														if ( wsData.WSCells[r,c].ToString().Contains( this._BDCCntlr.Value.XmlConfigTag ) )
-															{
-																session.XMLConfig		=	this._BDCCntlr.Value.DeserializeXMLConfig( wsData.WSCells[r,c].ToString() );
-																continue;
-															}
-														//...
-														lo_SB.Clear();
-														lo_SB.AppendFormat( $"{r.ToString()},{c.ToString()}" );
-														//...
-														session.WSData.Add( lo_SB.ToString() , wsData.WSCells[r,c].ToString() );
-													}
-											}
+										x.Interior.ColorIndex	= lo.Interior.ColorIndex;
 									}
 							}
+
+						//Range x = WS.Range["$B2:B10"];
+						WS.Range["B2"].Offset[0,0].Interior.ColorIndex	= x.Interior.ColorIndex;	//			.Style = "BxS";
 					}
 
 			#endregion

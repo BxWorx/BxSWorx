@@ -41,6 +41,7 @@
 			this.btn_SaveAll = this.Factory.CreateRibbonButton();
 			this.btn_XmlCfg = this.Factory.CreateRibbonButton();
 			this.xbg_SAPLogon = this.Factory.CreateRibbonGroup();
+			this.xbtn_Session = this.Factory.CreateRibbonButton();
 			this.button4 = this.Factory.CreateRibbonButton();
 			this.btn_Submit = this.Factory.CreateRibbonButton();
 			this.dropDown1 = this.Factory.CreateRibbonDropDown();
@@ -53,13 +54,15 @@
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group3 = this.Factory.CreateRibbonGroup();
 			this.dropDown2 = this.Factory.CreateRibbonDropDown();
-			this.xbtn_Session = this.Factory.CreateRibbonButton();
+			this.xbtn_NewBDCWS = this.Factory.CreateRibbonButton();
+			this.group4 = this.Factory.CreateRibbonGroup();
 			this.xtab_BxS.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
 			this.group2.SuspendLayout();
 			this.tab1.SuspendLayout();
 			this.group3.SuspendLayout();
+			this.group4.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// xtab_BxS
@@ -68,6 +71,7 @@
 			this.xtab_BxS.Groups.Add(this.group1);
 			this.xtab_BxS.Groups.Add(this.xbg_SAPLogon);
 			this.xtab_BxS.Groups.Add(this.group2);
+			this.xtab_BxS.Groups.Add(this.group4);
 			this.xtab_BxS.Label = "BxSAP";
 			this.xtab_BxS.Name = "xtab_BxS";
 			// 
@@ -105,6 +109,12 @@
 			this.xbg_SAPLogon.Items.Add(this.dropDown1);
 			this.xbg_SAPLogon.Label = "SAP logon";
 			this.xbg_SAPLogon.Name = "xbg_SAPLogon";
+			// 
+			// xbtn_Session
+			// 
+			this.xbtn_Session.Label = "Session";
+			this.xbtn_Session.Name = "xbtn_Session";
+			this.xbtn_Session.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Session_Click);
 			// 
 			// button4
 			// 
@@ -179,11 +189,17 @@
 			this.dropDown2.Name = "dropDown2";
 			this.dropDown2.ShowLabel = false;
 			// 
-			// xbtn_Session
+			// xbtn_NewBDCWS
 			// 
-			this.xbtn_Session.Label = "Session";
-			this.xbtn_Session.Name = "xbtn_Session";
-			this.xbtn_Session.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Session_Click);
+			this.xbtn_NewBDCWS.Label = "Create BDC";
+			this.xbtn_NewBDCWS.Name = "xbtn_NewBDCWS";
+			this.xbtn_NewBDCWS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Xbtn_NewBDCWS_Click);
+			// 
+			// group4
+			// 
+			this.group4.Items.Add(this.xbtn_NewBDCWS);
+			this.group4.Label = "group4";
+			this.group4.Name = "group4";
 			// 
 			// BxS_WorxMain
 			// 
@@ -204,6 +220,8 @@
 			this.tab1.PerformLayout();
 			this.group3.ResumeLayout(false);
 			this.group3.PerformLayout();
+			this.group4.ResumeLayout(false);
+			this.group4.PerformLayout();
 			this.ResumeLayout(false);
 
 			}
@@ -229,6 +247,8 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
 		internal Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDown2;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_Session;
+		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_NewBDCWS;
 		}
 
 	partial class ThisRibbonCollection
