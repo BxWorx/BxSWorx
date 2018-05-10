@@ -1,17 +1,18 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.Main
+namespace BxS_WorxIPX.NCO
 {
-	public interface IExcel
+	public interface IDTO_Session
 		{
 			#region "Properties"
 
-				string	CurrentAddress { get; }
-
-				Worksheet	GetActiveWorksheet();
-				Worksheet	AddWorksheet();
-
-				void	ScreenUpdating( bool AsOn = true );
+				int				Count					{ get; set; }
+				DateTime	CreationDate	{ get; set; }
+				TimeSpan	CreationTime	{ get; set; }
+				string		QID						{ get; set; }
+				string		SAPTCode			{ get; set; }
+				string		SessionName		{ get; set; }
+				string		UserID				{ get; set; }
 
 			#endregion
 

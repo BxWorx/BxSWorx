@@ -13,6 +13,10 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				
+
+
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				ISAP_Logon	Create_SAPLogon()	;
 				IXMLConfig	Create_XMLConfig( bool withDefaults = true )	;

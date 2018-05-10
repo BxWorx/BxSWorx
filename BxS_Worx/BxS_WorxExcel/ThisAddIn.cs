@@ -1,8 +1,6 @@
 ﻿using System;
 //.........................................................
 using BxS_WorxExcel.Main;
-//using BxS_WorxIPX.Main;
-//using BxS_WorxNCO.API;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -12,7 +10,14 @@ namespace BxS_WorxExcel
 		{
 			#region "Declarations"
 
-				internal	Lazy<IExcel>	XLHndlr	;
+				internal	Lazy<IExcel>	_XLHndlr	;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				internal	IExcel	XLHndlr	{ get	{	return	this._XLHndlr.Value;	} }
 
 			#endregion
 
@@ -22,7 +27,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ThisAddIn_Startup(object sender, System.EventArgs e)
 					{
-						this.XLHndlr		= new Lazy<IExcel>	( ()=>	new	Excel_Handler	()	, cz_LM )	;
+						this._XLHndlr		= new Lazy<IExcel>	( ()=>	new	Excel_Handler	()	, cz_LM )	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

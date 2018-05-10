@@ -27,6 +27,17 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	ScreenUpdating( bool AsOn = true )
+					{
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public Worksheet GetActiveWorksheet()
+					{
+						return	this.GetWS( default(DTO_WSNode) );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public Worksheet AddWorksheet()
 					{
 						return	this.ThisApp.ActiveWorkbook.Worksheets.Add();
@@ -96,24 +107,28 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Methods: Everything Private"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Application	ThisApp		{ get { return	Globals.ThisAddIn.Application	; } }
+				//_________________________________________________________________________________________
+				// *** Properties
+
+					private	Application	ThisApp		{ get { return	Globals.ThisAddIn.Application	; } }
 
 				//_________________________________________________________________________________________
-				//_________________________________________________________________________________________
+				// *** Methods
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private Worksheet GetWS( DTO_WSNode wsNode )
-					{
-						if ( string.IsNullOrEmpty( wsNode.WBName ) || string.IsNullOrEmpty( wsNode.WSName ) )
-							{
-								return	this.ThisApp.ActiveSheet as Worksheet;
-							}
-						else
-							{
-								return	this.ThisApp.Workbooks[wsNode.WBName].Worksheets[wsNode.WSName] as Worksheet;
-							}
-					}
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					private Worksheet GetWS( DTO_WSNode wsNode )
+						{
+							if (		EqualityComparer<DTO_WSNode>.Default.Equals(wsNode , default(DTO_WSNode))
+									||	string.IsNullOrEmpty( wsNode.WBName )
+									||	string.IsNullOrEmpty( wsNode.WSName ) )
+								{
+									return	this.ThisApp.ActiveSheet as Worksheet;
+								}
+							else
+								{
+									return	this.ThisApp.Workbooks[wsNode.WBName].Worksheets[wsNode.WSName] as Worksheet;
+								}
+						}
 
 		#endregion
 

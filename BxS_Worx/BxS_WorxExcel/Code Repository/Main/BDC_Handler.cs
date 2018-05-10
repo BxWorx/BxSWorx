@@ -11,9 +11,9 @@ namespace BxS_WorxExcel.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Handler( Lazy<IBDC_Controller> bdcCntlr )
+				internal BDC_Handler( Lazy<IBDC_Controller> ipxBDCCntlr )
 					{
-						this._BDCCntlr	= bdcCntlr;
+						this._IPXBDCCntlr	= ipxBDCCntlr;
 					}
 
 			#endregion
@@ -21,7 +21,7 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy<IBDC_Controller>	_BDCCntlr;
+				private readonly Lazy<IBDC_Controller>	_IPXBDCCntlr;
 
 			#endregion
 
@@ -29,11 +29,11 @@ namespace BxS_WorxExcel.Main
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IXMLConfig CreateXMLConfig()	=> this._BDCCntlr.Value.Create_XMLConfig();
+				internal IXMLConfig CreateXMLConfig()	=> this._IPXBDCCntlr.Value.Create_XMLConfig();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void TransferWStoSession(		DTO_WSData	wsData
-																						,	ISession		session	)
+				internal void TransferWSDatatoSession(	DTO_WSData	wsData
+																							,	ISession		session	)
 					{
 						session.WBID				= wsData.WBID	;
 						session.WSID				= wsData.WSID	;
@@ -78,9 +78,9 @@ namespace BxS_WorxExcel.Main
 											{
 												if ( wsData.WSCells[r,c] != null )
 													{
-														if ( wsData.WSCells[r,c].ToString().Contains( this._BDCCntlr.Value.XmlConfigTag ) )
+														if ( wsData.WSCells[r,c].ToString().Contains( this._IPXBDCCntlr.Value.XmlConfigTag ) )
 															{
-																session.XMLConfig		=	this._BDCCntlr.Value.DeserializeXMLConfig( wsData.WSCells[r,c].ToString() );
+																session.XMLConfig		=	this._IPXBDCCntlr.Value.DeserializeXMLConfig( wsData.WSCells[r,c].ToString() );
 																continue;
 															}
 														//...

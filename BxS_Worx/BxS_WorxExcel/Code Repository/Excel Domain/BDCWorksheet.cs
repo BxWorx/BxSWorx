@@ -16,12 +16,16 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal BDCWorksheet()
 					{
+						this._XLHndlr	= Globals.ThisAddIn.XLHndlr;
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
+
+				private readonly	IExcel	_XLHndlr;
+
 			#endregion
 
 			//===========================================================================================
@@ -43,22 +47,24 @@ namespace BxS_WorxExcel.Main
 					{
 						const string lz_RngS	= "B2:B11";
 						const string lz_RngT	= "D2:N11";
+
+						int	ln_Idx;
+						IList<BDCInterior> lt_Int;
 						//...
-						int									ln_Idx	= 0;
-						IList<BDCInterior> lt_Int
-							= new List<BDCInterior>
-											{
-													new BDCInterior(23 , .9	, "Program Name:"		)
-												,	new BDCInterior(23 , .8	, "Screen Number:"	)
-												,	new BDCInterior(23 , .7	, "Screen Start:"		)
-												,	new BDCInterior(46 , .9	, "BDC: OK Code:"		)
-												,	new BDCInterior(46 , .8	, "BDC: Cursor:"		)
-												,	new BDCInterior(46 , .7	, "BDC: Subscreen:"	)
-												,	new BDCInterior(46 , .6	, "Field Name:"			)
-												,	new BDCInterior(50 , .9	, "Description:"		)
-												,	new BDCInterior(50 , .8	, "Instructions:"		)
-												,	new BDCInterior(03 , .9	, ""								)
-											};
+						ln_Idx	= 0;
+						lt_Int	= new List<BDCInterior>
+																						{
+																								new BDCInterior(23 , .9	, "Program Name:"		)
+																							,	new BDCInterior(23 , .8	, "Screen Number:"	)
+																							,	new BDCInterior(23 , .7	, "Screen Start:"		)
+																							,	new BDCInterior(46 , .9	, "BDC: OK Code:"		)
+																							,	new BDCInterior(46 , .8	, "BDC: Cursor:"		)
+																							,	new BDCInterior(46 , .7	, "BDC: Subscreen:"	)
+																							,	new BDCInterior(46 , .6	, "Field Name:"			)
+																							,	new BDCInterior(50 , .9	, "Description:"		)
+																							,	new BDCInterior(50 , .8	, "Instructions:"		)
+																							,	new BDCInterior(03 , .9	, ""								)
+																						};
 
 						foreach ( Range lo_Cell in WS.Range[lz_RngS] )
 							{
@@ -81,8 +87,8 @@ namespace BxS_WorxExcel.Main
 						WS.Range["1:1"]	.RowHeight		=	4				;
 						WS.Range["D:D"]	.EntireColumn.AutoFit()	;
 
-						WS.Range["B10:N10"]	.Borders[XlBordersIndex.xlEdgeTop].LineStyle	= XlLineStyle.xlContinuous	;
-						WS.Range["B10:N10"]	.Borders[XlBordersIndex.xlEdgeTop].Weight			= XlBorderWeight.xlThin			;
+						WS.Range["B10:N10"]	.Borders[XlBordersIndex.xlEdgeTop].LineStyle		= XlLineStyle.xlContinuous	;
+						WS.Range["B10:N10"]	.Borders[XlBordersIndex.xlEdgeTop].Weight				= XlBorderWeight.xlThin			;
 
 						WS.Range["B10:N10"]	.Borders[XlBordersIndex.xlEdgeBottom].LineStyle	= XlLineStyle.xlDouble		;
 						WS.Range["B10:N10"]	.Borders[XlBordersIndex.xlEdgeBottom].Weight		= XlBorderWeight.xlThick	;
@@ -90,8 +96,17 @@ namespace BxS_WorxExcel.Main
 						WS.Range["D2:D11"]	.Borders[XlBordersIndex.xlEdgeRight].LineStyle	= XlLineStyle.xlDouble		;
 						WS.Range["D2:D11"]	.Borders[XlBordersIndex.xlEdgeRight].Weight			= XlBorderWeight.xlThick	;
 
+						WS.Range["B2"]	.Interior.ColorIndex	= 19;
+						WS.Range["B10"]	.Value								= "Messages";
+						//...
 						WS.Range["E11"].Select();
 						Globals.ThisAddIn.Application.ActiveWindow.FreezePanes	= true;
+
+
+
+
+
+
 
 
 				//var detailedName = new Obj();

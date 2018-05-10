@@ -112,7 +112,7 @@ namespace BxS_WorxExcel.Main
 							{
 								ISession		lo_Ssn	= this.BDCCntlr.Create_Session();
 								DTO_WSData	lo_WSD	= this.XLHndlr.GetWSData( lo_Node );
-								this._BDCHndlr.Value.TransferWStoSession( lo_WSD , lo_Ssn );
+								this._BDCHndlr.Value.TransferWSDatatoSession( lo_WSD , lo_Ssn );
 								lo_Reqst.Add_Session( lo_Ssn );
 							}
 						//.............................................
