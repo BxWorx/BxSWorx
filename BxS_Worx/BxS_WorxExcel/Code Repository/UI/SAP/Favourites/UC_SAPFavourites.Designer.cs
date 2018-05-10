@@ -142,7 +142,7 @@
 			// 
 			// bindingSource1
 			// 
-			this.bindingSource1.DataSource = typeof(BxS_WorxExcel.Main.BxS_Controller);
+			this.bindingSource1.DataSource = typeof(BxS_WorxExcel.Main.BxS_XLController);
 			// 
 			// UC_SAPFavourites
 			// 

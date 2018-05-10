@@ -210,7 +210,6 @@
     <Compile Include="Code Repository\UI\SAP\SAPSystems.Designer.cs">
       <DependentUpon>SAPSystems.cs</DependentUpon>
     </Compile>
-    <Compile Include="Code Repository\UI\User Controls\SAPSessions\DTO_Session.cs" />
     <Compile Include="Code Repository\UI\User Controls\SAPSessions\UC_SAPSessions.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -231,21 +230,21 @@
       <DependentUpon>UC_WSConfigVW.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Repository\UI\User Controls\WSConfig\WSConfigVM.cs" />
-    <Compile Include="Code Repository\_Controllers\BxS_Controller.cs" />
+    <Compile Include="Code Repository\_Controllers\BxS_XLController.cs" />
     <Compile Include="Code Repository\Main\BDC_Handler.cs" />
     <Compile Include="Code Repository\Main\Excel_Handler.cs" />
     <Compile Include="Code Repository\DTO\Worksheet\DTO_WSData.cs" />
-    <Compile Include="Code Repository\UI\Ribbon\BxS_WorxMain.cs">
+    <Compile Include="Code Repository\UI\Ribbon\BxS_Ribbon.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Code Repository\UI\Ribbon\BxS_WorxMain.Designer.cs">
-      <DependentUpon>BxS_WorxMain.cs</DependentUpon>
+    <Compile Include="Code Repository\UI\Ribbon\BxS_Ribbon.Designer.cs">
+      <DependentUpon>BxS_Ribbon.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="Code Repository\UI\Ribbon\BxS_WorxMain.resx">
-      <DependentUpon>BxS_WorxMain.cs</DependentUpon>
+    <EmbeddedResource Include="Code Repository\UI\Ribbon\BxS_Ribbon.resx">
+      <DependentUpon>BxS_Ribbon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Code Repository\UI\SAP\Favourites\UC_SAPFavourites.resx">
       <DependentUpon>UC_SAPFavourites.cs</DependentUpon>

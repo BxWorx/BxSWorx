@@ -20,7 +20,7 @@ using Microsoft.Office.Interop.Excel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
 	{
-	public partial class BxS_WorxMain
+	public partial class BxS_Ribbon
 		{
 
 			#region "Declarations"
@@ -33,14 +33,14 @@ namespace BxS_WorxExcel
 				private				string	_User	;
 				private				string	_Full	;
 
-				private Lazy<BxS_Controller>	_BxSCntlr;
+				private Lazy<BxS_XLController>	_BxSXLCntlr;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private BxS_Controller BxSCntlr	{ get	{	return	this._BxSCntlr.Value;	}	}
+				private BxS_XLController BxSXLCntlr	{ get	{	return	this._BxSXLCntlr.Value;	}	}
 
 			#endregion
 
@@ -50,7 +50,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._BxSCntlr	= new	Lazy<BxS_Controller>	( ()=>	new	BxS_Controller()	, cz_LM );
+						this._BxSXLCntlr	= new	Lazy<BxS_XLController>	( ()=>	new	BxS_XLController()	, cz_LM );
 						//...
 						this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
@@ -107,11 +107,11 @@ namespace BxS_WorxExcel
 				private async void WriteActive_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		DTO_WSNode  x = this.BxSCntlr.GetActiveWSNode();
-																		IRequest    r =	this.BxSCntlr.CreateRequest( x.WBName );
+																		DTO_WSNode  x = this.BxSXLCntlr.GetActiveWSNode();
+																		IRequest    r =	this.BxSXLCntlr.CreateRequest( x.WBName );
 																		//...
 																		this.SetFullPath( x.WSName );
-																		this.BxSCntlr.WriteRequestToFile( r , this._Full );
+																		this.BxSXLCntlr.WriteRequestToFile( r , this._Full );
 																		//.....................
 																		//this._HndlrExcel.Value.WriteStatusbar( s.WSData.Count.ToString() );
 																		//Thread.Sleep(300);
@@ -125,9 +125,9 @@ namespace BxS_WorxExcel
 						await Task.Run( () => {
 																		this.SetFullPath("DPB");
 																		//...
-																		IList<DTO_WSNode> x = this.BxSCntlr.GetManifest();
-																		IRequest          r =	this.BxSCntlr.CreateRequest( x , "DPB" );
-																		this.BxSCntlr.WriteRequestToFile( r , this._Full );
+																		IList<DTO_WSNode> x = this.BxSXLCntlr.GetManifest();
+																		IRequest          r =	this.BxSXLCntlr.CreateRequest( x , "DPB" );
+																		this.BxSXLCntlr.WriteRequestToFile( r , this._Full );
 																		//.....................
 																		//this._HndlrExcel.Value.WriteStatusbar( x.Count.ToString() );
 																		//Thread.Sleep(300);
@@ -139,9 +139,9 @@ namespace BxS_WorxExcel
 				private async void SaveXMLCfg_Click( object sender , RibbonControlEventArgs e )
 					{
 						await Task.Run( () => {
-																		IXMLConfig x = this.BxSCntlr.CreateXMLConfig();
+																		IXMLConfig x = this.BxSXLCntlr.CreateXMLConfig();
 																		x.SAPTCode = "XD03";
-																		this.BxSCntlr.WriteConfig( x , "B3" );
+																		this.BxSXLCntlr.WriteConfig( x , "B3" );
 																	} ).ConfigureAwait(false);
 					}
 
@@ -158,7 +158,7 @@ namespace BxS_WorxExcel
 
 		private void Xbtn_NewBDCWS_Click(object sender , RibbonControlEventArgs e)
 			{
-				Worksheet WS	= Globals.ThisAddIn.XLHndlr.Value.AddWorksheet();
+				Worksheet WS	= Globals.ThisAddIn.XLHndlr.AddWorksheet();
 				var WSHndlr		= new BDCWorksheet();
 				WSHndlr.Format( WS );
 			}

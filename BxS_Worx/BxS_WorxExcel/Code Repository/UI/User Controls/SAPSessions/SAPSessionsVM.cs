@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BxS_WorxExcel.DTO;
 //.........................................................
+using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.UC
 {
@@ -13,10 +14,10 @@ namespace BxS_WorxExcel.UI.UC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public SAPSessionsVM()
 					{
-						this.LoadSessionEventHandler	+= this.OnLoad	;
-						this.ResetEventHandler				+= this.OnReset	;
+						this.RequestSAPSessionListEventHandler	+= this.OnRequestSAPSessionList	;
+						this.ResetSAPSessionListEventHandler		+= this.OnResetSAPSessionList	;
 						//.............................................
-						this.List		= new	BindingList<DTO_Session>();
+						this.List		= new	BindingList<IDTO_Session>();
 					}
 
 			#endregion
@@ -27,8 +28,8 @@ namespace BxS_WorxExcel.UI.UC
 				public	event	Action	SuspendLayout	;
 				public	event	Action	ResumeLayout	;
 				//...
-				public	EventHandler	LoadSessionEventHandler;
-				public	EventHandler	ResetEventHandler;
+				public	EventHandler	RequestSAPSessionListEventHandler;
+				public	EventHandler	ResetSAPSessionListEventHandler;
 				//.................................................
 				public	string		_user	;
 				public	string		_name	;
@@ -40,6 +41,10 @@ namespace BxS_WorxExcel.UI.UC
 			//===========================================================================================
 			#region "Properties"
 
+				// setter injection
+				//
+				public IBDC_Controller IPXBDCCntlr { get; set; }
+				//.................................................
 				public	string		PName_User		{	get	=>	nameof( DTO_Session.UserID				)	; }
 				public	string		PName_Session	{	get	=>	nameof( DTO_Session.SessionName		)	; }
 				public	string		PName_SAPTCde	{	get	=>	nameof( DTO_Session.SAPTCode			)	; }
@@ -50,7 +55,7 @@ namespace BxS_WorxExcel.UI.UC
 				public	DateTime	StartDate			{ get=> this._sdte	;		set	{ this.SetProperty( ref this._sdte	, value )	; } }
 				public	DateTime	EndDate				{ get=> this._edte	;		set	{ this.SetProperty( ref this._edte	, value )	; } }
 				//...
-				public	BindingList<DTO_Session>	List	{ get; }
+				public	BindingList<IDTO_Session>	List	{ get; }
 
 			#endregion
 
@@ -61,18 +66,18 @@ namespace BxS_WorxExcel.UI.UC
 				//public	DTO_Session CreateNew()	=>	DTO_Session.Create();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Load( DTO_Session dto )
+				public void	Load( IDTO_Session dto )
 					{
 						this.List.Add( dto );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	LoadList( List<DTO_Session> list )
+				public void	LoadList( IList<IDTO_Session> list )
 					{
 						this.SuspendLayout();
 						this.List.Clear();
 						//...
-						foreach ( DTO_Session lo_Ssn in list )
+						foreach ( IDTO_Session lo_Ssn in list )
 							{
 								this.List.Add( lo_Ssn	);
 							}
@@ -86,7 +91,7 @@ namespace BxS_WorxExcel.UI.UC
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected void OnReset( object sender , EventArgs e )
+				protected void OnResetSAPSessionList( object sender , EventArgs e )
 					{
 						this.SuspendLayout();
 						this.List.Clear();
@@ -94,23 +99,14 @@ namespace BxS_WorxExcel.UI.UC
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected void OnLoad( object sender , EventArgs e )
+				protected void OnRequestSAPSessionList( object sender , EventArgs e )
 					{
-						List<DTO_Session>	lt	= new List<DTO_Session>();
-						//...
-						for ( int i = 0; i < 10; i++ )
+						if ( this.IPXBDCCntlr != null )
 							{
-								DTO_Session		d = this.CreateNew();
-								d.UserID				= $"User-{i.ToString()}";
-								d.SessionName		= $"Session-{i.ToString()}";
-								d.CreationDate	=  DateTime.Today;
-								d.CreationTime	=	new TimeSpan( DateTime.Now.Hour , DateTime.Now.Minute , DateTime.Now.Second );
-								d.SAPTCode			= $"SAPTCde-{i.ToString()}";
-
-								lt.Add( d );
+								DTO_SAPSessionRequest	R = this.IPXBDCCntlr.CreateSAPSessionListRequest();
+								// TO-DO: populate the request
+								this.LoadList( this.IPXBDCCntlr.RequestSAPSessionList( R ) );
 							}
-						//...
-						this.LoadList( lt );
 					}
 
 			#endregion

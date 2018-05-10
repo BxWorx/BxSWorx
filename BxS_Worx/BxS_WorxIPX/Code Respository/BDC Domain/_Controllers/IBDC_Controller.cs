@@ -1,4 +1,6 @@
-﻿using BxS_WorxIPX.NCO;
+﻿using System.Collections.Generic;
+//.........................................................
+using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
@@ -13,9 +15,14 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				DTO_SAPSessionRequest	CreateSAPSessionListRequest();
 
-
+				IList<IDTO_Session>		RequestSAPSessionList( DTO_SAPSessionRequest Request );
+				//ISAP_Session_Profile	GetSAPSessionData(	string	sessionName
+				//																				,	string	QID
+				//																				, bool		onlyHeader	= false
+				//																				, bool		inclDDIC		= true	);
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				ISAP_Logon	Create_SAPLogon()	;

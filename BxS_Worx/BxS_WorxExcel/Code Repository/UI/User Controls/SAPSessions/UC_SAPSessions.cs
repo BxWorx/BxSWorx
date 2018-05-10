@@ -58,8 +58,8 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 						this.ViewModel.SuspendLayout	+=	this.OnSuspendLayout	;
 						this.ViewModel.ResumeLayout		+=	this.OnResumeLayout		;
 						//.............................................
-						this.xtbn_Load.Click	+=	this.ViewModel.LoadSessionEventHandler	;
-						this.xtbn_Reset.Click	+=	this.ViewModel.ResetEventHandler				;
+						this.xtbn_Load.Click	+=	this.ViewModel.RequestSAPSessionListEventHandler	;
+						this.xtbn_Reset.Click	+=	this.ViewModel.ResetSAPSessionListEventHandler				;
 						//.............................................
 						var x				= new DataGridViewCellStyle { BackColor	= Color.WhiteSmoke };
 						this._DGV   = new DataGridView	{

@@ -1,13 +1,13 @@
 ﻿namespace BxS_WorxExcel
 	{
-	partial class BxS_WorxMain : Microsoft.Office.Tools.Ribbon.RibbonBase
+	partial class BxS_Ribbon : Microsoft.Office.Tools.Ribbon.RibbonBase
 		{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		public BxS_WorxMain()
+		public BxS_Ribbon()
 				: base(Globals.Factory.GetRibbonFactory())
 			{
 			InitializeComponent();
@@ -253,9 +253,9 @@
 
 	partial class ThisRibbonCollection
 		{
-		internal BxS_WorxMain BxS_WorxMain
+		internal BxS_Ribbon BxS_WorxMain
 			{
-			get { return this.GetRibbon<BxS_WorxMain>(); }
+			get { return this.GetRibbon<BxS_Ribbon>(); }
 			}
 		}
 	}

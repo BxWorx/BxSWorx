@@ -57,6 +57,38 @@ namespace BxS_WorxIPX.BDC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	DTO_SAPSessionRequest	CreateSAPSessionListRequest()	=> new DTO_SAPSessionRequest();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<IDTO_Session> RequestSAPSessionList( DTO_SAPSessionRequest Request )
+					{
+						IList<IDTO_Session>	lt	= new List<IDTO_Session>();
+						//...
+
+						//...
+						// Mockup: start
+						//...
+						for ( int i = 0; i < 10; i++ )
+							{
+								var d		= new DTO_Session	{
+																						UserID       = $"User-{i.ToString()}" ,
+																						SessionName  = $"Session-{i.ToString()}" ,
+																						CreationDate = DateTime.Today ,
+																						CreationTime = new TimeSpan(DateTime.Now.Hour , DateTime.Now.Minute , DateTime.Now.Second) ,
+																						SAPTCode     = $"SAPTCde-{i.ToString()}"
+																					};
+
+								lt.Add( d );
+							}
+						//...
+						// Mockup: end
+						//...
+
+						//...
+						return	lt;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	ISAP_Logon	Create_SAPLogon	()														=>	this.Factory.Create_SAPLogon();
 				public	IXMLConfig	Create_XMLConfig( bool withDefaults = true )	=>	new XMLConfig( withDefaults );
 				//...
