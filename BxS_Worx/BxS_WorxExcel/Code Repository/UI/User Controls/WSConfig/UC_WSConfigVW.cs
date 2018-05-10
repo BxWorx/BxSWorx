@@ -6,12 +6,12 @@ using BxS_WorxExcel.UI;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 {
-	public partial class UC_WSConfigVW : UserControl , IView<WSConfigVM>
+	internal partial class UC_WSConfigVW : UserControl , IView<WSConfigVM>
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UC_WSConfigVW()
+				internal UC_WSConfigVW()
 					{
 						InitializeComponent();
 						//.............................................

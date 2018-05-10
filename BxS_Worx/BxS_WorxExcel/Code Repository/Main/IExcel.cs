@@ -1,8 +1,12 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿using System.Collections.Generic;
+//.........................................................
+using Microsoft.Office.Interop.Excel;
+//.........................................................
+using BxS_WorxExcel.DTO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Main
 {
-	public interface IExcel
+	internal interface IExcel
 		{
 			#region "Properties"
 
@@ -10,6 +14,12 @@ namespace BxS_WorxExcel.Main
 
 				Worksheet	GetActiveWorksheet();
 				Worksheet	AddWorksheet();
+
+				IList<DTO_WSNode>	GetManifest();
+				DTO_WSNode				GetActiveWSNode();
+				DTO_WSData				GetWSData( DTO_WSNode wsNode );
+
+				void WriteConfig( string xml , string address = "$A$1" );
 
 				void	ScreenUpdating( bool AsOn = true );
 

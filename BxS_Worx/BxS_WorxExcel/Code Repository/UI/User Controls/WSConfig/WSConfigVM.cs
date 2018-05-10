@@ -5,12 +5,12 @@ using BxS_WorxExcel.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.UC
 {
-	public class WSConfigVM : VMBase
+	internal class WSConfigVM : VMBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public WSConfigVM()
+				internal WSConfigVM()
 					{
 						this.CTUDspList		= new	List<CTU>();
 						this.CTUUpdList		= new List<CTU>();

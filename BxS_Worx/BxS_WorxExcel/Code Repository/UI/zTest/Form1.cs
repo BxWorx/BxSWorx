@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions;
 using BxS_WorxExcel.UI.UC;
+using BxS_WorxIPX.BDC;
 
 namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 {
@@ -11,13 +12,14 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 			private readonly SAPSessionsVM	y;
 
 		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-		public Form1( bool ssn = false)
+		public Form1( IBDC_Controller ipxbdcCntlr , bool ssn = false )
 			{
 				InitializeComponent();
 				//...
 				if (ssn )
 					{
 						this.y	= new	SAPSessionsVM();
+						y.IPXBDCCntlr	= ipxbdcCntlr;
 						var ucs	= new UC_SAPSessions( this.y ) {	Name			= "UC_SAPSessions"
 																										,	Dock			= DockStyle.Fill
 																										, ViewModel	= this.y						};

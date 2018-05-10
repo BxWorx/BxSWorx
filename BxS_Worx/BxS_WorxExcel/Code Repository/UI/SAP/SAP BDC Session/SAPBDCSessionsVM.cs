@@ -7,23 +7,24 @@ using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.UC
 {
-	internal class SAPSessionsVM : VMBase
+	internal class SAPBDCSessionsVM : VMBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPSessionsVM()
+				internal SAPBDCSessionsVM( IView<SAPBDCSessionsVM> view )
 					{
-						this.RequestSAPSessionListEventHandler	+= this.OnRequestSAPSessionList	;
-						this.ResetSAPSessionListEventHandler		+= this.OnResetSAPSessionList	;
-						//.............................................
-						this.List		= new	BindingList<IDTO_Session>();
+						this._VW	= view;
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
+
+				private IView<SAPBDCSessionsVM>	_VW;
+
+
 
 				public	event	Action	SuspendLayout	;
 				public	event	Action	ResumeLayout	;

@@ -44,7 +44,7 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void WriteConfig( string xml , string address = "$A$1" )
+				public void WriteConfig( string xml , string address = "$A$1" )
 					{
 						var	lo_WS	=	this.ThisApp.ActiveSheet as Worksheet;
 						//...
@@ -54,7 +54,7 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_WSNode	GetActiveWSNode()
+				public DTO_WSNode	GetActiveWSNode()
 					{
 						var	lo_WS	=	this.ThisApp.ActiveSheet as Worksheet;
 						//...
@@ -65,7 +65,7 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList<DTO_WSNode>	GetManifest()
+				public IList<DTO_WSNode>	GetManifest()
 					{
 						IList<DTO_WSNode>	lt	= new List<DTO_WSNode>();
 						//...
@@ -85,7 +85,7 @@ namespace BxS_WorxExcel.Main
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DTO_WSData GetWSData( DTO_WSNode wsNode )
+				public DTO_WSData GetWSData( DTO_WSNode wsNode )
 					{
 						Worksheet lo_WS = this.GetWS( wsNode );
 						//...

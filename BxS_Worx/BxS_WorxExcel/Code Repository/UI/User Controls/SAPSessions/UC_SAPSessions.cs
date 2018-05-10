@@ -7,12 +7,12 @@ using BxS_WorxExcel.UI;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 {
-	public partial class UC_SAPSessions : UserControl , IView<SAPSessionsVM>
+	internal partial class UC_SAPSessions : UserControl , IView<SAPSessionsVM>
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UC_SAPSessions()
+				internal UC_SAPSessions()
 					{
 						InitializeComponent();
 						//.............................................
