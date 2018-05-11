@@ -221,7 +221,7 @@
     <Compile Include="Code Repository\UI\xTry\Code\IMVVMController.cs" />
     <Compile Include="Code Repository\UI\xTry\Code\MVVMController_SAPBDC.cs" />
     <Compile Include="Code Repository\UI\xTry\IViewModelx.cs" />
-    <Compile Include="Code Repository\UI\xTry\Code\UIManager.cs" />
+    <Compile Include="Code Repository\UI\xTry\Code\UIHost.cs" />
     <Compile Include="Code Repository\UI\xTry\ViewBase.cs" />
     <Compile Include="Code Repository\UI\xTry\IViewx.cs" />
     <Compile Include="Code Repository\UI\xTry\VWBase.cs" />
