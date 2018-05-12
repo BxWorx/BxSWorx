@@ -17,15 +17,8 @@ namespace BxS_WorxExcel.Code_Repository.UI.xTry
 				{
 					InitializeComponent();
 				}
-
-		//private void SAPBDCView_FormClosing(object sender , FormClosingEventArgs e)
-		//	{
-		//	}
-
-		//private void SAPBDCView_FormClosed(object sender , FormClosedEventArgs e)
-		//	{
-
-		//	}
+		
+			private 
 
 		//private void SAPBDCView_Load(object sender , EventArgs e)
 		//	{

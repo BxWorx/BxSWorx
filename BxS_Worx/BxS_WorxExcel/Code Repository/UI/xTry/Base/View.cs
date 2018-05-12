@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI
+namespace BxS_WorxExcel.MVVM
 {
 	internal class View : IView
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal View( Form	view )
+				internal View( Form	view , ViewModelBase vm)
 					{
 						this._View	= view	??	throw	new	Exception("");
 						//...
@@ -20,7 +20,10 @@ namespace BxS_WorxExcel.UI
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Form	_View;
+				private const DataSourceUpdateMode DSMODE	= DataSourceUpdateMode.OnPropertyChanged;
+				//.................................................
+				private	readonly	Form					_View;
+				private	readonly	ViewModelBase	_VMdl;
 				//.................................................
 				public	event	Action	Closing;
 
@@ -28,6 +31,12 @@ namespace BxS_WorxExcel.UI
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void BindControl( Control control , string cntrlPropName , string vmPropName )
+					{
+						control.DataBindings.Add( new	Binding( cntrlPropName , this._VMdl	, vmPropName , true , DSMODE ) );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Shutdown()

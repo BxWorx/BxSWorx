@@ -1,44 +1,49 @@
-﻿using System;
-using BxS_WorxExcel.Code_Repository.UI.xTry;
+﻿using BxS_WorxExcel.Code_Repository.UI.xTry;
+using BxS_WorxExcel.MVVM;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
-	public class MVVMController_SAPBDC : IMVVMController
+	internal class MC_SAPBDC : MVVMControllerBase
 		{
-			public MVVMController_SAPBDC()
-				{
-				}
+			#region "Constructors"
 
-			private	IView						_VW;
-			private	SAPBDCViewModel _VM;
-
-			public void	ToggleView()
-			{
-				if ( this._VW == null )
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public MC_SAPBDC()
 					{
-						var		x		= new SAPBDCView();
-						this._VW	= new	View( x );
-						this._VM.View	= this._VW;
 					}
-				this._VM.ToggleView();
-			}
 
+			#endregion
 
+			//===========================================================================================
+			#region "Declarations"
 
-			public void Shutdown()
-			{
+				private	SAPBDCViewModel _VM;
 
-			}
+			#endregion
 
-			public void Startup()
-				{
-					this._VM	= new	SAPBDCViewModel();
-					this._VM.Closing	+=	this.OnClosing;
-				}
+			//===========================================================================================
+			#region "Methods: Virtual"
 
-			private	void	OnClosing()
-				{
-					this._VW	= null;
-				}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public override void	ToggleView()
+					{
+						if ( this._VW == null )
+							{
+								this._VW			= new	View( new SAPBDCView() , this._VM );
+								this._VM.View	= this._VW;
+							}
+						//...
+						this._VM.ToggleView();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public override void Startup()
+					{
+						this._VM					 =	new	SAPBDCViewModel();
+						this._VM.Closing	+=	this.OnClosing;
+					}
+
+			#endregion
+
 		}
 }

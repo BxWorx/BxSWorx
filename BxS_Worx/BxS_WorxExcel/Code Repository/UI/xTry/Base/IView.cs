@@ -1,17 +1,21 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI
+namespace BxS_WorxExcel.MVVM
 {
 	public interface IView
 		{
-			event Action Closing;
+			#region "Declarations"
 
-			void LayoutState( bool mode );
-			void ToggleView();
-			void Shutdown();
+				event Action Closing;
 
-			#region "Properties"
+			#endregion
 
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				void	LayoutState( bool mode );
+				void	ToggleView();
+				void	Shutdown();
 
 			#endregion
 

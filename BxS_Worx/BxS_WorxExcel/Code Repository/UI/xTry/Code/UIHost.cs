@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BxS_WorxExcel.MVVM;
 
 namespace BxS_WorxExcel.UI
 {
@@ -62,7 +63,7 @@ namespace BxS_WorxExcel.UI
 									{
 										case	"A":
 											{
-												lo_MVVMC	= new MVVMController_SAPBDC();
+												lo_MVVMC	= new MC_SAPBDC();
 												if ( this.CurrentUIs.TryAdd(ID , lo_MVVMC) )
 													{
 														lo_MVVMC.Startup();

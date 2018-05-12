@@ -99,9 +99,9 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void BindControl( Control control , string vwName , string vmName )
+				private void BindControl( Control control , string cntrlPropName , string vmPropName )
 					{
-						control.DataBindings.Add( new	Binding( vwName , this.ViewModel	, vmName , true , DSMODE ) );
+						control.DataBindings.Add( new	Binding( cntrlPropName , this.ViewModel	, vmPropName , true , DSMODE ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
