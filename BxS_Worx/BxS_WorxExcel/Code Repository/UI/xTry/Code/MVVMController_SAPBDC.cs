@@ -9,18 +9,36 @@ namespace BxS_WorxExcel.UI
 				{
 				}
 
-			public	event	EventHandler ShuttingDown	;
-			public	event	EventHandler ShowDialogue	;
-
 			private	IView						_VW;
 			private	SAPBDCViewModel _VM;
 
+			public void	ToggleView()
+			{
+				if ( this._VW == null )
+					{
+						var		x		= new SAPBDCView();
+						this._VW	= new	View( x );
+						this._VM.View	= this._VW;
+					}
+				this._VM.ToggleView();
+			}
+
+
+
+			public void Shutdown()
+			{
+
+			}
+
 			public void Startup()
 				{
-					var		x		= new SAPBDCView();
-					//...
-					this._VW	= new	View( x );
-					this._VM	= new	SAPBDCViewModel( this._VW );
+					this._VM	= new	SAPBDCViewModel();
+					this._VM.Closing	+=	this.OnClosing;
+				}
+
+			private	void	OnClosing()
+				{
+					this._VW	= null;
 				}
 		}
 }

@@ -29,7 +29,7 @@ namespace BxS_WorxExcel.UI
 
 				private readonly Dictionary<string , object>	_Locks;
 
-
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public async Task Shutdown()
 					{
@@ -38,46 +38,42 @@ namespace BxS_WorxExcel.UI
 						if ( this._IsShuttingDown.Equals(1) )		return;
 						Interlocked.CompareExchange( ref this._IsShuttingDown , 1 , 0 );
 						//...............................................
-
-
-
+						foreach ( IMVVMController lo_MVVMC in this.CurrentUIs.Values )
+							{
+								lo_MVVMC.Shutdown();
+							}
+						this.CurrentUIs.Clear();
 						//...............................................
 						this._SlimLock.Release();
 					}
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	ShowUI( string ID )
 					{
 						if ( this._IsShuttingDown.Equals(1) )		return;
 						//...............................................
-
-
-
-
-
-						if ( this.CurrentUIs.TryGetValue( ID , out IMVVMController lo_MVVM ) )
+						if ( this.CurrentUIs.TryGetValue( ID , out IMVVMController lo_MVVMC ) )
 							{
-								//lo_MVVM.ShowDialogue( this , EventArgs.Empty );
+								lo_MVVMC.ToggleView();
 							}
-
-
-						switch ( ID )
+						else
 							{
-								case	"A":
+								switch ( ID )
 									{
-										IMVVMController sapbdc	= new MVVMController_SAPBDC();
-										sapbdc.ShuttingDown +=	this.OnShuttingDown;
-										//this.CurrentUIs.Add(ID , sapbdc );
+										case	"A":
+											{
+												lo_MVVMC	= new MVVMController_SAPBDC();
+												if ( this.CurrentUIs.TryAdd(ID , lo_MVVMC) )
+													{
+														lo_MVVMC.Startup();
+														lo_MVVMC.ToggleView();
+													}
+												break;
+											}
 
-										break;
+										default:	break;
 									}
-
-								default:	break;
 							}
-
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

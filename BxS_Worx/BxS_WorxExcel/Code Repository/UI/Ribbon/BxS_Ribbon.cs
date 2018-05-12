@@ -164,11 +164,19 @@ namespace BxS_WorxExcel
 				WSHndlr.Format( WS );
 			}
 
-		private readonly	Lazy<IMVVMController>	_MVVM	= new	Lazy<IMVVMController>( ()=> new MVVMController_SAPBDC() );
+		private	readonly	Lazy<UIHost>					_UIHost		= new	Lazy<UIHost>( ()=>	new	UIHost() , cz_LM );
+		//private readonly	Lazy<IMVVMController>	_MVVM	= new	Lazy<IMVVMController>( ()=> { var x =  new MVVMController_SAPBDC();
+		//																																									x.Startup();
+		//																																									return	x; } , cz_LM );
 
 		private void MVVM_Click(object sender , RibbonControlEventArgs e)
 			{
-				this._MVVM.Value.Startup();
+				this._UIHost.Value.ShowUI("A");
+				//this._UIHost.Value.ShowUI("A");
+
+
+				//this._MVVM.Value.Startup();
+				//this._MVVM.Value.ToggleView();
 			}
 		}
 	}
