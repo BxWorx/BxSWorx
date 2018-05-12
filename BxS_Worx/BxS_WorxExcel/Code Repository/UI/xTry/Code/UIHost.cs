@@ -19,6 +19,10 @@ namespace BxS_WorxExcel.UI
 						this._IsShuttingDown	= 0;
 					}
 
+				//public event  EventHandler Shuttingdown;
+
+
+
 				private	readonly SemaphoreSlim _SlimLock;
 				private readonly ConcurrentDictionary<string , IMVVMController>	CurrentUIs;
 				private	int _IsShuttingDown;
@@ -32,8 +36,8 @@ namespace BxS_WorxExcel.UI
 						if ( this._IsShuttingDown.Equals(1) )		return;
 						await	this._SlimLock.WaitAsync().ConfigureAwait(false);
 						if ( this._IsShuttingDown.Equals(1) )		return;
-						//...............................................
 						Interlocked.CompareExchange( ref this._IsShuttingDown , 1 , 0 );
+						//...............................................
 
 
 
@@ -56,7 +60,7 @@ namespace BxS_WorxExcel.UI
 
 						if ( this.CurrentUIs.TryGetValue( ID , out IMVVMController lo_MVVM ) )
 							{
-								lo_MVVM.ShowDialogue( this , EventArgs.Empty );
+								//lo_MVVM.ShowDialogue( this , EventArgs.Empty );
 							}
 
 

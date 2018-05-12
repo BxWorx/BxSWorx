@@ -2,14 +2,15 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
-	public class MVVMController_SAPBDC : IMVVMController
+	public interface IViewX
 		{
-			public MVVMController_SAPBDC()
-				{
-				}
+			//EventHandler OnClosing();
+			event EventHandler Closing;
 
-			public	event	EventHandler ShuttingDown	;
-			public	event	EventHandler ShowDialogue	;
+			#region "Properties"
+
+
+			#endregion
 
 		}
 }
