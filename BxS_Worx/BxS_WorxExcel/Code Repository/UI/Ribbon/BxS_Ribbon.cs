@@ -17,6 +17,7 @@ using BxS_WorxExcel.Code_Repository.UI.SAP.Favourites;
 using BxS_WorxExcel.Code_Repository.UI.User_Controls;
 using BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig;
 using Microsoft.Office.Interop.Excel;
+using BxS_WorxExcel.UI;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
 	{
@@ -161,6 +162,13 @@ namespace BxS_WorxExcel
 				Worksheet WS	= Globals.ThisAddIn.XLHndlr.AddWorksheet();
 				var WSHndlr		= new BDCWorksheet();
 				WSHndlr.Format( WS );
+			}
+
+		private readonly	Lazy<IMVVMController>	_MVVM	= new	Lazy<IMVVMController>( ()=> new MVVMController_SAPBDC() );
+
+		private void MVVM_Click(object sender , RibbonControlEventArgs e)
+			{
+				this._MVVM.Value.Startup();
 			}
 		}
 	}

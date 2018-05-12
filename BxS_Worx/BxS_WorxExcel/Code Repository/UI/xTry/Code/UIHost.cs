@@ -70,7 +70,7 @@ namespace BxS_WorxExcel.UI
 									{
 										IMVVMController sapbdc	= new MVVMController_SAPBDC();
 										sapbdc.ShuttingDown +=	this.OnShuttingDown;
-										this.CurrentUIs.Add(ID , sapbdc );
+										//this.CurrentUIs.Add(ID , sapbdc );
 
 										break;
 									}

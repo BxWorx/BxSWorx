@@ -11,28 +11,16 @@ using BxS_WorxExcel.UI;
 
 namespace BxS_WorxExcel.Code_Repository.UI.xTry
 {
-	public partial class SAPBDCView : Form , IViewX
+	public partial class SAPBDCView : Form
 		{
 			public SAPBDCView()
 				{
 					InitializeComponent();
 				}
 
-		event EventHandler IViewX.Closing
-			{
-			add
-				{
-				}
-
-			remove
-				{
-				throw new NotImplementedException();
-				}
-			}
-
-		private void SAPBDCView_FormClosing(object sender , FormClosingEventArgs e)
-			{
-			}
+		//private void SAPBDCView_FormClosing(object sender , FormClosingEventArgs e)
+		//	{
+		//	}
 
 		//private void SAPBDCView_FormClosed(object sender , FormClosedEventArgs e)
 		//	{

@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
-	public abstract class ViewBase
+	public abstract class ViewBasexxx
 		{
 			#region "Properties"
 

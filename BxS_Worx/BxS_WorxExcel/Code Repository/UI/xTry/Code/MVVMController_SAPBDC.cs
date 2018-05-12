@@ -1,4 +1,5 @@
 ﻿using System;
+using BxS_WorxExcel.Code_Repository.UI.xTry;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
@@ -11,5 +12,15 @@ namespace BxS_WorxExcel.UI
 			public	event	EventHandler ShuttingDown	;
 			public	event	EventHandler ShowDialogue	;
 
+			private	IView						_VW;
+			private	SAPBDCViewModel _VM;
+
+			public void Startup()
+				{
+					var		x		= new SAPBDCView();
+					//...
+					this._VW	= new	View( x );
+					this._VM	= new	SAPBDCViewModel( this._VW );
+				}
 		}
 }

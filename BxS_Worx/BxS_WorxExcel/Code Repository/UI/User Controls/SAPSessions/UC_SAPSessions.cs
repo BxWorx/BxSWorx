@@ -7,7 +7,7 @@ using BxS_WorxExcel.UI;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.SAPSessions
 {
-	internal partial class UC_SAPSessions : UserControl , IView<SAPSessionsVM>
+	internal partial class UC_SAPSessions : UserControl , IViewT<SAPSessionsVM>
 		{
 			#region "Constructors"
 

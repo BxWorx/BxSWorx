@@ -6,7 +6,7 @@ using BxS_WorxExcel.UI;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 {
-	internal partial class UC_WSConfigVW : UserControl , IView<WSConfigVM>
+	internal partial class UC_WSConfigVW : UserControl , IViewT<WSConfigVM>
 		{
 			#region "Constructors"
 

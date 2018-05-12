@@ -7,6 +7,8 @@ namespace BxS_WorxExcel.UI
 			event	EventHandler	ShuttingDown	;
 			event EventHandler	ShowDialogue	;
 
+			void Startup();
+
 			#region "Properties"
 
 

@@ -1,7 +1,7 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
-	public interface IView<T> where T: VMBase
+	public interface IViewT<T> where T: VMBase
 		{
 			#region "Properties"
 

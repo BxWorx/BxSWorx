@@ -2,10 +2,12 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
-	public interface IViewX
+	public interface IView
 		{
 			//EventHandler OnClosing();
-			event EventHandler Closing;
+
+			event Action Shutdown;
+			event Action Closing;
 
 			#region "Properties"
 

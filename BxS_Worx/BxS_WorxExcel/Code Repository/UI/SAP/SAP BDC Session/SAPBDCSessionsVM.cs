@@ -12,7 +12,7 @@ namespace BxS_WorxExcel.UI.UC
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal SAPBDCSessionsVM( IView<SAPBDCSessionsVM> view )
+				internal SAPBDCSessionsVM( IViewT<SAPBDCSessionsVM> view )
 					{
 						this._VW	= view;
 					}
@@ -22,7 +22,7 @@ namespace BxS_WorxExcel.UI.UC
 			//===========================================================================================
 			#region "Declarations"
 
-				private IView<SAPBDCSessionsVM>	_VW;
+				private IViewT<SAPBDCSessionsVM>	_VW;
 
 
 

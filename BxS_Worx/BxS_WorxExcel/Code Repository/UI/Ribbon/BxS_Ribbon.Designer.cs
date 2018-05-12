@@ -51,18 +51,19 @@
 			this.button2 = this.Factory.CreateRibbonButton();
 			this.comboBox1 = this.Factory.CreateRibbonComboBox();
 			this.menu1 = this.Factory.CreateRibbonMenu();
+			this.group4 = this.Factory.CreateRibbonGroup();
+			this.xbtn_NewBDCWS = this.Factory.CreateRibbonButton();
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group3 = this.Factory.CreateRibbonGroup();
 			this.dropDown2 = this.Factory.CreateRibbonDropDown();
-			this.xbtn_NewBDCWS = this.Factory.CreateRibbonButton();
-			this.group4 = this.Factory.CreateRibbonGroup();
+			this.Xbtn_MVVM = this.Factory.CreateRibbonButton();
 			this.xtab_BxS.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
 			this.group2.SuspendLayout();
+			this.group4.SuspendLayout();
 			this.tab1.SuspendLayout();
 			this.group3.SuspendLayout();
-			this.group4.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// xtab_BxS
@@ -170,6 +171,19 @@
 			this.menu1.Label = "menu1";
 			this.menu1.Name = "menu1";
 			// 
+			// group4
+			// 
+			this.group4.Items.Add(this.xbtn_NewBDCWS);
+			this.group4.Items.Add(this.Xbtn_MVVM);
+			this.group4.Label = "group4";
+			this.group4.Name = "group4";
+			// 
+			// xbtn_NewBDCWS
+			// 
+			this.xbtn_NewBDCWS.Label = "Create BDC";
+			this.xbtn_NewBDCWS.Name = "xbtn_NewBDCWS";
+			this.xbtn_NewBDCWS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Xbtn_NewBDCWS_Click);
+			// 
 			// tab1
 			// 
 			this.tab1.Groups.Add(this.group3);
@@ -189,21 +203,15 @@
 			this.dropDown2.Name = "dropDown2";
 			this.dropDown2.ShowLabel = false;
 			// 
-			// xbtn_NewBDCWS
+			// Xbtn_MVVM
 			// 
-			this.xbtn_NewBDCWS.Label = "Create BDC";
-			this.xbtn_NewBDCWS.Name = "xbtn_NewBDCWS";
-			this.xbtn_NewBDCWS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Xbtn_NewBDCWS_Click);
+			this.Xbtn_MVVM.Label = "Test MVVM";
+			this.Xbtn_MVVM.Name = "Xbtn_MVVM";
+			this.Xbtn_MVVM.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MVVM_Click);
 			// 
-			// group4
+			// BxS_Ribbon
 			// 
-			this.group4.Items.Add(this.xbtn_NewBDCWS);
-			this.group4.Label = "group4";
-			this.group4.Name = "group4";
-			// 
-			// BxS_WorxMain
-			// 
-			this.Name = "BxS_WorxMain";
+			this.Name = "BxS_Ribbon";
 			this.RibbonType = "Microsoft.Excel.Workbook";
 			this.Tabs.Add(this.xtab_BxS);
 			this.Tabs.Add(this.tab1);
@@ -216,12 +224,12 @@
 			this.xbg_SAPLogon.PerformLayout();
 			this.group2.ResumeLayout(false);
 			this.group2.PerformLayout();
+			this.group4.ResumeLayout(false);
+			this.group4.PerformLayout();
 			this.tab1.ResumeLayout(false);
 			this.tab1.PerformLayout();
 			this.group3.ResumeLayout(false);
 			this.group3.PerformLayout();
-			this.group4.ResumeLayout(false);
-			this.group4.PerformLayout();
 			this.ResumeLayout(false);
 
 			}
@@ -249,6 +257,7 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_Session;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_NewBDCWS;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton Xbtn_MVVM;
 		}
 
 	partial class ThisRibbonCollection

@@ -185,7 +185,7 @@
   <ItemGroup>
     <Compile Include="Code Repository\Excel Domain\BDCWorksheet.cs" />
     <Compile Include="Code Repository\Main\IExcel.cs" />
-    <Compile Include="Code Repository\Common\IView.cs" />
+    <Compile Include="Code Repository\Common\IViewT.cs" />
     <Compile Include="Code Repository\Common\NotifyPropertyChangedBase.cs" />
     <Compile Include="Code Repository\Common\VMBase.cs" />
     <Compile Include="Code Repository\UI\SAP\Favourites\DTO_FLNode.cs" />
@@ -220,11 +220,11 @@
     <Compile Include="Code Repository\UI\User Controls\SAPSessions\SAPSessionsVM.cs" />
     <Compile Include="Code Repository\UI\xTry\Code\IMVVMController.cs" />
     <Compile Include="Code Repository\UI\xTry\Code\MVVMController_SAPBDC.cs" />
+    <Compile Include="Code Repository\UI\xTry\Base\View.cs" />
     <Compile Include="Code Repository\UI\xTry\IViewModelx.cs" />
     <Compile Include="Code Repository\UI\xTry\Code\UIHost.cs" />
     <Compile Include="Code Repository\UI\xTry\ViewBase.cs" />
-    <Compile Include="Code Repository\UI\xTry\Code\View\IViewx.cs" />
-    <Compile Include="Code Repository\UI\xTry\VWBase.cs" />
+    <Compile Include="Code Repository\UI\xTry\Base\IView.cs" />
     <Compile Include="Code Repository\UI\xTry\VMBaseX.cs" />
     <Compile Include="Code Repository\UI\xTry\Code\View\SAPBDCView.cs">
       <SubType>Form</SubType>

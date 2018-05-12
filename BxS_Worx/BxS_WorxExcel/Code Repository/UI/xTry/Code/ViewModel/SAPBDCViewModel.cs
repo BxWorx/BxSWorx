@@ -4,26 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BxS_WorxExcel.UI;
 
-namespace BxS_WorxExcel.Code_Repository.UI.xTry
+namespace BxS_WorxExcel.UI
 {
-		internal class SAPBDCViewModel
-			{
-				internal	SAPBDCViewModel( Form view )
-					{
-						this._View	= view;
+	internal class SAPBDCViewModel
+		{
+			internal	SAPBDCViewModel( IView view )
+				{
+					this._View	= view;
 
-						this._View.FormClosing += this.SAPBDCView_FormClosing;
+					this._View.Closing	+= this.OnClosing;
+				}
 
-					}
+			private readonly	IView 	_View;
 
-				private readonly	Form 	_View;
-
-
-				private void SAPBDCView_FormClosing(object sender , FormClosingEventArgs e)
-					{
-					}
-
-			}
+			private void OnClosing()
+				{
+				}
+		}
 }
