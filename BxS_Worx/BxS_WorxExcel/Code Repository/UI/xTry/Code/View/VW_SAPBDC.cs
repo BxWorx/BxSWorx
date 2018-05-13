@@ -11,12 +11,14 @@ using BxS_WorxExcel.UI;
 
 namespace BxS_WorxExcel.Code_Repository.UI.xTry
 {
-	public partial class SAPBDCView : Form
+	public partial class VW_SAPBDC : Form
 		{
-			public SAPBDCView()
+			public VW_SAPBDC()
 				{
 					InitializeComponent();
 				}
+
+				public	TextBox	xUser => this.xtbx_User;
 
 		//private void SAPBDCView_Load(object sender , EventArgs e)
 		//	{

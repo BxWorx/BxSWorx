@@ -1,6 +1,6 @@
 ﻿namespace BxS_WorxExcel.Code_Repository.UI.xTry
 	{
-	partial class SAPBDCView
+	partial class VW_SAPBDC
 		{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAPBDCView));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VW_SAPBDC));
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.xdtp_End = new System.Windows.Forms.DateTimePicker();

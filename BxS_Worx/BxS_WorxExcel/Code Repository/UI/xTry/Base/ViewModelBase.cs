@@ -31,7 +31,7 @@ namespace BxS_WorxExcel.MVVM
 						if (this.View.Visible)
 							{
 								if ( this.View.WindowState.Equals( FormWindowState.Minimized ) )
-									{	this.View.WindowState = FormWindowState.Normal	; }
+									{	this.View.WindowState = FormWindowState.Normal; }
 								else
 									{	this.View.Hide(); }
 							}

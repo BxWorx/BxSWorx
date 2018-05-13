@@ -33,11 +33,11 @@ namespace BxS_WorxExcel.MVVM
 			//===========================================================================================
 			#region "Methods: Protected"
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//protected void BindControl( Control control , string cntrlPropName , string vmPropName )
-				//	{
-				//		//control.DataBindings.Add( new	Binding( cntrlPropName , this._VMdl	, vmPropName , true , DSMODE ) );
-				//	}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected void BindControl( Control control , string cntrlPropName , string vmPropName )
+					{
+						//control.DataBindings.Add( new	Binding( cntrlPropName , this._VMdl	, vmPropName , true , DSMODE ) );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected void OnFormClosed(object sender , FormClosedEventArgs e)
@@ -65,8 +65,8 @@ namespace BxS_WorxExcel.MVVM
 			#region "Methods: Virtual"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public virtual void Shutdown()		{	}
-				public virtual void	ToggleView()	{	}
+				public	virtual void	Shutdown()		{	}
+				public	virtual	void	ToggleView()	{	}
 
 			#endregion
 

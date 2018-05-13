@@ -6,14 +6,17 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BxS_WorxExcel.MVVM;
+using BxS_WorxIPX.Main;
 
 namespace BxS_WorxExcel.UI
 {
 	public class UIHost
 		{
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UIHost()
+				public UIHost( Lazy<IIPX_Controller>	ipxCntlr )
 					{
+						this._IPXCntlr	= ipxCntlr	;
+						//...
 						this.CurrentUIs				= new	ConcurrentDictionary<string, IMvC>();
 						this._Locks						= new Dictionary<string, object>();
 						this._SlimLock				=	new	SemaphoreSlim(1,1);
@@ -21,6 +24,8 @@ namespace BxS_WorxExcel.UI
 					}
 
 				//public event  EventHandler Shuttingdown;
+				private	readonly	Lazy<IIPX_Controller>		_IPXCntlr	;
+
 				private	readonly SemaphoreSlim _SlimLock;
 				private readonly ConcurrentDictionary<string , IMvC>	CurrentUIs;
 				private	int _IsShuttingDown;
@@ -61,7 +66,7 @@ namespace BxS_WorxExcel.UI
 														{
 															case	"A":
 																{
-																	lo_MVVMC	= new MvC_SAPBDC( ID );
+																	lo_MVVMC	= new MvC_SAPBDC( ID , this._IPXCntlr.Value.Create_BDCController() );
 																	if ( this.CurrentUIs.TryAdd(lo_MVVMC.ID , lo_MVVMC) )
 																		{
 																			lo_MVVMC.ToggleView();

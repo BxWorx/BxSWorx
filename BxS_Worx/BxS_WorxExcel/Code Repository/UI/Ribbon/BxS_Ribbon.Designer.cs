@@ -215,7 +215,7 @@
 			this.RibbonType = "Microsoft.Excel.Workbook";
 			this.Tabs.Add(this.xtab_BxS);
 			this.Tabs.Add(this.tab1);
-			this.Close += new System.EventHandler(this.BxS_Ribbon_CloseAsync);
+			this.Close += new System.EventHandler(this.BxS_Ribbon_Close);
 			this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.BxS_WorxMain_Load);
 			this.xtab_BxS.ResumeLayout(false);
 			this.xtab_BxS.PerformLayout();

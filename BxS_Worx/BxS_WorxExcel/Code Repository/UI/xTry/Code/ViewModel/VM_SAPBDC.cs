@@ -1,4 +1,5 @@
-﻿using BxS_WorxExcel.MVVM;
+﻿using BxS_WorxExcel.Code_Repository.UI.xTry;
+using BxS_WorxExcel.MVVM;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
@@ -7,10 +8,15 @@ namespace BxS_WorxExcel.UI
 			#region "Declarations"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	VM_SAPBDC()
+				internal	VM_SAPBDC( MD_SAPBDC	model )
 					{
+						this.MyModel	=	model;
 					}
 
 			#endregion
+
+				internal	VW_SAPBDC	MyView	{	get; set; }
+				internal	MD_SAPBDC		MyModel	{ get; }
+
 		}
 }

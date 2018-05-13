@@ -2,6 +2,9 @@
 //.........................................................
 using BxS_WorxExcel.Code_Repository.UI.xTry;
 using BxS_WorxExcel.MVVM;
+
+using BxS_WorxIPX.BDC;
+using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
@@ -10,19 +13,34 @@ namespace BxS_WorxExcel.UI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public MvC_SAPBDC( string	id ) : base(id)
+				public MvC_SAPBDC(	string					id
+													,	IBDC_Controller	ipxBDCCntlr	) : base(id)
 					{
-						this._VM	=	new Lazy<VM_SAPBDC>( ()=> {	var lo_VM			=	new	VM_SAPBDC();
-																										this._VMBase	= lo_VM;
-																										return	lo_VM;									} );
+						this._IPXBDCCntlr	=	ipxBDCCntlr;
+						//...
+						this._VM	=	new Lazy<VM_SAPBDC>(
+							()=>	{
+											var y					= new MD_SAPBDC( this._IPXBDCCntlr );
+											var lo_VM			=	new	VM_SAPBDC( y );
+											this._VMBase	= lo_VM;
+											return	lo_VM;
+										} );
 					}
 
 			#endregion
 
+
+				private	VW_SAPBDC								XView			{	get	{	return	this._VM.Value.MyView;					}	}
+				private	DTO_SAPSessionRequest		Request		{	get	{	return	this._VM.Value.MyModel.Request;	}	}
+
+
+
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy<VM_SAPBDC> _VM;
+				private	readonly	Lazy<VM_SAPBDC>		_VM;
+				//...
+				private	readonly	IBDC_Controller		_IPXBDCCntlr;
 
 			#endregion
 
@@ -40,8 +58,8 @@ namespace BxS_WorxExcel.UI
 				public override void	ToggleView()
 					{
 						if ( this._VM.Value.View == null )
-							{	
-								this.PrepareView();
+							{
+								this.LoadView();
 							}
 						//...
 						this._VM.Value.ToggleView();
@@ -55,15 +73,16 @@ namespace BxS_WorxExcel.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void LoadBindings()
 					{
-						
+						this.BindControl(	this.XView.x  .Controls  )
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void PrepareView()
+				private void LoadView()
 					{
-						var lo_View					=	new	SAPBDCView();
-						lo_View.FormClosed += this.OnFormClosed;
-						this._VM.Value.View	= lo_View;
+						var lo_View						=	new	VW_SAPBDC();
+						lo_View.FormClosed	 += this.OnFormClosed;
+						this._VM.Value.MyView	=	lo_View;
+						this._VM.Value.View		= lo_View;
 					}
 
 			#endregion

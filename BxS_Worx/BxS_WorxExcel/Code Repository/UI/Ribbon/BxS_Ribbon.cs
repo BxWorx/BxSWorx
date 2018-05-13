@@ -18,12 +18,12 @@ using BxS_WorxExcel.Code_Repository.UI.User_Controls;
 using BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig;
 using Microsoft.Office.Interop.Excel;
 using BxS_WorxExcel.UI;
+using BxS_WorxIPX.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
 	{
 	public partial class BxS_Ribbon
 		{
-
 			#region "Declarations"
 
 				private	const	string	cz_Path	=  @"GitHub\BxSWorx\BxS_Worx\BxS_zWorxIPX_UT\Test Resources";
@@ -34,14 +34,18 @@ namespace BxS_WorxExcel
 				private				string	_User	;
 				private				string	_Full	;
 
-				private Lazy<BxS_XLController>	_BxSXLCntlr;
+				private Lazy<BxS_XLController>	_BxSXLCntlr	;
+				private	Lazy<IIPX_Controller>		_IPXCntlr		;
+				private	Lazy<UIHost>						_UIHost			;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private BxS_XLController BxSXLCntlr	{ get	{	return	this._BxSXLCntlr.Value;	}	}
+				private BxS_XLController	BxSXLCntlr	{ get	{	return	this._BxSXLCntlr.Value;	}	}
+				private IIPX_Controller		IPXCntlr		{ get	{	return	this._IPXCntlr	.Value;	}	}
+				private UIHost						UIHost			{ get	{	return	this._UIHost		.Value;	}	}
 
 			#endregion
 
@@ -51,10 +55,11 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._BxSXLCntlr	= new	Lazy<BxS_XLController>	( ()=>	new	BxS_XLController()	, cz_LM );
+						this._IPXCntlr		=	new	Lazy<IIPX_Controller>		(	()=>	IPX_Controller.Instance				,	cz_LM	);
+						this._BxSXLCntlr	= new	Lazy<BxS_XLController>	( ()=>	new	BxS_XLController()				, cz_LM );
+						this._UIHost			= new	Lazy<UIHost>						( ()=>	new	UIHost(	this._IPXCntlr )	, cz_LM );
 						//...
-						this._User	= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
+						this._User				= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 					}
 
 				#pragma warning	disable	RCS1163
@@ -164,24 +169,15 @@ namespace BxS_WorxExcel
 				WSHndlr.Format( WS );
 			}
 
-		private	readonly	Lazy<UIHost>					_UIHost		= new	Lazy<UIHost>( ()=>	new	UIHost() , cz_LM );
-		//private readonly	Lazy<IMVVMController>	_MVVM	= new	Lazy<IMVVMController>( ()=> { var x =  new MVVMController_SAPBDC();
-		//																																									x.Startup();
-		//																																									return	x; } , cz_LM );
 
 		private void MVVM_Click(object sender , RibbonControlEventArgs e)
 			{
-				this._UIHost.Value.ShowUI("A");
-				//this._UIHost.Value.ShowUI("A");
-
-
-				//this._MVVM.Value.Startup();
-				//this._MVVM.Value.ToggleView();
+				this.UIHost.ShowUI("A");
 			}
 
-		private void BxS_Ribbon_CloseAsync(object sender , EventArgs e)
+		private void BxS_Ribbon_Close(object sender , EventArgs e)
 			{
-				this._UIHost.Value.Shutdown();
+				this.UIHost.Shutdown();
 			}
 		}
 	}
