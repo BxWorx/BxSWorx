@@ -17,8 +17,6 @@ namespace BxS_WorxExcel.Code_Repository.UI.xTry
 				{
 					InitializeComponent();
 				}
-		
-			private 
 
 		//private void SAPBDCView_Load(object sender , EventArgs e)
 		//	{

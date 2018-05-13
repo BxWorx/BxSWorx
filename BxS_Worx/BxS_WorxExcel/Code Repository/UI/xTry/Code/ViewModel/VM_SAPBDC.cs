@@ -2,12 +2,12 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
-	internal class SAPBDCViewModel : ViewModelBase
+	internal class VM_SAPBDC : ViewModelBase
 		{
 			#region "Declarations"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	SAPBDCViewModel()
+				internal	VM_SAPBDC()
 					{
 					}
 

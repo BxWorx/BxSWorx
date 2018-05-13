@@ -3,69 +3,64 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.MVVM
 {
-	internal class View : IView
+	internal class ViewHandler : IViewHandler
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal View( Form	view , ViewModelBase vm)
-					{
-						this._View	= view	??	throw	new	Exception("");
-						//...
-						this._View.FormClosing += this.OnFormClosing;
-					}
+				internal ViewHandler()
+					{	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private const DataSourceUpdateMode DSMODE	= DataSourceUpdateMode.OnPropertyChanged;
-				//.................................................
-				private	readonly	Form					_View;
-				private	readonly	ViewModelBase	_VMdl;
+//				private	readonly	ViewModelBase	_VMdl;
 				//.................................................
 				public	event	Action	Closing;
 
 			#endregion
 
 			//===========================================================================================
+			#region "Properties"
+
+				public	Form View { get; set; }
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void BindControl( Control control , string cntrlPropName , string vmPropName )
-					{
-						control.DataBindings.Add( new	Binding( cntrlPropName , this._VMdl	, vmPropName , true , DSMODE ) );
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Shutdown()
 					{
-						this._View.FormClosing -= this.OnFormClosing;
-						this._View.Close();
+						this.View.FormClosing -= this.OnFormClosing;
+						this.View.Close();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LayoutState( bool mode )
 					{
 						if ( mode )
-							{	this._View.SuspendLayout();	}
+							{	this.View.SuspendLayout();	}
 						else
-							{	this._View.ResumeLayout();	}
+							{	this.View.ResumeLayout();	}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ToggleView()
 					{
-						if (this._View.Visible)
+						if (this.View.Visible)
 							{
-								if ( this._View.WindowState.Equals( FormWindowState.Minimized ) )
-									{	this._View.WindowState = FormWindowState.Normal	; }
+								if ( this.View.WindowState.Equals( FormWindowState.Minimized ) )
+									{	this.View.WindowState = FormWindowState.Normal	; }
 								else
-									{	this._View.Hide(); }
+									{	this.View.Hide(); }
 							}
 						else
-							{	this._View.Show(); }
+							{	this.View.Show(); }
 					}
 
 			#endregion
@@ -74,7 +69,10 @@ namespace BxS_WorxExcel.MVVM
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnFormClosing(object sender , FormClosingEventArgs e)	=>	Closing();
+				private void OnFormClosing(object sender , FormClosingEventArgs e)
+					{
+						Closing();	// trigger event to roll FORM closed up hierarchy
+					}
 
 			#endregion
 

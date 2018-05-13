@@ -178,5 +178,10 @@ namespace BxS_WorxExcel
 				//this._MVVM.Value.Startup();
 				//this._MVVM.Value.ToggleView();
 			}
+
+		private void BxS_Ribbon_CloseAsync(object sender , EventArgs e)
+			{
+				this._UIHost.Value.Shutdown();
+			}
 		}
 	}

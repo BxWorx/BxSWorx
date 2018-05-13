@@ -53,10 +53,10 @@
 			this.menu1 = this.Factory.CreateRibbonMenu();
 			this.group4 = this.Factory.CreateRibbonGroup();
 			this.xbtn_NewBDCWS = this.Factory.CreateRibbonButton();
+			this.Xbtn_MVVM = this.Factory.CreateRibbonButton();
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group3 = this.Factory.CreateRibbonGroup();
 			this.dropDown2 = this.Factory.CreateRibbonDropDown();
-			this.Xbtn_MVVM = this.Factory.CreateRibbonButton();
 			this.xtab_BxS.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
@@ -184,6 +184,12 @@
 			this.xbtn_NewBDCWS.Name = "xbtn_NewBDCWS";
 			this.xbtn_NewBDCWS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Xbtn_NewBDCWS_Click);
 			// 
+			// Xbtn_MVVM
+			// 
+			this.Xbtn_MVVM.Label = "Test MVVM";
+			this.Xbtn_MVVM.Name = "Xbtn_MVVM";
+			this.Xbtn_MVVM.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MVVM_Click);
+			// 
 			// tab1
 			// 
 			this.tab1.Groups.Add(this.group3);
@@ -203,18 +209,13 @@
 			this.dropDown2.Name = "dropDown2";
 			this.dropDown2.ShowLabel = false;
 			// 
-			// Xbtn_MVVM
-			// 
-			this.Xbtn_MVVM.Label = "Test MVVM";
-			this.Xbtn_MVVM.Name = "Xbtn_MVVM";
-			this.Xbtn_MVVM.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MVVM_Click);
-			// 
 			// BxS_Ribbon
 			// 
 			this.Name = "BxS_Ribbon";
 			this.RibbonType = "Microsoft.Excel.Workbook";
 			this.Tabs.Add(this.xtab_BxS);
 			this.Tabs.Add(this.tab1);
+			this.Close += new System.EventHandler(this.BxS_Ribbon_CloseAsync);
 			this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.BxS_WorxMain_Load);
 			this.xtab_BxS.ResumeLayout(false);
 			this.xtab_BxS.PerformLayout();

@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.MVVM
 {
-	public interface IView
+	public interface IViewHandler
 		{
 			#region "Declarations"
 
-				event Action Closing;
+				event Action Closing;		// triggerred when FORM is closed by user
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				Form	View { get; set; }
 
 			#endregion
 

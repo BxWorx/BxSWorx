@@ -1,11 +1,17 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.MVVM
 {
-	public interface IMVVMController
+	public interface IMvC
 		{
+			#region "Properties"
+
+				string	ID	{ get; }
+
+			#endregion
+
+			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void	Startup()			;
 				void	Shutdown()		;
 				void	ToggleView()	;
 

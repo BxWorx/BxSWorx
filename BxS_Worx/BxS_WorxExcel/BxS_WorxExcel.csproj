@@ -218,23 +218,18 @@
       <DependentUpon>UC_SAPSessions.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Repository\UI\User Controls\SAPSessions\SAPSessionsVM.cs" />
-    <Compile Include="Code Repository\UI\xTry\Base\MVVMControllerBase.cs" />
+    <Compile Include="Code Repository\UI\xTry\Base\MvCBase.cs" />
     <Compile Include="Code Repository\UI\xTry\Base\ViewModelBase.cs" />
-    <Compile Include="Code Repository\UI\xTry\Base\IMVVMController.cs" />
-    <Compile Include="Code Repository\UI\xTry\Code\MVVMController_SAPBDC.cs" />
-    <Compile Include="Code Repository\UI\xTry\Base\View.cs" />
-    <Compile Include="Code Repository\UI\xTry\IViewModelx.cs" />
-    <Compile Include="Code Repository\UI\xTry\Code\UIHost.cs" />
-    <Compile Include="Code Repository\UI\xTry\ViewBase.cs" />
-    <Compile Include="Code Repository\UI\xTry\Base\IView.cs" />
-    <Compile Include="Code Repository\UI\xTry\VMBaseX.cs" />
+    <Compile Include="Code Repository\UI\xTry\Base\IMvC.cs" />
+    <Compile Include="Code Repository\UI\xTry\Code\MvC_SAPBDC.cs" />
+    <Compile Include="Code Repository\UI\xTry\Base\UIHost.cs" />
     <Compile Include="Code Repository\UI\xTry\Code\View\SAPBDCView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Code Repository\UI\xTry\Code\View\SAPBDCView.Designer.cs">
       <DependentUpon>SAPBDCView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Code Repository\UI\xTry\Code\ViewModel\SAPBDCViewModel.cs" />
+    <Compile Include="Code Repository\UI\xTry\Code\ViewModel\VM_SAPBDC.cs" />
     <Compile Include="Code Repository\UI\zTest\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -356,7 +351,7 @@
     <ManifestKeyFile>BxS_WorxExcel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6C22700541E71141990C36859E936260B525B4A6</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>EB39F895789A7D23F9F03549550DF7C8BCFB6F6A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup />
   <!-- Include the build rules for a C# project. -->
@@ -367,7 +362,7 @@
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
-        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
         <Host Name="Excel" GeneratedCodeNamespace="BxS_WorxExcel" IconIndex="0">
           <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
         </Host>
