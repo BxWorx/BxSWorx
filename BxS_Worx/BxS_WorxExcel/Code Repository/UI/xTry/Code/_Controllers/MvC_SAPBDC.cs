@@ -40,13 +40,30 @@ namespace BxS_WorxExcel.UI
 				public override void	ToggleView()
 					{
 						if ( this._VM.Value.View == null )
-							{
-								var lo_View					=	new	SAPBDCView();
-								lo_View.FormClosed += this.OnFormClosed;
-								this._VM.Value.View	= lo_View;
+							{	
+								this.PrepareView();
 							}
 						//...
 						this._VM.Value.ToggleView();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void LoadBindings()
+					{
+						
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void PrepareView()
+					{
+						var lo_View					=	new	SAPBDCView();
+						lo_View.FormClosed += this.OnFormClosed;
+						this._VM.Value.View	= lo_View;
 					}
 
 			#endregion

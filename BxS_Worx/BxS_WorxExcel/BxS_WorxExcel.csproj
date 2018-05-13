@@ -221,13 +221,14 @@
     <Compile Include="Code Repository\UI\xTry\Base\MvCBase.cs" />
     <Compile Include="Code Repository\UI\xTry\Base\ViewModelBase.cs" />
     <Compile Include="Code Repository\UI\xTry\Base\IMvC.cs" />
-    <Compile Include="Code Repository\UI\xTry\Code\MvC_SAPBDC.cs" />
+    <Compile Include="Code Repository\UI\xTry\Code\ViewModel\MD_SAPBDC.cs" />
+    <Compile Include="Code Repository\UI\xTry\Code\_Controllers\MvC_SAPBDC.cs" />
     <Compile Include="Code Repository\UI\xTry\Base\UIHost.cs" />
-    <Compile Include="Code Repository\UI\xTry\Code\View\SAPBDCView.cs">
+    <Compile Include="Code Repository\UI\xTry\Code\View\VW_SAPBDC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Code Repository\UI\xTry\Code\View\SAPBDCView.Designer.cs">
-      <DependentUpon>SAPBDCView.cs</DependentUpon>
+    <Compile Include="Code Repository\UI\xTry\Code\View\VW_SAPBDC.Designer.cs">
+      <DependentUpon>VW_SAPBDC.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Repository\UI\xTry\Code\ViewModel\VM_SAPBDC.cs" />
     <Compile Include="Code Repository\UI\zTest\Form1.cs">
@@ -271,8 +272,8 @@
     <EmbeddedResource Include="Code Repository\UI\User Controls\SAPSessions\UC_SAPSessions.resx">
       <DependentUpon>UC_SAPSessions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Repository\UI\xTry\Code\View\SAPBDCView.resx">
-      <DependentUpon>SAPBDCView.cs</DependentUpon>
+    <EmbeddedResource Include="Code Repository\UI\xTry\Code\View\VW_SAPBDC.resx">
+      <DependentUpon>VW_SAPBDC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Code Repository\UI\zTest\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
