@@ -13,7 +13,7 @@ namespace BxS_WorxExcel.UI
 	public class UIHost
 		{
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UIHost( Lazy<IIPX_Controller>	ipxCntlr )
+				public UIHost( IIPX_Controller	ipxCntlr )
 					{
 						this._IPXCntlr	= ipxCntlr	;
 						//...
@@ -24,7 +24,7 @@ namespace BxS_WorxExcel.UI
 					}
 
 				//public event  EventHandler Shuttingdown;
-				private	readonly	Lazy<IIPX_Controller>		_IPXCntlr	;
+				private	readonly	IIPX_Controller	_IPXCntlr	;
 
 				private	readonly SemaphoreSlim _SlimLock;
 				private readonly ConcurrentDictionary<string , IMvC>	CurrentUIs;
@@ -66,7 +66,7 @@ namespace BxS_WorxExcel.UI
 														{
 															case	"A":
 																{
-																	lo_MVVMC	= new MvC_SAPBDC( ID , this._IPXCntlr.Value.Create_BDCController() );
+																	lo_MVVMC	= new MvC_SAPBDC( ID , this._IPXCntlr );
 																	if ( this.CurrentUIs.TryAdd(lo_MVVMC.ID , lo_MVVMC) )
 																		{
 																			lo_MVVMC.ToggleView();

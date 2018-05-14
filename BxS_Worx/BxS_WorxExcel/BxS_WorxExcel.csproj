@@ -218,6 +218,7 @@
       <DependentUpon>UC_SAPSessions.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Repository\UI\User Controls\SAPSessions\SAPSessionsVM.cs" />
+    <Compile Include="Code Repository\UI\xTry\Base\IViewForm.cs" />
     <Compile Include="Code Repository\UI\xTry\Base\MvCBase.cs" />
     <Compile Include="Code Repository\UI\xTry\Base\ViewModelBase.cs" />
     <Compile Include="Code Repository\UI\xTry\Base\IMvC.cs" />

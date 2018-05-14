@@ -38,6 +38,8 @@
     <Compile Remove="Code Respository\BDC Domain\zTODO\IExcelBDCSessionResult.cs" />
     <Compile Remove="Code Respository\BDC Domain\_Controllers\BDC_Controller_Parse.cs" />
     <Compile Remove="Code Respository\BDC Domain\_Controllers\BDC_Factory.cs" />
+    <Compile Remove="Code Respository\zKeep\IPX_Factory.cs" />
+    <Compile Remove="Code Respository\_Controllers\IPX_Factory.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,7 +48,7 @@
 
   <ItemGroup>
     <Folder Include="Code Respository\BDC Domain\zTODO\" />
-    <Folder Include="Code Respository\NCO Domain\_Controllers\" />
+    <Folder Include="Code Respository\zKeep\" />
   </ItemGroup>
 
 </Project>

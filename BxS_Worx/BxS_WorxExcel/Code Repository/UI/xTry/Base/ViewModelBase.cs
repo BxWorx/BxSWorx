@@ -23,21 +23,26 @@ namespace BxS_WorxExcel.MVVM
 			//===========================================================================================
 			#region "Methods: Internal"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ToggleView()
-					{
-						if ( this.View == null )		return;
-						//...
-						if (this.View.Visible)
-							{
-								if ( this.View.WindowState.Equals( FormWindowState.Minimized ) )
-									{	this.View.WindowState = FormWindowState.Normal; }
-								else
-									{	this.View.Hide(); }
-							}
-						else
-							{	this.View.Show(); }
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//internal void ToggleView()
+				//	{
+				//		if ( this.View != null )
+				//			{
+				//				this.View
+				//			}
+				//return;
+				//		//...
+				//		this.
+				//		if (this.View.Visible)
+				//			{
+				//				if ( this.View.WindowState.Equals( FormWindowState.Minimized ) )
+				//					{	this.View.WindowState = FormWindowState.Normal; }
+				//				else
+				//					{	this.View.Hide(); }
+				//			}
+				//		else
+				//			{	this.View.Show(); }
+				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected bool SetProperty<T>(	ref	T	storage

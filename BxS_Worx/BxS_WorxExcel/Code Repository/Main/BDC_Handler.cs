@@ -11,7 +11,7 @@ namespace BxS_WorxExcel.Main
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Handler( Lazy<IBDC_Controller> ipxBDCCntlr )
+				internal BDC_Handler( Lazy<IBDCx_Controller> ipxBDCCntlr )
 					{
 						this._IPXBDCCntlr	= ipxBDCCntlr;
 					}
@@ -21,7 +21,7 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy<IBDC_Controller>	_IPXBDCCntlr;
+				private readonly Lazy<IBDCx_Controller>	_IPXBDCCntlr;
 
 			#endregion
 

@@ -11,7 +11,6 @@ using BxS_WorxIPX.BDC;
 
 using BxS_WorxExcel.Code_Repository.UI.SAP;
 
-
 using static	BxS_WorxExcel.Main.EXL_Constants;
 using BxS_WorxExcel.Code_Repository.UI.SAP.Favourites;
 using BxS_WorxExcel.Code_Repository.UI.User_Controls;
@@ -35,7 +34,6 @@ namespace BxS_WorxExcel
 				private				string	_Full	;
 
 				private Lazy<BxS_XLController>	_BxSXLCntlr	;
-				private	Lazy<IIPX_Controller>		_IPXCntlr		;
 				private	Lazy<UIHost>						_UIHost			;
 
 			#endregion
@@ -43,8 +41,9 @@ namespace BxS_WorxExcel
 			//===========================================================================================
 			#region "Properties"
 
+				private IIPX_Controller		IPXCntlr		{	get	=>	IPX_Controller.Instance	;	}
+				//...
 				private BxS_XLController	BxSXLCntlr	{ get	{	return	this._BxSXLCntlr.Value;	}	}
-				private IIPX_Controller		IPXCntlr		{ get	{	return	this._IPXCntlr	.Value;	}	}
 				private UIHost						UIHost			{ get	{	return	this._UIHost		.Value;	}	}
 
 			#endregion
@@ -55,9 +54,8 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load(object sender, RibbonUIEventArgs e)
 					{
-						this._IPXCntlr		=	new	Lazy<IIPX_Controller>		(	()=>	IPX_Controller.Instance				,	cz_LM	);
-						this._BxSXLCntlr	= new	Lazy<BxS_XLController>	( ()=>	new	BxS_XLController()				, cz_LM );
-						this._UIHost			= new	Lazy<UIHost>						( ()=>	new	UIHost(	this._IPXCntlr )	, cz_LM );
+						this._BxSXLCntlr	= new	Lazy<BxS_XLController>	( ()=>	new	BxS_XLController()			, cz_LM );
+						this._UIHost			= new	Lazy<UIHost>						( ()=>	new	UIHost(	this.IPXCntlr )	, cz_LM );
 						//...
 						this._User				= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 					}
@@ -100,7 +98,6 @@ namespace BxS_WorxExcel
 						//var x = new SAPFavourites();
 
 						//x.Show();
-
 
 						//var x = this.BxSCntlr.FavHndlr.CreateEntry();
 
@@ -168,7 +165,6 @@ namespace BxS_WorxExcel
 				var WSHndlr		= new BDCWorksheet();
 				WSHndlr.Format( WS );
 			}
-
 
 		private void MVVM_Click(object sender , RibbonControlEventArgs e)
 			{

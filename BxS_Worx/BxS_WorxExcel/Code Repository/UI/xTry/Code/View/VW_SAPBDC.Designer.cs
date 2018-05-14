@@ -39,6 +39,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.xdgv_Sessions = new System.Windows.Forms.DataGridView();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.xtbn_Load = new System.Windows.Forms.ToolStripButton();
 			this.xtbn_Reset = new System.Windows.Forms.ToolStripButton();
@@ -50,7 +51,9 @@
 			this.toolStripContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.xdgv_Sessions)).BeginInit();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -94,6 +97,10 @@
 			this.splitContainer1.Panel1.Controls.Add(this.label3);
 			this.splitContainer1.Panel1.Controls.Add(this.label2);
 			this.splitContainer1.Panel1.Controls.Add(this.label1);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.xdgv_Sessions);
 			this.splitContainer1.Size = new System.Drawing.Size(437, 299);
 			this.splitContainer1.SplitterDistance = 69;
 			this.splitContainer1.TabIndex = 0;
@@ -164,6 +171,20 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "User Name";
 			// 
+			// xdgv_Sessions
+			// 
+			this.xdgv_Sessions.AllowUserToAddRows = false;
+			this.xdgv_Sessions.AllowUserToDeleteRows = false;
+			this.xdgv_Sessions.AllowUserToOrderColumns = true;
+			this.xdgv_Sessions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.xdgv_Sessions.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.xdgv_Sessions.Location = new System.Drawing.Point(0, 0);
+			this.xdgv_Sessions.Name = "xdgv_Sessions";
+			this.xdgv_Sessions.ReadOnly = true;
+			this.xdgv_Sessions.Size = new System.Drawing.Size(437, 226);
+			this.xdgv_Sessions.TabIndex = 0;
+			this.xdgv_Sessions.Visible = false;
+			// 
 			// toolStrip1
 			// 
 			this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -222,14 +243,14 @@
 			this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
 			this.toolStripButton4.Text = "toolStripButton4";
 			// 
-			// SAPBDCView
+			// VW_SAPBDC
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(437, 324);
 			this.Controls.Add(this.toolStripContainer1);
-			this.Name = "SAPBDCView";
-			this.Text = "SAPBDC";
+			this.Name = "VW_SAPBDC";
+			this.Text = "SAP BDC Sessions";
 			this.toolStripContainer1.ContentPanel.ResumeLayout(false);
 			this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
 			this.toolStripContainer1.TopToolStripPanel.PerformLayout();
@@ -237,8 +258,10 @@
 			this.toolStripContainer1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.PerformLayout();
+			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.xdgv_Sessions)).EndInit();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -249,10 +272,6 @@
 
 		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
 		private System.Windows.Forms.SplitContainer splitContainer1;
-		private System.Windows.Forms.DateTimePicker xdtp_End;
-		private System.Windows.Forms.DateTimePicker xdtp_Start;
-		private System.Windows.Forms.TextBox xtbx_SsnID;
-		private System.Windows.Forms.TextBox xtbx_User;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
@@ -263,5 +282,10 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton toolStripButton3;
 		private System.Windows.Forms.ToolStripButton toolStripButton4;
+		internal System.Windows.Forms.DataGridView xdgv_Sessions;
+		internal System.Windows.Forms.DateTimePicker xdtp_End;
+		internal System.Windows.Forms.DateTimePicker xdtp_Start;
+		internal System.Windows.Forms.TextBox xtbx_SsnID;
+		internal System.Windows.Forms.TextBox xtbx_User;
 		}
 	}

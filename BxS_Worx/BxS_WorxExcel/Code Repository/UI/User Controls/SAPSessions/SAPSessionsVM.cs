@@ -43,7 +43,7 @@ namespace BxS_WorxExcel.UI.UC
 
 				// setter injection
 				//
-				public IBDC_Controller IPXBDCCntlr { get; set; }
+				public IBDCx_Controller IPXBDCCntlr { get; set; }
 				//.................................................
 				public	string		PName_User		{	get	=>	nameof( DTO_Session.UserID				)	; }
 				public	string		PName_Session	{	get	=>	nameof( DTO_Session.SessionName		)	; }
@@ -103,9 +103,9 @@ namespace BxS_WorxExcel.UI.UC
 					{
 						if ( this.IPXBDCCntlr != null )
 							{
-								DTO_SAPSessionRequest	R = this.IPXBDCCntlr.CreateSAPSessionListRequest();
-								// TO-DO: populate the request
-								this.LoadList( this.IPXBDCCntlr.RequestSAPSessionList( R ) );
+								//DTO_SAPSessionRequest	R = this.IPXBDCCntlr.CreateSAPSessionListRequest();
+								//// TO-DO: populate the request
+								//this.LoadList( this.IPXBDCCntlr.RequestSAPSessionList( R ) );
 							}
 					}
 

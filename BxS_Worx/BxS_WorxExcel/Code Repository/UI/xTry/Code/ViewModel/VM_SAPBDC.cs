@@ -15,8 +15,15 @@ namespace BxS_WorxExcel.UI
 
 			#endregion
 
-				internal	VW_SAPBDC	MyView	{	get; set; }
-				internal	MD_SAPBDC		MyModel	{ get; }
 
+				internal void	GetchSAPSessionList()
+					{
+
+					}
+
+
+
+				internal	VW_SAPBDC		MyView	{	get; set; }
+				internal	MD_SAPBDC		MyModel	{ get; }
 		}
 }

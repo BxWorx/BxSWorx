@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.MVVM
 {
@@ -24,6 +25,9 @@ namespace BxS_WorxExcel.MVVM
 			//===========================================================================================
 			#region "Declarations"
 
+
+
+
 				private const DataSourceUpdateMode DSMODE	= DataSourceUpdateMode.OnPropertyChanged;
 				//.................................................
 				protected ViewModelBase _VMBase;
@@ -34,16 +38,16 @@ namespace BxS_WorxExcel.MVVM
 			#region "Methods: Protected"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected void BindControl( Control control , string cntrlPropName , string vmPropName )
+				protected void BindControl( Control control , string cntrlPropName , object dataSource , string vmPropName )
 					{
-						//control.DataBindings.Add( new	Binding( cntrlPropName , this._VMdl	, vmPropName , true , DSMODE ) );
+						control.DataBindings.Add( new	Binding( cntrlPropName , dataSource	, vmPropName , true , DSMODE ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected void OnFormClosed(object sender , FormClosedEventArgs e)
-					{
-						this._VMBase.View	= null;
-					}
+				protected virtual void OnFormClosed(object sender , FormClosedEventArgs e)	{ }
+					//{
+					//	this._VMBase.View	= null;
+					//}
 
 			#endregion
 

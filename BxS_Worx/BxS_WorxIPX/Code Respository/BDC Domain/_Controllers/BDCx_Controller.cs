@@ -8,17 +8,19 @@ using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.BDC
 {
-	public partial class BDC_Controller : IBDC_Controller
+	public partial class BDCx_Controller : IBDCx_Controller
 		{
-			#region "Constructors"
+			#region "Constructors: Singleton"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal BDC_Controller(	Lazy<IPX_ToolSet>		toolSet
-																,	Lazy<IPX_Factory>		factory	)
+				private		static readonly	Lazy<IBDCx_Controller>	_Instance		= new	Lazy<IBDCx_Controller>(	()=>	new	BDCx_Controller()	, cz_LM );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal static IBDCx_Controller Instance		{	get => _Instance.Value; }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private BDCx_Controller()
 					{
-						this._Toolset		= toolSet		??	throw		new ArgumentException( $"{typeof(BDC_Controller).Namespace}:- Toolset null" )	;
-						this._Factory		= factory		??	throw		new ArgumentException( $"{typeof(BDC_Controller).Namespace}:- Factory null" )	;
-						//...
 						this._ReqTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	Request					)
 																																							,	typeof(	Session					)
 																																							, typeof(	SAP_Logon				)
@@ -34,9 +36,6 @@ namespace BxS_WorxIPX.BDC
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy<IPX_ToolSet>		_Toolset	;
-				private	readonly	Lazy<IPX_Factory>		_Factory	;
-				//...
 				private	readonly	Lazy< List<Type> >	_ReqTypes	;
 				private	readonly	Lazy< List<Type> >	_CfgTypes	;
 
@@ -47,56 +46,59 @@ namespace BxS_WorxIPX.BDC
 
 				public	string	XmlConfigTag	{ get	{	return	cz_XmlCfgTag	; } }
 				//...
-				private	IPX_Factory	Factory				{ get	{ return	this._Factory.Value							; } }
-				private	IO					IO						{ get	{ return	this._Toolset.Value.IO					; } }
-				private	Serializer	Serializer		{ get	{ return	this._Toolset.Value.Serializer	; } }
+				private	INCOx_Controller	NCOx	{ get	{ return	NCOx_Controller.Instance	; } }
+				//...
+				private	IO					IO					{ get	{ return	IPX_ToolSet.Instance.IO					; } }
+				private	Serializer	Serializer	{ get	{ return	IPX_ToolSet.Instance.Serializer	; } }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	DTO_SAPSessionRequest	CreateSAPSessionListRequest()	=> new DTO_SAPSessionRequest();
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public	DTO_SAPSessionRequest	CreateSAPSessionListRequest()	=> new DTO_SAPSessionRequest();
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public IList<IDTO_Session> RequestSAPSessionList( DTO_SAPSessionRequest Request )
+				//	{
+				//		IList<IDTO_Session>	lt	= new List<IDTO_Session>();
+				//		//...
+				//		if (Request.User.Equals(""))
+				//			{
+				//			}
+				//		//...
+				//		// Mockup: start
+				//		//...
+				//		for ( int i = 0; i < 10; i++ )
+				//			{
+				//				var d		= new DTO_Session	{
+				//																		UserID       = $"User-{i.ToString()}" ,
+				//																		SessionName  = $"Session-{i.ToString()}" ,
+				//																		CreationDate = DateTime.Today ,
+				//																		CreationTime = new TimeSpan(DateTime.Now.Hour , DateTime.Now.Minute , DateTime.Now.Second) ,
+				//																		SAPTCode     = $"SAPTCde-{i.ToString()}"
+				//																	};
+
+				//				lt.Add( d );
+				//			}
+				//		//...
+				//		// Mockup: end
+				//		//...
+
+				//		//...
+				//		return	lt;
+				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IDTO_Session> RequestSAPSessionList( DTO_SAPSessionRequest Request )
-					{
-						IList<IDTO_Session>	lt	= new List<IDTO_Session>();
-						//...
-
-						//...
-						// Mockup: start
-						//...
-						for ( int i = 0; i < 10; i++ )
-							{
-								var d		= new DTO_Session	{
-																						UserID       = $"User-{i.ToString()}" ,
-																						SessionName  = $"Session-{i.ToString()}" ,
-																						CreationDate = DateTime.Today ,
-																						CreationTime = new TimeSpan(DateTime.Now.Hour , DateTime.Now.Minute , DateTime.Now.Second) ,
-																						SAPTCode     = $"SAPTCde-{i.ToString()}"
-																					};
-
-								lt.Add( d );
-							}
-						//...
-						// Mockup: end
-						//...
-
-						//...
-						return	lt;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	ISAP_Logon	Create_SAPLogon	()														=>	this.Factory.Create_SAPLogon();
+				//public	ISAP_Logon	Create_SAPLogon	()														=>	this.Factory.Create_SAPLogon();
 				public	IXMLConfig	Create_XMLConfig( bool withDefaults = true )	=>	new XMLConfig( withDefaults );
 				//...
 				public	IUser			Create_User			()=>	new User();
 				public	ISession	Create_Session	()=>	new	Session( this.Create_XMLConfig() )	;
 				public	IRequest_Config	Create_RequestConfig()	=> new Request_Config()	;
 
-				public	IRequest	Create_Request	()=>	new	Request( this.Create_User() , this.Factory.Create_SAPLogon() , this.Create_RequestConfig() )	;
+				public	IRequest	Create_Request	()=>	new	Request( this.Create_User() , this.NCOx.NewSAPLogon()	, this.Create_RequestConfig() )	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void DispatchRequest_ToFile(		IRequest	request

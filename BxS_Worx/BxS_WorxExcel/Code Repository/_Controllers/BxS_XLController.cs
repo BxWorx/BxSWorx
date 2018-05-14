@@ -23,13 +23,13 @@ namespace BxS_WorxExcel.Main
 						this._IPXCntlr	= new	Lazy<IIPX_Controller>	(	()=>	IPX_Controller.Instance	, cz_LM )	;
 						this._UTLCntlr	= new	Lazy<IUTL_Controller>	(	()=>	UTL_Controller.Instance	, cz_LM )	;
 						//...
-						this._IPXBDCCntlr		= new	Lazy<IBDC_Controller>	( ()=>	this._IPXCntlr.Value.Create_BDCController() , cz_LM )	;
+						//this._IPXBDCCntlr		= new	Lazy<IBDCx_Controller>	( ()=>	this._IPXCntlr.Value.Create_BDCController() , cz_LM )	;
 						//...
-						this._BDCHndlr	= new	Lazy<BDC_Handler>		( ()=>	new	BDC_Handler		( this._IPXBDCCntlr )	, cz_LM )	;
+						//this._BDCHndlr	= new	Lazy<BDC_Handler>		( ()=>	new	BDC_Handler		( this._IPXBDCCntlr )	, cz_LM )	;
 						//...
-						this._FavHndlr	= new	Lazy<BxS_Favourites<ISAP_Logon>>	( ()=>	new	BxS_Favourites<ISAP_Logon>(		this._UTLCntlr.Value.CreateTopTenList<ISAP_Logon>()
-																																																						,	this._UTLCntlr.Value.Serializer
-																																																						,	this._IPXBDCCntlr.Value.Create_SAPLogon								)	, cz_LM )	;
+						//this._FavHndlr	= new	Lazy<BxS_Favourites<ISAP_Logon>>	( ()=>	new	BxS_Favourites<ISAP_Logon>(		this._UTLCntlr.Value.CreateTopTenList<ISAP_Logon>()
+						//																																																,	this._UTLCntlr.Value.Serializer
+						//																																																,	this._IPXBDCCntlr.Value.Create_SAPLogon								)	, cz_LM )	;
 					}
 
 			#endregion
@@ -37,10 +37,11 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Declarations"
 
+
 				private readonly Lazy< IIPX_Controller >	_IPXCntlr	;
 				private readonly Lazy< IUTL_Controller >	_UTLCntlr	;
 				//...
-				private readonly Lazy< IBDC_Controller >	_IPXBDCCntlr	;
+				//private readonly Lazy< IBDCx_Controller >	_IPXBDCCntlr	;
 				//...
 				private	readonly	Lazy<BDC_Handler>			_BDCHndlr	;
 				//...
@@ -51,7 +52,8 @@ namespace BxS_WorxExcel.Main
 			//===========================================================================================
 			#region "Properties"
 
-				private		IBDC_Controller IPXBDCCntlr	{ get { return	this._IPXBDCCntlr.Value	; } }
+				private	IIPX_Controller		IPXCntlr	{ get =>	IPX_Controller.Instance				;	}
+				private	IBDCx_Controller	BDCxCntlr	{ get	=>	this.IPXCntlr.BDCx_Controller	;	}
 				//...
 				private		IExcel	XLHndlr							{ get { return	Globals.ThisAddIn.XLHndlr; } }
 				//...
@@ -79,11 +81,11 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//internal	IList<string>			GetSAPiniList()		=>	this.NCOCntlr	.GetSAPINIList();
 				internal	IList<DTO_WSNode>	GetManifest()			=>	this.XLHndlr	.GetManifest();
-				internal	IXMLConfig				CreateXMLConfig()	=>	this.IPXBDCCntlr	.Create_XMLConfig();
+				internal	IXMLConfig				CreateXMLConfig()	=>	this.BDCxCntlr	.Create_XMLConfig();
 				//...
 				internal	DTO_WSNode	GetActiveWSNode()	=> this.XLHndlr.GetActiveWSNode();
 				//...
-				internal	void	WriteRequestToFile( IRequest request , string fullPath )	=> this.IPXBDCCntlr.DispatchRequest_ToFile( request , fullPath );
+				internal	void	WriteRequestToFile( IRequest request , string fullPath )	=> this.BDCxCntlr.DispatchRequest_ToFile( request , fullPath );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IRequest CreateRequest( string ID )
@@ -96,12 +98,12 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal IRequest CreateRequest( IList<DTO_WSNode> wsList , string ID )
 					{
-						IRequest lo_Reqst		= this.IPXBDCCntlr.Create_Request();
+						IRequest lo_Reqst		= this.BDCxCntlr.Create_Request();
 						lo_Reqst.ID	= ID;
 						//.............................................
 						foreach ( DTO_WSNode lo_Node in wsList )
 							{
-								ISession		lo_Ssn	= this.IPXBDCCntlr.Create_Session();
+								ISession		lo_Ssn	= this.BDCxCntlr.Create_Session();
 								DTO_WSData	lo_WSD	= this.XLHndlr.GetWSData( lo_Node );
 								this._BDCHndlr.Value.TransferWSDatatoSession( lo_WSD , lo_Ssn );
 								lo_Reqst.Add_Session( lo_Ssn );
@@ -113,7 +115,7 @@ namespace BxS_WorxExcel.Main
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void WriteConfig( IXMLConfig config , string address = "$A$1" )
 					{
-						this.XLHndlr.WriteConfig( this.IPXBDCCntlr.SerializeXMLConfig( config ) , address );
+						this.XLHndlr.WriteConfig( this.BDCxCntlr.SerializeXMLConfig( config ) , address );
 					}
 
 			#endregion

@@ -12,7 +12,7 @@ namespace BxS_WorxExcel.Code_Repository.UI.User_Controls.WSConfig
 			private readonly SAPSessionsVM	y;
 
 		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-		public Form1( IBDC_Controller ipxbdcCntlr , bool ssn = false )
+		public Form1( IBDCx_Controller ipxbdcCntlr , bool ssn = false )
 			{
 				InitializeComponent();
 				//...
