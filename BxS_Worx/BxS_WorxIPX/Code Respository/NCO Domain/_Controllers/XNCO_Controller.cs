@@ -3,6 +3,7 @@ using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.BDC;
 using BxS_WorxUtil.General;
+
 using static	BxS_WorxIPX.Main.IPX_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxIPX.NCO
@@ -20,7 +21,7 @@ namespace BxS_WorxIPX.NCO
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private NCOx_Controller()
 					{
-						this._CfgTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	DTO_SAPSessionRequest	)	}	, cz_LM );
+						this._CfgTypes	= new Lazy< List<Type> >	( ()=>  new List<Type> {	typeof(	DTO_SessionRequest	)	}	, cz_LM );
 					}
 
 			#endregion
@@ -43,13 +44,11 @@ namespace BxS_WorxIPX.NCO
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	ISAP_Logon	NewSAPLogon	()=>	new	SAP_Logon()	;
+				public	ISAP_Logon						NewSAPLogon						()=>	new	SAP_Logon()						;
+				public	IDTO_SessionRequest		NewSAPSessionRequest	()=>	new	DTO_SessionRequest()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	DTO_SAPSessionRequest	NewSAPSessionRequest	()=>	new	DTO_SAPSessionRequest();
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IDTO_Session> RequestSAPSessionList( DTO_SAPSessionRequest Request )
+				public IList<IDTO_Session> RequestSAPSessionList( IDTO_SessionRequest Request )
 					{
 						IList<IDTO_Session>	lt	= new List<IDTO_Session>();
 						//...
@@ -80,8 +79,8 @@ namespace BxS_WorxIPX.NCO
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	string								SerializeSAPSessionRequest		( DTO_SAPSessionRequest request )	=>	this.Serializer.Serialize	( request , this._CfgTypes.Value , true )											;
-				public	DTO_SAPSessionRequest	DeserializeSAPSessionRequest	( string request )								=>	this.Serializer.DeSerialize<DTO_SAPSessionRequest>	( request , this._CfgTypes.Value )	;
+				public	string								SerializeSAPSessionRequest		( IDTO_SessionRequest request )		=>	this.Serializer.Serialize	( request , this._CfgTypes.Value , true )									;
+				public	IDTO_SessionRequest		DeserializeSAPSessionRequest	( string request )								=>	this.Serializer.DeSerialize<IDTO_SessionRequest>	( request , this._CfgTypes.Value )	;
 
 			#endregion
 

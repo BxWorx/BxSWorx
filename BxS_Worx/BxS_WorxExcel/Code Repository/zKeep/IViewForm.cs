@@ -1,19 +1,13 @@
-﻿using System;
-using System.Windows.Forms;
+﻿//using System;
+//using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.MVVM
 {
-	public interface IViewForm		//<T> where T: Form
+	internal interface IViewForm
 		{
-				//event Action ToggleView;
+			#region "Methods: Exposed"
 
 				void OnToggleView();
-
-
-
-			#region "Properties"
-
-//				T	ViewModel		{ get; set; }
 
 			#endregion
 

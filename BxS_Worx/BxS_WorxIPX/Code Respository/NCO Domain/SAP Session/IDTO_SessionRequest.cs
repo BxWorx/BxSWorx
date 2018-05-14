@@ -1,22 +1,17 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.MVVM
+namespace BxS_WorxIPX.NCO
 {
-	public interface IMvC
+	public interface IDTO_SessionRequest
 		{
 			#region "Properties"
 
-				string	ID	{ get; }
-
-			#endregion
-
-				event	Action Closing;
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
-				void	Shutdown()		;
-				void	ToggleView()	;
+				string		User	{ get; set; }
+				string		Name	{ get; set; }
+				DateTime	From	{ get; set; }
+				DateTime	To		{ get; set; }
+				bool			FromX	{ get; set; }
+				bool			ToX		{ get; set; }
 
 			#endregion
 

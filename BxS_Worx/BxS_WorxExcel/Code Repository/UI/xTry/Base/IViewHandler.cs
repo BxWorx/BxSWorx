@@ -7,14 +7,15 @@ namespace BxS_WorxExcel.MVVM
 		{
 			#region "Declarations"
 
-				event Action Closing;		// triggerred when FORM is closed by user
+				event Action FormClosing;		// triggerred when FORM is closed by user
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				Form	View { get; set; }
+				bool	IsDisposed	{	get; }
+				Form	View				{ get; set; }
 
 			#endregion
 

@@ -56,9 +56,9 @@ namespace BxS_WorxExcel.UI
 					{
 						if ( this._IsShuttingDown.Equals(1) )		return;
 						//...............................................
-						if ( this.CurrentUIs.TryGetValue( ID , out IMvC lo_MVVMC ) )
+						if ( this.CurrentUIs.TryGetValue( ID , out IMvC lo_MvC ) )
 							{
-								lo_MVVMC.ToggleView();
+								lo_MvC.ToggleView();
 							}
 						else
 							{
@@ -66,10 +66,11 @@ namespace BxS_WorxExcel.UI
 														{
 															case	"A":
 																{
-																	lo_MVVMC	= new MvC_SAPBDC( ID , this._IPXCntlr );
-																	if ( this.CurrentUIs.TryAdd(lo_MVVMC.ID , lo_MVVMC) )
+																	lo_MvC	= new MvC_SAPBDC( ID , this._IPXCntlr );
+																	if ( this.CurrentUIs.TryAdd(lo_MvC.ID , lo_MvC) )
 																		{
-																			lo_MVVMC.ToggleView();
+																			lo_MvC.Closing += this.OnClosing;
+																			lo_MvC.ToggleView();
 																		}
 																	break;
 																}
@@ -77,6 +78,12 @@ namespace BxS_WorxExcel.UI
 															default:	break;
 														}
 							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void OnClosing()
+					{
+
 					}
 
 				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

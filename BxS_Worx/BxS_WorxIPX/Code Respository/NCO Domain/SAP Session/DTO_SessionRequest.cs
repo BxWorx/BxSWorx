@@ -5,7 +5,7 @@ namespace BxS_WorxIPX.NCO
 {
 	[DataContract()]
 
-	public class DTO_SAPSessionRequest
+	public class DTO_SessionRequest : IDTO_SessionRequest
 		{
 			#region "Properties"
 

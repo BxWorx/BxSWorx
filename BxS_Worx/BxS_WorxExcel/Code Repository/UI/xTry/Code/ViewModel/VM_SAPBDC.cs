@@ -1,29 +1,43 @@
-﻿using BxS_WorxExcel.Code_Repository.UI.xTry;
-using BxS_WorxExcel.MVVM;
+﻿using BxS_WorxExcel.MVVM;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
 	internal class VM_SAPBDC : ViewModelBase
 		{
-			#region "Declarations"
+			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	VM_SAPBDC( MD_SAPBDC	model )
+				internal VM_SAPBDC(		MD_SAPBDC			model
+														,	IViewHandler	viewHandler	)	: base( viewHandler )
 					{
-						this.MyModel	=	model;
+						this._Model		=	model;
 					}
 
 			#endregion
 
+			//===========================================================================================
+			#region "Declarations"
 
-				internal void	GetchSAPSessionList()
+				private	readonly	MD_SAPBDC		_Model;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void OnLoad()
 					{
-
+						this._Model.GetSettings();
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void OnUpdateList()
+					{
+						this._Model.UpdateSAPSessionList();
+					}
 
+			#endregion
 
-				internal	VW_SAPBDC		MyView	{	get; set; }
-				internal	MD_SAPBDC		MyModel	{ get; }
 		}
 }

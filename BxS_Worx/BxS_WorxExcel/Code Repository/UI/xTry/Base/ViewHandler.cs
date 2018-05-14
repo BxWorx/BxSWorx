@@ -16,22 +16,29 @@ namespace BxS_WorxExcel.MVVM
 			//===========================================================================================
 			#region "Declarations"
 
-//				private	readonly	ViewModelBase	_VMdl;
-				//.................................................
-				public	event	Action	Closing;
+				private Form	_Form;
+				//...
+				public	event	Action	FormClosing;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	Form View { get; set; }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	bool	IsDisposed	{	get	=> this._Form == null	;	}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	Form	View	{
+															get	=>		this._Form;
+															set			{	this._Form	=	value;
+																				this._Form.FormClosing	+=	this.OnFormClosing;	}
+														}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Shutdown()
@@ -69,9 +76,12 @@ namespace BxS_WorxExcel.MVVM
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnFormClosing(object sender , FormClosingEventArgs e)
+				private void OnFormClosing( object sender , FormClosingEventArgs e )
 					{
-						Closing();	// trigger event to roll FORM closed up hierarchy
+						this.FormClosing?.Invoke();  // trigger event to roll FORM closed up hierarchy
+						//...
+						//this._Form.FormClosing -= this.OnFormClosing;
+						this._Form	=	null;
 					}
 
 			#endregion

@@ -1,12 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.MVVM
 {
 	internal abstract class ViewModelBase : INotifyPropertyChanged
 		{
+			#region "Constructors"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ViewModelBase( IViewHandler	viewHandler )
+					{
+						this.ViewHandler	= viewHandler;
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Events"
 
 				public	event	PropertyChangedEventHandler		PropertyChanged;
@@ -16,33 +26,12 @@ namespace BxS_WorxExcel.MVVM
 			//===========================================================================================
 			#region "Properties"
 
-				public	Form	View	{ get; set; }
+				internal	IViewHandler	ViewHandler	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Internal"
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//internal void ToggleView()
-				//	{
-				//		if ( this.View != null )
-				//			{
-				//				this.View
-				//			}
-				//return;
-				//		//...
-				//		this.
-				//		if (this.View.Visible)
-				//			{
-				//				if ( this.View.WindowState.Equals( FormWindowState.Minimized ) )
-				//					{	this.View.WindowState = FormWindowState.Normal; }
-				//				else
-				//					{	this.View.Hide(); }
-				//			}
-				//		else
-				//			{	this.View.Show(); }
-				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected bool SetProperty<T>(	ref	T	storage

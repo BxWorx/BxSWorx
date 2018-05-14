@@ -10,13 +10,12 @@ namespace BxS_WorxIPX.NCO
 				ISAP_Logon	NewSAPLogon();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				DTO_SAPSessionRequest	NewSAPSessionRequest();
-
-				IList<IDTO_Session>		RequestSAPSessionList( DTO_SAPSessionRequest Request );
+				IDTO_SessionRequest		NewSAPSessionRequest();
+				IList<IDTO_Session>		RequestSAPSessionList( IDTO_SessionRequest Request );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				string								SerializeSAPSessionRequest		( DTO_SAPSessionRequest request )	;
-				DTO_SAPSessionRequest	DeserializeSAPSessionRequest	( string request )								;
+				string								SerializeSAPSessionRequest		( IDTO_SessionRequest request )	;
+				IDTO_SessionRequest		DeserializeSAPSessionRequest	( string request )							;
 
 			#endregion
 

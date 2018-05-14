@@ -25,12 +25,15 @@ namespace BxS_WorxExcel.MVVM
 			//===========================================================================================
 			#region "Declarations"
 
-
-
-
 				private const DataSourceUpdateMode DSMODE	= DataSourceUpdateMode.OnPropertyChanged;
 				//.................................................
+				protected	const	string	PNME_VAL		= "Value"		;
+				protected	const	string	PNME_CHECK	= "Checked"	;
+				protected	const	string	PNME_TEXT		= "Text"		;
+				//.................................................
 				protected ViewModelBase _VMBase;
+
+				public	event Action	Closing;
 
 			#endregion
 
@@ -48,20 +51,6 @@ namespace BxS_WorxExcel.MVVM
 					//{
 					//	this._VMBase.View	= null;
 					//}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Virtual"
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//public void LayoutState( bool mode )
-				//	{
-				//		if ( mode )
-				//			{	this.View.SuspendLayout();	}
-				//		else
-				//			{	this.View.ResumeLayout();	}
-				//	}
 
 			#endregion
 

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.MVVM
 {
-	internal abstract class ViewBase : IView<T> where T: class
+	internal abstract class ViewFormBase : IViewForm
 		{
 			#region "Events"
 
@@ -17,7 +17,6 @@ namespace BxS_WorxExcel.MVVM
 			//===========================================================================================
 			#region "Properties"
 
-				public	T	ViewModel	{ get; set; }
 
 			#endregion
 
@@ -25,7 +24,7 @@ namespace BxS_WorxExcel.MVVM
 			#region "Methods: Internal"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ToggleView()
+				public void OnToggleView()
 					{
 					}
 
