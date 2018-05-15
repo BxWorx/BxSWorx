@@ -2,14 +2,14 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.MVVM
+namespace BxS_WorxExcel.UI.Core
 {
-	internal abstract class ViewModelBase : INotifyPropertyChanged
+	internal abstract class ViewModel_Base : INotifyPropertyChanged
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ViewModelBase( IViewHandler	viewHandler )
+				internal ViewModel_Base( IView_Handler	viewHandler )
 					{
 						this.ViewHandler	= viewHandler;
 					}
@@ -26,12 +26,18 @@ namespace BxS_WorxExcel.MVVM
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IViewHandler	ViewHandler	{ get; }
+				internal	IView_Handler	ViewHandler	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Internal"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void Shutdown()
+					{
+						this.ViewHandler.Shutdown();
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected bool SetProperty<T>(	ref	T	storage

@@ -1,16 +1,21 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.MVVM
+namespace BxS_WorxExcel.UI.Core
 {
-	public interface IMvC
+	public interface IController_Base
 		{
+			#region "Declarations"
+
+				event	EventHandler	FormClosed;
+
+			#endregion
+
+			//===========================================================================================
 			#region "Properties"
 
 				string	ID	{ get; }
 
 			#endregion
-
-				event	EventHandler FormClosing;
 
 			//===========================================================================================
 			#region "Methods: Exposed"

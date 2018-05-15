@@ -2,24 +2,24 @@
 //.........................................................
 using Microsoft.Office.Tools.Ribbon;
 //.........................................................
-using BxS_WorxExcel.UI;
+using BxS_WorxExcel.UI.Core;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
-	{
+{
 	public partial class BxS_Ribbon
 		{
 			#region "Declarations"
 
-				private	Lazy<UIHost>	_UIHost			;
+				private	Lazy<UI_Host>	_UIHost			;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private	UIHost	UIHost		{ get	{	return	this._UIHost.Value;	}	}
+				private	UI_Host	UIHost		{ get	{	return	this._UIHost.Value;	}	}
 
 			#endregion
 
@@ -29,7 +29,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_WorxMain_Load( object sender , RibbonUIEventArgs e )
 					{
-						this._UIHost	= new	Lazy<UIHost>	( ()=>	new	UIHost()	, cz_LM );
+						this._UIHost	= new	Lazy<UI_Host>	( ()=>	new	UI_Host()	, cz_LM );
 						//.............................................
 						// Add events from ribbon controls to handle
 						//
@@ -39,7 +39,7 @@ namespace BxS_WorxExcel
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_Ribbon_Close(object sender , EventArgs e)
 					{
-						this.UIHost.Shutdown();
+						this.UIHost.ShutdownUI();
 					}
 
 			#endregion
@@ -56,7 +56,7 @@ namespace BxS_WorxExcel
 			#endregion
 
 		}
-	}
+}
 
 		//	//===========================================================================================
 		//	#region "Declarations"

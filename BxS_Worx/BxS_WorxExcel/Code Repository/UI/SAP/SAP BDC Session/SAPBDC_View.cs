@@ -1,13 +1,13 @@
 ﻿using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.Code_Repository.UI.xTry
+namespace BxS_WorxExcel.UI.Forms
 {
-	public partial class VW_SAPBDC : Form
+	public partial class SAPBDC_View : Form
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public VW_SAPBDC()
+				public SAPBDC_View()
 					{
 						InitializeComponent();
 					}

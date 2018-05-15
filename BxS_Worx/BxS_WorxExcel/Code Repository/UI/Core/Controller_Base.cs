@@ -3,14 +3,14 @@ using System.Windows.Forms;
 //.........................................................
 using BxS_WorxIPX.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.MVVM
+namespace BxS_WorxExcel.UI.Core
 {
-	internal abstract class MvCBase : IMvC
+	internal abstract class Controller_Base : IController_Base
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal MvCBase( string id )
+				internal Controller_Base( string id )
 					{
 						this.ID	= id;
 					}
@@ -18,26 +18,26 @@ namespace BxS_WorxExcel.MVVM
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
-
-				public	string	ID	{ get ;}
-				//.................................................
-				protected	IIPX_Controller	IPXCntlr		{ get	{	return	IPX_Controller.Instance;	}	}
-
-			#endregion
-
-			//===========================================================================================
 			#region "Declarations"
 
-				private const DataSourceUpdateMode DSMODE	= DataSourceUpdateMode.OnPropertyChanged;
-				//.................................................
+				private		const DataSourceUpdateMode DSMODE		= DataSourceUpdateMode.OnPropertyChanged;
+				//...
 				protected	const	string	PNME_VAL		= "Value"		;
 				protected	const	string	PNME_CHECK	= "Checked"	;
 				protected	const	string	PNME_TEXT		= "Text"		;
 				//.................................................
-				protected ViewModelBase _VMBase;
+				protected ViewModel_Base _VMBase;
+				//...
+				public	event	EventHandler	FormClosed;
 
-				public	event EventHandler	FormClosing;
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				public	string	ID	{ get; }
+				//...
+				protected	IIPX_Controller	IPXCntlr		{ get	=> IPX_Controller.Instance;	}
 
 			#endregion
 
@@ -47,13 +47,17 @@ namespace BxS_WorxExcel.MVVM
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected void BindControl( Control control , string cntrlPropName , object dataSource , string vmPropName )
 					{
-						control.DataBindings.Add( new	Binding( cntrlPropName , dataSource	, vmPropName , true , DSMODE ) );
+						control.DataBindings.Add( new	Binding(	cntrlPropName
+																									, dataSource
+																									, vmPropName
+																									, true
+																									, DSMODE				) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected virtual void OnFormClosing(object sender , FormClosedEventArgs e)
+				protected virtual void OnFormClosed( object	sender , FormClosedEventArgs e )
 					{
-						FormClosing?.Invoke( this , e );
+						FormClosed?.Invoke( this , e );
 					}
 
 			#endregion

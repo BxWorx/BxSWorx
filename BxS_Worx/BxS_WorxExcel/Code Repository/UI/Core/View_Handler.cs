@@ -1,24 +1,14 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.MVVM
+namespace BxS_WorxExcel.UI.Core
 {
-	internal class ViewHandler : IViewHandler
+	internal class View_Handler : IView_Handler
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal ViewHandler()
+				internal View_Handler()
 					{	}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Declarations"
-
-				private Form	_Form;
-				//...
-				public	event	EventHandler	FormClosed;
 
 			#endregion
 
@@ -26,14 +16,8 @@ namespace BxS_WorxExcel.MVVM
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	bool	IsDisposed	{	get	=> this._Form == null	;	}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	Form	View	{
-															get	=>		this._Form;
-															set			{	this._Form	=	value;
-																				this._Form.FormClosed	+=	this.OnFormClosed;	}
-														}
+				public	bool	IsDisposed	{	get		=> this.View == null;	}
+				public	Form	View				{	get;	set; }
 
 			#endregion
 
@@ -43,7 +27,6 @@ namespace BxS_WorxExcel.MVVM
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Shutdown()
 					{
-						this.View.FormClosed -= this.OnFormClosed;
 						this.View.Close();
 					}
 
@@ -68,19 +51,6 @@ namespace BxS_WorxExcel.MVVM
 							}
 						else
 							{	this.View.Show(); }
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnFormClosed( object sender , FormClosedEventArgs e )
-					{
-						this.FormClosed?.Invoke( sender	,	e);  // trigger event to roll FORM closed up hierarchy
-						//...
-						this._Form	=	null;
 					}
 
 			#endregion

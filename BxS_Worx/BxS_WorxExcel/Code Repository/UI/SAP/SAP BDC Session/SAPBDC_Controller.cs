@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Windows.Forms;
 //.........................................................
-using BxS_WorxExcel.Code_Repository.UI.xTry;
-using BxS_WorxExcel.MVVM;
+using BxS_WorxExcel.UI.Core;
+using BxS_WorxExcel.UI.Forms;
 
-using BxS_WorxIPX.Main;
 using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
 {
-	internal class MvC_SAPBDC : MvCBase
+	internal class SAPBDC_Controller : Controller_Base
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public MvC_SAPBDC(	string id	) : base(id)
+				public SAPBDC_Controller(	string id	) : base(id)
 					{
-						this._MD	=	new	Lazy<MD_SAPBDC>(	()=>	new	MD_SAPBDC( this.IPXCntlr.NCOx_Controller )			);
-						this._VM	=	new Lazy<VM_SAPBDC>(	()=>	new	VM_SAPBDC( this._MD.Value , new ViewHandler() )	);
+						this._MD	=	new	Lazy<SAPBDC_Model>			(	()=>	new	SAPBDC_Model( this.IPXCntlr.NCOx_Controller )						);
+						this._VM	=	new Lazy<SAPBDC_ViewModel>	(	()=>	new	SAPBDC_ViewModel( this._MD.Value , new View_Handler() )	);
 					}
 
 			#endregion
@@ -25,16 +24,16 @@ namespace BxS_WorxExcel.UI
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Lazy<MD_SAPBDC>		_MD;
-				private	readonly	Lazy<VM_SAPBDC>		_VM;
+				private	readonly	Lazy<SAPBDC_Model>			_MD;
+				private	readonly	Lazy<SAPBDC_ViewModel>	_VM;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				private	VM_SAPBDC	VM	{	get	=>	this._VM.Value; }
-				private	MD_SAPBDC	MD	{	get	=>	this._MD.Value; }
+				private	SAPBDC_ViewModel	VM	{	get	=>	this._VM.Value; }
+				private	SAPBDC_Model			MD	{	get	=>	this._MD.Value; }
 				//...
 				private	IDTO_SessionRequest		Request		{	get	=>	this.MD.Request;	}
 
@@ -46,8 +45,7 @@ namespace BxS_WorxExcel.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override void Shutdown()
 					{
-						//this._VM.Value.View.FormClosed -= this.OnFormClosed;
-						//this._VM.Value.View.Close();
+						this.VM.Shutdown();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -69,17 +67,26 @@ namespace BxS_WorxExcel.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadView()
 					{
-						var lo_View		=	new	VW_SAPBDC();
-						this.VM.ViewHandler.View	=	lo_View;
-						this.VM.ViewHandler.FormClosed	+=	this.OnFormClosed;
-						this.MD.GetSettings();
-						//lo_View.FormClosed	+=	this.OnFormClosing;
+						var lo_View					 =	new	SAPBDC_View()	;
+						lo_View.FormClosed	+=	this.OnFormClosed	;		// need to know when then FORM closed by user
 						//...
-						this.LoadBindings( lo_View );
+						this.VM.ViewHandler.View	=	lo_View	;
+						//...
+						this.LoadBindings( lo_View )			;
+						this.LoadEventHandlers( lo_View )	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadBindings( VW_SAPBDC view )
+				private void LoadEventHandlers( SAPBDC_View view )
+					{
+						view.xbtn_Load			.Click	+=	this.VM.OnLoad_Click			;
+						view.xbtn_Previous	.Click	+=	this.VM.OnPrevious_Click	;
+						view.xbtn_Reset			.Click	+=	this.VM.OnReset_Click			;
+						view.xbtn_Save			.Click	+=	this.VM.OnSave_Click			;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadBindings( SAPBDC_View view )
 					{
 						this.BindControl( view.xtbx_User	, PNME_TEXT		, this.Request	, nameof( this.Request.User		) );
 						this.BindControl( view.xtbx_SsnID	, PNME_TEXT		, this.Request	, nameof( this.Request.Name		) );
@@ -95,17 +102,13 @@ namespace BxS_WorxExcel.UI
 			#region "Events: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnFormClosed(object sender , EventArgs e)
-					{
-						this.MD.SaveSettings();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected override void OnFormClosing( object sender , FormClosedEventArgs e )
+				protected override void OnFormClosed( object sender , FormClosedEventArgs e )
 					{
 						this.MD.SaveSettings();
 						//...
-						base.OnFormClosing(	this , e );
+						base.OnFormClosed( this , e );		// trigger the base class event in derived class
+						//...
+						this.VM.ViewHandler.View	=	null;
 					}
 
 			#endregion

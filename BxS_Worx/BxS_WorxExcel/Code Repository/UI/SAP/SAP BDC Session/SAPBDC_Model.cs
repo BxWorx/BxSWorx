@@ -3,14 +3,14 @@ using System.ComponentModel;
 //.........................................................
 using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI
+namespace BxS_WorxExcel.UI.Forms
 {
-	internal class MD_SAPBDC
+	internal class SAPBDC_Model
 		{
 			#region "Declarations"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal MD_SAPBDC( INCOx_Controller	ncoxCntlr )
+				internal SAPBDC_Model( INCOx_Controller	ncoxCntlr )
 					{
 						this._NCOxCntlr	= ncoxCntlr;
 						//...
@@ -61,14 +61,17 @@ namespace BxS_WorxExcel.UI
 								this.Request.Name		= "*"															;
 								this.Request.From		= new DateTime( 2000 , 01 , 01 )	;
 								this.Request.To			= new DateTime( 2999 , 12 , 31 )	;
-								this.Request.FromX	= true														;
-								this.Request.ToX		= true														;
+								this.Request.FromX	= false														;
+								this.Request.ToX		= false;
 								//...
 								this.SaveSettings();
 							}
 						else
 							{
-								this.Request	= this._NCOxCntlr.DeserializeSAPSessionRequest( this.MySettings );
+								IDTO_SessionRequest	lo_Req	= this._NCOxCntlr.DeserializeSAPSessionRequest( this.MySettings );
+								lo_Req.FromX	= false;
+								lo_Req.ToX		= false;
+								this.Request	=	lo_Req;
 							}
 					}
 

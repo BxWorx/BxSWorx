@@ -1,17 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.MVVM
+namespace BxS_WorxExcel.UI.Core
 {
-	public interface IViewHandler
+	public interface IView_Handler
 		{
-			#region "Declarations"
-
-				event EventHandler FormClosed;		// triggerred when FORM is closed by user
-
-			#endregion
-
-			//===========================================================================================
 			#region "Properties"
 
 				bool	IsDisposed	{	get; }
