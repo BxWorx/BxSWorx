@@ -10,7 +10,7 @@ namespace BxS_WorxExcel.MVVM
 
 			#endregion
 
-				event	Action Closing;
+				event	EventHandler FormClosing;
 
 			//===========================================================================================
 			#region "Methods: Exposed"

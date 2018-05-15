@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+//.........................................................
+using BxS_WorxIPX.Main;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.MVVM
 {
@@ -19,6 +21,8 @@ namespace BxS_WorxExcel.MVVM
 			#region "Properties"
 
 				public	string	ID	{ get ;}
+				//.................................................
+				protected	IIPX_Controller	IPXCntlr		{ get	{	return	IPX_Controller.Instance;	}	}
 
 			#endregion
 
@@ -33,7 +37,7 @@ namespace BxS_WorxExcel.MVVM
 				//.................................................
 				protected ViewModelBase _VMBase;
 
-				public	event Action	Closing;
+				public	event EventHandler	FormClosing;
 
 			#endregion
 
@@ -47,10 +51,10 @@ namespace BxS_WorxExcel.MVVM
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected virtual void OnFormClosed(object sender , FormClosedEventArgs e)	{ }
-					//{
-					//	this._VMBase.View	= null;
-					//}
+				protected virtual void OnFormClosing(object sender , FormClosedEventArgs e)
+					{
+						FormClosing?.Invoke( this , e );
+					}
 
 			#endregion
 

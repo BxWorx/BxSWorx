@@ -88,19 +88,19 @@
 			// 
 			this.btn_SaveAct.Label = "Write Active";
 			this.btn_SaveAct.Name = "btn_SaveAct";
-			this.btn_SaveAct.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.WriteActive_Click);
+			//this.btn_SaveAct.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.WriteActive_Click);
 			// 
 			// btn_SaveAll
 			// 
 			this.btn_SaveAll.Label = "Write ALL";
 			this.btn_SaveAll.Name = "btn_SaveAll";
-			this.btn_SaveAll.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.WriteAll_Click);
+			//this.btn_SaveAll.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.WriteAll_Click);
 			// 
 			// btn_XmlCfg
 			// 
 			this.btn_XmlCfg.Label = "Add Config";
 			this.btn_XmlCfg.Name = "btn_XmlCfg";
-			this.btn_XmlCfg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SaveXMLCfg_Click);
+			//this.btn_XmlCfg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SaveXMLCfg_Click);
 			// 
 			// xbg_SAPLogon
 			// 
@@ -115,26 +115,26 @@
 			// 
 			this.xbtn_Session.Label = "Session";
 			this.xbtn_Session.Name = "xbtn_Session";
-			this.xbtn_Session.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Session_Click);
+			//this.xbtn_Session.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Session_Click);
 			// 
 			// button4
 			// 
 			this.button4.Label = "Request";
 			this.button4.Name = "button4";
-			this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Request_Click);
+			//this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Request_Click);
 			// 
 			// btn_Submit
 			// 
 			this.btn_Submit.Label = "Submit";
 			this.btn_Submit.Name = "btn_Submit";
-			this.btn_Submit.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Submit_Click);
+			//this.btn_Submit.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Submit_Click);
 			// 
 			// dropDown1
 			// 
 			this.dropDown1.Buttons.Add(this.button1);
 			this.dropDown1.Label = "dropDown1";
 			this.dropDown1.Name = "dropDown1";
-			this.dropDown1.ItemsLoading += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DropDown1_Load);
+			//this.dropDown1.ItemsLoading += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DropDown1_Load);
 			// 
 			// button1
 			// 
@@ -182,13 +182,12 @@
 			// 
 			this.xbtn_NewBDCWS.Label = "Create BDC";
 			this.xbtn_NewBDCWS.Name = "xbtn_NewBDCWS";
-			this.xbtn_NewBDCWS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Xbtn_NewBDCWS_Click);
+			//this.xbtn_NewBDCWS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Xbtn_NewBDCWS_Click);
 			// 
 			// Xbtn_MVVM
 			// 
 			this.Xbtn_MVVM.Label = "Test MVVM";
 			this.Xbtn_MVVM.Name = "Xbtn_MVVM";
-			this.Xbtn_MVVM.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MVVM_Click);
 			// 
 			// tab1
 			// 

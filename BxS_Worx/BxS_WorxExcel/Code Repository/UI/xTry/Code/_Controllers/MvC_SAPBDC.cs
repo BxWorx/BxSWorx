@@ -14,12 +14,9 @@ namespace BxS_WorxExcel.UI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public MvC_SAPBDC(	string					id
-													,	IIPX_Controller	ipxCntlr	) : base(id)
+				public MvC_SAPBDC(	string id	) : base(id)
 					{
-						this._IPXCntlr	=	ipxCntlr;
-						//...
-						this._MD	=	new	Lazy<MD_SAPBDC>(	()=>	new	MD_SAPBDC( this._IPXCntlr.NCOx_Controller )			);
+						this._MD	=	new	Lazy<MD_SAPBDC>(	()=>	new	MD_SAPBDC( this.IPXCntlr.NCOx_Controller )			);
 						this._VM	=	new Lazy<VM_SAPBDC>(	()=>	new	VM_SAPBDC( this._MD.Value , new ViewHandler() )	);
 					}
 
@@ -28,8 +25,6 @@ namespace BxS_WorxExcel.UI
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IIPX_Controller		_IPXCntlr;
-				//...
 				private	readonly	Lazy<MD_SAPBDC>		_MD;
 				private	readonly	Lazy<VM_SAPBDC>		_VM;
 
@@ -72,18 +67,12 @@ namespace BxS_WorxExcel.UI
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected override void OnFormClosed(object sender , FormClosedEventArgs e)
-					{
-						this.MD.SaveSettings();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadView()
 					{
 						var lo_View		=	new	VW_SAPBDC();
 						this.VM.ViewHandler.View	=	lo_View;
 						this.MD.GetSettings();
-						//this.VM	lo_View.FormClosed	+=	this.OnFormClosed;
+						lo_View.FormClosed	+=	this.OnFormClosing;
 						//...
 						this.LoadBindings( lo_View );
 					}
@@ -97,6 +86,19 @@ namespace BxS_WorxExcel.UI
 						this.BindControl( view.xdtp_End		, PNME_VAL		, this.Request	, nameof( this.Request.To			) );
 						this.BindControl( view.xdtp_Start	, PNME_CHECK	, this.Request	, nameof( this.Request.FromX	) );
 						this.BindControl( view.xdtp_End		,	PNME_CHECK	, this.Request	, nameof( this.Request.ToX		) );
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Events: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected override void OnFormClosing( object sender , FormClosedEventArgs e )
+					{
+						this.MD.SaveSettings();
+						//...
+						base.OnFormClosing(	this , e );
 					}
 
 			#endregion
