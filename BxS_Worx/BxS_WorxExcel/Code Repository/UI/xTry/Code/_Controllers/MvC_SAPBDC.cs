@@ -71,8 +71,9 @@ namespace BxS_WorxExcel.UI
 					{
 						var lo_View		=	new	VW_SAPBDC();
 						this.VM.ViewHandler.View	=	lo_View;
+						this.VM.ViewHandler.FormClosed	+=	this.OnFormClosed;
 						this.MD.GetSettings();
-						lo_View.FormClosed	+=	this.OnFormClosing;
+						//lo_View.FormClosed	+=	this.OnFormClosing;
 						//...
 						this.LoadBindings( lo_View );
 					}
@@ -92,6 +93,12 @@ namespace BxS_WorxExcel.UI
 
 			//===========================================================================================
 			#region "Events: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void OnFormClosed(object sender , EventArgs e)
+					{
+						this.MD.SaveSettings();
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected override void OnFormClosing( object sender , FormClosedEventArgs e )

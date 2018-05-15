@@ -18,7 +18,7 @@ namespace BxS_WorxExcel.MVVM
 
 				private Form	_Form;
 				//...
-				public	event	Action	FormClosing;
+				public	event	EventHandler	FormClosed;
 
 			#endregion
 
@@ -32,7 +32,7 @@ namespace BxS_WorxExcel.MVVM
 				public	Form	View	{
 															get	=>		this._Form;
 															set			{	this._Form	=	value;
-																				this._Form.FormClosing	+=	this.OnFormClosing;	}
+																				this._Form.FormClosed	+=	this.OnFormClosed;	}
 														}
 
 			#endregion
@@ -43,7 +43,7 @@ namespace BxS_WorxExcel.MVVM
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Shutdown()
 					{
-						this.View.FormClosing -= this.OnFormClosing;
+						this.View.FormClosed -= this.OnFormClosed;
 						this.View.Close();
 					}
 
@@ -76,11 +76,10 @@ namespace BxS_WorxExcel.MVVM
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnFormClosing( object sender , FormClosingEventArgs e )
+				private void OnFormClosed( object sender , FormClosedEventArgs e )
 					{
-						this.FormClosing?.Invoke();  // trigger event to roll FORM closed up hierarchy
+						this.FormClosed?.Invoke( sender	,	e);  // trigger event to roll FORM closed up hierarchy
 						//...
-						//this._Form.FormClosing -= this.OnFormClosing;
 						this._Form	=	null;
 					}
 

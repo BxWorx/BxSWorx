@@ -7,7 +7,7 @@ namespace BxS_WorxExcel.MVVM
 		{
 			#region "Declarations"
 
-				event Action FormClosing;		// triggerred when FORM is closed by user
+				event EventHandler FormClosed;		// triggerred when FORM is closed by user
 
 			#endregion
 
