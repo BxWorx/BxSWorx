@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 //.........................................................
 using BxS_WorxExcel.UI.Core;
@@ -35,7 +36,8 @@ namespace BxS_WorxExcel.UI
 				private	SAPBDC_ViewModel	VM	{	get	=>	this._VM.Value; }
 				private	SAPBDC_Model			MD	{	get	=>	this._MD.Value; }
 				//...
-				private	IDTO_SessionRequest		Request		{	get	=>	this.MD.Request;	}
+				private	IDTO_SessionRequest				Request		{	get	=>	this.MD.Request	;	}
+				private	BindingList<IDTO_Session>	List			{ get	=>	this.MD.List		;	}
 
 			#endregion
 
@@ -45,7 +47,7 @@ namespace BxS_WorxExcel.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override void Shutdown()
 					{
-						this.VM.Shutdown();
+						if ( this._VM.IsValueCreated )	this.VM.Shutdown();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -94,6 +96,34 @@ namespace BxS_WorxExcel.UI
 						this.BindControl( view.xdtp_End		, PNME_VAL		, this.Request	, nameof( this.Request.To			) );
 						this.BindControl( view.xdtp_Start	, PNME_CHECK	, this.Request	, nameof( this.Request.FromX	) );
 						this.BindControl( view.xdtp_End		,	PNME_CHECK	, this.Request	, nameof( this.Request.ToX		) );
+
+						//view._BS.DataSource	= this.List;
+
+						view.xdgv_Sessions.DataSource	=	this.List;
+
+						view.xdgv_Sessions.Columns["xdgvCol_SAPID"].DataPropertyName	=	nameof( DTO_Session.UserID				);
+
+			//	public	string		PName_User		{	get	=>	nameof( DTO_Session.UserID				)	; }
+			//	public	string		PName_Session	{	get	=>	nameof( DTO_Session.SessionName		)	; }
+			//	public	string		PName_SAPTCde	{	get	=>	nameof( DTO_Session.SAPTCode			)	; }
+			//	public	string		PName_Date		{	get	=>	nameof( DTO_Session.CreationDate	)	; }
+
+			//{	DataSource = this.ViewModel.List };
+
+
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private void ConfigureColumns()
+				//	{
+				//		const	string	SAPID		= "SAPID";
+
+				//		var lo_C1 = new DataGridViewTextBoxColumn	{
+				//																									Name							= SAPID
+				//																								,	HeaderText				= "SAP System"
+				//																								,	DataPropertyName	= this.ViewModel.PName_User
+				//																							};
+				//	}
+
 					}
 
 			#endregion

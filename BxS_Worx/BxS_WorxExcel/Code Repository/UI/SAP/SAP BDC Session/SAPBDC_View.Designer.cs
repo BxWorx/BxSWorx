@@ -28,6 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAPBDC_View));
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -41,6 +43,11 @@
 			this.xtbx_SsnID = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.xdgv_Sessions = new System.Windows.Forms.DataGridView();
+			this.xdgvCol_SAPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.xdgvCol_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.xdgvCol_SAPTCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.xdgvCol_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.xdgvCol_TrnCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.xbtn_Load = new System.Windows.Forms.ToolStripButton();
 			this.xbtn_Reset = new System.Windows.Forms.ToolStripButton();
@@ -187,14 +194,56 @@
 			this.xdgv_Sessions.AllowUserToAddRows = false;
 			this.xdgv_Sessions.AllowUserToDeleteRows = false;
 			this.xdgv_Sessions.AllowUserToOrderColumns = true;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.xdgv_Sessions.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.xdgv_Sessions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.xdgv_Sessions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.xdgvCol_SAPID,
+            this.xdgvCol_Name,
+            this.xdgvCol_SAPTCode,
+            this.xdgvCol_Date,
+            this.xdgvCol_TrnCnt});
 			this.xdgv_Sessions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.xdgv_Sessions.Location = new System.Drawing.Point(0, 0);
 			this.xdgv_Sessions.Name = "xdgv_Sessions";
 			this.xdgv_Sessions.ReadOnly = true;
 			this.xdgv_Sessions.Size = new System.Drawing.Size(418, 196);
 			this.xdgv_Sessions.TabIndex = 0;
-			this.xdgv_Sessions.Visible = false;
+			// 
+			// xdgvCol_SAPID
+			// 
+			this.xdgvCol_SAPID.Frozen = true;
+			this.xdgvCol_SAPID.HeaderText = "SAPID";
+			this.xdgvCol_SAPID.Name = "xdgvCol_SAPID";
+			this.xdgvCol_SAPID.ReadOnly = true;
+			// 
+			// xdgvCol_Name
+			// 
+			this.xdgvCol_Name.Frozen = true;
+			this.xdgvCol_Name.HeaderText = "Name";
+			this.xdgvCol_Name.Name = "xdgvCol_Name";
+			this.xdgvCol_Name.ReadOnly = true;
+			// 
+			// xdgvCol_SAPTCode
+			// 
+			this.xdgvCol_SAPTCode.HeaderText = "T-Code";
+			this.xdgvCol_SAPTCode.Name = "xdgvCol_SAPTCode";
+			this.xdgvCol_SAPTCode.ReadOnly = true;
+			// 
+			// xdgvCol_Date
+			// 
+			dataGridViewCellStyle2.Format = "d";
+			dataGridViewCellStyle2.NullValue = null;
+			this.xdgvCol_Date.DefaultCellStyle = dataGridViewCellStyle2;
+			this.xdgvCol_Date.HeaderText = "Date";
+			this.xdgvCol_Date.Name = "xdgvCol_Date";
+			this.xdgvCol_Date.ReadOnly = true;
+			// 
+			// xdgvCol_TrnCnt
+			// 
+			this.xdgvCol_TrnCnt.HeaderText = "Trans";
+			this.xdgvCol_TrnCnt.Name = "xdgvCol_TrnCnt";
+			this.xdgvCol_TrnCnt.ReadOnly = true;
 			// 
 			// toolStrip1
 			// 
@@ -210,16 +259,16 @@
 			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-			this.toolStrip1.Size = new System.Drawing.Size(131, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(100, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
-			// xtbn_Load
+			// xbtn_Load
 			// 
 			this.xbtn_Load.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.xbtn_Load.Image = global::BxS_WorxExcel.Properties.Resources.if_table_excel_64759;
 			this.xbtn_Load.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.xbtn_Load.Name = "xtbn_Load";
+			this.xbtn_Load.Name = "xbtn_Load";
 			this.xbtn_Load.Size = new System.Drawing.Size(23, 22);
 			this.xbtn_Load.Text = "toolStripButton1";
 			// 
@@ -301,5 +350,10 @@
 		internal System.Windows.Forms.ToolStripButton xbtn_Previous;
 		internal System.Windows.Forms.ToolStripButton xbtn_Save;
 		internal System.Windows.Forms.ToolStripButton xbtn_Load;
+		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_SAPID;
+		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_Name;
+		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_SAPTCode;
+		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_Date;
+		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_TrnCnt;
 		}
 	}

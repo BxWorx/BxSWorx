@@ -42,6 +42,12 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Methods: Virtual"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void ClearList()
+					{
+						this.List.Clear();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void UpdateSAPSessionList()
 					{
 						this.List.Clear();
@@ -57,21 +63,19 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						if ( this.MySettings.Length.Equals(0) )
 							{
-								this.Request.User		= "*"															;
-								this.Request.Name		= "*"															;
-								this.Request.From		= new DateTime( 2000 , 01 , 01 )	;
-								this.Request.To			= new DateTime( 2999 , 12 , 31 )	;
-								this.Request.FromX	= false														;
-								this.Request.ToX		= false;
-								//...
+								this.FactorySettings();
 								this.SaveSettings();
 							}
 						else
 							{
-								IDTO_SessionRequest	lo_Req	= this._NCOxCntlr.DeserializeSAPSessionRequest( this.MySettings );
-								lo_Req.FromX	= false;
-								lo_Req.ToX		= false;
-								this.Request	=	lo_Req;
+								this.Request	= this._NCOxCntlr.DeserializeSAPSessionRequest( this.MySettings );
+								//...
+								this.Request.FromX	= false;
+								this.Request.ToX		= false;
+								//IDTO_SessionRequest	lo_Req	= this._NCOxCntlr.DeserializeSAPSessionRequest( this.MySettings );
+								//lo_Req.FromX	= false;
+								//lo_Req.ToX		= false;
+								//this.Request	=	lo_Req;
 							}
 					}
 
@@ -79,6 +83,22 @@ namespace BxS_WorxExcel.UI.Forms
 				internal void SaveSettings()
 					{
 						this.MySettings		= this._NCOxCntlr.SerializeSAPSessionRequest( this.Request );
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void FactorySettings()
+					{
+						this.Request.User		= "*"															;
+						this.Request.Name		= "*"															;
+						this.Request.From		= new DateTime( 2000 , 01 , 01 )	;
+						this.Request.To			= new DateTime( 2999 , 12 , 31 )	;
+						this.Request.FromX	= false														;
+						this.Request.ToX		= false;
 					}
 
 			#endregion

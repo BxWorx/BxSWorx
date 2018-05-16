@@ -32,25 +32,36 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void OnSave_Click( object sender , EventArgs e )
 					{
-						this._Model.UpdateSAPSessionList();
+						this.ViewHandler.LayoutState( true );
+						this._Model.ClearList();
+						this._Model.FactorySettings();
+						this.ViewHandler.LayoutState( false );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void OnPrevious_Click( object sender , EventArgs e )
 					{
-						this._Model.UpdateSAPSessionList();
+						this.ViewHandler.LayoutState( true );
+						this._Model.ClearList();
+						this._Model.GetSettings();
+						this.ViewHandler.LayoutState( false );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void OnReset_Click( object sender , EventArgs e )
 					{
-						this._Model.UpdateSAPSessionList();
+						this.ViewHandler.LayoutState( true );
+						this._Model.ClearList();
+						this._Model.GetSettings();
+						this.ViewHandler.LayoutState( false );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void OnLoad_Click( object sender , EventArgs e )
 					{
+						this.ViewHandler.LayoutState( true );
 						this._Model.UpdateSAPSessionList();
+						this.ViewHandler.LayoutState( false );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

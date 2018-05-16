@@ -27,22 +27,22 @@ namespace BxS_WorxExcel.UI.Core
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Shutdown()
 					{
-						this.View.Close();
+						this.View?.Close();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LayoutState( bool mode )
+				public void LayoutState( bool suspend )
 					{
-						if ( mode )
+						if ( suspend )
 							{	this.View.SuspendLayout();	}
 						else
-							{	this.View.ResumeLayout();	}
+							{	this.View.ResumeLayout();		}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ToggleView()
 					{
-						if (this.View.Visible)
+						if ( this.View.Visible )
 							{
 								if ( this.View.WindowState.Equals( FormWindowState.Minimized ) )
 									{	this.View.WindowState = FormWindowState.Normal	; }

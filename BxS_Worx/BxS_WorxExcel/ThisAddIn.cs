@@ -49,8 +49,10 @@ namespace BxS_WorxExcel
 				private void InternalStartup()
 					{
 						#pragma warning	disable RCS1114
-							this.Startup		+= new	System.EventHandler( this.ThisAddIn_Startup	 );
-							this.Shutdown		+= new	System.EventHandler( this.ThisAddIn_Shutdown );
+
+							this.Startup		+=	new	System.EventHandler( this.ThisAddIn_Startup	 );
+							this.Shutdown		+=	new	System.EventHandler( this.ThisAddIn_Shutdown );
+
 						#pragma warning restore	RCS1114
 					}
 
