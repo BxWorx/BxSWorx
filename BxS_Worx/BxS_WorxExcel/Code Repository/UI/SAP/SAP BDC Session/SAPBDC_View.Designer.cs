@@ -43,10 +43,11 @@
 			this.xtbx_SsnID = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.xdgv_Sessions = new System.Windows.Forms.DataGridView();
-			this.xdgvCol_SAPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.xdgvCol_UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.xdgvCol_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.xdgvCol_SAPTCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.xdgvCol_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.xdgvCol_Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.xdgvCol_TrnCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.xbtn_Load = new System.Windows.Forms.ToolStripButton();
@@ -74,13 +75,13 @@
 			// 
 			this.toolStripContainer1.ContentPanel.AutoScroll = true;
 			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(418, 279);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(651, 373);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.LeftToolStripPanelVisible = false;
 			this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
 			this.toolStripContainer1.Name = "toolStripContainer1";
 			this.toolStripContainer1.RightToolStripPanelVisible = false;
-			this.toolStripContainer1.Size = new System.Drawing.Size(418, 304);
+			this.toolStripContainer1.Size = new System.Drawing.Size(651, 398);
 			this.toolStripContainer1.TabIndex = 2;
 			this.toolStripContainer1.TabStop = false;
 			this.toolStripContainer1.Text = "toolStripContainer1";
@@ -104,7 +105,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.xdgv_Sessions);
-			this.splitContainer1.Size = new System.Drawing.Size(418, 279);
+			this.splitContainer1.Size = new System.Drawing.Size(651, 373);
 			this.splitContainer1.SplitterDistance = 79;
 			this.splitContainer1.TabIndex = 0;
 			// 
@@ -121,7 +122,7 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(418, 79);
+			this.panel1.Size = new System.Drawing.Size(651, 79);
 			this.panel1.TabIndex = 1;
 			// 
 			// xdtp_End
@@ -194,28 +195,32 @@
 			this.xdgv_Sessions.AllowUserToAddRows = false;
 			this.xdgv_Sessions.AllowUserToDeleteRows = false;
 			this.xdgv_Sessions.AllowUserToOrderColumns = true;
+			this.xdgv_Sessions.AllowUserToResizeRows = false;
 			dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.xdgv_Sessions.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.xdgv_Sessions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.xdgv_Sessions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.xdgvCol_SAPID,
+            this.xdgvCol_UserID,
             this.xdgvCol_Name,
             this.xdgvCol_SAPTCode,
             this.xdgvCol_Date,
+            this.xdgvCol_Time,
             this.xdgvCol_TrnCnt});
 			this.xdgv_Sessions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.xdgv_Sessions.Location = new System.Drawing.Point(0, 0);
 			this.xdgv_Sessions.Name = "xdgv_Sessions";
 			this.xdgv_Sessions.ReadOnly = true;
-			this.xdgv_Sessions.Size = new System.Drawing.Size(418, 196);
+			this.xdgv_Sessions.RowHeadersWidth = 30;
+			this.xdgv_Sessions.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+			this.xdgv_Sessions.Size = new System.Drawing.Size(651, 290);
 			this.xdgv_Sessions.TabIndex = 0;
 			// 
-			// xdgvCol_SAPID
+			// xdgvCol_UserID
 			// 
-			this.xdgvCol_SAPID.Frozen = true;
-			this.xdgvCol_SAPID.HeaderText = "SAPID";
-			this.xdgvCol_SAPID.Name = "xdgvCol_SAPID";
-			this.xdgvCol_SAPID.ReadOnly = true;
+			this.xdgvCol_UserID.Frozen = true;
+			this.xdgvCol_UserID.HeaderText = "User";
+			this.xdgvCol_UserID.Name = "xdgvCol_UserID";
+			this.xdgvCol_UserID.ReadOnly = true;
 			// 
 			// xdgvCol_Name
 			// 
@@ -226,6 +231,7 @@
 			// 
 			// xdgvCol_SAPTCode
 			// 
+			this.xdgvCol_SAPTCode.Frozen = true;
 			this.xdgvCol_SAPTCode.HeaderText = "T-Code";
 			this.xdgvCol_SAPTCode.Name = "xdgvCol_SAPTCode";
 			this.xdgvCol_SAPTCode.ReadOnly = true;
@@ -235,9 +241,17 @@
 			dataGridViewCellStyle2.Format = "d";
 			dataGridViewCellStyle2.NullValue = null;
 			this.xdgvCol_Date.DefaultCellStyle = dataGridViewCellStyle2;
+			this.xdgvCol_Date.Frozen = true;
 			this.xdgvCol_Date.HeaderText = "Date";
 			this.xdgvCol_Date.Name = "xdgvCol_Date";
 			this.xdgvCol_Date.ReadOnly = true;
+			// 
+			// xdgvCol_Time
+			// 
+			this.xdgvCol_Time.Frozen = true;
+			this.xdgvCol_Time.HeaderText = "Time";
+			this.xdgvCol_Time.Name = "xdgvCol_Time";
+			this.xdgvCol_Time.ReadOnly = true;
 			// 
 			// xdgvCol_TrnCnt
 			// 
@@ -308,7 +322,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(418, 304);
+			this.ClientSize = new System.Drawing.Size(651, 398);
 			this.Controls.Add(this.toolStripContainer1);
 			this.Name = "SAPBDC_View";
 			this.Text = "SAP BDC Sessions";
@@ -350,10 +364,11 @@
 		internal System.Windows.Forms.ToolStripButton xbtn_Previous;
 		internal System.Windows.Forms.ToolStripButton xbtn_Save;
 		internal System.Windows.Forms.ToolStripButton xbtn_Load;
-		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_SAPID;
+		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_UserID;
 		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_Name;
 		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_SAPTCode;
 		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_Date;
+		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_Time;
 		private System.Windows.Forms.DataGridViewTextBoxColumn xdgvCol_TrnCnt;
 		}
 	}

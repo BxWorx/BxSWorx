@@ -23,18 +23,18 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly INCOx_Controller		_NCOxCntlr;
+				private	readonly	INCOx_Controller	_NCOxCntlr;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IDTO_SessionRequest				Request	{ get;	private set; }
-				internal	BindingList<IDTO_Session>	List		{ get; }
+				internal	IDTO_SessionRequest					Request	{ get;	private	set; }
+				internal	BindingList<IDTO_Session>		List		{ get; }
 				//...
 				private		string	MySettings	{	get	=>	Properties.Settings.Default.XML_SAPSession					;
-																				set		{ Properties.Settings.Default.XML_SAPSession	= value	;	} }
+																				set	=>	Properties.Settings.Default.XML_SAPSession	= value	;	}
 
 			#endregion
 
@@ -68,14 +68,10 @@ namespace BxS_WorxExcel.UI.Forms
 							}
 						else
 							{
-								this.Request	= this._NCOxCntlr.DeserializeSAPSessionRequest( this.MySettings );
+								this.Request				= this._NCOxCntlr.DeserializeSAPSessionRequest( this.MySettings );
 								//...
 								this.Request.FromX	= false;
 								this.Request.ToX		= false;
-								//IDTO_SessionRequest	lo_Req	= this._NCOxCntlr.DeserializeSAPSessionRequest( this.MySettings );
-								//lo_Req.FromX	= false;
-								//lo_Req.ToX		= false;
-								//this.Request	=	lo_Req;
 							}
 					}
 
@@ -98,7 +94,7 @@ namespace BxS_WorxExcel.UI.Forms
 						this.Request.From		= new DateTime( 2000 , 01 , 01 )	;
 						this.Request.To			= new DateTime( 2999 , 12 , 31 )	;
 						this.Request.FromX	= false														;
-						this.Request.ToX		= false;
+						this.Request.ToX		= false														;
 					}
 
 			#endregion

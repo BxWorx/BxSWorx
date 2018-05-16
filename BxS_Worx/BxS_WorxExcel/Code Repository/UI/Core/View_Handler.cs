@@ -31,7 +31,7 @@ namespace BxS_WorxExcel.UI.Core
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LayoutState( bool suspend )
+				public void LayoutSuspend( bool suspend )
 					{
 						if ( suspend )
 							{	this.View.SuspendLayout();	}

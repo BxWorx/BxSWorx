@@ -14,7 +14,7 @@ namespace BxS_WorxExcel.UI.Core
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void	LayoutState( bool mode );
+				void	LayoutSuspend( bool suspend );
 				void	ToggleView();
 				void	Shutdown();
 

@@ -72,10 +72,11 @@ namespace BxS_WorxExcel.UI
 						var lo_View					 =	new	SAPBDC_View()	;
 						lo_View.FormClosed	+=	this.OnFormClosed	;		// need to know when then FORM closed by user
 						//...
-						this.VM.ViewHandler.View	=	lo_View	;
+						this.VM.ViewHandler.View	=	lo_View		;
 						//...
-						this.LoadBindings( lo_View )			;
-						this.LoadEventHandlers( lo_View )	;
+						this.LoadSelectionBindings	( lo_View )	;
+						this.LoadDGVBindings				( lo_View )	;
+						this.LoadEventHandlers			( lo_View )	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -88,42 +89,32 @@ namespace BxS_WorxExcel.UI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadBindings( SAPBDC_View view )
+				private void LoadDGVBindings( SAPBDC_View view )
 					{
-						this.BindControl( view.xtbx_User	, PNME_TEXT		, this.Request	, nameof( this.Request.User		) );
-						this.BindControl( view.xtbx_SsnID	, PNME_TEXT		, this.Request	, nameof( this.Request.Name		) );
-						this.BindControl( view.xdtp_Start	, PNME_VAL		, this.Request	, nameof( this.Request.From		) );
-						this.BindControl( view.xdtp_End		, PNME_VAL		, this.Request	, nameof( this.Request.To			) );
-						this.BindControl( view.xdtp_Start	, PNME_CHECK	, this.Request	, nameof( this.Request.FromX	) );
-						this.BindControl( view.xdtp_End		,	PNME_CHECK	, this.Request	, nameof( this.Request.ToX		) );
+						view.xdgv_Sessions	.AutoGenerateColumns	= false;
+						view.xdgv_Sessions	.DataSource						=	this.List;
+						//...
+						view.xdgv_Sessions.Columns[	"xdgvCol_UserID"		].DataPropertyName	=	nameof( DTO_Session.UserID				);
+						view.xdgv_Sessions.Columns[	"xdgvCol_Name"			].DataPropertyName	=	nameof( DTO_Session.SessionName		);
+						view.xdgv_Sessions.Columns[	"xdgvCol_SAPTCode"	].DataPropertyName	=	nameof( DTO_Session.SAPTCode			);
+						view.xdgv_Sessions.Columns[	"xdgvCol_Date"			].DataPropertyName	=	nameof( DTO_Session.CreationDate	);
+						view.xdgv_Sessions.Columns[	"xdgvCol_Time"			].DataPropertyName	=	nameof( DTO_Session.CreationTime  );
+						view.xdgv_Sessions.Columns[	"xdgvCol_TrnCnt"		].DataPropertyName	=	nameof( DTO_Session.Count         );
+					}
 
-						//view._BS.DataSource	= this.List;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadSelectionBindings( SAPBDC_View view )
+					{
+						this.BindControl( view.xtbx_User	, PNME_TEXT		, this.VM	, nameof( this.VM.UserID			) );
+						this.BindControl( view.xtbx_SsnID	, PNME_TEXT		, this.VM	, nameof( this.VM.SessionName	) );
 
-						view.xdgv_Sessions.DataSource	=	this.List;
+						//this.BindControl( view.xtbx_User	, PNME_TEXT		, this.VM.UserID			, nameof( this.Request.User		) );
+						//this.BindControl( view.xtbx_SsnID	, PNME_TEXT		, this.VM.SessionName	, nameof( this.Request.Name		) );
 
-						view.xdgv_Sessions.Columns["xdgvCol_SAPID"].DataPropertyName	=	nameof( DTO_Session.UserID				);
-
-			//	public	string		PName_User		{	get	=>	nameof( DTO_Session.UserID				)	; }
-			//	public	string		PName_Session	{	get	=>	nameof( DTO_Session.SessionName		)	; }
-			//	public	string		PName_SAPTCde	{	get	=>	nameof( DTO_Session.SAPTCode			)	; }
-			//	public	string		PName_Date		{	get	=>	nameof( DTO_Session.CreationDate	)	; }
-
-			//{	DataSource = this.ViewModel.List };
-
-
-
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private void ConfigureColumns()
-				//	{
-				//		const	string	SAPID		= "SAPID";
-
-				//		var lo_C1 = new DataGridViewTextBoxColumn	{
-				//																									Name							= SAPID
-				//																								,	HeaderText				= "SAP System"
-				//																								,	DataPropertyName	= this.ViewModel.PName_User
-				//																							};
-				//	}
-
+						//this.BindControl( view.xdtp_Start	, PNME_VAL		, this.Request	, nameof( this.Request.From		) );
+						//this.BindControl( view.xdtp_End		, PNME_VAL		, this.Request	, nameof( this.Request.To			) );
+						//this.BindControl( view.xdtp_Start	, PNME_CHECK	, this.Request	, nameof( this.Request.FromX	) );
+						//this.BindControl( view.xdtp_End		,	PNME_CHECK	, this.Request	, nameof( this.Request.ToX		) );
 					}
 
 			#endregion

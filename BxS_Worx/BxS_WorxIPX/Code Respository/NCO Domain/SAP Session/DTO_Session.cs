@@ -6,13 +6,13 @@ namespace BxS_WorxIPX.NCO
 		{
 			#region "Properties"
 
+				public	string		QID           { get; set; }
 				public	string		UserID        { get; set; }
 				public	string		SessionName   { get; set; }
+				public	string		SAPTCode			{ get; set; }
 				public	DateTime	CreationDate	{ get; set; }
 				public	TimeSpan	CreationTime  { get; set; }
 				public	int				Count         { get; set; }
-				public	string		QID           { get; set; }
-				public	string		SAPTCode			{ get; set; }
 
 			#endregion
 
