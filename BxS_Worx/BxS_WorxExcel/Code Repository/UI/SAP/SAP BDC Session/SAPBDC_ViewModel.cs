@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 //.........................................................
 using BxS_WorxExcel.UI.Core;
+using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Forms
 {
@@ -14,6 +16,7 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						this._Model		=	model;
 						//...
+						this.BDCList	= new	BindingList<IDTO_Session>( this._Model.List );
 						this._Model.GetSettings();
 					}
 
@@ -23,6 +26,8 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Declarations"
 
 				private	readonly	SAPBDC_Model		_Model;
+				//...
+				internal	BindingList<IDTO_Session>		BDCList		{ get; }
 
 			#endregion
 
@@ -39,8 +44,15 @@ namespace BxS_WorxExcel.UI.Forms
 																										this.SetProperty( ref lc_SNme	, value )	;
 																										this._Model.Request.Name	= lc_SNme			;	}	}
 				//...
-				//public	DateTime	StartDate			{ get	=>	this._Model.Request.From	;		set	{ this.SetProperty( ref this._Model.Request.From	, value )	; } }
-				//public	DateTime	EndDate				{ get	=>	this._Model.Request.To		;		set	{ this.SetProperty( ref this._Model.Request.To		, value )	; } }
+				public	DateTime	DateFrom			{ get	=>		this._Model.Request.From								;
+																					set			{ DateTime	ld_Dte	= default( DateTime )	;
+																										this.SetProperty( ref ld_Dte	, value )	;
+																										this._Model.Request.From	= ld_Dte			;	}	}
+				//...
+				public	DateTime	DateTo				{ get	=>		this._Model.Request.To									;
+																					set			{ DateTime	ld_Dte	= default( DateTime )	;
+																										this.SetProperty( ref ld_Dte	, value )	;
+																										this._Model.Request.To		= ld_Dte			;	}	}
 
 			#endregion
 
@@ -74,11 +86,13 @@ namespace BxS_WorxExcel.UI.Forms
 						this.ViewHandler.LayoutSuspend( false );
 					}
 
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void OnLoad_Click( object sender , EventArgs e )
 					{
 						this.ViewHandler.LayoutSuspend( true );
 						this._Model.UpdateSAPSessionList();
+						this.BDCList.ResetBindings();
 						this.ViewHandler.LayoutSuspend( false );
 					}
 

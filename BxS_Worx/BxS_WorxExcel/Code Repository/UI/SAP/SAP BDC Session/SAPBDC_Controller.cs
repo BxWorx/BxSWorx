@@ -37,7 +37,7 @@ namespace BxS_WorxExcel.UI
 				private	SAPBDC_Model			MD	{	get	=>	this._MD.Value; }
 				//...
 				private	IDTO_SessionRequest				Request		{	get	=>	this.MD.Request	;	}
-				private	BindingList<IDTO_Session>	List			{ get	=>	this.MD.List		;	}
+				private	BindingList<IDTO_Session>	BDCList		{ get	=>	this.VM.BDCList	;	}
 
 			#endregion
 
@@ -92,7 +92,7 @@ namespace BxS_WorxExcel.UI
 				private void LoadDGVBindings( SAPBDC_View view )
 					{
 						view.xdgv_Sessions	.AutoGenerateColumns	= false;
-						view.xdgv_Sessions	.DataSource						=	this.List;
+						view.xdgv_Sessions	.DataSource						=	this.BDCList;
 						//...
 						view.xdgv_Sessions.Columns[	"xdgvCol_UserID"		].DataPropertyName	=	nameof( DTO_Session.UserID				);
 						view.xdgv_Sessions.Columns[	"xdgvCol_Name"			].DataPropertyName	=	nameof( DTO_Session.SessionName		);
@@ -107,14 +107,8 @@ namespace BxS_WorxExcel.UI
 					{
 						this.BindControl( view.xtbx_User	, PNME_TEXT		, this.VM	, nameof( this.VM.UserID			) );
 						this.BindControl( view.xtbx_SsnID	, PNME_TEXT		, this.VM	, nameof( this.VM.SessionName	) );
-
-						//this.BindControl( view.xtbx_User	, PNME_TEXT		, this.VM.UserID			, nameof( this.Request.User		) );
-						//this.BindControl( view.xtbx_SsnID	, PNME_TEXT		, this.VM.SessionName	, nameof( this.Request.Name		) );
-
-						//this.BindControl( view.xdtp_Start	, PNME_VAL		, this.Request	, nameof( this.Request.From		) );
-						//this.BindControl( view.xdtp_End		, PNME_VAL		, this.Request	, nameof( this.Request.To			) );
-						//this.BindControl( view.xdtp_Start	, PNME_CHECK	, this.Request	, nameof( this.Request.FromX	) );
-						//this.BindControl( view.xdtp_End		,	PNME_CHECK	, this.Request	, nameof( this.Request.ToX		) );
+						this.BindControl( view.xdtp_Start	, PNME_VAL		, this.VM	, nameof( this.VM.DateFrom		) );
+						this.BindControl( view.xdtp_End		, PNME_VAL		, this.VM	, nameof( this.VM.DateTo			) );
 					}
 
 			#endregion

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 //.........................................................
 using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -15,7 +15,7 @@ namespace BxS_WorxExcel.UI.Forms
 						this._NCOxCntlr	= ncoxCntlr;
 						//...
 						this.Request	= this._NCOxCntlr.NewSAPSessionRequest();
-						this.List			= new	BindingList<IDTO_Session>();
+						this.List			= new	List<IDTO_Session>();
 					}
 
 			#endregion
@@ -30,8 +30,8 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IDTO_SessionRequest					Request	{ get;	private	set; }
-				internal	BindingList<IDTO_Session>		List		{ get; }
+				internal	IDTO_SessionRequest		Request	{ get;	private	set; }
+				internal	List<IDTO_Session>		List		{ get; }
 				//...
 				private		string	MySettings	{	get	=>	Properties.Settings.Default.XML_SAPSession					;
 																				set	=>	Properties.Settings.Default.XML_SAPSession	= value	;	}
@@ -51,11 +51,7 @@ namespace BxS_WorxExcel.UI.Forms
 				internal void UpdateSAPSessionList()
 					{
 						this.List.Clear();
-						//...
-						foreach ( IDTO_Session lo_DTO in this._NCOxCntlr.RequestSAPSessionList( this.Request ) )
-							{
-								this.List.Add( lo_DTO	);
-							}
+						this.List.AddRange( this._NCOxCntlr.RequestSAPSessionList( this.Request ) );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

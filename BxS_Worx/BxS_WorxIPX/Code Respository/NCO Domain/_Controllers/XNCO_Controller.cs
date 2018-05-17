@@ -52,13 +52,11 @@ namespace BxS_WorxIPX.NCO
 					{
 						IList<IDTO_Session>	lt	= new List<IDTO_Session>();
 						//...
-						if (Request.User.Equals(""))
-							{
-							}
+						if ( ! int.TryParse( Request.User, out int ln) )	ln = 10;
 						//...
 						// Mockup: start
 						//...
-						for ( int i = 0; i < 10; i++ )
+						for ( int i = 0; i < ln; i++ )
 							{
 								var d		= new DTO_Session	{
 																						UserID       = $"User-{i.ToString()}" ,
