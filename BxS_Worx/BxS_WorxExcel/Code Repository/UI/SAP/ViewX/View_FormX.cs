@@ -9,22 +9,14 @@ namespace BxS_WorxExcel.UI
 	{
 	public partial class FormX : Form , INotifyPropertyChanged
 		{
-
-				private	List<IDTO_Session>					List		{ get;  set; }
-				private	BindingList<IDTO_Session>		BDCList		{ get; }
-				private readonly BindingSource			BDC_BS;
+				private	List<IDTO_Session>					List		{ get; set; }
+				private	BindingList<IDTO_Session>		BDCList	{ get; set; }
+				private BindingSource								BDC_BS;
 
 		public FormX()
 			{
 				InitializeComponent();
 
-				this.BDC_BS		= new BindingSource();
-				this.BDCList	= new	BindingList<IDTO_Session>();
-				this.BDC_BS.DataSource	= this.BDCList;
-				this.xdgv_Main.DataSource	= this.BDC_BS;
-
-				//this.xtbx_Test.DataBindings.Add("Text", this.BDCList, "UserID");
-				this.xtbx_Test.DataBindings.Add("Text", this , "MyText" , false , DataSourceUpdateMode.OnPropertyChanged );
 			}
 
 				public	event	PropertyChangedEventHandler		PropertyChanged;
@@ -79,6 +71,18 @@ namespace BxS_WorxExcel.UI
 		private void button2_Click(object sender , EventArgs e)
 			{
 				this.LoadList();
+			}
+
+		private void FormX_Load(object sender , EventArgs e)
+			{
+				this.BDC_BS		= new BindingSource();
+				this.BDCList	= new	BindingList<IDTO_Session>();
+				this.BDC_BS.DataSource	= this.BDCList;
+				this.xdgv_Main.DataSource	= this.BDC_BS;
+
+				//this.xtbx_Test.DataBindings.Add("Text", this.BDCList, "UserID");
+				this.xtbx_Test.DataBindings.Add("Text", this , "MyText" , true , DataSourceUpdateMode.OnPropertyChanged );
+
 			}
 		//this.BDCList	= new	BindingList<IDTO_Session>( this.List );
 		}

@@ -98,6 +98,7 @@
 			this.Controls.Add(this.xtbx_Test);
 			this.Name = "FormX";
 			this.Text = "Form1";
+			this.Load += new System.EventHandler(this.FormX_Load);
 			((System.ComponentModel.ISupportInitialize)(this.xdgv_Main)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
