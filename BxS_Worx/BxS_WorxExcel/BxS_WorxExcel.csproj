@@ -185,6 +185,18 @@
   <ItemGroup>
     <Compile Include="Code Repository\Main\Excel Domain\BDCWorksheet.cs" />
     <Compile Include="Code Repository\Main\IExcel.cs" />
+    <Compile Include="Code Repository\UI\Flat\BxS_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Code Repository\UI\Flat\BxS_Main.Designer.cs">
+      <DependentUpon>BxS_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Code Repository\UI\Flat\DGV\UC_DGV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Code Repository\UI\Flat\DGV\UC_DGV.Designer.cs">
+      <DependentUpon>UC_DGV.cs</DependentUpon>
+    </Compile>
     <Compile Include="Code Repository\UI\SAP\ViewX\ViewModel_FormX.cs" />
     <Compile Include="Code Repository\UI\SAP\ViewX\View_FormX.cs">
       <SubType>Form</SubType>
@@ -267,6 +279,12 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="Code Repository\UI\Flat\BxS_Main.resx">
+      <DependentUpon>BxS_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Code Repository\UI\Flat\DGV\UC_DGV.resx">
+      <DependentUpon>UC_DGV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Code Repository\UI\Ribbon\BxS_Ribbon.resx">
       <DependentUpon>BxS_Ribbon.cs</DependentUpon>
     </EmbeddedResource>

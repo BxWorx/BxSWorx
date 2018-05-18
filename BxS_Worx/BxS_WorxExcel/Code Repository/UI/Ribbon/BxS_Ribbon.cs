@@ -5,6 +5,7 @@ using Microsoft.Office.Tools.Ribbon;
 using BxS_WorxExcel.UI.Core;
 
 using static	BxS_WorxExcel.Main.EXL_Constants;
+using BxS_WorxExcel.UI.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel
 {
@@ -60,8 +61,13 @@ namespace BxS_WorxExcel
 						this.UIHost.ShowUI( this.UIHost.UITag_FormX );
 					}
 
-			#endregion
+		#endregion
 
+		private void xbtn_Falt_Click(object sender , RibbonControlEventArgs e)
+			{
+				var x = new BxS_Main();
+				x.Show();
+			}
 		}
 }
 

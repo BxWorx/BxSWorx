@@ -54,10 +54,11 @@
 			this.group4 = this.Factory.CreateRibbonGroup();
 			this.xbtn_NewBDCWS = this.Factory.CreateRibbonButton();
 			this.Xbtn_MVVM = this.Factory.CreateRibbonButton();
+			this.xbtn_FormX = this.Factory.CreateRibbonButton();
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group3 = this.Factory.CreateRibbonGroup();
 			this.dropDown2 = this.Factory.CreateRibbonDropDown();
-			this.xbtn_FormX = this.Factory.CreateRibbonButton();
+			this.xbtn_Falt = this.Factory.CreateRibbonButton();
 			this.xtab_BxS.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
@@ -170,6 +171,7 @@
 			this.group4.Items.Add(this.xbtn_NewBDCWS);
 			this.group4.Items.Add(this.Xbtn_MVVM);
 			this.group4.Items.Add(this.xbtn_FormX);
+			this.group4.Items.Add(this.xbtn_Falt);
 			this.group4.Label = "group4";
 			this.group4.Name = "group4";
 			// 
@@ -182,6 +184,11 @@
 			// 
 			this.Xbtn_MVVM.Label = "Test MVVM";
 			this.Xbtn_MVVM.Name = "Xbtn_MVVM";
+			// 
+			// xbtn_FormX
+			// 
+			this.xbtn_FormX.Label = "Test FormX";
+			this.xbtn_FormX.Name = "xbtn_FormX";
 			// 
 			// tab1
 			// 
@@ -202,10 +209,11 @@
 			this.dropDown2.Name = "dropDown2";
 			this.dropDown2.ShowLabel = false;
 			// 
-			// xbtn_FormX
+			// xbtn_Falt
 			// 
-			this.xbtn_FormX.Label = "Test FormX";
-			this.xbtn_FormX.Name = "xbtn_FormX";
+			this.xbtn_Falt.Label = "Test Flat";
+			this.xbtn_Falt.Name = "xbtn_Falt";
+			this.xbtn_Falt.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.xbtn_Falt_Click);
 			// 
 			// BxS_Ribbon
 			// 
@@ -258,6 +266,7 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_NewBDCWS;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton Xbtn_MVVM;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_FormX;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_Falt;
 		}
 
 	partial class ThisRibbonCollection
