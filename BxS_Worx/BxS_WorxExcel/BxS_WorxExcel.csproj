@@ -185,6 +185,15 @@
   <ItemGroup>
     <Compile Include="Code Repository\Main\Excel Domain\BDCWorksheet.cs" />
     <Compile Include="Code Repository\Main\IExcel.cs" />
+    <Compile Include="Code Repository\UI\SAP\ViewX\ViewModel_FormX.cs" />
+    <Compile Include="Code Repository\UI\SAP\ViewX\View_FormX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Code Repository\UI\SAP\ViewX\View_FormX.Designer.cs">
+      <DependentUpon>View_FormX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Code Repository\UI\SAP\ViewX\Controller_FormX.cs" />
+    <Compile Include="Code Repository\UI\SAP\ViewX\Model_FormX.cs" />
     <Compile Include="Code Repository\UI\xTry\Common\IViewT.cs" />
     <Compile Include="Code Repository\UI\xTry\Common\NotifyPropertyChangedBase.cs" />
     <Compile Include="Code Repository\UI\xTry\Common\VMBase.cs" />
@@ -260,6 +269,9 @@
     </Compile>
     <EmbeddedResource Include="Code Repository\UI\Ribbon\BxS_Ribbon.resx">
       <DependentUpon>BxS_Ribbon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Code Repository\UI\SAP\ViewX\View_FormX.resx">
+      <DependentUpon>View_FormX.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Code Repository\UI\xTry\Favourites\UC_SAPFavourites.resx">
       <DependentUpon>UC_SAPFavourites.cs</DependentUpon>
@@ -357,7 +369,7 @@
     <ManifestKeyFile>BxS_WorxExcel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6C22700541E71141990C36859E936260B525B4A6</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>EB39F895789A7D23F9F03549550DF7C8BCFB6F6A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup />
   <!-- Include the build rules for a C# project. -->
@@ -368,7 +380,7 @@
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
-        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
         <Host Name="Excel" GeneratedCodeNamespace="BxS_WorxExcel" IconIndex="0">
           <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
         </Host>

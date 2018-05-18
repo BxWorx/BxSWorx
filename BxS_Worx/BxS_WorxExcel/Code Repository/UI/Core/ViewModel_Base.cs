@@ -14,6 +14,11 @@ namespace BxS_WorxExcel.UI.Core
 						this.ViewHandler	= viewHandler;
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal ViewModel_Base()
+					{
+					}
+
 			#endregion
 
 			//===========================================================================================
@@ -42,7 +47,7 @@ namespace BxS_WorxExcel.UI.Core
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected bool SetProperty<T>(	ref	T	storage
 																			,			T	value
-																			,	[CallerMemberName]	string	propertyName = null)
+																			,	[CallerMemberName]	string	propertyName = ""	)
 					{
 						if ( EqualityComparer<T>.Default.Equals( storage , value ) )		{	return false; }
 						//...

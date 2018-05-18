@@ -34,25 +34,45 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Properties"
 
-				public	string		UserID        { get	=>		this._Model.Request.User										;
-																					set			{	string	lc_Usr	= "";// this._Model.Request.User	;
+				public	string		UserID        {
+																					get	=>		this._Model.Request.User	;
+
+																					set			{
+																										string	lc_Usr	= this._Model.Request.User	;
 																										this.SetProperty( ref	lc_Usr	, value )			;
-																										this._Model.Request.User	=	lc_Usr					;	} }
+																										this._Model.Request.User	=	lc_Usr					;
+																									}
+																				}
 				//...
-				public	string		SessionName		{ get	=>		this._Model.Request.Name								;
-																					set			{ string	lc_SNme	= string.Empty					;
-																										this.SetProperty( ref lc_SNme	, value )	;
-																										this._Model.Request.Name	= lc_SNme			;	}	}
+				public	string		SessionName		{
+																					get	=>		this._Model.Request.Name										;
+
+																					set			{
+																										string	lc_SNme	= this._Model.Request.Name	;
+																										this.SetProperty( ref lc_SNme	, value )			;
+																										this._Model.Request.Name	= lc_SNme					;
+																									}
+																				}
 				//...
-				public	DateTime	DateFrom			{ get	=>		this._Model.Request.From								;
-																					set			{ var	ld_Dte	= default( DateTime )	;
-																										this.SetProperty( ref ld_Dte	, value )	;
-																										this._Model.Request.From	= ld_Dte			;	}	}
+				public	DateTime	DateFrom			{
+																					get	=>		this._Model.Request.From	;
+
+																					set			{
+																										DateTime  ld_Dte	= this._Model.Request.From	;
+																										this.SetProperty( ref ld_Dte	, value )				;
+																										this._Model.Request.From	= ld_Dte						;
+																									}
+																				}
 				//...
-				public	DateTime	DateTo				{ get	=>		this._Model.Request.To									;
-																					set			{ var	ld_Dte	= default( DateTime )	;
-																										this.SetProperty( ref ld_Dte	, value )	;
-																										this._Model.Request.To		= ld_Dte			;	}	}
+				public	DateTime	DateTo				{
+																					get	=>		this._Model.Request.To	;
+
+																					set			{
+																										DateTime  ld_Dte	= this._Model.Request.To	;
+																										this.SetProperty( ref ld_Dte	, value )			;
+																										this._Model.Request.From	= ld_Dte					;
+																									}
+																				}
 
 			#endregion
 
@@ -86,7 +106,6 @@ namespace BxS_WorxExcel.UI.Forms
 						this._Model.GetSettings();
 						this.ViewHandler.LayoutSuspend( false );
 					}
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void OnLoad_Click( object sender , EventArgs e )

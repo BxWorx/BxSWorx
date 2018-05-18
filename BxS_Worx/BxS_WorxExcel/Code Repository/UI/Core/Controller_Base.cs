@@ -10,15 +10,21 @@ namespace BxS_WorxExcel.UI.Core
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal Controller_Base( string id )
+				internal Controller_Base()
 					{
-						this.ID	= id;
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
+
+				private	Func<object>	_ViewFactory;
+				internal	Func<object>	ViewFactory { set	=>	this._ViewFactory	= value ; }
+
+				protected	Form _View;
+
+
 
 				private		const DataSourceUpdateMode DSMODE		= DataSourceUpdateMode.OnPropertyChanged;
 				//...
@@ -35,9 +41,7 @@ namespace BxS_WorxExcel.UI.Core
 			//===========================================================================================
 			#region "Properties"
 
-				public	string	ID	{ get; }
-				//...
-				protected	IIPX_Controller	IPXCntlr		{ get	=> IPX_Controller.Instance;	}
+				public	string	ID	{ get; set; }
 
 			#endregion
 
@@ -67,7 +71,35 @@ namespace BxS_WorxExcel.UI.Core
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	virtual void	Shutdown()		{	}
-				public	virtual	void	ToggleView()	{	}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected	virtual void	PostCreate()	{	}
+
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	virtual	void	ToggleView()
+					{
+						if ( this._ViewFactory == null	)		{ return; }
+						//...
+						if ( this._View	== null )
+							{
+								this._View = (Form)	this._ViewFactory();
+								this._View.FormClosed	+=	this.OnFormClosed	;		// need to know when then FORM closed by user
+								this.PostCreate();
+							}
+						//...
+						if ( this._View.Visible )
+							{
+								if ( this._View.WindowState.Equals( FormWindowState.Minimized ) )
+									{	this._View.WindowState = FormWindowState.Normal	; }
+								else
+									{	this._View.Hide(); }
+							}
+						else
+							{	this._View.Show(); }
+					}
 
 			#endregion
 

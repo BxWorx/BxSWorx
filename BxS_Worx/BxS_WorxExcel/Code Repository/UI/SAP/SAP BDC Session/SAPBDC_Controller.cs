@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using BxS_WorxExcel.UI.Core;
 using BxS_WorxExcel.UI.Forms;
 
+using BxS_WorxIPX.Main;
 using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI
@@ -14,8 +15,10 @@ namespace BxS_WorxExcel.UI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public SAPBDC_Controller(	string id	) : base(id)
+				public SAPBDC_Controller(	string id	)
 					{
+						this.ID		= id;
+						//...
 						this._MD	=	new	Lazy<SAPBDC_Model>			(	()=>	new	SAPBDC_Model( this.IPXCntlr.NCOx_Controller )						);
 						this._VM	=	new Lazy<SAPBDC_ViewModel>	(	()=>	new	SAPBDC_ViewModel( this._MD.Value , new View_Handler() )	);
 					}
@@ -27,6 +30,8 @@ namespace BxS_WorxExcel.UI
 
 				private	readonly	Lazy<SAPBDC_Model>			_MD;
 				private	readonly	Lazy<SAPBDC_ViewModel>	_VM;
+				//...
+				private	IIPX_Controller	IPXCntlr		{ get	=> IPX_Controller.Instance;	}
 
 			#endregion
 
@@ -36,7 +41,6 @@ namespace BxS_WorxExcel.UI
 				private	SAPBDC_ViewModel	VM	{	get	=>	this._VM.Value; }
 				private	SAPBDC_Model			MD	{	get	=>	this._MD.Value; }
 				//...
-				private	IDTO_SessionRequest				Request		{	get	=>	this.MD.Request	;	}
 				private	BindingList<IDTO_Session>	BDCList		{ get	=>	this.VM.BDCList	;	}
 
 			#endregion

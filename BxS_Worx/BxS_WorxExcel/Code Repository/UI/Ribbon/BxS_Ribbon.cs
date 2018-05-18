@@ -31,9 +31,10 @@ namespace BxS_WorxExcel
 					{
 						this._UIHost	= new	Lazy<UI_Host>	( ()=>	new	UI_Host()	, cz_LM );
 						//.............................................
-						// Add events from ribbon controls to handle
+						// Add ribbon controls events
 						//
-						this.Xbtn_MVVM.Click	+= this.SAPSessions_Click;
+						this.Xbtn_MVVM	.Click	+= this.SAPSessions_Click	;
+						this.xbtn_FormX	.Click	+= this.FormX_Click				;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -51,6 +52,12 @@ namespace BxS_WorxExcel
 				private void SAPSessions_Click(object sender , RibbonControlEventArgs e)
 					{
 						this.UIHost.ShowUI( this.UIHost.UITag_SAPSessions );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void FormX_Click(object sender , RibbonControlEventArgs e)
+					{
+						this.UIHost.ShowUI( this.UIHost.UITag_FormX );
 					}
 
 			#endregion

@@ -57,6 +57,7 @@
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group3 = this.Factory.CreateRibbonGroup();
 			this.dropDown2 = this.Factory.CreateRibbonDropDown();
+			this.xbtn_FormX = this.Factory.CreateRibbonButton();
 			this.xtab_BxS.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.xbg_SAPLogon.SuspendLayout();
@@ -168,6 +169,7 @@
 			// 
 			this.group4.Items.Add(this.xbtn_NewBDCWS);
 			this.group4.Items.Add(this.Xbtn_MVVM);
+			this.group4.Items.Add(this.xbtn_FormX);
 			this.group4.Label = "group4";
 			this.group4.Name = "group4";
 			// 
@@ -199,6 +201,11 @@
 			this.dropDown2.Label = "dropDown2";
 			this.dropDown2.Name = "dropDown2";
 			this.dropDown2.ShowLabel = false;
+			// 
+			// xbtn_FormX
+			// 
+			this.xbtn_FormX.Label = "Test FormX";
+			this.xbtn_FormX.Name = "xbtn_FormX";
 			// 
 			// BxS_Ribbon
 			// 
@@ -250,6 +257,7 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_NewBDCWS;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton Xbtn_MVVM;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton xbtn_FormX;
 		}
 
 	partial class ThisRibbonCollection

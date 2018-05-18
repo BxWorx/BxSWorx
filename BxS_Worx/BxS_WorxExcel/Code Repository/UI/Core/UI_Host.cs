@@ -2,6 +2,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+//.........................................................
+using BxS_WorxExcel.UI.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Core
 {
@@ -16,23 +18,36 @@ namespace BxS_WorxExcel.UI.Core
 						this._Locks						= new Dictionary<string, object>();
 						this._SlimLock				=	new	SemaphoreSlim(1,1);
 						this._IsShuttingDown	= 0;
+						//...
+						this.LoadUIMappings();
 					}
 
 			#endregion
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadUIMappings()
+					{
+						this._ViewMapper	= new Dictionary<string , Func<bool>>
+							{
+									{ this.UITag_SAPSessions	, this.AddUI_SAPSessions }
+								,	{ this.UITag_FormX				, this.AddUI_FormX }
+							};
+						}
+
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const	string	UI_SAPSessions	=	"SAPSessions";
-				//.................................................
 				public	event	Action	ShutdownEvent;
+				//.................................................
+				private	Dictionary<string , Func<bool>>		_ViewMapper;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	UITag_SAPSessions		{ get	=> UI_SAPSessions; }
+				internal	string	UITag_FormX					{ get	=> nameof( this.UITag_FormX )				; }
+				internal	string	UITag_SAPSessions		{ get	=> nameof( this.UITag_SAPSessions )	; }
 
 			#endregion
 
@@ -46,14 +61,9 @@ namespace BxS_WorxExcel.UI.Core
 						//...............................................
 						if ( ! this.CurrentUIs.TryGetValue( ID , out IController_Base lo_MvC ) )
 							{
-								switch ( ID )
-									{
-										case UI_SAPSessions:	{	this.Add_SAPSessionsUI();		break;	}
-										//...
-										default:	break;
-									}
-								//... Try again
-								if ( ! this.CurrentUIs.TryGetValue( ID , out lo_MvC ) )		return;
+								if ( ! this._ViewMapper.TryGetValue( ID , out Func<bool> lo_ViewFactory ) )	{	return;	}
+								if ( ! lo_ViewFactory() )																										{ return; }
+								if ( ! this.CurrentUIs.TryGetValue( ID , out lo_MvC ) )											{	return; }
 							}
 						//...............................................
 						lo_MvC.ToggleView();
@@ -78,15 +88,28 @@ namespace BxS_WorxExcel.UI.Core
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private"
+			#region "Methods: View Handling"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				// *** FormX ***
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	bool AddUI_FormX()
+					{
+						return	this.Add_UI( new Controller_FormX( this.UITag_FormX ) );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				// *** SAP BDC SESSION ***
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	bool Add_SAPSessionsUI()
+				private	bool AddUI_SAPSessions()
 					{
 						return	this.Add_UI( new SAPBDC_Controller( this.UITag_SAPSessions ) );
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	bool Add_UI( IController_Base mvc )
