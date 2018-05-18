@@ -35,7 +35,7 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Properties"
 
 				public	string		UserID        { get	=>		this._Model.Request.User										;
-																					set			{	string	lc_Usr	= this._Model.Request.User	;
+																					set			{	string	lc_Usr	= "";// this._Model.Request.User	;
 																										this.SetProperty( ref	lc_Usr	, value )			;
 																										this._Model.Request.User	=	lc_Usr					;	} }
 				//...
@@ -65,6 +65,7 @@ namespace BxS_WorxExcel.UI.Forms
 						this.ViewHandler.LayoutSuspend( true );
 						this._Model.ClearList();
 						this._Model.FactorySettings();
+						this.BDCList.ResetBindings();
 						this.ViewHandler.LayoutSuspend( false );
 					}
 

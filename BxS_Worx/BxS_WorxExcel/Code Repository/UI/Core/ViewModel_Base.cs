@@ -44,8 +44,7 @@ namespace BxS_WorxExcel.UI.Core
 																			,			T	value
 																			,	[CallerMemberName]	string	propertyName = null)
 					{
-						if ( EqualityComparer<T>.Default.Equals( storage , value ) )
-							{	return false; }
+						if ( EqualityComparer<T>.Default.Equals( storage , value ) )		{	return false; }
 						//...
 						storage	= value;
 						PropertyChanged?.Invoke( this , new PropertyChangedEventArgs( propertyName ) );

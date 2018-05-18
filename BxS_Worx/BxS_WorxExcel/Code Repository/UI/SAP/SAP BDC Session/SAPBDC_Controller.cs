@@ -72,11 +72,11 @@ namespace BxS_WorxExcel.UI
 						var lo_View					 =	new	SAPBDC_View()	;
 						lo_View.FormClosed	+=	this.OnFormClosed	;		// need to know when then FORM closed by user
 						//...
-						this.VM.ViewHandler.View	=	lo_View		;
-						//...
 						this.LoadSelectionBindings	( lo_View )	;
 						this.LoadDGVBindings				( lo_View )	;
 						this.LoadEventHandlers			( lo_View )	;
+						//...
+						this.VM.ViewHandler.View	=	lo_View		;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -105,10 +105,10 @@ namespace BxS_WorxExcel.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void LoadSelectionBindings( SAPBDC_View view )
 					{
-						this.BindControl( view.xtbx_User	, PNME_TEXT		, this.VM	, nameof( this.VM.UserID			) );
-						this.BindControl( view.xtbx_SsnID	, PNME_TEXT		, this.VM	, nameof( this.VM.SessionName	) );
-						this.BindControl( view.xdtp_Start	, PNME_VAL		, this.VM	, nameof( this.VM.DateFrom		) );
-						this.BindControl( view.xdtp_End		, PNME_VAL		, this.VM	, nameof( this.VM.DateTo			) );
+						this.BindControl( view.xtbx_User	, PNME_TEXT	, this.VM	, nameof( this.VM.UserID			) );
+						this.BindControl( view.xtbx_SsnID	, PNME_TEXT	, this.VM	, nameof( this.VM.SessionName	) );
+						this.BindControl( view.xdtp_Start	, PNME_VAL	, this.VM	, nameof( this.VM.DateFrom		) );
+						this.BindControl( view.xdtp_End		, PNME_VAL	, this.VM	, nameof( this.VM.DateTo			) );
 					}
 
 			#endregion
