@@ -42,29 +42,39 @@ namespace BxS_WorxExcel.UI.Forms
 					}
 			}
 
-		private	BindingList<IDTO_Session>		BDCList		{ get; set; }
-		private Lazy<UC_DGV>	_DGV;
+		//private	BindingList<IDTO_Session>		BDCList		{ get; set; }
+		//private Lazy<UC_DGVView>	_DGV;
 
 		private void button1_Click(object sender , EventArgs e)
 			{
-				if (this._DGV.Value.InUse)
-					{	this.xpnl_UC.Controls.Remove( this._DGV.Value )	;	}
-				else
-					{	this.xpnl_UC.Controls.Add( this._DGV.Value )		;	}
+				this._DGVP.Value.LoadData();
+					//{	this.xpnl_UC.Controls.Remove( this._DGVP.Value.View.ViewUC );	}
+					{	this.xpnl_UC.Controls.Add		( this._DGVP.Value.View.ViewUC );	}
 
-				this._DGV.Value.InUse	= ! this._DGV.Value.InUse;
+				//if (this._DGV.Value.InUse)
+				//	{	this.xpnl_UC.Controls.Remove( this._DGV.Value )	;	}
+				//else
+
+				//this._DGV.Value.InUse	= ! this._DGV.Value.InUse;
 			}
+
+		private	Lazy<UC_DGVPresenter>	_DGVP;
+
+
 
 		private void BxS_Main_Load(object sender , EventArgs e)
 			{
-				this._DGV	= new	Lazy<UC_DGV>(	()=> new UC_DGV() );
-				this.BDCList	= new	BindingList<IDTO_Session>();
+				IUC_DGVModel	lo_Md		= new UC_DGVModel()	;
+				IUC_DGVView		lo_Vw		=	new	UC_DGVView()	;
+				//...
+				this._DGVP	= new	Lazy<UC_DGVPresenter>(	()=>	new	UC_DGVPresenter( lo_Md , lo_Vw ) );
+				//this._DGV		= new	Lazy<UC_DGVView>(	()=> new UC_DGVView() );
 
-				var x = new DTO_Session();
-				x.UserID	= "AAAA";
-				this.BDCList.Add(x);
+				//var x = new DTO_Session();
+				//x.UserID	= "AAAA";
+				//this.BDCList.Add(x);
 
-				this._DGV.Value.LoadData( this.BDCList );
+				//this._DGV.Value.LoadData( this.BDCList );
 			}
 		//.
 		}

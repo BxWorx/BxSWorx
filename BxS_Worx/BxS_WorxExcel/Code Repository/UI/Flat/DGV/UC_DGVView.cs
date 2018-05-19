@@ -4,12 +4,12 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Forms
 {
-	public partial class UC_DGV : UserControl
+	internal partial class UC_DGVView : UserControl , IUC_DGVView
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UC_DGV()
+				internal UC_DGVView()
 					{
 						InitializeComponent();
 						//...
@@ -23,15 +23,17 @@ namespace BxS_WorxExcel.UI.Forms
 
 				private	readonly	Lazy<BindingSource>	_BS;
 
+				public	UserControl	ViewUC	{ get	=> this; }
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadData( IBindingList list )
+				public void LoadData( IBindingList DataList )
 					{
-						this._BS.Value.DataSource		=	list;
+						this._BS.Value.DataSource		=	DataList;
 					}
 
 			#endregion

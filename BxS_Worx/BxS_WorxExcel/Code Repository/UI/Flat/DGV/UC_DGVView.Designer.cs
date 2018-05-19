@@ -1,6 +1,6 @@
 ﻿namespace BxS_WorxExcel.UI.Forms
 	{
-	partial class UC_DGV
+	partial class UC_DGVView
 		{
 		/// <summary> 
 		/// Required designer variable.
