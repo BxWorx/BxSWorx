@@ -1,36 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Forms
-	{
+{
 	public partial class UC_DGV : UserControl
 		{
-		public UC_DGV()
-			{
-				InitializeComponent();
-				//...
-				this.Dock	= DockStyle.Fill;
-				this._BS	=	new	Lazy<BindingSource>( ()=> new	BindingSource() );
-			}
+			#region "Constructors"
 
-		private Lazy<BindingSource>	_BS;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public UC_DGV()
+					{
+						InitializeComponent();
+						//...
+						this._BS	=	new	Lazy<BindingSource>	( ()=> new	BindingSource() );
+					}
 
-		public bool	InUse { get; set; }
+			#endregion
 
-		public void LoadData( IBindingList list)
-			{
-				this._BS.Value.DataSource		=	list;
-			}
+			//===========================================================================================
+			#region "Declarations"
 
-		private void UC_DGV_Load(object sender , EventArgs e)
-			{
-			}
+				private	readonly	Lazy<BindingSource>	_BS;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadData( IBindingList list )
+					{
+						this._BS.Value.DataSource		=	list;
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Events: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void UC_DGV_Load(object sender , EventArgs e)
+					{
+						this.Dock	= DockStyle.Fill;
+						//...
+						this.xdgv_DGV.DataSource	= this._BS.Value;
+					}
+
+			#endregion
+
+
+			public bool	InUse { get; set; }
+
+
 		}
-	}
+}

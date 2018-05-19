@@ -75,10 +75,10 @@ namespace BxS_WorxExcel.UI
 
 		private void FormX_Load(object sender , EventArgs e)
 			{
-				this.BDC_BS		= new BindingSource();
-				this.BDCList	= new	BindingList<IDTO_Session>();
-				this.BDC_BS.DataSource	= this.BDCList;
-				this.xdgv_Main.DataSource	= this.BDC_BS;
+				this.BDC_BS									= new BindingSource();
+				this.BDCList								= new	BindingList<IDTO_Session>();
+				this.BDC_BS.DataSource			= this.BDCList;
+				this.xdgv_Main.DataSource		= this.BDC_BS;
 
 				//this.xtbx_Test.DataBindings.Add("Text", this.BDCList, "UserID");
 				this.xtbx_Test.DataBindings.Add("Text", this , "MyText" , true , DataSourceUpdateMode.OnPropertyChanged );

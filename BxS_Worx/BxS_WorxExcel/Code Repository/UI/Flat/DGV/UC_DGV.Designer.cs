@@ -28,40 +28,43 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
-			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			this.xdgv_DGV = new System.Windows.Forms.DataGridView();
+			((System.ComponentModel.ISupportInitialize)(this.xdgv_DGV)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// dataGridView1
+			// xdgv_DGV
 			// 
-			this.dataGridView1.AllowUserToAddRows = false;
-			this.dataGridView1.AllowUserToDeleteRows = false;
-			this.dataGridView1.AllowUserToOrderColumns = true;
-			this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.ReadOnly = true;
-			this.dataGridView1.Size = new System.Drawing.Size(597, 442);
-			this.dataGridView1.TabIndex = 0;
+			this.xdgv_DGV.AllowUserToAddRows = false;
+			this.xdgv_DGV.AllowUserToDeleteRows = false;
+			this.xdgv_DGV.AllowUserToOrderColumns = true;
+			this.xdgv_DGV.BackgroundColor = System.Drawing.Color.LightGray;
+			this.xdgv_DGV.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.xdgv_DGV.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+			this.xdgv_DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.xdgv_DGV.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.xdgv_DGV.Location = new System.Drawing.Point(0, 0);
+			this.xdgv_DGV.Name = "xdgv_DGV";
+			this.xdgv_DGV.ReadOnly = true;
+			this.xdgv_DGV.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this.xdgv_DGV.Size = new System.Drawing.Size(597, 442);
+			this.xdgv_DGV.TabIndex = 0;
 			// 
 			// UC_DGV
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-			this.Controls.Add(this.dataGridView1);
+			this.Controls.Add(this.xdgv_DGV);
 			this.Name = "UC_DGV";
 			this.Size = new System.Drawing.Size(597, 442);
 			this.Load += new System.EventHandler(this.UC_DGV_Load);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.xdgv_DGV)).EndInit();
 			this.ResumeLayout(false);
 
 			}
 
 		#endregion
 
-		private System.Windows.Forms.DataGridView dataGridView1;
+		internal System.Windows.Forms.DataGridView xdgv_DGV;
 		}
 	}

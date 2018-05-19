@@ -59,11 +59,12 @@ namespace BxS_WorxExcel.UI.Forms
 			{
 				this._DGV	= new	Lazy<UC_DGV>(	()=> new UC_DGV() );
 				this.BDCList	= new	BindingList<IDTO_Session>();
-				this._DGV.Value.LoadData( this.BDCList );
 
 				var x = new DTO_Session();
 				x.UserID	= "AAAA";
 				this.BDCList.Add(x);
+
+				this._DGV.Value.LoadData( this.BDCList );
 			}
 		//.
 		}
