@@ -42,6 +42,8 @@
 			this.button5 = new System.Windows.Forms.Button();
 			this.xtmr_SlidePanel = new System.Windows.Forms.Timer(this.components);
 			this.xspl_UC = new System.Windows.Forms.SplitContainer();
+			this.button6 = new System.Windows.Forms.Button();
+			this.xdlg_Colour = new System.Windows.Forms.ColorDialog();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.xpnl_SlidePanel.SuspendLayout();
@@ -102,6 +104,7 @@
 			// 
 			// panel2
 			// 
+			this.panel2.Controls.Add(this.button6);
 			this.panel2.Controls.Add(this.button2);
 			this.panel2.Controls.Add(this.xbtn_Menu);
 			this.panel2.Controls.Add(this.button1);
@@ -198,6 +201,22 @@
 			this.xspl_UC.SplitterDistance = 270;
 			this.xspl_UC.TabIndex = 4;
 			// 
+			// button6
+			// 
+			this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+			this.button6.Dock = System.Windows.Forms.DockStyle.Top;
+			this.button6.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.button6.FlatAppearance.BorderSize = 0;
+			this.button6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
+			this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
+			this.button6.Location = new System.Drawing.Point(1, 118);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(43, 39);
+			this.button6.TabIndex = 3;
+			this.button6.UseVisualStyleBackColor = true;
+			this.button6.Click += new System.EventHandler(this.button6_Click);
+			// 
 			// BxS_Main
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -239,5 +258,7 @@
 		private System.Windows.Forms.SplitContainer xspl_UC;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.ColorDialog xdlg_Colour;
 		}
 	}

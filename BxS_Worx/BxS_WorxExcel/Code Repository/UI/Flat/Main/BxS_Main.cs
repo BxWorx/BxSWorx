@@ -114,6 +114,14 @@ namespace BxS_WorxExcel.UI.Forms
 				x.User	= "100";
 				this._DGVP.Value.LoadData(x);
 			}
+
+		private void button6_Click(object sender , EventArgs e)
+			{
+				this.xdlg_Colour.ShowDialog();
+				this._DGVP.Value.Colour	=	this.xdlg_Colour.Color;
+			}
+
 		//.
+
 		}
 }

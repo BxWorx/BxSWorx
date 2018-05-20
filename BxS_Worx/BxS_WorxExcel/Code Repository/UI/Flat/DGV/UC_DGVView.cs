@@ -14,8 +14,19 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						InitializeComponent();
 						//...
-						this.Dock		= DockStyle.Fill;
+						this.SetupUserControl();
+						this.SetupDataGrid();
+						this.SetupColumns();
+						//...
+						this._HeaderStyle	= new DataGridViewCellStyle { BackColor	= Color.Aqua	};
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private		DataGridViewCellStyle		_HeaderStyle;
 
 			#endregion
 
@@ -24,6 +35,8 @@ namespace BxS_WorxExcel.UI.Forms
 
 				public	UserControl		ViewUC	{ get	=>	this					; }
 				public	DataGridView	DGView	{ get =>	this.xdgv_DGV	;	}
+				//...
+				public	DataGridViewCellStyle		HeaderStyle { get	=>	this._HeaderStyle	; }
 
 			#endregion
 
@@ -33,8 +46,6 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void UC_DGVView_Load(object sender , System.EventArgs e)
 					{
-						this.SetupDataGrid();
-						this.SetupColumns();
 					}
 
 			#endregion
@@ -43,17 +54,37 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void SetupUserControl()
+					{
+						this.Dock		= DockStyle.Fill;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupDataGrid()
 					{
-						var x	= new DataGridViewCellStyle { BackColor	= Color.WhiteSmoke };
+						//var lo_HedStyle
+						//			=	new	DataGridViewCellStyle
+						//							{
+						//									BackColor	= Color.Aqua
+						//							};
+
+						var lo_DefStyle		= new DataGridViewCellStyle { BackColor	= Color.Black			};
+						var lo_AltStyle		= new DataGridViewCellStyle { BackColor	= Color.DarkBlue	};
+
+						this.DGView.ColumnHeadersBorderStyle				= DataGridViewHeaderBorderStyle.None	;
+						this.DGView.RowHeadersBorderStyle						=	DataGridViewHeaderBorderStyle.None	;
+
+						this.DGView.ColumnHeadersDefaultCellStyle		= lo_DefStyle				;
+						this.DGView.RowsDefaultCellStyle						=	this._HeaderStyle	;
+						this.DGView.AlternatingRowsDefaultCellStyle	= lo_AltStyle				;
 						//...
 						this.DGView.Dock														= DockStyle.Fill;
-						this.DGView.AllowUserToAddRows	            = false;
-						this.DGView.AllowUserToDeleteRows	          = false;
-						this.DGView.AllowUserToResizeRows						= false;
-						this.DGView.AlternatingRowsDefaultCellStyle	= x;
-						this.DGView.AutoGenerateColumns							= false;
-						this.DGView.MultiSelect											= true;
+
+						this.DGView.AllowUserToAddRows	            = false	;
+						this.DGView.AllowUserToDeleteRows	          = false	;
+						this.DGView.AllowUserToResizeRows						= false	;
+						this.DGView.AutoGenerateColumns							= false	;
+						this.DGView.MultiSelect											= true	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -75,8 +106,8 @@ namespace BxS_WorxExcel.UI.Forms
 																														, string	format				= ""
 																														, bool		alignRight		= false	)
 					{
-						var lo_DGVStyle		= new DataGridViewCellStyle	{
-																															Format = format
+						var lo_ColStyle		=	new	DataGridViewCellStyle	{
+																															Format		= format
 																														, Alignment	= alignRight	?	DataGridViewContentAlignment.MiddleRight	: DataGridViewContentAlignment.MiddleLeft
 																													};
 
@@ -86,7 +117,7 @@ namespace BxS_WorxExcel.UI.Forms
 																										,	DataPropertyName  = propertyName
 																										, ReadOnly					= true
 																										, Frozen						= frozen
-																										, DefaultCellStyle	= lo_DGVStyle
+																										, DefaultCellStyle	= lo_ColStyle
 																									};
 					}
 
