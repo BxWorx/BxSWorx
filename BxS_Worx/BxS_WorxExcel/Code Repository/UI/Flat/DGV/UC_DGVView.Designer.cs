@@ -28,6 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.xdgv_DGV = new System.Windows.Forms.DataGridView();
 			((System.ComponentModel.ISupportInitialize)(this.xdgv_DGV)).BeginInit();
 			this.SuspendLayout();
@@ -37,27 +39,54 @@
 			this.xdgv_DGV.AllowUserToAddRows = false;
 			this.xdgv_DGV.AllowUserToDeleteRows = false;
 			this.xdgv_DGV.AllowUserToOrderColumns = true;
-			this.xdgv_DGV.BackgroundColor = System.Drawing.Color.LightGray;
+			this.xdgv_DGV.AllowUserToResizeRows = false;
+			this.xdgv_DGV.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
 			this.xdgv_DGV.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.xdgv_DGV.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Cyan;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(1);
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.xdgv_DGV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this.xdgv_DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.xdgv_DGV.DefaultCellStyle = dataGridViewCellStyle4;
 			this.xdgv_DGV.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.xdgv_DGV.Location = new System.Drawing.Point(0, 0);
+			this.xdgv_DGV.Location = new System.Drawing.Point(1, 1);
 			this.xdgv_DGV.Name = "xdgv_DGV";
 			this.xdgv_DGV.ReadOnly = true;
 			this.xdgv_DGV.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			this.xdgv_DGV.Size = new System.Drawing.Size(597, 442);
+			this.xdgv_DGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+			this.xdgv_DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.xdgv_DGV.ShowCellErrors = false;
+			this.xdgv_DGV.ShowCellToolTips = false;
+			this.xdgv_DGV.ShowEditingIcon = false;
+			this.xdgv_DGV.ShowRowErrors = false;
+			this.xdgv_DGV.Size = new System.Drawing.Size(388, 242);
 			this.xdgv_DGV.TabIndex = 0;
+			this.xdgv_DGV.TabStop = false;
 			// 
-			// UC_DGV
+			// UC_DGVView
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
 			this.Controls.Add(this.xdgv_DGV);
-			this.Name = "UC_DGV";
-			this.Size = new System.Drawing.Size(597, 442);
-			this.Load += new System.EventHandler(this.UC_DGV_Load);
+			this.Margin = new System.Windows.Forms.Padding(0);
+			this.Name = "UC_DGVView";
+			this.Padding = new System.Windows.Forms.Padding(1);
+			this.Size = new System.Drawing.Size(390, 244);
+			this.Load += new System.EventHandler(this.UC_DGVView_Load);
 			((System.ComponentModel.ISupportInitialize)(this.xdgv_DGV)).EndInit();
 			this.ResumeLayout(false);
 
@@ -65,6 +94,6 @@
 
 		#endregion
 
-		internal System.Windows.Forms.DataGridView xdgv_DGV;
+		private System.Windows.Forms.DataGridView xdgv_DGV;
 		}
 	}

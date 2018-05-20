@@ -10,8 +10,9 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UC_DGVModel()
+				internal UC_DGVModel(	INCOx_Controller	ncoXCntlr )
 					{
+						this.NCOxCntlr	= ncoXCntlr	;
 					}
 
 			#endregion
@@ -19,7 +20,7 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	INCOx_Controller	_NCOxCntlr = IPX_Controller.Instance.NCOx_Controller	;
+				private	readonly	INCOx_Controller	NCOxCntlr	;
 
 			#endregion
 
@@ -27,12 +28,12 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IDTO_SessionRequest		CreateRequest()	=>	this._NCOxCntlr.NewSAPSessionRequest();
+				public	IDTO_SessionRequest		CreateRequest()	=>	this.NCOxCntlr.NewSAPSessionRequest();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	IList<IDTO_Session>		FetchData( IDTO_SessionRequest Request )
 					{
-						return	this._NCOxCntlr.RequestSAPSessionList( Request );
+						return	this.NCOxCntlr.RequestSAPSessionList( Request );
 					}
 
 			#endregion

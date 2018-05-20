@@ -1,6 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.Drawing;
 using System.Windows.Forms;
+//.........................................................
+using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Forms
 {
@@ -13,47 +14,83 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						InitializeComponent();
 						//...
-						this._BS	=	new	Lazy<BindingSource>	( ()=> new	BindingSource() );
+						this.Dock		= DockStyle.Fill;
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Declarations"
+			#region "Properties"
 
-				private	readonly	Lazy<BindingSource>	_BS;
-
-				public	UserControl	ViewUC	{ get	=> this; }
+				public	UserControl		ViewUC	{ get	=>	this					; }
+				public	DataGridView	DGView	{ get =>	this.xdgv_DGV	;	}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
+			#region "Events"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadData( IBindingList DataList )
+				private void UC_DGVView_Load(object sender , System.EventArgs e)
 					{
-						this._BS.Value.DataSource		=	DataList;
+						this.SetupDataGrid();
+						this.SetupColumns();
 					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Events: Private"
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void UC_DGV_Load(object sender , EventArgs e)
+				private void SetupDataGrid()
 					{
-						this.Dock	= DockStyle.Fill;
+						var x	= new DataGridViewCellStyle { BackColor	= Color.WhiteSmoke };
 						//...
-						this.xdgv_DGV.DataSource	= this._BS.Value;
+						this.DGView.Dock														= DockStyle.Fill;
+						this.DGView.AllowUserToAddRows	            = false;
+						this.DGView.AllowUserToDeleteRows	          = false;
+						this.DGView.AllowUserToResizeRows						= false;
+						this.DGView.AlternatingRowsDefaultCellStyle	= x;
+						this.DGView.AutoGenerateColumns							= false;
+						this.DGView.MultiSelect											= true;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void SetupColumns()
+					{
+						this.DGView.Columns.Add(	this.SetupColumn_Text( "UserID" , "User"			, nameof( IDTO_Session.UserID )				, true										)	)	;
+						this.DGView.Columns.Add(	this.SetupColumn_Text( "SsnID"	, "Session"		, nameof( IDTO_Session.SessionName )	, false										)	)	;
+						this.DGView.Columns.Add(	this.SetupColumn_Text( "SAPTCd"	, "SAP Tran"	, nameof( IDTO_Session.SAPTCode )			, false										)	)	;
+						this.DGView.Columns.Add(	this.SetupColumn_Text( "SsnDte"	, "Date"			, nameof( IDTO_Session.CreationDate	)	, false	,	"d"							)	)	;
+						this.DGView.Columns.Add(	this.SetupColumn_Text( "SsnTme"	, "Time"			, nameof( IDTO_Session.CreationTime	)	, false	,	"T"							)	)	;
+						this.DGView.Columns.Add(	this.SetupColumn_Text( "SsnTrn"	, "Count"			, nameof( IDTO_Session.Count )				, false	,	"###0"	, true	)	)	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private DataGridViewTextBoxColumn SetupColumn_Text(		string	columnName
+																														, string	headerText
+																														, string	propertyName
+																														, bool		frozen				=	false
+																														, string	format				= ""
+																														, bool		alignRight		= false	)
+					{
+						var lo_DGVStyle		= new DataGridViewCellStyle	{
+																															Format = format
+																														, Alignment	= alignRight	?	DataGridViewContentAlignment.MiddleRight	: DataGridViewContentAlignment.MiddleLeft
+																													};
+
+						return	new DataGridViewTextBoxColumn	{
+																											Name              = columnName
+																										,	HeaderText        = headerText
+																										,	DataPropertyName  = propertyName
+																										, ReadOnly					= true
+																										, Frozen						= frozen
+																										, DefaultCellStyle	= lo_DGVStyle
+																									};
 					}
 
 			#endregion
-
-
-			public bool	InUse { get; set; }
-
 
 		}
 }

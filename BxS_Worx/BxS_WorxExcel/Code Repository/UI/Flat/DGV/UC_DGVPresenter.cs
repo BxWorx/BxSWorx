@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 //.........................................................
-using BxS_WorxExcel.UI.Core;
 using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Forms
@@ -15,19 +15,13 @@ namespace BxS_WorxExcel.UI.Forms
 				internal UC_DGVPresenter(		IUC_DGVModel	model
 																	,	IUC_DGVView		view	)
 					{
-						this._Model		=	model	;
+						this.Model		=	model	;
 						this.View			= view	;
 						//...
-						this._BDCList	=	new	Lazy<BindingList<IDTO_Session>>(	()=>	new	BindingList<IDTO_Session>()	);
-
-						//new	BindingList<IDTO_Session>( this._Model.List );
-						//this._Model.UpdateSAPSessionList();
-						//this._Model.GetSettings();
-
-						//this.BDC_BS = new BindingSource
-						//	{
-						//		DataSource = this.BDCList
-						//	};
+						this._BS	=	new	Lazy<BindingSource>							( ()=>	new	BindingSource()							);
+						this._BL	=	new	Lazy<BindingList<IDTO_Session>>	(	()=>	new	BindingList<IDTO_Session>()	);
+						//...
+						this.Loaded	=	false;
 						}
 
 			#endregion
@@ -35,115 +29,117 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IUC_DGVModel	_Model	;
+				private	readonly	Lazy<BindingSource>							_BS;
+				private	readonly	Lazy<BindingList<IDTO_Session>>	_BL;
 				//...
-				private	readonly	Lazy<BindingList<IDTO_Session>>	_BDCList;
+				private	bool	Loaded	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IUC_DGVView	View { get; }
-
-
-				internal	void LoadData()
-					{
-						var x = this._Model.CreateRequest();
-						this._BDCList.Value.Clear();
-						foreach ( var item in this._Model.FetchData( x ) )
-							{
-								this._BDCList.Value.Add( item );
-							}
-						this.View.LoadData( this._BDCList.Value );
-					}
-
+				private		IUC_DGVModel	Model		{ get; }
+				private		DataGridView	DGView	{ get =>	this.View.DGView;	}
+				//...
+				internal	IUC_DGVView		View		{ get; }
 
 			#endregion
 
+			//===========================================================================================
+			#region "Properties"
 
-			//	public	string		UserID        {
-			//																		get	=>		this._Model.Request.User	;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	IList<IDTO_Session>	GetSelected()
+					{
+						IList<IDTO_Session>	lt	=	new	List<IDTO_Session>();
+						if ( this.Loaded )
+							{
+								foreach ( object item in this.View.DGView.SelectedRows )
+									{
+									}
+							}
+						return	lt;
+					}
 
-			//																		set			{
-			//																							string	lc_Usr	= this._Model.Request.User	;
-			//																							this.SetProperty( ref	lc_Usr	, value )			;
-			//																							this._Model.Request.User	=	lc_Usr					;
-			//																						}
-			//																	}
-			//	//...
-			//	public	string		SessionName		{
-			//																		get	=>		this._Model.Request.Name										;
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	void LoadData( IDTO_SessionRequest forRequest )
+					{
+						if ( ! this.Loaded )	{	this.SetupView();	}
+						//.............................................
+						this._BL.Value.Clear();
 
-			//																		set			{
-			//																							string	lc_SNme	= this._Model.Request.Name	;
-			//																							this.SetProperty( ref lc_SNme	, value )			;
-			//																							this._Model.Request.Name	= lc_SNme					;
-			//																						}
-			//																	}
-			//	//...
-			//	public	DateTime	DateFrom			{
-			//																		get	=>		this._Model.Request.From	;
+						foreach ( IDTO_Session lo_Item in this.Model.FetchData( forRequest ) )
+							{
+								this._BL.Value.Add( lo_Item );
+							}
+					}
 
-			//																		set			{
-			//																							DateTime  ld_Dte	= this._Model.Request.From	;
-			//																							this.SetProperty( ref ld_Dte	, value )				;
-			//																							this._Model.Request.From	= ld_Dte						;
-			//																						}
-			//																	}
-			//	//...
-			//	public	DateTime	DateTo				{
-			//																		get	=>		this._Model.Request.To	;
+			#endregion
 
-			//																		set			{
-			//																							DateTime  ld_Dte	= this._Model.Request.To	;
-			//																							this.SetProperty( ref ld_Dte	, value )			;
-			//																							this._Model.Request.From	= ld_Dte					;
-			//																						}
-			//																	}
+			//===========================================================================================
+			#region "Methods: Exposed"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void SetupView()
+					{
+						this.Loaded	= ! this.Loaded	;
+						//...
+						this.DGView.DataSource	= this._BL.Value;
+						//this.SetupDataGrid();
+						//this.SetupColumns();
+					}
 
-			////===========================================================================================
-			//#region "EventHandlers"
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private void SetupDataGrid()
+				//	{
+				//		var x	= new DataGridViewCellStyle { BackColor	= Color.WhiteSmoke };
+				//		//...
+				//		this.DGView.Dock														= DockStyle.Fill;
+				//		this.DGView.AllowUserToAddRows	            = false;
+				//		this.DGView.AllowUserToDeleteRows	          = false;
+				//		this.DGView.AllowUserToResizeRows						= false;
+				//		this.DGView.AlternatingRowsDefaultCellStyle	= x;
+				//		this.DGView.AutoGenerateColumns							= false;
+				//		this.DGView.MultiSelect											= true;
+				//		//...
+				//	}
 
-			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			//	internal void OnSave_Click( object sender , EventArgs e )
-			//		{
-			//			this.ViewHandler.LayoutSuspend( true );
-			//			this._Model.ClearList();
-			//			this._Model.FactorySettings();
-			//			this.BDCList.ResetBindings();
-			//			this.ViewHandler.LayoutSuspend( false );
-			//		}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private void SetupColumns()
+				//	{
+				//		this.DGView.Columns.Add(	this.SetupColumn_Text( "UserID" , "User"			, nameof( IDTO_Session.UserID )				, true										)	)	;
+				//		this.DGView.Columns.Add(	this.SetupColumn_Text( "SsnID"	, "Session"		, nameof( IDTO_Session.SessionName )	, false										)	)	;
+				//		this.DGView.Columns.Add(	this.SetupColumn_Text( "SAPTCd"	, "SAP Tran"	, nameof( IDTO_Session.SAPTCode )			, false										)	)	;
+				//		this.DGView.Columns.Add(	this.SetupColumn_Text( "SsnDte"	, "Date"			, nameof( IDTO_Session.CreationDate	)	, false	,	"d"							)	)	;
+				//		this.DGView.Columns.Add(	this.SetupColumn_Text( "SsnTme"	, "Time"			, nameof( IDTO_Session.CreationTime	)	, false	,	"T"							)	)	;
+				//		this.DGView.Columns.Add(	this.SetupColumn_Text( "SsnTrn"	, "Count"			, nameof( IDTO_Session.Count )				, false	,	"###0"	, true	)	)	;
+				//	}
 
-			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			//	internal void OnPrevious_Click( object sender , EventArgs e )
-			//		{
-			//			this.ViewHandler.LayoutSuspend( true );
-			//			this._Model.ClearList();
-			//			this._Model.GetSettings();
-			//			this.ViewHandler.LayoutSuspend( false );
-			//		}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private DataGridViewTextBoxColumn SetupColumn_Text(		string	columnName
+				//																										, string	headerText
+				//																										, string	propertyName
+				//																										, bool		frozen				=	false
+				//																										, string	format				= ""
+				//																										, bool		alignRight		= false	)
+				//	{
+				//		var lo_DGVStyle		= new DataGridViewCellStyle	{
+				//																											Format = format
+				//																										, Alignment	= alignRight	?	DataGridViewContentAlignment.MiddleRight	: DataGridViewContentAlignment.MiddleLeft
+				//																									};
 
-			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			//	internal void OnReset_Click( object sender , EventArgs e )
-			//		{
-			//			this.ViewHandler.LayoutSuspend( true );
-			//			this._Model.ClearList();
-			//			this._Model.GetSettings();
-			//			this.ViewHandler.LayoutSuspend( false );
-			//		}
+				//		return	new DataGridViewTextBoxColumn	{
+				//																							Name              = columnName
+				//																						,	HeaderText        = headerText
+				//																						,	DataPropertyName  = propertyName
+				//																						, ReadOnly					= true
+				//																						, Frozen						= frozen
+				//																						, DefaultCellStyle	= lo_DGVStyle
+				//																					};
+				//	}
 
-			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			//	internal void OnLoad_Click( object sender , EventArgs e )
-			//		{
-			//			this.ViewHandler.LayoutSuspend( true );
-			//			this._Model.UpdateSAPSessionList();
-			//			this.BDCList.ResetBindings();
-			//			this.ViewHandler.LayoutSuspend( false );
-			//		}
-
-			//#endregion
+			#endregion
 
 		}
 }

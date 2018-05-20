@@ -59,11 +59,12 @@ namespace BxS_WorxIPX.NCO
 						for ( int i = 0; i < ln; i++ )
 							{
 								var d		= new DTO_Session	{
-																						UserID       = $"User-{i.ToString()}" ,
-																						SessionName  = $"Session-{i.ToString()}" ,
-																						CreationDate = DateTime.Today ,
-																						CreationTime = new TimeSpan(DateTime.Now.Hour , DateTime.Now.Minute , DateTime.Now.Second) ,
-																						SAPTCode     = $"SAPTCde-{i.ToString()}"
+																						UserID        = $"User-{i.ToString()}" ,
+																						SessionName   = $"Session-{i.ToString()}" ,
+																						CreationDate  = DateTime.Today ,
+																						CreationTime  = new TimeSpan(DateTime.Now.Hour , DateTime.Now.Minute , DateTime.Now.Second) ,
+																						SAPTCode      = $"SAPTCde-{i.ToString()}" ,
+																						Count					= i
 																					};
 
 								lt.Add( d );
