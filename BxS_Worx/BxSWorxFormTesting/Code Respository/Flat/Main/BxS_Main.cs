@@ -21,12 +21,12 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						InitializeComponent();
 						//...
-						this.SetupMove();
-						this.SetupSlidepanel();
+						this.SetupStartup()			;
+						this.SetupMove()				;
+						this.SetupSlidepanel()	;
 
 
 
-						this.xpnl_SlidePanel.BackColor	= Color.FromArgb( 150 , 1 , 1 , 1 );
 
 
 
@@ -92,13 +92,37 @@ namespace BxS_WorxExcel.UI.Forms
 			}
 
 
+		private class ButtonDefinition
+			{
+				public	string		ID					{ get;  set; }
+				public	DockStyle	Dock				{ get;  set; }
+				public	string		ImageID			{ get;  set; }
+				public	int				TabIndex		{ get;  set; }
+				public	EventHandler	OnEvent	{ get;  set; }
+
+			this.xbtn_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+			this.xbtn_Menu.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.xbtn_Menu.FlatAppearance.BorderSize = 0;
+			this.xbtn_Menu.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
+			this.xbtn_Menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.xbtn_Menu.Location = new System.Drawing.Point(1, 40);
+			this.xbtn_Menu.UseVisualStyleBackColor = true;
+			this.xbtn_Menu.Click += new System.EventHandler(this.Xbtn_Menu_Click);
+
+			}
+
+
+
+
+
 		//.
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private	Color	_ColourBack	;
-				private	Color	_ColourMove	;
+				private	Color	_ColourBack		;
+				private	Color	_ColourMove		;
+				private	Color	_ColourSlide	;
 				//...
 				private	bool	_MoveActive		;
 				private	Point	_MoveLocation	;
@@ -111,14 +135,28 @@ namespace BxS_WorxExcel.UI.Forms
 			#endregion
 
 			//===========================================================================================
+			#region "Routines: Private: General"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void SetupStartup()
+					{
+						this._ColourBack	= Color.FromArgb( 255	, 31 , 31 , 31 );
+						this._ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 );
+					}
+
+			#endregion
+
+			//===========================================================================================
 			#region "Routines: Private: Slide panel"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupSlidepanel()
 					{
-						this._SlideWidth	          = 45	;
-						this._SlideStep		          = 05	;
-						this.xpnl_SlidePanel.Width	=	00	;
+						this._SlideWidth								= 45	;
+						this._SlideStep									= 05	;
+						//...
+						this.xpnl_SlidePanel.Width			=	00	;
+						this.xpnl_SlidePanel.BackColor	= this._ColourSlide;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -173,7 +211,6 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupMove()
 					{
-						this._ColourBack	= Color.FromArgb( 31 , 31 , 31 );
 						this._ColourMove	=	Color.FromArgb( 150 , 42 , 42 , 42 )	;
 					}
 

@@ -53,6 +53,7 @@
 			// 
 			// xpnl_WindowHeader
 			// 
+			this.xpnl_WindowHeader.BackColor = System.Drawing.Color.Gray;
 			this.xpnl_WindowHeader.Controls.Add(this.xbtn_FormMinimise);
 			this.xpnl_WindowHeader.Controls.Add(this.xbtn_FormClose);
 			this.xpnl_WindowHeader.Controls.Add(this.label1);
@@ -106,6 +107,7 @@
 			// 
 			// xpnl_Menu
 			// 
+			this.xpnl_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.xpnl_Menu.Controls.Add(this.button6);
 			this.xpnl_Menu.Controls.Add(this.button2);
 			this.xpnl_Menu.Controls.Add(this.xbtn_Menu);
