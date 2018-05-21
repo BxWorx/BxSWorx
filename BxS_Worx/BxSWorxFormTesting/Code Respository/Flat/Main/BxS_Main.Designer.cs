@@ -31,22 +31,20 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BxS_Main));
 			this.xpnl_WindowHeader = new System.Windows.Forms.Panel();
+			this.xbtn_FormMinimise = new System.Windows.Forms.Button();
+			this.xbtn_FormClose = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
 			this.xpnl_Menu = new System.Windows.Forms.Panel();
-			this.xpnl_SlidePanel = new System.Windows.Forms.Panel();
-			this.xtmr_SlidePanel = new System.Windows.Forms.Timer(this.components);
-			this.xspl_UC = new System.Windows.Forms.SplitContainer();
-			this.xdlg_Colour = new System.Windows.Forms.ColorDialog();
-			this.button5 = new System.Windows.Forms.Button();
 			this.button6 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.xbtn_Menu = new System.Windows.Forms.Button();
 			this.xbtn_Settings = new System.Windows.Forms.Button();
-			this.xbtn_FormMinimise = new System.Windows.Forms.Button();
-			this.xbtn_FormClose = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
+			this.xpnl_SlidePanel = new System.Windows.Forms.Panel();
+			this.xtmr_SlidePanel = new System.Windows.Forms.Timer(this.components);
+			this.xspl_UC = new System.Windows.Forms.SplitContainer();
+			this.xdlg_Colour = new System.Windows.Forms.ColorDialog();
 			this.xpnl_WindowHeader.SuspendLayout();
 			this.xpnl_Menu.SuspendLayout();
-			this.xpnl_SlidePanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.xspl_UC)).BeginInit();
 			this.xspl_UC.SuspendLayout();
 			this.SuspendLayout();
@@ -67,6 +65,47 @@
 			this.xpnl_WindowHeader.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnWindowHeader_MouseMove);
 			this.xpnl_WindowHeader.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnWindowHeader_MouseUp);
 			// 
+			// xbtn_FormMinimise
+			// 
+			this.xbtn_FormMinimise.Dock = System.Windows.Forms.DockStyle.Right;
+			this.xbtn_FormMinimise.FlatAppearance.BorderSize = 0;
+			this.xbtn_FormMinimise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.xbtn_FormMinimise.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Minimize_Window_25px;
+			this.xbtn_FormMinimise.Location = new System.Drawing.Point(795, 1);
+			this.xbtn_FormMinimise.Margin = new System.Windows.Forms.Padding(0);
+			this.xbtn_FormMinimise.Name = "xbtn_FormMinimise";
+			this.xbtn_FormMinimise.Size = new System.Drawing.Size(43, 43);
+			this.xbtn_FormMinimise.TabIndex = 2;
+			this.xbtn_FormMinimise.UseVisualStyleBackColor = true;
+			this.xbtn_FormMinimise.Click += new System.EventHandler(this.OnFormMinimise_Click);
+			// 
+			// xbtn_FormClose
+			// 
+			this.xbtn_FormClose.Dock = System.Windows.Forms.DockStyle.Right;
+			this.xbtn_FormClose.FlatAppearance.BorderSize = 0;
+			this.xbtn_FormClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.xbtn_FormClose.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Close_Window_25px;
+			this.xbtn_FormClose.Location = new System.Drawing.Point(838, 1);
+			this.xbtn_FormClose.Margin = new System.Windows.Forms.Padding(0);
+			this.xbtn_FormClose.Name = "xbtn_FormClose";
+			this.xbtn_FormClose.Size = new System.Drawing.Size(43, 43);
+			this.xbtn_FormClose.TabIndex = 1;
+			this.xbtn_FormClose.UseVisualStyleBackColor = true;
+			this.xbtn_FormClose.Click += new System.EventHandler(this.OnFormClose_Click);
+			// 
+			// label1
+			// 
+			this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.label1.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Unit_25px;
+			this.label1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.label1.Location = new System.Drawing.Point(1, 1);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(170, 43);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "BxS Dashboard";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
 			// xpnl_Menu
 			// 
 			this.xpnl_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -80,47 +119,6 @@
 			this.xpnl_Menu.Padding = new System.Windows.Forms.Padding(1);
 			this.xpnl_Menu.Size = new System.Drawing.Size(45, 536);
 			this.xpnl_Menu.TabIndex = 1;
-			// 
-			// xpnl_SlidePanel
-			// 
-			this.xpnl_SlidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.xpnl_SlidePanel.Controls.Add(this.button5);
-			this.xpnl_SlidePanel.Dock = System.Windows.Forms.DockStyle.Left;
-			this.xpnl_SlidePanel.Location = new System.Drawing.Point(45, 45);
-			this.xpnl_SlidePanel.Name = "xpnl_SlidePanel";
-			this.xpnl_SlidePanel.Size = new System.Drawing.Size(45, 536);
-			this.xpnl_SlidePanel.TabIndex = 2;
-			// 
-			// xtmr_SlidePanel
-			// 
-			this.xtmr_SlidePanel.Interval = 1;
-			this.xtmr_SlidePanel.Tick += new System.EventHandler(this.OnSlidePanel_Tick);
-			// 
-			// xspl_UC
-			// 
-			this.xspl_UC.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.xspl_UC.Location = new System.Drawing.Point(90, 45);
-			this.xspl_UC.Name = "xspl_UC";
-			this.xspl_UC.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			this.xspl_UC.Size = new System.Drawing.Size(792, 536);
-			this.xspl_UC.SplitterDistance = 263;
-			this.xspl_UC.TabIndex = 4;
-			// 
-			// button5
-			// 
-			this.button5.BackColor = System.Drawing.Color.Transparent;
-			this.button5.Dock = System.Windows.Forms.DockStyle.Top;
-			this.button5.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.button5.FlatAppearance.BorderSize = 0;
-			this.button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
-			this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
-			this.button5.Location = new System.Drawing.Point(0, 0);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(45, 39);
-			this.button5.TabIndex = 3;
-			this.button5.UseVisualStyleBackColor = false;
-			this.button5.Click += new System.EventHandler(this.button5_Click);
 			// 
 			// button6
 			// 
@@ -183,46 +181,29 @@
 			this.xbtn_Settings.UseVisualStyleBackColor = true;
 			this.xbtn_Settings.Click += new System.EventHandler(this.Button1_Click);
 			// 
-			// xbtn_FormMinimise
+			// xpnl_SlidePanel
 			// 
-			this.xbtn_FormMinimise.Dock = System.Windows.Forms.DockStyle.Right;
-			this.xbtn_FormMinimise.FlatAppearance.BorderSize = 0;
-			this.xbtn_FormMinimise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.xbtn_FormMinimise.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Minimize_Window_25px;
-			this.xbtn_FormMinimise.Location = new System.Drawing.Point(795, 1);
-			this.xbtn_FormMinimise.Margin = new System.Windows.Forms.Padding(0);
-			this.xbtn_FormMinimise.Name = "xbtn_FormMinimise";
-			this.xbtn_FormMinimise.Size = new System.Drawing.Size(43, 43);
-			this.xbtn_FormMinimise.TabIndex = 2;
-			this.xbtn_FormMinimise.UseVisualStyleBackColor = true;
-			this.xbtn_FormMinimise.Click += new System.EventHandler(this.OnFormMinimise_Click);
+			this.xpnl_SlidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.xpnl_SlidePanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.xpnl_SlidePanel.Location = new System.Drawing.Point(45, 45);
+			this.xpnl_SlidePanel.Name = "xpnl_SlidePanel";
+			this.xpnl_SlidePanel.Size = new System.Drawing.Size(45, 536);
+			this.xpnl_SlidePanel.TabIndex = 2;
 			// 
-			// xbtn_FormClose
+			// xtmr_SlidePanel
 			// 
-			this.xbtn_FormClose.Dock = System.Windows.Forms.DockStyle.Right;
-			this.xbtn_FormClose.FlatAppearance.BorderSize = 0;
-			this.xbtn_FormClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.xbtn_FormClose.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Close_Window_25px;
-			this.xbtn_FormClose.Location = new System.Drawing.Point(838, 1);
-			this.xbtn_FormClose.Margin = new System.Windows.Forms.Padding(0);
-			this.xbtn_FormClose.Name = "xbtn_FormClose";
-			this.xbtn_FormClose.Size = new System.Drawing.Size(43, 43);
-			this.xbtn_FormClose.TabIndex = 1;
-			this.xbtn_FormClose.UseVisualStyleBackColor = true;
-			this.xbtn_FormClose.Click += new System.EventHandler(this.OnFormClose_Click);
+			this.xtmr_SlidePanel.Interval = 1;
+			this.xtmr_SlidePanel.Tick += new System.EventHandler(this.OnSlidePanel_Tick);
 			// 
-			// label1
+			// xspl_UC
 			// 
-			this.label1.Dock = System.Windows.Forms.DockStyle.Left;
-			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.label1.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Unit_25px;
-			this.label1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.label1.Location = new System.Drawing.Point(1, 1);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(170, 43);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "BxS Dashboard";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.xspl_UC.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.xspl_UC.Location = new System.Drawing.Point(90, 45);
+			this.xspl_UC.Name = "xspl_UC";
+			this.xspl_UC.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.xspl_UC.Size = new System.Drawing.Size(792, 536);
+			this.xspl_UC.SplitterDistance = 263;
+			this.xspl_UC.TabIndex = 4;
 			// 
 			// BxS_Main
 			// 
@@ -243,7 +224,6 @@
 			this.xpnl_WindowHeader.ResumeLayout(false);
 			this.xpnl_Menu.ResumeLayout(false);
 			this.xpnl_Menu.PerformLayout();
-			this.xpnl_SlidePanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.xspl_UC)).EndInit();
 			this.xspl_UC.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -263,7 +243,6 @@
 		private System.Windows.Forms.Timer xtmr_SlidePanel;
 		private System.Windows.Forms.SplitContainer xspl_UC;
 		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button5;
 		private System.Windows.Forms.Button button6;
 		private System.Windows.Forms.ColorDialog xdlg_Colour;
 		}

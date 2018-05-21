@@ -25,6 +25,8 @@ namespace BxS_WorxExcel.UI.Forms
 						this.SetupStartup()			;
 						this.SetupMove()				;
 						this.SetupSlidepanel()	;
+						this.SetupButtons()			;
+						this.AddButtons()				;
 
 
 
@@ -113,19 +115,21 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	CreateButton( Color	colourBack )
 					{
-						this.Button	= new	Button();
+						this.Button	= new	Button
+							{
+									FlatStyle		= FlatStyle.Flat
+								,	Dock				=	DockStyle.Top
+								,	Size				=	new	Size( 45 , 45 )
+								,	BackColor		=	colourBack
+
+								,	TabIndex		=	this.TabIndex
+								,	Name				=	this.ID
+								,	Image				=	(Image)	Resources.ResourceManager.GetObject( this.ImageID )
+							};
 						//...
-						this.Button.FlatStyle										= FlatStyle.Flat			;
-						this.Button.Dock												= DockStyle.Top				;
-						this.Button.FlatAppearance.BorderSize		= 0										;
-						this.Button.Size												= new Size( 45 , 45 )	;
-						this.Button.BackColor										=	colourBack					;
+						this.Button.FlatAppearance.BorderSize		= 0	;
 						//...
-						this.Button.TabIndex	= this.TabIndex	;
-						this.Button.Name			= this.ID				;
-						//...
-						this.Button.Image			=	(Image)	Resources.ResourceManager.GetObject(this.ImageID);
-						this.Button.Click		 += new System.EventHandler(this.OnEventClick);
+						this.Button.Click		+= new System.EventHandler( this.OnEventClick );
 						//...
 						//this.Button.UseVisualStyleBackColor = true;
 						//this.Button.Location = new System.Drawing.Point(1, 40);
@@ -135,20 +139,6 @@ namespace BxS_WorxExcel.UI.Forms
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	static	ButtonDefinition	Create()	=>	new	ButtonDefinition();
-
-
-
-			//			x.Dock					= DockStyle.Top	;
-
-			//this.xbtn_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-			//this.xbtn_Menu.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			//this.xbtn_Menu.FlatAppearance.BorderSize = 0;
-			//this.xbtn_Menu.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
-			//this.xbtn_Menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			//this.xbtn_Menu.Location = new System.Drawing.Point(1, 40);
-			//this.xbtn_Menu.UseVisualStyleBackColor = true;
-			//this.xbtn_Menu.Click += new System.EventHandler(this.Xbtn_Menu_Click);
-
 			}
 
 
@@ -160,7 +150,7 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
-				private	Dictionary<string , ButtonDefinition>	_Menu;
+				private	Dictionary<string , ButtonDefinition>	MButtons;
 				//...
 				private	Color	_ColourBack		;
 				private	Color	_ColourMove		;
@@ -169,15 +159,16 @@ namespace BxS_WorxExcel.UI.Forms
 				private	bool	_MoveActive		;
 				private	Point	_MoveLocation	;
 				//...
-				private	string	_SlideBtn		;
-				private int			_SlideWidth	;
-				private	int			_SlideIncr	;
-				private int			_SlideStep	;
+				private int		_SlideWidth	;
+				private	int		_SlideIncr	;
+				private int		_SlideStep	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Routines: Private: General"
+
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void SetupButtons()
@@ -188,9 +179,28 @@ namespace BxS_WorxExcel.UI.Forms
 						x.ID						=	"Settings"							;
 						x.ImageID				=	"icons8_Settings_25px"	;
 						x.OnEventClick	=	this.OnMenuButton_Click	;
+						x.CreateButton( this._ColourBack );
 
+						var y =	ButtonDefinition.Create();
 						//...
-						this._Menu.Add( x.ID , x );
+						y.TabIndex			=	1												;
+						y.ID						=	"Settings"							;
+						y.ImageID				=	"icons8_Microsoft_Excel_25px_1"	;
+						y.OnEventClick	=	this.OnMenuButton_Click	;
+						y.CreateButton( this._ColourBack );
+
+						x.Children.Add( y.ID , y );
+						//...
+						this.MButtons.Add( x.ID , x );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void AddButtons()
+					{
+						foreach ( ButtonDefinition lo_Item in this.MButtons.Values.OrderBy( x => x.TabIndex ) )
+							{
+								this.xpnl_Menu.Controls.Add( lo_Item.Button );
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -198,13 +208,17 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						var x = (Button) sender;
 						//...
-						if ( this._Menu.TryGetValue( x.Name , out ButtonDefinition lo_Btn ) )
+						x.Enabled	= false;
+						//...
+						if ( this.MButtons.TryGetValue( x.Name , out ButtonDefinition lo_Btn ) )
 							{
-								foreach ( KeyValuePair<string , ButtonDefinition> lo_SBtn in lo_Btn.Children )
+								foreach ( ButtonDefinition lo_SBtn in lo_Btn.Children.Values.OrderBy( v => v.TabIndex ) )
 									{
-										
+										this.xpnl_SlidePanel.Controls.Add( lo_SBtn.Button );
 									}
 							}
+						//...
+						this.ActivateSlidePanel();
 					}
 
 			#endregion
@@ -215,7 +229,7 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupStartup()
 					{
-						this._Menu	= new	Dictionary<string, ButtonDefinition>();
+						this.MButtons	= new	Dictionary<string, ButtonDefinition>();
 						//...
 						this._ColourBack	= Color.FromArgb( 255	, 31 , 31 , 31 );
 						this._ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 );
