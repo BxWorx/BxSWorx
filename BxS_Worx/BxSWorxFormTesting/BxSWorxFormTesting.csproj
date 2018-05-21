@@ -108,6 +108,18 @@
     <None Include="Resources\icons8_Unit_25px.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\icons8_Menu_25px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_Microsoft_Excel_25px_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_Paint_Palette_25px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_SAP_25px.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\icons8_Settings_25px.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
