@@ -10,6 +10,7 @@ using System.Windows.Forms;
 //.........................................................
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.NCO;
+using BxSWorxFormTesting.Properties;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Forms
 {
@@ -94,20 +95,59 @@ namespace BxS_WorxExcel.UI.Forms
 
 		private class ButtonDefinition
 			{
-				public	string		ID					{ get;  set; }
-				public	DockStyle	Dock				{ get;  set; }
-				public	string		ImageID			{ get;  set; }
-				public	int				TabIndex		{ get;  set; }
-				public	EventHandler	OnEvent	{ get;  set; }
+				public	ButtonDefinition()
+					{
+						this.Children		= new	Dictionary<string, ButtonDefinition>();
+					}
 
-			this.xbtn_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-			this.xbtn_Menu.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.xbtn_Menu.FlatAppearance.BorderSize = 0;
-			this.xbtn_Menu.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
-			this.xbtn_Menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.xbtn_Menu.Location = new System.Drawing.Point(1, 40);
-			this.xbtn_Menu.UseVisualStyleBackColor = true;
-			this.xbtn_Menu.Click += new System.EventHandler(this.Xbtn_Menu_Click);
+				public	int						TabIndex			{ get;  set; }
+				public	string				ID						{ get;  set; }
+				public	DockStyle			Dock					{ get;  set; }
+				public	string				ImageID				{ get;  set; }
+				public	EventHandler	OnEventClick	{ get;  set; }
+
+				public	Dictionary<string , ButtonDefinition>	Children;
+
+				public Button	Button	{ get;	private set; }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	CreateButton( Color	colourBack )
+					{
+						this.Button	= new	Button();
+						//...
+						this.Button.FlatStyle										= FlatStyle.Flat			;
+						this.Button.Dock												= DockStyle.Top				;
+						this.Button.FlatAppearance.BorderSize		= 0										;
+						this.Button.Size												= new Size( 45 , 45 )	;
+						this.Button.BackColor										=	colourBack					;
+						//...
+						this.Button.TabIndex	= this.TabIndex	;
+						this.Button.Name			= this.ID				;
+						//...
+						this.Button.Image			=	(Image)	Resources.ResourceManager.GetObject(this.ImageID);
+						this.Button.Click		 += new System.EventHandler(this.OnEventClick);
+						//...
+						//this.Button.UseVisualStyleBackColor = true;
+						//this.Button.Location = new System.Drawing.Point(1, 40);
+						//this.Button.FlatAppearance.BorderColor = System.Drawing.Color.White;
+						//this.Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	ButtonDefinition	Create()	=>	new	ButtonDefinition();
+
+
+
+			//			x.Dock					= DockStyle.Top	;
+
+			//this.xbtn_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+			//this.xbtn_Menu.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			//this.xbtn_Menu.FlatAppearance.BorderSize = 0;
+			//this.xbtn_Menu.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
+			//this.xbtn_Menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			//this.xbtn_Menu.Location = new System.Drawing.Point(1, 40);
+			//this.xbtn_Menu.UseVisualStyleBackColor = true;
+			//this.xbtn_Menu.Click += new System.EventHandler(this.Xbtn_Menu_Click);
 
 			}
 
@@ -120,6 +160,8 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
+				private	Dictionary<string , ButtonDefinition>	_Menu;
+				//...
 				private	Color	_ColourBack		;
 				private	Color	_ColourMove		;
 				private	Color	_ColourSlide	;
@@ -138,8 +180,43 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Routines: Private: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void SetupButtons()
+					{
+						var x =	ButtonDefinition.Create();
+						//...
+						x.TabIndex			=	1												;
+						x.ID						=	"Settings"							;
+						x.ImageID				=	"icons8_Settings_25px"	;
+						x.OnEventClick	=	this.OnMenuButton_Click	;
+
+						//...
+						this._Menu.Add( x.ID , x );
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void OnMenuButton_Click(	object sender , EventArgs e	)
+					{
+						var x = (Button) sender;
+						//...
+						if ( this._Menu.TryGetValue( x.Name , out ButtonDefinition lo_Btn ) )
+							{
+								foreach ( KeyValuePair<string , ButtonDefinition> lo_SBtn in lo_Btn.Children )
+									{
+										
+									}
+							}
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Routines: Private: General"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupStartup()
 					{
+						this._Menu	= new	Dictionary<string, ButtonDefinition>();
+						//...
 						this._ColourBack	= Color.FromArgb( 255	, 31 , 31 , 31 );
 						this._ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 );
 					}
