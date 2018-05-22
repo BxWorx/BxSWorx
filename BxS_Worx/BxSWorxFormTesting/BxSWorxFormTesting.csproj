@@ -68,8 +68,8 @@
       <DependentUpon>BxS_Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Respository\aMain\Program.cs" />
-    <Compile Include="Code Respository\Flat\MenuItem\IMenuItem.cs" />
-    <Compile Include="Code Respository\Flat\MenuItem\MenuItem.cs" />
+    <Compile Include="Code Respository\Flat\MenuItem\IMItem.cs" />
+    <Compile Include="Code Respository\Flat\MenuItem\MItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Code Respository\Flat\Button\UC_MenuButton.resx">
       <DependentUpon>UC_MenuButton.cs</DependentUpon>

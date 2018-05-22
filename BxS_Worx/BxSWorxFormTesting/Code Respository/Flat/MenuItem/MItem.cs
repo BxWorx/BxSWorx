@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using BxSWorxFormTesting.Properties;
+using System.Linq;
 //.........................................................
+using BxSWorxFormTesting.Properties;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
-	internal class MenuItem	: IMenuItem
+	internal class MItem	: IMItem
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal MenuItem()
+				internal MItem()
 					{
+						this._UCCreated	= false;
+						this._SubMenuItems	= new	Dictionary<string , IMItem>()	;
 					}
 
 			#endregion
@@ -21,9 +24,10 @@ namespace BxS_WorxExcel.UI.Menu
 			//===========================================================================================
 			#region "Declarations"
 
-				private	UC_MenuButton	_Button ;
+				private	bool	_UCCreated;
+				private	UC_MenuButton	_UCButton ;
 
-				public	Dictionary<string , IMenuItem>	SubMenu;
+				private readonly Dictionary<string , IMItem>	_SubMenuItems;
 
 			#endregion
 
@@ -31,10 +35,13 @@ namespace BxS_WorxExcel.UI.Menu
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	UC_MenuButton	Button	{	get	{	if ( this._Button	== null )	{	this.CreateButton();	}
-																							return	this._Button	;
-																						}
-																			}
+				public	UC_MenuButton	Button	{	get	=>	this._UCButton;	}
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public	UC_MenuButton	Button	{	get	{	if ( this._Button	== null )
+				//																				{	this.CreateButton(); }
+				//																			//...
+				//																			return	this._Button;				}	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	Color					FocusIndicatorColour	{ get;  set; }
@@ -49,32 +56,34 @@ namespace BxS_WorxExcel.UI.Menu
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	void	AddSubMenuItem( IMItem	item )	=>	this._SubMenuItems.Add( item.ID , item );
+				public	IList<IMItem>	GetSubMenuList()				=>	this._SubMenuItems.Values.OrderBy( x=> x.TabIndex ).ToList();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnMenuButton_Click(	object sender , EventArgs e	)
-					{
+				public	static	IMItem	Create()	=>	new	MItem();
 
-					}
+			#endregion
 
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	void LoadData()
-					{
-					}
+			//===========================================================================================
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void	CreateButton()
+				public void	CreateButton()
 					{
-						this._Button	= new	UC_MenuButton
+						if ( ! this._UCCreated )
 							{
-									Dock									=	this.DockStyle
-								,	TabIndex							=	this.TabIndex
-								,	Name									=	this.ID
-								, SetFocusColour				= this.FocusIndicatorColour
-								,	SetImage							=	(Image)	Resources.ResourceManager.GetObject( this.ImageID )
-								,	SetClickEventHandler	=	new System.EventHandler( this.OnEventClick )
-							};
+								this._UCButton	= new	UC_MenuButton
+									{
+											Dock									=	this.DockStyle
+										,	TabIndex							=	this.TabIndex
+										,	Name									=	this.ID
+										, SetFocusColour				= this.FocusIndicatorColour
+										,	SetImage							=	(Image)	Resources.ResourceManager.GetObject( this.ImageID )
+										,	SetClickEventHandler	=	new System.EventHandler( this.OnEventClick )
+									};
+								this._UCCreated	= true;
+							}
 					}
 
 			#endregion

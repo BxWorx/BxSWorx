@@ -73,6 +73,16 @@ namespace BxSWorxFormTesting.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_Excel_25px {
+            get {
+                object obj = ResourceManager.GetObject("icons8_Excel_25px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_Menu_25px {
             get {
                 object obj = ResourceManager.GetObject("icons8_Menu_25px", resourceCulture);
@@ -83,19 +93,9 @@ namespace BxSWorxFormTesting.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Microsoft_Excel_25px_1 {
+        internal static System.Drawing.Bitmap icons8_Min_Window_25px {
             get {
-                object obj = ResourceManager.GetObject("icons8_Microsoft_Excel_25px_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Minimize_Window_25px {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Minimize_Window_25px", resourceCulture);
+                object obj = ResourceManager.GetObject("icons8_Min_Window_25px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

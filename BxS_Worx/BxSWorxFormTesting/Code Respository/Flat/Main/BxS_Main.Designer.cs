@@ -68,7 +68,7 @@
 			this.xbtn_FormMinimise.Dock = System.Windows.Forms.DockStyle.Right;
 			this.xbtn_FormMinimise.FlatAppearance.BorderSize = 0;
 			this.xbtn_FormMinimise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.xbtn_FormMinimise.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Minimize_Window_25px;
+			this.xbtn_FormMinimise.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Min_Window_25px;
 			this.xbtn_FormMinimise.Location = new System.Drawing.Point(795, 1);
 			this.xbtn_FormMinimise.Margin = new System.Windows.Forms.Padding(0);
 			this.xbtn_FormMinimise.Name = "xbtn_FormMinimise";
@@ -122,6 +122,7 @@
 			// 
 			this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
 			this.button6.Dock = System.Windows.Forms.DockStyle.Top;
+			this.button6.Enabled = false;
 			this.button6.FlatAppearance.BorderColor = System.Drawing.Color.White;
 			this.button6.FlatAppearance.BorderSize = 0;
 			this.button6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
@@ -132,12 +133,14 @@
 			this.button6.Size = new System.Drawing.Size(43, 39);
 			this.button6.TabIndex = 3;
 			this.button6.UseVisualStyleBackColor = true;
+			this.button6.Visible = false;
 			this.button6.Click += new System.EventHandler(this.button6_Click);
 			// 
 			// button2
 			// 
 			this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
 			this.button2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.button2.Enabled = false;
 			this.button2.FlatAppearance.BorderColor = System.Drawing.Color.White;
 			this.button2.FlatAppearance.BorderSize = 0;
 			this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
@@ -148,11 +151,13 @@
 			this.button2.Size = new System.Drawing.Size(43, 39);
 			this.button2.TabIndex = 2;
 			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Visible = false;
 			// 
 			// xbtn_Menu
 			// 
 			this.xbtn_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
 			this.xbtn_Menu.Dock = System.Windows.Forms.DockStyle.Top;
+			this.xbtn_Menu.Enabled = false;
 			this.xbtn_Menu.FlatAppearance.BorderColor = System.Drawing.Color.White;
 			this.xbtn_Menu.FlatAppearance.BorderSize = 0;
 			this.xbtn_Menu.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
@@ -163,12 +168,14 @@
 			this.xbtn_Menu.Size = new System.Drawing.Size(43, 39);
 			this.xbtn_Menu.TabIndex = 1;
 			this.xbtn_Menu.UseVisualStyleBackColor = true;
+			this.xbtn_Menu.Visible = false;
 			this.xbtn_Menu.Click += new System.EventHandler(this.Xbtn_Menu_Click);
 			// 
 			// xbtn_Settings
 			// 
 			this.xbtn_Settings.AutoSize = true;
 			this.xbtn_Settings.Dock = System.Windows.Forms.DockStyle.Top;
+			this.xbtn_Settings.Enabled = false;
 			this.xbtn_Settings.FlatAppearance.BorderSize = 0;
 			this.xbtn_Settings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.xbtn_Settings.Image = global::BxSWorxFormTesting.Properties.Resources.icons8_Settings_25px;
@@ -177,6 +184,7 @@
 			this.xbtn_Settings.Size = new System.Drawing.Size(43, 39);
 			this.xbtn_Settings.TabIndex = 0;
 			this.xbtn_Settings.UseVisualStyleBackColor = true;
+			this.xbtn_Settings.Visible = false;
 			this.xbtn_Settings.Click += new System.EventHandler(this.Button1_Click);
 			// 
 			// xpnl_SlidePanel

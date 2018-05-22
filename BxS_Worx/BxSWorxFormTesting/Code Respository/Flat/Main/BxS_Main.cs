@@ -8,8 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 //.........................................................
+using BxS_WorxExcel.UI.Menu;
+
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.NCO;
+
 using BxSWorxFormTesting.Properties;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Forms
@@ -95,51 +98,51 @@ namespace BxS_WorxExcel.UI.Forms
 			}
 
 
-		private class ButtonDefinition
-			{
-				public	ButtonDefinition()
-					{
-						this.Children		= new	Dictionary<string, ButtonDefinition>();
-					}
+		//private class ButtonDefinition
+		//	{
+		//		public	ButtonDefinition()
+		//			{
+		//				this.Children		= new	Dictionary<string, ButtonDefinition>();
+		//			}
 
-				public	int						TabIndex			{ get;  set; }
-				public	string				ID						{ get;  set; }
-				public	DockStyle			Dock					{ get;  set; }
-				public	string				ImageID				{ get;  set; }
-				public	EventHandler	OnEventClick	{ get;  set; }
+		//		public	int						TabIndex			{ get;  set; }
+		//		public	string				ID						{ get;  set; }
+		//		public	DockStyle			Dock					{ get;  set; }
+		//		public	string				ImageID				{ get;  set; }
+		//		public	EventHandler	OnEventClick	{ get;  set; }
 
-				public	Dictionary<string , ButtonDefinition>	Children;
+		//		public	Dictionary<string , ButtonDefinition>	Children;
 
-				public Button	Button	{ get;	private set; }
+		//		public Button	Button	{ get;	private set; }
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	CreateButton( Color	colourBack )
-					{
-						this.Button	= new	Button
-							{
-									FlatStyle		= FlatStyle.Flat
-								,	Dock				=	DockStyle.Top
-								,	Size				=	new	Size( 45 , 45 )
-								,	BackColor		=	colourBack
+		//		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+		//		public void	CreateButton( Color	colourBack )
+		//			{
+		//				this.Button	= new	Button
+		//					{
+		//							FlatStyle		= FlatStyle.Flat
+		//						,	Dock				=	DockStyle.Top
+		//						,	Size				=	new	Size( 45 , 45 )
+		//						,	BackColor		=	colourBack
 
-								,	TabIndex		=	this.TabIndex
-								,	Name				=	this.ID
-								,	Image				=	(Image)	Resources.ResourceManager.GetObject( this.ImageID )
-							};
-						//...
-						this.Button.FlatAppearance.BorderSize		= 0	;
-						//...
-						this.Button.Click		+= new System.EventHandler( this.OnEventClick );
-						//...
-						//this.Button.UseVisualStyleBackColor = true;
-						//this.Button.Location = new System.Drawing.Point(1, 40);
-						//this.Button.FlatAppearance.BorderColor = System.Drawing.Color.White;
-						//this.Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
-					}
+		//						,	TabIndex		=	this.TabIndex
+		//						,	Name				=	this.ID
+		//						,	Image				=	(Image)	Resources.ResourceManager.GetObject( this.ImageID )
+		//					};
+		//				//...
+		//				this.Button.FlatAppearance.BorderSize		= 0	;
+		//				//...
+		//				this.Button.Click		+= new System.EventHandler( this.OnEventClick );
+		//				//...
+		//				//this.Button.UseVisualStyleBackColor = true;
+		//				//this.Button.Location = new System.Drawing.Point(1, 40);
+		//				//this.Button.FlatAppearance.BorderColor = System.Drawing.Color.White;
+		//				//this.Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
+		//			}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	ButtonDefinition	Create()	=>	new	ButtonDefinition();
-			}
+		//		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+		//		public	static	ButtonDefinition	Create()	=>	new	ButtonDefinition();
+		//	}
 
 
 
@@ -150,7 +153,7 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
-				private	Dictionary<string , ButtonDefinition>	MButtons;
+				private	Dictionary<string , IMItem>	MButtons;
 				//...
 				private	Color	_ColourBack		;
 				private	Color	_ColourMove		;
@@ -176,44 +179,40 @@ namespace BxS_WorxExcel.UI.Forms
 				private	void SetupButtons()
 					{
 						// *** first button ***
-						var x1 =	ButtonDefinition.Create();
+						IMItem x1 =	MItem.Create();
 						//...
-						x1.TabIndex			=	1												;
-						x1.ID						=	"Settings"							;
+						x1.OnEventClick		=	this.OnMenuButton_Click	;
+						x1.TabIndex				=	1												;
+						x1.ID							=	"Settings"							;
 						x1.ImageID				=	"icons8_Settings_25px"	;
-						x1.OnEventClick	=	this.OnMenuButton_Click	;
-						x1.CreateButton( this._ColourBack );
 
-						var y1 =	ButtonDefinition.Create();
+						IMItem y1 =	MItem.Create();
 						//...
-						y1.TabIndex			=	1												;
-						y1.ID						=	"Settings"							;
-						y1.ImageID				=	"icons8_Microsoft_Excel_25px_1"	;
-						y1.OnEventClick	=	this.OnMenuButton_Click	;
-						y1.CreateButton( this._ColourBack );
+						y1.TabIndex				=	1												;
+						y1.ID							=	"Settings"							;
+						y1.ImageID				=	"icons8_Excel_25px"			;
+						y1.OnEventClick		=	this.OnMenuButton_Click	;
 
-						x1.Children.Add( y1.ID , y1 );
+						x1.AddSubMenuItem( y1 );
 						//...
 						this.MButtons.Add( x1.ID , x1 );
 
 						// *** second button ***
-						var x2 =	ButtonDefinition.Create();
+						IMItem x2 =	MItem.Create();
 						//...
-						x2.TabIndex			=	2											;
-						x2.ID						=	"Menu"							;
-						x2.ImageID				=	"icons8_Menu_25px"	;
-						x2.OnEventClick	=	this.OnMenuButton_Click	;
-						x2.CreateButton( this._ColourBack );
+						x2.TabIndex				=	2												;
+						x2.ID							=	"Menu"									;
+						x2.ImageID				=	"icons8_Menu_25px"			;
+						x2.OnEventClick		=	this.OnMenuButton_Click	;
 
-						var y2 =	ButtonDefinition.Create();
+						IMItem y2 =	MItem.Create();
 						//...
-						y2.TabIndex			=	1												;
-						y2.ID						=	"Menu"							;
-						y2.ImageID				=	"icons8_SAP_25px"	;
-						y2.OnEventClick	=	this.OnMenuButton_Click	;
-						y2.CreateButton( this._ColourBack );
+						y2.TabIndex				=	1												;
+						y2.ID							=	"Menu"									;
+						y2.ImageID				=	"icons8_SAP_25px"				;
+						y2.OnEventClick		=	this.OnMenuButton_Click	;
 
-						x2.Children.Add( y2.ID , y2 );
+						x2.AddSubMenuItem( y2 );
 						//...
 						this.MButtons.Add( x2.ID , x2 );
 					}
@@ -221,14 +220,15 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddButtons()
 					{
-						foreach ( ButtonDefinition lo_Item in this.MButtons.Values.OrderBy( x => x.TabIndex ) )
+						foreach ( IMItem lo_Item in this.MButtons.Values.OrderBy( x => x.TabIndex ) )
 							{
+								lo_Item.CreateButton();
 								this.xpnl_Menu.Controls.Add( lo_Item.Button );
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnMenuButton_Click(	object sender , EventArgs e	)
+				private void OnMenuButton_Click( object sender , EventArgs e	)
 					{
 						var x = (Button) sender;
 						//...
@@ -250,9 +250,9 @@ namespace BxS_WorxExcel.UI.Forms
 
 								// Add slide panel buttons
 								//
-								if ( this.MButtons.TryGetValue( x.Name , out ButtonDefinition lo_Btn ) )
+								if ( this.MButtons.TryGetValue( x.Name , out IMItem lo_Btn ) )
 									{
-										foreach ( ButtonDefinition lo_SBtn in lo_Btn.Children.Values.OrderBy( v => v.TabIndex ) )
+										foreach ( IMItem lo_SBtn in lo_Btn.GetSubMenuList() )
 											{
 												this.xpnl_SlidePanel.Controls.Add( lo_SBtn.Button );
 											}
@@ -272,7 +272,7 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupStartup()
 					{
-						this.MButtons	= new	Dictionary<string, ButtonDefinition>();
+						this.MButtons	= new	Dictionary<string, IMItem>();
 						//...
 						this._ColourBack	= Color.FromArgb( 255	, 31 , 31 , 31 );
 						this._ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 );
@@ -286,7 +286,7 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupSlidepanel()
 					{
-						this._SlideWidth								= 45	;
+						this._SlideWidth								= 48	;
 						this._SlideStep									= 01	;
 						//...
 						this.xpnl_SlidePanel.Width			=	00	;

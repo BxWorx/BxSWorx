@@ -14,7 +14,7 @@ namespace BxS_WorxExcel.UI.Menu
 						InitializeComponent();
 						//...
 						this.SetFocusColour		= Color.FromArgb( 150 , 192 , 255 , 192 )	;
-						this._HaveFocus				= false	;
+						this.HaveFocus				= false	;
 						//...
 						this.xbtn_Button.FlatAppearance.BorderSize		= 0	;
 					}
@@ -24,7 +24,6 @@ namespace BxS_WorxExcel.UI.Menu
 			//===========================================================================================
 			#region "Declarations"
 
-				private	bool		_HaveFocus		;
 				private	Color		_FocusColour	;
 
 			#endregion
@@ -32,7 +31,7 @@ namespace BxS_WorxExcel.UI.Menu
 			//===========================================================================================
 			#region "Properties"
 
-				internal	bool	FocusState	{	get	=>	this._HaveFocus; }
+				internal	bool	HaveFocus		{	get;	private	set; }
 				//...
 				internal	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
 				internal	Image					SetImage							{	set	=>	this.xbtn_Button.Image	=		value	;	}
@@ -46,8 +45,8 @@ namespace BxS_WorxExcel.UI.Menu
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void ToggleFocusState()
 					{
-						this._HaveFocus								= ! this._HaveFocus	;
-						this.xpnl_Selected.BackColor	=		this._HaveFocus	?	this._FocusColour	: this.Parent.BackColor	;
+						this.HaveFocus								= ! this.HaveFocus	;
+						this.xpnl_Selected.BackColor	=		this.HaveFocus	?	this._FocusColour	: this.Parent.BackColor	;
 					}
 
 			#endregion
