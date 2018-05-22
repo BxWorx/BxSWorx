@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using BxSWorxFormTesting.Properties;
 //.........................................................
-using BxS_WorxIPX.NCO;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
@@ -22,6 +21,7 @@ namespace BxS_WorxExcel.UI.Menu
 			//===========================================================================================
 			#region "Declarations"
 
+				private	UC_MenuButton	_Button ;
 
 				public	Dictionary<string , IMenuItem>	SubMenu;
 
@@ -30,13 +30,19 @@ namespace BxS_WorxExcel.UI.Menu
 			//===========================================================================================
 			#region "Properties"
 
-				public	UC_MenuButton	Button { get; }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	UC_MenuButton	Button	{	get	{	if ( this._Button	== null )	{	this.CreateButton();	}
+																							return	this._Button	;
+																						}
+																			}
 
-				public	int						TabIndex			{ get;  set; }
-				public	string				ID						{ get;  set; }
-				public	DockStyle			Dock					{ get;  set; }
-				public	string				ImageID				{ get;  set; }
-				public	EventHandler	OnEventClick	{ get;  set; }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	Color					FocusIndicatorColour	{ get;  set; }
+				public	int						TabIndex							{ get;  set; }
+				public	string				ID										{ get;  set; }
+				public	DockStyle			DockStyle							{ get;  set; }
+				public	string				ImageID								{ get;  set; }
+				public	EventHandler	OnEventClick					{ get;  set; }
 
 			#endregion
 
@@ -58,32 +64,18 @@ namespace BxS_WorxExcel.UI.Menu
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	CreateButton( Color	colourBack )
+				private void	CreateButton()
 					{
-						this.Button	= new	UC_MenuButton
+						this._Button	= new	UC_MenuButton
 							{
-									FlatStyle		= FlatStyle.Flat
-								,	Dock				=	DockStyle.Top
-								,	Size				=	new	Size( 45 , 45 )
-								,	BackColor		=	colourBack
-
-								,	TabIndex		=	this.TabIndex
-								,	Name				=	this.ID
-								,	Image				=	(Image)	Resources.ResourceManager.GetObject( this.ImageID )
+									Dock									=	this.DockStyle
+								,	TabIndex							=	this.TabIndex
+								,	Name									=	this.ID
+								, SetFocusColour				= this.FocusIndicatorColour
+								,	SetImage							=	(Image)	Resources.ResourceManager.GetObject( this.ImageID )
+								,	SetClickEventHandler	=	new System.EventHandler( this.OnEventClick )
 							};
-						//...
-						this.Button.FlatAppearance.BorderSize		= 0	;
-						//...
-						this.Button.Click		+= new System.EventHandler( this.OnEventClick );
-						//...
-						//this.Button.UseVisualStyleBackColor = true;
-						//this.Button.Location = new System.Drawing.Point(1, 40);
-						//this.Button.FlatAppearance.BorderColor = System.Drawing.Color.White;
-						//this.Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
 					}
-
-
-
 
 			#endregion
 

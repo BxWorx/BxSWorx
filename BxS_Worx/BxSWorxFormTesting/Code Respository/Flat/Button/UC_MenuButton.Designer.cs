@@ -34,7 +34,7 @@
 			// 
 			// xpnl_Selected
 			// 
-			this.xpnl_Selected.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.xpnl_Selected.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
 			this.xpnl_Selected.Dock = System.Windows.Forms.DockStyle.Right;
 			this.xpnl_Selected.Location = new System.Drawing.Point(45, 0);
 			this.xpnl_Selected.Margin = new System.Windows.Forms.Padding(0);
