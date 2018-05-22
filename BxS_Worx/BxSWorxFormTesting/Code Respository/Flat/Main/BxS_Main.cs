@@ -166,32 +166,56 @@ namespace BxS_WorxExcel.UI.Forms
 			#endregion
 
 			//===========================================================================================
-			#region "Routines: Private: General"
+			#region "Routines: Private: Button handling"
+
+				private	string	_BtnPrevID	= "";
 
 
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void SetupButtons()
 					{
-						var x =	ButtonDefinition.Create();
+						// *** first button ***
+						var x1 =	ButtonDefinition.Create();
 						//...
-						x.TabIndex			=	1												;
-						x.ID						=	"Settings"							;
-						x.ImageID				=	"icons8_Settings_25px"	;
-						x.OnEventClick	=	this.OnMenuButton_Click	;
-						x.CreateButton( this._ColourBack );
+						x1.TabIndex			=	1												;
+						x1.ID						=	"Settings"							;
+						x1.ImageID				=	"icons8_Settings_25px"	;
+						x1.OnEventClick	=	this.OnMenuButton_Click	;
+						x1.CreateButton( this._ColourBack );
 
-						var y =	ButtonDefinition.Create();
+						var y1 =	ButtonDefinition.Create();
 						//...
-						y.TabIndex			=	1												;
-						y.ID						=	"Settings"							;
-						y.ImageID				=	"icons8_Microsoft_Excel_25px_1"	;
-						y.OnEventClick	=	this.OnMenuButton_Click	;
-						y.CreateButton( this._ColourBack );
+						y1.TabIndex			=	1												;
+						y1.ID						=	"Settings"							;
+						y1.ImageID				=	"icons8_Microsoft_Excel_25px_1"	;
+						y1.OnEventClick	=	this.OnMenuButton_Click	;
+						y1.CreateButton( this._ColourBack );
 
-						x.Children.Add( y.ID , y );
+						x1.Children.Add( y1.ID , y1 );
 						//...
-						this.MButtons.Add( x.ID , x );
+						this.MButtons.Add( x1.ID , x1 );
+
+						// *** second button ***
+						var x2 =	ButtonDefinition.Create();
+						//...
+						x2.TabIndex			=	2											;
+						x2.ID						=	"Menu"							;
+						x2.ImageID				=	"icons8_Menu_25px"	;
+						x2.OnEventClick	=	this.OnMenuButton_Click	;
+						x2.CreateButton( this._ColourBack );
+
+						var y2 =	ButtonDefinition.Create();
+						//...
+						y2.TabIndex			=	1												;
+						y2.ID						=	"Menu"							;
+						y2.ImageID				=	"icons8_SAP_25px"	;
+						y2.OnEventClick	=	this.OnMenuButton_Click	;
+						y2.CreateButton( this._ColourBack );
+
+						x2.Children.Add( y2.ID , y2 );
+						//...
+						this.MButtons.Add( x2.ID , x2 );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -209,16 +233,35 @@ namespace BxS_WorxExcel.UI.Forms
 						var x = (Button) sender;
 						//...
 						x.Enabled	= false;
-						//...
-						if ( this.MButtons.TryGetValue( x.Name , out ButtonDefinition lo_Btn ) )
+
+						if ( x.Name == this._BtnPrevID )
 							{
-								foreach ( ButtonDefinition lo_SBtn in lo_Btn.Children.Values.OrderBy( v => v.TabIndex ) )
+
+							}
+						else
+							{
+								// shut slide panel first and remove previous buttons
+								//
+								if ( ! this.xpnl_SlidePanel.Width.Equals(0) )
 									{
-										this.xpnl_SlidePanel.Controls.Add( lo_SBtn.Button );
+										this.ActivateSlidePanel();
+									}
+								this.xpnl_SlidePanel.Controls.Clear();
+
+								// Add slide panel buttons
+								//
+								if ( this.MButtons.TryGetValue( x.Name , out ButtonDefinition lo_Btn ) )
+									{
+										foreach ( ButtonDefinition lo_SBtn in lo_Btn.Children.Values.OrderBy( v => v.TabIndex ) )
+											{
+												this.xpnl_SlidePanel.Controls.Add( lo_SBtn.Button );
+											}
+										this._BtnPrevID	= x.Name;
 									}
 							}
 						//...
 						this.ActivateSlidePanel();
+						x.Enabled	= true;
 					}
 
 			#endregion
@@ -244,7 +287,7 @@ namespace BxS_WorxExcel.UI.Forms
 				private void SetupSlidepanel()
 					{
 						this._SlideWidth								= 45	;
-						this._SlideStep									= 05	;
+						this._SlideStep									= 01	;
 						//...
 						this.xpnl_SlidePanel.Width			=	00	;
 						this.xpnl_SlidePanel.BackColor	= this._ColourSlide;
@@ -255,26 +298,12 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						this._SlideIncr		=	this.xpnl_SlidePanel.Width.Equals(0) ? this._SlideStep : this._SlideStep * -1 ;
 						//...
-						this.xtmr_SlidePanel.Start();
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void DeactivateSlidePanel()
-					{
-						this.xtmr_SlidePanel.Stop();
-						this.xbtn_Menu.Enabled	= true;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnSlidePanel_Tick( object sender , EventArgs e )
-					{
-						this.xpnl_SlidePanel.Width	+= this._SlideIncr;
-						//...
-						if (		this.xpnl_SlidePanel.Width	>= this._SlideWidth
-								||	this.xpnl_SlidePanel.Width	<= 0								)
+						do
 							{
-								this.DeactivateSlidePanel();
-							}
+								this.xpnl_SlidePanel.Width	+= this._SlideIncr;
+
+							} while (			this.xpnl_SlidePanel.Width	< this._SlideWidth
+												&&	this.xpnl_SlidePanel.Width	> 0									);
 					}
 
 			#endregion

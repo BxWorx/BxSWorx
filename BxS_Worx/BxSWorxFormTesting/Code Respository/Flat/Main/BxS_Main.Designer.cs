@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 			{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BxS_Main));
 			this.xpnl_WindowHeader = new System.Windows.Forms.Panel();
 			this.xbtn_FormMinimise = new System.Windows.Forms.Button();
@@ -40,7 +39,6 @@
 			this.xbtn_Menu = new System.Windows.Forms.Button();
 			this.xbtn_Settings = new System.Windows.Forms.Button();
 			this.xpnl_SlidePanel = new System.Windows.Forms.Panel();
-			this.xtmr_SlidePanel = new System.Windows.Forms.Timer(this.components);
 			this.xspl_UC = new System.Windows.Forms.SplitContainer();
 			this.xdlg_Colour = new System.Windows.Forms.ColorDialog();
 			this.xpnl_WindowHeader.SuspendLayout();
@@ -190,11 +188,6 @@
 			this.xpnl_SlidePanel.Size = new System.Drawing.Size(45, 536);
 			this.xpnl_SlidePanel.TabIndex = 2;
 			// 
-			// xtmr_SlidePanel
-			// 
-			this.xtmr_SlidePanel.Interval = 1;
-			this.xtmr_SlidePanel.Tick += new System.EventHandler(this.OnSlidePanel_Tick);
-			// 
 			// xspl_UC
 			// 
 			this.xspl_UC.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -240,7 +233,6 @@
 		private System.Windows.Forms.Button xbtn_Settings;
 		private System.Windows.Forms.Button xbtn_FormMinimise;
 		private System.Windows.Forms.Button xbtn_FormClose;
-		private System.Windows.Forms.Timer xtmr_SlidePanel;
 		private System.Windows.Forms.SplitContainer xspl_UC;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button6;
