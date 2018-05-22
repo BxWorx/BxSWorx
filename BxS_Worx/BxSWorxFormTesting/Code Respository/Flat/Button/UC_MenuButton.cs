@@ -9,12 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BxS_WorxExcel.UI.Menu
-	{
+{
 	public partial class UC_MenuButton : UserControl
 		{
 		public UC_MenuButton()
 			{
-			InitializeComponent();
+				InitializeComponent();
 			}
+
+
+
+
+
 		}
-	}
+}
