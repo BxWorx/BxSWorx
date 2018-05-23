@@ -5,7 +5,7 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
-	internal interface IMItem
+	public interface IMItem
 		{
 			#region "Properties"
 

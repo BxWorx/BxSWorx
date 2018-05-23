@@ -15,8 +15,6 @@ namespace BxS_WorxExcel.UI.Menu
 						//...
 						this.SetFocusColour		= Color.FromArgb( 150 , 192 , 255 , 192 )	;
 						this._HaveFocus				= false	;
-						//...
-						this.xbtn_Button.FlatAppearance.BorderSize		= 0	;
 					}
 
 			#endregion
@@ -26,15 +24,16 @@ namespace BxS_WorxExcel.UI.Menu
 
 				private	Color		_FocusColour	;
 				private	bool		_HaveFocus		;
+
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
 				internal	string	ButtonTag				{	set	=>	this.xbtn_Button.Tag	= value; }
-
-				internal	bool	SetFocus		{	get	=>	this._HaveFocus	;
-																			set	=>	this.SetFocusState( value ); }
+				//...
+				internal	bool		SetFocus				{	get	=>	this._HaveFocus							;
+																						set	=>	this.SetFocusState( value )	;	}
 				//...
 				internal	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
 				internal	Image					SetImage							{	set	=>	this.xbtn_Button.Image	=		value	;	}

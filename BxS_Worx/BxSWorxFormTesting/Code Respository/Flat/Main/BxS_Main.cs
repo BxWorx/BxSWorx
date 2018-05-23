@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 //.........................................................
 using BxS_WorxExcel.UI.Menu;
+using BxS_WorxExcel.UI.Task;
 
 using BxS_WorxIPX.Main;
 using BxS_WorxIPX.NCO;
@@ -30,17 +31,11 @@ namespace BxS_WorxExcel.UI.Forms
 						this.SetupSlidepanel()	;
 						this.SetupButtons()			;
 						this.AddButtons()				;
-
-
-
-
-
-
-						//this._IPXCntlr	=		new	Lazy<IPX_Controller>	(	()=> IPX_Controller.Instance  ) ;
 					}
 
 		private void Xbtn_Menu_Click(	object sender , EventArgs e	)
 			{
+						//this._IPXCntlr	=		new	Lazy<IPX_Controller>	(	()=> IPX_Controller.Instance  ) ;
 				//this.xbtn_Menu.Enabled	= false;
 				this.ActivateSlidePanel();
 			}
@@ -100,82 +95,44 @@ namespace BxS_WorxExcel.UI.Forms
 			}
 
 
-		//private class ButtonDefinition
-		//	{
-		//		public	ButtonDefinition()
-		//			{
-		//				this.Children		= new	Dictionary<string, ButtonDefinition>();
-		//			}
-
-		//		public	int						TabIndex			{ get;  set; }
-		//		public	string				ID						{ get;  set; }
-		//		public	DockStyle			Dock					{ get;  set; }
-		//		public	string				ImageID				{ get;  set; }
-		//		public	EventHandler	OnEventClick	{ get;  set; }
-
-		//		public	Dictionary<string , ButtonDefinition>	Children;
-
-		//		public Button	Button	{ get;	private set; }
-
-		//		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-		//		public void	CreateButton( Color	colourBack )
-		//			{
-		//				this.Button	= new	Button
-		//					{
-		//							FlatStyle		= FlatStyle.Flat
-		//						,	Dock				=	DockStyle.Top
-		//						,	Size				=	new	Size( 45 , 45 )
-		//						,	BackColor		=	colourBack
-
-		//						,	TabIndex		=	this.TabIndex
-		//						,	Name				=	this.ID
-		//						,	Image				=	(Image)	Resources.ResourceManager.GetObject( this.ImageID )
-		//					};
-		//				//...
-		//				this.Button.FlatAppearance.BorderSize		= 0	;
-		//				//...
-		//				this.Button.Click		+= new System.EventHandler( this.OnEventClick );
-		//				//...
-		//				//this.Button.UseVisualStyleBackColor = true;
-		//				//this.Button.Location = new System.Drawing.Point(1, 40);
-		//				//this.Button.FlatAppearance.BorderColor = System.Drawing.Color.White;
-		//				//this.Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Indigo;
-		//			}
-
-		//		//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-		//		public	static	ButtonDefinition	Create()	=>	new	ButtonDefinition();
-		//	}
-
-
-
-
-
 		//.
 
 			//===========================================================================================
 			#region "Declarations"
 
 				private	const	int	BUTTONPANELWIDTH	= 48;
+				//...
+				private	Dictionary<string , IMItem>	_MenuItems;
+				//...
+				private	string	_BtnPrevID		;
+				//...
+				private	Color		_ColourBack		;
+				private	Color		_ColourMove		;
+				private	Color		_ColourSlide	;
+				//...
+				private	bool		_MoveActive		;
+				private	Point		_MoveLocation	;
+				//...
+				private int			_SlideWidth		;
+				private	int			_SlideIncr		;
+				private int			_SlideStep		;
 
-				private	Dictionary<string , IMItem>	MButtons;
-				//...
-				private	Color	_ColourBack		;
-				private	Color	_ColourMove		;
-				private	Color	_ColourSlide	;
-				//...
-				private	bool	_MoveActive		;
-				private	Point	_MoveLocation	;
-				//...
-				private int		_SlideWidth	;
-				private	int		_SlideIncr	;
-				private int		_SlideStep	;
+			#endregion
+
+			//===========================================================================================
+			#region "Routines: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void LoadTask( ITask task )
+					{
+						this._MenuItems.Add( task.MenuItem.ID	,	task.MenuItem );
+					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Routines: Private: Button handling"
 
-				private	string	_BtnPrevID	= "";
 
 
 
@@ -229,9 +186,9 @@ namespace BxS_WorxExcel.UI.Forms
 						x3.FocusIndicatorColour	= Color.FromArgb( 170 , 0 , 255 , 0 );
 
 						//...
-						this.MButtons.Add( x1.ID , x1 );
-						this.MButtons.Add( x2.ID , x2 );
-						this.MButtons.Add( x3.ID , x3 );
+						this._MenuItems.Add( x1.ID , x1 );
+						this._MenuItems.Add( x2.ID , x2 );
+						this._MenuItems.Add( x3.ID , x3 );
 					}
 
 
@@ -240,11 +197,16 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddButtons()
 					{
-						foreach ( IMItem lo_Item in this.MButtons.Values.OrderByDescending( x => x.TabIndex ))
+						foreach ( IMItem lo_Item in this._MenuItems.Values.OrderByDescending( x => x.TabIndex ))
 							{
 								this.xpnl_Menu.Controls.Add( lo_Item.Button );
 							}
 					}
+
+
+
+
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnMenuButton_Click( object sender , EventArgs e	)
@@ -267,13 +229,13 @@ namespace BxS_WorxExcel.UI.Forms
 										this.ActivateSlidePanel();
 									}
 								this.xpnl_SlidePanel.Controls.Clear();
-								if ( this.MButtons.TryGetValue( this._BtnPrevID , out IMItem lo_BtnX ) )
+								if ( this._MenuItems.TryGetValue( this._BtnPrevID , out IMItem lo_BtnX ) )
 									{
 										lo_BtnX.SetFocusState( false );
 									}
 								// Add slide panel buttons
 								//
-								if ( this.MButtons.TryGetValue( lc_Tag , out IMItem lo_Itm ) )
+								if ( this._MenuItems.TryGetValue( lc_Tag , out IMItem lo_Itm ) )
 									{
 										if ( lo_Itm.SubMenuCount.Equals(0) )
 											{
@@ -304,7 +266,8 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupStartup()
 					{
-						this.MButtons	= new	Dictionary<string, IMItem>();
+						this._MenuItems		= new	Dictionary<string, IMItem>();
+						this._BtnPrevID		= string.Empty;
 						//...
 						this._ColourBack	= Color.FromArgb( 255	, 31 , 31 , 31 );
 						this._ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 );
