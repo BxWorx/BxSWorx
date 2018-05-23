@@ -36,10 +36,10 @@
 			// 
 			this.xpnl_Selected.BackColor = System.Drawing.Color.Transparent;
 			this.xpnl_Selected.Dock = System.Windows.Forms.DockStyle.Right;
-			this.xpnl_Selected.Location = new System.Drawing.Point(45, 0);
+			this.xpnl_Selected.Location = new System.Drawing.Point(46, 0);
 			this.xpnl_Selected.Margin = new System.Windows.Forms.Padding(0);
 			this.xpnl_Selected.Name = "xpnl_Selected";
-			this.xpnl_Selected.Size = new System.Drawing.Size(3, 45);
+			this.xpnl_Selected.Size = new System.Drawing.Size(2, 45);
 			this.xpnl_Selected.TabIndex = 0;
 			// 
 			// xbtn_Button
@@ -51,7 +51,7 @@
 			this.xbtn_Button.Location = new System.Drawing.Point(0, 0);
 			this.xbtn_Button.Margin = new System.Windows.Forms.Padding(0);
 			this.xbtn_Button.Name = "xbtn_Button";
-			this.xbtn_Button.Size = new System.Drawing.Size(45, 45);
+			this.xbtn_Button.Size = new System.Drawing.Size(46, 45);
 			this.xbtn_Button.TabIndex = 0;
 			this.xbtn_Button.TabStop = false;
 			this.xbtn_Button.UseVisualStyleBackColor = false;

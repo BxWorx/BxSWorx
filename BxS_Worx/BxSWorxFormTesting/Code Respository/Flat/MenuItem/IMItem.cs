@@ -14,11 +14,13 @@ namespace BxS_WorxExcel.UI.Menu
 				Color					FocusIndicatorColour	{ get;  set; }
 				int						TabIndex							{ get;  set; }
 				string				ID										{ get;  set; }
-				//DockStyle			DockStyle							{ get;  set; }
 				string				ImageID								{ get;  set; }
 				EventHandler	OnEventClick					{ get;  set; }
 
 				bool	Enabled												{ get;  set; }
+
+				int		SubMenuCount									{ get; }
+
 
 			#endregion
 

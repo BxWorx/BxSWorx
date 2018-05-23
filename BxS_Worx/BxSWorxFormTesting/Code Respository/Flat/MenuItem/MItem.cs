@@ -48,8 +48,7 @@ namespace BxS_WorxExcel.UI.Menu
 				public	bool	Enabled	{ get =>	this.Button.Enabled					;
 																set	=>	this.Button.Enabled	= value	;	}
 
-				
-
+				public	int		SubMenuCount	{	get	=>	this._SubMenuItems.Count	;	}
 
 			#endregion
 

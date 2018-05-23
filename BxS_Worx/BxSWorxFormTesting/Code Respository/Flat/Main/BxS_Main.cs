@@ -155,7 +155,7 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const	int	MENUPANELWIDTH	= 48;
+				private	const	int	BUTTONPANELWIDTH	= 48;
 
 				private	Dictionary<string , IMItem>	MButtons;
 				//...
@@ -218,17 +218,30 @@ namespace BxS_WorxExcel.UI.Forms
 						y2.OnEventClick		=	this.OnMenuButton_Click	;
 
 						x2.AddSubMenuItem( y2 );
+
+						// *** third button ***
+						IMItem x3 =	MItem.Create();
+						//...
+						x3.TabIndex				=	3												;
+						x3.ID							=	"Action"									;
+						x3.ImageID				=	"icons8_SAP_25px"			;
+						x3.OnEventClick		=	this.OnMenuButton_Click	;
+						x3.FocusIndicatorColour	= Color.FromArgb( 170 , 0 , 255 , 0 );
+
 						//...
 						this.MButtons.Add( x1.ID , x1 );
 						this.MButtons.Add( x2.ID , x2 );
+						this.MButtons.Add( x3.ID , x3 );
 					}
+
+
+
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddButtons()
 					{
 						foreach ( IMItem lo_Item in this.MButtons.Values.OrderByDescending( x => x.TabIndex ))
 							{
-								//lo_Item.CreateButton();
 								this.xpnl_Menu.Controls.Add( lo_Item.Button );
 							}
 					}
@@ -236,14 +249,14 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnMenuButton_Click( object sender , EventArgs e	)
 					{
-						var x = (Button) sender;
+						var			lo_Btn	= (Button) sender;
+						string	lc_Tag	= lo_Btn.Tag.ToString();
 						//...
-						x.Enabled	= false;
-						string y = x.Tag.ToString();
-
-
-						if ( y.Equals( this._BtnPrevID ) )
+						lo_Btn.Enabled	= false;
+						//...
+						if ( lc_Tag.Equals( this._BtnPrevID ) )
 							{
+
 							}
 						else
 							{
@@ -260,19 +273,27 @@ namespace BxS_WorxExcel.UI.Forms
 									}
 								// Add slide panel buttons
 								//
-								if ( this.MButtons.TryGetValue( y , out IMItem lo_Btn ) )
+								if ( this.MButtons.TryGetValue( lc_Tag , out IMItem lo_Itm ) )
 									{
-										foreach ( IMItem lo_SBtn in lo_Btn.GetSubMenuList() )
+										if ( lo_Itm.SubMenuCount.Equals(0) )
 											{
-												this.xpnl_SlidePanel.Controls.Add( lo_SBtn.Button );
+												this.ActivateSlidePanel(true);
 											}
-										lo_Btn.SetFocusState( true );
-										this._BtnPrevID	= y;
+										else
+											{
+												foreach ( IMItem lo_SBtn in lo_Itm.GetSubMenuList() )
+													{
+														this.xpnl_SlidePanel.Controls.Add( lo_SBtn.Button );
+													}
+											}
+										//...
+										lo_Itm.SetFocusState( true );
+										this._BtnPrevID	= lc_Tag;
 									}
 							}
 						//...
 						this.ActivateSlidePanel();
-						x.Enabled	= true;
+						lo_Btn.Enabled	= true;
 					}
 
 			#endregion
@@ -288,7 +309,7 @@ namespace BxS_WorxExcel.UI.Forms
 						this._ColourBack	= Color.FromArgb( 255	, 31 , 31 , 31 );
 						this._ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 );
 						//...
-						this.xpnl_Menu.Width	= MENUPANELWIDTH;
+						this.xpnl_Menu.Width	= BUTTONPANELWIDTH;
 					}
 
 			#endregion
@@ -299,7 +320,7 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupSlidepanel()
 					{
-						this._SlideWidth								= MENUPANELWIDTH;
+						this._SlideWidth								= BUTTONPANELWIDTH;
 						this._SlideStep									= 03	;
 						//...
 						this.xpnl_SlidePanel.Width			=	00	;
@@ -307,9 +328,10 @@ namespace BxS_WorxExcel.UI.Forms
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ActivateSlidePanel()
+				private void ActivateSlidePanel( bool	slow	= false )
 					{
-						this._SlideIncr		=	this.xpnl_SlidePanel.Width.Equals(0) ? this._SlideStep : this._SlideStep * -1 ;
+						this._SlideIncr		=	slow	?	1	: this._SlideStep	;
+						if ( !this.xpnl_SlidePanel.Width.Equals(0) )	this._SlideIncr	*= -1;
 						//...
 						do
 							{
