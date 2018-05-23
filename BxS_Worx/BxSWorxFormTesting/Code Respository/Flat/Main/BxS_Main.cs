@@ -36,12 +36,12 @@ namespace BxS_WorxExcel.UI.Forms
 
 
 
-						this._IPXCntlr	=		new	Lazy<IPX_Controller>	(	()=> IPX_Controller.Instance  ) ;
+						//this._IPXCntlr	=		new	Lazy<IPX_Controller>	(	()=> IPX_Controller.Instance  ) ;
 					}
 
 		private void Xbtn_Menu_Click(	object sender , EventArgs e	)
 			{
-				this.xbtn_Menu.Enabled	= false;
+				//this.xbtn_Menu.Enabled	= false;
 				this.ActivateSlidePanel();
 			}
 
@@ -69,10 +69,12 @@ namespace BxS_WorxExcel.UI.Forms
 
 		private void BxS_Main_Load(object sender , EventArgs e)
 			{
-				IUC_DGVModel	lo_Md		= new UC_DGVModel( this._IPXCntlr.Value.NCOx_Controller	)	;
-				IUC_DGVView		lo_Vw		=	new	UC_DGVView()	;
-				//...
-				this._DGVP	= new	Lazy<UC_DGVPresenter>(	()=>	new	UC_DGVPresenter( lo_Md , lo_Vw ) );
+				//IUC_DGVModel	lo_Md		= new UC_DGVModel( this._IPXCntlr.Value.NCOx_Controller	)	;
+				//IUC_DGVView		lo_Vw		=	new	UC_DGVView()	;
+				////...
+				//this._DGVP	= new	Lazy<UC_DGVPresenter>(	()=>	new	UC_DGVPresenter( lo_Md , lo_Vw ) );
+
+
 				//this._DGV		= new	Lazy<UC_DGVView>(	()=> new UC_DGVView() );
 
 				//var x = new DTO_Session();
@@ -153,6 +155,8 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
+				private	const	int	MENUPANELWIDTH	= 48;
+
 				private	Dictionary<string , IMItem>	MButtons;
 				//...
 				private	Color	_ColourBack		;
@@ -185,6 +189,7 @@ namespace BxS_WorxExcel.UI.Forms
 						x1.TabIndex				=	1												;
 						x1.ID							=	"Settings"							;
 						x1.ImageID				=	"icons8_Settings_25px"	;
+						x1.FocusIndicatorColour	= Color.FromArgb( 255 , 0 , 255 , 0 );
 
 						IMItem y1 =	MItem.Create();
 						//...
@@ -195,15 +200,15 @@ namespace BxS_WorxExcel.UI.Forms
 
 						x1.AddSubMenuItem( y1 );
 						//...
-						this.MButtons.Add( x1.ID , x1 );
 
 						// *** second button ***
 						IMItem x2 =	MItem.Create();
 						//...
 						x2.TabIndex				=	2												;
 						x2.ID							=	"Menu"									;
-						x2.ImageID				=	"icons8_Menu_25px"			;
+						x2.ImageID				=	"icons8_Excel_25px"			;
 						x2.OnEventClick		=	this.OnMenuButton_Click	;
+						x2.FocusIndicatorColour	= Color.FromArgb( 255 , 0 , 255 , 0 );
 
 						IMItem y2 =	MItem.Create();
 						//...
@@ -214,15 +219,16 @@ namespace BxS_WorxExcel.UI.Forms
 
 						x2.AddSubMenuItem( y2 );
 						//...
+						this.MButtons.Add( x1.ID , x1 );
 						this.MButtons.Add( x2.ID , x2 );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddButtons()
 					{
-						foreach ( IMItem lo_Item in this.MButtons.Values.OrderBy( x => x.TabIndex ) )
+						foreach ( IMItem lo_Item in this.MButtons.Values.OrderByDescending( x => x.TabIndex ))
 							{
-								lo_Item.CreateButton();
+								//lo_Item.CreateButton();
 								this.xpnl_Menu.Controls.Add( lo_Item.Button );
 							}
 					}
@@ -233,30 +239,35 @@ namespace BxS_WorxExcel.UI.Forms
 						var x = (Button) sender;
 						//...
 						x.Enabled	= false;
+						string y = x.Tag.ToString();
 
-						if ( x.Name == this._BtnPrevID )
+
+						if ( y.Equals( this._BtnPrevID ) )
 							{
-
 							}
 						else
 							{
-								// shut slide panel first and remove previous buttons
+								// shut slide panel first and remove previous buttons, clear select indicator
 								//
 								if ( ! this.xpnl_SlidePanel.Width.Equals(0) )
 									{
 										this.ActivateSlidePanel();
 									}
 								this.xpnl_SlidePanel.Controls.Clear();
-
+								if ( this.MButtons.TryGetValue( this._BtnPrevID , out IMItem lo_BtnX ) )
+									{
+										lo_BtnX.SetFocusState( false );
+									}
 								// Add slide panel buttons
 								//
-								if ( this.MButtons.TryGetValue( x.Name , out IMItem lo_Btn ) )
+								if ( this.MButtons.TryGetValue( y , out IMItem lo_Btn ) )
 									{
 										foreach ( IMItem lo_SBtn in lo_Btn.GetSubMenuList() )
 											{
 												this.xpnl_SlidePanel.Controls.Add( lo_SBtn.Button );
 											}
-										this._BtnPrevID	= x.Name;
+										lo_Btn.SetFocusState( true );
+										this._BtnPrevID	= y;
 									}
 							}
 						//...
@@ -276,6 +287,8 @@ namespace BxS_WorxExcel.UI.Forms
 						//...
 						this._ColourBack	= Color.FromArgb( 255	, 31 , 31 , 31 );
 						this._ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 );
+						//...
+						this.xpnl_Menu.Width	= MENUPANELWIDTH;
 					}
 
 			#endregion
@@ -286,8 +299,8 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupSlidepanel()
 					{
-						this._SlideWidth								= 48	;
-						this._SlideStep									= 01	;
+						this._SlideWidth								= MENUPANELWIDTH;
+						this._SlideStep									= 03	;
 						//...
 						this.xpnl_SlidePanel.Width			=	00	;
 						this.xpnl_SlidePanel.BackColor	= this._ColourSlide;

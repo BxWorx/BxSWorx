@@ -34,7 +34,7 @@
 			// 
 			// xpnl_Selected
 			// 
-			this.xpnl_Selected.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.xpnl_Selected.BackColor = System.Drawing.Color.Transparent;
 			this.xpnl_Selected.Dock = System.Windows.Forms.DockStyle.Right;
 			this.xpnl_Selected.Location = new System.Drawing.Point(45, 0);
 			this.xpnl_Selected.Margin = new System.Windows.Forms.Padding(0);
@@ -46,6 +46,7 @@
 			// 
 			this.xbtn_Button.BackColor = System.Drawing.Color.Transparent;
 			this.xbtn_Button.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.xbtn_Button.FlatAppearance.BorderSize = 0;
 			this.xbtn_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.xbtn_Button.Location = new System.Drawing.Point(0, 0);
 			this.xbtn_Button.Margin = new System.Windows.Forms.Padding(0);
@@ -58,6 +59,7 @@
 			// UC_MenuButton
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.BackColor = System.Drawing.Color.Transparent;
 			this.Controls.Add(this.xbtn_Button);
 			this.Controls.Add(this.xpnl_Selected);
 			this.Margin = new System.Windows.Forms.Padding(0);
