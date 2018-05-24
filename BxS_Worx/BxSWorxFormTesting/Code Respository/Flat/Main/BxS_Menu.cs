@@ -19,15 +19,8 @@ namespace BxS_WorxExcel.UI.Forms
 {
 	public partial class BxS_Menu : Form
 		{
-
-
-
 			//===========================================================================================
 			#region "Routines: Private: Button handling"
-
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void AddButtons()
@@ -37,11 +30,6 @@ namespace BxS_WorxExcel.UI.Forms
 								//this.xpnl_Menu.Controls.Add( lo_Item.Button );
 							}
 					}
-
-
-
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnMenuButton_Click( object sender , EventArgs e	)
@@ -103,11 +91,9 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public BxS_Menu()
 					{
-						InitializeComponent();
+						InitializeComponent()	;
 						//...
-						this.SetupStartup()			;
-						this.SetupMove()				;
-						this.SetupSlidepanel()	;
+						this.SetupStartup()		;
 					}
 
 			#endregion
@@ -116,8 +102,6 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Declarations"
 
 				private	const	int	BUTTONPANELWIDTH	= 48	;
-				//...
-				private	IMConfig	_Config	;
 				//...
 				private	Dictionary<string , IMItem>			_MenuItems	;
 				private	Dictionary<string	,	MenuButton>	_Buttons		;
@@ -134,13 +118,14 @@ namespace BxS_WorxExcel.UI.Forms
 			#endregion
 
 			//===========================================================================================
-			#region "Routines: Exposed"
+			#region "Properties"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadConfig( IMConfig config )
-					{
-						this._Config	= config;
-					}
+				public IMConfig	Config	{ get;	set; }
+
+		#endregion
+
+			//===========================================================================================
+			#region "Routines: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadItem( IMItem item )
@@ -154,9 +139,9 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Routines: Private: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Color		ColourBack		{ get	=>	this._Config.ColourBack		; }
-				private	Color		ColourMove		{ get	=>	this._Config.ColourMove		; }
-				private	Color		ColourSlide		{ get	=>	this._Config.ColourSlide	; }
+				private	Color		ColourBack		{ get	=>	this.Config.ColourBack		; }
+				private	Color		ColourMove		{ get	=>	this.Config.ColourMove		; }
+				private	Color		ColourSlide		{ get	=>	this.Config.ColourSlide	; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupStartup()
@@ -170,9 +155,12 @@ namespace BxS_WorxExcel.UI.Forms
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async void BxS_Menu_Load(object sender , EventArgs e)
+				private void BxS_Menu_Load(object sender , EventArgs e)
 					{
-						await Task.Run(	()=>	{
+						this.SetupMove()				;
+						this.SetupSlidepanel()	;
+						//...
+						//await Task.Run(	()=>	{
 																		foreach ( IMItem lo_Item in this._MenuItems.Values )
 																			{
 																				var x = new MenuButton
@@ -182,8 +170,8 @@ namespace BxS_WorxExcel.UI.Forms
 
 																				this._Buttons.Add( lo_Item.ID , x );
 																			}
-																	}
-													).ConfigureAwait(false);
+							//										}
+							//						).ConfigureAwait(false);
 					}
 
 			#endregion
@@ -197,12 +185,12 @@ namespace BxS_WorxExcel.UI.Forms
 						return	new	UC_MenuButton
 									{
 										// Fixed settings
-											Dock	=	DockStyle.Top
+											Dock						=	DockStyle.Top
+										, SetFocusColour	=	this.Config.ColourFocus
 
 										// User Settings
 										,	TabIndex							=	item.TabIndex
 										,	Name									=	item.ID
-										, SetFocusColour				= item.FocusIndicatorColour
 										,	SetImage							=	(Image)	Resources.ResourceManager.GetObject( item.ImageID )
 										,	SetClickEventHandler	=	new System.EventHandler( item.OnEventClick )
 

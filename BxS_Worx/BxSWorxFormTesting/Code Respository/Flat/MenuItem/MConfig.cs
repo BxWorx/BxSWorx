@@ -2,17 +2,25 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
-	public class MConfig : IMConfig
+	public sealed class MConfig : IMConfig
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal MConfig()
+				private MConfig( bool	withDefaults )
 					{
-						this.ColourBack		= Color.FromArgb( 255	, 31 , 31 , 31 )	;
-						this.ColourMove		= Color.FromArgb( 255	, 45 , 45 , 45 )	;
-						this.ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 )	;
+						if ( withDefaults )
+							{
+								this.ColourBack		= Color.FromArgb( 255	, 031 , 031 , 031 )	;
+								this.ColourMove		= Color.FromArgb( 255	, 045 , 045 , 045 )	;
+								this.ColourFocus	= Color.FromArgb( 150	, 000 , 100 , 000 )	;
+								this.ColourSlide	= Color.FromArgb( 150	, 024 , 024 , 024 )	;
+							}
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	IMConfig	CreateBlank()					=>	new	MConfig( false )	;
+				public	static	IMConfig	CreateWithDefaults()	=>	new	MConfig( true	)		;
 
 			#endregion
 
@@ -21,9 +29,11 @@ namespace BxS_WorxExcel.UI.Menu
 
 				public	Color		ColourBack		{ get;  set; }
 				public	Color		ColourMove		{ get;  set; }
+				public	Color		ColourFocus		{ get;  set; }
 				public	Color		ColourSlide		{ get;  set; }
 
 			#endregion
+
 
 		}
 }

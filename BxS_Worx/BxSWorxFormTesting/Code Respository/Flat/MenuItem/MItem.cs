@@ -8,15 +8,18 @@ using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
-	internal class MItem	: IMItem
+	public sealed class MItem	: IMItem
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal MItem()
+				private MItem()
 					{
 						this._SubItems	= new	Dictionary<string , IMItem>()	;
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	IMItem	Create()	=>	new	MItem();
 
 			#endregion
 
@@ -39,7 +42,7 @@ namespace BxS_WorxExcel.UI.Menu
 				//																			return	this._UCButton;				}	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	Color					FocusIndicatorColour	{ get;  set; }
+				//public	Color					FocusIndicatorColour	{ get;  set; }
 				public	int						TabIndex							{ get;  set; }
 				public	string				ID										{ get;  set; }
 				public	string				ImageID								{ get;  set; }
@@ -60,7 +63,6 @@ namespace BxS_WorxExcel.UI.Menu
 				public	IList<IMItem>	GetSubMenuList()				=>	this._SubItems.Values.OrderByDescending( x=> x.TabIndex ).ToList();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IMItem	Create()	=>	new	MItem();
 
 				//public	void	SetFocusState( bool	state = false )
 				//	{

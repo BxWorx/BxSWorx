@@ -9,7 +9,7 @@ namespace BxS_WorxExcel.UI.Menu
 		{
 			#region "Properties"
 
-				Color					FocusIndicatorColour	{ get;  set; }
+				//Color					FocusIndicatorColour	{ get;  set; }
 				int						TabIndex							{ get;  set; }
 				string				ID										{ get;  set; }
 				string				ImageID								{ get;  set; }
