@@ -123,7 +123,7 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Routines: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void LoadTask( ITask task )
+				public void LoadTask( IMItem item )
 					{
 						this._MenuItems.Add( task.MenuItem.ID	,	task.MenuItem );
 					}
@@ -260,6 +260,17 @@ namespace BxS_WorxExcel.UI.Forms
 
 			#endregion
 
+
+
+
+
+
+
+
+
+
+
+
 			//===========================================================================================
 			#region "Routines: Private: General"
 
@@ -273,6 +284,30 @@ namespace BxS_WorxExcel.UI.Forms
 						this._ColourSlide	= Color.FromArgb( 150	, 24 , 24 , 24 );
 						//...
 						this.xpnl_Menu.Width	= BUTTONPANELWIDTH;
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Routines: Private: Button Handling"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private UC_MenuButton	CreateButton( IMItem	item )
+					{
+						return	new	UC_MenuButton
+									{
+										// Fixed settings
+											Dock	=	DockStyle.Top
+
+										// User Settings
+										,	TabIndex							=	item.TabIndex
+										,	Name									=	item.ID
+										, SetFocusColour				= item.FocusIndicatorColour
+										,	SetImage							=	(Image)	Resources.ResourceManager.GetObject( item.ImageID )
+										,	SetClickEventHandler	=	new System.EventHandler( item.OnEventClick )
+
+										, ButtonTag	= item.ID
+									};
 					}
 
 			#endregion

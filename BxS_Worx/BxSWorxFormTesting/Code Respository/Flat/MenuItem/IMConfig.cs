@@ -1,13 +1,14 @@
-﻿//.........................................................
-using BxS_WorxExcel.UI.Menu;
+﻿using System.Drawing;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI.Task
+namespace BxS_WorxExcel.UI.Menu
 {
-	public interface ITask
+	public interface IMConfig
 		{
 			#region "Properties"
 
-				IMItem	MenuItem	{ get; }
+				Color		ColourBack		{ get;  set; }
+				Color		ColourMove		{ get;  set; }
+				Color		ColourSlide		{ get;  set; }
 
 			#endregion
 

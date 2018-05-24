@@ -61,16 +61,17 @@
     <Compile Include="Code Respository\Flat\DGV\UC_DGVView.Designer.cs">
       <DependentUpon>UC_DGVView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Code Respository\Flat\Main\BxS_Main.cs">
+    <Compile Include="Code Respository\Flat\Main\BxS_Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Code Respository\Flat\Main\BxS_Main.Designer.cs">
-      <DependentUpon>BxS_Main.cs</DependentUpon>
+    <Compile Include="Code Respository\Flat\Main\BxS_Menu.Designer.cs">
+      <DependentUpon>BxS_Menu.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Respository\aMain\Program.cs" />
+    <Compile Include="Code Respository\Flat\MenuItem\MConfig.cs" />
+    <Compile Include="Code Respository\Flat\MenuItem\IMConfig.cs" />
     <Compile Include="Code Respository\Flat\MenuItem\IMItem.cs" />
     <Compile Include="Code Respository\Flat\MenuItem\MItem.cs" />
-    <Compile Include="Code Respository\Task\ITask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Code Respository\Flat\Button\UC_MenuButton.resx">
       <DependentUpon>UC_MenuButton.cs</DependentUpon>
@@ -78,8 +79,8 @@
     <EmbeddedResource Include="Code Respository\Flat\DGV\UC_DGVView.resx">
       <DependentUpon>UC_DGVView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Respository\Flat\Main\BxS_Main.resx">
-      <DependentUpon>BxS_Main.cs</DependentUpon>
+    <EmbeddedResource Include="Code Respository\Flat\Main\BxS_Menu.resx">
+      <DependentUpon>BxS_Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
