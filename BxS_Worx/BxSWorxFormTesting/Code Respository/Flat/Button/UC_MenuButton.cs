@@ -34,6 +34,9 @@ namespace BxS_WorxExcel.UI.Menu
 				//...
 				internal	bool		SetFocus				{	get	=>	this._HaveFocus							;
 																						set	=>	this.SetFocusState( value )	;	}
+
+				internal	int			SetTabIndex			{	get	=>	this.xbtn_Button.TabIndex					;
+																						set	=>	this.xbtn_Button.TabIndex	= value	;	}
 				//...
 				internal	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
 				internal	Image					SetImage							{	set	=>	this.xbtn_Button.Image	=		value	;	}
@@ -48,7 +51,7 @@ namespace BxS_WorxExcel.UI.Menu
 				private void SetFocusState( bool	state	)
 					{
 						this._HaveFocus								= state	;
-						this.xpnl_Selected.BackColor	=		this._HaveFocus	?	this._FocusColour	: this.Parent.BackColor	;
+						this.xpnl_Selected.BackColor	=	this._HaveFocus	?	this._FocusColour	: this.Parent.BackColor	;
 					}
 
 			#endregion

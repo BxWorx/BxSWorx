@@ -36,12 +36,12 @@ namespace BxSWorxFormTesting
 					{
 						// *** first button ***
 						IMItem x1 =	MItem.Create();
+						x1.RootNode				= true;
 						x1.TabIndex				=	1												;
 						x1.ID							=	"Settings"							;
 						x1.ImageID				=	"icons8_Settings_25px"	;
 
 						return	x1;
-						
 					}
 				//		//...
 				//		x1.OnEventClick		=	this.OnMenuButton_Click	;

@@ -15,7 +15,7 @@ namespace BxS_WorxExcel.UI.Menu
 				string				ImageID								{ get;  set; }
 				EventHandler	OnEventClick					{ get;  set; }
 
-				//bool	Enabled												{ get;  set; }
+				//bool	RootNode											{ get;  set; }
 
 				int		SubMenuCount									{ get; }
 

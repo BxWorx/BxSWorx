@@ -130,7 +130,9 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadItem( IMItem item )
 					{
-						this._MenuItems.Add( item.ID ,	item );
+						this._MenuItems.Add( item.ID , item );
+						//...
+						Task.Run(	()	=>	this.ConfigureButtons(item)	).ConfigureAwait(false);
 					}
 
 			#endregion
@@ -160,16 +162,11 @@ namespace BxS_WorxExcel.UI.Forms
 						this.SetupMove()				;
 						this.SetupSlidepanel()	;
 						//...
+						foreach ( MenuButton item in this._Buttons.Values.OrderByDescending( x => x._Button.TabIndex ) )
+							{
+								this.xpnl_Menu.Controls.Add( item._Button );
+							}
 						//await Task.Run(	()=>	{
-																		foreach ( IMItem lo_Item in this._MenuItems.Values )
-																			{
-																				var x = new MenuButton
-																					{
-																						_Button = this.CreateButton(lo_Item)
-																					};
-
-																				this._Buttons.Add( lo_Item.ID , x );
-																			}
 							//										}
 							//						).ConfigureAwait(false);
 					}
@@ -179,10 +176,26 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Routines: Private: Button Handling"
 
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private UC_MenuButton	CreateButton( IMItem	item )
+				private	void ConfigureButtons()
 					{
-						return	new	UC_MenuButton
+						foreach ( IMItem lo_Item in this._MenuItems.Values )
+							{
+								var x = new MenuButton
+									{
+										_Button = this.CreateButton(lo_Item)
+									};
+
+								this._Buttons.Add( lo_Item.ID , x );
+							}
+
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private UC_MenuButton	CreateButton( IMItem	item , bool rootNode	= false)
+					{
+						var x = new	UC_MenuButton
 									{
 										// Fixed settings
 											Dock						=	DockStyle.Top
@@ -191,11 +204,25 @@ namespace BxS_WorxExcel.UI.Forms
 										// User Settings
 										,	TabIndex							=	item.TabIndex
 										,	Name									=	item.ID
+										//, SetTabIndex						= item.TabIndex
 										,	SetImage							=	(Image)	Resources.ResourceManager.GetObject( item.ImageID )
-										,	SetClickEventHandler	=	new System.EventHandler( item.OnEventClick )
 
 										, ButtonTag	= item.ID
 									};
+						//...
+						if ( rootNode )
+							{
+								x.SetClickEventHandler	= this.OnMenuButton_Click ;
+							}
+						else
+							{
+								if ( item.OnEventClick != null)
+									{
+										x.SetClickEventHandler	=	new System.EventHandler( item.OnEventClick );
+									}
+							}
+						//...
+						return	x;
 					}
 
 			#endregion
@@ -299,7 +326,7 @@ namespace BxS_WorxExcel.UI.Forms
 						#endregion
  
 						//===========================================================================================
-						#region "Private classes"
+						#region "Declarations"
 
 							internal	UC_MenuButton												_Button		;
 							internal	Dictionary<string , UC_MenuButton>	_Buttons	;

@@ -47,6 +47,7 @@ namespace BxS_WorxExcel.UI.Menu
 				public	string				ID										{ get;  set; }
 				public	string				ImageID								{ get;  set; }
 				public	EventHandler	OnEventClick					{ get;  set; }
+				//public	bool					RootNode							{ get;  set; }
 
 				//public	bool	Enabled	{ get =>	this.Button.Enabled					;
 				//												set	=>	this.Button.Enabled	= value	;	}
