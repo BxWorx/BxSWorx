@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code Respository\Flat\Button\UC_FlipFlop.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Code Respository\Flat\Button\UC_FlipFlop.Designer.cs">
+      <DependentUpon>UC_FlipFlop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Code Respository\Flat\Button\UC_MenuButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -73,6 +79,9 @@
     <Compile Include="Code Respository\Flat\MenuItem\IMItem.cs" />
     <Compile Include="Code Respository\Flat\MenuItem\MItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Code Respository\Flat\Button\UC_FlipFlop.resx">
+      <DependentUpon>UC_FlipFlop.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Code Respository\Flat\Button\UC_MenuButton.resx">
       <DependentUpon>UC_MenuButton.cs</DependentUpon>
     </EmbeddedResource>
