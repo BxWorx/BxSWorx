@@ -15,7 +15,7 @@ namespace BxS_WorxExcel.UI.Menu
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private MItem()
 					{
-						this._SubItems	= new	Dictionary<string , IMItem>()	;
+						this._SubItems		= new	Dictionary<string , IMItem>()	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -48,7 +48,6 @@ namespace BxS_WorxExcel.UI.Menu
 				public	string				ImageID								{ get;  set; }
 				public	string				Text									{ get;  set; }
 				public	EventHandler	OnEventClick					{ get;  set; }
-				public	bool					UseFlipFlop						{ get;  set; }
 
 				//public	bool	Enabled	{ get =>	this.Button.Enabled					;
 				//												set	=>	this.Button.Enabled	= value	;	}

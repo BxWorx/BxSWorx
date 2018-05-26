@@ -10,6 +10,7 @@ namespace BxS_WorxExcel.UI.UC
 				bool					SetFocus							{	get;	set; }
 				int						MyTabIndex						{	get;	set; }
 				//...
+				string				SetText								{	set; }
 				string				SetName								{	set; }
 				string				SetButtonTag					{	set; }
 				Color					SetFocusColour				{	set; }

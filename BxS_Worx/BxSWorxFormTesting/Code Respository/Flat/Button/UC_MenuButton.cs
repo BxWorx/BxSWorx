@@ -38,6 +38,7 @@ namespace BxS_WorxExcel.UI.UC
 				public	int			MyTabIndex			{	get	=>	this.xobj_Button.TabIndex					;
 																					set	=>	this.xobj_Button.TabIndex	= value	;	}
 				//...
+				public	string				SetText								{	set	=>	this.xobj_Button.Text		=		string.Empty; }
 				public	string				SetName								{	set	=>	this.xobj_Button.Name		=		value	; }
 				public	string				SetButtonTag					{	set	=>	this.xobj_Button.Tag		=		value	; }
 				public	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}

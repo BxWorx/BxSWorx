@@ -50,9 +50,8 @@ namespace BxSWorxFormTesting
 						IMItem x1 =	MItem.Create();
 
 						x1.TabIndex				=	1												;
-						x1.ID							=	"Settings"							;
+						x1.ID							=	"FlipFlop"							;
 						x1.ImageID				=	"icons8_Settings_25px"	;
-						x1.UseFlipFlop		= true	;
 						x1.Text						= "Button1";
 
 						return	x1;

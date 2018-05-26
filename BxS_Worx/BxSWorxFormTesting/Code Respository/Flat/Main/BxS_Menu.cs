@@ -39,7 +39,6 @@ namespace BxS_WorxExcel.UI.Forms
 						//...
 						if ( lc_Tag.Equals( this._BtnPrevID ) )
 							{
-
 							}
 						else
 							{
@@ -99,7 +98,8 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const	int	BUTTONPANELWIDTH	= 48	;
+				private	const	int	PANELWIDTHSTD		= 48	;
+				private	const	int	PANELWIDTHWIDE	= 180	;
 				//...
 				private	Dictionary<string , IMItem>			_MenuItems	;
 				private	Dictionary<string	,	MenuButton>	_Buttons		;
@@ -130,7 +130,7 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						this._MenuItems.Add( item.ID , item );
 						//...
-						//Task.Run(	()	=>	this.ConfigureButtons(item)	).ConfigureAwait(false);
+						Task.Run(	()=>	this.ConfigureButtons(item)	).ConfigureAwait(false);
 					}
 
 			#endregion
@@ -139,8 +139,8 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Routines: Private: General"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Color		ColourBack		{ get	=>	this.Config.ColourBack		; }
-				private	Color		ColourMove		{ get	=>	this.Config.ColourMove		; }
+				private	Color		ColourBack		{ get	=>	this.Config.ColourBack	; }
+				private	Color		ColourMove		{ get	=>	this.Config.ColourMove	; }
 				private	Color		ColourSlide		{ get	=>	this.Config.ColourSlide	; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -151,7 +151,8 @@ namespace BxS_WorxExcel.UI.Forms
 						this._Buttons			= new	Dictionary<string, MenuButton>()	;
 						this._BtnPrevID		= string.Empty													;
 						//...
-						this.xpnl_Menu.Width	= BUTTONPANELWIDTH;
+						this.xpnl_Menu.Width	=	this.Config.MenuButtonType.Equals(ButtonType.Standard)	? PANELWIDTHSTD	:	PANELWIDTHWIDE	;
+						this.xpnl_Menu.Width	= PANELWIDTHSTD;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -176,30 +177,39 @@ namespace BxS_WorxExcel.UI.Forms
 
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void ConfigureButtons()
+				private	void ConfigureButtons( IMItem item )
 					{
-						foreach ( IMItem lo_Item in this._MenuItems.Values )
-							{
+						//foreach ( IMItem lo_Item in this._MenuItems.Values )
+						//	{
 								var x = new MenuButton
 									{
-										_Button = this.CreateButton(lo_Item)
+										_Button = this.CreateButton( item , this.Config.MenuButtonType )
 									};
 
-								this._Buttons.Add( lo_Item.ID , x );
-							}
+								this._Buttons.Add( item.ID , x );
+							//}
 
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IUC_Button	CreateButton( IMItem	item , bool rootNode	= false)
+				private IUC_Button	CreateButton( IMItem	item , ButtonType type )
 					{
-						IUC_Button	lo_Btn	= item.UseFlipFlop	?	new	UC_FlipFlop()	: (IUC_Button) new  UC_MenuButton() ;
+						IUC_Button	lo_Btn	= type.Equals(ButtonType.Flipflop)	?	new	UC_FlipFlop()	: (IUC_Button) new  UC_MenuButton() ;
 						//...
 						lo_Btn.SetFocusColour		=	this.Config.ColourFocus	;
 						lo_Btn.MyTabIndex				=	item.TabIndex						;
 						lo_Btn.SetName					=	item.ID									;
 						lo_Btn.SetButtonTag	    = item.ID									;
-						lo_Btn.SetImage					=	(Image)	Resources.ResourceManager.GetObject( item.ImageID );
+
+						if ( ! string.IsNullOrEmpty( item.Text ) )
+							{
+								lo_Btn.SetText	=	item.Text	;
+							}
+
+						if ( ! string.IsNullOrEmpty( item.ImageID	) )
+							{
+								lo_Btn.SetImage	=	(Image)	Resources.ResourceManager.GetObject( item.ImageID );
+							}
 						//...
 						if ( rootNode )
 							{
@@ -209,7 +219,8 @@ namespace BxS_WorxExcel.UI.Forms
 							{
 								if ( item.OnEventClick != null)
 									{
-										lo_Btn.SetClickEventHandler	=	new System.EventHandler( item.OnEventClick );
+										//lo_Btn.SetClickEventHandler	=		new System.EventHandler( item.OnEventClick );
+										lo_Btn.SetClickEventHandler	=		item.OnEventClick;
 									}
 							}
 						//...
@@ -224,7 +235,7 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void SetupSlidepanel()
 					{
-						this._SlideWidth								= BUTTONPANELWIDTH;
+						this._SlideWidth								= PANELWIDTHSTD;
 						this._SlideStep									= 03	;
 						//...
 						this.xpnl_SlidePanel.Width			=	00	;
@@ -311,7 +322,7 @@ namespace BxS_WorxExcel.UI.Forms
 							//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 							internal	MenuButton()
 								{
-									this._Buttons		=	new	Dictionary<string, IUC_Button>();
+									this._Buttons		=	new	Dictionary<string , IUC_Button>();
 								}
 
 						#endregion

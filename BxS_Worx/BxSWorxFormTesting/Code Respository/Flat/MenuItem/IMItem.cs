@@ -16,8 +16,6 @@ namespace BxS_WorxExcel.UI.Menu
 				string				Text									{ get;  set; }
 				EventHandler	OnEventClick					{ get;  set; }
 
-				bool	UseFlipFlop										{ get;  set; }
-
 				int		SubMenuCount									{ get; }
 
 			#endregion

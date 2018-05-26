@@ -6,10 +6,16 @@ namespace BxS_WorxExcel.UI.Menu
 		{
 			#region "Properties"
 
-				Color		ColourBack		{ get;  set; }
-				Color		ColourMove		{ get;  set; }
-				Color		ColourSlide		{ get;  set; }
-				Color		ColourFocus		{ get;  set; }
+				Color	ColourBack		{ get;  set; }
+				Color	ColourMove		{ get;  set; }
+				Color	ColourSlide		{ get;  set; }
+				Color	ColourFocus		{ get;  set; }
+				//...
+				ButtonType	MenuButtonType	{ get;  set; }
+				int					MenuWidth				{ get;	}
+				//...
+				ButtonType	SlideButtonType	{ get;  set; }
+				int					SlideWidth			{ get;	}
 
 			#endregion
 

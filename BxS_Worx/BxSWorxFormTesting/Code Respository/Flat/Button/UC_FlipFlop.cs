@@ -37,10 +37,11 @@ namespace BxS_WorxExcel.UI.UC
 				public	int			MyTabIndex			{	get	=>	this.xobj_Button.TabIndex					;
 																						set	=>	this.xobj_Button.TabIndex	= value	;	}
 				//...
+				public	string				SetText								{	set	=>	this.xobj_Button.Text		=		value	; }
 				public	string				SetName								{	set	=>	this.xobj_Button.Name		=		value	; }
 				public	string				SetButtonTag					{	set	=>	this.xobj_Button.Tag		=		value	; }
 				public	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
-				public	Image					SetImage							{	set	=>	this.xobj_Button.Image	=		value	;	}
+				public	Image					SetImage							{	set	=>	this.xpic_Button.Image	=		value	;	}
 				public	EventHandler	SetClickEventHandler	{ set	=>	this.xobj_Button.Click	+=	value	; }
 
 			#endregion
@@ -85,8 +86,6 @@ namespace BxS_WorxExcel.UI.UC
 					}
 
 			#endregion
-
-			public	void	SetText( string	text )	=>	this.xobj_Button.Text	=	text	;
 
 				private void OnLoad( object sender , EventArgs e )
 					{
