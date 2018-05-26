@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code Respository\Flat\Button\Common\IUC_Button.cs" />
     <Compile Include="Code Respository\Flat\Button\UC_FlipFlop.cs">
       <SubType>UserControl</SubType>
     </Compile>

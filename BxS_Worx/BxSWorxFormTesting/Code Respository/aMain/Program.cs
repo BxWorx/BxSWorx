@@ -23,7 +23,8 @@ namespace BxSWorxFormTesting
 						{
 							Config	=	MConfig.CreateWithDefaults()
 						};
-						w.LoadItem( SetupButton() );
+						w.LoadItem( SetupButton1() );
+						w.LoadItem( SetupButton2() );
 
 					//...
 					Application.Run( w );
@@ -32,17 +33,31 @@ namespace BxSWorxFormTesting
 			//...
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private static	IMItem SetupButton()
+				private static	IMItem SetupButton1()
 					{
-						// *** first button ***
 						IMItem x1 =	MItem.Create();
-						x1.RootNode				= true;
+
 						x1.TabIndex				=	1												;
 						x1.ID							=	"Settings"							;
 						x1.ImageID				=	"icons8_Settings_25px"	;
 
 						return	x1;
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private static	IMItem SetupButton2()
+					{
+						IMItem x1 =	MItem.Create();
+
+						x1.TabIndex				=	1												;
+						x1.ID							=	"Settings"							;
+						x1.ImageID				=	"icons8_Settings_25px"	;
+						x1.UseFlipFlop		= true	;
+						x1.Text						= "Button1";
+
+						return	x1;
+					}
+
 				//		//...
 				//		x1.OnEventClick		=	this.OnMenuButton_Click	;
 				//		x1.TabIndex				=	1												;

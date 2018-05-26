@@ -1,4 +1,4 @@
-﻿namespace BxS_WorxExcel.UI.Menu
+﻿namespace BxS_WorxExcel.UI.UC
 	{
 	partial class UC_MenuButton
 		{
@@ -29,42 +29,42 @@
 		private void InitializeComponent()
 			{
 			this.xpnl_Selected = new System.Windows.Forms.Panel();
-			this.xbtn_Button = new System.Windows.Forms.Button();
+			this.xobj_Button = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// xpnl_Selected
 			// 
 			this.xpnl_Selected.BackColor = System.Drawing.Color.Transparent;
 			this.xpnl_Selected.Dock = System.Windows.Forms.DockStyle.Right;
-			this.xpnl_Selected.Location = new System.Drawing.Point(46, 0);
+			this.xpnl_Selected.Location = new System.Drawing.Point(46 , 0);
 			this.xpnl_Selected.Margin = new System.Windows.Forms.Padding(0);
 			this.xpnl_Selected.Name = "xpnl_Selected";
-			this.xpnl_Selected.Size = new System.Drawing.Size(2, 45);
+			this.xpnl_Selected.Size = new System.Drawing.Size(2 , 45);
 			this.xpnl_Selected.TabIndex = 0;
 			// 
 			// xbtn_Button
 			// 
-			this.xbtn_Button.BackColor = System.Drawing.Color.Transparent;
-			this.xbtn_Button.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.xbtn_Button.FlatAppearance.BorderSize = 0;
-			this.xbtn_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.xbtn_Button.Location = new System.Drawing.Point(0, 0);
-			this.xbtn_Button.Margin = new System.Windows.Forms.Padding(0);
-			this.xbtn_Button.Name = "xbtn_Button";
-			this.xbtn_Button.Size = new System.Drawing.Size(46, 45);
-			this.xbtn_Button.TabIndex = 0;
-			this.xbtn_Button.TabStop = false;
-			this.xbtn_Button.UseVisualStyleBackColor = false;
+			this.xobj_Button.BackColor = System.Drawing.Color.Transparent;
+			this.xobj_Button.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.xobj_Button.FlatAppearance.BorderSize = 0;
+			this.xobj_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.xobj_Button.Location = new System.Drawing.Point(0 , 0);
+			this.xobj_Button.Margin = new System.Windows.Forms.Padding(0);
+			this.xobj_Button.Name = "xbtn_Button";
+			this.xobj_Button.Size = new System.Drawing.Size(46 , 45);
+			this.xobj_Button.TabIndex = 0;
+			this.xobj_Button.TabStop = false;
+			this.xobj_Button.UseVisualStyleBackColor = false;
 			// 
 			// UC_MenuButton
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.Transparent;
-			this.Controls.Add(this.xbtn_Button);
+			this.Controls.Add(this.xobj_Button);
 			this.Controls.Add(this.xpnl_Selected);
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "UC_MenuButton";
-			this.Size = new System.Drawing.Size(48, 45);
+			this.Size = new System.Drawing.Size(48 , 45);
 			this.ResumeLayout(false);
 
 			}
@@ -72,6 +72,6 @@
 		#endregion
 
 		private System.Windows.Forms.Panel xpnl_Selected;
-		private System.Windows.Forms.Button xbtn_Button;
+		private System.Windows.Forms.Button xobj_Button;
 		}
 	}

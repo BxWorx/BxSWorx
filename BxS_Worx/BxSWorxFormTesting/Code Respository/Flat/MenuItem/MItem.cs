@@ -46,8 +46,9 @@ namespace BxS_WorxExcel.UI.Menu
 				public	int						TabIndex							{ get;  set; }
 				public	string				ID										{ get;  set; }
 				public	string				ImageID								{ get;  set; }
+				public	string				Text									{ get;  set; }
 				public	EventHandler	OnEventClick					{ get;  set; }
-				//public	bool					RootNode							{ get;  set; }
+				public	bool					UseFlipFlop						{ get;  set; }
 
 				//public	bool	Enabled	{ get =>	this.Button.Enabled					;
 				//												set	=>	this.Button.Enabled	= value	;	}

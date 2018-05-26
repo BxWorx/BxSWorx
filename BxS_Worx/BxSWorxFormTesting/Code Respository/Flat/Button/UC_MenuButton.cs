@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace BxS_WorxExcel.UI.Menu
+namespace BxS_WorxExcel.UI.UC
 {
-	internal partial class UC_MenuButton : UserControl
+	internal partial class UC_MenuButton : UserControl , IUC_Button
 		{
 			#region "Constructors"
 
@@ -15,6 +15,7 @@ namespace BxS_WorxExcel.UI.Menu
 						//...
 						this.SetFocusColour		= Color.FromArgb( 150 , 192 , 255 , 192 )	;
 						this._HaveFocus				= false	;
+						this.Dock							= DockStyle.Top	;
 					}
 
 			#endregion
@@ -30,17 +31,18 @@ namespace BxS_WorxExcel.UI.Menu
 			//===========================================================================================
 			#region "Properties"
 
-				internal	string	ButtonTag				{	set	=>	this.xbtn_Button.Tag	= value; }
 				//...
-				internal	bool		SetFocus				{	get	=>	this._HaveFocus							;
-																						set	=>	this.SetFocusState( value )	;	}
+				public	bool		SetFocus				{	get	=>	this._HaveFocus							;
+																					set	=>	this.SetFocusState( value )	;	}
 
-				internal	int			SetTabIndex			{	get	=>	this.xbtn_Button.TabIndex					;
-																						set	=>	this.xbtn_Button.TabIndex	= value	;	}
+				public	int			MyTabIndex			{	get	=>	this.xobj_Button.TabIndex					;
+																					set	=>	this.xobj_Button.TabIndex	= value	;	}
 				//...
-				internal	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
-				internal	Image					SetImage							{	set	=>	this.xbtn_Button.Image	=		value	;	}
-				internal	EventHandler	SetClickEventHandler	{ set	=>	this.xbtn_Button.Click	+=	value	; }
+				public	string				SetName								{	set	=>	this.xobj_Button.Name		=		value	; }
+				public	string				SetButtonTag					{	set	=>	this.xobj_Button.Tag		=		value	; }
+				public	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
+				public	Image					SetImage							{	set	=>	this.xobj_Button.Image	=		value	;	}
+				public	EventHandler	SetClickEventHandler	{ set	=>	this.xobj_Button.Click	+=	value	; }
 
 			#endregion
 

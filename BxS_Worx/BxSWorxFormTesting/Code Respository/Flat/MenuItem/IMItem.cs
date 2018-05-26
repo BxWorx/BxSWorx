@@ -13,9 +13,10 @@ namespace BxS_WorxExcel.UI.Menu
 				int						TabIndex							{ get;  set; }
 				string				ID										{ get;  set; }
 				string				ImageID								{ get;  set; }
+				string				Text									{ get;  set; }
 				EventHandler	OnEventClick					{ get;  set; }
 
-				//bool	RootNode											{ get;  set; }
+				bool	UseFlipFlop										{ get;  set; }
 
 				int		SubMenuCount									{ get; }
 

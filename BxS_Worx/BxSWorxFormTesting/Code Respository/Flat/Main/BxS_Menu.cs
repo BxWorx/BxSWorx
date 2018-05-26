@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 //.........................................................
 using BxS_WorxExcel.UI.Menu;
-
-using BxS_WorxIPX.Main;
-using BxS_WorxIPX.NCO;
+using BxS_WorxExcel.UI.UC;
 
 using BxSWorxFormTesting.Properties;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -132,7 +130,7 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						this._MenuItems.Add( item.ID , item );
 						//...
-						Task.Run(	()	=>	this.ConfigureButtons(item)	).ConfigureAwait(false);
+						//Task.Run(	()	=>	this.ConfigureButtons(item)	).ConfigureAwait(false);
 					}
 
 			#endregion
@@ -162,9 +160,9 @@ namespace BxS_WorxExcel.UI.Forms
 						this.SetupMove()				;
 						this.SetupSlidepanel()	;
 						//...
-						foreach ( MenuButton item in this._Buttons.Values.OrderByDescending( x => x._Button.TabIndex ) )
+						foreach ( MenuButton item in this._Buttons.Values.OrderByDescending( x => x._Button.MyTabIndex ) )
 							{
-								this.xpnl_Menu.Controls.Add( item._Button );
+								this.xpnl_Menu.Controls.Add( (UserControl)item._Button );
 							}
 						//await Task.Run(	()=>	{
 							//										}
@@ -193,36 +191,29 @@ namespace BxS_WorxExcel.UI.Forms
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private UC_MenuButton	CreateButton( IMItem	item , bool rootNode	= false)
+				private IUC_Button	CreateButton( IMItem	item , bool rootNode	= false)
 					{
-						var x = new	UC_MenuButton
-									{
-										// Fixed settings
-											Dock						=	DockStyle.Top
-										, SetFocusColour	=	this.Config.ColourFocus
-
-										// User Settings
-										,	TabIndex							=	item.TabIndex
-										,	Name									=	item.ID
-										//, SetTabIndex						= item.TabIndex
-										,	SetImage							=	(Image)	Resources.ResourceManager.GetObject( item.ImageID )
-
-										, ButtonTag	= item.ID
-									};
+						IUC_Button	lo_Btn	= item.UseFlipFlop	?	new	UC_FlipFlop()	: (IUC_Button) new  UC_MenuButton() ;
+						//...
+						lo_Btn.SetFocusColour		=	this.Config.ColourFocus	;
+						lo_Btn.MyTabIndex				=	item.TabIndex						;
+						lo_Btn.SetName					=	item.ID									;
+						lo_Btn.SetButtonTag	    = item.ID									;
+						lo_Btn.SetImage					=	(Image)	Resources.ResourceManager.GetObject( item.ImageID );
 						//...
 						if ( rootNode )
 							{
-								x.SetClickEventHandler	= this.OnMenuButton_Click ;
+								lo_Btn.SetClickEventHandler	= this.OnMenuButton_Click ;
 							}
 						else
 							{
 								if ( item.OnEventClick != null)
 									{
-										x.SetClickEventHandler	=	new System.EventHandler( item.OnEventClick );
+										lo_Btn.SetClickEventHandler	=	new System.EventHandler( item.OnEventClick );
 									}
 							}
 						//...
-						return	x;
+						return	lo_Btn;
 					}
 
 			#endregion
@@ -320,7 +311,7 @@ namespace BxS_WorxExcel.UI.Forms
 							//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 							internal	MenuButton()
 								{
-									this._Buttons		=	new	Dictionary<string, UC_MenuButton>();
+									this._Buttons		=	new	Dictionary<string, IUC_Button>();
 								}
 
 						#endregion
@@ -328,8 +319,8 @@ namespace BxS_WorxExcel.UI.Forms
 						//===========================================================================================
 						#region "Declarations"
 
-							internal	UC_MenuButton												_Button		;
-							internal	Dictionary<string , UC_MenuButton>	_Buttons	;
+							internal	IUC_Button											_Button		;
+							internal	Dictionary<string , IUC_Button>	_Buttons	;
 
 						#endregion
 
