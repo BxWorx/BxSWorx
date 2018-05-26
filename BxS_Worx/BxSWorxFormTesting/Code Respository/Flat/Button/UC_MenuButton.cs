@@ -40,7 +40,7 @@ namespace BxS_WorxExcel.UI.UC
 				//...
 				public	string				SetText								{	set	=>	this.xobj_Button.Text		=		string.Empty; }
 				public	string				SetName								{	set	=>	this.xobj_Button.Name		=		value	; }
-				public	string				SetButtonTag					{	set	=>	this.xobj_Button.Tag		=		value	; }
+				public	string				SetTag					{	set	=>	this.xobj_Button.Tag		=		value	; }
 				public	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
 				public	Image					SetImage							{	set	=>	this.xobj_Button.Image	=		value	;	}
 				public	EventHandler	SetClickEventHandler	{ set	=>	this.xobj_Button.Click	+=	value	; }

@@ -21,7 +21,7 @@ namespace BxS_WorxExcel.UI.Menu
 			#endregion
 
 				//void	SetFocusState( bool	state = false );
-				void	AddSubMenuItem( IMItem	item );
-				IList<IMItem>	GetSubMenuList();
+				void	AddSubItem( IMItem	item );
+				IList<IMItem>	GetSubList();
 		}
 }

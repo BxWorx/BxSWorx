@@ -4,22 +4,21 @@ using System.Windows.Forms;
 
 namespace BxS_WorxExcel.UI.UC
 {
-	public partial class UC_FlipFlop : UserControl , IUC_Button
+	internal partial class UC_FlipFlop : UC_ButtonBase , IUC_Button
 		{
-				public UC_FlipFlop()
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal UC_FlipFlop() : base()
 					{
 						InitializeComponent();
-						//...
-						this.SetFocusColour		= Color.FromArgb( 150 , 192 , 255 , 192 )	;
-						this._HaveFocus				= false	;
-						this.Dock							= DockStyle.Top	;
 					}
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private	Color		_FocusColour	;
-				private	bool		_HaveFocus		;
+				//private	Color		_BackColour		;
+				//private	Color		_FocusColour	;
+				////...
+				//private	bool		_HaveFocus		;
 				//...
 				private	int	_Inc	;
 				private	int	_Pad	;
@@ -31,16 +30,18 @@ namespace BxS_WorxExcel.UI.UC
 			#region "Properties"
 
 				//...
-				public	bool		SetFocus				{	get	=>	this._HaveFocus							;
-																						set	=>	this.SetFocusState( value )	;	}
+				//public	bool		SetFocus				{	get	=>	this._HaveFocus							;
+				//																	set	=>	this.SetFocusState( value )	;	}
 
 				public	int			MyTabIndex			{	get	=>	this.xobj_Button.TabIndex					;
-																						set	=>	this.xobj_Button.TabIndex	= value	;	}
+																					set	=>	this.xobj_Button.TabIndex	= value	;	}
 				//...
 				public	string				SetText								{	set	=>	this.xobj_Button.Text		=		value	; }
 				public	string				SetName								{	set	=>	this.xobj_Button.Name		=		value	; }
-				public	string				SetButtonTag					{	set	=>	this.xobj_Button.Tag		=		value	; }
-				public	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
+				public	string				SetTag								{	set	=>	this.xobj_Button.Tag		=		value	; }
+				//...
+				//public	Color					SetBackColour					{	set	=>	this._FocusColour				=		value	;	}
+				//public	Color					SetFocusColour				{	set	=>	this._FocusColour				=		value	;	}
 				public	Image					SetImage							{	set	=>	this.xpic_Button.Image	=		value	;	}
 				public	EventHandler	SetClickEventHandler	{ set	=>	this.xobj_Button.Click	+=	value	; }
 
@@ -50,13 +51,13 @@ namespace BxS_WorxExcel.UI.UC
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void SetFocusState( bool	state	)
+				protected override void SetFocusState( bool	state	)
 					{
+						base.SetFocusState( state );
+						//...
 						bool	lb_Act	=	true			;
 						bool	lb_Rev	=	false			;
 						int		ln_Pad	= this._Pad	;
-						//...
-						this._HaveFocus	= state	;
 						//...
 						do
 							{

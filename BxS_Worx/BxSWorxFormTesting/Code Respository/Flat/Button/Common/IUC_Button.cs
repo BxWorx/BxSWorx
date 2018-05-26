@@ -7,14 +7,18 @@ namespace BxS_WorxExcel.UI.UC
 		{
 			#region "Properties"
 
-				bool					SetFocus							{	get;	set; }
-				int						MyTabIndex						{	get;	set; }
+				bool	SetFocus		{	get;	set; }
+				int		MyTabIndex	{	get;	set; }
 				//...
-				string				SetText								{	set; }
-				string				SetName								{	set; }
-				string				SetButtonTag					{	set; }
-				Color					SetFocusColour				{	set; }
-				Image					SetImage							{	set; }
+				string	SetText		{	set; }
+				string	SetName		{	set; }
+				string	SetTag		{	set; }
+				//...
+				Color		SetBackColour		{	set; }
+				Color		SetFocusColour	{	set; }
+				//...
+				Image		SetImage	{	set; }
+				//...
 				EventHandler	SetClickEventHandler	{ set; }
 
 			#endregion

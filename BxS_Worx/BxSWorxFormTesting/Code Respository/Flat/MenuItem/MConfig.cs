@@ -34,8 +34,8 @@ namespace BxS_WorxExcel.UI.Menu
 								,	ColourFocus = Color.FromArgb(150 , 000 , 100 , 000)
 								,	ColourSlide	= Color.FromArgb(150 , 024 , 024 , 024)
 									//...
-								,	MenuButtonType	= ButtonType.Standard
-								,	SlideButtonType = ButtonType.Flipflop
+								,	MenuType	= ButtonType.Standard
+								,	SliderType = ButtonType.Flipflop
 							};
 					}
 
@@ -44,8 +44,8 @@ namespace BxS_WorxExcel.UI.Menu
 			//===========================================================================================
 			#region "Declarations"
 
-				private	const	int	PANELWIDTHSTD		= 48	;
-				private	const	int	PANELWIDTHWIDE	= 180	;
+				private	const	int	WIDTHSTD		= 48	;
+				private	const	int	WIDTHWIDE		= 180	;
 				//...
 				private	ButtonType	_MenuType		;
 				private	ButtonType	_SliderType	;
@@ -65,26 +65,26 @@ namespace BxS_WorxExcel.UI.Menu
 				public	Color		ColourFocus		{ get;  set; }
 				public	Color		ColourSlide		{ get;  set; }
 				//...
-				public	ButtonType	MenuButtonType
+				public	ButtonType	MenuType
 															{	get	=>		this._MenuType;
 																//...
 																set			{	this._MenuType	= value	;
 																					if ( this._Widths.TryGetValue( value , out this._MenuWidth ) )
-																						{	this._MenuWidth	= PANELWIDTHSTD; }
+																						{	this._MenuWidth	= WIDTHSTD; }
 																				}
 															}
 				//...
-				public	ButtonType	SlideButtonType
+				public	ButtonType	SliderType
 															{	get	=>		this._SliderType;
 																//...
 																set			{	this._SliderType	= value	;
 																					if ( this._Widths.TryGetValue( value , out this._SliderWidth ) )
-																						{	this._SliderWidth	= PANELWIDTHWIDE; }
+																						{	this._SliderWidth	= WIDTHWIDE; }
 																				}
 															}
 				//...
 				public	int	MenuWidth		{ get	=>	this._MenuWidth		;	}
-				public	int	SlideWidth	{ get	=>	this._SliderWidth	;	}
+				public	int	SliderWidth	{ get	=>	this._SliderWidth	;	}
 
 			#endregion
 
@@ -96,8 +96,8 @@ namespace BxS_WorxExcel.UI.Menu
 					{
 						this._Widths	=	new	Dictionary< ButtonType , int >
 							{
-									{ ButtonType.Standard , PANELWIDTHSTD		}
-								,	{ ButtonType.Flipflop , PANELWIDTHWIDE	}
+									{ ButtonType.Standard , WIDTHSTD	}
+								,	{ ButtonType.Flipflop , WIDTHWIDE	}
 							};
 					}
 

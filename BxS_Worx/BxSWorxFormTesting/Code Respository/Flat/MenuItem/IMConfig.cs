@@ -11,11 +11,11 @@ namespace BxS_WorxExcel.UI.Menu
 				Color	ColourSlide		{ get;  set; }
 				Color	ColourFocus		{ get;  set; }
 				//...
-				ButtonType	MenuButtonType	{ get;  set; }
-				int					MenuWidth				{ get;	}
+				ButtonType	MenuType			{ get;  set; }
+				int					MenuWidth			{ get;	}
 				//...
-				ButtonType	SlideButtonType	{ get;  set; }
-				int					SlideWidth			{ get;	}
+				ButtonType	SliderType		{ get;  set; }
+				int					SliderWidth		{ get;	}
 
 			#endregion
 

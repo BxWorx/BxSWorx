@@ -63,7 +63,7 @@ namespace BxS_WorxExcel.UI.Forms
 											}
 										else
 											{
-												foreach ( IMItem lo_SBtn in lo_Itm.GetSubMenuList() )
+												foreach ( IMItem lo_SBtn in lo_Itm.GetSubList() )
 													{
 														//this.xpnl_SlidePanel.Controls.Add( lo_SBtn.Button );
 													}
@@ -151,7 +151,7 @@ namespace BxS_WorxExcel.UI.Forms
 						this._Buttons			= new	Dictionary<string, MenuButton>()	;
 						this._BtnPrevID		= string.Empty													;
 						//...
-						this.xpnl_Menu.Width	=	this.Config.MenuButtonType.Equals(ButtonType.Standard)	? PANELWIDTHSTD	:	PANELWIDTHWIDE	;
+						this.xpnl_Menu.Width	=	this.Config.MenuType.Equals(ButtonType.Standard)	? PANELWIDTHSTD	:	PANELWIDTHWIDE	;
 						this.xpnl_Menu.Width	= PANELWIDTHSTD;
 					}
 
@@ -183,7 +183,7 @@ namespace BxS_WorxExcel.UI.Forms
 						//	{
 								var x = new MenuButton
 									{
-										_Button = this.CreateButton( item , this.Config.MenuButtonType )
+										_Button = this.CreateButton( item , this.Config.MenuType )
 									};
 
 								this._Buttons.Add( item.ID , x );
@@ -199,7 +199,7 @@ namespace BxS_WorxExcel.UI.Forms
 						lo_Btn.SetFocusColour		=	this.Config.ColourFocus	;
 						lo_Btn.MyTabIndex				=	item.TabIndex						;
 						lo_Btn.SetName					=	item.ID									;
-						lo_Btn.SetButtonTag	    = item.ID									;
+						lo_Btn.SetTag	    = item.ID									;
 
 						if ( ! string.IsNullOrEmpty( item.Text ) )
 							{
