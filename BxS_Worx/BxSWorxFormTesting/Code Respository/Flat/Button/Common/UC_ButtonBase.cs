@@ -4,7 +4,7 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.UC
 {
-	internal abstract class UC_ButtonBase : UserControl
+	internal abstract partial class UC_ButtonBase : UserControl
 		{
 			#region "Constructors"
 
@@ -24,10 +24,10 @@ namespace BxS_WorxExcel.UI.UC
 			//===========================================================================================
 			#region "Declarations"
 
-				private	Color		_BackColour		;
-				private	Color		_FocusColour	;
+				protected	Color		_BackColour		;
+				protected	Color		_FocusColour	;
 				//...
-				private	bool		_HaveFocus		;
+				protected	bool		_HaveFocus		;
 
 			#endregion
 

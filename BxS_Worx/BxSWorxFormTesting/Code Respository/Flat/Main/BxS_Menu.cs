@@ -211,18 +211,18 @@ namespace BxS_WorxExcel.UI.Forms
 								lo_Btn.SetImage	=	(Image)	Resources.ResourceManager.GetObject( item.ImageID );
 							}
 						//...
-						if ( rootNode )
-							{
-								lo_Btn.SetClickEventHandler	= this.OnMenuButton_Click ;
-							}
-						else
-							{
-								if ( item.OnEventClick != null)
-									{
-										//lo_Btn.SetClickEventHandler	=		new System.EventHandler( item.OnEventClick );
-										lo_Btn.SetClickEventHandler	=		item.OnEventClick;
-									}
-							}
+						//if ( rootNode )
+						//	{
+						//		lo_Btn.SetClickEventHandler	= this.OnMenuButton_Click ;
+						//	}
+						//else
+						//	{
+						//		if ( item.OnEventClick != null)
+						//			{
+						//				//lo_Btn.SetClickEventHandler	=		new System.EventHandler( item.OnEventClick );
+						//				lo_Btn.SetClickEventHandler	=		item.OnEventClick;
+						//			}
+						//	}
 						//...
 						return	lo_Btn;
 					}
