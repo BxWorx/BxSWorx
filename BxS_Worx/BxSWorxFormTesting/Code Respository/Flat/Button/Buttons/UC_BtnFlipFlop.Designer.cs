@@ -59,6 +59,7 @@
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "UC_BtnFlipFlop";
 			this.Size = new System.Drawing.Size(180, 45);
+			this.Load += new System.EventHandler(this.OnLoad);
 			this.ResumeLayout(false);
 
 			}

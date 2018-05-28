@@ -13,7 +13,7 @@ namespace BxS_WorxExcel.UI.UC
 				string	SetName		{	set; }
 				string	SetTag		{	set; }
 				//...
-				bool		SetFocus	{	get;	set; }
+				bool		HasFocus	{	get;	set; }
 				//...
 				Color		SetBackColour		{	set; }
 				Color		SetFocusColour	{	set; }

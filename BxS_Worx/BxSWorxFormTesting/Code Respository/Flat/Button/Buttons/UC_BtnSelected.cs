@@ -21,7 +21,7 @@ namespace BxS_WorxExcel.UI.UC
 				{
 					base.SetFocusState( state );
 					//...
-					this._UCFocus.BackColor	=	this._HaveFocus	?	this._FocusColour	: this.Parent.BackColor	;
+					this._UCFocus.BackColor	=	this._HasFocus	?	this._FocusColour	: this.Parent.BackColor	;
 				}
 
 

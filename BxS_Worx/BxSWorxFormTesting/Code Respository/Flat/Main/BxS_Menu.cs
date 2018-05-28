@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 //.........................................................
 using BxS_WorxExcel.UI.Menu;
@@ -35,7 +32,8 @@ namespace BxS_WorxExcel.UI.Forms
 				private	Dictionary<string , IMItem>			_MenuItems	;
 				private	Dictionary<string	,	MenuButton>	_Buttons		;
 				//...
-				private	string	_BtnPrevID		;
+				private	string	_MBtnPrevID		;
+				private	string	_SBtnPrevID		;
 				//...
 				private	bool		_MoveActive		;
 				private	Point		_MoveLocation	;
@@ -51,7 +49,7 @@ namespace BxS_WorxExcel.UI.Forms
 
 				public IMConfig	Config	{ get;	set; }
 
-		#endregion
+			#endregion
 
 			//===========================================================================================
 			#region "Routines: Exposed"
@@ -61,7 +59,7 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						this._MenuItems.Add( item.ID , item );
 						//...
-						Task.Run(	()=>	this.ConfigureButtons(item)	).ConfigureAwait(false);
+						this.ConfigureButtons(item);
 					}
 
 			#endregion
@@ -80,7 +78,7 @@ namespace BxS_WorxExcel.UI.Forms
 						this._MenuItems		= new	Dictionary<string, IMItem>()			;
 						//...
 						this._Buttons			= new	Dictionary<string, MenuButton>()	;
-						this._BtnPrevID		= string.Empty													;
+						this._MBtnPrevID		= string.Empty													;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -89,7 +87,7 @@ namespace BxS_WorxExcel.UI.Forms
 						this.xpnl_Menu.Width	=	this.Config.MenuWidth	;
 						//...
 						this.SetupMove()				;
-						this.SetupSlidepanel()	;
+						this.SetupSliderpanel()	;
 						//...
 						foreach ( MenuButton item in this._Buttons.Values.OrderByDescending( x => x._Button.Index ) )
 							{
@@ -110,7 +108,7 @@ namespace BxS_WorxExcel.UI.Forms
 						//...
 						lo_Btn.Enabled	= false;
 						//...
-						if ( lc_Tag.Equals( this._BtnPrevID ) )
+						if ( lc_Tag.Equals( this._MBtnPrevID ) )
 							{
 							}
 						else
@@ -119,12 +117,12 @@ namespace BxS_WorxExcel.UI.Forms
 								//
 								if ( ! this.xpnl_SlidePanel.Width.Equals(0) )
 									{
-										this.ActivateSlidePanel();
+										this.ActivateSliderPanel();
 									}
 								this.xpnl_SlidePanel.Controls.Clear();
-								if ( this._Buttons.TryGetValue( this._BtnPrevID , out MenuButton lo_BtnX ) )
+								if ( this._Buttons.TryGetValue( this._MBtnPrevID , out MenuButton lo_BtnX ) )
 									{
-										lo_BtnX._Button.SetFocus	= false;
+										lo_BtnX._Button.HasFocus	= false;
 									}
 								// Add slide panel buttons
 								//
@@ -132,7 +130,7 @@ namespace BxS_WorxExcel.UI.Forms
 									{
 										if ( lo_Itm.SubMenuCount.Equals(0) )
 											{
-												this.ActivateSlidePanel();
+												this.ActivateSliderPanel();
 											}
 										else
 											{
@@ -142,12 +140,12 @@ namespace BxS_WorxExcel.UI.Forms
 													}
 											}
 										//...
-										lo_Itm._Button.SetFocus	= true;
-										this._BtnPrevID	= lc_Tag;
+										lo_Itm._Button.HasFocus	= true;
+										this._MBtnPrevID	= lc_Tag;
 									}
 							}
 						//...
-						this.ActivateSlidePanel();
+						this.ActivateSliderPanel();
 						lo_Btn.Enabled	= true;
 					}
 
@@ -199,10 +197,11 @@ namespace BxS_WorxExcel.UI.Forms
 							}
 						else
 							{
-								if ( item.OnEventClick != null)
-									{
-										lo_Btn.SetClickEventHandler		=	item.OnEventClick;
-									}
+								//if ( item.OnEventClick != null)
+								//	{
+										//lo_Btn.SetClickEventHandler		=	item.OnEventClick;
+										lo_Btn.SetClickEventHandler		=	this.OnSliderButton_Click;
+								//	}
 							}
 						//...
 						return	lo_Btn;
@@ -211,10 +210,36 @@ namespace BxS_WorxExcel.UI.Forms
 			#endregion
 
 			//===========================================================================================
-			#region "Routines: Private: Slide panel"
+			#region "Routines: Private: Slider panel"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void SetupSlidepanel()
+				private void OnSliderButton_Click( object sender , EventArgs e	)
+					{
+						var			lo_Btn	= (Panel) sender;
+						string	lc_Tag	= lo_Btn.Tag.ToString();
+						//...
+						lo_Btn.Enabled	= false;
+						//...
+						if ( lc_Tag.Equals( this._SBtnPrevID ) )
+							{
+							}
+						else
+							{
+								if ( this._Buttons.TryGetValue( this._MBtnPrevID , out MenuButton lo_MItm ) )
+									{
+										if ( lo_MItm._SubButtons.TryGetValue( lc_Tag , out IUC_BtnBase lo_SItm ) )
+											{
+												//this._SBtnPrevID	= lc_Tag;
+												lo_SItm.HasFocus	= ! lo_SItm.HasFocus;
+											}
+									}
+							}
+						//...
+						lo_Btn.Enabled	= true;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void SetupSliderpanel()
 					{
 						this._SlideWidth	=	this.Config.SliderWidth	;
 						this._SlideStep		= this.Config.SliderStep	;
@@ -224,7 +249,7 @@ namespace BxS_WorxExcel.UI.Forms
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ActivateSlidePanel()
+				private void ActivateSliderPanel()
 					{
 						this._SlideIncr		=	this.Config.SliderType.Equals(ButtonType.Standard)	?	10	: this._SlideStep	;
 						//...

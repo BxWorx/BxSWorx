@@ -15,7 +15,7 @@ namespace BxS_WorxExcel.UI.UC
 					{
 						this._BackColour		= Color.FromArgb( 255 , 192 , 255 , 192 )	;
 						this._FocusColour		= Color.FromArgb( 150 , 192 , 255 , 192 )	;
-						this._HaveFocus			= false	;
+						this._HasFocus			= false	;
 						//...
 						this.Dock		= DockStyle.Top;
 					}
@@ -32,7 +32,7 @@ namespace BxS_WorxExcel.UI.UC
 				protected	Color		_BackColour		;
 				protected	Color		_FocusColour	;
 				//...
-				protected	bool		_HaveFocus		;
+				protected	bool		_HasFocus	;
 
 			#endregion
 
@@ -43,7 +43,7 @@ namespace BxS_WorxExcel.UI.UC
 				public	int		Index			{	get; set ; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	bool		SetFocus				{	get	=>	this._HaveFocus							;
+				public	bool		HasFocus				{	get	=>	this._HasFocus							;
 																					set	=>	this.SetFocusState( value )	;	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -66,7 +66,7 @@ namespace BxS_WorxExcel.UI.UC
 			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 			protected virtual void SetFocusState( bool	state	)
 				{
-					this._HaveFocus					= state	;
+					this._HasFocus	= state	;
 				}
 
 		#endregion
@@ -81,7 +81,7 @@ namespace BxS_WorxExcel.UI.UC
 					// 
 					// UC_XBase
 					// 
-					this.Name						= "UC_XBase"															;
+					this.Name						= "UC_BtnBase"															;
 					this.AutoScaleMode	= System.Windows.Forms.AutoScaleMode.None	;
 					this.Size						= new System.Drawing.Size(180, 45)				;
 					//

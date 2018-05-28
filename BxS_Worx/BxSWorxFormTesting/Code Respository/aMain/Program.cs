@@ -49,6 +49,7 @@ namespace BxSWorxFormTesting
 						x12.TabIndex	=	2									;
 						x12.ID				=	"SAP"							;
 						x12.ImageID		=	"icons8_SAP_25px"	;
+						x12.Text			=	"My Text";
 
 						x1.AddSubItem( x11 );
 						x1.AddSubItem( x12 );
