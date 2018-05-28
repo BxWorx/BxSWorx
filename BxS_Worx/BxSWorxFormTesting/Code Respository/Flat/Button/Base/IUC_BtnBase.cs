@@ -7,19 +7,20 @@ namespace BxS_WorxExcel.UI.UC
 		{
 			#region "Properties"
 
-//				bool	SetFocus		{	get;	set; }
 				int		Index	{	get;	set; }
 				//...
-//				string	SetText		{	set; }
-//				string	SetName		{	set; }
-//				string	SetTag		{	set; }
+				string	SetText		{	set; }
+				string	SetName		{	set; }
+				string	SetTag		{	set; }
+				//...
+				bool		SetFocus	{	get;	set; }
 				//...
 				Color		SetBackColour		{	set; }
 				Color		SetFocusColour	{	set; }
 				//...
 				Image		SetImage	{	set; }
 				//...
-//				EventHandler	SetClickEventHandler	{ set; }
+				EventHandler	SetClickEventHandler	{ set; }
 
 			#endregion
 

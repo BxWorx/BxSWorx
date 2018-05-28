@@ -15,6 +15,7 @@ namespace BxS_WorxExcel.UI.Menu
 				int					MenuWidth			{ get;	}
 				//...
 				ButtonType	SliderType		{ get;  set; }
+				int					SliderStep		{ get;	set; }
 				int					SliderWidth		{ get;	}
 
 			#endregion

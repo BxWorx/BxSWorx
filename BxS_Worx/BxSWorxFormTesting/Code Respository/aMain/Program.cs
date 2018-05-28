@@ -35,11 +35,23 @@ namespace BxSWorxFormTesting
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private static	IMItem SetupButton1()
 					{
-						IMItem x1 =	MItem.Create();
+						IMItem x1			=	MItem.Create()					;
+						x1.TabIndex		=	1												;
+						x1.ID					=	"Settings"							;
+						x1.ImageID		=	"icons8_Settings_25px"	;
 
-						x1.TabIndex				=	1												;
-						x1.ID							=	"Settings"							;
-						x1.ImageID				=	"icons8_Settings_25px"	;
+						IMItem	x11		= MItem.Create()			;
+						x11.TabIndex	=	1										;
+						x11.ID				=	"Excel"							;
+						x11.ImageID		=	"icons8_Excel_25px"	;
+
+						IMItem	x12		= MItem.Create()		;
+						x12.TabIndex	=	2									;
+						x12.ID				=	"SAP"							;
+						x12.ImageID		=	"icons8_SAP_25px"	;
+
+						x1.AddSubItem( x11 );
+						x1.AddSubItem( x12 );
 
 						return	x1;
 					}

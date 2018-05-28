@@ -36,6 +36,7 @@ namespace BxS_WorxExcel.UI.Menu
 									//...
 								,	MenuType		= ButtonType.Standard
 								,	SliderType	= ButtonType.Flipflop
+								, SliderStep	= 70
 							};
 					}
 
@@ -85,6 +86,8 @@ namespace BxS_WorxExcel.UI.Menu
 				//...
 				public	int	MenuWidth		{ get	=>	this._MenuWidth		;	}
 				public	int	SliderWidth	{ get	=>	this._SliderWidth	;	}
+				//...
+				public	int	SliderStep	{ get;	set; }
 
 			#endregion
 

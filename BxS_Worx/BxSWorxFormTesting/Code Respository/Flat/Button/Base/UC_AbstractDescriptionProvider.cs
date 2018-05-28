@@ -15,7 +15,7 @@ namespace BxS_WorxExcel.UI.UC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override Type GetReflectionType(Type objectType, object instance)
 					{
-						if (objectType == typeof(TAbstract))
+						if (objectType.FullName == typeof(TAbstract).FullName)
 								return typeof(TBase);
 
 						return base.GetReflectionType(objectType, instance);
@@ -24,28 +24,10 @@ namespace BxS_WorxExcel.UI.UC
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public override object CreateInstance(IServiceProvider provider, Type objectType, Type[] argTypes, object[] args)
 					{
-						if (objectType == typeof(TAbstract))
+						if (objectType.FullName == typeof(TAbstract).FullName)
 								objectType = typeof(TBase);
 
 						return base.CreateInstance(provider, objectType, argTypes, args);
 					}
 		}
-
-		public class AbstractCommunicatorProvider : TypeDescriptionProvider
-			 {
-					 public AbstractCommunicatorProvider()
-							 : base(TypeDescriptor.GetProvider(typeof(UserControl)))
-					 {
-					 }
-					 public override Type GetReflectionType(Type objectType, object instance)
-					 {
-							 return typeof(UserControl);
-					 }
-					 public override object CreateInstance(IServiceProvider provider, Type objectType, Type[] argTypes, object[] args)
-					 {
-							 objectType = typeof(UserControl);
-							 return base.CreateInstance(provider, objectType, argTypes, args);
-					 }
-			 }
-
 }
