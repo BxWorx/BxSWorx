@@ -38,6 +38,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BxS_zWorxTest", "BxS_zWorxT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxSWorxFormTesting", "BxSWorxFormTesting\BxSWorxFormTesting.csproj", "{31E7AA2A-91FE-4A10-9C21-7888E6E3A76F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BxSWorxUIControls", "BxSWorxUIControls\BxSWorxUIControls.csproj", "{D136EDEB-5EE9-4635-A357-51E3B7CC079B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{31E7AA2A-91FE-4A10-9C21-7888E6E3A76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31E7AA2A-91FE-4A10-9C21-7888E6E3A76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31E7AA2A-91FE-4A10-9C21-7888E6E3A76F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D136EDEB-5EE9-4635-A357-51E3B7CC079B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D136EDEB-5EE9-4635-A357-51E3B7CC079B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D136EDEB-5EE9-4635-A357-51E3B7CC079B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D136EDEB-5EE9-4635-A357-51E3B7CC079B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,6 +111,7 @@ Global
 		{0B481CC4-1BD2-424A-80B4-7F067E1ADCAB} = {A72502F3-8476-4CD9-A5B7-46ACDF054876}
 		{D65570FF-F860-4D35-9B28-9BD5F387C979} = {A72502F3-8476-4CD9-A5B7-46ACDF054876}
 		{31E7AA2A-91FE-4A10-9C21-7888E6E3A76F} = {AB1669EE-B5F7-4666-A5C5-0CD8DC1AB924}
+		{D136EDEB-5EE9-4635-A357-51E3B7CC079B} = {AB1669EE-B5F7-4666-A5C5-0CD8DC1AB924}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E2ACF5D-18BF-4B07-A250-FBA78BE08306}

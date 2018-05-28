@@ -150,18 +150,19 @@ namespace BxS_WorxExcel.UI.Forms
 						//...
 						this._Buttons			= new	Dictionary<string, MenuButton>()	;
 						this._BtnPrevID		= string.Empty													;
-						//...
-						this.xpnl_Menu.Width	=	this.Config.MenuType.Equals(ButtonType.Standard)	? PANELWIDTHSTD	:	PANELWIDTHWIDE	;
-						this.xpnl_Menu.Width	= PANELWIDTHSTD;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void BxS_Menu_Load(object sender , EventArgs e)
 					{
+						//...
+						this.xpnl_Menu.Width	=	this.Config.MenuType.Equals(ButtonType.Standard)	? PANELWIDTHSTD	:	PANELWIDTHWIDE	;
+						this.xpnl_Menu.Width	= PANELWIDTHSTD;
+			//
 						this.SetupMove()				;
 						this.SetupSlidepanel()	;
 						//...
-						foreach ( MenuButton item in this._Buttons.Values.OrderByDescending( x => x._Button.MyTabIndex ) )
+						foreach ( MenuButton item in this._Buttons.Values.OrderByDescending( x => x._Button.Index ) )
 							{
 								this.xpnl_Menu.Controls.Add( (UserControl)item._Button );
 							}
@@ -192,19 +193,20 @@ namespace BxS_WorxExcel.UI.Forms
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IUC_Button	CreateButton( IMItem	item , ButtonType type )
+				//private IUC_Button	CreateButton( IMItem	item , ButtonType type )
+				private IUC_BtnBase	CreateButton( IMItem	item , ButtonType type )
 					{
-						IUC_Button	lo_Btn	= type.Equals(ButtonType.Flipflop)	?	new	UC_FlipFlop()	: (IUC_Button) new  UC_MenuButton() ;
+						IUC_BtnBase	lo_Btn = type.Equals(ButtonType.Flipflop)	?	new	UC_BtnFlipFlop()	: (IUC_BtnBase) new  UC_BtnSelected() ;
 						//...
 						lo_Btn.SetFocusColour		=	this.Config.ColourFocus	;
-						lo_Btn.MyTabIndex				=	item.TabIndex						;
-						lo_Btn.SetName					=	item.ID									;
-						lo_Btn.SetTag	    = item.ID									;
+						lo_Btn.Index				=	item.TabIndex						;
+						//lo_Btn.SetName					=	item.ID									;
+						//lo_Btn.SetTag	    = item.ID									;
 
-						if ( ! string.IsNullOrEmpty( item.Text ) )
-							{
-								lo_Btn.SetText	=	item.Text	;
-							}
+						//if ( ! string.IsNullOrEmpty( item.Text ) )
+						//	{
+						//		lo_Btn.SetText	=	item.Text	;
+						//	}
 
 						if ( ! string.IsNullOrEmpty( item.ImageID	) )
 							{
@@ -319,19 +321,22 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						#region "Declarations"
 
-							//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+							//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 							internal	MenuButton()
 								{
-									this._Buttons		=	new	Dictionary<string , IUC_Button>();
+									this._Buttons		=	new	Dictionary<string , IUC_BtnBase>();
+									//this._Buttons		=	new	Dictionary<string , IUC_Button>();
 								}
 
 						#endregion
  
-						//===========================================================================================
+						//=====================================================================================
 						#region "Declarations"
 
-							internal	IUC_Button											_Button		;
-							internal	Dictionary<string , IUC_Button>	_Buttons	;
+							internal	IUC_BtnBase											_Button		;
+							//internal	IUC_Button											_Button		;
+							internal	Dictionary<string , IUC_BtnBase>	_Buttons	;
+							//internal	Dictionary<string , IUC_Button>	_Buttons	;
 
 						#endregion
 

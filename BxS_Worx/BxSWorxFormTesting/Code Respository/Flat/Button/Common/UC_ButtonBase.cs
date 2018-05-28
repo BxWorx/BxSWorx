@@ -4,7 +4,7 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.UC
 {
-	internal abstract partial class UC_ButtonBase : UserControl
+	internal class UC_ButtonBase : UserControl
 		{
 			#region "Constructors"
 
@@ -63,7 +63,20 @@ namespace BxS_WorxExcel.UI.UC
 						this._HaveFocus		= state	;
 					}
 
-			#endregion
+		#endregion
 
+				protected virtual void InitializeComponent() { }
+
+		//private void InitializeComponent()
+		//	{
+		//	this.SuspendLayout();
+		//	// 
+		//	// UC_ButtonBase
+		//	// 
+		//	this.Name = "UC_ButtonBase";
+		//	this.Size = new System.Drawing.Size(180, 45);
+		//	this.ResumeLayout(false);
+
+		//	}
 		}
 }

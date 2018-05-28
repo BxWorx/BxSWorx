@@ -45,9 +45,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code Respository\Flat\Button\Base\UC_BaseBtn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Code Respository\Flat\Button\Base\IUC_BtnBase.cs" />
+    <Compile Include="Code Respository\Flat\Button\Buttons\UC_BtnSwing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Code Respository\Flat\Button\Buttons\UC_BtnSwing.Designer.cs">
+      <DependentUpon>UC_BtnSwing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Code Respository\Flat\Button\Common\IUC_Button.cs" />
+    <Compile Include="Code Respository\Flat\Button\Common\UC_BtnBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Code Respository\Flat\Button\Common\UC_BtnBase.Designer.cs">
+      <DependentUpon>UC_BtnBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Code Respository\Flat\Button\Common\UC_ButtonBase.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Code Respository\Flat\Button\Base\UC_AbstractDescriptionProvider.cs" />
+    <Compile Include="Code Respository\Flat\Button\UC_BtnFlipFlop.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Code Respository\Flat\Button\UC_BtnFlipFlop.Designer.cs">
+      <DependentUpon>UC_BtnFlipFlop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Code Respository\Flat\Button\UC_BtnSelected.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Code Respository\Flat\Button\UC_BtnSelected.Designer.cs">
+      <DependentUpon>UC_BtnSelected.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Respository\Flat\Button\UC_FlipFlop.cs">
       <SubType>UserControl</SubType>
@@ -83,6 +112,24 @@
     <Compile Include="Code Respository\Flat\MenuItem\IMItem.cs" />
     <Compile Include="Code Respository\Flat\MenuItem\MItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Code Respository\Flat\Button\Base\UC_BaseBtn.resx">
+      <DependentUpon>UC_BaseBtn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Code Respository\Flat\Button\Buttons\UC_BtnSwing.resx">
+      <DependentUpon>UC_BtnSwing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Code Respository\Flat\Button\Common\UC_BtnBase.resx">
+      <DependentUpon>UC_BtnBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Code Respository\Flat\Button\Common\UC_ButtonBase.resx">
+      <DependentUpon>UC_ButtonBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Code Respository\Flat\Button\UC_BtnFlipFlop.resx">
+      <DependentUpon>UC_BtnFlipFlop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Code Respository\Flat\Button\UC_BtnSelected.resx">
+      <DependentUpon>UC_BtnSelected.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Code Respository\Flat\Button\UC_FlipFlop.resx">
       <DependentUpon>UC_FlipFlop.cs</DependentUpon>
     </EmbeddedResource>

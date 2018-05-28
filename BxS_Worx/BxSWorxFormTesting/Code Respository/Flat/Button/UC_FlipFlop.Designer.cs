@@ -37,7 +37,7 @@
 			// 
 			this.xobj_Button.Dock = System.Windows.Forms.DockStyle.Right;
 			this.xobj_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.xobj_Button.Location = new System.Drawing.Point(46, 1);
+			this.xobj_Button.Location = new System.Drawing.Point(954, 1);
 			this.xobj_Button.Margin = new System.Windows.Forms.Padding(0);
 			this.xobj_Button.Name = "xobj_Button";
 			this.xobj_Button.Size = new System.Drawing.Size(133, 43);
@@ -57,15 +57,14 @@
 			// 
 			// UC_FlipFlop
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.xpic_Button);
 			this.Controls.Add(this.xobj_Button);
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "UC_FlipFlop";
 			this.Padding = new System.Windows.Forms.Padding(1);
-			this.Size = new System.Drawing.Size(180, 45);
+			this.Size = new System.Drawing.Size(1088, 45);
 			this.Load += new System.EventHandler(this.OnLoad);
 			((System.ComponentModel.ISupportInitialize)(this.xpic_Button)).EndInit();
 			this.ResumeLayout(false);

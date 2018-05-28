@@ -4,7 +4,8 @@ using System.Windows.Forms;
 
 namespace BxS_WorxExcel.UI.UC
 {
-	internal partial class UC_FlipFlop : UC_ButtonBase , IUC_Button
+	internal partial class UC_FlipFlop : UC_BtnBase
+		//: UC_ButtonBase , IUC_Button
 		{
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal UC_FlipFlop() : base()
@@ -50,41 +51,41 @@ namespace BxS_WorxExcel.UI.UC
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected override void SetFocusState( bool	state	)
-					{
-						base.SetFocusState( state );
-						//...
-						bool	lb_Act	=	true			;
-						bool	lb_Rev	=	false			;
-						int		ln_Pad	= this._Pad	;
-						//...
-						do
-							{
-								if ( lb_Rev )
-									{
-										ln_Pad	-=	this._Inc	;
-										if ( ln_Pad <= this._Pad )
-											{
-												ln_Pad	=	this._Pad	;
-												lb_Act	= false			;
-											}
-									}
-								else
-									{
-										ln_Pad	+=	this._Inc	;
-										if ( ln_Pad >= this._Max )
-											{
-												ln_Pad	= this._Max	;
-												lb_Rev	= true			;
-												this.xobj_Button.BackColor	=	this._HaveFocus	?	this._FocusColour	: this.Parent.BackColor	;
-											}
-									}
-								//...
-								this.xobj_Button.Padding	= new	Padding( ln_Pad , 0 , ln_Pad , 0 );
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//protected override void SetFocusState( bool	state	)
+				//	{
+				//		base.SetFocusState( state );
+				//		//...
+				//		bool	lb_Act	=	true			;
+				//		bool	lb_Rev	=	false			;
+				//		int		ln_Pad	= this._Pad	;
+				//		//...
+				//		do
+				//			{
+				//				if ( lb_Rev )
+				//					{
+				//						ln_Pad	-=	this._Inc	;
+				//						if ( ln_Pad <= this._Pad )
+				//							{
+				//								ln_Pad	=	this._Pad	;
+				//								lb_Act	= false			;
+				//							}
+				//					}
+				//				else
+				//					{
+				//						ln_Pad	+=	this._Inc	;
+				//						if ( ln_Pad >= this._Max )
+				//							{
+				//								ln_Pad	= this._Max	;
+				//								lb_Rev	= true			;
+				//								this.xobj_Button.BackColor	=	this._HaveFocus	?	this._FocusColour	: this.Parent.BackColor	;
+				//							}
+				//					}
+				//				//...
+				//				this.xobj_Button.Padding	= new	Padding( ln_Pad , 0 , ln_Pad , 0 );
 
-							} while ( lb_Act );
-					}
+				//			} while ( lb_Act );
+				//	}
 
 			#endregion
 

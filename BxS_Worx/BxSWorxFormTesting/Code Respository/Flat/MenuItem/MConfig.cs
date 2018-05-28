@@ -34,8 +34,8 @@ namespace BxS_WorxExcel.UI.Menu
 								,	ColourFocus = Color.FromArgb(150 , 000 , 100 , 000)
 								,	ColourSlide	= Color.FromArgb(150 , 024 , 024 , 024)
 									//...
-								,	MenuType	= ButtonType.Standard
-								,	SliderType = ButtonType.Flipflop
+								,	MenuType		= ButtonType.Standard
+								,	SliderType	= ButtonType.Flipflop
 							};
 					}
 
