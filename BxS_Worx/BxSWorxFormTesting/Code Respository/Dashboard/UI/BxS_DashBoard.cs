@@ -12,12 +12,12 @@ using BxSWorxFormTesting.Properties;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Forms
 {
-	public partial class BxS_Menu : Form
+	public partial class BxS_Dashboard : Form
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public BxS_Menu()
+				public BxS_Dashboard()
 					{
 						InitializeComponent()	;
 						//...
@@ -29,7 +29,7 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Declarations"
 
-				private	Dictionary<string , IMItem>			_MenuItems	;
+				private	Dictionary<string , IMItem>		_MenuItems	;
 				private	Dictionary<string	,	DBButton>	_Buttons		;
 				//...
 				private	string	_MBtnPrevID		;
@@ -47,7 +47,7 @@ namespace BxS_WorxExcel.UI.Forms
 			//===========================================================================================
 			#region "Properties"
 
-				public IMConfig	Config	{ get;	set; }
+				public IDBConfig	Config	{ get;	set; }
 
 			#endregion
 

@@ -19,9 +19,9 @@ namespace BxSWorxFormTesting
 					Application.SetCompatibleTextRenderingDefault(false);
 					//...
 
-					var w	= new BxS_Menu
+					var w	= new BxS_Dashboard
 						{
-							Config	=	MConfig.CreateWithDefaults()
+							Config	=	DBConfig.CreateWithDefaults()
 						};
 						w.LoadItem( SetupButton1() );
 						w.LoadItem( SetupButton2() );

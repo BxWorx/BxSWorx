@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
-	public interface IMConfig
+	public interface IDBConfig
 		{
 			#region "Properties"
 

@@ -1,6 +1,6 @@
 ﻿namespace BxS_WorxExcel.UI.Forms
 	{
-	partial class BxS_Menu
+	partial class BxS_Dashboard
 		{
 		/// <summary>
 		/// Required designer variable.

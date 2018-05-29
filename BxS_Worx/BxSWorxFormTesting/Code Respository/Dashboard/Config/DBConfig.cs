@@ -11,23 +11,23 @@ namespace BxS_WorxExcel.UI.Menu
 		}
 
 	//***********************************************************************************************
-	public sealed class MConfig : IMConfig
+	public sealed class DBConfig : IDBConfig
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private MConfig()
+				private DBConfig()
 					{
 						this.LoadWidths();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IMConfig	CreateBlank()	=>	new	MConfig();
+				public	static	IDBConfig	CreateBlank()	=>	new	DBConfig();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IMConfig	CreateWithDefaults()
+				public	static	IDBConfig	CreateWithDefaults()
 					{
-						return	new MConfig
+						return	new DBConfig
 							{
 									ColourBack	= Color.FromArgb(255 , 031 , 031 , 031)
 								,	ColourMove	= Color.FromArgb(255 , 045 , 045 , 045)

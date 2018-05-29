@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using BxS_WorxExcel.UI.UC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
@@ -38,6 +39,7 @@ namespace BxS_WorxExcel.UI.Menu
 				public	string				Text									{ get;  set; }
 
 				public	EventHandler	OnEventClick					{ get;  set; }
+				internal	IUC_BtnBase												_Button			;
 				//...
 				public	int		SubMenuCount	{	get	=>	this._SubItems.Count	;	}
 
