@@ -21,7 +21,7 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						InitializeComponent()	;
 						//...
-						this.SetupStartup()		;
+						this.SetupStartup()	;
 					}
 
 			#endregion
@@ -30,7 +30,7 @@ namespace BxS_WorxExcel.UI.Forms
 			#region "Declarations"
 
 				private	Dictionary<string , IMItem>			_MenuItems	;
-				private	Dictionary<string	,	MenuButton>	_Buttons		;
+				private	Dictionary<string	,	DBButton>	_Buttons		;
 				//...
 				private	string	_MBtnPrevID		;
 				private	string	_SBtnPrevID		;
@@ -77,8 +77,9 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						this._MenuItems		= new	Dictionary<string, IMItem>()			;
 						//...
-						this._Buttons			= new	Dictionary<string, MenuButton>()	;
-						this._MBtnPrevID		= string.Empty													;
+						this._Buttons			= new	Dictionary<string, DBButton>()	;
+						this._MBtnPrevID	= string.Empty													;
+						this._SBtnPrevID	= string.Empty													;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -89,7 +90,7 @@ namespace BxS_WorxExcel.UI.Forms
 						this.SetupMove()				;
 						this.SetupSliderpanel()	;
 						//...
-						foreach ( MenuButton item in this._Buttons.Values.OrderByDescending( x => x._Button.Index ) )
+						foreach ( DBButton item in this._Buttons.Values.OrderByDescending( x => x._Button.Index ) )
 							{
 								this.xpnl_Menu.Controls.Add( (UserControl)item._Button );
 							}
@@ -103,7 +104,7 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnMenuButton_Click( object sender , EventArgs e	)
 					{
-						var			lo_Btn	= (Panel) sender;
+						var			lo_Btn	= (Control)sender;
 						string	lc_Tag	= lo_Btn.Tag.ToString();
 						//...
 						lo_Btn.Enabled	= false;
@@ -120,13 +121,13 @@ namespace BxS_WorxExcel.UI.Forms
 										this.ActivateSliderPanel();
 									}
 								this.xpnl_SlidePanel.Controls.Clear();
-								if ( this._Buttons.TryGetValue( this._MBtnPrevID , out MenuButton lo_BtnX ) )
+								if ( this._Buttons.TryGetValue( this._MBtnPrevID , out DBButton lo_BtnX ) )
 									{
 										lo_BtnX._Button.HasFocus	= false;
 									}
 								// Add slide panel buttons
 								//
-								if ( this._Buttons.TryGetValue( lc_Tag , out MenuButton lo_Itm ) )
+								if ( this._Buttons.TryGetValue( lc_Tag , out DBButton lo_Itm ) )
 									{
 										if ( lo_Itm.SubMenuCount.Equals(0) )
 											{
@@ -157,9 +158,9 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void ConfigureButtons( IMItem item )
 					{
-						var x = new MenuButton
+						var x = new DBButton
 							{
-								_Button = this.CreateButton( item , this.Config.MenuType , true )
+								_Button		= this.CreateButton( item , this.Config.MenuType , true )
 							};
 						//...
 						foreach ( IMItem lo_Item in item.GetSubList() )
@@ -171,9 +172,9 @@ namespace BxS_WorxExcel.UI.Forms
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IUC_BtnBase	CreateButton( IMItem	item , ButtonType type , bool IsRootNode = false )
+				private IUC_BtnBase	CreateButton( IMItem	item , ButtonType buttonType , bool IsRootNode = false )
 					{
-						IUC_BtnBase	lo_Btn	=	type.Equals(ButtonType.Flipflop)	?								new	UC_BtnFlipFlop()
+						IUC_BtnBase	lo_Btn	=	buttonType.Equals(ButtonType.Flipflop)	?								new	UC_BtnFlipFlop()
 																																		:	(IUC_BtnBase)	new	UC_BtnSelected() ;
 						//...
 						lo_Btn.SetFocusColour		=	this.Config.ColourFocus	;
@@ -181,14 +182,14 @@ namespace BxS_WorxExcel.UI.Forms
 						lo_Btn.SetName					=	item.ID									;
 						lo_Btn.SetTag						= item.ID									;
 
-						if ( ! type.Equals( ButtonType.Standard ) && ! string.IsNullOrEmpty( item.Text ) )
+						if ( ! buttonType.Equals( ButtonType.Standard ) && ! string.IsNullOrEmpty( item.Text ) )
 							{
 								lo_Btn.SetText	=	item.Text	;
 							}
 
 						if ( ! string.IsNullOrEmpty( item.ImageID	) )
 							{
-								lo_Btn.SetImage	=	(Image)	Resources.ResourceManager.GetObject( item.ImageID );
+								lo_Btn.SetImage		=	(Image)Resources.ResourceManager.GetObject( item.ImageID );
 							}
 						//...
 						if ( IsRootNode )
@@ -213,7 +214,7 @@ namespace BxS_WorxExcel.UI.Forms
 					{
 						IUC_BtnBase lo_Btn;
 						//...
-						var			lo_Pnl	= (Panel) sender;
+						var			lo_Pnl	= (Control)sender;
 						string	lc_Tag	= lo_Pnl.Tag.ToString();
 						//lo_Pnl.Enabled	= false;
 
@@ -250,7 +251,7 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IUC_BtnBase GetSliderButton( string buttonID )
 					{
-						if ( this._Buttons.TryGetValue( this._MBtnPrevID , out MenuButton lo_MItm ) )
+						if ( this._Buttons.TryGetValue( this._MBtnPrevID , out DBButton lo_MItm ) )
 							{
 								if ( lo_MItm._SubButtons.TryGetValue( buttonID , out IUC_BtnBase lo_SItm ) )
 									{
@@ -341,51 +342,57 @@ namespace BxS_WorxExcel.UI.Forms
 
 			#endregion
  
-			//===========================================================================================
-			#region "Private classes"
+			////===========================================================================================
+			//#region "Private classes"
 
-				//_________________________________________________________________________________________
-				private	class MenuButton
-					{
-						#region "Constructors"
 
-							//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-							internal	MenuButton()
-								{
-									this._SubButtons		=	new	Dictionary<string , IUC_BtnBase>();
-								}
 
-						#endregion
+
+			//	//_________________________________________________________________________________________
+			//	internal	class DBButton
+			//		{
+			//			#region "Constructors"
+
+			//				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//				private	DBButton()
+			//					{
+			//						this._SubButtons		=	new	Dictionary<string , IUC_BtnBase>();
+			//					}
+
+			//				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//				internal DBButton Create()	=>	new	DBButton()	;
+
+			//			#endregion
  
-						//=====================================================================================
-						#region "Declarations"
+			//			//=====================================================================================
+			//			#region "Declarations"
 
-							internal	IUC_BtnBase												_Button		;
-							internal	Dictionary<string , IUC_BtnBase>	_SubButtons	;
+			//				internal	IUC_BtnBase												_Button			;
+			//				internal	Dictionary<string , IUC_BtnBase>	_SubButtons	;
 
-						#endregion
+			//			#endregion
 
-						//=====================================================================================
-						#region "Properties"
+			//			//=====================================================================================
+			//			#region "Properties"
 
-							//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-							internal	int	SubMenuCount	{	get	=>	this._SubButtons.Count	;	}
+			//				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//				internal	int	SubMenuCount	{	get	=>	this._SubButtons.Count	;	}
 
-						#endregion
+			//			#endregion
 
-						//=====================================================================================
-						#region "Methods: Exposed"
+			//			//=====================================================================================
+			//			#region "Methods: Exposed"
 
-							//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-							internal IList<IUC_BtnBase> GetSubList()	=>	this._SubButtons.Values
-																															.OrderByDescending( x=> x.Index )
-																																.ToList();
+			//				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//				internal IList<IUC_BtnBase> GetSubList()	=>	this._SubButtons.Values
+			//																												.OrderByDescending( x=> x.Index )
+			//																													.ToList();
 
-						#endregion
+			//			#endregion
 
-					}
+			//		}
 
-		#endregion
+			//	#endregion
 
 		}
 }

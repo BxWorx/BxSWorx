@@ -9,7 +9,7 @@ namespace BxS_WorxExcel.UI.Menu
 		{
 			#region "Properties"
 
-				//Color					FocusIndicatorColour	{ get;  set; }
+				ButtonType		ButtonType						{ get;  set; }
 				int						TabIndex							{ get;  set; }
 				string				ID										{ get;  set; }
 				string				ImageID								{ get;  set; }
@@ -20,7 +20,6 @@ namespace BxS_WorxExcel.UI.Menu
 
 			#endregion
 
-				//void	SetFocusState( bool	state = false );
 				void	AddSubItem( IMItem	item );
 				IList<IMItem>	GetSubList();
 		}

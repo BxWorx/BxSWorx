@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code Respository\Dashboard\BxS_DBButton.cs" />
     <Compile Include="Code Respository\Flat\Button\Base\UC_BtnBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -72,10 +73,10 @@
     <Compile Include="Code Respository\Flat\DGV\UC_DGVView.Designer.cs">
       <DependentUpon>UC_DGVView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Code Respository\Flat\Main\BxS_Menu.cs">
+    <Compile Include="Code Respository\Dashboard\BxS_Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Code Respository\Flat\Main\BxS_Menu.Designer.cs">
+    <Compile Include="Code Respository\Dashboard\BxS_Menu.Designer.cs">
       <DependentUpon>BxS_Menu.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Respository\aMain\Program.cs" />
@@ -96,7 +97,7 @@
     <EmbeddedResource Include="Code Respository\Flat\DGV\UC_DGVView.resx">
       <DependentUpon>UC_DGVView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Respository\Flat\Main\BxS_Menu.resx">
+    <EmbeddedResource Include="Code Respository\Dashboard\BxS_Menu.resx">
       <DependentUpon>BxS_Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -152,6 +153,8 @@
   <ItemGroup>
     <None Include="Resources\icons8_Settings_25px.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Code Respository\Flat\Main\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -31,12 +31,14 @@ namespace BxS_WorxExcel.UI.Menu
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	ButtonType		ButtonType						{ get;  set; }
 				public	int						TabIndex							{ get;  set; }
 				public	string				ID										{ get;  set; }
 				public	string				ImageID								{ get;  set; }
 				public	string				Text									{ get;  set; }
-				public	EventHandler	OnEventClick					{ get;  set; }
 
+				public	EventHandler	OnEventClick					{ get;  set; }
+				//...
 				public	int		SubMenuCount	{	get	=>	this._SubItems.Count	;	}
 
 			#endregion
@@ -48,10 +50,9 @@ namespace BxS_WorxExcel.UI.Menu
 				public void AddSubItem( IMItem item )		=>	this._SubItems.Add( item.ID , item );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IMItem> GetSubList()
-								=>	this._SubItems.Values
-											.OrderByDescending( x=> x.TabIndex )
-												.ToList();
+				public IList<IMItem> GetSubList()		=>	this._SubItems.Values
+																									.OrderByDescending( x=> x.TabIndex )
+																										.ToList();
 
 			#endregion
 
