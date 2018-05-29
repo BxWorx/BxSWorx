@@ -28,6 +28,7 @@ namespace BxS_WorxExcel.UI.UC
 				protected	Panel		_UCImage	;
 				protected	Panel		_UCButton	;
 				protected	Panel		_UCFocus	;
+				protected	Label		_UCText		;
 				//...
 				protected	Color		_BackColour		;
 				protected	Color		_FocusColour	;
@@ -50,45 +51,45 @@ namespace BxS_WorxExcel.UI.UC
 				public	Color	SetBackColour		{	set	=>	this._BackColour		=	value	;	}
 				public	Color	SetFocusColour	{	set	=>	this._FocusColour		=	value	;	}
 
-		#endregion
+			#endregion
 
-		//===========================================================================================
-		#region "Methods: Exposed"
+			//===========================================================================================
+			#region "Methods: Exposed"
 
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			public	virtual	string	SetText		{	set	=>	this._UCButton	.Text							=	value	; }
-			public	virtual	string	SetName		{	set	=>	this._UCButton	.Name							=	value	; }
-			public	virtual	string	SetTag		{	set =>	this._UCButton	.Tag							=	value	; }
-			public	virtual	Image		SetImage	{	set	=>	this._UCImage		.BackgroundImage	=	value	; }
-			//...
-			public	virtual	EventHandler	SetClickEventHandler	{ set	=> this._UCButton.Click	+= value; }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	virtual	string	SetText		{	set	=>	this._UCText		.Text							=	value	; }
+				public	virtual	string	SetName		{	set	=>	this._UCButton	.Name							=	value	; }
+				public	virtual	string	SetTag		{	set =>	this._UCButton	.Tag							=	value	; }
+				public	virtual	Image		SetImage	{	set	=>	this._UCImage		.BackgroundImage	=	value	; }
+				//...
+				public	virtual	EventHandler	SetClickEventHandler	{ set	=> this._UCButton.Click	+= value; }
 
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			protected virtual void SetFocusState( bool	state	)
-				{
-					this._HasFocus	= state	;
-				}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected virtual void SetFocusState( bool	state	)
+					{
+						this._HasFocus	= state	;
+					}
 
-		#endregion
+			#endregion
 
-		//===========================================================================================
-		#region "Methods: Private"
+			//===========================================================================================
+			#region "Methods: Private"
 
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			private void InitializeComponent()
-				{
-					this.SuspendLayout();
-					// 
-					// UC_XBase
-					// 
-					this.Name						= "UC_BtnBase"															;
-					this.AutoScaleMode	= System.Windows.Forms.AutoScaleMode.None	;
-					this.Size						= new System.Drawing.Size(180, 45)				;
-					//
-					this.ResumeLayout(false);
-				}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void InitializeComponent()
+					{
+						this.SuspendLayout();
+						// 
+						// UC_XBase
+						// 
+						this.Name						= "UC_BtnBase"														;
+						this.AutoScaleMode	= System.Windows.Forms.AutoScaleMode.None	;
+						this.Size						= new System.Drawing.Size(180, 45)				;
+						//
+						this.ResumeLayout(false);
+					}
 
-		#endregion
+			#endregion
 
 		}
 	}

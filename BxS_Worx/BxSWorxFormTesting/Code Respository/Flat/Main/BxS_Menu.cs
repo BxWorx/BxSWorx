@@ -181,7 +181,7 @@ namespace BxS_WorxExcel.UI.Forms
 						lo_Btn.SetName					=	item.ID									;
 						lo_Btn.SetTag						= item.ID									;
 
-						if ( ! string.IsNullOrEmpty( item.Text ) )
+						if ( ! type.Equals( ButtonType.Standard ) && ! string.IsNullOrEmpty( item.Text ) )
 							{
 								lo_Btn.SetText	=	item.Text	;
 							}
@@ -193,15 +193,11 @@ namespace BxS_WorxExcel.UI.Forms
 						//...
 						if ( IsRootNode )
 							{
-									lo_Btn.SetClickEventHandler	= this.OnMenuButton_Click ;
+								lo_Btn.SetClickEventHandler		= this.OnMenuButton_Click		;
 							}
 						else
 							{
-								//if ( item.OnEventClick != null)
-								//	{
-										//lo_Btn.SetClickEventHandler		=	item.OnEventClick;
-										lo_Btn.SetClickEventHandler		=	this.OnSliderButton_Click;
-								//	}
+								lo_Btn.SetClickEventHandler		=	this.OnSliderButton_Click	;
 							}
 						//...
 						return	lo_Btn;
@@ -215,27 +211,54 @@ namespace BxS_WorxExcel.UI.Forms
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnSliderButton_Click( object sender , EventArgs e	)
 					{
-						var			lo_Btn	= (Panel) sender;
-						string	lc_Tag	= lo_Btn.Tag.ToString();
+						IUC_BtnBase lo_Btn;
 						//...
-						lo_Btn.Enabled	= false;
-						//...
-						if ( lc_Tag.Equals( this._SBtnPrevID ) )
+						var			lo_Pnl	= (Panel) sender;
+						string	lc_Tag	= lo_Pnl.Tag.ToString();
+						//lo_Pnl.Enabled	= false;
+
+						//..............................................
+						// Process previous focused button
+						//
+						if ( ! string.IsNullOrEmpty( this._SBtnPrevID ) )
 							{
-							}
-						else
-							{
-								if ( this._Buttons.TryGetValue( this._MBtnPrevID , out MenuButton lo_MItm ) )
+								lo_Btn = this.GetSliderButton( this._SBtnPrevID );
+								if ( lo_Btn.HasFocus )
 									{
-										if ( lo_MItm._SubButtons.TryGetValue( lc_Tag , out IUC_BtnBase lo_SItm ) )
-											{
-												//this._SBtnPrevID	= lc_Tag;
-												lo_SItm.HasFocus	= ! lo_SItm.HasFocus;
-											}
+										lo_Btn.HasFocus		= ! lo_Btn.HasFocus;
+									}
+								else
+									if ( lc_Tag.Equals( this._SBtnPrevID ) )
+										{
+											lo_Btn.HasFocus		= ! lo_Btn.HasFocus;
+											return	;
+										}
+							}
+						//..............................................
+						// process current selected button
+						//
+						if ( ! lc_Tag.Equals( this._SBtnPrevID ) )
+							{
+								lo_Btn						= this.GetSliderButton( lc_Tag );
+								lo_Btn.HasFocus		= ! lo_Btn.HasFocus;
+								this._SBtnPrevID	= lc_Tag;
+							}
+
+						//lo_Pnl.Enabled	= true;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private IUC_BtnBase GetSliderButton( string buttonID )
+					{
+						if ( this._Buttons.TryGetValue( this._MBtnPrevID , out MenuButton lo_MItm ) )
+							{
+								if ( lo_MItm._SubButtons.TryGetValue( buttonID , out IUC_BtnBase lo_SItm ) )
+									{
+										return	lo_SItm;
 									}
 							}
 						//...
-						lo_Btn.Enabled	= true;
+						return	null;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
