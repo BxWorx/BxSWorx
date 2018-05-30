@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 //.........................................................
+using BxS_Worx.UI.Dashboard;
 using BxS_WorxExcel.UI.Forms;
 using BxS_WorxExcel.UI.Menu;
 
@@ -19,15 +20,19 @@ namespace BxSWorxFormTesting
 					Application.SetCompatibleTextRenderingDefault(false);
 					//...
 
-					var w	= new BxS_Dashboard
-						{
-							Config	=	DBConfig.CreateWithDefaults()
-						};
-						w.LoadItem( SetupButton1() );
-						w.LoadItem( SetupButton2() );
+					var DB = DBController.Create();
 
-					//...
-					Application.Run( w );
+					Application.Run( DB.Form );
+
+					//var w	= new BxS_Dashboard
+					//	{
+					//		Config	=	DBConfig.CreateWithDefaults()
+					//	};
+					//	w.LoadItem( SetupButton1() );
+					//	w.LoadItem( SetupButton2() );
+
+					////...
+					//Application.Run( w );
 				}
 
 			//...
