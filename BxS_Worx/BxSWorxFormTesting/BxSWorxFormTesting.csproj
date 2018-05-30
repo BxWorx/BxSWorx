@@ -57,20 +57,21 @@
     </Compile>
     <Compile Include="Code Respository\Dashboard\DBButton\Base\IUC_BtnBase.cs" />
     <Compile Include="Code Respository\Dashboard\DBButton\Base\UC_AbstractDescriptionProvider.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Window\Config\DBFormConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Window\Config\IDBMenuBarConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Window\Config\IDBFormConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Window\Form\BxS_DashBoardForm.cs">
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Config\ToolBarConfig.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Form\Config\DBFormConfig.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Config\IToolBarConfig.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Form\Config\IDBFormConfig.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Form\Form\BxS_DashBoardForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Code Respository\Dashboard\UI\Window\Form\BxS_DashBoardForm.Designer.cs">
+    <Compile Include="Code Respository\Dashboard\UI\Form\Form\BxS_DashBoardForm.Designer.cs">
       <DependentUpon>BxS_DashBoardForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Code Respository\Dashboard\UI\Window\MenuBar\UC_MenuBar.cs">
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\User Control\UC_ToolBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Code Respository\Dashboard\UI\Window\MenuBar\UC_MenuBar.Designer.cs">
-      <DependentUpon>UC_MenuBar.cs</DependentUpon>
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\User Control\UC_ToolBar.Designer.cs">
+      <DependentUpon>UC_ToolBar.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Respository\Flat\Button\Buttons\UC_BtnFlipFlop.cs">
       <SubType>UserControl</SubType>
@@ -114,11 +115,11 @@
     <EmbeddedResource Include="Code Respository\Dashboard\DBButton\Base\UC_BtnBase.resx">
       <DependentUpon>UC_BtnBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Respository\Dashboard\UI\Window\Form\BxS_DashBoardForm.resx">
+    <EmbeddedResource Include="Code Respository\Dashboard\UI\Form\Form\BxS_DashBoardForm.resx">
       <DependentUpon>BxS_DashBoardForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Respository\Dashboard\UI\Window\MenuBar\UC_MenuBar.resx">
-      <DependentUpon>UC_MenuBar.cs</DependentUpon>
+    <EmbeddedResource Include="Code Respository\Dashboard\UI\ToolBar\User Control\UC_ToolBar.resx">
+      <DependentUpon>UC_ToolBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Code Respository\Flat\Button\Buttons\UC_BtnFlipFlop.resx">
       <DependentUpon>UC_BtnFlipFlop.cs</DependentUpon>

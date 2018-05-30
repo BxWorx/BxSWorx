@@ -20,9 +20,10 @@ namespace BxSWorxFormTesting
 					Application.SetCompatibleTextRenderingDefault(false);
 					//...
 
-					var DB = DBController.Create();
+					var DBCntlr	= DBController.Create();
+					DBCntlr.Startup();
 
-					Application.Run( DB.Form );
+					Application.Run( DBCntlr.Form );
 
 					//var w	= new BxS_Dashboard
 					//	{

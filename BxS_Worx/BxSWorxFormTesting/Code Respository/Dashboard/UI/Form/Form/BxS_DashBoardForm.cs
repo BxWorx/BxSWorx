@@ -38,15 +38,20 @@ namespace BxS_Worx.UI.Dashboard
 																				set			{	this._Config	= value	;
 																									this.ApplyConfig()		;	}	}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	Color		ColourBack		{ get	=>	this.Config.ColourBack	; }
 				private	Color		ColourMove		{ get	=>	this.Config.ColourMove	; }
 				private	Color		ColourHead		{ get	=>	this.Config.ColourHead	; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
+
+				internal void LoadToolbar( UC_ToolBar toolBar)
+					{
+						this.xpnl_UserArea.Controls.Add( toolBar );
+					}
 
 			#endregion
 
@@ -64,6 +69,11 @@ namespace BxS_Worx.UI.Dashboard
 
 			//===========================================================================================
 			#region "Routines: Private: Window state"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void BxS_DashboardForm_Load(object sender , EventArgs e)
+					{
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnFormClose_Click( object sender , EventArgs e )

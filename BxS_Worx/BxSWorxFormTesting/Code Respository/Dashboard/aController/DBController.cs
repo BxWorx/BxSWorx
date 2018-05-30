@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
 {
@@ -11,7 +13,9 @@ namespace BxS_Worx.UI.Dashboard
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DBController()
 					{
-						this._DBForm		=	new	Lazy<BxS_DashboardForm>	(	()=>	this.StartupForm()	);
+						this._DBForm		=	new	Lazy<BxS_DashboardForm>	(	()=>	this.StartupForm() , LazyThreadSafetyMode.ExecutionAndPublication	);
+						//...
+						this._ToolBars	= new	Dictionary<string, IToolBarConfig>()	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -22,7 +26,9 @@ namespace BxS_Worx.UI.Dashboard
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy<BxS_DashboardForm>	_DBForm		;
+				private readonly Lazy<BxS_DashboardForm>								_DBForm		;
+				//...
+				private readonly Dictionary<string , IToolBarConfig>	_ToolBars	;
 
 			#endregion
 
@@ -35,10 +41,41 @@ namespace BxS_Worx.UI.Dashboard
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void	Startup()
+					{
+						this.LoadToolbarsFromSource();
+						this.AddToolbarsToForm();
+					}
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void	AddToolbarsToForm()
+					{
+						foreach ( IToolBarConfig lo_TBCfg in this._ToolBars.Values.OrderByDescending( lo_TBar	=> lo_TBar.SeqNo ) )
+							{
+								var x	= UC_ToolBar.CreateWithConfig( lo_TBCfg );
+								this.Form.LoadToolbar( x )	;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void	LoadToolbarsFromSource()
+					{
+						IToolBarConfig x1		= ToolBarConfig.CreateWithDefaults();	x1.ID	= "X1";	x1.SeqNo	= 1	;
+						IToolBarConfig x2		= ToolBarConfig.CreateWithDefaults();	x2.ID	= "X2";	x2.SeqNo	= 2	;
+
+						x2.ColourBack			= System.Drawing.Color.Aquamarine;
+						x2.ShowOnstartup	= true;
+
+						this._ToolBars.Add(	x1.ID	,	x1 )	;
+						this._ToolBars.Add(	x2.ID	,	x2 )	;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	BxS_DashboardForm StartupForm()

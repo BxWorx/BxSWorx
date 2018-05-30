@@ -2,14 +2,21 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
 {
-	public interface IDBMenuBarConfig
+	public interface IToolBarConfig
 		{
 			#region "Properties"
 
-				Color	ColourBack		{ get;  set; }
-				Color	ColourFocus		{ get;  set; }
+				string	ID						{ get;  set; }
+				int			SeqNo					{ get;  set; }
 				//...
-				bool	IsHorizontal	{ get;  set; }
+				Color		ColourBack		{ get;  set; }
+				Color		ColourFocus		{ get;  set; }
+				//...
+				bool		IsHorizontal	{ get;  set; }
+				bool		ShowOnstartup	{ get;  set; }
+				//...
+				int			TransitionSpan		{ get;  set; }
+				int			TransitionSpeed		{ get;  set; }
 
 			#endregion
 
