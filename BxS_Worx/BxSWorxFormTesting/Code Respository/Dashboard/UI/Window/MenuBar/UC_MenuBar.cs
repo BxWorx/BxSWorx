@@ -1,55 +1,69 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
 {
-	//***********************************************************************************************
-	public sealed class DBController
+	public sealed partial class UC_MenuBar : UserControl
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DBController()
+				private UC_MenuBar()
 					{
-						this._DBForm		=	new	Lazy<BxS_DashboardForm>	(	()=>	this.StartupForm()	);
+						InitializeComponent()	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static DBController Create()	=>	new DBController();
+				public	static	UC_MenuBar Create()	=>	new	UC_MenuBar();
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Lazy<BxS_DashboardForm>	_DBForm		;
+				private	IDBMenuBarConfig		_Config;
+				//...
+				private	bool		_MoveActive		;
+				private	Point		_MoveLocation	;
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IDBMenuBarConfig	Config	{ get	=>		this._Config	;
+																					set			{	this._Config	= value	;
+																										this.ApplyConfig()		;	}	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	BxS_DashboardForm		Form	{	get => this._DBForm.Value; }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	Color		ColourBack		{ get	=>	this.Config.ColourBack	; }
+				private	Color		ColourMove		{ get	=>	this.Config.ColourMove	; }
+				private	Color		ColourHead		{ get	=>	this.Config.ColourHead	; }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed"
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
+			#region "Routines: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	BxS_DashboardForm StartupForm()
+				private void ApplyConfig()
 					{
-						var lo_Form			=	BxS_DashboardForm.Create()				;
-						lo_Form.Config	= DBFormConfig.CreateWithDefaults()	;
-						//...
-						return	lo_Form;
+						this.xpnl_WindowHeader.BackColor	= this.Config.ColourHead;
+						this.BackColor										= this.Config.ColourBack;
 					}
 
 			#endregion
-
 		}
 }

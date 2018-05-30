@@ -2,13 +2,14 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
 {
-	public interface IDBFormConfig
+	public interface IDBMenuBarConfig
 		{
 			#region "Properties"
 
-				Color	ColourBack	{ get;  set; }
-				Color	ColourMove	{ get;  set; }
-				Color	ColourHead	{ get;  set; }
+				Color	ColourBack		{ get;  set; }
+				Color	ColourFocus		{ get;  set; }
+				//...
+				bool	IsHorizontal	{ get;  set; }
 
 			#endregion
 

@@ -19,8 +19,9 @@ namespace BxS_Worx.UI.Dashboard
 					{
 						return	new DBFormConfig
 							{
-									ColourBack	= Color.FromArgb(255 , 031 , 031 , 031)
-								,	ColourMove	= Color.FromArgb(255 , 100 , 100 , 100)
+									ColourBack	= Color.FromArgb( 255 , 031 , 031 , 031 )
+								,	ColourMove	= Color.FromArgb( 255 , 031 , 031 , 031 )
+								,	ColourHead	= Color.FromArgb( 255 , 100 , 100 , 100 )
 							};
 					}
 
@@ -31,6 +32,7 @@ namespace BxS_Worx.UI.Dashboard
 
 				public	Color		ColourBack		{ get;  set; }
 				public	Color		ColourMove		{ get;  set; }
+				public	Color		ColourHead		{ get;  set; }
 
 			#endregion
 

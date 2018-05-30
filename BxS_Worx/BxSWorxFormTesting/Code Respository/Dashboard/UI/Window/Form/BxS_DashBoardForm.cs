@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 //.........................................................
-using BxS_WorxExcel.UI.Menu;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
 {
@@ -24,6 +23,8 @@ namespace BxS_Worx.UI.Dashboard
 			//===========================================================================================
 			#region "Declarations"
 
+				private	IDBFormConfig		_Config;
+				//...
 				private	bool		_MoveActive		;
 				private	Point		_MoveLocation	;
 
@@ -32,7 +33,10 @@ namespace BxS_Worx.UI.Dashboard
 			//===========================================================================================
 			#region "Properties"
 
-				public IDBFormConfig	Config	{ get;	set; }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IDBFormConfig	Config	{ get	=>		this._Config	;
+																				set			{	this._Config	= value	;
+																									this.ApplyConfig()		;	}	}
 
 			#endregion
 
@@ -42,6 +46,19 @@ namespace BxS_Worx.UI.Dashboard
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	Color		ColourBack		{ get	=>	this.Config.ColourBack	; }
 				private	Color		ColourMove		{ get	=>	this.Config.ColourMove	; }
+				private	Color		ColourHead		{ get	=>	this.Config.ColourHead	; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Routines: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void ApplyConfig()
+					{
+						this.xpnl_WindowHeader.BackColor	= this.Config.ColourHead;
+						this.BackColor										= this.Config.ColourBack;
+					}
 
 			#endregion
 
@@ -70,14 +87,14 @@ namespace BxS_Worx.UI.Dashboard
 					{
 						this._MoveActive		              = ! this._MoveActive	;
 						this._MoveLocation	              = e.Location					;
-						this.xpnl_WindowHeader.BackColor	=	this.ColourMove		;
+						this.xpnl_WindowHeader.BackColor	=	this.ColourMove			;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnWindowHeader_MouseUp( object sender , MouseEventArgs e )
 					{
 						this._MoveActive									= ! this._MoveActive	;
-						this.xpnl_WindowHeader.BackColor	=		this.ColourBack	;
+						this.xpnl_WindowHeader.BackColor	=		this.ColourHead		;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
