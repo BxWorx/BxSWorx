@@ -28,6 +28,8 @@ namespace BxS_Worx.UI.Dashboard
 								, TransitionSpan	= 48
 								, TransitionSpeed	= 1
 								,	TransitionMin		= 0
+								//...
+								,	ButtonType			= ButtonTypes.TypeStandard
 							};
 					}
 
@@ -48,6 +50,8 @@ namespace BxS_Worx.UI.Dashboard
 				public	int			TransitionSpan		{ get;  set; }
 				public	int			TransitionSpeed		{ get;  set; }
 				public	int			TransitionMin			{ get;  set; }
+				//...
+				public	string	ButtonType				{ get;  set; }
 
 			#endregion
 

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
-//namespace BxS_WorxExcel.UI.UC
-	{
+{
+	[ ButtonTypeAttribute( ButtonTypes.TypeFlp ) ]
+	//...
 	public partial class UC_BtnFlipFlop : UC_BtnBase
 		{
 			#region "Constructors"
@@ -97,4 +97,4 @@ namespace BxS_Worx.UI.Dashboard
 			#endregion
 
 		}
-	}
+}

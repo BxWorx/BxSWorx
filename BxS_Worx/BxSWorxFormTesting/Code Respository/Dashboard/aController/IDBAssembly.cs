@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI.Menu
+namespace BxS_Worx.UI.Dashboard
 {
-	public interface IButtonSpec
+	public interface IDBAssembly
 		{
 			#region "Properties"
 
-				int						TabIndex							{ get;  set; }
-				string				ID										{ get;  set; }
-				string				ImageID								{ get;  set; }
-				string				Text									{ get;  set; }
+				IDBFormConfig	FormConfig { get; }
+				//...
+				IList<IToolBarConfig>	ToolBarList	{ get; }
 
 			#endregion
+
+			void Load();
+
 
 		}
 }

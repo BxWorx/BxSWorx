@@ -78,15 +78,15 @@ namespace BxS_Worx.UI.Dashboard
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void InitializeComponent()
 					{
-						this.SuspendLayout();
-						// 
-						// UC_XBase
-						// 
-						this.Name						= "UC_BtnBase"														;
-						this.AutoScaleMode	= System.Windows.Forms.AutoScaleMode.None	;
-						this.Size						= new System.Drawing.Size(180, 45)				;
-						//
-						this.ResumeLayout(false);
+			this.SuspendLayout();
+			// 
+			// UC_BtnBase
+			// 
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.Name = "UC_BtnBase";
+			this.Size = new System.Drawing.Size(45, 45);
+			this.ResumeLayout(false);
+
 					}
 
 			#endregion

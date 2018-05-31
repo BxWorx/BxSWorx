@@ -18,6 +18,8 @@ namespace BxS_Worx.UI.Dashboard
 				int			TransitionSpan		{ get;  set; }
 				int			TransitionSpeed		{ get;  set; }
 				int			TransitionMin			{ get;  set; }
+				//...
+				string	ButtonType				{ get;  set; }
 
 			#endregion
 

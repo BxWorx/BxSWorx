@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI.Menu
+namespace BxS_Worx.UI.Dashboard
 {
 	//***********************************************************************************************
 	public enum ButtonType

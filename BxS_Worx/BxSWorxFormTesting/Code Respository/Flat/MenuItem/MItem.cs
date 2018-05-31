@@ -26,7 +26,7 @@ namespace BxS_WorxExcel.UI.Menu
 
 				private readonly Dictionary<string , IMItem>	_SubItems;
 				//...
-				private	IUC_BtnBase		_Button	;
+				//private	IUC_BtnBase		_Button	;
 
 			#endregion
 

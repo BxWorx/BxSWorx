@@ -3,7 +3,7 @@ using System.Drawing;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
 {
-	internal interface IUC_BtnBase
+	public interface IUC_BtnBase
 		{
 			#region "Properties"
 

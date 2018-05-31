@@ -2,9 +2,7 @@
 using System.Windows.Forms;
 //.........................................................
 using BxS_Worx.UI.Dashboard;
-using BxS_WorxExcel.UI.Forms;
-using BxS_WorxExcel.UI.Menu;
-
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxSWorxFormTesting
 	{
 	internal static class Program
@@ -19,11 +17,16 @@ namespace BxSWorxFormTesting
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
 					//...
-
-					var DBCntlr	= DBController.Create();
-					DBCntlr.Startup();
-
+					var					DBCntlr			= DBController.Create();
+					IDBAssembly	DBAssembly	= DBAssemblyExcel.Create();
+					//...
+					DBAssembly.Load();
+					DBCntlr.AssembleDashboard( DBAssembly );
+					//...
 					Application.Run( DBCntlr.Form );
+				}
+
+			//...
 
 					//var w	= new BxS_Dashboard
 					//	{
@@ -34,47 +37,46 @@ namespace BxSWorxFormTesting
 
 					////...
 					//Application.Run( w );
-				}
 
 			//...
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private static	IMItem SetupButton1()
-					{
-						IMItem x1			=	MItem.Create()					;
-						x1.TabIndex		=	1												;
-						x1.ID					=	"Settings"							;
-						x1.ImageID		=	"icons8_Settings_25px"	;
+			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//	private static	IMItem SetupButton1()
+			//		{
+			//IMItem x1			= BxS_WorxExcel.UI.Menu.MItem.Create()					;
+			//			x1.TabIndex		=	1												;
+			//			x1.ID					=	"Settings"							;
+			//			x1.ImageID		=	"icons8_Settings_25px"	;
 
-						IMItem	x11		= MItem.Create()			;
-						x11.TabIndex	=	1										;
-						x11.ID				=	"Excel"							;
-						x11.ImageID		=	"icons8_Excel_25px"	;
+			//IMItem  x11		= BxS_WorxExcel.UI.Menu.MItem.Create()			;
+			//			x11.TabIndex	=	1										;
+			//			x11.ID				=	"Excel"							;
+			//			x11.ImageID		=	"icons8_Excel_25px"	;
 
-						IMItem	x12		= MItem.Create()		;
-						x12.TabIndex	=	2									;
-						x12.ID				=	"SAP"							;
-						x12.ImageID		=	"icons8_SAP_25px"	;
-						x12.Text			=	"My Text";
+			//IMItem  x12		= BxS_WorxExcel.UI.Menu.MItem.Create()		;
+			//			x12.TabIndex	=	2									;
+			//			x12.ID				=	"SAP"							;
+			//			x12.ImageID		=	"icons8_SAP_25px"	;
+			//			x12.Text			=	"My Text";
 
-						x1.AddSubItem( x11 );
-						x1.AddSubItem( x12 );
+			//			x1.AddSubItem( x11 );
+			//			x1.AddSubItem( x12 );
 
-						return	x1;
-					}
+			//			return	x1;
+			//		}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private static	IMItem SetupButton2()
-					{
-						IMItem x1 =	MItem.Create();
+			//	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+			//	private static	IMItem SetupButton2()
+			//		{
+			//IMItem x1 = BxS_WorxExcel.UI.Menu.MItem.Create();
 
-						x1.TabIndex				=	1												;
-						x1.ID							=	"FlipFlop"							;
-						x1.ImageID				=	"icons8_Settings_25px"	;
-						x1.Text						= "Button1";
+			//			x1.TabIndex				=	1												;
+			//			x1.ID							=	"FlipFlop"							;
+			//			x1.ImageID				=	"icons8_Settings_25px"	;
+			//			x1.Text						= "Button1";
 
-						return	x1;
-					}
+			//			return	x1;
+			//		}
 
 				//		//...
 				//		x1.OnEventClick		=	this.OnMenuButton_Click	;

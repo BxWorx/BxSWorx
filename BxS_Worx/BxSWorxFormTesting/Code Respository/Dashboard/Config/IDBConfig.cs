@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI.Menu
+namespace BxS_Worx.UI.Dashboard
 {
 	public interface IDBConfig
 		{

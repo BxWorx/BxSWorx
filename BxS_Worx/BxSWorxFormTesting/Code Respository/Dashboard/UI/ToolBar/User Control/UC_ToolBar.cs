@@ -19,6 +19,7 @@ namespace BxS_Worx.UI.Dashboard
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	static	UC_ToolBar Create()	=>	new	UC_ToolBar();
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	static	UC_ToolBar CreateWithConfig( IToolBarConfig config )
 					{
@@ -72,21 +73,25 @@ namespace BxS_Worx.UI.Dashboard
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void ChangeScenario( string scenarioID )
 					{
-						if ( this._ActScenario.Equals(scenarioID) )																									{	return; }
-						if ( ! this._ButtonScenarios.TryGetValue( scenarioID , out IList<IUC_BtnBase> lt_List ) )		{	return; }
+						if ( this._ActScenario.Equals(scenarioID) )
+							{	return; }
 
-						//... Deactivate previous scenario
+						if ( ! this._ButtonScenarios.TryGetValue( scenarioID , out IList<IUC_BtnBase> lt_List ) )
+							{	return; }
+						//.............................................
+						//	Deactivate previous scenario
 						//...
 						if ( ! this.IsClosed )	{	this.InvokeTransition(); }
 						this.Controls.Clear();
 
-						//... Activate previous scenario
+						//.............................................
+						//	Activate new scenario
 						//...
 						foreach ( IUC_BtnBase lo_Btn in lt_List )
 							{
 								this.Controls.Add( (Control)lo_Btn );
 							}
-
+						//...
 						this.InvokeTransition();
 					}
 

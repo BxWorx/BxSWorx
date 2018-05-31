@@ -1,7 +1,8 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
-//namespace BxS_WorxExcel.UI.UC
 {
+	[ ButtonTypeAttribute( ButtonTypes.TypeStd ) ]
+	//...
 	public partial class UC_BtnSelected : UC_BtnBase
 		{
 			#region "Constructors"

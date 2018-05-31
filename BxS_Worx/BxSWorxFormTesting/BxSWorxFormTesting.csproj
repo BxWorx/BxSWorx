@@ -51,12 +51,19 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code Respository\Dashboard\aController\DBAssemblyExcel.cs" />
     <Compile Include="Code Respository\Dashboard\aController\DBController.cs" />
+    <Compile Include="Code Respository\Dashboard\aController\IDBAssembly.cs" />
+    <Compile Include="Code Respository\Dashboard\aController\ButtonFactory.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\ButtonTypeAttribute.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\IUC_BtnBase.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_AbstractDescriptionProvider.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonTypes.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\IButtonProfile.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonProfile.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Config\ToolBarConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Form\Config\DBFormConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Config\IToolBarConfig.cs" />
@@ -98,10 +105,8 @@
     <Compile Include="Code Respository\aMain\Program.cs" />
     <Compile Include="Code Respository\Dashboard\Config\DBConfig.cs" />
     <Compile Include="Code Respository\Dashboard\Config\IDBConfig.cs" />
-    <Compile Include="Code Respository\Flat\MenuItem\IButtonSpec.cs" />
-    <Compile Include="Code Respository\Flat\MenuItem\IMItem.cs" />
-    <Compile Include="Code Respository\Flat\MenuItem\ButtonSpec.cs" />
-    <Compile Include="Code Respository\Flat\MenuItem\MItem.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\IButtonSpec.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonSpec.cs" />
     <Compile Include="Code Respository\Flat\NewFolder1\CircularButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -187,8 +192,8 @@
     <None Include="Resources\icons8_Settings_25px.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Code Respository\Dashboard\DBButton\" />
     <Folder Include="Code Respository\Dashboard\Members\" />
+    <Folder Include="Code Respository\Flat\MenuItem\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
