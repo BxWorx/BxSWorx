@@ -38,14 +38,15 @@
 			this.xpnl_Bar.Name = "xpnl_Bar";
 			this.xpnl_Bar.Size = new System.Drawing.Size(45, 45);
 			this.xpnl_Bar.TabIndex = 0;
+			this.xpnl_Bar.Click += new System.EventHandler(this.OnClick);
 			// 
-			// UC_MenuBar
+			// UC_ToolBar
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.Controls.Add(this.xpnl_Bar);
-			this.Name = "UC_MenuBar";
+			this.Name = "UC_ToolBar";
 			this.Size = new System.Drawing.Size(45, 45);
 			this.ResumeLayout(false);
 

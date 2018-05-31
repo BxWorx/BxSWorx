@@ -70,8 +70,9 @@ namespace BxS_Worx.UI.Dashboard
 						IToolBarConfig x1		= ToolBarConfig.CreateWithDefaults();	x1.ID	= "X1";	x1.SeqNo	= 1	;
 						IToolBarConfig x2		= ToolBarConfig.CreateWithDefaults();	x2.ID	= "X2";	x2.SeqNo	= 2	;
 
-						x2.ColourBack			= System.Drawing.Color.Aquamarine;
-						x2.ShowOnstartup	= true;
+						x2.ColourBack				= System.Drawing.Color.Aquamarine;
+						x2.IsHorizontal			= true;
+						x2.TransitionSpeed	=	0;
 
 						this._ToolBars.Add(	x1.ID	,	x1 )	;
 						this._ToolBars.Add(	x2.ID	,	x2 )	;

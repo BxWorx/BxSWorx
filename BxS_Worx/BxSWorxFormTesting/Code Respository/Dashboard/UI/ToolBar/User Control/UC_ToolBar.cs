@@ -27,10 +27,6 @@ namespace BxS_Worx.UI.Dashboard
 			#region "Declarations"
 
 				private	IToolBarConfig		_Config	;
-				//...
-				private	int		_SlideWidth	;
-				private	int		_SlideIncr	;
-				private int		_SlideStep	;
 
 			#endregion
 
@@ -46,12 +42,17 @@ namespace BxS_Worx.UI.Dashboard
 				public	bool	IsHorizontal			{ get	=>	this._Config.IsHorizontal;	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Color		ColourBack		{ get	=>	this.Config.ColourBack	; }
-				private	Color		ColourFocus		{ get	=>	this.Config.ColourFocus	; }
-				//...
+				private	Color		ColourBack		{ get	=>		this.Config.ColourBack								; }
+				private	Color		ColourFocus		{ get	=>		this.Config.ColourFocus								; }
+				private	bool		CanTransition	{ get	=>	!	this.Config.TransitionSpeed.Equals(0)	; }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	int			Span					{	get	=>		this.IsHorizontal	?	this.Size.Height	:	this.Size.Width ;
 																				set			{	if ( this.IsHorizontal )	{	this.Size =	new Size( -1 , value );	}
 																									else											{	this.Size =	new Size( value , -1 );	} }	}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	bool		IsClosed			{	get	=>	this.Width.Equals(0);	}
 
 			#endregion
 
@@ -62,48 +63,37 @@ namespace BxS_Worx.UI.Dashboard
 				private void ApplyConfig()
 					{
 						this.BackColor	= this.Config.ColourBack		;
-						this.Visible		= this.Config.ShowOnstartup	;
+						this.Span				=	this.Config.ShowOnstartup	?	this.Config.TransitionSpan : 0 ;
 						//...
 						if ( this.IsHorizontal )
 							{
 								this.Dock		= DockStyle.Top	;
-								this.Size		= new	Size( -1 , this.Config.Span );
 							}
 						else
 							{
 								this.Dock		= DockStyle.Left	;
-								this.Size		= new	Size( this.Config.Span , -1 );
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void SetupSliderpanel()
+				private void InvokeTransition()
 					{
-						this._SlideWidth	=	this.Config.SliderWidth	;
-						this._SlideStep		= this.Config.SliderStep	;
-						//...
-						this.xpnl_SlidePanel.Width			=	00								;
+						if ( this.CanTransition )
+							{
+								int	ln_Incr		=	this.IsClosed	? this.Config.TransitionSpeed	:	this.Config.TransitionSpeed	* -1	;
+								//...
+								do	{	this.Span	+= ln_Incr;	}		while (			this.Span	< this.Config.TransitionSpan
+																												&&	this.Span	> 0														);
+							}
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Events: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ActivateSliderPanel()
-					{
-						this._SlideIncr		=	this.Config.SliderType.Equals(ButtonType.Standard)	?	10	: this._SlideStep	;
-						//...
-						if ( !this.xpnl_SlidePanel.Width.Equals(0) )	this._SlideIncr	*= -1;
-						//...
-						do
-							{
-								this.xpnl_SlidePanel.Width	+= this._SlideIncr;
-
-							} while (			this.xpnl_SlidePanel.Width	< this._SlideWidth
-												&&	this.xpnl_SlidePanel.Width	> 0									);
-					}
-
-
-
-
-
+				private void OnClick(	object sender , System.EventArgs e )	=>	this.InvokeTransition();
 
 			#endregion
 
