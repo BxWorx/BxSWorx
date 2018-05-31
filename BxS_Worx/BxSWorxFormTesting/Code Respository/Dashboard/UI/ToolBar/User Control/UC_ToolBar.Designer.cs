@@ -39,6 +39,7 @@
 			this.xpnl_Bar.Size = new System.Drawing.Size(45, 45);
 			this.xpnl_Bar.TabIndex = 0;
 			this.xpnl_Bar.Click += new System.EventHandler(this.OnClick);
+			this.xpnl_Bar.MouseHover += new System.EventHandler(this.OnMouseHover);
 			// 
 			// UC_ToolBar
 			// 

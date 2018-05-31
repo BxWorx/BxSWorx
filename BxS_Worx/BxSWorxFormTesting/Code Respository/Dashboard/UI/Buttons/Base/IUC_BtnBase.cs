@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI.UC
+namespace BxS_Worx.UI.Dashboard
 {
 	internal interface IUC_BtnBase
 		{

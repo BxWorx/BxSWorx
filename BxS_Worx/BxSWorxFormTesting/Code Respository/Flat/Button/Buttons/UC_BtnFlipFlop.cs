@@ -2,7 +2,8 @@
 using System.Threading;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI.UC
+namespace BxS_Worx.UI.Dashboard
+//namespace BxS_WorxExcel.UI.UC
 	{
 	public partial class UC_BtnFlipFlop : UC_BtnBase
 		{

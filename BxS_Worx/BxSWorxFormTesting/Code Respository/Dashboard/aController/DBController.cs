@@ -72,7 +72,10 @@ namespace BxS_Worx.UI.Dashboard
 
 						x2.ColourBack				= System.Drawing.Color.Aquamarine;
 						x2.IsHorizontal			= true;
-						x2.TransitionSpeed	=	0;
+						x2.TransitionSpeed	=	10;
+						x2.TransitionMin		= 3;
+
+						x1.TransitionMin		= 3;
 
 						this._ToolBars.Add(	x1.ID	,	x1 )	;
 						this._ToolBars.Add(	x2.ID	,	x2 )	;

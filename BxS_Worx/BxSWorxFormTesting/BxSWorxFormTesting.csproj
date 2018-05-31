@@ -52,11 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code Respository\Dashboard\aController\DBController.cs" />
-    <Compile Include="Code Respository\Dashboard\DBButton\Base\UC_BtnBase.cs">
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Code Respository\Dashboard\DBButton\Base\IUC_BtnBase.cs" />
-    <Compile Include="Code Respository\Dashboard\DBButton\Base\UC_AbstractDescriptionProvider.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\IUC_BtnBase.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_AbstractDescriptionProvider.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Config\ToolBarConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Form\Config\DBFormConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Config\IToolBarConfig.cs" />
@@ -98,9 +98,9 @@
     <Compile Include="Code Respository\aMain\Program.cs" />
     <Compile Include="Code Respository\Dashboard\Config\DBConfig.cs" />
     <Compile Include="Code Respository\Dashboard\Config\IDBConfig.cs" />
-    <Compile Include="Code Respository\Flat\MenuItem\IDBButtonProfile.cs" />
+    <Compile Include="Code Respository\Flat\MenuItem\IButtonSpec.cs" />
     <Compile Include="Code Respository\Flat\MenuItem\IMItem.cs" />
-    <Compile Include="Code Respository\Flat\MenuItem\DBButtonProfile.cs" />
+    <Compile Include="Code Respository\Flat\MenuItem\ButtonSpec.cs" />
     <Compile Include="Code Respository\Flat\MenuItem\MItem.cs" />
     <Compile Include="Code Respository\Flat\NewFolder1\CircularButton.cs">
       <SubType>Component</SubType>
@@ -112,7 +112,7 @@
       <DependentUpon>UC_SAPSessionSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Code Respository\Dashboard\DBButton\Base\UC_BtnBase.resx">
+    <EmbeddedResource Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.resx">
       <DependentUpon>UC_BtnBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Code Respository\Dashboard\UI\Form\Form\BxS_DashBoardForm.resx">
@@ -187,6 +187,7 @@
     <None Include="Resources\icons8_Settings_25px.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Code Respository\Dashboard\DBButton\" />
     <Folder Include="Code Respository\Dashboard\Members\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

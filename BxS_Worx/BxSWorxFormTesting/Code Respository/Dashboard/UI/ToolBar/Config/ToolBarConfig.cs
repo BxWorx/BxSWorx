@@ -27,6 +27,7 @@ namespace BxS_Worx.UI.Dashboard
 								//...
 								, TransitionSpan	= 48
 								, TransitionSpeed	= 1
+								,	TransitionMin		= 0
 							};
 					}
 
@@ -46,6 +47,7 @@ namespace BxS_Worx.UI.Dashboard
 				//...
 				public	int			TransitionSpan		{ get;  set; }
 				public	int			TransitionSpeed		{ get;  set; }
+				public	int			TransitionMin			{ get;  set; }
 
 			#endregion
 

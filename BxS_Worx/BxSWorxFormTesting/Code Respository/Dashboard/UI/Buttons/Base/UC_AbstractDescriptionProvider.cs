@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Forms;
-
-namespace BxS_WorxExcel.UI.UC
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+namespace BxS_Worx.UI.Dashboard
 {
 	public class UC_AbstractDescriptionProvider<TAbstract, TBase> : TypeDescriptionProvider
 		{

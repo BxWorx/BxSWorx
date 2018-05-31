@@ -1,4 +1,4 @@
-﻿namespace BxS_WorxExcel.UI.UC
+﻿namespace BxS_Worx.UI.Dashboard
 	{
 	partial class UC_BtnSelected
 		{
@@ -36,10 +36,10 @@
 			// 
 			this.xpnl_Selected.BackColor = System.Drawing.Color.Transparent;
 			this.xpnl_Selected.Dock = System.Windows.Forms.DockStyle.Right;
-			this.xpnl_Selected.Location = new System.Drawing.Point(45, 0);
+			this.xpnl_Selected.Location = new System.Drawing.Point(45 , 0);
 			this.xpnl_Selected.Margin = new System.Windows.Forms.Padding(0);
 			this.xpnl_Selected.Name = "xpnl_Selected";
-			this.xpnl_Selected.Size = new System.Drawing.Size(3, 45);
+			this.xpnl_Selected.Size = new System.Drawing.Size(3 , 45);
 			this.xpnl_Selected.TabIndex = 1;
 			// 
 			// xpnl_Button
@@ -47,10 +47,10 @@
 			this.xpnl_Button.BackColor = System.Drawing.Color.Transparent;
 			this.xpnl_Button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.xpnl_Button.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.xpnl_Button.Location = new System.Drawing.Point(0, 0);
+			this.xpnl_Button.Location = new System.Drawing.Point(0 , 0);
 			this.xpnl_Button.Margin = new System.Windows.Forms.Padding(0);
 			this.xpnl_Button.Name = "xpnl_Button";
-			this.xpnl_Button.Size = new System.Drawing.Size(45, 45);
+			this.xpnl_Button.Size = new System.Drawing.Size(45 , 45);
 			this.xpnl_Button.TabIndex = 2;
 			// 
 			// UC_BtnSelected
@@ -62,7 +62,7 @@
 			this.Controls.Add(this.xpnl_Selected);
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "UC_BtnSelected";
-			this.Size = new System.Drawing.Size(48, 45);
+			this.Size = new System.Drawing.Size(48 , 45);
 			this.ResumeLayout(false);
 
 			}

@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BxS_WorxExcel.UI.UC;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
-	public sealed class DBButtonProfile	: IDBButtonProfile
+	public sealed class ButtonSpec	: IButtonSpec
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DBButtonProfile()
+				private ButtonSpec()
 					{
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IDBButtonProfile	Create()	=>	new	DBButtonProfile();
+				public	static	IButtonSpec	Create()	=>	new	ButtonSpec();
 
 			#endregion
 

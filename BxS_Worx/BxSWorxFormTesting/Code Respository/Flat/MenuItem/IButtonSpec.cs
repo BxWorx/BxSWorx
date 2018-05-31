@@ -5,7 +5,7 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_WorxExcel.UI.Menu
 {
-	public interface IDBButtonProfile
+	public interface IButtonSpec
 		{
 			#region "Properties"
 

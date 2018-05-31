@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_WorxExcel.UI.UC
+namespace BxS_Worx.UI.Dashboard
 	{
 		[	TypeDescriptionProvider( typeof( UC_AbstractDescriptionProvider<UC_BtnBase , UserControl> ) ) ]
 		public abstract	class UC_BtnBase : UserControl , IUC_BtnBase
