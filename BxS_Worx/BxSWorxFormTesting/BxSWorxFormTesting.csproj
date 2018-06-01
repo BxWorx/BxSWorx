@@ -116,6 +116,7 @@
     <Compile Include="Code Respository\Flat\Selector\UC_SAPSessionSelector.Designer.cs">
       <DependentUpon>UC_SAPSessionSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Code Respository\Utilities\Toolset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.resx">
       <DependentUpon>UC_BtnBase.cs</DependentUpon>

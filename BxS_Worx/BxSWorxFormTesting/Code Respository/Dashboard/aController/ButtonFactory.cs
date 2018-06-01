@@ -1,11 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.UI.Dashboard
 {
 	public static class ButtonFactory
 		{
+				private	static  readonly Lazy<Dictionary<string , Type>>
+					_BtnTypes		= new	Lazy<Dictionary<string, Type>>();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public static Dictionary<string , Type>	GetTypeCustomAttributeManifestOf<T>() where T:class
+					{
+						var lt	=	new Dictionary<string , Type>();
+						//...
+						foreach ( Type lo_Type in GetTypeTypesOf<T>() )
+							{
+								ButtonTypeAttribute z =	lo_Type.GetCustomAttribute<ButtonTypeAttribute>();
+								lt.Add( z.BtnType , lo_Type );
+							}
+						return	lt;
+					}
+
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static List<string> GetAllEntities()
 					{
@@ -16,36 +34,25 @@ namespace BxS_Worx.UI.Dashboard
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static IUC_BtnBase Get(string buttonType)
-				{
+				public static List<Type> GetAll<T>() where T:class
+					{
+						return	AppDomain.CurrentDomain.GetAssemblies()
+											.SelectMany(x => x.GetTypes())
+												.Where(x => typeof(T).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+													.ToList();
+					}
 
-
-						var types		= typeof(IUC_BtnBase).Assembly.GetTypes()
-														.Where( t	=>		! t.IsAbstract
-																					&&	t.IsSubclassOf( typeof(IUC_BtnBase) ) )
-															.ToList();
-						//...
-						IUC_BtnBase position = null;
-						//...
-						//foreach( Type lo_BtnType in types)
-						//{
-						//	 lo_BtnType.GetCustomAttributes<ButtonTypeAttribute>();
-
-						//	 if(lo_BtnType .ty  .PositionId == id)
-						//	 {
-						//			 position = Activator.CreateInstance(lo_BtnType) as Position;
-						//			 break;
-						//	 }
-						//}
-
-						//if(position == null)
-						//{
-						//		var message = $"Could not find a Position to create for id {id}.";
-						//		throw new NotSupportedException(message);
-						//}
-
-						return	position;
-				}
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public static Dictionary<string , Type>	GetButtonTypes()
+					{
+						var x = new Dictionary<string , Type>();
+						foreach ( Type lo_Type in GetAll<IUC_BtnBase>() )
+							{
+								ButtonTypeAttribute z =	lo_Type.GetCustomAttribute<ButtonTypeAttribute>();
+								x.Add( z.BtnType , lo_Type );
+							}
+						return	x;
+					}
 
 		}
 }

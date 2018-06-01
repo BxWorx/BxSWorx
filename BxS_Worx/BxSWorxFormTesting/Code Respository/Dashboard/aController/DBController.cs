@@ -53,7 +53,8 @@ namespace BxS_Worx.UI.Dashboard
 
 						var y = ButtonFactory.GetAllEntities();
 						var x = ButtonFactory.Get( ButtonTypes.TypeStandard );
-
+						var z = ButtonFactory.GetAll<IUC_BtnBase>();
+						var t = ButtonFactory.GetButtonTypes();
 					}
 
 			#endregion
