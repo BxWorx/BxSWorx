@@ -7,13 +7,18 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
-				string				ScenarioID	{ get;  set; }
-				IButtonSpec		Spec				{ get;  set; }
-				IUC_Button		Button			{ get;  set; }
+				string				ID						{ get;  set; }
+				int						SeqNo					{ get;  set; }
 				//...
-				int		ChildCount					{ get; }
+				string				ScenarioID		{ get;  set; }
+				string				ToolbarID			{ get;  set; }
 				//...
-				EventHandler	OnEventClick		{ get;  set; }
+				IButtonSpec		Spec					{ get;  set; }
+				IUC_Button		Button				{ get;  set; }
+				//...
+				int						ChildCount		{ get; }
+				//...
+				EventHandler	OnEventClick	{ get;  set; }
 
 			#endregion
 

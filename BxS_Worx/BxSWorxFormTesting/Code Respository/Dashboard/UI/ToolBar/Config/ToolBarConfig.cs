@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -25,13 +26,21 @@ namespace BxS_Worx.Dashboard.UI
 								, IsHorizontal		= false
 								,	ShowOnstartup		= true
 								//...
-								, TransitionSpan	= 48
+								, TransitionSpanMax	= 48
 								, TransitionSpeed	= 1
-								,	TransitionMin		= 0
+								,	TransitionSpanMin		= 0
 								//...
-								,	ButtonType			= ButtonTypes.TypeStandard
+								,	ButtonType	= ButtonTypes.TypeStandard
+								,	Dock				= DockStyle.Left
 							};
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Declarations"
+
+				private	bool	_Horizontal	;
 
 			#endregion
 
@@ -41,17 +50,23 @@ namespace BxS_Worx.Dashboard.UI
 				public	string	ID			{ get;  set; }
 				public	int			SeqNo		{ get;  set; }
 				//...
-				public	Color		ColourBack		{ get;  set; }
-				public	Color		ColourFocus		{ get;  set; }
+				public	Color			ColourBack		{ get;  set; }
+				public	Color			ColourFocus		{ get;  set; }
+				public	DockStyle	Dock					{ get;  private set; }
 				//...
-				public	bool		IsHorizontal		{ get;  set; }
 				public	bool		ShowOnstartup		{ get;  set; }
 				//...
-				public	int			TransitionSpan		{ get;  set; }
-				public	int			TransitionSpeed		{ get;  set; }
-				public	int			TransitionMin			{ get;  set; }
+				public	int			TransitionSpanMin		{ get;  set; }
+				public	int			TransitionSpanMax		{ get;  set; }
+				public	int			TransitionSpeed			{ get;  set; }
 				//...
-				public	string	ButtonType				{ get;  set; }
+				public	string	ButtonType		{ get;  set; }
+				//...
+				//...
+				public	bool		IsHorizontal		{ get	=>		this._Horizontal	;
+																					set			{	this._Horizontal	= value;
+																										this.Dock	=	this._Horizontal	?	DockStyle.Top
+																																									:	DockStyle.Left	;	}	}
 
 			#endregion
 

@@ -9,11 +9,17 @@ namespace BxS_Worx.Dashboard.UI
 				IDBFormConfig	FormConfig { get; }
 				//...
 				IList<IToolBarConfig>	ToolBarList	{ get; }
+				IList<IButtonProfile>	ButtonList	{ get; }
 
 			#endregion
 
-			void Load();
+			//===========================================================================================
+			#region "Methods"
 
+				IToolBarConfig	GetToolbarConfig( string ID);
+				void Load();
+
+			#endregion
 
 		}
 }

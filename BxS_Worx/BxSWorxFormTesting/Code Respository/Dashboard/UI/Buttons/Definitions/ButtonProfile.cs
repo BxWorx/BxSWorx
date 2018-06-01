@@ -9,13 +9,16 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private ButtonProfile()
+				private ButtonProfile( string	id = "" )
 					{
+						this.ID		= id;
+						//...
 						this.Children		= new	Dictionary<string , IButtonProfile>()	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonProfile	Create()	=>	new	ButtonProfile();
+				public	static	IButtonProfile	Create()						=>	new	ButtonProfile();
+				public	static	IButtonProfile	Create( string id )	=>	new	ButtonProfile( id );
 
 			#endregion
 
@@ -30,9 +33,14 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	string				ScenarioID		{ get;  set; }
-				public	IButtonSpec		Spec					{ get;  set; }
-				public	IUC_Button		Button				{ get;  set; }
+				public	string	ID			{ get;  set; }
+				public	int			SeqNo		{ get;  set; }
+				//...
+				public	string	ScenarioID	{ get;  set; }
+				public	string	ToolbarID		{ get;  set; }
+				//...
+				public	IButtonSpec		Spec		{ get;  set; }
+				public	IUC_Button		Button	{ get;  set; }
 				//...
 				public	int		ChildCount	{	get	=>	this.Children.Count	;	}
 				//...

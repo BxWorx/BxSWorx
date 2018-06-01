@@ -21,7 +21,9 @@ namespace BxSWorxFormTesting
 					IDBAssembly	DBAssembly	= DBAssemblyExcel.Create();
 					//...
 					DBAssembly.Load();
-					DBCntlr.AssembleDashboard( DBAssembly );
+					//...
+					DBCntlr.Assembly	=	DBAssembly ;
+					DBCntlr.AssembleDashboard();
 					//...
 					Application.Run( DBCntlr.Form );
 				}

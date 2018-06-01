@@ -11,7 +11,7 @@ namespace BxS_Worx.Dashboard.UI
 				private DBAssemblyExcel()
 					{
 						this._ToolBars	= new	Dictionary<string, IToolBarConfig>()	;
-						this._BtnSpecs	= new	Dictionary<string, IButtonSpec>()			;
+						this._BtnProf		= new	Dictionary<string, IButtonProfile>()			;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -23,7 +23,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Declarations"
 
 				private readonly	Dictionary<string , IToolBarConfig>		_ToolBars	;
-				private readonly	Dictionary<string , IButtonSpec>			_BtnSpecs	;
+				private readonly	Dictionary<string , IButtonProfile>		_BtnProf	;
 
 			#endregion
 
@@ -38,15 +38,29 @@ namespace BxS_Worx.Dashboard.UI
 																															.OrderByDescending( x => x.SeqNo )
 																																.ToList(); }
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	IList<IButtonProfile>	ButtonList	{ get	=>	this._BtnProf.Values
+																															.OrderByDescending( x => x.SeqNo )
+																																.ToList(); }
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IToolBarConfig	GetToolbarConfig( string ID )
+					{
+						if ( ! this._ToolBars.TryGetValue( ID , out IToolBarConfig lo_TBCfg ) )
+							{	lo_TBCfg	=	null;	}
+						//...
+						return	lo_TBCfg	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	Load()
 					{
-						this.FormConfig	= DBFormConfig.CreateWithDefaults()	;
+						this.FormConfig		= DBFormConfig.CreateWithDefaults()	;
 						//...
 						this.LoadToolbarsFromSource()	;
 						this.LoadButtonsFromSource()	;
@@ -64,7 +78,12 @@ namespace BxS_Worx.Dashboard.UI
 						IButtonSpec b2	= ButtonSpec.CreateWith( 1 , "SC1" , "ID2" , "icons8_Settings_25px" , "Settings" )	;
 						IButtonSpec b3	= ButtonSpec.CreateWith( 1 , "SC2" , "ID1" , "icons8_Settings_25px" , "Settings" )	;
 
-						this._BtnSpecs.Add( b1.ID , b1 );
+						IButtonProfile	x1	= ButtonProfile.Create( "x1" );
+
+						x1.Spec				=	b1		;
+						x1.ToolbarID	=	"X1"	;
+
+						this._BtnProf.Add( x1.ID , x1 );
 						}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -76,9 +95,9 @@ namespace BxS_Worx.Dashboard.UI
 						x2.ColourBack				= System.Drawing.Color.Aquamarine;
 						x2.IsHorizontal			= true;
 						x2.TransitionSpeed	=	10;
-						x2.TransitionMin		= 03;
+						x2.TransitionSpanMin		= 03;
 
-						x1.TransitionMin		= 03;
+						x1.TransitionSpanMin		= 03;
 						//...
 						this._ToolBars.Add(	x1.ID	,	x1 )	;
 						this._ToolBars.Add(	x2.ID	,	x2 )	;

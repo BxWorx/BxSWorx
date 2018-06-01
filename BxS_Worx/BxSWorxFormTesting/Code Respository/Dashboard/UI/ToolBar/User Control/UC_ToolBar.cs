@@ -63,7 +63,7 @@ namespace BxS_Worx.Dashboard.UI
 																					else										{	this.Size =	new Size( value , -1 )	;	} }	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	bool		IsClosed	{	get	=>	this.Span.Equals( this._Config.TransitionMin );	}
+				private	bool		IsClosed	{	get	=>	this.Span.Equals( this._Config.TransitionSpanMin );	}
 
 			#endregion
 
@@ -119,42 +119,40 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ApplyConfig()
 					{
-						this.BackColor	= this.Config.ColourBack		;
-						this.Span				=	this.Config.ShowOnstartup	?	this.Config.TransitionSpan : this.Config.TransitionMin ;
-						//...
-						if ( this.Horizontal )
-							{
-								this.Dock		= DockStyle.Top	;
-							}
-						else
-							{
-								this.Dock		= DockStyle.Left	;
-							}
+						this.BackColor	= this.Config.ColourBack	;
+						this.Span				=	this.Config.ShowOnstartup	?	this.Config.TransitionSpanMax
+																												: this.Config.TransitionSpanMin ;
+						this.Dock				=	this.Config.Dock	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void InvokeTransition()
 					{
-						if ( this.CanTransition )
+						if ( ! this.CanTransition )		{ return;	}
+						//...
+						int ln_FinSpan	=	0;
+						//...
+						if ( this.IsClosed )
 							{
-								if ( this.IsClosed )
-									{
-										do	{	this.Span	+= this.Config.TransitionSpeed;	}
-										while ( this.Span	< this.Config.TransitionSpan );
-										//...
-										if ( ! this.Span.Equals( this.Config.TransitionSpan ) )
-											{ this.Span	= this.Config.TransitionSpan; }
-									}
-								else
-									{
-										do	{	this.Span	-= this.Config.TransitionSpeed;	}
-										while ( this.Span	> this.Config.TransitionMin );
-										//...
-										if ( ! this.Span.Equals( this.Config.TransitionMin ) )
-											{ this.Span	= this.Config.TransitionMin; }
-									}
-
+								do	{	this.Span	+= this.Config.TransitionSpeed;	}
+								while ( this.Span	< this.Config.TransitionSpanMax );
+								//...
+								ln_FinSpan	=	this.Config.TransitionSpanMax	;
+								//if ( ! this.Span.Equals( this.Config.TransitionSpan ) )
+								//	{ this.Span	= this.Config.TransitionSpan; }
 							}
+						else
+							{
+								do	{	this.Span	-= this.Config.TransitionSpeed;	}
+								while ( this.Span	> this.Config.TransitionSpanMin );
+								//...
+								ln_FinSpan	=	this.Config.TransitionSpanMin	;
+								//if ( ! this.Span.Equals( this.Config.TransitionMin ) )
+								//	{ this.Span	= this.Config.TransitionMin; }
+							}
+						//...
+						if ( ! this.Span.Equals( ln_FinSpan ) )
+							{ this.Span	= ln_FinSpan; }
 					}
 
 			#endregion
