@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+//.........................................................
+using BxS_Worx.Dashboard.UI.Buttons;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
 	//***********************************************************************************************
 	public sealed class DBController
@@ -51,10 +53,8 @@ namespace BxS_Worx.UI.Dashboard
 						//...
 						this.AssembleToolbars( assembly.ToolBarList )	;
 
-						var y = ButtonFactory.GetAllEntities();
-						var x = ButtonFactory.Get( ButtonTypes.TypeStandard );
-						var z = ButtonFactory.GetAll<IUC_BtnBase>();
-						var t = ButtonFactory.GetButtonTypes();
+						var b1	= ButtonFactory.CreateButton( ButtonTypes.TypeStandard );
+						var b2	= ButtonFactory.CreateButton( ButtonTypes.TypeFlipFlop );
 					}
 
 			#endregion

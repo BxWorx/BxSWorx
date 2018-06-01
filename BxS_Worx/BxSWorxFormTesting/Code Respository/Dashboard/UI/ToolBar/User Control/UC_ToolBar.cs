@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
 	public sealed partial class UC_ToolBar : UserControl
 		{
@@ -13,7 +13,7 @@ namespace BxS_Worx.UI.Dashboard
 					{
 						InitializeComponent()	;
 						//...
-						this._ButtonScenarios		= new	Dictionary<string, IList<IUC_BtnBase>>()	;
+						this._ButtonScenarios		= new	Dictionary<string, IList<IUC_Button>>()	;
 						this._ActScenario				= string.Empty	;
 					}
 
@@ -33,7 +33,7 @@ namespace BxS_Worx.UI.Dashboard
 
 				private	IToolBarConfig		_Config	;
 				//...
-				private readonly Dictionary<string , IList<IUC_BtnBase>>	_ButtonScenarios	;
+				private readonly Dictionary<string , IList<IUC_Button>>	_ButtonScenarios	;
 				private	string	_ActScenario;
 
 			#endregion
@@ -76,7 +76,7 @@ namespace BxS_Worx.UI.Dashboard
 						if ( this._ActScenario.Equals(scenarioID) )
 							{	return; }
 
-						if ( ! this._ButtonScenarios.TryGetValue( scenarioID , out IList<IUC_BtnBase> lt_List ) )
+						if ( ! this._ButtonScenarios.TryGetValue( scenarioID , out IList<IUC_Button> lt_List ) )
 							{	return; }
 						//.............................................
 						//	Deactivate previous scenario
@@ -87,7 +87,7 @@ namespace BxS_Worx.UI.Dashboard
 						//.............................................
 						//	Activate new scenario
 						//...
-						foreach ( IUC_BtnBase lo_Btn in lt_List )
+						foreach ( IUC_Button lo_Btn in lt_List )
 							{
 								this.Controls.Add( (Control)lo_Btn );
 							}
@@ -96,9 +96,9 @@ namespace BxS_Worx.UI.Dashboard
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	void	LoadButton( string scenarioID , IUC_BtnBase button )
+				internal	void	LoadButton( string scenarioID , IUC_Button button )
 					{
-						if ( ! this._ButtonScenarios.TryGetValue( scenarioID , out IList<IUC_BtnBase> lt_List ) )
+						if ( ! this._ButtonScenarios.TryGetValue( scenarioID , out IList<IUC_Button> lt_List ) )
 							{
 								this.AddScenario( scenarioID );
 								if ( ! this._ButtonScenarios.TryGetValue( scenarioID , out lt_List ) )
@@ -114,7 +114,7 @@ namespace BxS_Worx.UI.Dashboard
 			#region "Routines: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void	AddScenario( string id )	=>	this._ButtonScenarios.Add( id , new List<IUC_BtnBase>() );
+				private void	AddScenario( string id )	=>	this._ButtonScenarios.Add( id , new List<IUC_Button>() );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ApplyConfig()

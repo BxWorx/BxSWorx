@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
 	[ ButtonTypeAttribute( ButtonTypes.TypeFlp ) ]
 	//...

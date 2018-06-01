@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
 	public sealed class ButtonProfile	: IButtonProfile
 		{
@@ -32,7 +32,7 @@ namespace BxS_Worx.UI.Dashboard
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	string				ScenarioID		{ get;  set; }
 				public	IButtonSpec		Spec					{ get;  set; }
-				public	IUC_BtnBase		Button				{ get;  set; }
+				public	IUC_Button		Button				{ get;  set; }
 				//...
 				public	int		ChildCount	{	get	=>	this.Children.Count	;	}
 				//...

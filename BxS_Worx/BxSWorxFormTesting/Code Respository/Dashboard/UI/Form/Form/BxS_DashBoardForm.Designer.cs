@@ -1,4 +1,4 @@
-﻿namespace BxS_Worx.UI.Dashboard
+﻿namespace BxS_Worx.Dashboard.UI
 	{
 	partial class BxS_DashboardForm
 		{

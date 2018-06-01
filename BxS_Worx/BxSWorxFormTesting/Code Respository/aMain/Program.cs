@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 //.........................................................
-using BxS_Worx.UI.Dashboard;
+using BxS_Worx.Dashboard.UI;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxSWorxFormTesting
 	{

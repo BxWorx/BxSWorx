@@ -1,6 +1,6 @@
 ﻿using System;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
 	[ AttributeUsage( AttributeTargets.Class ) ]
 	public class ButtonTypeAttribute : Attribute

@@ -2,11 +2,13 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+//.........................................................
+using BxS_Worx.Dashboard.Utilities;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 	{
-		[	TypeDescriptionProvider( typeof( UC_AbstractDescriptionProvider<UC_BtnBase , UserControl> ) ) ]
-		public abstract	class UC_BtnBase : UserControl , IUC_BtnBase
+		[	TypeDescriptionProvider( typeof( AbstractDescriptionProvider<UC_BtnBase , UserControl> ) ) ]
+		public abstract	class UC_BtnBase : UserControl , IUC_Button
 		{
 			#region "Constructors"
 

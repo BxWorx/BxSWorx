@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.Utilities
 {
-	public class UC_AbstractDescriptionProvider<TAbstract, TBase> : TypeDescriptionProvider
+	public class AbstractDescriptionProvider<TAbstract, TBase> : TypeDescriptionProvider
 		{
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UC_AbstractDescriptionProvider()
+				public AbstractDescriptionProvider()
 						: base(TypeDescriptor.GetProvider(typeof(TAbstract)))
 					{
 					}

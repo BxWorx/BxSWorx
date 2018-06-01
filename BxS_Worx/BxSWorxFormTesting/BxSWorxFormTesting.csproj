@@ -54,13 +54,13 @@
     <Compile Include="Code Respository\Dashboard\aController\DBAssemblyExcel.cs" />
     <Compile Include="Code Respository\Dashboard\aController\DBController.cs" />
     <Compile Include="Code Respository\Dashboard\aController\IDBAssembly.cs" />
-    <Compile Include="Code Respository\Dashboard\aController\ButtonFactory.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\ButtonFactory.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\ButtonTypeAttribute.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\IUC_BtnBase.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_AbstractDescriptionProvider.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\IUC_Button.cs" />
+    <Compile Include="Code Respository\Utilities\AbstractDescriptionProvider.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonTypes.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\IButtonProfile.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonProfile.cs" />

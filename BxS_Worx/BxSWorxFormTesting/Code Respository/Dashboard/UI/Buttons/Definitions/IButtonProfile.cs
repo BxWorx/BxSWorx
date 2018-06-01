@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
 	public interface IButtonProfile
 		{
@@ -9,7 +9,7 @@ namespace BxS_Worx.UI.Dashboard
 
 				string				ScenarioID	{ get;  set; }
 				IButtonSpec		Spec				{ get;  set; }
-				IUC_BtnBase		Button			{ get;  set; }
+				IUC_Button		Button			{ get;  set; }
 				//...
 				int		ChildCount					{ get; }
 				//...

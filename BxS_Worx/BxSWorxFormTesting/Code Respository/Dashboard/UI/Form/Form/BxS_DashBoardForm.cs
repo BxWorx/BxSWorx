@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 //.........................................................
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
 	public sealed partial class BxS_DashboardForm : Form
 		{

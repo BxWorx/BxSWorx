@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
-	public interface IUC_BtnBase
+	public interface IUC_Button
 		{
 			#region "Properties"
 

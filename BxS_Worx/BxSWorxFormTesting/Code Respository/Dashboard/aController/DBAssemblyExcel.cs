@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.UI.Dashboard
+namespace BxS_Worx.Dashboard.UI
 {
 	public sealed class DBAssemblyExcel	: IDBAssembly
 		{
