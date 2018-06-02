@@ -80,49 +80,7 @@ namespace BxS_Worx.Dashboard.UI
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadButtonsOnToolBars()
-					{
-						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
-							{
-								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_ToolBar lo_TBar ) )
-									{
-										lo_TBar.LoadButton( lo_Btn.ScenarioID , lo_Btn.Button );
-									}
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void	LoadToolBarsOntoForm()
-					{
-						foreach ( UC_ToolBar lo_TBar in this._ToolBars.Values )
-							{
-								this._DBForm.Value.LoadToolbar( lo_TBar );
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void	AssembleButtons()
-					{
-						string	lc_BtnType	=	ButtonTypes.TypeAll ;
-						//...
-						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
-							{
-								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_ToolBar lo_TBar ) )
-									{
-										lc_BtnType	=	lo_TBar.Config.ButtonType	;
-									}
-								//...
-								if ( lc_BtnType.Equals(ButtonTypes.TypeAll) )
-									{
-										lc_BtnType	=	lo_Btn.Spec.ButtonType;
-									}
-								//...
-								lo_Btn.Button		=	ButtonFactory.CreateButton( lc_BtnType );
-							}
-					}
+			#region "Methods: Private: Toolbar"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	AssembleToolbars()
@@ -147,6 +105,46 @@ namespace BxS_Worx.Dashboard.UI
 												this._StartupScenario		= lo_TBCfg.StartupScenario	;
 											}
 									}
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void	LoadToolBarsOntoForm()
+					{
+						foreach ( UC_ToolBar lo_TBar in this._ToolBars.Values )
+							{
+								this._DBForm.Value.LoadToolbar( lo_TBar );
+							}
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private: Button"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadButtonsOnToolBars()
+					{
+						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
+							{
+								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_ToolBar lo_TBar ) )
+									{
+										lo_TBar.LoadButton( lo_Btn.ScenarioID , lo_Btn.Button );
+									}
+							}
+					}
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void	AssembleButtons()
+					{
+						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
+							{
+								lo_Btn.Button		=	ButtonFactory.CreateButton( lo_Btn.ButtonType );
+								//...
+
+
+
 							}
 					}
 

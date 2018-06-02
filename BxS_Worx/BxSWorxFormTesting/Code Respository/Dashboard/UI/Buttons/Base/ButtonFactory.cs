@@ -19,14 +19,12 @@ namespace BxS_Worx.Dashboard.UI.Buttons
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static	IUC_Button CreateButton( string buttonType )
+				public static	IUC_Button CreateButton( string	buttonType )
 					{
-						if ( _BtnTypes.Value.TryGetValue( buttonType , out Type lo_BtnType ) )
-							{
-								return	Activator.CreateInstance( lo_BtnType )	as IUC_Button;
-							}
-						else
+						if ( ! _BtnTypes.Value.TryGetValue( buttonType , out Type lo_BtnType ) )
 							{	return	null; }
+						//...
+						return	Activator.CreateInstance( lo_BtnType )	as IUC_Button;
 					}
 
 			#endregion

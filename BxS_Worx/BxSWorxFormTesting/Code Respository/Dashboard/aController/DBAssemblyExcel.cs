@@ -3,15 +3,13 @@ using System.Linq;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public sealed class DBAssemblyExcel	: IDBAssembly
+	public sealed class DBAssemblyExcel	: DBAssemblyBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DBAssemblyExcel()
+				private DBAssemblyExcel()	: base()
 					{
-						this._ToolBars	= new	Dictionary<string, IToolBarConfig>()	;
-						this._BtnProf		= new	Dictionary<string, IButtonProfile>()	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -20,38 +18,12 @@ namespace BxS_Worx.Dashboard.UI
 			#endregion
 
 			//===========================================================================================
-			#region "Declarations"
-
-				private readonly	Dictionary<string , IToolBarConfig>		_ToolBars	;
-				private readonly	Dictionary<string , IButtonProfile>		_BtnProf	;
-
-			#endregion
-
-			//===========================================================================================
-			#region "Properties"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IDBFormConfig	FormConfig	{ get;	private set; }
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IList<IToolBarConfig>	ToolBarList	{ get	=>	this._ToolBars.Values
-																															.OrderByDescending( x => x.SeqNo )
-																																.ToList(); }
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IList<IButtonProfile>	ButtonList	{ get	=>	this._BtnProf.Values
-																															.OrderByDescending( x => x.SeqNo )
-																																.ToList(); }
-
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	Load()
+				public override void	Load()
 					{
-						this.FormConfig		= DBFormConfig.CreateWithDefaults()	;
+						base.Load();
 						//...
 						this.LoadToolbarsFromSource()	;
 						this.LoadButtonsFromSource()	;
@@ -81,20 +53,22 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadToolbarsFromSource()
 					{
-						IToolBarConfig x1		= ToolBarConfig.CreateWithDefaults();		x1.ID	= "X1";		x1.SeqNo	= 1	;
-						IToolBarConfig x2		= ToolBarConfig.CreateWithDefaults();		x2.ID	= "X2";		x2.SeqNo	= 2	;
+						IToolBarConfig TB1	= ToolBarConfig.CreateWithDefaults();		TB1.ID	= "X1";		TB1.SeqNo	= 1	;
+						IToolBarConfig TB2	= ToolBarConfig.CreateWithDefaults();		TB2.ID	= "X2";		TB2.SeqNo	= 2	;
 						//...
-						x2.ColourBack					= System.Drawing.Color.Aquamarine;
-						x2.IsHorizontal				= true	;
-						x2.TransitionSpeed		=	10		;
-						x2.TransitionSpanMin	= 03		;
+						TB2.ColourBack					= System.Drawing.Color.Aquamarine;
+						TB2.IsHorizontal				= true	;
+						TB2.TransitionSpeed		=	10		;
+						TB2.TransitionSpanMin	= 03		;
 
-						x1.IsStartupToolBar		= true	;
-						x1.StartupScenario		=	"SC1"	;
-						x1.TransitionSpanMin	= 03		;
+						TB1.IsStartupToolBar		= true	;
+						TB1.StartupScenario			=	"SC1"	;
+						TB1.TransitionSpanMin		= 03		;
+						TB1.ButtonType					= ButtonTypes.TypeStd	;
+
 						//...
-						this._ToolBars.Add(	x1.ID	,	x1 )	;
-						this._ToolBars.Add(	x2.ID	,	x2 )	;
+						this._ToolBars.Add(	TB1.ID	,	TB1 )	;
+						this._ToolBars.Add(	TB2.ID	,	TB2 )	;
 					}
 
 			#endregion

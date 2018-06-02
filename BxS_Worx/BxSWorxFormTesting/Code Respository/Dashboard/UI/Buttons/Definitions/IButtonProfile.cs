@@ -16,9 +16,11 @@ namespace BxS_Worx.Dashboard.UI
 				IButtonSpec		Spec					{ get;  set; }
 				IUC_Button		Button				{ get;  set; }
 				//...
-				int						ChildCount		{ get; }
-				//...
 				EventHandler	OnEventClick	{ get;  set; }
+
+				//...
+				int			ChildCount	{ get; }
+				string	ButtonType	{ get; }
 
 			#endregion
 
@@ -26,6 +28,8 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Routines: Exposed"
 
 				void	AddChild( IButtonProfile	profile );
+				void	ApplyProfile();
+				//...
 				IList<IButtonProfile>	GetSubList();
 
 			#endregion

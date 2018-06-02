@@ -22,6 +22,8 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				EventHandler	SetClickEventHandler	{ set; }
 
+				bool		CanHaveText		{	get;	set; }
+
 			#endregion
 
 		}

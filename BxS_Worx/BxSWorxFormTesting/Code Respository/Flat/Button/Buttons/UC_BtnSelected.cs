@@ -1,4 +1,5 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using BxS_Worx.Dashboard.Utilities;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
 	[ ButtonTypeAttribute( ButtonTypes.TypeStd ) ]
@@ -18,14 +19,18 @@ namespace BxS_Worx.Dashboard.UI
 
 			#endregion
 
-			//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-			protected override void SetFocusState( bool	state	)
-				{
-					base.SetFocusState( state );
-					//...
-					this._UCFocus.BackColor	=	this._HasFocus	?	this._FocusColour	: this.Parent.BackColor	;
-				}
+			//===========================================================================================
+			#region "Methods: Local"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected override void SetFocusState( bool	state	)
+					{
+						base.SetFocusState( state );
+						//...
+						this._UCFocus.BackColor	=	this._HasFocus	?	this._FocusColour	: this.Parent.BackColor	;
+					}
+
+			#endregion
 
 		}
 }

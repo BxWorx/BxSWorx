@@ -19,7 +19,7 @@ namespace BxS_Worx.Dashboard.UI
 						this._FocusColour		= Color.FromArgb( 150 , 192 , 255 , 192 )	;
 						this._HasFocus			= false	;
 						//...
-						this.Dock		= DockStyle.Top;
+						//this.Dock		= DockStyle.Top;
 					}
 
 			#endregion
@@ -43,7 +43,8 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	int		Index			{	get; set ; }
+				public	int		Index				{	get;	set ; }
+				public	bool	CanHaveText	{	get;	protected	set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	bool		HasFocus				{	get	=>	this._HasFocus							;
@@ -59,7 +60,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	virtual	string	SetText		{	set	=>	this._UCText		.Text							=	value	; }
+				public	virtual	string	SetText		{	set	=>	this._UCText		.Text							=	value ?? string.Empty	; }
 				public	virtual	string	SetName		{	set	=>	this._UCButton	.Name							=	value	; }
 				public	virtual	string	SetTag		{	set =>	this._UCButton	.Tag							=	value	; }
 				public	virtual	Image		SetImage	{	set	=>	this._UCImage		.BackgroundImage	=	value	; }
