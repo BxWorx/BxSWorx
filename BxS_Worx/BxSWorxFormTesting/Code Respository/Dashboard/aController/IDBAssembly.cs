@@ -16,7 +16,6 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Methods"
 
-				IToolBarConfig	GetToolbarConfig( string ID);
 				void Load();
 
 			#endregion

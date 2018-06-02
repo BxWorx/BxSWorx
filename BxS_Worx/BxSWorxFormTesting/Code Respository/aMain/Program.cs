@@ -24,6 +24,7 @@ namespace BxSWorxFormTesting
 					//...
 					DBCntlr.Assembly	=	DBAssembly ;
 					DBCntlr.AssembleDashboard();
+					DBCntlr.Startup();
 					//...
 					Application.Run( DBCntlr.Form );
 				}

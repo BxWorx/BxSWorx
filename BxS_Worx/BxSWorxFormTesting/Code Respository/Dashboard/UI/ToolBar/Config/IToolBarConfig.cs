@@ -23,6 +23,8 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				string		ButtonType					{ get;  set; }
 				//...
+				bool			IsStartupToolBar		{ get;  set; }
+				string		StartupScenario			{ get;  set; }
 
 			#endregion
 

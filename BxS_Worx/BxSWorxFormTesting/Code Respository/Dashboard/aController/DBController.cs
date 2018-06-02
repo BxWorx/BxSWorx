@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Linq;
 //.........................................................
 using BxS_Worx.Dashboard.UI.Buttons;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -20,6 +19,8 @@ namespace BxS_Worx.Dashboard.UI
 						//...
 						this._ToolBars	= new	Dictionary<string, UC_ToolBar>()	;
 						this._BtnSpecs	= new	Dictionary<string, IButtonSpec>()	;
+						//...
+						this._StartupTBar	= string.Empty	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -30,6 +31,9 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Declarations"
 
+				private	string	_StartupTBar			;
+				private	string	_StartupScenario	;
+				//...
 				private readonly	Lazy<BxS_DashboardForm>		_DBForm		;
 				//...
 				private	IDBAssembly		_Assembly	;
@@ -42,14 +46,22 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Properties"
 
-				public	BxS_DashboardForm		Form	{	get => this._DBForm.Value; }
-				//...
-				public	IDBAssembly		Assembly	{ set	=>	this._Assembly	= value;	}
+				public	BxS_DashboardForm		Form			{	get =>	this._DBForm.Value			; }
+				public	IDBAssembly					Assembly	{ set	=>	this._Assembly	= value	;	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void	Startup()
+					{
+						if ( this._ToolBars.TryGetValue( this._StartupTBar , out UC_ToolBar lo_TBar ) )
+							{
+								lo_TBar.ChangeScenario( this._StartupScenario )	;
+							}
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	AssembleDashboard()
@@ -61,15 +73,26 @@ namespace BxS_Worx.Dashboard.UI
 						this.AssembleToolbars()	;
 						this.AssembleButtons()	;
 						//...
-						this.LoadToolBarsOntoForm();
-						//var b1	= ButtonFactory.CreateButton( ButtonTypes.TypeStandard );
-						//var b2	= ButtonFactory.CreateButton( ButtonTypes.TypeFlipFlop );
+						this.LoadToolBarsOntoForm()		;
+						this.LoadButtonsOnToolBars()	;
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void LoadButtonsOnToolBars()
+					{
+						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
+							{
+								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_ToolBar lo_TBar ) )
+									{
+										lo_TBar.LoadButton( lo_Btn.ScenarioID , lo_Btn.Button );
+									}
+							}
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadToolBarsOntoForm()
@@ -83,22 +106,21 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	AssembleButtons()
 					{
-						IToolBarConfig	lo_TBCfg		=	null					;
-						string					lc_BtnType	=	string.Empty	;
+						string	lc_BtnType	=	ButtonTypes.TypeAll ;
 						//...
 						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
 							{
-								lo_TBCfg	=	this._Assembly.GetToolbarConfig( lo_Btn.ToolbarID )	;
-								//...
-								if ( lo_TBCfg == null )
-									{	lc_BtnType	=	lo_Btn.Spec.ButtonType;	}
-								else
+								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_ToolBar lo_TBar ) )
 									{
-										lc_BtnType	=	lo_TBCfg.Equals(ButtonTypes.TypeAll)	?	lo_Btn.Spec.ButtonType
-																																				:	lo_TBCfg.ButtonType			;
+										lc_BtnType	=	lo_TBar.Config.ButtonType	;
 									}
 								//...
-								lo_Btn.Button		=	ButtonFactory.CreateButton( lo_Btn.Spec.ButtonType );
+								if ( lc_BtnType.Equals(ButtonTypes.TypeAll) )
+									{
+										lc_BtnType	=	lo_Btn.Spec.ButtonType;
+									}
+								//...
+								lo_Btn.Button		=	ButtonFactory.CreateButton( lc_BtnType );
 							}
 					}
 
@@ -108,6 +130,23 @@ namespace BxS_Worx.Dashboard.UI
 						foreach ( IToolBarConfig lo_TBCfg in	this._Assembly.ToolBarList )
 							{
 								this._ToolBars.Add( lo_TBCfg.ID , UC_ToolBar.CreateWithConfig( lo_TBCfg ) )	;
+								//...
+								if ( ! string.IsNullOrEmpty( lo_TBCfg.ID ) )
+									{
+										if (		string.IsNullOrEmpty( this._StartupTBar )
+												||	lo_TBCfg.IsStartupToolBar									)
+											{
+												this._StartupTBar		= lo_TBCfg.ID	;
+											}
+									}
+								//...
+								if ( ! string.IsNullOrEmpty( lo_TBCfg.StartupScenario ) )
+									{
+										if ( string.IsNullOrEmpty( this._StartupScenario ) )
+											{
+												this._StartupScenario		= lo_TBCfg.StartupScenario	;
+											}
+									}
 							}
 					}
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-//.........................................................
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -23,7 +22,7 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Declarations"
 
-				private	IDBFormConfig		_Config;
+				private	IDBFormConfig		_Config	;
 				//...
 				private	bool		_MoveActive		;
 				private	Point		_MoveLocation	;
@@ -48,7 +47,8 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				internal void LoadToolbar( UC_ToolBar toolBar)
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void LoadToolbar( UC_ToolBar toolBar )
 					{
 						this.xpnl_UserArea.Controls.Add( toolBar );
 					}
@@ -71,7 +71,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Routines: Private: Window state"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void BxS_DashboardForm_Load(object sender , EventArgs e)
+				private void BxS_DashboardForm_Load( object sender , EventArgs e )
 					{
 					}
 

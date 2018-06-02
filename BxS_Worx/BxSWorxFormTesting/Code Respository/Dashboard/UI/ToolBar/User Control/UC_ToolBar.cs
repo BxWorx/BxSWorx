@@ -31,10 +31,10 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Declarations"
 
-				private	IToolBarConfig		_Config	;
+				private	IToolBarConfig	_Config				;
+				private	string					_ActScenario	;
 				//...
 				private readonly Dictionary<string , IList<IUC_Button>>	_ButtonScenarios	;
-				private	string	_ActScenario;
 
 			#endregion
 
@@ -78,10 +78,13 @@ namespace BxS_Worx.Dashboard.UI
 
 						if ( ! this._ButtonScenarios.TryGetValue( scenarioID , out IList<IUC_Button> lt_List ) )
 							{	return; }
+
 						//.............................................
 						//	Deactivate previous scenario
 						//...
-						if ( ! this.IsClosed )	{	this.InvokeTransition(); }
+						if ( ! this.IsClosed )
+							{	this.InvokeTransition(); }
+
 						this.Controls.Clear();
 
 						//.............................................
@@ -138,8 +141,6 @@ namespace BxS_Worx.Dashboard.UI
 								while ( this.Span	< this.Config.TransitionSpanMax );
 								//...
 								ln_FinSpan	=	this.Config.TransitionSpanMax	;
-								//if ( ! this.Span.Equals( this.Config.TransitionSpan ) )
-								//	{ this.Span	= this.Config.TransitionSpan; }
 							}
 						else
 							{
@@ -147,8 +148,6 @@ namespace BxS_Worx.Dashboard.UI
 								while ( this.Span	> this.Config.TransitionSpanMin );
 								//...
 								ln_FinSpan	=	this.Config.TransitionSpanMin	;
-								//if ( ! this.Span.Equals( this.Config.TransitionMin ) )
-								//	{ this.Span	= this.Config.TransitionMin; }
 							}
 						//...
 						if ( ! this.Span.Equals( ln_FinSpan ) )
