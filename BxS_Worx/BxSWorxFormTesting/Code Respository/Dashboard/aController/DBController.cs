@@ -141,10 +141,6 @@ namespace BxS_Worx.Dashboard.UI
 						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
 							{
 								lo_Btn.Button		=	ButtonFactory.CreateButton( lo_Btn.ButtonType );
-								//...
-
-
-
 							}
 					}
 

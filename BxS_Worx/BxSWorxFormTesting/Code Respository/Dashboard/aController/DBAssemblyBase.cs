@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -68,8 +69,23 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected	bool LoadButton( IButtonProfile btnProfile )
 					{
-						bool	lb_Ret	= true;
+						bool	lb_Ret	= false;
 						//...
+						IToolBarConfig lo_TBarCfg		= this.GetTBarConfig( btnProfile.ToolbarID );
+
+						if ( lo_TBarCfg != null )
+							{
+								btnProfile.ColourBack		=	lo_TBarCfg.ColourBack		;
+								btnProfile.ColourFocus	=	lo_TBarCfg.ColourFocus	;
+
+								btnProfile.DockStyle		=	lo_TBarCfg.IsHorizontal		?	DockStyle.Left
+																																		: DockStyle.Top		;
+
+								btnProfile.ButtonType		=	lo_TBarCfg.ButtonType.Equals( ButtonTypes.TypeAll )	? btnProfile.Spec.ButtonType
+																																															:	lo_TBarCfg.ButtonType ;
+								//...
+								lb_Ret	= true;
+							}
 						//...
 						if ( lb_Ret )
 							{
@@ -93,25 +109,19 @@ namespace BxS_Worx.Dashboard.UI
 						return	lb_Ret	;
 					}
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private string DetermineButtonType( string toolbarID , string specType )
-				//	{
-				//		string	lc_BtnType	=	ButtonTypes.TypeAll ;
-				//		//...
-				//		if ( this._ToolBars.TryGetValue( toolbarID , out UC_ToolBar lo_TBar ) )
-				//			{
-				//				lc_BtnType	=	lo_TBar.Config.ButtonType	;
-				//			}
-				//		//...
-				//		if ( lc_BtnType.Equals(ButtonTypes.TypeAll) )
-				//			{
-				//				lc_BtnType	=	specType	;
-				//			}
-				//		//...
-				//		return	lc_BtnType	;
-				//	}
+			#endregion
 
+			//===========================================================================================
+			#region "Methods: Private"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	IToolBarConfig GetTBarConfig( string	id )
+					{
+						if ( this._ToolBars.TryGetValue(id , out IToolBarConfig lo_Cfg) )
+							{	}
+						//...
+						return	lo_Cfg;
+					}
 
 			#endregion
 

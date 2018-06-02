@@ -30,12 +30,13 @@ namespace BxS_Worx.Dashboard.UI
 				protected	Panel		_UCImage	;
 				protected	Panel		_UCButton	;
 				protected	Panel		_UCFocus	;
-				protected	Label		_UCText		;
+
+				protected	string	_UCText		;
 				//...
 				protected	Color		_BackColour		;
 				protected	Color		_FocusColour	;
 				//...
-				protected	bool		_HasFocus	;
+				protected	bool		_HasFocus			;
 
 			#endregion
 
@@ -43,12 +44,11 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	int		Index				{	get;	set ; }
-				public	bool	CanHaveText	{	get;	protected	set; }
+				public	int		Index			{	get;	set ; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	bool		HasFocus				{	get	=>	this._HasFocus							;
-																					set	=>	this.SetFocusState( value )	;	}
+				public	bool	HasFocus	{	get	=>	this._HasFocus							;
+																	set	=>	this.SetFocusState( value )	;	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	Color	SetBackColour		{	set	=>	this._BackColour		=	value	;	}
@@ -60,7 +60,10 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	virtual	string	SetText		{	set	=>	this._UCText		.Text							=	value ?? string.Empty	; }
+				public	virtual	DockStyle	SetDockStyle	{	set	=> this.Dock	= value	; }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	virtual	string	SetText		{	set	=>	this._UCText											=	value ?? string.Empty	; }
 				public	virtual	string	SetName		{	set	=>	this._UCButton	.Name							=	value	; }
 				public	virtual	string	SetTag		{	set =>	this._UCButton	.Tag							=	value	; }
 				public	virtual	Image		SetImage	{	set	=>	this._UCImage		.BackgroundImage	=	value	; }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -20,7 +22,11 @@ namespace BxS_Worx.Dashboard.UI
 
 				//...
 				int			ChildCount	{ get; }
-				string	ButtonType	{ get; }
+				string	ButtonType	{ get; set; }
+
+				Color			ColourBack					{ get;  set; }
+				Color			ColourFocus					{ get;  set; }
+				DockStyle	DockStyle						{ get;  set; }
 
 			#endregion
 
@@ -28,7 +34,6 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Routines: Exposed"
 
 				void	AddChild( IButtonProfile	profile );
-				void	ApplyProfile();
 				//...
 				IList<IButtonProfile>	GetSubList();
 

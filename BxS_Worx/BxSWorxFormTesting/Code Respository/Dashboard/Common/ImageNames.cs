@@ -1,16 +1,9 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public interface IButtonSpec
+	public static class ImageNames
 		{
-			#region "Properties"
-
-				string	ID					{ get;  set; }
-				string	ImageID			{ get;  set; }
-				string	Text				{ get;  set; }
-				string	ButtonType	{ get;  set; }
-
-			#endregion
-
+			public	static	string	Logo			{ get	=> "icons8_Unit_25px"			; }
+			public	static	string	Settings	{ get	=> "icons8_Settings_25px"	; }
 		}
 }

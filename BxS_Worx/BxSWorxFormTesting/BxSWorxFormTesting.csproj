@@ -55,6 +55,7 @@
     <Compile Include="Code Respository\Dashboard\aController\DBAssemblyExcel.cs" />
     <Compile Include="Code Respository\Dashboard\aController\DBController.cs" />
     <Compile Include="Code Respository\Dashboard\aController\IDBAssembly.cs" />
+    <Compile Include="Code Respository\Dashboard\Common\ImageNames.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\ButtonFactory.cs" />
     <Compile Include="Code Respository\Utilities\ButtonTypeAttribute.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.cs">

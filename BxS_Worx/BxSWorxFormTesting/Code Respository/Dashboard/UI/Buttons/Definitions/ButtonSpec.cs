@@ -14,14 +14,12 @@ namespace BxS_Worx.Dashboard.UI
 				public	static	IButtonSpec	Create()	=>	new	ButtonSpec();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonSpec	CreateWith(		int			tabIndex
-																								,	string	buttonType
+				public	static	IButtonSpec	CreateWith(		string	buttonType
 																								,	string	id
 																								,	string	imageID
 																								,	string	text			)
 					{
-						return	new ButtonSpec	{		TabIndex			= tabIndex
-																			,	ButtonType		=	buttonType
+						return	new ButtonSpec	{		ButtonType		=	buttonType
 																			,	ID						=	id
 																			,	ImageID				= imageID
 																			,	Text					=	text				}	;
@@ -33,7 +31,6 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	int			TabIndex		{ get;  set; }
 				public	string	ButtonType	{ get;  set; }
 				public	string	ID					{ get;  set; }
 				public	string	ImageID			{ get;  set; }

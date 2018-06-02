@@ -14,8 +14,18 @@ namespace BxS_Worx.Dashboard.UI
 						//...
 						this._UCButton	= this.xpnl_Button		;
 						this._UCImage		= this.xpnl_Button		;
+						this._UCText		=	this.myText		;
 						this._UCFocus		= this.xpnl_Selected	;
 					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Properties"
+
+				private	string	myText;
+
+				public	override	string	SetText		{	set	=> this._UCText		=	string.Empty	; }
 
 			#endregion
 

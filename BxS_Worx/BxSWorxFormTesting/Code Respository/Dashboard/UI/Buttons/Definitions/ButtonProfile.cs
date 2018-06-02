@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
+//.........
+using BxSWorxFormTesting.Properties;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -13,19 +17,19 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						this.ID		= id;
 						//...
-						this.Children		= new	Dictionary<string , IButtonProfile>()	;
+						this._Children		= new	Dictionary<string , IButtonProfile>()	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonProfile	Create()						=>	new	ButtonProfile();
-				public	static	IButtonProfile	Create( string id )	=>	new	ButtonProfile( id );
+				public	static	IButtonProfile	Create()							=>	new	ButtonProfile();
+				public	static	IButtonProfile	Create( string id )		=>	new	ButtonProfile( id );
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Dictionary<string , IButtonProfile>	Children;
+				private readonly Dictionary<string , IButtonProfile>	_Children;
 				//...
 				private	IUC_Button _Button;
 
@@ -46,13 +50,17 @@ namespace BxS_Worx.Dashboard.UI
 				public	EventHandler	OnEventClick					{ get;  set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	int					ChildCount	{	get	=>	this.Children.Count		;	}
-				public	string			ButtonType	{ get	=>	this.Spec.ButtonType	; }
+				public	int					ChildCount	{	get	=>	this._Children.Count		;	}
+				public	string			ButtonType	{ get; set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	IUC_Button	Button			{ get	=>		this._Button;
 																					set			{	this._Button	= value	;
 																										this.ApplyProfile()		;	} }
+
+				public	Color			ColourBack		{ get;  set; }
+				public	Color			ColourFocus		{ get;  set; }
+				public	DockStyle	DockStyle			{ get;  set; }
 
 			#endregion
 
@@ -60,55 +68,46 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	ApplyProfile()
+				public void AddChild( IButtonProfile profile )	=>	this._Children.Add( profile.Spec.ID , profile );
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<IButtonProfile> GetSubList()	=>	this._Children.Values
+																												.OrderByDescending( x	=> x.SeqNo )
+																													.ToList();
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void	ApplyProfile()
 					{
 						if ( this._Button	== null )		{	return; }
 						//...
-						this._Button.SetFocusColour		=	this.Config.ColourFocus	;
-						this._Button.Index						=	item.TabIndex						;
-						this._Button.SetName					=	item.ID									;
-						this._Button.SetTag						= item.ID									;
-
-						if ( ! buttonType.Equals( ButtonType.Standard ) && ! string.IsNullOrEmpty( item.Text ) )
-							{
-								lo_Btn.SetText	=	item.Text	;
-							}
-
-						if ( ! string.IsNullOrEmpty( item.ImageID	) )
-							{
-								lo_Btn.SetImage		=	(Image)Resources.ResourceManager.GetObject( item.ImageID );
-							}
+						this._Button.SetDockStyle		=	this.DockStyle		;
+						this._Button.SetFocusColour	=	this.ColourFocus	;
+						this._Button.SetBackColour	=	this.ColourBack		;
 						//...
-						if ( IsRootNode )
+						this._Button.SetName	= this.Spec.ID				;
+						this._Button.SetTag		= this.Spec.ID				;
+						this._Button.SetText	=	this.Spec.Text			;
+						//...
+						if ( ! string.IsNullOrEmpty( this.Spec.ImageID	) )
 							{
-								lo_Btn.SetClickEventHandler		= this.OnMenuButton_Click		;
-							}
-						else
-							{
-								lo_Btn.SetClickEventHandler		=	this.OnSliderButton_Click	;
+								this._Button.SetImage		=	(Image)Resources.ResourceManager.GetObject( this.Spec.ImageID );
 							}
 
-
-
-						this._Button.SetImage		= this.Spec.ImageID	;
-
-						//buttonProfile.Button.SetImage		=	buttonProfile
-
-						//int			TabIndex		{ get;  set; }
-						//string	ID					{ get;  set; }
-						//string	ImageID			{ get;  set; }
-						//string	Text				{ get;  set; }
-						//string	ButtonType	{ get;  set; }
-
+						////...
+						//if ( IsRootNode )
+						//	{
+						//		lo_Btn.SetClickEventHandler		= this.OnMenuButton_Click		;
+						//	}
+						//else
+						//	{
+						//		lo_Btn.SetClickEventHandler		=	this.OnSliderButton_Click	;
+						//	}
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddChild( IButtonProfile profile )	=>	this.Children.Add( profile.Spec.ID , profile );
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IButtonProfile> GetSubList()	=>	this.Children.Values
-																												.OrderByDescending( x	=> x.Spec.TabIndex )
-																													.ToList();
 
 			#endregion
 

@@ -37,38 +37,47 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadButtonsFromSource()
 					{
-						IButtonSpec b1	= ButtonSpec.CreateWith( 1 , ButtonTypes.TypeStd , "ID1" , "icons8_Settings_25px" , "Settings" )	;
-						IButtonSpec b2	= ButtonSpec.CreateWith( 2 , ButtonTypes.TypeStd , "ID2" , "icons8_Settings_25px" , "Settings" )	;
-						IButtonSpec b3	= ButtonSpec.CreateWith( 3 , ButtonTypes.TypeStd , "ID1" , "icons8_Settings_25px" , "Settings" )	;
+						IButtonSpec b1	= ButtonSpec.CreateWith( ButtonTypes.TypeStd , "ID1" , ImageNames.Settings	, "Settings" )	;
+						IButtonSpec b2	= ButtonSpec.CreateWith( ButtonTypes.TypeFlp , "ID2" , ImageNames.Logo			, "Logo" )	;
+						IButtonSpec b3	= ButtonSpec.CreateWith( ButtonTypes.TypeStd , "ID1" , "icons8_Settings_25px" , "Settings" )	;
+						//...
+						IButtonProfile	BP1	= ButtonProfile.Create( "BP1" );
 
-						IButtonProfile	x1	= ButtonProfile.Create( "x1" );
+						BP1.Spec				=	b1		;
+						BP1.SeqNo				= 01		;
+						BP1.ToolbarID		=	"TB1"	;
+						BP1.ScenarioID	= "SC1"	;
 
-						x1.Spec				=	b1		;
-						x1.ToolbarID	=	"X1"	;
-						x1.ScenarioID	= "SC1"	;
+						this.LoadButton( BP1 );
+						//...
+						IButtonProfile	BP2	= ButtonProfile.Create( "BP2" );
 
-						this._BtnProf.Add( x1.ID , x1 );
+						BP2.Spec				=	b2		;
+						BP2.SeqNo				= 02		;
+						BP2.ToolbarID		=	"TB1"	;
+						BP2.ScenarioID	= "SC1"	;
+
+						this.LoadButton( BP2 );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadToolbarsFromSource()
 					{
-						IToolBarConfig TB1	= ToolBarConfig.CreateWithDefaults();		TB1.ID	= "X1";		TB1.SeqNo	= 1	;
-						IToolBarConfig TB2	= ToolBarConfig.CreateWithDefaults();		TB2.ID	= "X2";		TB2.SeqNo	= 2	;
+						IToolBarConfig TB1	= ToolBarConfig.CreateWithDefaults();		TB1.ID	= "TB1";		TB1.SeqNo	= 1	;
+						IToolBarConfig TB2	= ToolBarConfig.CreateWithDefaults();		TB2.ID	= "TB2";		TB2.SeqNo	= 2	;
 						//...
 						TB2.ColourBack					= System.Drawing.Color.Aquamarine;
 						TB2.IsHorizontal				= true	;
-						TB2.TransitionSpeed		=	10		;
-						TB2.TransitionSpanMin	= 03		;
+						TB2.TransitionSpeed			=	10		;
+						TB2.TransitionSpanMin		= 03		;
 
 						TB1.IsStartupToolBar		= true	;
 						TB1.StartupScenario			=	"SC1"	;
 						TB1.TransitionSpanMin		= 03		;
 						TB1.ButtonType					= ButtonTypes.TypeStd	;
-
 						//...
-						this._ToolBars.Add(	TB1.ID	,	TB1 )	;
-						this._ToolBars.Add(	TB2.ID	,	TB2 )	;
+						this.LoadToolbar( TB1 );
+						this.LoadToolbar( TB2 );
 					}
 
 			#endregion

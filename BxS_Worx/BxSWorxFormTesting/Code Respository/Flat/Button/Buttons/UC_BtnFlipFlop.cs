@@ -18,7 +18,7 @@ namespace BxS_Worx.Dashboard.UI
 						this._UCButton	= this.xpnl_Button	;
 						this._UCImage		= this.xpnl_Image		;
 						this._UCFocus		= this.xpnl_Button	;
-						this._UCText		= this.xlbl_BtnText	;
+						this._UCText		= this.xlbl_BtnText.Text	;
 					}
 
 			#endregion

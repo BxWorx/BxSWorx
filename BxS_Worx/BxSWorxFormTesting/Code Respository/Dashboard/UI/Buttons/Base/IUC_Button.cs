@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -22,7 +23,7 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				EventHandler	SetClickEventHandler	{ set; }
 
-				bool		CanHaveText		{	get;	set; }
+				DockStyle	SetDockStyle	{	set; }
 
 			#endregion
 
