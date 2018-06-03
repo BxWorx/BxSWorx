@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -107,6 +108,14 @@ namespace BxS_Worx.Dashboard.UI
 							}
 						//...
 						return	lb_Ret	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected void OnButtonClick_RouteScenario( object sender , EventArgs e	)
+					{
+						var			lo_Btn	= (Control)sender				;
+						string	lc_Tag	= lo_Btn.Tag.ToString()	;
+						//...
 					}
 
 			#endregion

@@ -33,6 +33,7 @@ namespace BxS_Worx.Dashboard.UI
 
 				private	IToolBarConfig	_Config				;
 				private	string					_ActScenario	;
+				private	string					_ActButton		;
 				//...
 				private readonly Dictionary<string , IList<IUC_Button>>	_ButtonScenarios	;
 

@@ -47,7 +47,7 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				public	IButtonSpec		Spec		{ get;  set; }
 				//...
-				public	EventHandler	OnEventClick					{ get;  set; }
+				public	EventHandler	OnClickHandler	{ get;  set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	int					ChildCount	{	get	=>	this._Children.Count		;	}
@@ -85,28 +85,20 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						if ( this._Button	== null )		{	return; }
 						//...
-						this._Button.SetDockStyle		=	this.DockStyle		;
-						this._Button.SetFocusColour	=	this.ColourFocus	;
-						this._Button.SetBackColour	=	this.ColourBack		;
+						this._Button.SetDockStyle						=	this.DockStyle			;
+						this._Button.SetFocusColour					=	this.ColourFocus		;
+						this._Button.SetBackColour					=	this.ColourBack			;
+						this._Button.SetClickEventHandler		=	this.OnClickHandler	;
 						//...
-						this._Button.SetName	= this.Spec.ID				;
-						this._Button.SetTag		= this.Spec.ID				;
-						this._Button.SetText	=	this.Spec.Text			;
+						this._Button.SetName	= this.Spec.ID		;
+						this._Button.SetTag		= this.Spec.Tag		;
+						this._Button.SetText	=	this.Spec.Text	;
 						//...
 						if ( ! string.IsNullOrEmpty( this.Spec.ImageID	) )
 							{
 								this._Button.SetImage		=	(Image)Resources.ResourceManager.GetObject( this.Spec.ImageID );
 							}
-
-						////...
-						//if ( IsRootNode )
-						//	{
-						//		lo_Btn.SetClickEventHandler		= this.OnMenuButton_Click		;
-						//	}
-						//else
-						//	{
-						//		lo_Btn.SetClickEventHandler		=	this.OnSliderButton_Click	;
-						//	}
+						//...
 					}
 
 			#endregion

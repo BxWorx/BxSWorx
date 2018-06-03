@@ -18,7 +18,7 @@ namespace BxS_Worx.Dashboard.UI
 				IButtonSpec		Spec					{ get;  set; }
 				IUC_Button		Button				{ get;  set; }
 				//...
-				EventHandler	OnEventClick	{ get;  set; }
+				EventHandler	OnClickHandler	{ get;  set; }
 
 				//...
 				int			ChildCount	{ get; }

@@ -16,13 +16,15 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	static	IButtonSpec	CreateWith(		string	buttonType
 																								,	string	id
+																								, string	tag
 																								,	string	imageID
 																								,	string	text			)
 					{
-						return	new ButtonSpec	{		ButtonType		=	buttonType
-																			,	ID						=	id
-																			,	ImageID				= imageID
-																			,	Text					=	text				}	;
+						return	new ButtonSpec	{		ButtonType	=	buttonType
+																			,	ID					=	id
+																			,	Tag					= tag
+																			,	ImageID			= imageID
+																			,	Text				=	text				}	;
 					}
 
 			#endregion
@@ -33,6 +35,7 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	string	ButtonType	{ get;  set; }
 				public	string	ID					{ get;  set; }
+				public	string	Tag					{ get;  set; }
 				public	string	ImageID			{ get;  set; }
 				public	string	Text				{ get;  set; }
 

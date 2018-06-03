@@ -37,25 +37,31 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadButtonsFromSource()
 					{
-						IButtonSpec b1	= ButtonSpec.CreateWith( ButtonTypes.TypeStd , "ID1" , ImageNames.Settings	, "Settings" )	;
-						IButtonSpec b2	= ButtonSpec.CreateWith( ButtonTypes.TypeFlp , "ID2" , ImageNames.Logo			, "Logo" )	;
-						IButtonSpec b3	= ButtonSpec.CreateWith( ButtonTypes.TypeStd , "ID1" , "icons8_Settings_25px" , "Settings" )	;
-						//...
 						IButtonProfile	BP1	= ButtonProfile.Create( "BP1" );
 
-						BP1.Spec				=	b1		;
-						BP1.SeqNo				= 01		;
-						BP1.ToolbarID		=	"TB1"	;
-						BP1.ScenarioID	= "SC1"	;
+						BP1.SeqNo						= 01		;
+						BP1.ToolbarID				=	"TB1"	;
+						BP1.ScenarioID			= "SC1"	;
+						BP1.OnClickHandler	= this.OnButtonClick_RouteScenario	;
+						BP1.Spec						=	ButtonSpec.CreateWith(	ButtonTypes.TypeStd
+																												, "ID1"
+																												, "<TB>TB2;<SC>SC1"
+																												, ImageNames.Settings
+																												, "Settings"					)	;
 
 						this.LoadButton( BP1 );
 						//...
 						IButtonProfile	BP2	= ButtonProfile.Create( "BP2" );
 
-						BP2.Spec				=	b2		;
-						BP2.SeqNo				= 02		;
-						BP2.ToolbarID		=	"TB1"	;
-						BP2.ScenarioID	= "SC1"	;
+						BP2.SeqNo						= 02		;
+						BP2.ToolbarID				=	"TB1"	;
+						BP2.ScenarioID			= "SC1"	;
+						BP2.OnClickHandler	= this.OnButtonClick_RouteScenario	;
+						BP2.Spec						=	ButtonSpec.CreateWith(	ButtonTypes.TypeFlp
+																												, "ID2"
+																												, "<TB>TB2;<SC>SC2"
+																												, ImageNames.Logo
+																												, "Settings"					)	;
 
 						this.LoadButton( BP2 );
 					}
