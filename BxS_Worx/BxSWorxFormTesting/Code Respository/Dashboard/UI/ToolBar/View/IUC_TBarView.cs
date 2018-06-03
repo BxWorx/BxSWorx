@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Toolbar
 {
@@ -6,15 +7,18 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 		{
 			#region "Properties"
 
-				UserControl					ViewUC				{ get; }
-				Control							ButtonCanvas	{ get; }
-				IUC_TBarViewConfig	Config				{ set; }
+				IUC_TBarViewConfig	Config	{ set; }
+				UserControl					ViewUC	{ get; }
 
 			#endregion
 
+			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void InvokeTransition();
+				void	LoadButtons( IList<IUC_Button>	buttonList , bool	doLayout = false )	;
+				//...
+				void	ApplyConfig()				;
+				void	InvokeTransition()	;
 
 			#endregion
 

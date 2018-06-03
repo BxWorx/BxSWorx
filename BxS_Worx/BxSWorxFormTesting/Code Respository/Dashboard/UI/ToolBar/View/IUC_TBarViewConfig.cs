@@ -9,8 +9,9 @@ namespace BxS_Worx.Dashboard.UI
 				Color			ColourBack					{ get;  set; }
 				Color			ColourFocus					{ get;  set; }
 				//...
+				bool			IsHorizontal				{ get;  set; }
 				bool			CanTransition				{ get;  set; }
-
+				//...
 				int				TransitionSpanMin		{ get;  set; }
 				int				TransitionSpanMax		{ get;  set; }
 				int				TransitionSpeed			{ get;  set; }

@@ -57,11 +57,12 @@
     <Compile Include="Code Respository\Dashboard\aController\IDBAssembly.cs" />
     <Compile Include="Code Respository\Dashboard\Common\ImageNames.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\ButtonFactory.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\aController\IUC_TBarSetup.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\aController\UC_TBarPresenter.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\IUC_TBarSetup.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarPresenter.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarFactory.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\IUC_TBarModel.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\UC_TBarModel.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\ViewModel\UC_TBarViewModel.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\UC_TBarViewConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarViewConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarView.cs" />
     <Compile Include="Code Respository\Utilities\ButtonTypeAttribute.cs" />
@@ -73,9 +74,9 @@
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonTypes.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\IButtonProfile.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonProfile.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\aController\ToolBarConfig.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\ToolBarConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Form\Config\DBFormConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\aController\IToolBarConfig.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\IToolBarConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Form\Config\IDBFormConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Form\Form\BxS_DashBoardForm.cs">
       <SubType>Form</SubType>
@@ -200,9 +201,10 @@
     <None Include="Resources\icons8_Settings_25px.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Code Respository\Dashboard\Config\" />
-    <Folder Include="Code Respository\Dashboard\Members\" />
     <Folder Include="Code Respository\Flat\MenuItem\" />
+    <Folder Include="Code Respository\zKeep\Config\" />
+    <Folder Include="Code Respository\zKeep\Members\" />
+    <Folder Include="Code Respository\zKeep\ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

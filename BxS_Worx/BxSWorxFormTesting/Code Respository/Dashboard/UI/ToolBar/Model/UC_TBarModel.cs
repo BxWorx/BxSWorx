@@ -23,10 +23,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#endregion
 
 			//===========================================================================================
-			#region "Properties"
-			#endregion
-
-			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -64,7 +60,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Routines: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void	AddScenario( string id )	=>	this._Scenarios.Add( id , new	Dictionary<string , IUC_Button>() );
+				private void	AddScenario( string id )	=>	this._Scenarios.Add(	id
+																																				, new	Dictionary<string , IUC_Button>() );
 
 			#endregion
 

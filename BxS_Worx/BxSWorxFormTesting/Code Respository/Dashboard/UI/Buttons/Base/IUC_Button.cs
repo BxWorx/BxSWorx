@@ -8,7 +8,7 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
-				string ID	{	get;	set; }
+				string ID		{	get;	set; }
 				int		Index	{	get;	set; }
 				//...
 				string	SetText		{	set; }
