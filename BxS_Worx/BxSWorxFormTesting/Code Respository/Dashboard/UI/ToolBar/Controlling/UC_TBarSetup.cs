@@ -1,20 +1,20 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public interface IUC_TBarSetup
+	internal class UC_TBarSetup : IUC_TBarSetup
 		{
 			#region "Properties"
 
-				string		ID									{ get;  set; }
-				int				SeqNo								{ get;  set; }
+				public	string	ID								{ get;  set; }
+				public	int			SeqNo							{ get;  set; }
 				//...
-				bool			IsHorizontal				{ get;  set; }
-				bool			ShowOnstartup				{ get;  set; }
+				public	bool		IsHorizontal			{ get;  set; }
+				public	bool		ShowOnstartup			{ get;  set; }
 				//...
-				string		ButtonType					{ get;  set; }
+				public	string	ButtonType				{ get;  set; }
 				//...
-				bool			IsStartupToolBar		{ get;  set; }
-				string		StartupScenario			{ get;  set; }
+				public	bool		IsStartupToolBar	{ get;  set; }
+				public	string	StartupScenario		{ get;  set; }
 
 			#endregion
 

@@ -1,22 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Window
 {
-	public interface IDBAssembly
+	internal interface IDB_View
 		{
 			#region "Properties"
 
-				IDBViewConfig	FormConfig { get; }
-				//...
-				IList<IToolBarConfig>	ToolBarList	{ get; }
-				IList<IButtonProfile>	ButtonList	{ get; }
+				IDB_ViewConfig	Config		{ set; }
+				Form						ViewForm	{ get; }
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods"
+			#region "Methods: Exposed"
 
-				void Load();
+				//void	LoadToolBars( IList<IUC_Button>	buttonList , bool	doLayout = false )	;
+				////...
+				//void	ApplyConfig()				;
+				//void	InvokeTransition()	;
 
 			#endregion
 

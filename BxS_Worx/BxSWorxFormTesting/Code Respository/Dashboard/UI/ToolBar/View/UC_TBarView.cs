@@ -9,28 +9,24 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private UC_TBarView()
+				internal UC_TBarView()
 					{
 						InitializeComponent()	;
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	static	UC_TBarView		Create()	=>	new UC_TBarView();
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private	IUC_TBarViewConfig	_Config	;
-				//...
 				private	delegate	int		GetSpan()						;
 				private	delegate	void	SetSpan( int size )	;
 				//...
-				private GetSpan	_SpanGet;
-				private SetSpan	_SpanSet;
+				private	IUC_TBarViewConfig	_Config		;
+				private GetSpan							_SpanGet	;
+				private SetSpan							_SpanSet	;
 				//...
-				private	bool	_IsClosed;
+				private	bool								_IsClosed	;
 
 			#endregion
 

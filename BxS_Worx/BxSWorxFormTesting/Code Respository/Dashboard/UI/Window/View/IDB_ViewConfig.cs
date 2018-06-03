@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Window
 {
-	public interface IDBFormConfig
+	public interface IDB_ViewConfig
 		{
 			#region "Properties"
 

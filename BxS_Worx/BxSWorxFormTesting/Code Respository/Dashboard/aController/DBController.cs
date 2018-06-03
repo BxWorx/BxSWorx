@@ -15,7 +15,7 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DBController()
 					{
-						this._DBForm		=	new	Lazy<BxS_DashboardForm>	(	()=>		BxS_DashboardForm.Create()
+						this._DBForm		=	new	Lazy<DB_View>	(	()=>		DB_View.Create()
 																																	, LazyThreadSafetyMode.ExecutionAndPublication	);
 						//...
 						this._ToolBars	= new	Dictionary<string, UC_TBarView>()	;
@@ -35,7 +35,7 @@ namespace BxS_Worx.Dashboard.UI
 				private	string	_StartupTBar			;
 				private	string	_StartupScenario	;
 				//...
-				private readonly	Lazy<BxS_DashboardForm>		_DBForm		;
+				private readonly	Lazy<DB_View>		_DBForm		;
 				//...
 				private	IDBAssembly		_Assembly	;
 				//...
@@ -47,7 +47,7 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Properties"
 
-				public	BxS_DashboardForm		Form			{	get =>	this._DBForm.Value			; }
+				public	DB_View		Form			{	get =>	this._DBForm.Value			; }
 				public	IDBAssembly					Assembly	{ set	=>	this._Assembly	= value	;	}
 
 			#endregion

@@ -1,13 +1,13 @@
 ﻿using System.Drawing;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Window
 {
-	internal sealed class UC_TBarViewConfig : IUC_TBarViewConfig
+	public sealed class DB_ViewConfig : IDB_ViewConfig
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UC_TBarViewConfig()
+				internal DB_ViewConfig()
 					{	}
 
 			#endregion
@@ -15,15 +15,9 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Properties"
 
-				public	Color	ColourBack					{ get;  set; }
-				public	Color	ColourFocus					{ get;  set; }
-				//...
-				public	bool	IsHorizontal				{ get;  set; }
-				public	bool	CanTransition				{ get;  set; }
-				//...
-				public	int		TransitionSpanMin		{ get;  set; }
-				public	int		TransitionSpanMax		{ get;  set; }
-				public	int		TransitionSpeed			{ get;  set; }
+				public	Color		ColourBack		{ get;  set; }
+				public	Color		ColourMove		{ get;  set; }
+				public	Color		ColourHead		{ get;  set; }
 
 			#endregion
 

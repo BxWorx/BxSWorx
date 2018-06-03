@@ -1,20 +1,16 @@
 ﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI.Toolbar
+namespace BxS_Worx.Dashboard.UI.Window
 {
-	internal class UC_TBarPresenter
+	internal class DB_ViewPresenter
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UC_TBarPresenter(	IUC_TBarSetup		setup
-																	,	IUC_TBarModel		model
-																	,	IUC_TBarView		view		)
+				internal DB_ViewPresenter(	IDB_ViewConfig	config
+																	,	IDB_View				view		)
 					{
-						this._Setup		= setup	;
-						this._Model		=	model	;
-						this._View		= view	;
-						//...
-						this._CurScenario		= string.Empty	;
+						this._Setup		= config	;
+						this._View		= view		;
 					}
 
 			#endregion
@@ -22,28 +18,14 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly	IUC_TBarSetup		_Setup	;
-				private	readonly	IUC_TBarModel		_Model	;
-				private	readonly	IUC_TBarView		_View		;
-				//...
-				private	string	_CurScenario	;
+				private readonly	IDB_ViewConfig	_Setup	;
+				private	readonly	IDB_View				_View		;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ChangeScenario( string	id )
-					{
-						if ( ! this._CurScenario.Equals(id) )
-							{
-								this._View.LoadButtons( this._Model.ScenarioButtons( id ) )	;
-								this._CurScenario		= id;
-							}
-						//...
-						this._View.InvokeTransition()	;
-					}
 
 			#endregion
 

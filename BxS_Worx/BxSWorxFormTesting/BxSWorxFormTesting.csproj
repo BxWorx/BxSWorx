@@ -57,6 +57,7 @@
     <Compile Include="Code Respository\Dashboard\aController\IDBAssembly.cs" />
     <Compile Include="Code Respository\Dashboard\Common\ImageNames.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\ButtonFactory.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarSetup.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\IUC_TBarSetup.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarPresenter.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarFactory.cs" />
@@ -65,6 +66,9 @@
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\UC_TBarViewConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarViewConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarView.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Window\Controlling\DB_ViewFactory.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Window\Controlling\DB_ViewPresenter.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Window\View\IDB_View.cs" />
     <Compile Include="Code Respository\Utilities\ButtonTypeAttribute.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.cs">
       <SubType>UserControl</SubType>
@@ -74,15 +78,13 @@
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonTypes.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\IButtonProfile.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonProfile.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\ToolBarConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Form\Config\DBFormConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\IToolBarConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Form\Config\IDBFormConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Form\Form\BxS_DashBoardForm.cs">
+    <Compile Include="Code Respository\Dashboard\UI\Window\View\DB_ViewConfig.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Window\View\IDB_ViewConfig.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Window\View\DB_View.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Code Respository\Dashboard\UI\Form\Form\BxS_DashBoardForm.Designer.cs">
-      <DependentUpon>BxS_DashBoardForm.cs</DependentUpon>
+    <Compile Include="Code Respository\Dashboard\UI\Window\View\DB_View.Designer.cs">
+      <DependentUpon>DB_View.cs</DependentUpon>
     </Compile>
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\UC_TBarView.cs">
       <SubType>UserControl</SubType>
@@ -129,8 +131,8 @@
     <EmbeddedResource Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.resx">
       <DependentUpon>UC_BtnBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Code Respository\Dashboard\UI\Form\Form\BxS_DashBoardForm.resx">
-      <DependentUpon>BxS_DashBoardForm.cs</DependentUpon>
+    <EmbeddedResource Include="Code Respository\Dashboard\UI\Window\View\DB_View.resx">
+      <DependentUpon>DB_View.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Code Respository\Dashboard\UI\ToolBar\View\UC_TBarView.resx">
       <DependentUpon>UC_TBarView.cs</DependentUpon>

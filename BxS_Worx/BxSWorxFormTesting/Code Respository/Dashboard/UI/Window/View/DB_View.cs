@@ -4,27 +4,24 @@ using System.Windows.Forms;
 //.........................................................
 using BxS_Worx.Dashboard.UI.Toolbar;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Window
 {
-	public sealed partial class BxS_DashboardForm : Form
+	public sealed partial class DB_View : Form , IDB_View
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private BxS_DashboardForm()
+				internal DB_View()
 					{
 						InitializeComponent()	;
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	BxS_DashboardForm Create()	=>	new	BxS_DashboardForm();
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
-				private	IDBFormConfig		_Config	;
+				private	IDB_ViewConfig		_Config	;
 				//...
 				private	bool		_MoveActive		;
 				private	Point		_MoveLocation	;
@@ -34,15 +31,16 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Properties"
 
+				public Form	ViewForm	{ get; }
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDBFormConfig	Config	{ get	=>		this._Config	;
-																				set			{	this._Config	= value	;
+				public IDB_ViewConfig	Config	{ set			{	this._Config	= value	;
 																									this.ApplyConfig()		;	}	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Color		ColourBack		{ get	=>	this.Config.ColourBack	; }
-				private	Color		ColourMove		{ get	=>	this.Config.ColourMove	; }
-				private	Color		ColourHead		{ get	=>	this.Config.ColourHead	; }
+				private	Color		ColourBack		{ get	=>	this._Config.ColourBack	; }
+				private	Color		ColourMove		{ get	=>	this._Config.ColourMove	; }
+				private	Color		ColourHead		{ get	=>	this._Config.ColourHead	; }
 
 			#endregion
 
@@ -63,8 +61,8 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ApplyConfig()
 					{
-						this.xpnl_WindowHeader.BackColor	= this.Config.ColourHead;
-						this.BackColor										= this.Config.ColourBack;
+						this.xpnl_WindowHeader.BackColor	= this._Config.ColourHead;
+						this.BackColor										= this._Config.ColourBack;
 					}
 
 			#endregion
