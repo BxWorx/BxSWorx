@@ -4,12 +4,12 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public sealed partial class UC_ToolBar : UserControl
+	public sealed partial class UC_TBarViewx
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private UC_ToolBar()
+				private UC_TBarViewx()
 					{
 						InitializeComponent()	;
 						//...
@@ -18,12 +18,12 @@ namespace BxS_Worx.Dashboard.UI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	UC_ToolBar Create()	=>	new	UC_ToolBar();
+				public	static	UC_TBarView Create()	=>	new	UC_TBarView();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	UC_ToolBar CreateWithConfig( IToolBarConfig config )
+				public	static	UC_TBarView CreateWithConfig( IToolBarConfig config )
 					{
-						return	new UC_ToolBar	{	Config = config	};
+						return	new UC_TBarView	{	Config = config	};
 					}
 
 			#endregion

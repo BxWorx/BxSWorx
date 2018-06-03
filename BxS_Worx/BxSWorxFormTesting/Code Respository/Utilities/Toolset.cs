@@ -1,12 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.Utilities
 {
 	public static class Toolset
 		{
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public static List<string> GetChangedProperties<T>(T objA, T objB) where T:class
+					{
+						if ( objA != null && objB != null )
+							{
+								if ( ! object.Equals( objA , objB ) )
+									{
+										PropertyInfo[]	allProperties		= objA.GetType().GetProperties(	BindingFlags.Public | BindingFlags.Instance );
+										//...
+										return	allProperties
+															.Where	( p => !object.Equals( p.GetValue(objA) , p.GetValue(objB) ) )
+															.Select	( p => p.Name )
+															.ToList()	;
+									}
+							}
+						//...
+						return	new List<string>();
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static List<string> ClassNamesImplementingIFaceOf<T>() where T:class

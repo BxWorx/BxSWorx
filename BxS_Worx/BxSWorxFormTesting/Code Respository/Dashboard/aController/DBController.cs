@@ -17,7 +17,7 @@ namespace BxS_Worx.Dashboard.UI
 						this._DBForm		=	new	Lazy<BxS_DashboardForm>	(	()=>		BxS_DashboardForm.Create()
 																																	, LazyThreadSafetyMode.ExecutionAndPublication	);
 						//...
-						this._ToolBars	= new	Dictionary<string, UC_ToolBar>()	;
+						this._ToolBars	= new	Dictionary<string, UC_TBarView>()	;
 						this._BtnSpecs	= new	Dictionary<string, IButtonSpec>()	;
 						//...
 						this._StartupTBar	= string.Empty	;
@@ -38,7 +38,7 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				private	IDBAssembly		_Assembly	;
 				//...
-				private readonly Dictionary<string , UC_ToolBar>		_ToolBars	;
+				private readonly Dictionary<string , UC_TBarView>		_ToolBars	;
 				private readonly Dictionary<string , IButtonSpec>		_BtnSpecs	;
 
 			#endregion
@@ -57,7 +57,7 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	Startup()
 					{
-						if ( this._ToolBars.TryGetValue( this._StartupTBar , out UC_ToolBar lo_TBar ) )
+						if ( this._ToolBars.TryGetValue( this._StartupTBar , out UC_TBarView lo_TBar ) )
 							{
 								lo_TBar.ChangeScenario( this._StartupScenario )	;
 							}
@@ -83,11 +83,20 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Private: Toolbar"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	void	LoadToolBarsOntoForm()
+					{
+						foreach ( UC_TBarView lo_TBar in this._ToolBars.Values )
+							{
+								this._DBForm.Value.LoadToolbar( lo_TBar );
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	AssembleToolbars()
 					{
 						foreach ( IToolBarConfig lo_TBCfg in	this._Assembly.ToolBarList )
 							{
-								this._ToolBars.Add( lo_TBCfg.ID , UC_ToolBar.CreateWithConfig( lo_TBCfg ) )	;
+								this._ToolBars.Add( lo_TBCfg.ID , UC_TBarView.CreateWithConfig( lo_TBCfg ) )	;
 								//...
 								if ( ! string.IsNullOrEmpty( lo_TBCfg.ID ) )
 									{
@@ -108,15 +117,6 @@ namespace BxS_Worx.Dashboard.UI
 							}
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void	LoadToolBarsOntoForm()
-					{
-						foreach ( UC_ToolBar lo_TBar in this._ToolBars.Values )
-							{
-								this._DBForm.Value.LoadToolbar( lo_TBar );
-							}
-					}
-
 			#endregion
 
 			//===========================================================================================
@@ -127,7 +127,7 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
 							{
-								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_ToolBar lo_TBar ) )
+								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_TBarView lo_TBar ) )
 									{
 										lo_TBar.LoadButton( lo_Btn.ScenarioID , lo_Btn.Button );
 									}

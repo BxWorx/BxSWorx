@@ -1,30 +1,24 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public interface IUC_Button
+	public interface IUC_TBarSetup
 		{
 			#region "Properties"
 
-				string ID	{	get;	set; }
-				int		Index	{	get;	set; }
+				string		ID									{ get;  set; }
+				int				SeqNo								{ get;  set; }
 				//...
-				string	SetText		{	set; }
-				string	SetName		{	set; }
-				string	SetTag		{	set; }
+				DockStyle	Dock								{ get;			 }
 				//...
-				bool		HasFocus	{	get;	set; }
+				bool			IsHorizontal				{ get;  set; }
+				bool			ShowOnstartup				{ get;  set; }
 				//...
-				Color		SetBackColour		{	set; }
-				Color		SetFocusColour	{	set; }
+				string		ButtonType					{ get;  set; }
 				//...
-				Image		SetImage	{	set; }
-				//...
-				EventHandler	SetClickEventHandler	{ set; }
-
-				DockStyle	SetDockStyle	{	set; }
+				bool			IsStartupToolBar		{ get;  set; }
+				string		StartupScenario			{ get;  set; }
 
 			#endregion
 

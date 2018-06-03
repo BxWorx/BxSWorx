@@ -1,6 +1,6 @@
-﻿namespace BxS_Worx.Dashboard.UI
+﻿namespace BxS_Worx.Dashboard.UI.Toolbar
 	{
-	partial class UC_ToolBar
+	partial class UC_TBarView
 		{
 		/// <summary> 
 		/// Required designer variable.
@@ -34,12 +34,10 @@
 			// xpnl_Bar
 			// 
 			this.xpnl_Bar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.xpnl_Bar.Location = new System.Drawing.Point(0, 0);
+			this.xpnl_Bar.Location = new System.Drawing.Point(0 , 0);
 			this.xpnl_Bar.Name = "xpnl_Bar";
-			this.xpnl_Bar.Size = new System.Drawing.Size(45, 45);
+			this.xpnl_Bar.Size = new System.Drawing.Size(45 , 45);
 			this.xpnl_Bar.TabIndex = 0;
-			this.xpnl_Bar.Click += new System.EventHandler(this.OnClick);
-			this.xpnl_Bar.MouseHover += new System.EventHandler(this.OnMouseHover);
 			// 
 			// UC_ToolBar
 			// 
@@ -48,7 +46,7 @@
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.Controls.Add(this.xpnl_Bar);
 			this.Name = "UC_ToolBar";
-			this.Size = new System.Drawing.Size(45, 45);
+			this.Size = new System.Drawing.Size(45 , 45);
 			this.ResumeLayout(false);
 
 			}
