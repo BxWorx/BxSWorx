@@ -1,8 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System								;
+using System.Drawing				;
+using System.Windows.Forms	;
 //.........................................................
-using BxS_Worx.Dashboard.UI.Toolbar;
+using BxS_Worx.Dashboard.UI.Toolbar	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Window
 {
@@ -31,11 +31,12 @@ namespace BxS_Worx.Dashboard.UI.Window
 			//===========================================================================================
 			#region "Properties"
 
-				public Form	ViewForm	{ get; }
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public Form	ViewForm	{ get	=>	this ; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDB_ViewConfig	Config	{ set			{	this._Config	= value	;
-																									this.ApplyConfig()		;	}	}
+				public IDB_ViewConfig	Config	{ set	{	this._Config	= value	;
+																							this.ApplyConfig()		;	}	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	Color		ColourBack		{ get	=>	this._Config.ColourBack	; }
@@ -48,9 +49,9 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void LoadToolbar( UC_TBarView toolBar )
+				public void LoadToolbar( UC_TBarPresenter toolBar )
 					{
-						this.xpnl_UserArea.Controls.Add( toolBar );
+						this.xpnl_UserArea.Controls.Add( toolBar.View.ViewUC );
 					}
 
 			#endregion

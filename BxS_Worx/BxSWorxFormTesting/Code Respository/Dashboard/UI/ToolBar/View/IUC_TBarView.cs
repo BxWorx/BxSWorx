@@ -17,7 +17,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 				void	LoadButtons( IList<IUC_Button>	buttonList , bool	doLayout = false )	;
 				//...
-				void	ApplyConfig()				;
 				void	InvokeTransition()	;
 
 			#endregion

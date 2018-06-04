@@ -33,8 +33,10 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Properties"
 
-				public	IUC_TBarViewConfig	Config	{ set	=>	this._Config	= value ; }
-				public	UserControl					ViewUC	{ get	=>	this									; }
+				public	IUC_TBarViewConfig	Config	{ set	{	this._Config	= value ;
+																										this.ApplyConfig()		;	} }
+				//...
+				public	UserControl					ViewUC	{ get	=>	this	; }
 
 			#endregion
 
@@ -54,14 +56,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 							}
 						//...
 						this.ResumeLayout( doLayout );
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void ApplyConfig()
-					{
-						this.Prepare();
-						//...
-						this.BackColor	= this._Config.ColourBack	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -96,6 +90,14 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 			//===========================================================================================
 			#region "Routines: Private"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void ApplyConfig()
+					{
+						this.Prepare();
+						//...
+						this.BackColor	= this._Config.ColourBack	;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void Prepare()

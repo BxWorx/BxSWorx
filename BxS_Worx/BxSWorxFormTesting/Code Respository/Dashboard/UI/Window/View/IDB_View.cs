@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+//.........................................................
+using BxS_Worx.Dashboard.UI.Toolbar;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Window
 {
@@ -15,10 +16,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//void	LoadToolBars( IList<IUC_Button>	buttonList , bool	doLayout = false )	;
-				////...
-				//void	ApplyConfig()				;
-				//void	InvokeTransition()	;
+				void LoadToolbar( UC_TBarPresenter toolBar );
 
 			#endregion
 

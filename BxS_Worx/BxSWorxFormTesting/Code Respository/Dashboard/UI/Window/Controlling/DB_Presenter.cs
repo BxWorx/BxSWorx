@@ -15,16 +15,13 @@ namespace BxS_Worx.Dashboard.UI.Window
 																	,	IDB_View				view		)
 					{
 						this._Config	= config	;
-						this._View		= view		;
+						this.View			= view		;
 						//...
-						this._ToolBars	= new	Dictionary<string, UC_TBarView>()	;
-						this._BtnSpecs	= new	Dictionary<string, IButtonSpec>()	;
+						this._ToolBars	= new	Dictionary<string, UC_TBarPresenter>()	;
+						this._BtnSpecs	= new	Dictionary<string, IButtonSpec>()				;
 						//...
 						this._StartupTBar	= string.Empty	;
 					}
-
-						//this._DBForm		=	new	Lazy<DB_View>	(	()=>		DB_View.Create()
-						//																						, LazyThreadSafetyMode.ExecutionAndPublication	);
 
 			#endregion
 
@@ -32,24 +29,21 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Declarations"
 
 				private readonly	IDB_ViewConfig	_Config	;
-				private	readonly	IDB_View				_View		;
 
 				private	string	_StartupTBar			;
 				private	string	_StartupScenario	;
 				//...
-				//private readonly	Lazy<iDB_View>		_DBForm		;
-				//...
 				private	IDBAssembly		_Assembly	;
 				//...
-				private readonly Dictionary<string , UC_TBarView>		_ToolBars	;
-				private readonly Dictionary<string , IButtonSpec>		_BtnSpecs	;
+				private readonly Dictionary<string , UC_TBarPresenter>	_ToolBars	;
+				private readonly Dictionary<string , IButtonSpec>				_BtnSpecs	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	IDB_View		View			{	get =>	this._View							; }
+				public	IDB_View		View			{	get; }
 				public	IDBAssembly	Assembly	{ set	=>	this._Assembly	= value	;	}
 
 			#endregion
@@ -60,7 +54,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	Startup()
 					{
-						if ( this._ToolBars.TryGetValue( this._StartupTBar , out UC_TBarView lo_TBar ) )
+						if ( this._ToolBars.TryGetValue( this._StartupTBar , out UC_TBarPresenter lo_TBar ) )
 							{
 								//lo_TBar.ChangeScenario( this._StartupScenario )	;
 							}
@@ -71,7 +65,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 					{
 						if ( this._Assembly	== null	)		return;
 						//...
-						this._View.Config		=	this._Assembly.FormConfig	;
+						this.View.Config		=	this._Assembly.FormConfig	;
 						//...
 						this.AssembleToolbars()	;
 						this.AssembleButtons()	;
@@ -88,36 +82,42 @@ namespace BxS_Worx.Dashboard.UI.Window
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadToolBarsOntoForm()
 					{
-						foreach ( UC_TBarView lo_TBar in this._ToolBars.Values )
+						foreach ( UC_TBarPresenter lo_TBar in this._ToolBars.Values )
 							{
-								//this._View.LoadToolbar( lo_TBar );
+								lo_TBar.ApplyConfigurations()	;
+								//...
+								this.View.LoadToolbar( lo_TBar ) ;
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	AssembleToolbars()
 					{
-						//foreach ( IToolBarConfig lo_TBCfg in	this._Assembly.ToolBarList )
-						//	{
-						//		this._ToolBars.Add( lo_TBCfg.ID , UC_TBarView.CreateWithConfig( lo_TBCfg ) )	;
-						//		//...
-						//		if ( ! string.IsNullOrEmpty( lo_TBCfg.ID ) )
-						//			{
-						//				if (		string.IsNullOrEmpty( this._StartupTBar )
-						//						||	lo_TBCfg.IsStartupToolBar									)
-						//					{
-						//						this._StartupTBar		= lo_TBCfg.ID	;
-						//					}
-						//			}
-						//		//...
-						//		if ( ! string.IsNullOrEmpty( lo_TBCfg.StartupScenario ) )
-						//			{
-						//				if ( string.IsNullOrEmpty( this._StartupScenario ) )
-						//					{
-						//						this._StartupScenario		= lo_TBCfg.StartupScenario	;
-						//					}
-						//			}
-						//	}
+						foreach ( IUC_TBarSetup lo_TBCfg in	this._Assembly.ToolBarList )
+							{
+								IUC_TBarModel			lo_TBM	= DB_Factory.CreateTBModel()	;
+								IUC_TBarView			lo_TBV	= DB_Factory.CreateTBView()		;
+								UC_TBarPresenter	lo_TBP	= DB_Factory.CreateTBPresenter( lo_TBCfg , lo_TBM , lo_TBV )	;
+
+								this._ToolBars.Add( lo_TBCfg.ID , lo_TBP );
+								//...
+								if ( ! string.IsNullOrEmpty( lo_TBCfg.ID ) )
+									{
+										if (		string.IsNullOrEmpty( this._StartupTBar )
+												||	lo_TBCfg.IsStartupToolBar									)
+											{
+												this._StartupTBar		= lo_TBCfg.ID	;
+											}
+									}
+								//...
+								if ( ! string.IsNullOrEmpty( lo_TBCfg.StartupScenario ) )
+									{
+										if ( string.IsNullOrEmpty( this._StartupScenario ) )
+											{
+												this._StartupScenario		= lo_TBCfg.StartupScenario	;
+											}
+									}
+							}
 					}
 
 			#endregion
@@ -130,7 +130,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 					{
 						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
 							{
-								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_TBarView lo_TBar ) )
+								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_TBarPresenter lo_TBar ) )
 									{
 										//lo_TBar.LoadButton( lo_Btn.ScenarioID , lo_Btn.Button );
 									}

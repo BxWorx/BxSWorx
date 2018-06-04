@@ -6,26 +6,8 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private ButtonSpec()
-					{
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonSpec	Create()	=>	new	ButtonSpec();
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonSpec	CreateWith(		string	buttonType
-																								,	string	id
-																								, string	tag
-																								,	string	imageID
-																								,	string	text			)
-					{
-						return	new ButtonSpec	{		ButtonType	=	buttonType
-																			,	ID					=	id
-																			,	Tag					= tag
-																			,	ImageID			= imageID
-																			,	Text				=	text				}	;
-					}
+				internal ButtonSpec()
+					{	}
 
 			#endregion
 

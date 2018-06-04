@@ -102,6 +102,27 @@ namespace BxS_Worx.Dashboard.UI
 						return	Activator.CreateInstance( lo_BtnType )	as IUC_Button;
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	IButtonSpec	CreateButtonSpec()	=>	new	ButtonSpec();
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	IButtonSpec	CreateButtonSpecWith(		string	buttonType
+																													,	string	id
+																													, string	tag
+																													,	string	imageID
+																													,	string	text			)
+					{
+						return	new ButtonSpec	{		ButtonType	=	buttonType
+																			,	ID					=	id
+																			,	Tag					= tag
+																			,	ImageID			= imageID
+																			,	Text				=	text				}	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	IButtonProfile	CreateButtonProfile()							=>	new	ButtonProfile();
+				public	static	IButtonProfile	CreateButtonProfile( string id )	=>	new	ButtonProfile( id );
+
 			#endregion
 
 			//===========================================================================================

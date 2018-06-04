@@ -13,16 +13,12 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private ButtonProfile( string	id = "" )
+				internal ButtonProfile( string	id = "" )
 					{
 						this.ID		= id;
 						//...
 						this._Children		= new	Dictionary<string , IButtonProfile>()	;
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonProfile	Create()							=>	new	ButtonProfile();
-				public	static	IButtonProfile	Create( string id )		=>	new	ButtonProfile( id );
 
 			#endregion
 

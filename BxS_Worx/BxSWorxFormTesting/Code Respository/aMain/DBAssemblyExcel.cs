@@ -36,31 +36,31 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadButtonsFromSource()
 					{
-						IButtonProfile	BP1	= ButtonProfile.Create( "BP1" );
+						IButtonProfile	BP1	= DB_Factory.CreateButtonProfile( "BP1" );
 
 						BP1.SeqNo						= 01		;
 						BP1.ToolbarID				=	"TB1"	;
 						BP1.ScenarioID			= "SC1"	;
 						BP1.OnClickHandler	= this.OnButtonClick_RouteScenario	;
-						BP1.Spec						=	ButtonSpec.CreateWith(	ButtonTypes.TypeStd
-																												, "ID1"
-																												, "<TB>TB2;<SC>SC1"
-																												, ImageNames.Settings
-																												, "Settings"					)	;
+						BP1.Spec						=	DB_Factory.CreateButtonSpecWith(	ButtonTypes.TypeStd
+																																	, "ID1"
+																																	, "<TB>TB2;<SC>SC1"
+																																	, ImageNames.Settings
+																																	, "Settings"					)	;
 
 						this.LoadButton( BP1 );
 						//...
-						IButtonProfile	BP2	= ButtonProfile.Create( "BP2" );
+						IButtonProfile	BP2	=	DB_Factory.CreateButtonProfile( "BP2" );
 
 						BP2.SeqNo						= 02		;
 						BP2.ToolbarID				=	"TB1"	;
 						BP2.ScenarioID			= "SC1"	;
 						BP2.OnClickHandler	= this.OnButtonClick_RouteScenario	;
-						BP2.Spec						=	ButtonSpec.CreateWith(	ButtonTypes.TypeFlp
-																												, "ID2"
-																												, "<TB>TB2;<SC>SC2"
-																												, ImageNames.Logo
-																												, "Settings"					)	;
+						BP2.Spec						=	DB_Factory.CreateButtonSpecWith(	ButtonTypes.TypeFlp
+																																	, "ID2"
+																																	, "<TB>TB2;<SC>SC2"
+																																	, ImageNames.Logo
+																																	, "Settings"					)	;
 
 						this.LoadButton( BP2 );
 					}
@@ -74,6 +74,7 @@ namespace BxS_Worx.Dashboard.UI
 						TB1.StartupScenario		=	"SC1"	;
 						TB1.ButtonType				= ButtonTypes.TypeStd	;
 
+						TB1.ViewConfig.ColourBack					= System.Drawing.Color.Aqua	;
 						TB1.ViewConfig.TransitionSpanMin	= 05	;
 
 						this.LoadToolbar( TB1 )	;
