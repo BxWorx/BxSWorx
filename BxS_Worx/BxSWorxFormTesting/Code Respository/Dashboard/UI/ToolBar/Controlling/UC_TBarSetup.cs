@@ -1,4 +1,5 @@
-﻿//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+﻿using System.Drawing	;
+//•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
 	internal class UC_TBarSetup : IUC_TBarSetup
@@ -15,6 +16,9 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				public	bool		IsStartupToolBar	{ get;  set; }
 				public	string	StartupScenario		{ get;  set; }
+				//...
+				public	Color		ColourBack				{ get	=>	this.ViewConfig.ColourBack	; }
+				public	Color		ColourFocus				{ get	=>	this.ViewConfig.ColourFocus	; }
 				//...
 				public	IUC_TBarViewConfig	ViewConfig	{ get;  set; }
 

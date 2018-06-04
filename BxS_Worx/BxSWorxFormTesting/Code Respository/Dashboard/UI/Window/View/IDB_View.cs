@@ -3,7 +3,7 @@ using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Window
 {
-	internal interface IDB_View
+	public interface IDB_View
 		{
 			#region "Properties"
 

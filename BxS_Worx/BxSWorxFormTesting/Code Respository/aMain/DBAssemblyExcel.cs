@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic	;
+using System.Linq									;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -9,8 +9,7 @@ namespace BxS_Worx.Dashboard.UI
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DBAssemblyExcel()	: base()
-					{
-					}
+					{	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	static	IDBAssembly	Create()	=>	new	DBAssemblyExcel();
@@ -69,21 +68,23 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadToolbarsFromSource()
 					{
-						IToolBarConfig TB1	= ToolBarConfig.CreateWithDefaults();		TB1.ID	= "TB1";		TB1.SeqNo	= 1	;
-						IToolBarConfig TB2	= ToolBarConfig.CreateWithDefaults();		TB2.ID	= "TB2";		TB2.SeqNo	= 2	;
-						//...
-						TB2.ColourBack					= System.Drawing.Color.Aquamarine;
-						TB2.IsHorizontal				= true	;
-						TB2.TransitionSpeed			=	10		;
-						TB2.TransitionSpanMin		= 03		;
+						IUC_TBarSetup	TB1		=	DB_Factory.CreateTBSetup();	TB1.ID	= "TB1";	TB1.SeqNo	= 1	;	TB1.IsHorizontal	= false	;
 
-						TB1.IsStartupToolBar		= true	;
-						TB1.StartupScenario			=	"SC1"	;
-						TB1.TransitionSpanMin		= 03		;
-						TB1.ButtonType					= ButtonTypes.TypeStd	;
+						TB1.IsStartupToolBar	= true	;
+						TB1.StartupScenario		=	"SC1"	;
+						TB1.ButtonType				= ButtonTypes.TypeStd	;
+
+						TB1.ViewConfig.TransitionSpanMin	= 05	;
+
+						this.LoadToolbar( TB1 )	;
 						//...
-						this.LoadToolbar( TB1 );
-						this.LoadToolbar( TB2 );
+						IUC_TBarSetup	TB2		= DB_Factory.CreateTBSetup();	TB2.ID	= "TB2";	TB2.SeqNo	= 2	;	TB2.IsHorizontal	= true	;
+
+						TB2.ViewConfig.ColourBack					= System.Drawing.Color.Aquamarine	;
+						TB2.ViewConfig.TransitionSpeed		=	10	;
+						TB2.ViewConfig.TransitionSpanMin	= 03	;
+
+						this.LoadToolbar( TB2 )	;
 					}
 
 			#endregion

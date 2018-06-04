@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System												;
+using System.Collections.Generic		;
+using System.Linq										;
+using System.Windows.Forms					;
+//.........................................................
+using BxS_Worx.Dashboard.UI.Window	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -30,7 +32,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IDBViewConfig	FormConfig	{ get;	private set; }
+				public	IDB_ViewConfig	FormConfig	{ get;	private set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	IList<IUC_TBarSetup>	ToolBarList	{ get	=>	this._ToolBars.Values
@@ -50,7 +52,7 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public virtual void	LoadFromSource()
 					{
-						this.FormConfig		= DBViewConfig.CreateWithDefaults()	;
+						this.FormConfig		=	DB_Factory.CreateDBViewConfigWithDefaults();
 					}
 
 			#endregion
@@ -97,7 +99,7 @@ namespace BxS_Worx.Dashboard.UI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected	bool LoadToolbar( IToolBarConfig tbarConfig )
+				protected	bool LoadToolbar( IUC_TBarSetup tbarConfig )
 					{
 						bool	lb_Ret	= true;
 						//...
@@ -124,9 +126,9 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	IToolBarConfig GetTBarConfig( string	id )
+				private	IUC_TBarSetup GetTBarConfig( string	id )
 					{
-						if ( this._ToolBars.TryGetValue(id , out IToolBarConfig lo_Cfg) )
+						if ( this._ToolBars.TryGetValue(id , out IUC_TBarSetup lo_Cfg) )
 							{	}
 						//...
 						return	lo_Cfg;

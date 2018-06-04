@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System											;
+using System.Collections.Generic	;
 //.........................................................
-using BxS_Worx.Dashboard.UI.Buttons;
-using BxS_Worx.Dashboard.UI.Toolbar;
+using BxS_Worx.Dashboard.UI.Toolbar	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Window
 {
 	//***********************************************************************************************
-	public sealed class DBController
+	public sealed class DB_ViewPresenter
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DBController()
+				internal DB_ViewPresenter(	IDB_ViewConfig	config
+																	,	IDB_View				view		)
 					{
-						this._DBForm		=	new	Lazy<DB_View>	(	()=>		DB_View.Create()
-																																	, LazyThreadSafetyMode.ExecutionAndPublication	);
+						this._Config	= config	;
+						this._View		= view		;
 						//...
 						this._ToolBars	= new	Dictionary<string, UC_TBarView>()	;
 						this._BtnSpecs	= new	Dictionary<string, IButtonSpec>()	;
@@ -24,18 +23,21 @@ namespace BxS_Worx.Dashboard.UI
 						this._StartupTBar	= string.Empty	;
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static DBController Create()	=>	new DBController();
+						//this._DBForm		=	new	Lazy<DB_View>	(	()=>		DB_View.Create()
+						//																						, LazyThreadSafetyMode.ExecutionAndPublication	);
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
 
+				private readonly	IDB_ViewConfig	_Config	;
+				private	readonly	IDB_View				_View		;
+
 				private	string	_StartupTBar			;
 				private	string	_StartupScenario	;
 				//...
-				private readonly	Lazy<DB_View>		_DBForm		;
+				//private readonly	Lazy<iDB_View>		_DBForm		;
 				//...
 				private	IDBAssembly		_Assembly	;
 				//...
@@ -47,8 +49,8 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Properties"
 
-				public	DB_View		Form			{	get =>	this._DBForm.Value			; }
-				public	IDBAssembly					Assembly	{ set	=>	this._Assembly	= value	;	}
+				public	IDB_View		View			{	get =>	this._View							; }
+				public	IDBAssembly	Assembly	{ set	=>	this._Assembly	= value	;	}
 
 			#endregion
 
@@ -60,7 +62,7 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						if ( this._ToolBars.TryGetValue( this._StartupTBar , out UC_TBarView lo_TBar ) )
 							{
-								lo_TBar.ChangeScenario( this._StartupScenario )	;
+								//lo_TBar.ChangeScenario( this._StartupScenario )	;
 							}
 					}
 
@@ -69,7 +71,7 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						if ( this._Assembly	== null	)		return;
 						//...
-						this._DBForm.Value.Config		=	this._Assembly.FormConfig	;
+						this._View.Config		=	this._Assembly.FormConfig	;
 						//...
 						this.AssembleToolbars()	;
 						this.AssembleButtons()	;
@@ -88,34 +90,34 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						foreach ( UC_TBarView lo_TBar in this._ToolBars.Values )
 							{
-								this._DBForm.Value.LoadToolbar( lo_TBar );
+								//this._View.LoadToolbar( lo_TBar );
 							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	AssembleToolbars()
 					{
-						foreach ( IToolBarConfig lo_TBCfg in	this._Assembly.ToolBarList )
-							{
-								this._ToolBars.Add( lo_TBCfg.ID , UC_TBarView.CreateWithConfig( lo_TBCfg ) )	;
-								//...
-								if ( ! string.IsNullOrEmpty( lo_TBCfg.ID ) )
-									{
-										if (		string.IsNullOrEmpty( this._StartupTBar )
-												||	lo_TBCfg.IsStartupToolBar									)
-											{
-												this._StartupTBar		= lo_TBCfg.ID	;
-											}
-									}
-								//...
-								if ( ! string.IsNullOrEmpty( lo_TBCfg.StartupScenario ) )
-									{
-										if ( string.IsNullOrEmpty( this._StartupScenario ) )
-											{
-												this._StartupScenario		= lo_TBCfg.StartupScenario	;
-											}
-									}
-							}
+						//foreach ( IToolBarConfig lo_TBCfg in	this._Assembly.ToolBarList )
+						//	{
+						//		this._ToolBars.Add( lo_TBCfg.ID , UC_TBarView.CreateWithConfig( lo_TBCfg ) )	;
+						//		//...
+						//		if ( ! string.IsNullOrEmpty( lo_TBCfg.ID ) )
+						//			{
+						//				if (		string.IsNullOrEmpty( this._StartupTBar )
+						//						||	lo_TBCfg.IsStartupToolBar									)
+						//					{
+						//						this._StartupTBar		= lo_TBCfg.ID	;
+						//					}
+						//			}
+						//		//...
+						//		if ( ! string.IsNullOrEmpty( lo_TBCfg.StartupScenario ) )
+						//			{
+						//				if ( string.IsNullOrEmpty( this._StartupScenario ) )
+						//					{
+						//						this._StartupScenario		= lo_TBCfg.StartupScenario	;
+						//					}
+						//			}
+						//	}
 					}
 
 			#endregion
@@ -130,7 +132,7 @@ namespace BxS_Worx.Dashboard.UI
 							{
 								if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_TBarView lo_TBar ) )
 									{
-										lo_TBar.LoadButton( lo_Btn.ScenarioID , lo_Btn.Button );
+										//lo_TBar.LoadButton( lo_Btn.ScenarioID , lo_Btn.Button );
 									}
 							}
 					}
@@ -140,7 +142,7 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						foreach ( IButtonProfile lo_Btn in this._Assembly.ButtonList )
 							{
-								lo_Btn.Button		=	ButtonFactory.CreateButton( lo_Btn.ButtonType );
+								lo_Btn.Button		=	DB_Factory.CreateButton( lo_Btn.ButtonType );
 							}
 					}
 

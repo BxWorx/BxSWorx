@@ -52,11 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code Respository\Dashboard\aController\DBAssemblyBase.cs" />
-    <Compile Include="Code Respository\Dashboard\aController\DBAssemblyExcel.cs" />
-    <Compile Include="Code Respository\Dashboard\aController\DBController.cs" />
+    <Compile Include="Code Respository\aMain\DBAssemblyExcel.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Window\Controlling\DB_Presenter.cs" />
     <Compile Include="Code Respository\Dashboard\aController\IDBAssembly.cs" />
     <Compile Include="Code Respository\Dashboard\Common\ImageNames.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\ButtonFactory.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarSetup.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\IUC_TBarSetup.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarPresenter.cs" />
@@ -66,7 +65,6 @@
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\UC_TBarViewConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarViewConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarView.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Window\Controlling\DB_ViewPresenter.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Window\View\IDB_View.cs" />
     <Compile Include="Code Respository\Utilities\ButtonTypeAttribute.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.cs">
