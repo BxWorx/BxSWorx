@@ -60,13 +60,12 @@
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarSetup.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\IUC_TBarSetup.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarPresenter.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Controlling\UC_TBarFactory.cs" />
+    <Compile Include="Code Respository\Dashboard\aController\DB_Factory.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\IUC_TBarModel.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\UC_TBarModel.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\UC_TBarViewConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarViewConfig.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarView.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\Window\Controlling\DB_ViewFactory.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Window\Controlling\DB_ViewPresenter.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Window\View\IDB_View.cs" />
     <Compile Include="Code Respository\Utilities\ButtonTypeAttribute.cs" />

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+//.........................................................
+using BxS_Worx.Dashboard.UI.Window;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -6,9 +8,9 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
-				IDBViewConfig	FormConfig { get; }
+				IDB_ViewConfig	FormConfig { get; }
 				//...
-				IList<IToolBarConfig>	ToolBarList	{ get; }
+				IList<IUC_TBarSetup>	ToolBarList	{ get; }
 				IList<IButtonProfile>	ButtonList	{ get; }
 
 			#endregion
@@ -16,7 +18,7 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Methods"
 
-				void Load();
+				void LoadFromSource();
 
 			#endregion
 

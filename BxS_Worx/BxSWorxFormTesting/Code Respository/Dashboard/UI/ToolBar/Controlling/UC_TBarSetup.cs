@@ -15,6 +15,8 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				public	bool		IsStartupToolBar	{ get;  set; }
 				public	string	StartupScenario		{ get;  set; }
+				//...
+				public	IUC_TBarViewConfig	ViewConfig	{ get;  set; }
 
 			#endregion
 

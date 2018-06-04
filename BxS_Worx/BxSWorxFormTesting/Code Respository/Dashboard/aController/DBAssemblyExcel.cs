@@ -21,9 +21,9 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public override void	Load()
+				public override void	LoadFromSource()
 					{
-						base.Load();
+						base.LoadFromSource();
 						//...
 						this.LoadToolbarsFromSource()	;
 						this.LoadButtonsFromSource()	;

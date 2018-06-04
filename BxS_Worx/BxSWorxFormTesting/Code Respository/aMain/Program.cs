@@ -20,7 +20,7 @@ namespace BxSWorxFormTesting
 					var					DBCntlr			= DBController.Create();
 					IDBAssembly	DBAssembly	= DBAssemblyExcel.Create();
 					//...
-					DBAssembly.Load();
+					DBAssembly.LoadFromSource();
 					//...
 					DBCntlr.Assembly	=	DBAssembly ;
 					DBCntlr.AssembleDashboard();

@@ -12,7 +12,7 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected DBAssemblyBase()
 					{
-						this._ToolBars	= new	Dictionary<string, IToolBarConfig>()	;
+						this._ToolBars	= new	Dictionary<string, IUC_TBarSetup>	()	;
 						this._BtnProf		= new	Dictionary<string, IButtonProfile>()	;
 					}
 
@@ -21,7 +21,7 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	Dictionary<string , IToolBarConfig>		_ToolBars	;
+				private	readonly	Dictionary<string , IUC_TBarSetup>		_ToolBars	;
 				private	readonly	Dictionary<string , IButtonProfile>		_BtnProf	;
 
 			#endregion
@@ -33,7 +33,7 @@ namespace BxS_Worx.Dashboard.UI
 				public	IDBViewConfig	FormConfig	{ get;	private set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IList<IToolBarConfig>	ToolBarList	{ get	=>	this._ToolBars.Values
+				public	IList<IUC_TBarSetup>	ToolBarList	{ get	=>	this._ToolBars.Values
 																															.OrderByDescending( x => x.SeqNo )
 																																.ToList(); }
 
@@ -48,7 +48,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public virtual void	Load()
+				public virtual void	LoadFromSource()
 					{
 						this.FormConfig		= DBViewConfig.CreateWithDefaults()	;
 					}
@@ -72,7 +72,7 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						bool	lb_Ret	= false;
 						//...
-						IToolBarConfig lo_TBarCfg		= this.GetTBarConfig( btnProfile.ToolbarID );
+						IUC_TBarSetup lo_TBarCfg		= this.GetTBarConfig( btnProfile.ToolbarID );
 
 						if ( lo_TBarCfg != null )
 							{
