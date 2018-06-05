@@ -18,10 +18,8 @@ namespace BxSWorxFormTesting
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
 					//...
-					IDB_ViewConfig		lo_DBVCfg		= DB_Factory.CreateDBViewConfig()												;
-					IDB_View					lo_DBView		=	DB_Factory.CreateDBView()															;
-					DB_ViewPresenter	lo_DBP			=	DB_Factory.CreateDBPresenter( lo_DBVCfg , lo_DBView )	;
-					IDBAssembly				lo_DBAss		= DBAssemblyExcel.Create()															;
+					DB_Presenter	lo_DBP			=	DB_Factory.CreateDBPresenter()	;
+					IDBAssembly				lo_DBAss		= DBAssemblyExcel.Create()				;
 					//...
 					lo_DBAss.LoadFromSource()		;
 					//...

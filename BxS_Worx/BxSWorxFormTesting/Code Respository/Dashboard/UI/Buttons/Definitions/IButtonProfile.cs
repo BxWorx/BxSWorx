@@ -9,13 +9,12 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
-				string				ID						{ get;  set; }
+				string				ID						{ get;	set; }
 				int						SeqNo					{ get;  set; }
 				//...
 				string				ScenarioID		{ get;  set; }
 				string				ToolbarID			{ get;  set; }
 				//...
-				IButtonSpec		Spec					{ get;  set; }
 				IUC_Button		Button				{ get;  set; }
 				//...
 				EventHandler	OnClickHandler	{ get;  set; }
@@ -26,7 +25,12 @@ namespace BxS_Worx.Dashboard.UI
 
 				Color			ColourBack					{ get;  set; }
 				Color			ColourFocus					{ get;  set; }
+
 				DockStyle	DockStyle						{ get;  set; }
+
+				string	Tag					{ get;  set; }
+				string	ImageID			{ get;  set; }
+				string	Text				{ get;  set; }
 
 			#endregion
 

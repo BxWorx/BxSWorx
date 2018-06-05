@@ -40,7 +40,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void ApplyConfigurations()
+				internal void Startup()
 					{
 						this._Setup.ViewConfig.IsHorizontal		= this._Setup.IsHorizontal	;
 						//...
@@ -57,6 +57,12 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 							}
 						//...
 						this.View.InvokeTransition()	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void LoadButton( IButtonProfile button )
+					{
+						this._Model.LoadButton( button.ScenarioID , button.Button );
 					}
 
 			#endregion

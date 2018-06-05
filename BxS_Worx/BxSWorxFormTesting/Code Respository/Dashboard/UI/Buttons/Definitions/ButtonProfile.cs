@@ -35,13 +35,11 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	string	ID			{ get;  set; }
+				public	string	ID			{ get;	set; }
 				public	int			SeqNo		{ get;  set; }
 				//...
 				public	string	ScenarioID	{ get;  set; }
 				public	string	ToolbarID		{ get;  set; }
-				//...
-				public	IButtonSpec		Spec		{ get;  set; }
 				//...
 				public	EventHandler	OnClickHandler	{ get;  set; }
 
@@ -58,13 +56,17 @@ namespace BxS_Worx.Dashboard.UI
 				public	Color			ColourFocus		{ get;  set; }
 				public	DockStyle	DockStyle			{ get;  set; }
 
+				public	string	Tag					{ get;  set; }
+				public	string	ImageID			{ get;  set; }
+				public	string	Text				{ get;  set; }
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddChild( IButtonProfile profile )	=>	this._Children.Add( profile.Spec.ID , profile );
+				public void AddChild( IButtonProfile profile )	=>	this._Children.Add( profile.ID , profile );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IList<IButtonProfile> GetSubList()	=>	this._Children.Values
@@ -85,16 +87,15 @@ namespace BxS_Worx.Dashboard.UI
 						this._Button.SetFocusColour					=	this.ColourFocus		;
 						this._Button.SetBackColour					=	this.ColourBack			;
 						this._Button.SetClickEventHandler		=	this.OnClickHandler	;
+						this._Button.ID											= this.ID							;
+						this._Button.SetName								= this.ID							;
+						this._Button.SetTag									= this.Tag						;
+						this._Button.SetText								=	this.Text						;
 						//...
-						this._Button.SetName	= this.Spec.ID		;
-						this._Button.SetTag		= this.Spec.Tag		;
-						this._Button.SetText	=	this.Spec.Text	;
-						//...
-						if ( ! string.IsNullOrEmpty( this.Spec.ImageID	) )
+						if ( ! string.IsNullOrEmpty( this.ImageID	) )
 							{
-								this._Button.SetImage		=	(Image)Resources.ResourceManager.GetObject( this.Spec.ImageID );
+								this._Button.SetImage		=	(Image)Resources.ResourceManager.GetObject( this.ImageID );
 							}
-						//...
 					}
 
 			#endregion

@@ -57,6 +57,14 @@ namespace BxS_Worx.Dashboard.UI
 				internal	static	IUC_TBarModel				CreateTBModel()	=>	new	UC_TBarModel	();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal	static	UC_TBarPresenter		CreateTBPresenter( IUC_TBarSetup	setup )
+					{
+						IUC_TBarModel	lo_TBM	= DB_Factory.CreateTBModel()	;
+						IUC_TBarView	lo_TBV	= DB_Factory.CreateTBView()		;
+						//...
+						return	DB_Factory.CreateTBPresenter( setup , lo_TBM , lo_TBV )	;
+					}
+
 				internal	static	UC_TBarPresenter		CreateTBPresenter(	IUC_TBarSetup		setup
 																																,	IUC_TBarModel		model
 																																,	IUC_TBarView		view	)	=>	new	UC_TBarPresenter(		setup
@@ -84,8 +92,16 @@ namespace BxS_Worx.Dashboard.UI
 				public	static	IDB_View					CreateDBView()	=>	new	DB_View();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	DB_ViewPresenter	CreateDBPresenter(	IDB_ViewConfig	config
-																														,	IDB_View				view		)	=>	new	DB_ViewPresenter(		config
+				public	static	DB_Presenter	CreateDBPresenter()
+					{
+						IDB_ViewConfig	lo_DBVCfg		= CreateDBViewConfig()	;
+						IDB_View				lo_DBView		=	CreateDBView()				;
+						//...
+						return	CreateDBPresenter( lo_DBVCfg , lo_DBView )	;
+					}
+
+				public	static	DB_Presenter	CreateDBPresenter(	IDB_ViewConfig	config
+																														,	IDB_View				view		)	=>	new	DB_Presenter(		config
 																																																									, view		);
 
 			#endregion
@@ -103,25 +119,21 @@ namespace BxS_Worx.Dashboard.UI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonSpec	CreateButtonSpec()	=>	new	ButtonSpec();
+				public	static	IButtonProfile	CreateButtonProfile()							=>	new	ButtonProfile();
+				public	static	IButtonProfile	CreateButtonProfile( string id )	=>	new	ButtonProfile( id );
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonSpec	CreateButtonSpecWith(		string	buttonType
-																													,	string	id
-																													, string	tag
-																													,	string	imageID
-																													,	string	text			)
+				public	static	IButtonProfile	CreateButtonProfile(	string	id
+																														,	string	buttonType
+																														, string	tag
+																														,	string	imageID
+																														,	string	text			)
 					{
-						return	new ButtonSpec	{		ButtonType	=	buttonType
-																			,	ID					=	id
+						return	new ButtonProfile	{ ID					= id
+																			, ButtonType	=	buttonType
 																			,	Tag					= tag
 																			,	ImageID			= imageID
 																			,	Text				=	text				}	;
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IButtonProfile	CreateButtonProfile()							=>	new	ButtonProfile();
-				public	static	IButtonProfile	CreateButtonProfile( string id )	=>	new	ButtonProfile( id );
 
 			#endregion
 

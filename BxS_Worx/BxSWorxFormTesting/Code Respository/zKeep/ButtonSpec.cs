@@ -15,11 +15,10 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	string	ButtonType	{ get;  set; }
-				public	string	ID					{ get;  set; }
 				public	string	Tag					{ get;  set; }
 				public	string	ImageID			{ get;  set; }
 				public	string	Text				{ get;  set; }
+				public	string	ButtonType	{ get;  set; }
 
 			#endregion
 

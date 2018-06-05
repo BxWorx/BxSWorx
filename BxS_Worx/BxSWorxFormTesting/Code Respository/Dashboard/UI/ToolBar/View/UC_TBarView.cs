@@ -116,6 +116,10 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 								this._SpanGet		=	this.GetSpanAsWidth		;
 								this._SpanSet		=	this.SetSpanAsWidth		;
 							}
+						//...
+						this._IsClosed	= true;
+						this._SpanSet( this._Config.TransitionSpanMin );
+
 					}
 
 			#endregion

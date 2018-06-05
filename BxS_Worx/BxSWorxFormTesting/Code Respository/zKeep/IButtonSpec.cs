@@ -5,7 +5,6 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
-				string	ID					{ get;  set; }
 				string	Tag					{ get;  set; }
 				string	ImageID			{ get;  set; }
 				string	Text				{ get;  set; }

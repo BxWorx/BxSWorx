@@ -60,14 +60,14 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Methods: Local"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected	bool ValidateButtonSpec( IButtonSpec btnSpec )
-					{
-						bool	lb_Ret	= true;
-						//...
-						//...
-						return	lb_Ret	;
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//protected	bool ValidateButtonSpec( IButtonSpec btnSpec )
+				//	{
+				//		bool	lb_Ret	= true;
+				//		//...
+				//		//...
+				//		return	lb_Ret	;
+				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected	bool LoadButton( IButtonProfile btnProfile )
@@ -84,8 +84,10 @@ namespace BxS_Worx.Dashboard.UI
 								btnProfile.DockStyle		=	lo_TBarCfg.IsHorizontal		?	DockStyle.Left
 																																		: DockStyle.Top		;
 
-								btnProfile.ButtonType		=	lo_TBarCfg.ButtonType.Equals( ButtonTypes.TypeAll )	? btnProfile.Spec.ButtonType
-																																															:	lo_TBarCfg.ButtonType ;
+								if ( ! lo_TBarCfg.ButtonType.Equals( ButtonTypes.TypeAll ) )
+									{
+										btnProfile.ButtonType		=	lo_TBarCfg.ButtonType ;
+									}
 								//...
 								lb_Ret	= true;
 							}
