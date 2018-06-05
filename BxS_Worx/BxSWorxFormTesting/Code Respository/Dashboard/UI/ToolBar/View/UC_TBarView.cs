@@ -122,7 +122,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 							}
 						//...
 						this._IsClosed	= true;
-						this._SpanSet(	this._Config.TransitionSpeed.Equals(0)	?	this._Config.TransitionSpanMax : this._Config.TransitionSpanMin );
+						this._SpanSet(	this._Config.TransitionSpeed.Equals(0)	?	this._Config.TransitionSpanMax
+																																		:	this._Config.TransitionSpanMin );
 					}
 
 			#endregion

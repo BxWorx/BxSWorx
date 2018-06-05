@@ -78,6 +78,16 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Methods: Private: Toolbar"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				protected void OnButtonClick_RouteScenario( object sender , EventArgs e	)
+					{
+						var	lo_Btn	= (Control)sender				;
+						var	lo_Tag	= (TagData) lo_Btn.Tag	;
+						//...
+					}
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadToolBarsOntoForm()
 					{
 						foreach ( UC_TBarPresenter lo_TBar in this._ToolBars.Values )
