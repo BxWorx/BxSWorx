@@ -66,7 +66,7 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	virtual	string	SetText		{	set	=>	this._UCText											=	value ?? string.Empty	; }
 				public	virtual	string	SetName		{	set	=>	this._UCButton	.Name							=	value	; }
-				public	virtual	string	SetTag		{	set =>	this._UCButton	.Tag							=	value	; }
+				public	virtual	object	SetTag		{	set =>	this._UCButton	.Tag							=	value	; }
 				public	virtual	Image		SetImage	{	set	=>	this._UCImage		.BackgroundImage	=	value	; }
 				//...
 				public	virtual	EventHandler	SetClickEventHandler	{ set	=> this._UCButton.Click	+= value; }

@@ -28,7 +28,7 @@ namespace BxS_Worx.Dashboard.UI
 
 				DockStyle	DockStyle						{ get;  set; }
 
-				string	Tag					{ get;  set; }
+				object	Tag					{ get;  set; }
 				string	ImageID			{ get;  set; }
 				string	Text				{ get;  set; }
 

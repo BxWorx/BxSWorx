@@ -34,7 +34,6 @@ namespace BxS_Worx.Dashboard.UI
 																							,	ColourFocus					= Color.FromArgb( 255 , 031 , 031 , 031 )
 
 																							, IsHorizontal				= false
-																							,	CanTransition				= true
 
 																							,	TransitionSpanMin		= 05
 																							,	TransitionSpanMax		=	48
@@ -101,8 +100,8 @@ namespace BxS_Worx.Dashboard.UI
 					}
 
 				public	static	DB_Presenter	CreateDBPresenter(	IDB_ViewConfig	config
-																														,	IDB_View				view		)	=>	new	DB_Presenter(		config
-																																																									, view		);
+																												,	IDB_View				view		)	=>	new	DB_Presenter(		config
+																																																					, view		);
 
 			#endregion
 
@@ -124,15 +123,15 @@ namespace BxS_Worx.Dashboard.UI
 
 				public	static	IButtonProfile	CreateButtonProfile(	string	id
 																														,	string	buttonType
-																														, string	tag
 																														,	string	imageID
-																														,	string	text			)
+																														,	string	text
+																														, object	tag					)
 					{
 						return	new ButtonProfile	{ ID					= id
 																			, ButtonType	=	buttonType
-																			,	Tag					= tag
 																			,	ImageID			= imageID
-																			,	Text				=	text				}	;
+																			,	Text				=	text
+																			,	Tag					= tag					}	;
 					}
 
 			#endregion

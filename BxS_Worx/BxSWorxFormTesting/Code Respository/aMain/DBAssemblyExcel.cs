@@ -36,11 +36,14 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadButtonsFromSource()
 					{
+						var lo_Tag1 = new TagData		{		ToolBar		= "TB2"
+																					,	Scenario	= "SC2"	};
+
 						IButtonProfile	BP1	= DB_Factory.CreateButtonProfile(		"BP1"
 																																	,	ButtonTypes.TypeStd
-																																	, "<TB>TB2;<SC>SC1"
 																																	, ImageNames.Settings
-																																	, "Settings"					)	;
+																																	, "Settings"
+																																	,	lo_Tag1							)	;
 
 						BP1.SeqNo						= 01		;
 						BP1.ToolbarID				=	"TB1"	;
@@ -49,18 +52,37 @@ namespace BxS_Worx.Dashboard.UI
 
 						this.LoadButton( BP1 ) ;
 						//...
+						var lo_Tag2 = new TagData		{		ToolBar		= "TB2"
+																					,	Scenario	= "SC2"	};
+
 						IButtonProfile	BP2	=	DB_Factory.CreateButtonProfile(		"BP2"
 																																	,	ButtonTypes.TypeFlp
-																																	, "<TB>TB2;<SC>SC2"
 																																	, ImageNames.Logo
-																																	, "Settings"					)	;
+																																	, "Settings"
+																																	,	lo_Tag2							)	;
 
-						BP2.SeqNo						= 02		;
+						BP2.SeqNo						= 03		;
 						BP2.ToolbarID				=	"TB1"	;
 						BP2.ScenarioID			= "SC1"	;
 						BP2.OnClickHandler	= this.OnButtonClick_RouteScenario	;
 
 						this.LoadButton( BP2 ) ;
+						//...
+						var lo_Tag3 = new TagData		{		ToolBar		= "TB2"
+																					,	Scenario	= "SC2"	};
+
+						IButtonProfile	BP3	=	DB_Factory.CreateButtonProfile(		"BP3"
+																																	,	ButtonTypes.TypeFlp
+																																	, ImageNames.Excel
+																																	, "Settings"
+																																	,	lo_Tag3							)	;
+
+						BP3.SeqNo						= 02		;
+						BP3.ToolbarID				=	"TB1"	;
+						BP3.ScenarioID			= "SC1"	;
+						BP3.OnClickHandler	= this.OnButtonClick_RouteScenario	;
+
+						this.LoadButton( BP3 ) ;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -72,7 +94,8 @@ namespace BxS_Worx.Dashboard.UI
 						TB1.StartupScenario		=	"SC1"	;
 						TB1.ButtonType				= ButtonTypes.TypeStd	;
 
-						TB1.ViewConfig.ColourBack		= System.Drawing.Color.Aqua	;
+						TB1.ViewConfig.ColourBack				= System.Drawing.Color.Plum	;
+						TB1.ViewConfig.TransitionSpeed	=	0	;
 
 						this.LoadToolbar( TB1 )	;
 						//...

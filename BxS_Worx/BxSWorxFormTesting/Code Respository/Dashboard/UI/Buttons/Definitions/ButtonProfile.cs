@@ -56,7 +56,7 @@ namespace BxS_Worx.Dashboard.UI
 				public	Color			ColourFocus		{ get;  set; }
 				public	DockStyle	DockStyle			{ get;  set; }
 
-				public	string	Tag					{ get;  set; }
+				public	object	Tag					{ get;  set; }
 				public	string	ImageID			{ get;  set; }
 				public	string	Text				{ get;  set; }
 

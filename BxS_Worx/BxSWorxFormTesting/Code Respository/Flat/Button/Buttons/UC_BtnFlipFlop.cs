@@ -36,7 +36,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Local"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	override	string				SetTag								{	set	{	this.xpnl_Button	.Tag	=	value	;
+				public	override	object				SetTag								{	set	{	this.xpnl_Button	.Tag	=	value	;
 																																			this.xpnl_Image		.Tag	= value	;
 																																			this.xlbl_BtnText	.Tag	= value	;	}	}
 

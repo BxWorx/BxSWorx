@@ -117,8 +117,8 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected void OnButtonClick_RouteScenario( object sender , EventArgs e	)
 					{
-						var			lo_Btn	= (Control)sender				;
-						string	lc_Tag	= lo_Btn.Tag.ToString()	;
+						var	lo_Btn	= (Control)sender				;
+						var	lo_Tag	= (TagData) lo_Btn.Tag	;
 						//...
 					}
 
@@ -138,5 +138,16 @@ namespace BxS_Worx.Dashboard.UI
 
 			#endregion
 
+			//*******************************************************************************************
+			protected	class TagData
+				{
+					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+					public TagData()
+						{	}
+					//...
+					public string	Scenario	{ get; set; }
+					public string	ToolBar		{ get; set; }
+				}
+			//...
 		}
 }
