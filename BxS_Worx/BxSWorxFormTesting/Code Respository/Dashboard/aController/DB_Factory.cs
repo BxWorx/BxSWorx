@@ -4,6 +4,7 @@ using System.Drawing								;
 using System.Reflection							;
 using System.Threading							;
 //.........................................................
+using BxS_Worx.Dashboard.UI.Button	;
 using BxS_Worx.Dashboard.UI.Toolbar	;
 using BxS_Worx.Dashboard.UI.Window	;
 using BxS_Worx.Dashboard.Utilities	;
@@ -109,7 +110,14 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Buttons"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public static	IUC_Button CreateButton( string	buttonType )
+				public	static	IButtonTag	CreateButtonTag()		=>	new	ButtonTag()	;
+
+				public	static	IButtonTag	CreateButtonTag(	string	targetScenario
+																										,	string	targetToolbar		)	=>	new	ButtonTag	{		TargetScenario	= targetScenario
+																																																		,	TargetToolBar		=	targetToolbar		};
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	IUC_Button	CreateButton( string	buttonType )
 					{
 						if ( ! _BtnTypes.Value.TryGetValue( buttonType , out Type lo_BtnType ) )
 							{	return	null; }

@@ -53,7 +53,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						if ( ! this._CurScenario.Equals(id) )
 							{
 								this.View.LoadButtons( this._Model.ScenarioButtons( id ) )	;
-								this._CurScenario		= id;
+								this._CurScenario		= id	;
 							}
 						//...
 						this.View.InvokeTransition()	;
@@ -69,10 +69,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 		}
 }
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private void OnClick(	object sender , System.EventArgs e )	=>	this.InvokeTransition();
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//private void OnMouseHover( object sender , System.EventArgs e )
 				//	{

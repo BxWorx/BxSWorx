@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic	;
-using System.Linq									;
+﻿using BxS_Worx.Dashboard.UI.Button;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -36,8 +35,7 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void	LoadButtonsFromSource()
 					{
-						var lo_Tag1 = new TagData		{		ToolBar		= "TB2"
-																					,	Scenario	= "SC2"	};
+						IButtonTag lo_Tag1	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
 
 						IButtonProfile	BP1	= DB_Factory.CreateButtonProfile(		"BP1"
 																																	,	ButtonTypes.TypeStd
@@ -48,12 +46,11 @@ namespace BxS_Worx.Dashboard.UI
 						BP1.SeqNo						= 01		;
 						BP1.ToolbarID				=	"TB1"	;
 						BP1.ScenarioID			= "SC1"	;
-						BP1.OnClickHandler	= this.OnButtonClick_RouteScenario	;
+						//BP1.OnClickHandler	= this.OnButtonClick_RouteScenario	;
 
 						this.LoadButton( BP1 ) ;
 						//...
-						var lo_Tag2 = new TagData		{		ToolBar		= "TB2"
-																					,	Scenario	= "SC2"	};
+						IButtonTag lo_Tag2	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
 
 						IButtonProfile	BP2	=	DB_Factory.CreateButtonProfile(		"BP2"
 																																	,	ButtonTypes.TypeFlp
@@ -64,12 +61,11 @@ namespace BxS_Worx.Dashboard.UI
 						BP2.SeqNo						= 03		;
 						BP2.ToolbarID				=	"TB1"	;
 						BP2.ScenarioID			= "SC1"	;
-						BP2.OnClickHandler	= this.OnButtonClick_RouteScenario	;
+						//BP2.OnClickHandler	= this.OnButtonClick_RouteScenario	;
 
 						this.LoadButton( BP2 ) ;
 						//...
-						var lo_Tag3 = new TagData		{		ToolBar		= "TB2"
-																					,	Scenario	= "SC2"	};
+						IButtonTag lo_Tag3	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
 
 						IButtonProfile	BP3	=	DB_Factory.CreateButtonProfile(		"BP3"
 																																	,	ButtonTypes.TypeFlp
@@ -80,7 +76,7 @@ namespace BxS_Worx.Dashboard.UI
 						BP3.SeqNo						= 02		;
 						BP3.ToolbarID				=	"TB1"	;
 						BP3.ScenarioID			= "SC1"	;
-						BP3.OnClickHandler	= this.OnButtonClick_RouteScenario	;
+						//BP3.OnClickHandler	= this.OnButtonClick_RouteScenario	;
 
 						this.LoadButton( BP3 ) ;
 					}

@@ -18,8 +18,6 @@ namespace BxS_Worx.Dashboard.UI
 						this._BackColour		= Color.FromArgb( 255 , 192 , 255 , 192 )	;
 						this._FocusColour		= Color.FromArgb( 150 , 192 , 255 , 192 )	;
 						this._HasFocus			= false	;
-						//...
-						//this.Dock		= DockStyle.Top;
 					}
 
 			#endregion

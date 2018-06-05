@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="Code Respository\Dashboard\aController\DBAssemblyBase.cs" />
     <Compile Include="Code Respository\aMain\DBAssemblyExcel.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonTag.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\IButtonTag.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Window\Controlling\DB_Presenter.cs" />
     <Compile Include="Code Respository\Dashboard\aController\IDBAssembly.cs" />
     <Compile Include="Code Respository\Dashboard\Common\ImageNames.cs" />

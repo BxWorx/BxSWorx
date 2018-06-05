@@ -6,19 +6,19 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
-				string		ID									{ get;  set; }
-				int				SeqNo								{ get;  set; }
+				string		ID										{ get;  set; }
+				int				SeqNo									{ get;  set; }
 				//...
-				bool			IsHorizontal				{ get;  set; }
-				bool			ShowOnstartup				{ get;  set; }
+				bool			IsHorizontal					{ get;  set; }
+				bool			ShowOnstartup					{ get;  set; }
 				//...
-				string		ButtonType					{ get;  set; }
+				string		ButtonType						{ get;  set; }
 				//...
-				bool			IsStartupToolBar		{ get;  set; }
-				string		StartupScenario			{ get;  set; }
+				bool			IsStartupToolBar			{ get;  set; }
+				string		StartupScenario				{ get;  set; }
 				//...
-				Color			ColourBack					{ get; }
-				Color			ColourFocus					{ get; }
+				Color			ColourBack						{ get; }
+				Color			ColourFocus						{ get; }
 				//...
 				IUC_TBarViewConfig	ViewConfig	{ get;  set; }
 

@@ -1,5 +1,4 @@
-﻿using System												;
-using System.Collections.Generic		;
+﻿using System.Collections.Generic		;
 using System.Linq										;
 using System.Windows.Forms					;
 //.........................................................
@@ -32,7 +31,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IDB_ViewConfig	FormConfig	{ get;	private set; }
+				public	IDB_ViewConfig				FormConfig	{ get;	private set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	IList<IUC_TBarSetup>	ToolBarList	{ get	=>	this._ToolBars.Values
@@ -114,14 +113,6 @@ namespace BxS_Worx.Dashboard.UI
 						return	lb_Ret	;
 					}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected void OnButtonClick_RouteScenario( object sender , EventArgs e	)
-					{
-						var	lo_Btn	= (Control)sender				;
-						var	lo_Tag	= (TagData) lo_Btn.Tag	;
-						//...
-					}
-
 			#endregion
 
 			//===========================================================================================
@@ -138,16 +129,5 @@ namespace BxS_Worx.Dashboard.UI
 
 			#endregion
 
-			//*******************************************************************************************
-			protected	class TagData
-				{
-					//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-					public TagData()
-						{	}
-					//...
-					public string	Scenario	{ get; set; }
-					public string	ToolBar		{ get; set; }
-				}
-			//...
 		}
 }
