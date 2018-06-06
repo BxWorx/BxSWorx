@@ -37,6 +37,8 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				protected	bool		_HasFocus			;
 
+				protected	DockStyle	_FocusDock	;
+
 			#endregion
 
 			//===========================================================================================
@@ -60,7 +62,8 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	virtual	DockStyle	SetDockStyle	{	set	=> this.Dock	= value	; }
+				public	virtual	DockStyle		SetDockStyle				{	set	=>	this.Dock				= value	; }
+				public	virtual	DockStyle		SetFocusDocking		{ set	=>	this._FocusDock	= value	; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	virtual	string	SetText		{	set	=>	this._UCText											=	value ?? string.Empty	; }
@@ -76,6 +79,11 @@ namespace BxS_Worx.Dashboard.UI
 						this._HasFocus	= state	;
 					}
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public virtual void CompileButton()
+					{
+					}
+
 			#endregion
 
 			//===========================================================================================
@@ -85,12 +93,13 @@ namespace BxS_Worx.Dashboard.UI
 				private void InitializeComponent()
 					{
 						this.SuspendLayout();
-						// 
+						//...
 						// UC_BtnBase
 						// 
-						this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-						this.Name = "UC_BtnBase";
-						this.Size = new System.Drawing.Size(45, 45);
+						this.AutoScaleMode	= System.Windows.Forms.AutoScaleMode.None;
+						this.Name						= "UC_BtnBase";
+						this.Size						= new System.Drawing.Size(45, 45);
+						//...
 						this.ResumeLayout(false);
 					}
 

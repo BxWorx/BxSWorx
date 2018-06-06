@@ -24,8 +24,11 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				EventHandler	SetClickEventHandler	{ set; }
 				DockStyle			SetDockStyle					{	set; }
+				DockStyle			SetFocusDocking				{ set; }
 
 			#endregion
+
+		void CompileButton();
 
 		}
 }
