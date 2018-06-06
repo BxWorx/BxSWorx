@@ -8,6 +8,7 @@ using BxS_Worx.Dashboard.Utilities;
 namespace BxS_Worx.Dashboard.UI
 	{
 		[	TypeDescriptionProvider( typeof( AbstractDescriptionProvider<UC_BtnBase , UserControl> ) ) ]
+		//...
 		public abstract	class UC_BtnBase : UserControl , IUC_Button
 		{
 			#region "Constructors"

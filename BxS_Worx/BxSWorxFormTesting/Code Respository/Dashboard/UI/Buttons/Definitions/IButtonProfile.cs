@@ -9,33 +9,31 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
-				string				ID						{ get;	set; }
-				int						SeqNo					{ get;  set; }
+				string	ID					{ get;	set; }
+				int			SeqNo				{ get;  set; }
 				//...
-				string				ScenarioID		{ get;  set; }
-				string				ToolbarID			{ get;  set; }
-				//...
-				IUC_Button		Button				{ get;  set; }
-				//...
-				EventHandler	OnClickHandler	{ get;  set; }
+				string	ScenarioID	{ get;  set; }
+				string	ToolbarID		{ get;  set; }
+				string	ImageID			{ get;  set; }
+				string	Text				{ get;  set; }
 
+				object	Tag					{ get;  set; }
 				//...
 				int			ChildCount	{ get; }
 				string	ButtonType	{ get; set; }
 
-				Color			ColourBack					{ get;  set; }
-				Color			ColourFocus					{ get;  set; }
-
-				DockStyle	DockStyle						{ get;  set; }
-
-				object	Tag					{ get;  set; }
-				string	ImageID			{ get;  set; }
-				string	Text				{ get;  set; }
+				Color					ColourBack			{ get;  set; }
+				Color					ColourFocus			{ get;  set; }
+				DockStyle			DockStyle				{ get;  set; }
+				IUC_Button		Button					{ get;  set; }
+				EventHandler	OnClickHandler	{ get;  set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Routines: Exposed"
+
+				void	ApplyProfile();
 
 				void	AddChild( IButtonProfile	profile );
 				//...

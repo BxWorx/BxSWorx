@@ -6,9 +6,10 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 		{
 			#region "Methods: Exposed"
 
-				IList<IUC_Button>	ScenarioButtons( string id );
+				IList<IUC_Button>	ScenarioButtons( string id )	;
 				//...
-				void	LoadButton( string scenarioID , IUC_Button button );
+				void				LoadButton( string scenarioID , IUC_Button button )	;
+				IUC_Button	GetButton	( string scenarioID , string buttonID )		;
 
 			#endregion
 

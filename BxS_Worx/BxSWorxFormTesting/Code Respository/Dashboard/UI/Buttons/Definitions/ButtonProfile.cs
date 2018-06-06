@@ -17,7 +17,8 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						this.ID		= id;
 						//...
-						this._Children		= new	Dictionary<string , IButtonProfile>()	;
+						this._Children	= new	Dictionary<string , IButtonProfile>()	;
+						this._IsReady		= false	;
 					}
 
 			#endregion
@@ -27,7 +28,7 @@ namespace BxS_Worx.Dashboard.UI
 
 				private readonly Dictionary<string , IButtonProfile>	_Children;
 				//...
-				private	IUC_Button _Button;
+				private	bool				_IsReady;
 
 			#endregion
 
@@ -40,30 +41,50 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				public	string	ScenarioID	{ get;  set; }
 				public	string	ToolbarID		{ get;  set; }
-				//...
-				public	EventHandler	OnClickHandler	{ get;  set; }
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	int					ChildCount	{	get	=>	this._Children.Count		;	}
-				public	string			ButtonType	{ get; set; }
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IUC_Button	Button			{ get	=>		this._Button;
-																					set			{	this._Button	= value	;
-																										this.ApplyProfile()		;	} }
-
-				public	Color			ColourBack		{ get;  set; }
-				public	Color			ColourFocus		{ get;  set; }
-				public	DockStyle	DockStyle			{ get;  set; }
-
-				public	object	Tag					{ get;  set; }
 				public	string	ImageID			{ get;  set; }
 				public	string	Text				{ get;  set; }
+
+				public	object	Tag					{ get;  set; }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	int			ChildCount	{	get	=>	this._Children.Count		;	}
+				public	string	ButtonType	{ get; set; }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	Color					ColourBack			{ get;  set; }
+				public	Color					ColourFocus			{ get;  set; }
+				public	DockStyle			DockStyle				{ get;  set; }
+				public	IUC_Button		Button					{ get;	set; }
+				public	EventHandler	OnClickHandler	{ get;  set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	ApplyProfile()
+					{
+						if ( this.Button	== null )		{	return	; }
+						if ( this._IsReady )					{ return	; }
+						//...
+						this.Button.SetDockStyle					=	this.DockStyle			;
+						this.Button.SetFocusColour				=	this.ColourFocus		;
+						this.Button.SetBackColour					=	this.ColourBack			;
+						this.Button.ID										= this.ID							;
+						this.Button.SetName								= this.ID							;
+						this.Button.SetTag								= this.Tag						;
+						this.Button.SetText								=	this.Text						;
+						//...
+						this.Button.SetClickEventHandler	=	this.OnClickHandler	;
+						//...
+						if ( ! string.IsNullOrEmpty( this.ImageID	) )
+							{
+								this.Button.SetImage	=	(Image)Resources.ResourceManager.GetObject( this.ImageID );
+							}
+						//...
+						this._IsReady	= true ;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void AddChild( IButtonProfile profile )	=>	this._Children.Add( profile.ID , profile );
@@ -72,31 +93,6 @@ namespace BxS_Worx.Dashboard.UI
 				public IList<IButtonProfile> GetSubList()	=>	this._Children.Values
 																												.OrderByDescending( x	=> x.SeqNo )
 																													.ToList();
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void	ApplyProfile()
-					{
-						if ( this._Button	== null )		{	return; }
-						//...
-						this._Button.SetDockStyle						=	this.DockStyle			;
-						this._Button.SetFocusColour					=	this.ColourFocus		;
-						this._Button.SetBackColour					=	this.ColourBack			;
-						this._Button.SetClickEventHandler		=	this.OnClickHandler	;
-						this._Button.ID											= this.ID							;
-						this._Button.SetName								= this.ID							;
-						this._Button.SetTag									= this.Tag						;
-						this._Button.SetText								=	this.Text						;
-						//...
-						if ( ! string.IsNullOrEmpty( this.ImageID	) )
-							{
-								this._Button.SetImage		=	(Image)Resources.ResourceManager.GetObject( this.ImageID );
-							}
-					}
 
 			#endregion
 

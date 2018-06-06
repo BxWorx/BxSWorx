@@ -36,6 +36,9 @@ namespace BxS_Worx.Dashboard.UI
 				private	void	LoadButtonsFromSource()
 					{
 						IButtonTag lo_Tag1	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
+						lo_Tag1.ScenarioID	=	"SC1";
+						lo_Tag1.ButtonID		=	"BP1";
+
 
 						IButtonProfile	BP1	= DB_Factory.CreateButtonProfile(		"BP1"
 																																	,	ButtonTypes.TypeStd
@@ -46,11 +49,12 @@ namespace BxS_Worx.Dashboard.UI
 						BP1.SeqNo						= 01		;
 						BP1.ToolbarID				=	"TB1"	;
 						BP1.ScenarioID			= "SC1"	;
-						//BP1.OnClickHandler	= this.OnButtonClick_RouteScenario	;
 
 						this.LoadButton( BP1 ) ;
 						//...
 						IButtonTag lo_Tag2	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
+						lo_Tag2.ScenarioID	=	"SC1";
+						lo_Tag2.ButtonID		=	"BP2";
 
 						IButtonProfile	BP2	=	DB_Factory.CreateButtonProfile(		"BP2"
 																																	,	ButtonTypes.TypeFlp
@@ -61,11 +65,12 @@ namespace BxS_Worx.Dashboard.UI
 						BP2.SeqNo						= 03		;
 						BP2.ToolbarID				=	"TB1"	;
 						BP2.ScenarioID			= "SC1"	;
-						//BP2.OnClickHandler	= this.OnButtonClick_RouteScenario	;
 
 						this.LoadButton( BP2 ) ;
 						//...
 						IButtonTag lo_Tag3	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
+						lo_Tag3.ScenarioID	=	"SC1";
+						lo_Tag3.ButtonID		=	"BP3";
 
 						IButtonProfile	BP3	=	DB_Factory.CreateButtonProfile(		"BP3"
 																																	,	ButtonTypes.TypeFlp
@@ -76,7 +81,6 @@ namespace BxS_Worx.Dashboard.UI
 						BP3.SeqNo						= 02		;
 						BP3.ToolbarID				=	"TB1"	;
 						BP3.ScenarioID			= "SC1"	;
-						//BP3.OnClickHandler	= this.OnButtonClick_RouteScenario	;
 
 						this.LoadButton( BP3 ) ;
 					}
