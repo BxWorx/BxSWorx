@@ -71,9 +71,9 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected	bool LoadButton( IButtonProfile btnProfile )
 					{
-						bool	lb_Ret	= false;
+						bool	lb_Ret	= false ;
 						//...
-						IUC_TBarSetup lo_TBarCfg		= this.GetTBarConfig( btnProfile.ToolbarID );
+						IUC_TBarSetup	lo_TBarCfg		= this.GetTBarConfig( btnProfile.ToolbarID ) ;
 
 						if ( lo_TBarCfg != null )
 							{
@@ -84,33 +84,31 @@ namespace BxS_Worx.Dashboard.UI
 																																		: DockStyle.Top		;
 
 								if ( ! lo_TBarCfg.ButtonType.Equals( ButtonTypes.TypeAll ) )
-									{
-										btnProfile.ButtonType		=	lo_TBarCfg.ButtonType ;
-									}
+									{	btnProfile.ButtonType		=	lo_TBarCfg.ButtonType ;	}
 								//...
-								lb_Ret	= true;
+								lb_Ret	= true ;
 							}
 						//...
 						if ( lb_Ret )
-							{
-								this._BtnProf.Add( btnProfile.ID , btnProfile );
-							}
+							{	this._BtnProf.Add( btnProfile.ID , btnProfile ) ; }
 						//...
-						return	lb_Ret	;
+						return	lb_Ret ;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected	bool LoadToolbar( IUC_TBarSetup tbarConfig )
 					{
-						bool	lb_Ret	= true;
+						bool	lb_Ret	= true ;
 						//...
-						//...
-						if ( lb_Ret )
+						if ( tbarConfig.IsHorizontal )
 							{
-								this._ToolBars.Add( tbarConfig.ID , tbarConfig );
+								//tbarConfig.ViewConfig.TransitionSpanMax		= 
 							}
 						//...
-						return	lb_Ret	;
+						if ( lb_Ret )
+							{	this._ToolBars.Add( tbarConfig.ID , tbarConfig ) ; }
+						//...
+						return	lb_Ret ;
 					}
 
 			#endregion
@@ -121,10 +119,10 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	IUC_TBarSetup GetTBarConfig( string	id )
 					{
-						if ( this._ToolBars.TryGetValue(id , out IUC_TBarSetup lo_Cfg) )
+						if ( this._ToolBars.TryGetValue( id , out IUC_TBarSetup lo_Cfg ) )
 							{	}
 						//...
-						return	lo_Cfg;
+						return	lo_Cfg ;
 					}
 
 			#endregion

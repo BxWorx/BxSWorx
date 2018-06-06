@@ -37,7 +37,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IUC_TBarView	View { get;	}
+				internal	IUC_TBarView	View	{ get; }
 
 			#endregion
 
@@ -109,8 +109,9 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 		}
 }
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private void OnMouseHover( object sender , System.EventArgs e )
-				//	{
-				//	}
+
+	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+	//private void OnMouseHover( object sender , System.EventArgs e )
+	//	{
+	//	}
 

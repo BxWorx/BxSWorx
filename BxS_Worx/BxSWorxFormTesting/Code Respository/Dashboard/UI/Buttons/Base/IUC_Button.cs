@@ -8,8 +8,8 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
-				string ID		{	get;	set; }
-				int		Index	{	get;	set; }
+				string	ID				{	get;	set; }
+				int			Index			{	get;	set; }
 				//...
 				string	SetText		{	set; }
 				string	SetName		{	set; }
@@ -20,11 +20,10 @@ namespace BxS_Worx.Dashboard.UI
 				Color		SetBackColour		{	set; }
 				Color		SetFocusColour	{	set; }
 				//...
-				Image		SetImage	{	set; }
+				Image		SetImage				{	set; }
 				//...
 				EventHandler	SetClickEventHandler	{ set; }
-
-				DockStyle	SetDockStyle	{	set; }
+				DockStyle			SetDockStyle					{	set; }
 
 			#endregion
 

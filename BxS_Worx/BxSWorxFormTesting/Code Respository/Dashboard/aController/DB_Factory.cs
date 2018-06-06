@@ -32,7 +32,7 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						return	new UC_TBarViewConfig		{
 																								ColourBack					= Color.FromArgb( 255 , 031 , 031 , 031 )
-																							,	ColourFocus					= Color.FromArgb( 255 , 031 , 031 , 031 )
+																							,	ColourFocus					= Color.FromArgb( 155 , 041 , 041 , 041 )
 
 																							, IsHorizontal				= false
 

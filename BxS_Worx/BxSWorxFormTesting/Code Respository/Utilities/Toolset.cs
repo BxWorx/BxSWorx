@@ -16,41 +16,42 @@ namespace BxS_Worx.Dashboard.Utilities
 							{
 								if ( ! object.Equals( objA , objB ) )
 									{
-										PropertyInfo[]	allProperties		= objA.GetType().GetProperties(	BindingFlags.Public | BindingFlags.Instance );
+										PropertyInfo[]	allProperties		= objA.GetType().GetProperties(		BindingFlags.Public
+																																										| BindingFlags.Instance );
 										//...
 										return	allProperties
-															.Where	( p => !object.Equals( p.GetValue(objA) , p.GetValue(objB) ) )
+															.Where	( p => ! object.Equals( p.GetValue(objA) , p.GetValue(objB) ) )
 															.Select	( p => p.Name )
-															.ToList()	;
+															.ToList	() ;
 									}
 							}
 						//...
-						return	new List<string>();
+						return	new List<string>() ;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static List<string> ClassNamesImplementingIFaceOf<T>() where T:class
 					{
 						return	TypesImplementingIFaceOf<T>()
-											.Select		(	x => x.Name	)
-											.ToList();
+											.Select	(	x => x.Name	)
+											.ToList	() ;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public static List<Type> TypesImplementingIFaceOf<T>() where T:class
 					{
 						return	GetAsmTypes()
-											.Where		(	x =>				typeof(T).IsAssignableFrom( x )
-																				&&	!	x.IsInterface
-																				&&	!	x.IsAbstract )
-											.ToList();
+											.Where	(	x =>				typeof(T).IsAssignableFrom( x )
+																			&&	!	x.IsInterface
+																			&&	!	x.IsAbstract )
+											.ToList	() ;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private static IEnumerable<Type> GetAsmTypes()
 					{
 						return	AppDomain.CurrentDomain.GetAssemblies()
-											.SelectMany	(	x => x.GetTypes()	);
+											.SelectMany	(	x => x.GetTypes()	) ;
 					}
 
 			#endregion

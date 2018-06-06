@@ -200,9 +200,9 @@
     <None Include="Resources\icons8_Settings_25px.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Code Respository\Flat\MenuItem\" />
     <Folder Include="Code Respository\zKeep\Config\" />
     <Folder Include="Code Respository\zKeep\Members\" />
+    <Folder Include="Code Respository\zKeep\MenuItem\" />
     <Folder Include="Code Respository\zKeep\ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
