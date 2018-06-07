@@ -25,6 +25,7 @@ namespace BxS_Worx.Dashboard.UI
 				Color					ColourBack			{ get;  set; }
 				Color					ColourFocus			{ get;  set; }
 				DockStyle			DockStyle				{ get;  set; }
+				DockStyle			FocusDocking		{ get;  set; }
 				IUC_Button		Button					{ get;  set; }
 				EventHandler	OnClickHandler	{ get;  set; }
 
@@ -33,11 +34,11 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Routines: Exposed"
 
-				void	ApplyProfile();
+				void	ApplyProfile() ;
 
-				void	AddChild( IButtonProfile	profile );
+				void	AddChild( IButtonProfile	profile ) ;
 				//...
-				IList<IButtonProfile>	GetSubList();
+				IList<IButtonProfile>	GetSubList() ;
 
 			#endregion
 

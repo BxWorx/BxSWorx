@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System								;
+using System.ComponentModel	;
+using System.Drawing				;
+using System.Windows.Forms	;
 //.........................................................
-using BxS_Worx.Dashboard.Utilities;
+using BxS_Worx.Dashboard.Utilities ;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 	{
@@ -26,23 +26,27 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Declarations"
 
-				protected	Panel		_UCImage	;
-				protected	Panel		_UCButton	;
-				protected	Panel		_UCFocus	;
+				protected	IButtonProfile	_Profile	;
 
-				protected	string	_UCText		;
-				//...
-				protected	Color		_BackColour		;
-				protected	Color		_FocusColour	;
-				//...
-				protected	bool		_HasFocus			;
+				protected	Panel				_UCImage			;
+				protected	Panel				_UCButton			;
+				protected	Panel				_UCFocus			;
 
-				protected	DockStyle	_FocusDock	;
+				protected	string			_UCText				;
+				//...
+				protected	Color				_BackColour		;
+				protected	Color				_FocusColour	;
+				protected	DockStyle		_FocusDock		;
+				//...
+				protected	bool				_HasFocus			;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	virtual	IButtonProfile		SetProfile		{ set	=>	this._Profile	= value	; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	string	ID			{	get;	set ; }
@@ -56,13 +60,8 @@ namespace BxS_Worx.Dashboard.UI
 				public	Color	SetBackColour		{	set	=>	this._BackColour		=	value	;	}
 				public	Color	SetFocusColour	{	set	=>	this._FocusColour		=	value	;	}
 
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Exposed"
-
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	virtual	DockStyle		SetDockStyle				{	set	=>	this.Dock				= value	; }
+				public	virtual	DockStyle		SetDockStyle			{	set	=>	this.Dock				= value	; }
 				public	virtual	DockStyle		SetFocusDocking		{ set	=>	this._FocusDock	= value	; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -72,6 +71,11 @@ namespace BxS_Worx.Dashboard.UI
 				public	virtual	Image		SetImage	{	set	=>	this._UCImage		.BackgroundImage	=	value	; }
 				//...
 				public	virtual	EventHandler	SetClickEventHandler	{ set	=> this._UCButton.Click	+= value; }
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				protected virtual void SetFocusState( bool	state	)

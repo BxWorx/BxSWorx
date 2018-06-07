@@ -8,6 +8,7 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Properties"
 
+				//...
 				string	ID				{	get;	set; }
 				int			Index			{	get;	set; }
 				//...
@@ -22,13 +23,14 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				Image		SetImage				{	set; }
 				//...
-				EventHandler	SetClickEventHandler	{ set; }
-				DockStyle			SetDockStyle					{	set; }
-				DockStyle			SetFocusDocking				{ set; }
+				EventHandler		SetClickEventHandler	{ set; }
+				DockStyle				SetDockStyle					{	set; }
+				DockStyle				SetFocusDocking				{ set; }
+				IButtonProfile	SetProfile						{	set; }
 
 			#endregion
 
-		void CompileButton();
+			void CompileButton();
 
 		}
 }

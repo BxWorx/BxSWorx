@@ -116,14 +116,6 @@ namespace BxS_Worx.Dashboard.UI
 																										,	string	targetToolbar		)	=>	new	ButtonTag	{		TargetScenario	= targetScenario
 																																																		,	TargetToolBar		=	targetToolbar		};
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IUC_Button	CreateButton( string	buttonType )
-					{
-						if ( ! _BtnTypes.Value.TryGetValue( buttonType , out Type lo_BtnType ) )
-							{	return	null; }
-						//...
-						return	Activator.CreateInstance( lo_BtnType )	as IUC_Button;
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	static	IButtonProfile	CreateButtonProfile()							=>	new	ButtonProfile();
@@ -140,6 +132,29 @@ namespace BxS_Worx.Dashboard.UI
 																			,	ImageID			= imageID
 																			,	Text				=	text
 																			,	Tag					= tag					}	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	IUC_Button	CreateButton( IButtonProfile	profile )
+					{
+						IUC_Button	lo_Btn	= null;
+						//...
+						if ( _BtnTypes.Value.TryGetValue( profile.ButtonType , out Type lo_BtnType ) )
+							{
+								lo_Btn	= Activator.CreateInstance( lo_BtnType )	as IUC_Button;
+								lo_Btn.SetProfile		= profile	;
+							}
+						//...
+						return	lo_Btn ;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public	static	IUC_Button	CreateButton( string	buttonType )
+					{
+						if ( ! _BtnTypes.Value.TryGetValue( buttonType , out Type lo_BtnType ) )
+							{	return	null; }
+						//...
+						return	Activator.CreateInstance( lo_BtnType )	as IUC_Button;
 					}
 
 			#endregion

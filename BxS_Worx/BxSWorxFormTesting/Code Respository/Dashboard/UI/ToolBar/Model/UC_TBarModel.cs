@@ -26,11 +26,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IUC_Button>	ScenarioButtons( string id )
+				public IList<IUC_Button>	ScenarioButtons( string scenarioID )
 					{
 						IList<IUC_Button> lt_List		= new	List<IUC_Button>();
 						//...
-						if ( this._Scenarios.TryGetValue( id , out Dictionary<string , IUC_Button> lt_Btns ) )
+						if ( this._Scenarios.TryGetValue( scenarioID , out Dictionary<string , IUC_Button> lt_Btns ) )
 							{
 								foreach ( IUC_Button lo_Btn in lt_Btns.Values.OrderByDescending( x => x.Index ).ToList() )
 									{
@@ -61,7 +61,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 							{
 								this.AddScenario( scenarioID );
 								if ( ! this._Scenarios.TryGetValue( scenarioID , out lt_Btns ) )
-									{	return; }
+									{	return ; }
 							}
 						//...
 						lt_Btns.Add( button.ID , button );

@@ -28,7 +28,7 @@ namespace BxS_Worx.Dashboard.UI
 
 				private readonly Dictionary<string , IButtonProfile>	_Children;
 				//...
-				private	bool				_IsReady;
+				private	bool	_IsReady;
 
 			#endregion
 
@@ -36,8 +36,8 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	string	ID			{ get;	set; }
-				public	int			SeqNo		{ get;  set; }
+				public	string	ID					{ get;	set; }
+				public	int			SeqNo				{ get;  set; }
 				//...
 				public	string	ScenarioID	{ get;  set; }
 				public	string	ToolbarID		{ get;  set; }
@@ -47,13 +47,14 @@ namespace BxS_Worx.Dashboard.UI
 				public	object	Tag					{ get;  set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	int			ChildCount	{	get	=>	this._Children.Count		;	}
-				public	string	ButtonType	{ get; set; }
+				public	int			ChildCount	{	get	=>	this._Children.Count ;	}
+				public	string	ButtonType	{ get;	set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	Color					ColourBack			{ get;  set; }
 				public	Color					ColourFocus			{ get;  set; }
 				public	DockStyle			DockStyle				{ get;  set; }
+				public	DockStyle			FocusDocking		{ get;  set; }
 				public	IUC_Button		Button					{ get;	set; }
 				public	EventHandler	OnClickHandler	{ get;  set; }
 
@@ -69,6 +70,7 @@ namespace BxS_Worx.Dashboard.UI
 						if ( this._IsReady )					{ return	; }
 						//...
 						this.Button.SetDockStyle					=	this.DockStyle			;
+						this.Button.SetFocusDocking				=	this.FocusDocking		;
 						this.Button.SetFocusColour				=	this.ColourFocus		;
 						this.Button.SetBackColour					=	this.ColourBack			;
 						this.Button.ID										= this.ID							;
@@ -90,9 +92,9 @@ namespace BxS_Worx.Dashboard.UI
 				public void AddChild( IButtonProfile profile )	=>	this._Children.Add( profile.ID , profile );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IButtonProfile> GetSubList()	=>	this._Children.Values
-																												.OrderByDescending( x	=> x.SeqNo )
-																													.ToList();
+				public IList<IButtonProfile> GetSubList()				=>	this._Children.Values
+																															.OrderByDescending( x	=> x.SeqNo )
+																															.ToList();
 
 			#endregion
 
