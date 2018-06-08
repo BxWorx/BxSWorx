@@ -51,6 +51,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarView.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Window\Model\DBModelBase.cs" />
     <Compile Include="Code Respository\aMain\DBModelExcel.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Definitions\ButtonTag.cs" />
@@ -64,9 +65,6 @@
     <Compile Include="Code Respository\Dashboard\aController\DB_Factory.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\IUC_TBarModel.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\UC_TBarModel.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\UC_TBarViewConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarViewConfig.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarView.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Window\View\IDB_View.cs" />
     <Compile Include="Code Respository\Utilities\ButtonTypeAttribute.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.cs">

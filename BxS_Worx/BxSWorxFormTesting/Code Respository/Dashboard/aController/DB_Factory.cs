@@ -26,11 +26,11 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Toolbar"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	static	IUC_TBarViewConfig	CreateTBViewConfig()	=>	new	UC_TBarViewConfig	();
+				internal	static	IUC_TBarSetup				CreateTBSetup()		=>	new	UC_TBarSetup();
 
-				internal	static	IUC_TBarViewConfig	CreateTBViewConfigWithDefaults()
+				internal	static	IUC_TBarSetup				CreateTBSetupWithDefaults()
 					{
-						return	new UC_TBarViewConfig		{
+						return	new UC_TBarSetup		{
 																								ColourBack					= Color.FromArgb( 255 , 031 , 031 , 031 )
 																							,	ColourFocus					= Color.FromArgb( 155 , 041 , 041 , 041 )
 
@@ -41,14 +41,6 @@ namespace BxS_Worx.Dashboard.UI
 																							,	TransitionSpeed			=	01
 																						};
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	static	IUC_TBarSetup				CreateTBSetup( bool withDefaults	= true )
-																								=>	new	UC_TBarSetup	{ ViewConfig = withDefaults ?	CreateTBViewConfigWithDefaults()
-																																																	:	CreateTBViewConfig()							} ;
-
-				internal	static	IUC_TBarSetup				CreateTBSetup( IUC_TBarViewConfig viewConfig )
-																								=>	new	UC_TBarSetup	{ ViewConfig = viewConfig } ;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	static	IUC_TBarView				CreateTBView()	=>	new UC_TBarView		();
