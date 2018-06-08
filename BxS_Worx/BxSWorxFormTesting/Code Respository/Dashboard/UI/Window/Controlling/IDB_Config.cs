@@ -2,7 +2,7 @@
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Window
 {
-	public interface IDB_ViewConfig
+	public interface IDB_Config
 		{
 			#region "Properties"
 

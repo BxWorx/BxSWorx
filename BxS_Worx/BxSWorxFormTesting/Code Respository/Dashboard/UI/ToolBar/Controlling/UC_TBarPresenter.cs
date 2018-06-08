@@ -69,7 +69,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( button.OnClickHandler	== null )
 							{
-								button.OnClickHandler	=	this.OnButtonClick_Routed ;
+								button.OnClickHandler	=	this.OnButtonClick_Routing ;
 							}
 						//...
 						button.ApplyProfile();
@@ -82,7 +82,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Private: Button"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnButtonClick_Routed( object sender , EventArgs e )
+				private void OnButtonClick_Routing( object sender , EventArgs e )
 					{
 						var	lo_Btn	= (Control)			sender			;
 						var	lo_Tag	= (IButtonTag)	lo_Btn.Tag	;

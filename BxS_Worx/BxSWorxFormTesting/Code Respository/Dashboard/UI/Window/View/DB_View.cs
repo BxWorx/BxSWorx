@@ -21,7 +21,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 			//===========================================================================================
 			#region "Declarations"
 
-				private	IDB_ViewConfig		_Config	;
+				private	IDB_Config		_Config	;
 				//...
 				private	bool		_MoveActive		;
 				private	Point		_MoveLocation	;
@@ -35,7 +35,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 				public Form	ViewForm	{ get	=>	this ; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IDB_ViewConfig	Config	{ set	{	this._Config	= value	;
+				public IDB_Config	Config	{ set	{	this._Config	= value	;
 																							this.ApplyConfig()		;	}	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -49,9 +49,14 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Startup()
+					{
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void LoadToolbar( UC_TBarPresenter toolBar )
 					{
-						this.xpnl_UserArea.Controls.Add( toolBar.View.ViewUC );
+						this.xpnl_UserArea.Controls.Add( toolBar.View.ViewUC ) ;
 					}
 
 			#endregion

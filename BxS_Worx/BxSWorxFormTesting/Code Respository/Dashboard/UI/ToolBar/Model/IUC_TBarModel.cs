@@ -4,6 +4,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 {
 	internal interface IUC_TBarModel
 		{
+				IUC_TBarSetup	Setup	{ get;	set; }
+
 			#region "Methods: Exposed"
 
 				IList<IUC_Button>	ScenarioButtons( string scenarioID )	;

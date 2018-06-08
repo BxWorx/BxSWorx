@@ -8,7 +8,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 		{
 			#region "Properties"
 
-				IDB_ViewConfig	Config		{ set; }
+				IDB_Config	Config		{ set; }
 				Form						ViewForm	{ get; }
 
 			#endregion
@@ -16,6 +16,8 @@ namespace BxS_Worx.Dashboard.UI.Window
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				void Startup();
+				//
 				void LoadToolbar( UC_TBarPresenter toolBar );
 
 			#endregion

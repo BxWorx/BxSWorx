@@ -6,12 +6,12 @@ using BxS_Worx.Dashboard.UI.Window	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public abstract class DBAssemblyBase	: IDBAssembly
+	public abstract class DBModelBase	: IDBModel
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected DBAssemblyBase()
+				protected DBModelBase()
 					{
 						this._ToolBars	= new	Dictionary<string, IUC_TBarSetup>	()	;
 						this._BtnProf		= new	Dictionary<string, IButtonProfile>()	;
@@ -31,17 +31,12 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IDB_ViewConfig				FormConfig	{ get;	private set; }
+				public	IDB_Config				ViewConfig	{ get;	set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	IList<IUC_TBarSetup>	ToolBarList	{ get	=>	this._ToolBars.Values
-																															.OrderByDescending( x => x.SeqNo )
-																																.ToList(); }
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	IList<IButtonProfile>	ButtonList	{ get	=>	this._BtnProf.Values
-																															.OrderByDescending( x => x.SeqNo )
-																																.ToList(); }
+																															.OrderByDescending	( x => x.SeqNo )
+																															.ToList							() ;							}
 
 			#endregion
 
@@ -51,7 +46,21 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public virtual void	LoadFromSource()
 					{
-						this.FormConfig		=	DB_Factory.CreateDBViewConfigWithDefaults();
+						this.ViewConfig		=	DB_Factory.CreateDBViewConfigWithDefaults();
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public virtual void	Save()
+					{
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<IButtonProfile> ToolbarButtonList( string tbarID )
+					{
+						return	this._BtnProf.Values
+											.Where							( x => x.ToolbarID == tbarID )
+											.OrderByDescending	( x => x.SeqNo )
+											.ToList							() ;
 					}
 
 			#endregion

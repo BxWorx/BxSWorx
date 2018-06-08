@@ -17,10 +17,12 @@ namespace BxS_Worx.Dashboard.UI
 				public	bool		IsStartupToolBar	{ get;  set; }
 				public	string	StartupScenario		{ get;  set; }
 				//...
-				public	Color		ColourBack				{ get	=>	this.ViewConfig.ColourBack	; }
-				public	Color		ColourFocus				{ get	=>	this.ViewConfig.ColourFocus	; }
+				public	Color		ColourBack				{ get;  set; }
+				public	Color		ColourFocus				{ get;  set; }
 				//...
-				public	IUC_TBarViewConfig	ViewConfig	{ get;  set; }
+				public	int		TransitionSpanMin		{ get;  set; }
+				public	int		TransitionSpanMax		{ get;  set; }
+				public	int		TransitionSpeed			{ get;  set; }
 
 			#endregion
 

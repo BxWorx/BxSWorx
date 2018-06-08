@@ -56,6 +56,9 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	static	IUC_TBarModel				CreateTBModel()	=>	new	UC_TBarModel	();
 
+				internal	static	IUC_TBarModel				CreateTBModel( IUC_TBarSetup setup )
+																								=>	new	UC_TBarModel { Setup = setup };
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal	static	UC_TBarPresenter		CreateTBPresenter( IUC_TBarSetup	setup )
 					{
@@ -77,13 +80,13 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Dashboard"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IDB_ViewConfig		CreateDBViewConfig()	=>	new	DB_ViewConfig();
+				public	static	IDB_Config		CreateDBViewConfig()	=>	new	DB_Config();
 
-				public	static	IDB_ViewConfig		CreateDBViewConfigWithDefaults()
+				public	static	IDB_Config		CreateDBViewConfigWithDefaults()
 					{
-						return	new DB_ViewConfig		{
+						return	new DB_Config		{
 																						ColourBack	= Color.FromArgb( 255 , 031 , 031 , 031 )
-																					,	ColourMove	= Color.FromArgb( 255 , 031 , 031 , 031 )
+																					,	ColourMove	= Color.FromArgb( 155 , 031 , 031 , 031 )
 																					,	ColourHead	= Color.FromArgb( 255 , 100 , 100 , 100 )
 																				}	;
 					}
@@ -92,17 +95,9 @@ namespace BxS_Worx.Dashboard.UI
 				public	static	IDB_View					CreateDBView()	=>	new	DB_View();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	DB_Presenter	CreateDBPresenter()
-					{
-						IDB_ViewConfig	lo_DBVCfg		= CreateDBViewConfig()	;
-						IDB_View				lo_DBView		=	CreateDBView()				;
-						//...
-						return	CreateDBPresenter( lo_DBVCfg , lo_DBView )	;
-					}
-
-				public	static	DB_Presenter	CreateDBPresenter(	IDB_ViewConfig	config
-																												,	IDB_View				view		)	=>	new	DB_Presenter(		config
-																																																					, view		);
+				public	static	DB_Presenter	CreateDBPresenter(	IDBModel	model
+																												,	IDB_View	view	)	=>	new	DB_Presenter(		model
+																																																	, view		);
 
 			#endregion
 

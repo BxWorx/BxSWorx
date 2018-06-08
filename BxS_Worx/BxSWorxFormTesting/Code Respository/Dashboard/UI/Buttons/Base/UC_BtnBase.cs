@@ -100,7 +100,7 @@ namespace BxS_Worx.Dashboard.UI
 						//...
 						// UC_BtnBase
 						// 
-						this.AutoScaleMode	= System.Windows.Forms.AutoScaleMode.None;
+						this.AutoScaleMode	= AutoScaleMode.None;
 						this.Name						= "UC_BtnBase";
 						this.Size						= new System.Drawing.Size(45, 45);
 						//...
