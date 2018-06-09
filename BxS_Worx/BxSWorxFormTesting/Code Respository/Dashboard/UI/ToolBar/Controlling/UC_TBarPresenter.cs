@@ -29,7 +29,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 				private readonly Dictionary<string , Dictionary<string , IUC_Button>>	_Scenarios	;
 
-				//private readonly	IUC_TBarSetup		_Setup	;
 				private	readonly	IUC_TBarModel		_Model	;
 				//...
 				private	bool		_IsStarted		;
@@ -43,7 +42,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 				internal	IUC_TBarView	View	{ get; }
 				//...
-				private		IUC_TBarSetup		_Setup	{ get	=>	this._Model.Setup; }
+				private		IUC_TBarSetup	_Setup	{ get	=>	this._Model.Setup; }
 
 			#endregion
 
@@ -56,10 +55,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						if ( this._IsStarted )		{ return ; }
 						//...
 						this.View.Startup();
-						this.View.InvokeTransition()	;
-
-
-
 						//...
 						this._IsStarted	= true;
 					}
@@ -105,8 +100,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void	AddScenario( string id )	=>	this._Scenarios.Add(	id
 																																				, new	Dictionary<string , IUC_Button>() );
-
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnButtonClick_Routing( object sender , EventArgs e )

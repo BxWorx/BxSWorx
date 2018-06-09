@@ -15,6 +15,7 @@ namespace BxS_Worx.Dashboard.UI
 				string		ButtonType						{ get;  set; }
 				//...
 				bool			IsStartupToolBar			{ get;  set; }
+				bool			IsStartupSpanMax			{ get;  set; }
 				string		StartupScenario				{ get;  set; }
 				//...
 				Color			ColourBack						{ get;	set; }

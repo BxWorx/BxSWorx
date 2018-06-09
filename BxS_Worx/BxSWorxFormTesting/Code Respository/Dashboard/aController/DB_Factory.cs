@@ -35,6 +35,7 @@ namespace BxS_Worx.Dashboard.UI
 																							,	ColourFocus					= Color.FromArgb( 155 , 041 , 041 , 041 )
 
 																							, IsHorizontal				= false
+																							, IsStartupSpanMax		=	false
 
 																							,	TransitionSpanMin		= 05
 																							,	TransitionSpanMax		=	48

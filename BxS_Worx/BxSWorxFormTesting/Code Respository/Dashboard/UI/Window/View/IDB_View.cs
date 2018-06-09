@@ -9,7 +9,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Properties"
 
 				IDB_Config	Config		{ set; }
-				Form						ViewForm	{ get; }
+				Form				ViewForm	{ get; }
 
 			#endregion
 

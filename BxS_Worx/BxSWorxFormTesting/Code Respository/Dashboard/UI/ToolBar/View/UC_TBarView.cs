@@ -27,20 +27,18 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private	delegate	void	SetSpan( int size )	;
 				//...
 				private	readonly	IUC_TBarSetup		_Config		;
-				private GetSpan					_SpanGet	;
-				private SetSpan					_SpanSet	;
 				//...
-				private	bool						_IsClosed	;
+				private GetSpan		_SpanGet	;
+				private SetSpan		_SpanSet	;
+				//...
+				private	bool	_IsClosed	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				//public	IUC_TBarSetup	Config	{ set	{	this._Config	= value ;
-				//																						this.ApplyConfig()		;	} }
-				//...
-				public	UserControl					ViewUC	{ get	=>	this	; }
+				public	UserControl		ViewUC	{ get	=>	this ; }
 
 			#endregion
 
@@ -50,7 +48,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Startup()
 					{
-						this.ApplyConfig();
+						this.Initialize()		;
+						this.ApplyConfig()	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -73,21 +72,21 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( this._Config.TransitionSpeed.Equals(0) )		{ return;	}
 						//...
-						int ln_Span		=	0;
+						int ln_Span		=	this._SpanGet() ;
 						//...
 						if ( this._IsClosed )
 							{
-								do	{	this._SpanSet( this._SpanGet() + this._Config.TransitionSpeed );	}
+								do	{	this._SpanSet( ln_Span	+= this._Config.TransitionSpeed ) ; }
 								while ( this._SpanGet()	< this._Config.TransitionSpanMax );
 								//...
-								ln_Span	=	this._Config.TransitionSpanMax	;
+								ln_Span		=	this._Config.TransitionSpanMax	;
 							}
 						else
 							{
-								do	{	this._SpanSet( this._SpanGet() - this._Config.TransitionSpeed );	}
+								do	{	this._SpanSet( ln_Span	-= this._Config.TransitionSpeed ) ;	}
 								while ( this._SpanGet()	> this._Config.TransitionSpanMin );
 								//...
-								ln_Span	=	this._Config.TransitionSpanMin	;
+								ln_Span		=	this._Config.TransitionSpanMin	;
 							}
 						//...
 						if ( ! this._SpanGet().Equals( ln_Span ) )
@@ -105,15 +104,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private void OnPanelClick(	object sender , System.EventArgs e )	=>	this.InvokeTransition();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ApplyConfig()
-					{
-						this.Prepare();
-						//...
-						this.BackColor	= this._Config.ColourBack	;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Prepare()
+				private void Initialize()
 					{
 						if ( this._Config.IsHorizontal )
 							{
@@ -130,9 +121,23 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 								this._SpanSet		=	this.SetSpanAsWidth		;
 							}
 						//...
-						this._IsClosed	= true;
-						this._SpanSet(	this._Config.TransitionSpeed.Equals(0)	?	this._Config.TransitionSpanMax
-																																		:	this._Config.TransitionSpanMin );
+						if (		this._Config.TransitionSpeed.Equals(0)
+								||	this._Config.IsStartupSpanMax					 )
+							{
+								this._SpanSet( this._Config.TransitionSpanMax )	;
+								this._IsClosed	= false;
+							}
+						else
+							{
+								this._SpanSet( this._Config.TransitionSpanMin )	;
+								this._IsClosed	= true;
+							}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void ApplyConfig()
+					{
+						this.BackColor	= this._Config.ColourBack	;
 					}
 
 			#endregion
@@ -145,8 +150,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private int GetSpanAsHeight	()	=> this.Size.Height	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void SetSpanAsWidth		( int size )	=> this.Size =	new Size( size	, -1		)	;
-				private void SetSpanAsHeight	( int size )	=> this.Size =	new Size( -1		,	size	)	;
+				private void SetSpanAsWidth		( int size )	=> this.Size	=	new Size( size	, -1		)	;
+				private void SetSpanAsHeight	( int size )	=> this.Size	=	new Size( -1		,	size	)	;
 
 			#endregion
 
