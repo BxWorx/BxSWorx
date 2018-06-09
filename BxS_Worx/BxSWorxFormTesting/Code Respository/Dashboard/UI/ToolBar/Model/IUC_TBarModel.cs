@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+//.........................................................
+using BxS_Worx.Dashboard.UI.Button;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Toolbar
 {
@@ -13,10 +15,10 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				IList<IUC_Button>	ScenarioButtons( string scenarioID )	;
+				IList<IButtonProfile>	ScenarioButtons( string scenarioID )	;
 				//...
-				void				LoadButton( string scenarioID , IUC_Button	button	 ) ;
-				IUC_Button	GetButton	( string scenarioID , string			buttonID ) ;
+				void				LoadButton( IButtonProfile buttonProfile ) ;
+				//IUC_Button	GetButton	( string scenarioID , string			buttonID ) ;
 
 			#endregion
 

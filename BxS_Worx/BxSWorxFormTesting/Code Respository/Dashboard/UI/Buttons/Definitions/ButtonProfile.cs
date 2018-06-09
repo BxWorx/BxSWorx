@@ -6,7 +6,7 @@ using System.Windows.Forms;
 //.........
 using BxSWorxFormTesting.Properties;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Button
 {
 	public sealed class ButtonProfile	: IButtonProfile
 		{
@@ -17,7 +17,7 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						this.ID		= id;
 						//...
-						this._Children	= new	Dictionary<string , IButtonProfile>()	;
+						//this._Children	= new	Dictionary<string , IButtonProfile>()	;
 						this._IsReady		= false	;
 					}
 
@@ -26,7 +26,7 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Dictionary<string , IButtonProfile>	_Children;
+				//private readonly Dictionary<string , IButtonProfile>	_Children;
 				//...
 				private	bool	_IsReady;
 
@@ -44,10 +44,10 @@ namespace BxS_Worx.Dashboard.UI
 				public	string	ImageID			{ get;  set; }
 				public	string	Text				{ get;  set; }
 
-				public	object	Tag					{ get;  set; }
+				public	IButtonTag	Tag					{ get;  set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	int			ChildCount	{	get	=>	this._Children.Count ;	}
+				//public	int			ChildCount	{	get	=>	this._Children.Count ;	}
 				public	string	ButtonType	{ get;	set; }
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -89,12 +89,12 @@ namespace BxS_Worx.Dashboard.UI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void AddChild( IButtonProfile profile )	=>	this._Children.Add( profile.ID , profile );
+				//public void AddChild( IButtonProfile profile )	=>	this._Children.Add( profile.ID , profile );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IButtonProfile> GetSubList()				=>	this._Children.Values
-																															.OrderByDescending( x	=> x.SeqNo )
-																															.ToList();
+				//public IList<IButtonProfile> GetSubList()				=>	this._Children.Values
+				//																											.OrderByDescending( x	=> x.SeqNo )
+				//																											.ToList();
 
 			#endregion
 

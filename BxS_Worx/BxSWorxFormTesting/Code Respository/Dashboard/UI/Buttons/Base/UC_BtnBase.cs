@@ -5,7 +5,7 @@ using System.Windows.Forms	;
 //.........................................................
 using BxS_Worx.Dashboard.Utilities ;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Button
 	{
 		[	TypeDescriptionProvider( typeof( AbstractDescriptionProvider<UC_BtnBase , UserControl> ) ) ]
 		//...

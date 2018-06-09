@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Button
 {
 	public interface IButtonProfile
 		{
@@ -17,16 +17,16 @@ namespace BxS_Worx.Dashboard.UI
 				string	ImageID			{ get;  set; }
 				string	Text				{ get;  set; }
 
-				object	Tag					{ get;  set; }
+				IButtonTag	Tag					{ get;  set; }
 				//...
-				int			ChildCount	{ get; }
+				//int			ChildCount	{ get; }
 				string	ButtonType	{ get; set; }
 
 				Color					ColourBack			{ get;  set; }
 				Color					ColourFocus			{ get;  set; }
 				DockStyle			DockStyle				{ get;  set; }
 				DockStyle			FocusDocking		{ get;  set; }
-				IUC_Button		Button					{ get;  set; }
+				//IUC_Button		Button					{ get;  set; }
 				EventHandler	OnClickHandler	{ get;  set; }
 
 			#endregion
@@ -36,9 +36,9 @@ namespace BxS_Worx.Dashboard.UI
 
 				void	ApplyProfile() ;
 
-				void	AddChild( IButtonProfile	profile ) ;
+				//void	AddChild( IButtonProfile	profile ) ;
 				//...
-				IList<IButtonProfile>	GetSubList() ;
+				//IList<IButtonProfile>	GetSubList() ;
 
 			#endregion
 

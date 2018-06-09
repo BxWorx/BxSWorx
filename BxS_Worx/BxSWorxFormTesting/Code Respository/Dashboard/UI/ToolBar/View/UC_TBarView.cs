@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Collections.Generic		;
+using System.Drawing								;
+using System.Windows.Forms					;
+//.........................................................
+using BxS_Worx.Dashboard.UI.Button	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Toolbar
 {
@@ -9,9 +11,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UC_TBarView()
+				internal UC_TBarView(	IUC_TBarSetup	setup )
 					{
 						InitializeComponent()	;
+						//...
+						this._Config	= setup	;
 					}
 
 			#endregion
@@ -22,19 +26,19 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private	delegate	int		GetSpan()						;
 				private	delegate	void	SetSpan( int size )	;
 				//...
-				private	IUC_TBarViewConfig	_Config		;
-				private GetSpan							_SpanGet	;
-				private SetSpan							_SpanSet	;
+				private	readonly	IUC_TBarSetup		_Config		;
+				private GetSpan					_SpanGet	;
+				private SetSpan					_SpanSet	;
 				//...
-				private	bool								_IsClosed	;
+				private	bool						_IsClosed	;
 
 			#endregion
 
 			//===========================================================================================
 			#region "Properties"
 
-				public	IUC_TBarViewConfig	Config	{ set	{	this._Config	= value ;
-																										this.ApplyConfig()		;	} }
+				//public	IUC_TBarSetup	Config	{ set	{	this._Config	= value ;
+				//																						this.ApplyConfig()		;	} }
 				//...
 				public	UserControl					ViewUC	{ get	=>	this	; }
 
@@ -42,6 +46,12 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 			//===========================================================================================
 			#region "Routines: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void Startup()
+					{
+						this.ApplyConfig();
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	LoadButtons( IList<IUC_Button> buttonList , bool doLayout = false )

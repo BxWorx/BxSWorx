@@ -43,28 +43,33 @@ namespace BxS_Worx.Dashboard.UI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	static	IUC_TBarView				CreateTBView()	=>	new UC_TBarView		();
+				internal	static	IUC_TBarView		CreateTBView( IUC_TBarSetup		setup )	=>	new UC_TBarView( setup );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	static	IUC_TBarModel				CreateTBModel()	=>	new	UC_TBarModel	();
-
-				internal	static	IUC_TBarModel				CreateTBModel( IUC_TBarSetup setup )
-																								=>	new	UC_TBarModel { Setup = setup };
+				internal	static	IUC_TBarModel		CreateTBModel()												=>	new	UC_TBarModel	();
+				internal	static	IUC_TBarModel		CreateTBModel( IUC_TBarSetup setup )	=>	new	UC_TBarModel { Setup = setup };
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal	static	UC_TBarPresenter		CreateTBPresenter( IUC_TBarSetup	setup )
+				internal	static	UC_TBarPresenter		CreateTBPresenter(	IUC_TBarModel		model
+																																,	IUC_TBarView		view	)	=>	new	UC_TBarPresenter(		model
+																																																										,	view	) ;
+
+				internal	static	UC_TBarPresenter		CreateTBPresenter( IUC_TBarSetup setup )
 					{
-						IUC_TBarModel	lo_TBM	= DB_Factory.CreateTBModel()	;
-						IUC_TBarView	lo_TBV	= DB_Factory.CreateTBView()		;
+						IUC_TBarModel			lo_Mdl		= DB_Factory.CreateTBModel			( setup )							;
+						IUC_TBarView			lo_View		= DB_Factory.CreateTBView				( lo_Mdl.Setup )			;
+						UC_TBarPresenter	lo_TBP		= DB_Factory.CreateTBPresenter	( lo_Mdl , lo_View )	;
 						//...
-						return	DB_Factory.CreateTBPresenter( setup , lo_TBM , lo_TBV )	;
+						return	lo_TBP ;
 					}
 
-				internal	static	UC_TBarPresenter		CreateTBPresenter(	IUC_TBarSetup		setup
-																																,	IUC_TBarModel		model
-																																,	IUC_TBarView		view	)	=>	new	UC_TBarPresenter(		setup
-																																																										,	model
-																																																										,	view	)	;
+				internal	static	UC_TBarPresenter		CreateTBPresenter( IUC_TBarModel model )
+					{
+						IUC_TBarView			lo_View		= DB_Factory.CreateTBView				( model.Setup )			;
+						UC_TBarPresenter	lo_TBP		= DB_Factory.CreateTBPresenter	( model , lo_View )	;
+						//...
+						return	lo_TBP ;
+					}
 
 			#endregion
 
@@ -84,12 +89,11 @@ namespace BxS_Worx.Dashboard.UI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IDB_View					CreateDBView()	=>	new	DB_View();
+				public	static	IDB_View			CreateDBView()	=>	new	DB_View();
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	DB_Presenter	CreateDBPresenter(	IDBModel	model
-																												,	IDB_View	view	)	=>	new	DB_Presenter(		model
-																																																	, view		);
+				public	static	DB_Presenter	CreateDBPresenter()									=>	new	DB_Presenter(	CreateDBView() ) ;
+				public	static	DB_Presenter	CreateDBPresenter( IDB_View	view	)	=>	new	DB_Presenter(	view					 ) ;
 
 			#endregion
 
@@ -108,11 +112,11 @@ namespace BxS_Worx.Dashboard.UI
 				public	static	IButtonProfile	CreateButtonProfile()							=>	new	ButtonProfile();
 				public	static	IButtonProfile	CreateButtonProfile( string id )	=>	new	ButtonProfile( id );
 
-				public	static	IButtonProfile	CreateButtonProfile(	string	id
-																														,	string	buttonType
-																														,	string	imageID
-																														,	string	text
-																														, object	tag					)
+				public	static	IButtonProfile	CreateButtonProfile(	string			id
+																														,	string			buttonType
+																														,	string			imageID
+																														,	string			text
+																														, IButtonTag	tag					)
 					{
 						return	new ButtonProfile	{ ID					= id
 																			, ButtonType	=	buttonType

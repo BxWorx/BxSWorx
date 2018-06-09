@@ -3,15 +3,16 @@ using System.Linq										;
 using System.Windows.Forms					;
 //.........................................................
 using BxS_Worx.Dashboard.UI.Window	;
+using BxS_Worx.Dashboard.UI.Button	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public abstract class DBModelBase	: IDBModel
+	public abstract class DBAssemblyBase	: IDBAssembly
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				protected DBModelBase()
+				protected DBAssemblyBase()
 					{
 						this._ToolBars	= new	Dictionary<string, IUC_TBarSetup>	()	;
 						this._BtnProf		= new	Dictionary<string, IButtonProfile>()	;
@@ -82,24 +83,25 @@ namespace BxS_Worx.Dashboard.UI
 					{
 						bool	lb_Ret	= false ;
 						//...
-						IUC_TBarSetup	lo_TBarCfg		= this.GetTBarConfig( btnProfile.ToolbarID ) ;
-
-						if ( lo_TBarCfg != null )
+						if ( this._ToolBars.TryGetValue( btnProfile.ToolbarID , out IUC_TBarSetup lo_TBarCfg ) )
 							{
-								btnProfile.ColourBack		=	lo_TBarCfg.ColourBack		;
-								btnProfile.ColourFocus	=	lo_TBarCfg.ColourFocus	;
+								if ( lo_TBarCfg != null )
+									{
+										btnProfile.ColourBack		=	lo_TBarCfg.ColourBack		;
+										btnProfile.ColourFocus	=	lo_TBarCfg.ColourFocus	;
 
-								btnProfile.DockStyle		=	lo_TBarCfg.IsHorizontal		?	DockStyle.Left
-																																		: DockStyle.Top		;
+										btnProfile.DockStyle		=	lo_TBarCfg.IsHorizontal		?	DockStyle.Left
+																																				: DockStyle.Top		;
 
-								if ( ! lo_TBarCfg.ButtonType.Equals( ButtonTypes.TypeAll ) )
-									{	btnProfile.ButtonType		=	lo_TBarCfg.ButtonType ;	}
+										if ( ! lo_TBarCfg.ButtonType.Equals( ButtonTypes.TypeAll ) )
+											{	btnProfile.ButtonType		=	lo_TBarCfg.ButtonType ;	}
+										//...
+										lb_Ret	= true ;
+									}
 								//...
-								lb_Ret	= true ;
-							}
-						//...
-						if ( lb_Ret )
-							{	this._BtnProf.Add( btnProfile.ID , btnProfile ) ; }
+								if ( lb_Ret )
+									{	this._BtnProf.Add( btnProfile.ID , btnProfile ) ; }
+									}
 						//...
 						return	lb_Ret ;
 					}
@@ -125,14 +127,14 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Methods: Private"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	IUC_TBarSetup GetTBarConfig( string	id )
-					{
-						if ( this._ToolBars.TryGetValue( id , out IUC_TBarSetup lo_Cfg ) )
-							{	}
-						//...
-						return	lo_Cfg ;
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private	IUC_TBarSetup GetTBarConfig( string	id )
+				//	{
+				//		if ( this._ToolBars.TryGetValue( id , out IUC_TBarSetup lo_Cfg ) )
+				//			{	}
+				//		//...
+				//		return	lo_Cfg ;
+				//	}
 
 			#endregion
 

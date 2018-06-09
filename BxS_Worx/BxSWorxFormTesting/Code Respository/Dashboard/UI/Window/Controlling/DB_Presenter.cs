@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic	;
+﻿using System.Collections.Generic		;
 //.........................................................
 using BxS_Worx.Dashboard.UI.Toolbar	;
+using BxS_Worx.Dashboard.UI.Button	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Window
 {
@@ -10,15 +11,13 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal DB_Presenter(	IDBModel	model
-															,	IDB_View	view		)
+				internal DB_Presenter( IDB_View	view )
 					{
-						this._Model	= model	?? throw	new System.Exception("Model null")	;
-						this.View		= view	?? throw	new System.Exception("View null")		;
+						this.View		= view		?? throw	new System.Exception("View null")		;
 						//...
-						this._ToolBars					= new	Dictionary<string, UC_TBarPresenter>()	;
+						this._ToolBars					= new	Dictionary<string, UC_TBarPresenter>() ;
+						this._StartupTbars			= new List<string>();
 
-						this._StartupTBar				= string.Empty	;
 						this._StartupScenario		= string.Empty	;
 					}
 
@@ -27,12 +26,10 @@ namespace BxS_Worx.Dashboard.UI.Window
 			//===========================================================================================
 			#region "Declarations"
 
-				private	readonly	IDBModel				_Model	;
+				private	string	_StartupScenario ;
 				//...
-				private	string	_StartupTBar			;
-				private	string	_StartupScenario	;
-				//...
-				private readonly Dictionary<string , UC_TBarPresenter>	_ToolBars	;
+				private readonly IList<string>													_StartupTbars	;
+				private readonly Dictionary<string , UC_TBarPresenter>	_ToolBars			;
 
 			#endregion
 
@@ -47,65 +44,33 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	Startup()
+				public void	AssembleDashboard( IDBAssembly assembly )
 					{
-						this._Model.LoadFromSource()	;
-						this.AssembleDashboard()			;
-						//...
-						this.View.Startup()						;
+						this.View.Config	=	assembly.ViewConfig	;
 
-						if ( this._ToolBars.TryGetValue( this._StartupTBar , out UC_TBarPresenter lo_TBar ) )
+						//... Assemble Toolbars
+						//...
+						foreach ( IUC_TBarSetup lo_TBSetup in	assembly.ToolBarList )
 							{
-								lo_TBar.ChangeScenario( this._StartupScenario )	;
-							}
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void	AssembleDashboard()
-					{
-						this.View.Config		=	this._Model.ViewConfig	;
-						//...
-						this.AssembleToolbars()	;
-						this.AssembleButtons()	;
-						//...
-						this.LoadToolBarsOntoForm()		;
-						this.LoadButtonsOnToolBars()	;
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private: Toolbar"
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void	LoadToolBarsOntoForm()
-					{
-						foreach ( UC_TBarPresenter lo_TBar in this._ToolBars.Values )
-							{
-								lo_TBar.Startup()	;
+								//... Create toolbar presenter
 								//...
-								this.View.LoadToolbar( lo_TBar ) ;
-							}
-					}
+								IUC_TBarModel			lo_Mdl	= DB_Factory.CreateTBModel			( lo_TBSetup )	;
+								UC_TBarPresenter	lo_TBP	= DB_Factory.CreateTBPresenter	( lo_Mdl )			;
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void	AssembleToolbars()
-					{
-						foreach ( IUC_TBarSetup lo_TBSetup in	this._Model.ToolBarList )
-							{
-								IUC_TBarModel	lo_Mdl	= DB_Factory.CreateTBModel();
-
-
-								UC_TBarPresenter	lo_TBP	= DB_Factory.CreateTBPresenter( lo_TBSetup )	;
-
+								//... Load TBar model with button profiles
+								//...
+								foreach ( IButtonProfile lo_BtnProf	in assembly.ToolbarButtonList( lo_TBSetup.ID ) )
+									{
+										lo_Mdl.LoadButton( lo_BtnProf ) ;
+									}
+								//...
 								this._ToolBars.Add( lo_TBSetup.ID , lo_TBP );
 								//...
 								if ( ! string.IsNullOrEmpty( lo_TBSetup.ID ) )
 									{
-										if (		string.IsNullOrEmpty( this._StartupTBar )
-												||	lo_TBSetup.IsStartupToolBar									)
+										if ( lo_TBSetup.IsStartupToolBar )
 											{
-												this._StartupTBar		= lo_TBSetup.ID	;
+												this._StartupTbars.Add( lo_TBSetup.ID	) ;
 											}
 									}
 								//...
@@ -117,16 +82,97 @@ namespace BxS_Worx.Dashboard.UI.Window
 											}
 									}
 							}
+
+
+
+
+
+						//this.AssembleToolbars()	;
+						//this.AssembleButtons()	;
+						//...
+						//this.LoadToolBarsOntoForm()		;
+						//this.LoadButtonsOnToolBars()	;
 					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal void	Startup()
+					{
+						this.View.Startup() ;
+						//...
+						foreach ( string lc_ID in this._StartupTbars )
+							{
+								if ( this._ToolBars.TryGetValue( lc_ID , out UC_TBarPresenter lo_TBar ) )
+									{
+										lo_TBar.Startup()	;
+										this.View.LoadToolbar( lo_TBar ) ;
+									}
+							}
+						//...
+						//lo_TBar.ChangeScenario( this._StartupScenario )	;
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Methods: Private: Toolbar"
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private	void	LoadToolBarsOntoForm()
+				//	{
+				//		foreach ( UC_TBarPresenter lo_TBar in this._ToolBars.Values )
+				//			{
+				//				lo_TBar.Startup()	;
+				//				//...
+				//				this.View.LoadToolbar( lo_TBar ) ;
+				//			}
+				//	}
+
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private	void	AssembleToolbars()
+				//	{
+				//		foreach ( IUC_TBarSetup lo_TBSetup in	this._Model.ToolBarList )
+				//			{
+				//				//... Create toolbar presenter
+				//				//...
+				//				IUC_TBarModel			lo_Mdl		= DB_Factory.CreateTBModel			( lo_TBSetup )	;
+				//				UC_TBarPresenter	lo_TBP		= DB_Factory.CreateTBPresenter	( lo_Mdl )			;
+
+				//				//... Load TBar model with button profiles
+				//				//...
+				//				foreach ( IButtonProfile lo_BtnProf	in this._Model.ToolbarButtonList( lo_TBSetup.ID ) )
+				//					{
+				//						lo_Mdl.LoadButton( lo_BtnProf ) ;
+				//					}
+				//				//...
+				//				this._ToolBars.Add( lo_TBSetup.ID , lo_TBP );
+				//				//...
+				//				if ( ! string.IsNullOrEmpty( lo_TBSetup.ID ) )
+				//					{
+				//						if (		string.IsNullOrEmpty( this._StartupTBar )
+				//								||	lo_TBSetup.IsStartupToolBar									)
+				//							{
+				//								this._StartupTBar		= lo_TBSetup.ID	;
+				//							}
+				//					}
+				//				//...
+				//				if ( ! string.IsNullOrEmpty( lo_TBSetup.StartupScenario ) )
+				//					{
+				//						if ( string.IsNullOrEmpty( this._StartupScenario ) )
+				//							{
+				//								this._StartupScenario		= lo_TBSetup.StartupScenario	;
+				//							}
+				//					}
+				//			}
+				//	}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private: Button"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void LoadButtonsOnToolBars()
-					{
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private void LoadButtonsOnToolBars()
+				//	{
 						//foreach ( IButtonProfile lo_Btn in this._Model.ToolbarButtonList( ) )
 						//	{
 						//		if ( this._ToolBars.TryGetValue( lo_Btn.ToolbarID , out UC_TBarPresenter lo_TBar ) )
@@ -134,17 +180,17 @@ namespace BxS_Worx.Dashboard.UI.Window
 						//				lo_TBar.LoadButton( lo_Btn ) ;
 						//			}
 						//	}
-					}
+				//	}
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void	AssembleButtons()
-					{
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private	void	AssembleButtons()
+				//	{
 						//foreach ( IButtonProfile lo_Btn in this._Model.ToolbarButtonList() )
 						//	{
 						//		lo_Btn.Button		=	DB_Factory.CreateButton( lo_Btn.ButtonType );
 						//		lo_Btn.Button.CompileButton();
 						//	}
-					}
+				//	}
 
 			#endregion
 

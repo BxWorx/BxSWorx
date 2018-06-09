@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-namespace BxS_Worx.Dashboard.UI
+namespace BxS_Worx.Dashboard.UI.Button
 {
 	public interface IUC_Button
 		{

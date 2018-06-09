@@ -1,5 +1,6 @@
 ﻿using	System.Windows.Forms	;
 //.........................................................
+using BxS_Worx.Dashboard.UI.Button;
 using BxS_Worx.Dashboard.Utilities;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
@@ -10,7 +11,7 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Constructors"
 
-				public UC_BtnSelected()	: base()
+				public UC_BtnSelected( IButtonProfile		profile )	: base()
 					{
 						InitializeComponent();
 						//...

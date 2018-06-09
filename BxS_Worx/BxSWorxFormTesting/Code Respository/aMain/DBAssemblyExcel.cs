@@ -4,16 +4,16 @@ using BxS_Worx.Dashboard.UI.Button	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public sealed class DBModelExcel	: DBModelBase
+	public sealed class DBAssemblyExcel	: DBAssemblyBase
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private DBModelExcel()	: base()
+				private DBAssemblyExcel()	: base()
 					{	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	static	IDBModel	Create()	=>	new	DBModelExcel();
+				public	static	IDBAssembly	Create()	=>	new	DBAssemblyExcel();
 
 			#endregion
 
@@ -21,7 +21,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public override void	LoadFromSource()
+				public override void LoadFromSource()
 					{
 						base.LoadFromSource();
 						//...
@@ -35,7 +35,7 @@ namespace BxS_Worx.Dashboard.UI
 			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void	LoadButtonsFromSource()
+				private	void LoadButtonsFromSource()
 					{
 						IButtonTag lo_Tag1	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
 						lo_Tag1.ScenarioID	=	"SC1"	;
@@ -90,9 +90,9 @@ namespace BxS_Worx.Dashboard.UI
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	void	LoadToolbarsFromSource()
+				private	void LoadToolbarsFromSource()
 					{
-						IUC_TBarSetup	TB1		=	DB_Factory.CreateTBSetup();		TB1.ID	= "TB1";	TB1.SeqNo	= 1	;	TB1.IsHorizontal	= true	;
+						IUC_TBarSetup	TB1			=	DB_Factory.CreateTBSetupWithDefaults();		TB1.ID	= "TB1";	TB1.SeqNo	= 1	;	TB1.IsHorizontal	= true	;
 
 						TB1.IsStartupToolBar	= true	;
 						TB1.StartupScenario		=	"SC1"	;
@@ -102,10 +102,11 @@ namespace BxS_Worx.Dashboard.UI
 
 						this.LoadToolbar( TB1 )	;
 						//...
-						IUC_TBarSetup	TB2		= DB_Factory.CreateTBSetup();		TB2.ID	= "TB2";	TB2.SeqNo	= 2	;	TB2.IsHorizontal	= false	;
+						IUC_TBarSetup	TB2			= DB_Factory.CreateTBSetupWithDefaults();		TB2.ID	= "TB2";	TB2.SeqNo	= 2	;	TB2.IsHorizontal	= false	;
 
-						TB2.ColourBack			= System.Drawing.Color.Aquamarine	;
-						TB2.TransitionSpeed	=	10	;
+						TB2.IsStartupToolBar	= true	;
+						TB2.ColourBack				= System.Drawing.Color.Aquamarine	;
+						TB2.TransitionSpeed		=	10	;
 
 						this.LoadToolbar( TB2 )	;
 					}

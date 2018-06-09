@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Generic		;
 //.........................................................
-using BxS_Worx.Dashboard.UI.Window;
+using BxS_Worx.Dashboard.UI.Window	;
+using BxS_Worx.Dashboard.UI.Button	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public interface IDBModel
+	public interface IDBAssembly
 		{
 			#region "Properties"
 
-				IDB_Config				ViewConfig	{ get; set; }
+				IDB_Config	ViewConfig	{ get; set; }
 				//...
 				IList<IUC_TBarSetup>	ToolBarList	{ get; }
 

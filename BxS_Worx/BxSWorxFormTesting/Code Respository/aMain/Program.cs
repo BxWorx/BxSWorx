@@ -18,15 +18,16 @@ namespace BxSWorxFormTesting
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
 					//...
-					IDBModel			lo_DBModel	= DBModelExcel.Create()	;
+					IDBAssembly		lo_DBAss	= DBAssemblyExcel.Create() ;
+					lo_DBAss.LoadFromSource()	;
 					//...
-					IDB_View			lo_DBView		=	DB_Factory.CreateDBView()	;
-					DB_Presenter	lo_DBP			=	DB_Factory.CreateDBPresenter( lo_DBModel , lo_DBView )	;
+					DB_Presenter	lo_DBPre	=	DB_Factory.CreateDBPresenter() ;
+					lo_DBPre.AssembleDashboard( lo_DBAss ) ;
 					//...
-					lo_DBP.Startup()	;
+					lo_DBPre.Startup() ;
 					//...
-					if ( lo_DBP.View.ViewForm != null )
-						{	Application.Run( lo_DBP.View.ViewForm ); }
+					if ( lo_DBPre.View.ViewForm != null )
+						{	Application.Run( lo_DBPre.View.ViewForm ); }
 				}
 		}
 	}
