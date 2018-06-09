@@ -35,7 +35,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IList<IButtonProfile>	ScenarioButtons( string scenarioID )
+				public IList<IButtonProfile> ScenarioButtons( string scenarioID )
 					{
 						IList<IButtonProfile> lt_List		= new	List<IButtonProfile>();
 						//...
@@ -64,7 +64,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	void	LoadButton( IButtonProfile buttonProfile )
+				public void LoadButton( IButtonProfile buttonProfile )
 					{
 						if ( ! this._Scenarios.TryGetValue( buttonProfile.ScenarioID , out Dictionary<string , IButtonProfile> lt_Btns ) )
 							{

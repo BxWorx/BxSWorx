@@ -18,7 +18,7 @@ namespace BxS_Worx.Dashboard.UI.Button
 						this.ID		= id;
 						//...
 						//this._Children	= new	Dictionary<string , IButtonProfile>()	;
-						this._IsReady		= false	;
+						//this._IsReady		= false	;
 					}
 
 			#endregion
@@ -28,7 +28,7 @@ namespace BxS_Worx.Dashboard.UI.Button
 
 				//private readonly Dictionary<string , IButtonProfile>	_Children;
 				//...
-				private	bool	_IsReady;
+				//private	bool	_IsReady;
 
 			#endregion
 
@@ -63,30 +63,30 @@ namespace BxS_Worx.Dashboard.UI.Button
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void	ApplyProfile()
-					{
-						if ( this.Button	== null )		{	return	; }
-						if ( this._IsReady )					{ return	; }
-						//...
-						this.Button.SetDockStyle					=	this.DockStyle			;
-						this.Button.SetFocusDocking				=	this.FocusDocking		;
-						this.Button.SetFocusColour				=	this.ColourFocus		;
-						this.Button.SetBackColour					=	this.ColourBack			;
-						this.Button.ID										= this.ID							;
-						this.Button.SetName								= this.ID							;
-						this.Button.SetTag								= this.Tag						;
-						this.Button.SetText								=	this.Text						;
-						//...
-						this.Button.SetClickEventHandler	=	this.OnClickHandler	;
-						//...
-						if ( ! string.IsNullOrEmpty( this.ImageID	) )
-							{
-								this.Button.SetImage	=	(Image)Resources.ResourceManager.GetObject( this.ImageID );
-							}
-						//...
-						this._IsReady	= true ;
-					}
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//public void	ApplyProfile()
+				//	{
+				//		if ( this.Button	== null )		{	return	; }
+				//		if ( this._IsReady )					{ return	; }
+				//		//...
+				//		this.Button.SetDockStyle					=	this.DockStyle			;
+				//		this.Button.SetFocusDocking				=	this.FocusDocking		;
+				//		this.Button.SetFocusColour				=	this.ColourFocus		;
+				//		this.Button.SetBackColour					=	this.ColourBack			;
+				//		this.Button.ID										= this.ID							;
+				//		this.Button.SetName								= this.ID							;
+				//		this.Button.SetTag								= this.Tag						;
+				//		this.Button.SetText								=	this.Text						;
+				//		//...
+				//		this.Button.SetClickEventHandler	=	this.OnClickHandler	;
+				//		//...
+				//		if ( ! string.IsNullOrEmpty( this.ImageID	) )
+				//			{
+				//				this.Button.SetImage	=	(Image)Resources.ResourceManager.GetObject( this.ImageID );
+				//			}
+				//		//...
+				//		this._IsReady	= true ;
+				//	}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				//public void AddChild( IButtonProfile profile )	=>	this._Children.Add( profile.ID , profile );

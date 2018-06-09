@@ -98,6 +98,7 @@ namespace BxS_Worx.Dashboard.UI
 						TB1.StartupScenario		=	"SC1"	;
 						TB1.TransitionSpeed		=	0	;
 						TB1.IsStartupSpanMax	=	false	;
+						TB1.FocusDocking			=	DockStyle.Top	;
 
 						TB1.ButtonType				= ButtonTypes.TypeStd	;
 						TB1.ColourBack				= System.Drawing.Color.Plum	;

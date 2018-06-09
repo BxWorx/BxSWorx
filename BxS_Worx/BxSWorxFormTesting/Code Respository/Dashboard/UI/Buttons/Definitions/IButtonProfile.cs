@@ -34,7 +34,7 @@ namespace BxS_Worx.Dashboard.UI.Button
 			//===========================================================================================
 			#region "Routines: Exposed"
 
-				void	ApplyProfile() ;
+				//void	ApplyProfile() ;
 
 				//void	AddChild( IButtonProfile	profile ) ;
 				//...

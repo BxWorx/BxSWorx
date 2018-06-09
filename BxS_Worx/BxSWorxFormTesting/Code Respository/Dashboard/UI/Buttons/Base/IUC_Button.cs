@@ -31,6 +31,6 @@ namespace BxS_Worx.Dashboard.UI.Button
 			#endregion
 
 			void CompileButton();
-
+			void ApplyProfile()	;
 		}
 }

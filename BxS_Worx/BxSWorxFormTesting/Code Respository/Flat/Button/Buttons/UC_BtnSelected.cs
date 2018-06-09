@@ -11,7 +11,7 @@ namespace BxS_Worx.Dashboard.UI
 		{
 			#region "Constructors"
 
-				public UC_BtnSelected( IButtonProfile		profile )	: base()
+				public UC_BtnSelected()	: base()
 					{
 						InitializeComponent();
 						//...

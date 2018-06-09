@@ -1,4 +1,5 @@
-﻿using System.Drawing	;
+﻿using System.Drawing				;
+using System.Windows.Forms	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
@@ -24,6 +25,8 @@ namespace BxS_Worx.Dashboard.UI
 				int				TransitionSpanMin			{ get;  set; }
 				int				TransitionSpanMax			{ get;  set; }
 				int				TransitionSpeed				{ get;  set; }
+				//...
+				DockStyle	FocusDocking					{ get;  set; }
 
 			#endregion
 

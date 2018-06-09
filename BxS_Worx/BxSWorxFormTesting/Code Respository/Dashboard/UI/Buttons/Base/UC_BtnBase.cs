@@ -4,6 +4,7 @@ using System.Drawing				;
 using System.Windows.Forms	;
 //.........................................................
 using BxS_Worx.Dashboard.Utilities ;
+using BxSWorxFormTesting.Properties;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Button
 	{
@@ -27,7 +28,7 @@ namespace BxS_Worx.Dashboard.UI.Button
 			#region "Declarations"
 
 				protected	IButtonProfile	_Profile	;
-
+				//...
 				protected	Panel				_UCImage			;
 				protected	Panel				_UCButton			;
 				protected	Panel				_UCFocus			;
@@ -86,6 +87,26 @@ namespace BxS_Worx.Dashboard.UI.Button
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public virtual void CompileButton()
 					{
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public void	ApplyProfile()
+					{
+						this.SetDockStyle						=	this._Profile.DockStyle			;
+						this.SetFocusDocking				=	this._Profile.FocusDocking		;
+						this.SetFocusColour					=	this._Profile.ColourFocus		;
+						this.SetBackColour					=	this._Profile.ColourBack			;
+						this.ID											= this._Profile.ID							;
+						this.SetName								= this._Profile.ID							;
+						this.SetTag									= this._Profile.Tag						;
+						this.SetText								=	this._Profile.Text						;
+						//...
+						this.SetClickEventHandler		=	this._Profile.OnClickHandler	;
+						//...
+						if ( ! string.IsNullOrEmpty( this._Profile.ImageID	) )
+							{
+								this.SetImage	=	(Image)Resources.ResourceManager.GetObject( this._Profile.ImageID );
+							}
 					}
 
 			#endregion

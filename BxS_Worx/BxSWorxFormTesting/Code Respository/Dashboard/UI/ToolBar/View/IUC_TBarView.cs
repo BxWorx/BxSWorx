@@ -9,8 +9,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 		{
 			#region "Properties"
 
-				//IUC_TBarSetup		Config	{ set; }
-				UserControl			ViewUC	{ get; }
+				UserControl		ViewUC	{ get; }
 
 			#endregion
 
@@ -18,7 +17,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Exposed"
 
 				void	Startup()	;
-
 
 				void	LoadButtons( IList<IUC_Button>	buttonList , bool	doLayout = false )	;
 				//...
