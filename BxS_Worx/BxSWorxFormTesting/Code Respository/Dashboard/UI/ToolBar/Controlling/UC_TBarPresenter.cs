@@ -1,5 +1,6 @@
 ﻿using System												;
 using System.Collections.Generic		;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms					;
 //.........................................................
@@ -22,6 +23,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 						this._CurScenario		= string.Empty	;
 						this._IsStarted			= false					;
+						this._QuickView			= false					;
 					}
 
 			#endregion
@@ -35,6 +37,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private	bool		_IsStarted		;
 				private	string	_CurScenario	;
 				private	string	_CurButton		;
+
+				private	bool		_QuickView		;
 
 			#endregion
 
@@ -59,6 +63,9 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						this.CreateScenarioButtons( this.Setup.StartupScenario ) ;
 						this.ChangeScenario( this.Setup.StartupScenario ) ;
 						//...
+						this.View.ViewBar.MouseEnter += this.ViewUC_MouseEnter	;
+						this.View.ViewBar.MouseLeave += this.ViewBar_MouseLeave	;
+						//...
 						this._IsStarted	= true ;
 					}
 
@@ -67,15 +74,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( id == null )		{	return ; }
 						//...
-						if ( ! this._Scenarios.TryGetValue( id , out Dictionary<string , IUC_Button> lt_Btns ) )
-							{
-								this.AddScenario( id );
-								if ( ! this._Scenarios.TryGetValue( id , out lt_Btns ) )
-									{	return ; }
-							}
-						//...
-						//lt_Btns.Add( buttonProfile.ID , buttonProfile );
-
 						if ( ! this._CurScenario.Equals(id) )
 							{
 								this.View.LoadButtons( this.ScenarioButtons( id ) )	;
@@ -131,8 +129,9 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						//...
 						foreach ( IButtonProfile lo_BtnProf in this._Model.ScenarioButtons( id ) )
 							{
-								if ( lo_BtnProf.OnClickHandler == null )									lo_BtnProf.OnClickHandler		= this.OnButtonClick_Routing	;
+								if ( lo_BtnProf.OnClickHandler == null								)		lo_BtnProf.OnClickHandler		= this.OnButtonClick_Routing	;
 								if ( ! this.Setup.FocusDocking.Equals(DockStyle.None) )		lo_BtnProf.FocusDocking			= this.Setup.FocusDocking			;
+								if ( ! this.Setup.ColourFocus.Equals(Color.Empty)			)		lo_BtnProf.FocusDocking			= this.Setup.FocusDocking			;
 								//...
 								IUC_Button x		= DB_Factory.CreateButton( lo_BtnProf ) ;
 								x.ApplyProfile();
@@ -185,11 +184,41 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 			#endregion
 
+			//===========================================================================================
+			#region "Methods: Private: Event handlers"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void ViewBar_MouseLeave(object sender , EventArgs e)
+					{
+						if ( ! this._QuickView )	{	return ; }
+						//...
+						this.View.InvokeTransition()	;
+						this._QuickView	= false	;
+
+				//if (!this.ClientRectangle.Contains(this.PointToClient(Cursor.Position)))
+				//{
+				//		this.Opacity = 0.5;
+				//}
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void ViewUC_MouseEnter(object sender , EventArgs e)
+					{
+						if ( ! this.View.IsClosed )		{	return ; }
+						//...
+						this.View.InvokeTransition()	;
+						//...
+						this._QuickView	= true	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void OnMouseHover(object sender , EventArgs e)
+					{
+						throw new NotImplementedException();
+					}
+
+			#endregion
+
 		}
 }
-
-	//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-	//private void OnMouseHover( object sender , System.EventArgs e )
-	//	{
-	//	}
 

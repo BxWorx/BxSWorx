@@ -96,13 +96,13 @@ namespace BxS_Worx.Dashboard.UI
 
 						TB1.IsStartupToolBar	= true	;
 						TB1.StartupScenario		=	"SC1"	;
-						TB1.TransitionSpeed		=	0	;
+						TB1.TransitionSpeed		=	10	;
 						TB1.IsStartupSpanMax	=	false	;
 						TB1.FocusDocking			=	DockStyle.Top	;
 
 						TB1.ButtonType				= ButtonTypes.TypeStd	;
-						TB1.ColourBack				= System.Drawing.Color.Plum	;
-
+						TB1.ColourBack				= System.Drawing.Color.Plum		;
+						TB1.ColourFocus				= System.Drawing.Color.Black	;
 						this.LoadToolbar( TB1 )	;
 						//...
 						IUC_TBarSetup	TB2			= DB_Factory.CreateTBSetupWithDefaults();		TB2.ID	= "TB2";	TB2.SeqNo	= 2	;	TB2.IsHorizontal	= false	;

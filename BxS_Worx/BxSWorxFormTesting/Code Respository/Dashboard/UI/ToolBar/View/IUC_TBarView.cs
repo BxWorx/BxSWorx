@@ -9,12 +9,17 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 		{
 			#region "Properties"
 
-				UserControl		ViewUC	{ get; }
+				UserControl		ViewUC		{ get; }
+				Panel					ViewBar		{ get; }
+				bool					IsClosed	{ get; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				void	Collapse( bool id );
+
 
 				void	Startup()	;
 

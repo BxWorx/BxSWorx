@@ -38,12 +38,27 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Properties"
 
-				public	UserControl		ViewUC	{ get	=>	this ; }
+				public	UserControl		ViewUC		{ get	=>	this						; }
+				public	Panel					ViewBar		{ get	=>	this.xpnl_Bar		; }
+				public	bool					IsClosed	{ get	=>	this._IsClosed	; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Routines: Exposed"
+
+				public void Collapse( bool id )
+					{
+						this.SuspendLayout();
+						//...
+						foreach ( Control lo_Btn in this.xpnl_Bar.Controls )
+							{
+								lo_Btn.Enabled	= id;
+								lo_Btn.Visible	= id;
+							}
+						//...
+						this.ResumeLayout( false );
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Startup()
@@ -80,9 +95,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 								while ( this._SpanGet()	< this._Config.TransitionSpanMax );
 								//...
 								ln_Span		=	this._Config.TransitionSpanMax	;
+								this.Collapse(true);
 							}
 						else
 							{
+								this.Collapse(false);
 								do	{	this._SpanSet( ln_Span	-= this._Config.TransitionSpeed ) ;	}
 								while ( this._SpanGet()	> this._Config.TransitionSpanMin );
 								//...
