@@ -83,11 +83,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 								while ( this._SpanGet()	< this._Config.TransitionSpanMax );
 								//...
 								ln_Span		=	this._Config.TransitionSpanMax	;
-								this.HideShowChildControls(true , ! quickview );
+								this.ShowChildControls( true , ! quickview );
 							}
 						else
 							{
-								this.HideShowChildControls(false , false );
+								this.ShowChildControls( false , false );
 								do	{	this._SpanSet( ln_Span	-= this._Config.TransitionSpeed ) ;	}
 								while ( this._SpanGet()	> this._Config.TransitionSpanMin );
 								//...
@@ -146,7 +146,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void HideShowChildControls( bool visible , bool enabled )
+				private void ShowChildControls( bool visible , bool enabled )
 					{
 						foreach ( Control lo_Btn in this.xpnl_Bar.Controls )
 							{

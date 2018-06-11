@@ -66,8 +66,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						this.CreateScenarioButtons( this.Setup.StartupScenario ) ;
 						this.ChangeScenario( this.Setup.StartupScenario ) ;
 						//...
-						this.View.ViewBar.MouseEnter	+= this.ViewUC_MouseEnter	;
-						this.View.ViewBar.MouseLeave	+= this.ViewBar_MouseLeave	;
+						this.View.ViewBar.MouseEnter	+= this.TBar_MouseEnter	;
+						this.View.ViewBar.MouseLeave	+= this.TBar_MouseLeave	;
 						//...
 						this._IsStarted	= true ;
 					}
@@ -193,7 +193,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Private: Event handlers"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ViewBar_MouseLeave(object sender , EventArgs e)
+				private void TBar_MouseLeave(object sender , EventArgs e)
 					{
 						if ( ! this._QuickView )	{	return ; }
 						//...
@@ -208,7 +208,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 									}
 								else
 									{
-										c.MouseLeave	+= this.ViewBar_MouseLeave	;
+										c.MouseLeave	+= this.TBar_MouseLeave	;
 										//if ( ! this.View.ViewUC.ClientRectangle.Contains( this.View.ViewUC.PointToClient(Cursor.Position)))
 										//	{
 										//		//var x =	(Control)sender;
@@ -222,7 +222,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void ViewUC_MouseEnter(object sender , EventArgs e)
+				private void TBar_MouseEnter(object sender , EventArgs e)
 					{
 						if ( ! this.View.IsClosed )		{	return ; }
 						//...
