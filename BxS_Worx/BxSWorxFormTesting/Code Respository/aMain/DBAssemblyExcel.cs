@@ -37,56 +37,59 @@ namespace BxS_Worx.Dashboard.UI
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	void LoadButtonsFromSource()
 					{
-						IButtonTag lo_Tag1	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
-						lo_Tag1.ScenarioID	=	"SC1"	;
-						lo_Tag1.ButtonID		=	"BP1"	;
-
 						IButtonProfile	BP1	= DB_Factory.CreateButtonProfile(		"BP1"
+																																	,	"TB1"
+																																	, "SC1"
+																																	, 01
 																																	,	ButtonTypes.TypeStd
 																																	, ImageNames.Settings
 																																	, "Settings"
-																																	,	lo_Tag1							)	;
+																																	, "TB2"
+																																	, "SC1"								)	;
 
-						BP1.SeqNo						= 01		;
-						BP1.ToolbarID				=	"TB1"	;
-						BP1.ScenarioID			= "SC1"	;
 						BP1.FocusDocking		=	DockStyle.Bottom	;
 
 						this.LoadButton( BP1 ) ;
 						//...
-						IButtonTag lo_Tag2	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
-						lo_Tag2.ScenarioID	=	"SC1"	;
-						lo_Tag2.ButtonID		=	"BP2"	;
-
 						IButtonProfile	BP2	=	DB_Factory.CreateButtonProfile(		"BP2"
+																																	,	"TB1"
+																																	, "SC1"
+																																	, 03
 																																	,	ButtonTypes.TypeFlp
 																																	, ImageNames.Logo
 																																	, "Settings"
-																																	,	lo_Tag2							)	;
+																																	, "TB2"
+																																	, "SC1"								)	;
 
-						BP2.SeqNo						= 03		;
-						BP2.ToolbarID				=	"TB1"	;
-						BP2.ScenarioID			= "SC1"	;
 						BP2.FocusDocking		=	DockStyle.Bottom	;
 
 						this.LoadButton( BP2 ) ;
 						//...
-						IButtonTag lo_Tag3	=	DB_Factory.CreateButtonTag( "TB2"	, "SC2"	);
-						lo_Tag3.ScenarioID	=	"SC1"	;
-						lo_Tag3.ButtonID		=	"BP3"	;
-
 						IButtonProfile	BP3	=	DB_Factory.CreateButtonProfile(		"BP3"
+																																	,	"TB1"
+																																	, "SC1"
+																																	, 02
 																																	,	ButtonTypes.TypeFlp
 																																	, ImageNames.Excel
 																																	, "Settings"
-																																	,	lo_Tag3							)	;
+																																	, "TB2"
+																																	, "SC1"								)	;
 
-						BP3.SeqNo						= 02		;
-						BP3.ToolbarID				=	"TB1"	;
-						BP3.ScenarioID			= "SC1"	;
 						BP3.FocusDocking		=	DockStyle.Top	;
 
 						this.LoadButton( BP3 ) ;
+						//...
+						//...
+						IButtonProfile	BP4	= DB_Factory.CreateButtonProfile(		"BP2.1"
+																																	,	"TB2"
+																																	, "SC1"
+																																	, 01
+																																	,	ButtonTypes.TypeAny
+																																	, ImageNames.Settings
+																																	, "Settings"					)	;
+
+						this.LoadButton( BP4 ) ;
+
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -96,7 +99,7 @@ namespace BxS_Worx.Dashboard.UI
 
 						TB1.IsStartupToolBar	= true	;
 						TB1.StartupScenario		=	"SC1"	;
-						TB1.TransitionSpeed		=	10	;
+						TB1.TransitionSpeed		=	0			;
 						TB1.IsStartupSpanMax	=	false	;
 						TB1.FocusDocking			=	DockStyle.Top	;
 
@@ -111,6 +114,7 @@ namespace BxS_Worx.Dashboard.UI
 						TB2.TransitionSpeed		=	10		;
 						TB2.IsStartupSpanMax	=	false	;
 
+						TB2.ButtonType				= ButtonTypes.TypeFlp	;
 						TB2.ColourBack				= System.Drawing.Color.Aquamarine	;
 
 						this.LoadToolbar( TB2 )	;

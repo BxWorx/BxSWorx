@@ -32,6 +32,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Declarations"
 
+				public event	EventHandler<IButtonTag>	TBarClicked	;
+
 				private	readonly	IUC_TBarModel																					_Model			;
 				private readonly	Dictionary<string , Dictionary<string , IUC_Button>>	_Scenarios	;
 				//...
@@ -168,6 +170,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						//...
 						this._CurScenario	= lo_Tag.ScenarioID	;
 						this._CurButton		= lo_Tag.ButtonID		;
+
+						this.TBarClicked( sender , lo_Tag );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -194,22 +198,27 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						if ( ! this._QuickView )	{	return ; }
 						//...
 						var	p		= this.View.ViewBar.PointToClient(Cursor.Position)	;
-						var c		=	this.View.ViewBar.GetChildAtPoint(p);
+						if ( this.View.ViewUC.ClientRectangle.Contains( p ) )
+							{
+								return ;
+								var c		=	this.View.ViewBar.GetChildAtPoint(p);
 
-						if ( c == null )
-							{
-								this.View.InvokeTransition() ;
-								this._QuickView		= false	;
+								if ( c == null )
+									{
+									}
+								else
+									{
+										c.MouseLeave	+= this.ViewBar_MouseLeave	;
+										//if ( ! this.View.ViewUC.ClientRectangle.Contains( this.View.ViewUC.PointToClient(Cursor.Position)))
+										//	{
+										//		//var x =	(Control)sender;
+										//		//x.Capture = false;
+										//	}
+									}
 							}
-						else
-							{
-								c.MouseLeave	+= this.ViewBar_MouseLeave	;
-								//if ( ! this.View.ViewUC.ClientRectangle.Contains( this.View.ViewUC.PointToClient(Cursor.Position)))
-								//	{
-								//		//var x =	(Control)sender;
-								//		//x.Capture = false;
-								//	}
-							}
+						//...
+						this.View.InvokeTransition() ;
+						this._QuickView		= false	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -219,7 +228,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						//...
 						//var x =	(Control)sender;
 						//x.Capture = true;
-						this.View.InvokeTransition()	;
+						this.View.InvokeTransition( true )	;
 						//...
 						this._QuickView	= true	;
 					}

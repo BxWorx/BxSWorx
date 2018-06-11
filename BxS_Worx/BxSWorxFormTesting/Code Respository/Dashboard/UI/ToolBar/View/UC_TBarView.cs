@@ -47,18 +47,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Routines: Exposed"
 
-				public void Collapse( bool id )
-					{
-						this.SuspendLayout();
-						//...
-						foreach ( Control lo_Btn in this.xpnl_Bar.Controls )
-							{
-								lo_Btn.Enabled	= id;
-								lo_Btn.Visible	= id;
-							}
-						//...
-						this.ResumeLayout( false );
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void Startup()
@@ -83,7 +71,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void InvokeTransition()
+				public void InvokeTransition( bool quickview = false )
 					{
 						if ( this._Config.TransitionSpeed.Equals(0) )		{ return;	}
 						//...
@@ -95,11 +83,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 								while ( this._SpanGet()	< this._Config.TransitionSpanMax );
 								//...
 								ln_Span		=	this._Config.TransitionSpanMax	;
-								this.Collapse(true);
+								this.HideShowChildControls(true , ! quickview );
 							}
 						else
 							{
-								this.Collapse(false);
+								this.HideShowChildControls(false , false );
 								do	{	this._SpanSet( ln_Span	-= this._Config.TransitionSpeed ) ;	}
 								while ( this._SpanGet()	> this._Config.TransitionSpanMin );
 								//...
@@ -155,6 +143,16 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private void ApplyConfig()
 					{
 						this.BackColor	= this._Config.ColourBack	;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void HideShowChildControls( bool visible , bool enabled )
+					{
+						foreach ( Control lo_Btn in this.xpnl_Bar.Controls )
+							{
+								lo_Btn.Enabled	=	enabled;
+								lo_Btn.Visible	= visible;
+							}
 					}
 
 			#endregion

@@ -93,15 +93,18 @@ namespace BxS_Worx.Dashboard.UI
 										btnProfile.DockStyle		=	lo_TBarCfg.IsHorizontal		?	DockStyle.Left
 																																				: DockStyle.Top		;
 
-										if ( ! lo_TBarCfg.ButtonType.Equals( ButtonTypes.TypeAll ) )
-											{	btnProfile.ButtonType		=	lo_TBarCfg.ButtonType ;	}
+										if ( lo_TBarCfg.ButtonType != null )
+											{
+												if ( ! lo_TBarCfg.ButtonType.Equals(ButtonTypes.TypeAll) )
+													{	btnProfile.ButtonType		=	lo_TBarCfg.ButtonType ;	}
+											}
 										//...
 										lb_Ret	= true ;
 									}
 								//...
 								if ( lb_Ret )
 									{	this._BtnProf.Add( btnProfile.ID , btnProfile ) ; }
-									}
+							}
 						//...
 						return	lb_Ret ;
 					}

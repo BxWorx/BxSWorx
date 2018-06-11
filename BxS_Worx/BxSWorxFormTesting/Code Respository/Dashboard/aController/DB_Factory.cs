@@ -101,29 +101,35 @@ namespace BxS_Worx.Dashboard.UI
 			//===========================================================================================
 			#region "Methods: Buttons"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	static	IButtonTag	CreateButtonTag()		=>	new	ButtonTag()	;
-
-				public	static	IButtonTag	CreateButtonTag(	string	targetScenario
-																										,	string	targetToolbar		)	=>	new	ButtonTag	{		TargetScenario	= targetScenario
-																																																		,	TargetToolBar		=	targetToolbar		};
-
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public	static	IButtonProfile	CreateButtonProfile()							=>	new	ButtonProfile();
 				public	static	IButtonProfile	CreateButtonProfile( string id )	=>	new	ButtonProfile( id );
 
 				public	static	IButtonProfile	CreateButtonProfile(	string			id
+																														,	string			tbarID
+																														,	string			scenarioID
+																														, int					seqNo
 																														,	string			buttonType
 																														,	string			imageID
 																														,	string			text
-																														, IButtonTag	tag					)
+																														,	string			targettbarID			= ""
+																														,	string			targetScenarioID	=	""	)
 					{
+						IButtonTag x = new	ButtonTag		{		ScenarioID			= scenarioID
+																							,	ButtonID				= id
+																							,	TargetToolBar		= targettbarID
+																							,	TargetScenario	=	targetScenarioID	}	;
+						//...
 						return	new ButtonProfile	{ ID					= id
+																			, ToolbarID		= tbarID
+																			,	ScenarioID	= scenarioID
+																			,	SeqNo				=	seqNo
 																			, ButtonType	=	buttonType
 																			,	ImageID			= imageID
 																			,	Text				=	text
-																			,	Tag					= tag					}	;
+																			,	Tag					= x						}	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

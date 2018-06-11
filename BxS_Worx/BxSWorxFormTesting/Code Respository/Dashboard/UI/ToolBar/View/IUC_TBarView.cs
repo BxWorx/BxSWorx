@@ -18,14 +18,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void	Collapse( bool id );
-
-
 				void	Startup()	;
 
 				void	LoadButtons( IList<IUC_Button>	buttonList , bool	doLayout = false )	;
 				//...
-				void	InvokeTransition()	;
+				void	InvokeTransition( bool quickview = false )	;
 
 			#endregion
 
