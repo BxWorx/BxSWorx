@@ -2,6 +2,7 @@
 using System.Collections.Generic		;
 using System.Drawing;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms					;
 //.........................................................
 using BxS_Worx.Dashboard.UI.Button	;
@@ -63,8 +64,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						this.CreateScenarioButtons( this.Setup.StartupScenario ) ;
 						this.ChangeScenario( this.Setup.StartupScenario ) ;
 						//...
-						this.View.ViewBar.MouseEnter += this.ViewUC_MouseEnter	;
-						this.View.ViewBar.MouseLeave += this.ViewBar_MouseLeave	;
+						this.View.ViewBar.MouseEnter	+= this.ViewUC_MouseEnter	;
+						this.View.ViewBar.MouseLeave	+= this.ViewBar_MouseLeave	;
 						//...
 						this._IsStarted	= true ;
 					}
@@ -129,15 +130,15 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						//...
 						foreach ( IButtonProfile lo_BtnProf in this._Model.ScenarioButtons( id ) )
 							{
-								if ( lo_BtnProf.OnClickHandler == null								)		lo_BtnProf.OnClickHandler		= this.OnButtonClick_Routing	;
-								if ( ! this.Setup.FocusDocking.Equals(DockStyle.None) )		lo_BtnProf.FocusDocking			= this.Setup.FocusDocking			;
-								if ( ! this.Setup.ColourFocus.Equals(Color.Empty)			)		lo_BtnProf.FocusDocking			= this.Setup.FocusDocking			;
+								if (		lo_BtnProf.OnClickHandler == null								)		lo_BtnProf.OnClickHandler		= this.OnButtonClick_Routing	;
+								if (	! this.Setup.FocusDocking.Equals(DockStyle.None)	)		lo_BtnProf.FocusDocking			= this.Setup.FocusDocking			;
+								if (	! this.Setup.ColourFocus.Equals(Color.Empty)			)		lo_BtnProf.FocusDocking			= this.Setup.FocusDocking			;
 								//...
-								IUC_Button x		= DB_Factory.CreateButton( lo_BtnProf ) ;
-								x.ApplyProfile();
-								x.CompileButton();
+								IUC_Button lo_Btn		= DB_Factory.CreateButton( lo_BtnProf ) ;
+								lo_Btn.ApplyProfile();
+								lo_Btn.CompileButton();
 								//...
-								lt_Btns.Add( lo_BtnProf.ID , x ) ;
+								lt_Btns.Add( lo_BtnProf.ID , lo_Btn ) ;
 							}
 					}
 
@@ -192,13 +193,23 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( ! this._QuickView )	{	return ; }
 						//...
-						this.View.InvokeTransition()	;
-						this._QuickView	= false	;
+						var	p		= this.View.ViewBar.PointToClient(Cursor.Position)	;
+						var c		=	this.View.ViewBar.GetChildAtPoint(p);
 
-				//if (!this.ClientRectangle.Contains(this.PointToClient(Cursor.Position)))
-				//{
-				//		this.Opacity = 0.5;
-				//}
+						if ( c == null )
+							{
+								this.View.InvokeTransition() ;
+								this._QuickView		= false	;
+							}
+						else
+							{
+								c.MouseLeave	+= this.ViewBar_MouseLeave	;
+								//if ( ! this.View.ViewUC.ClientRectangle.Contains( this.View.ViewUC.PointToClient(Cursor.Position)))
+								//	{
+								//		//var x =	(Control)sender;
+								//		//x.Capture = false;
+								//	}
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -206,6 +217,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( ! this.View.IsClosed )		{	return ; }
 						//...
+						//var x =	(Control)sender;
+						//x.Capture = true;
 						this.View.InvokeTransition()	;
 						//...
 						this._QuickView	= true	;
