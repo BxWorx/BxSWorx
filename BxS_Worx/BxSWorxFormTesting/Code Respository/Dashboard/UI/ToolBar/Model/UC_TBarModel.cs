@@ -27,7 +27,9 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Properties"
 
-				public	IUC_TBarSetup		Setup		{ get;	set; }
+				public	IUC_TBarSetup		Setup				{ get;	set; }
+				//...
+				public	IList<string>		Scenarios		{ get	=>	this._Scenarios.Keys.ToList()	; }
 
 			#endregion
 

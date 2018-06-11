@@ -1,8 +1,8 @@
 ﻿using System												;
 using System.Collections.Generic		;
-using System.Drawing;
-using System.Linq;
-using System.Windows;
+using System.Drawing								;
+using System.Linq										;
+using System.Threading.Tasks				;
 using System.Windows.Forms					;
 //.........................................................
 using BxS_Worx.Dashboard.UI.Button	;
@@ -63,13 +63,13 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						if ( this._IsStarted )		{ return ; }
 						//...
 						this.View.Startup() ;
-						this.CreateScenarioButtons( this.Setup.StartupScenario ) ;
-						this.ChangeScenario( this.Setup.StartupScenario ) ;
+						this.CreateScenarioButtons( this.Setup.StartupScenario )	;
+						this.ChangeScenario( this.Setup.StartupScenario )					;
 						//...
 						this.View.ViewBar.MouseEnter	+= this.TBar_MouseEnter	;
 						this.View.ViewBar.MouseLeave	+= this.TBar_MouseLeave	;
-						//...
-						this._IsStarted	= true ;
+			//...
+			await this.CreateButtons();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -102,6 +102,20 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 			//===========================================================================================
 			#region "Methods: Private: Button"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private async	Task CreateButtons()
+					{
+						await	Task.Run(
+							()=>	{
+											foreach ( string lc_ID in this._Model.Scenarios )
+												{
+													this.CreateScenarioButtons( lc_ID );
+												}
+										}
+													).ConfigureAwait(false);
+						this._IsStarted		= true	;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<IUC_Button> ScenarioButtons( string scenarioID )
@@ -201,20 +215,18 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						if ( this.View.ViewUC.ClientRectangle.Contains( p ) )
 							{
 								return ;
-								var c		=	this.View.ViewBar.GetChildAtPoint(p);
+								//var c		=	this.View.ViewBar.GetChildAtPoint(p);
 
-								if ( c == null )
-									{
-									}
-								else
-									{
-										c.MouseLeave	+= this.TBar_MouseLeave	;
-										//if ( ! this.View.ViewUC.ClientRectangle.Contains( this.View.ViewUC.PointToClient(Cursor.Position)))
-										//	{
-										//		//var x =	(Control)sender;
-										//		//x.Capture = false;
-										//	}
-									}
+								//if ( c == null )
+								//	{
+								//	}
+								//else
+								//	{
+								//		c.MouseLeave	+= this.TBar_MouseLeave	;
+								//		//if ( ! this.View.ViewUC.ClientRectangle.Contains( this.View.ViewUC.PointToClient(Cursor.Position)))
+								//		//	{
+								//		//	}
+								//	}
 							}
 						//...
 						this.View.InvokeTransition() ;
@@ -226,8 +238,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( ! this.View.IsClosed )		{	return ; }
 						//...
-						//var x =	(Control)sender;
-						//x.Capture = true;
 						this.View.InvokeTransition( true )	;
 						//...
 						this._QuickView	= true	;

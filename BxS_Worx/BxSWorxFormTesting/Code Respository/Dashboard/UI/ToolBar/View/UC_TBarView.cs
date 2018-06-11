@@ -58,7 +58,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public void	LoadButtons( IList<IUC_Button> buttonList , bool doLayout = false )
 					{
-						this.SuspendLayout();
+						//this.SuspendLayout();
 						//...
 						this.xpnl_Bar.Controls.Clear();
 
@@ -67,7 +67,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 								this.xpnl_Bar.Controls.Add( (Control)lo_Btn );
 							}
 						//...
-						this.ResumeLayout( doLayout );
+						//this.ResumeLayout( doLayout );
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
