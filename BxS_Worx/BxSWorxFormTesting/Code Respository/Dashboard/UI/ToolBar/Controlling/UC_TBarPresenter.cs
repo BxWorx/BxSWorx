@@ -104,17 +104,27 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Private: Button"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async	Task CreateButtons()
+				private async	Task<bool> CreateButtonsAsync()
 					{
-						await	Task.Run(
+						bool x	=	await	Task.Run(
 							()=>	{
-											foreach ( string lc_ID in this._Model.Scenarios )
+											bool	lb_Ret	= false;
+											//...
+											try
 												{
-													this.CreateScenarioButtons( lc_ID );
+													foreach ( string lc_ID in this._Model.Scenarios )
+														{
+															this.CreateScenarioButtons( lc_ID );
+														}
+													lb_Ret	=	true ;
 												}
+											catch
+												{	}
+											//...
+											return	lb_Ret ;
 										}
 													).ConfigureAwait(false);
-						this._IsStarted		= true	;
+						return	x;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
