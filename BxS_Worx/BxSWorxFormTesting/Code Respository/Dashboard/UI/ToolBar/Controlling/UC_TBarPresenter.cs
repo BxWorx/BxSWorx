@@ -68,8 +68,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						//...
 						this.View.ViewBar.MouseEnter	+= this.TBar_MouseEnter	;
 						this.View.ViewBar.MouseLeave	+= this.TBar_MouseLeave	;
-			//...
-			await this.CreateButtons();
+						//...
+						//await this.CreateButtonsAsync();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
@@ -103,28 +103,36 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Methods: Private: Button"
 
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private Task CreateButtonsAsync()
+				//	{
+				//		Task.Run(	()=>	this.CreateButtons() );
+				//	}
+
+					//	this._IsStarted	=	await	Task.Run(
+					//		()=>	{
+					//						//...
+					//						try
+					//							{
+					//								foreach ( string lc_ID in this._Model.Scenarios )
+					//									{
+					//										this.CreateScenarioButtons( lc_ID );
+					//									}
+					//								lb_Ret	=	true ;
+					//							}
+					//						catch
+					//							{	}
+					//					}
+					//								).ConfigureAwait(false);
+					//}
+
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private async	Task<bool> CreateButtonsAsync()
+				private void CreateButtons()
 					{
-						bool x	=	await	Task.Run(
-							()=>	{
-											bool	lb_Ret	= false;
-											//...
-											try
-												{
-													foreach ( string lc_ID in this._Model.Scenarios )
-														{
-															this.CreateScenarioButtons( lc_ID );
-														}
-													lb_Ret	=	true ;
-												}
-											catch
-												{	}
-											//...
-											return	lb_Ret ;
-										}
-													).ConfigureAwait(false);
-						return	x;
+						foreach ( string lc_ID in this._Model.Scenarios )
+							{
+								this.CreateScenarioButtons( lc_ID );
+							}
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
