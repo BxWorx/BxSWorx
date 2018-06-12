@@ -86,6 +86,7 @@ namespace BxS_Worx.Dashboard.UI
 																						ColourBack	= Color.FromArgb( 255 , 031 , 031 , 031 )
 																					,	ColourMove	= Color.FromArgb( 155 , 031 , 031 , 031 )
 																					,	ColourHead	= Color.FromArgb( 255 , 100 , 100 , 100 )
+																					,	ColourMsg		= Color.FromArgb( 255 , 100 , 100 , 100 )
 																				}	;
 					}
 

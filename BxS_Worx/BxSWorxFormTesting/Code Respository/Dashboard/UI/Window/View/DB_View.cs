@@ -21,10 +21,10 @@ namespace BxS_Worx.Dashboard.UI.Window
 			//===========================================================================================
 			#region "Declarations"
 
-				private	IDB_Config		_Config	;
+				private	IDB_Config	_Config				;
 				//...
-				private	bool		_MoveActive		;
-				private	Point		_MoveLocation	;
+				private	bool				_MoveActive		;
+				private	Point				_MoveLocation	;
 
 			#endregion
 
@@ -32,13 +32,16 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Properties"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public	Form				ViewForm	{ get	=>	this ; }
 				public	IDB_Config	Config		{ set	=>	this._Config	= value	;	}
+				//...
+				public	Form				ViewForm	{ get	=>	this ; }
+				public	Label				MsgBox		{	get	=>	this.xlbl_Msgbox			; }
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	Color		ColourBack		{ get	=>	this._Config.ColourBack	; }
-				private	Color		ColourMove		{ get	=>	this._Config.ColourMove	; }
-				private	Color		ColourHead		{ get	=>	this._Config.ColourHead	; }
+				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				//private	Color		ColourBack		{ get	=>	this._Config.ColourBack	; }
+				//private	Color		ColourMove		{ get	=>	this._Config.ColourMove	; }
+				//private	Color		ColourHead		{ get	=>	this._Config.ColourHead	; }
+				//private	Color		ColourMsg			{ get	=>	this._Config.ColourMsg	; }
 
 			#endregion
 
@@ -65,8 +68,10 @@ namespace BxS_Worx.Dashboard.UI.Window
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void ApplyConfig()
 					{
-						this.xpnl_WindowHeader.BackColor	= this._Config.ColourHead;
-						this.BackColor										= this._Config.ColourBack;
+						this.xpnl_WindowHeader.BackColor	= this._Config.ColourHead	;
+						this.xpnl_MsgBar.BackColor				=	this._Config.ColourMsg	;
+						//...
+						this.BackColor										= this._Config.ColourBack	;
 					}
 
 			#endregion
@@ -99,16 +104,16 @@ namespace BxS_Worx.Dashboard.UI.Window
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnWindowHeader_MouseDown( object sender , MouseEventArgs e )
 					{
-						this._MoveActive		              = ! this._MoveActive	;
-						this._MoveLocation	              = e.Location					;
-						this.xpnl_WindowHeader.BackColor	=	this.ColourMove			;
+						this._MoveActive		              = ! this._MoveActive				;
+						this._MoveLocation	              =		e.Location							;
+						this.xpnl_WindowHeader.BackColor	=		this._Config.ColourMove	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnWindowHeader_MouseUp( object sender , MouseEventArgs e )
 					{
-						this._MoveActive									= ! this._MoveActive	;
-						this.xpnl_WindowHeader.BackColor	=		this.ColourHead		;
+						this._MoveActive									= ! this._MoveActive				;
+						this.xpnl_WindowHeader.BackColor	=		this._Config.ColourHead	;
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨

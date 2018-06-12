@@ -18,6 +18,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 				public	Color		ColourBack		{ get;  set; }
 				public	Color		ColourMove		{ get;  set; }
 				public	Color		ColourHead		{ get;  set; }
+				public	Color		ColourMsg			{ get;  set; }
 
 			#endregion
 

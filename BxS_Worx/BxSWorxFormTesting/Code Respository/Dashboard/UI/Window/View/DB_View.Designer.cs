@@ -36,8 +36,9 @@
 			this.xdlg_Colour = new System.Windows.Forms.ColorDialog();
 			this.xpnl_UserArea = new System.Windows.Forms.Panel();
 			this.xpnl_MsgBar = new System.Windows.Forms.Panel();
+			this.xlbl_Msgbox = new System.Windows.Forms.Label();
 			this.xpnl_WindowHeader.SuspendLayout();
-			this.xpnl_UserArea.SuspendLayout();
+			this.xpnl_MsgBar.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// xpnl_WindowHeader
@@ -114,21 +115,33 @@
 			// xpnl_UserArea
 			// 
 			this.xpnl_UserArea.BackColor = System.Drawing.Color.Transparent;
-			this.xpnl_UserArea.Controls.Add(this.xpnl_MsgBar);
-			this.xpnl_UserArea.Location = new System.Drawing.Point(0, 45);
+			this.xpnl_UserArea.Location = new System.Drawing.Point(0, 48);
 			this.xpnl_UserArea.Name = "xpnl_UserArea";
-			this.xpnl_UserArea.Size = new System.Drawing.Size(882, 536);
+			this.xpnl_UserArea.Size = new System.Drawing.Size(882, 500);
 			this.xpnl_UserArea.TabIndex = 1;
 			// 
 			// xpnl_MsgBar
 			// 
-			this.xpnl_MsgBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.xpnl_MsgBar.BackColor = System.Drawing.Color.Transparent;
-			this.xpnl_MsgBar.Location = new System.Drawing.Point(0, 516);
+			this.xpnl_MsgBar.Controls.Add(this.xlbl_Msgbox);
+			this.xpnl_MsgBar.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.xpnl_MsgBar.Location = new System.Drawing.Point(0, 551);
 			this.xpnl_MsgBar.Margin = new System.Windows.Forms.Padding(0);
 			this.xpnl_MsgBar.Name = "xpnl_MsgBar";
-			this.xpnl_MsgBar.Size = new System.Drawing.Size(882, 20);
+			this.xpnl_MsgBar.Padding = new System.Windows.Forms.Padding(3);
+			this.xpnl_MsgBar.Size = new System.Drawing.Size(882, 30);
 			this.xpnl_MsgBar.TabIndex = 0;
+			// 
+			// xlbl_Msgbox
+			// 
+			this.xlbl_Msgbox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.xlbl_Msgbox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.xlbl_Msgbox.Location = new System.Drawing.Point(3, 3);
+			this.xlbl_Msgbox.Name = "xlbl_Msgbox";
+			this.xlbl_Msgbox.Size = new System.Drawing.Size(876, 24);
+			this.xlbl_Msgbox.TabIndex = 0;
+			this.xlbl_Msgbox.Text = "label1";
+			this.xlbl_Msgbox.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// DB_View
 			// 
@@ -136,8 +149,9 @@
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
 			this.ClientSize = new System.Drawing.Size(882, 581);
 			this.ControlBox = false;
-			this.Controls.Add(this.xpnl_UserArea);
+			this.Controls.Add(this.xpnl_MsgBar);
 			this.Controls.Add(this.xpnl_WindowHeader);
+			this.Controls.Add(this.xpnl_UserArea);
 			this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ForeColor = System.Drawing.Color.White;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -147,7 +161,7 @@
 			this.Text = "BxS_Main";
 			this.Load += new System.EventHandler(this.BxS_DashboardForm_Load);
 			this.xpnl_WindowHeader.ResumeLayout(false);
-			this.xpnl_UserArea.ResumeLayout(false);
+			this.xpnl_MsgBar.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 			}
@@ -162,5 +176,6 @@
 		private System.Windows.Forms.Panel xpnl_Logo;
 		private System.Windows.Forms.Panel xpnl_UserArea;
 		private System.Windows.Forms.Panel xpnl_MsgBar;
+		private System.Windows.Forms.Label xlbl_Msgbox;
 		}
 	}
