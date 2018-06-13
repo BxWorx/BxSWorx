@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic		;
+﻿using System;
+using System.Collections.Generic		;
 //.........................................................
 using BxS_Worx.Dashboard.UI.Toolbar	;
 using BxS_Worx.Dashboard.UI.Button	;
@@ -17,14 +18,18 @@ namespace BxS_Worx.Dashboard.UI.Window
 						//...
 						this._ToolBars					= new	Dictionary<string, UC_TBarPresenter>() ;
 						this._StartupTbars			= new List<string>();
-
 						this._StartupScenario		= string.Empty	;
+
+						this._MBarMsg						= new	Progress<string>( this.On_MBarChanged );
 					}
 
 			#endregion
 
 			//===========================================================================================
 			#region "Declarations"
+
+				private readonly IProgress<string>	_MBarMsg	;
+
 
 				private	string	_StartupScenario ;
 				//...
@@ -64,7 +69,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 										lo_Mdl.LoadButton( lo_BtnProf ) ;
 									}
 								//...
-								lo_TBP.TBarClicked += this.Lo_TBP_TBarClicked;
+								lo_TBP.TBarClicked += this.OnTBarClicked;
 								this._ToolBars.Add( lo_TBSetup.ID , lo_TBP );
 								//...
 								if ( ! string.IsNullOrEmpty( lo_TBSetup.ID ) )
@@ -88,16 +93,18 @@ namespace BxS_Worx.Dashboard.UI.Window
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	Startup()
 					{
-						this.View.Startup() ;
+						this.View.Startup( this._MBarMsg ) ;
 						//...
 						foreach ( string lc_ID in this._StartupTbars )
 							{
 								if ( this._ToolBars.TryGetValue( lc_ID , out UC_TBarPresenter lo_TBar ) )
 									{
-										lo_TBar.Startup()	;
+										lo_TBar.Startup( this._MBarMsg )	;
 										this.View.LoadToolbar( lo_TBar ) ;
 									}
 							}
+						//...
+						this._MBarMsg.Report("Dashboard ready...");
 					}
 
 			#endregion
@@ -106,7 +113,13 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Events: Handling"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void Lo_TBP_TBarClicked(object sender , IButtonTag e)
+				private void On_MBarChanged( string e )
+					{
+						this.View.MsgBox.Text		= e ;
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private void OnTBarClicked( object sender , IButtonTag e )
 					{
 						if ( this._ToolBars.TryGetValue( e.TargetToolBar , out UC_TBarPresenter lo_TBar ) )
 							{

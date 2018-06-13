@@ -117,7 +117,7 @@
 			this.xpnl_UserArea.BackColor = System.Drawing.Color.Transparent;
 			this.xpnl_UserArea.Location = new System.Drawing.Point(0, 48);
 			this.xpnl_UserArea.Name = "xpnl_UserArea";
-			this.xpnl_UserArea.Size = new System.Drawing.Size(882, 500);
+			this.xpnl_UserArea.Size = new System.Drawing.Size(882, 503);
 			this.xpnl_UserArea.TabIndex = 1;
 			// 
 			// xpnl_MsgBar

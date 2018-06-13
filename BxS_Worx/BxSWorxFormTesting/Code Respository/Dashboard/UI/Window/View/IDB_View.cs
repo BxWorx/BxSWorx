@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 //.........................................................
 using BxS_Worx.Dashboard.UI.Toolbar;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -17,7 +18,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 			//===========================================================================================
 			#region "Methods: Exposed"
 
-				void Startup();
+				void Startup( IProgress<string> progress );
 				//
 				void LoadToolbar( UC_TBarPresenter toolBar );
 

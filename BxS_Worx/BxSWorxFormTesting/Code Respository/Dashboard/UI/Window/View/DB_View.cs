@@ -49,8 +49,9 @@ namespace BxS_Worx.Dashboard.UI.Window
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public void Startup()
+				public void Startup( IProgress<string> progress )
 					{
+						progress.Report("View started...");
 						this.ApplyConfig() ;
 					}
 

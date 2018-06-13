@@ -58,7 +58,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal void Startup()
+				internal async Task Startup( IProgress<string> progress )
 					{
 						if ( this._IsStarted )		{ return ; }
 						//...
@@ -69,6 +69,9 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						this.View.ViewBar.MouseEnter	+= this.TBar_MouseEnter	;
 						this.View.ViewBar.MouseLeave	+= this.TBar_MouseLeave	;
 						//...
+						await	Task.Run( () => this.CreateButtons() ).ConfigureAwait(false);
+						this._IsStarted		= true ;
+						progress.Report($"TBar: {this.Setup.ID} has been created");
 						//await this.CreateButtonsAsync();
 					}
 
@@ -229,7 +232,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( ! this._QuickView )	{	return ; }
 						//...
-						var	p		= this.View.ViewBar.PointToClient(Cursor.Position)	;
+						Point p		= this.View.ViewBar.PointToClient(Cursor.Position)	;
 						if ( this.View.ViewUC.ClientRectangle.Contains( p ) )
 							{
 								return ;
@@ -252,7 +255,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void TBar_MouseEnter(object sender , EventArgs e)
+				private void TBar_MouseEnter( object sender , EventArgs e )
 					{
 						if ( ! this.View.IsClosed )		{	return ; }
 						//...
@@ -262,7 +265,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnMouseHover(object sender , EventArgs e)
+				private void OnMouseHover( object sender , EventArgs e )
 					{
 						throw new NotImplementedException();
 					}
