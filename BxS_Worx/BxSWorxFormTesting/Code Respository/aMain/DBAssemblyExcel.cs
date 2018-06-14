@@ -107,10 +107,10 @@ namespace BxS_Worx.Dashboard.UI
 						TB1.ColourBack				= System.Drawing.Color.Plum		;
 						TB1.ColourFocus				= System.Drawing.Color.Black	;
 						this.LoadToolbar( TB1 )	;
-						//...
+						//...........
 						IUC_TBarSetup	TB2			= DB_Factory.CreateTBSetupWithDefaults();		TB2.ID	= "TB2";	TB2.SeqNo	= 2	;	TB2.IsHorizontal	= false	;
 
-						TB2.IsStartupToolBar	= true	;
+						TB2.IsStartupToolBar	= false	;
 						TB2.TransitionSpeed		=	10		;
 						TB2.IsStartupSpanMax	=	false	;
 

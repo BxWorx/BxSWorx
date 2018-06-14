@@ -35,13 +35,9 @@ namespace BxS_Worx.Dashboard.UI.Window
 				public	IDB_Config	Config		{ set	=>	this._Config	= value	;	}
 				//...
 				public	Form				ViewForm	{ get	=>	this ; }
-				public	Label				MsgBox		{	get	=>	this.xlbl_Msgbox			; }
 
-				////¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				//private	Color		ColourBack		{ get	=>	this._Config.ColourBack	; }
-				//private	Color		ColourMove		{ get	=>	this._Config.ColourMove	; }
-				//private	Color		ColourHead		{ get	=>	this._Config.ColourHead	; }
-				//private	Color		ColourMsg			{ get	=>	this._Config.ColourMsg	; }
+				public	Label				MsgBox		{	get	=>	this.xlbl_MBarMsg	; }
+				public	Label				Status		{	get	=>	this.xlbl_MBarStatus	; }
 
 			#endregion
 

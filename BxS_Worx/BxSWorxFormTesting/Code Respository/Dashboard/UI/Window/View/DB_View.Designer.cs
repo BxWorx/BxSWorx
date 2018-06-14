@@ -36,7 +36,8 @@
 			this.xdlg_Colour = new System.Windows.Forms.ColorDialog();
 			this.xpnl_UserArea = new System.Windows.Forms.Panel();
 			this.xpnl_MsgBar = new System.Windows.Forms.Panel();
-			this.xlbl_Msgbox = new System.Windows.Forms.Label();
+			this.xlbl_MBarStatus = new System.Windows.Forms.Label();
+			this.xlbl_MBarMsg = new System.Windows.Forms.Label();
 			this.xpnl_WindowHeader.SuspendLayout();
 			this.xpnl_MsgBar.SuspendLayout();
 			this.SuspendLayout();
@@ -123,7 +124,8 @@
 			// xpnl_MsgBar
 			// 
 			this.xpnl_MsgBar.BackColor = System.Drawing.Color.Transparent;
-			this.xpnl_MsgBar.Controls.Add(this.xlbl_Msgbox);
+			this.xpnl_MsgBar.Controls.Add(this.xlbl_MBarStatus);
+			this.xpnl_MsgBar.Controls.Add(this.xlbl_MBarMsg);
 			this.xpnl_MsgBar.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.xpnl_MsgBar.Location = new System.Drawing.Point(0, 551);
 			this.xpnl_MsgBar.Margin = new System.Windows.Forms.Padding(0);
@@ -132,16 +134,28 @@
 			this.xpnl_MsgBar.Size = new System.Drawing.Size(882, 30);
 			this.xpnl_MsgBar.TabIndex = 0;
 			// 
-			// xlbl_Msgbox
+			// xlbl_MBarStatus
 			// 
-			this.xlbl_Msgbox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.xlbl_Msgbox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.xlbl_Msgbox.Location = new System.Drawing.Point(3, 3);
-			this.xlbl_Msgbox.Name = "xlbl_Msgbox";
-			this.xlbl_Msgbox.Size = new System.Drawing.Size(876, 24);
-			this.xlbl_Msgbox.TabIndex = 0;
-			this.xlbl_Msgbox.Text = "label1";
-			this.xlbl_Msgbox.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.xlbl_MBarStatus.BackColor = System.Drawing.SystemColors.ActiveBorder;
+			this.xlbl_MBarStatus.Dock = System.Windows.Forms.DockStyle.Right;
+			this.xlbl_MBarStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.xlbl_MBarStatus.Location = new System.Drawing.Point(796, 3);
+			this.xlbl_MBarStatus.Name = "xlbl_MBarStatus";
+			this.xlbl_MBarStatus.Size = new System.Drawing.Size(83, 24);
+			this.xlbl_MBarStatus.TabIndex = 1;
+			this.xlbl_MBarStatus.Text = "Status";
+			this.xlbl_MBarStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// xlbl_MBarMsg
+			// 
+			this.xlbl_MBarMsg.Dock = System.Windows.Forms.DockStyle.Left;
+			this.xlbl_MBarMsg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.xlbl_MBarMsg.Location = new System.Drawing.Point(3, 3);
+			this.xlbl_MBarMsg.Name = "xlbl_MBarMsg";
+			this.xlbl_MBarMsg.Size = new System.Drawing.Size(787, 24);
+			this.xlbl_MBarMsg.TabIndex = 0;
+			this.xlbl_MBarMsg.Text = "Welcome ...";
+			this.xlbl_MBarMsg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// DB_View
 			// 
@@ -176,6 +190,7 @@
 		private System.Windows.Forms.Panel xpnl_Logo;
 		private System.Windows.Forms.Panel xpnl_UserArea;
 		private System.Windows.Forms.Panel xpnl_MsgBar;
-		private System.Windows.Forms.Label xlbl_Msgbox;
+		private System.Windows.Forms.Label xlbl_MBarMsg;
+		private System.Windows.Forms.Label xlbl_MBarStatus;
 		}
 	}

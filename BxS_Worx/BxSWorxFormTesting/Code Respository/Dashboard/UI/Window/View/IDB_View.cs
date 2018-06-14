@@ -12,6 +12,7 @@ namespace BxS_Worx.Dashboard.UI.Window
 				IDB_Config	Config		{ set; }
 				Form				ViewForm	{ get; }
 				Label				MsgBox		{	get; }
+				Label				Status		{	get; }
 
 			#endregion
 

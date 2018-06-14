@@ -21,13 +21,15 @@ namespace BxSWorxFormTesting
 					IDBAssembly		lo_DBAss	= DBAssemblyExcel.Create() ;
 					lo_DBAss.LoadFromSource()	;
 					//...
-					DB_Presenter	lo_DBPre	=	DB_Factory.CreateDBPresenter() ;
-					lo_DBPre.AssembleDashboard( lo_DBAss ) ;
+					DB_Presenter	lo_DBP	=	DB_Factory.CreateDBPresenter() ;
+					lo_DBP.AssembleDashboard( lo_DBAss ) ;
 					//...
-					lo_DBPre.Startup() ;
+					lo_DBP.Startup() ;
 					//...
-					if ( lo_DBPre.View.ViewForm != null )
-						{	Application.Run( lo_DBPre.View.ViewForm ); }
+					if ( lo_DBP.View.ViewForm != null )
+						{
+							Application.Run( lo_DBP.View.ViewForm )	;
+						}
 				}
 		}
 	}

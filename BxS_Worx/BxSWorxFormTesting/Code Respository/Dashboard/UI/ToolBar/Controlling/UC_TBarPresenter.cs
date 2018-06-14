@@ -48,9 +48,12 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Properties"
 
-				internal	IUC_TBarView	View		{ get; }
+				internal	IUC_TBarView		View			{ get; }
+
+				internal	bool						IsStartup	{ get	=>	this.Setup.IsStartupToolBar	; }
+				internal	string					ID				{ get	=>	this.Setup.ID								; }
 				//...
-				private		IUC_TBarSetup	Setup		{ get	=>	this._Model.Setup; }
+				private		IUC_TBarSetup		Setup			{ get	=>	this._Model.Setup; }
 
 			#endregion
 
