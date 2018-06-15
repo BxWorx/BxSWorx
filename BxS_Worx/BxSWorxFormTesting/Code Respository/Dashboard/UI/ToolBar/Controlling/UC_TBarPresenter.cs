@@ -2,6 +2,7 @@
 using System.Collections.Generic		;
 using System.Drawing								;
 using System.Linq										;
+using System.Threading							;
 using System.Threading.Tasks				;
 using System.Windows.Forms					;
 //.........................................................
@@ -53,7 +54,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				internal	bool						IsStartup	{ get	=>	this.Setup.IsStartupToolBar	; }
 				internal	string					ID				{ get	=>	this.Setup.ID								; }
 				//...
-				private		IUC_TBarSetup		Setup			{ get	=>	this._Model.Setup; }
+				private		IUC_TBarSetup		Setup			{ get	=>	this._Model.Setup	; }
 
 			#endregion
 
@@ -213,7 +214,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IUC_Button	GetButton	( string scenarioID , string buttonID )
+				private IUC_Button	GetButton	( string scenarioID , string buttonID )
 					{
 						IUC_Button lo_Btn	= null ;
 						//...
@@ -271,6 +272,67 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private void OnMouseHover( object sender , EventArgs e )
 					{
 						throw new NotImplementedException();
+					}
+
+			#endregion
+
+			//===========================================================================================
+			#region "Classes: Private"
+
+				private class Scenario
+					{
+
+						public Scenario( string	id )
+							{
+								if ( string.IsNullOrEmpty( id ) )		{	throw	new	Exception("")	; }
+								//...
+								this._Buttons		=	new	Dictionary<string , IUC_Button>()	;
+								this._Lock			=	new	object()	;
+							}
+
+						private	Dictionary<string , IUC_Button>	_Buttons	;
+						private	object	_Lock	;
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+						public	string	ID				{ get; }
+						public	bool		IsReady		{	get;	set; }
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+						public void	CreateButtons(	IUC_TBarModel model
+																			,	EventHandler	onButtonClick	)
+							{
+								if ( this.IsReady )		{	return ; }
+								//...
+								if ( Monitor.TryEnter( this._Lock ) )
+									{
+										try
+											{
+												Task.Run(	()=>	{
+																					foreach ( IButtonProfile lo_BtnProf in model.ScenarioButtons( this.ID ) )
+																						{
+																							if (		lo_BtnProf.OnClickHandler == null									)		lo_BtnProf.OnClickHandler		= onButtonClick							;
+																							if (	! model.Setup.FocusDocking	.Equals(DockStyle.None)	)		lo_BtnProf.FocusDocking			= model.Setup.FocusDocking	;
+																							if (	! model.Setup.ColourFocus		.Equals(Color.Empty)		)		lo_BtnProf.ColourFocus			= model.Setup.ColourFocus		;
+																							//...
+																							IUC_Button lo_Btn		= DB_Factory.CreateButton( lo_BtnProf ) ;
+																							lo_Btn.ApplyProfile();
+																							lo_Btn.CompileButton();
+																							//...
+																							this._Buttons.Add( lo_BtnProf.ID , lo_Btn ) ;
+																						}
+																					//...
+																					this.IsReady	= true ;
+																				}	);
+											}
+										finally
+											{
+												Monitor.Exit( this._Lock ) ;
+											}
+									}
+
+							}
+
 					}
 
 			#endregion

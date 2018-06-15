@@ -36,7 +36,6 @@ namespace BxS_Worx.Dashboard.UI.Window
 				private readonly IProgress<string>	_MBarMsg	;
 				private readonly IProgress<string>	_MBarSts	;
 
-
 				private	string	_StartupScenario ;
 				//...
 				private readonly IList<string>													_StartupTbars	;
