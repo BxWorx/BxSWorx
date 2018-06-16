@@ -66,6 +66,7 @@
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\IUC_TBarModel.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\UC_TBarModel.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Window\View\IDB_View.cs" />
+    <Compile Include="Code Respository\Utilities\AsyncLazy.cs" />
     <Compile Include="Code Respository\Utilities\ButtonTypeAttribute.cs" />
     <Compile Include="Code Respository\Dashboard\UI\Buttons\Base\UC_BtnBase.cs">
       <SubType>UserControl</SubType>
