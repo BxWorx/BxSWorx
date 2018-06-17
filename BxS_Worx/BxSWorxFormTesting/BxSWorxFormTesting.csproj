@@ -51,6 +51,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\UC_TBarScenario.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarView.cs" />
     <Compile Include="Code Respository\Dashboard\aController\DBAssemblyBase.cs" />
     <Compile Include="Code Respository\aMain\DBAssemblyExcel.cs" />
