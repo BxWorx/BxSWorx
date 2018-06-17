@@ -32,8 +32,9 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 				private readonly	Dictionary<string , IUC_Button>		_Buttons	;
 				//...
-				private readonly	object			_Lock				;
-				private	readonly	IUC_Button	_CurButton	;
+				private readonly	object		_Lock	;
+				//...
+				private	IUC_Button		_CurButton	;
 
 			#endregion
 
@@ -57,7 +58,15 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 							{
 								if ( lo_Tag.ButtonID.Equals(	this._CurButton.ID ) )
 									{	return ; }
+								//...
+								this._CurButton.HasFocus	= ! this._CurButton.HasFocus ;
 							}
+						//...
+						if ( this._Buttons.TryGetValue( lo_Tag.ButtonID , out this._CurButton ) )
+							{
+								this._CurButton.HasFocus	= ! this._CurButton.HasFocus ;
+							}
+
 						if (		! string.IsNullOrEmpty( this._CurScenario )
 								&&	! string.IsNullOrEmpty( this._CurButton		) )
 							{
