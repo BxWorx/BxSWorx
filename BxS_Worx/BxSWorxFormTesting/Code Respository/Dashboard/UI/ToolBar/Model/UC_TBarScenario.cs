@@ -1,6 +1,7 @@
 ﻿using System												;
 using System.Collections.Generic		;
 using System.Drawing								;
+using System.Linq;
 using System.Threading							;
 using System.Threading.Tasks				;
 using System.Windows.Forms					;
@@ -19,7 +20,9 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						if ( string.IsNullOrEmpty( id ) )		{	throw	new	Exception("")	; }
 						//...
 						this._Buttons		=	new	Dictionary<string , IUC_Button>()	;
+
 						this._Lock			=	new	object()	;
+						this._CurButton	= null					;
 					}
 
 			#endregion
@@ -27,8 +30,10 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Declarations"
 
-				private readonly Dictionary<string , IUC_Button>	_Buttons	;
-				private readonly object														_Lock	;
+				private readonly	Dictionary<string , IUC_Button>		_Buttons	;
+				//...
+				private readonly	object			_Lock				;
+				private	readonly	IUC_Button	_CurButton	;
 
 			#endregion
 
@@ -38,10 +43,52 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				internal	string	ID				{ get; }
 				internal	bool		IsReady		{	get;	set; }
 
+				private		
+
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				internal	void ChangeFocus( IButtonTag	lo_Tag )
+					{
+						if ( this._CurButton != null )
+							{
+								if ( lo_Tag.ButtonID.Equals(	this._CurButton.ID ) )
+									{	return ; }
+							}
+						if (		! string.IsNullOrEmpty( this._CurScenario )
+								&&	! string.IsNullOrEmpty( this._CurButton		) )
+							{
+								if (		lo_Tag.ScenarioID.Equals( this._CurScenario )
+										&&	lo_Tag.ButtonID.Equals	(	this._CurButton		) )
+									{ return ; }
+								//...
+								IUC_Button lo_BtnSrc	= this.GetButton( this._CurScenario , this._CurButton );
+								lo_BtnSrc.HasFocus		= ! lo_BtnSrc.HasFocus;
+							}
+						//...
+						IUC_Button lo_BtnTrg	= this.GetButton( lo_Tag.ScenarioID , lo_Tag.ButtonID );
+						lo_BtnTrg.HasFocus		= ! lo_BtnTrg.HasFocus;
+						//...
+						this._CurScenario	= lo_Tag.ScenarioID	;
+						this._CurButton		= lo_Tag.ButtonID		;
+
+					}
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				internal IList<IUC_Button> ScenarioButtons()
+					{
+						IList<IUC_Button> lt_List		= new	List<IUC_Button>();
+						//...
+						foreach ( IUC_Button lo_Btn in this._Buttons.Values.OrderByDescending( x => x.Index ).ToList() )
+							{
+								lt_List.Add( lo_Btn );
+							}
+						//...
+						return	lt_List;
+					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void	CreateButtons(	IUC_TBarModel	model

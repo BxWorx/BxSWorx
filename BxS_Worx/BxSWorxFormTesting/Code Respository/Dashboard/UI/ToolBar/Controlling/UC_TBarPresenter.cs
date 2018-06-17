@@ -21,7 +21,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						this._Model		=	model	;
 						this.View			= view	;
 						//...
-						this._Scenarios			= new	Dictionary<string, Dictionary<string, IUC_Button>>() ;
+						this._Scenarios			= new	Dictionary<string, UC_TBarScenario>() ;
 
 						this._CurScenario		= string.Empty	;
 						this._IsStarted			= false					;
@@ -35,8 +35,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 				public event	EventHandler<IButtonTag>	TBarClicked	;
 
-				private	readonly	IUC_TBarModel																					_Model			;
-				private readonly	Dictionary<string , Dictionary<string , IUC_Button>>	_Scenarios	;
+				private	readonly	IUC_TBarModel													_Model			;
+				private readonly	Dictionary<string , UC_TBarScenario>	_Scenarios	;
 				//...
 				private	bool		_IsStarted		;
 				private	string	_CurScenario	;
@@ -145,47 +145,17 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<IUC_Button> ScenarioButtons( string scenarioID )
 					{
-						IList<IUC_Button> lt_List		= new	List<IUC_Button>();
-						//...
-						if ( this._Scenarios.TryGetValue( scenarioID , out Dictionary<string , IUC_Button> lt_Btns ) )
+						if ( this._Scenarios.TryGetValue( scenarioID , out UC_TBarScenario lo_Scenario ) )
 							{
-								foreach ( IUC_Button lo_Btn in lt_Btns.Values.OrderByDescending( x => x.Index ).ToList() )
-									{
-										lt_List.Add( lo_Btn );
-									}
+								return	lo_Scenario.ScenarioButtons();
 							}
 						//...
-						return	lt_List;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void CreateScenarioButtons( string id )
-					{
-						if ( id == null )		{	return ; }
-						//...
-						if ( ! this._Scenarios.TryGetValue( id , out Dictionary<string , IUC_Button> lt_Btns ) )
-							{
-								this.AddScenario( id );
-								if ( ! this._Scenarios.TryGetValue( id , out lt_Btns ) )		{	return ; }
-							}
-						//...
-						foreach ( IButtonProfile lo_BtnProf in this._Model.ScenarioButtons( id ) )
-							{
-								if (		lo_BtnProf.OnClickHandler == null								)		lo_BtnProf.OnClickHandler		= this.OnButtonClick_Routing	;
-								if (	! this.Setup.FocusDocking.Equals(DockStyle.None)	)		lo_BtnProf.FocusDocking			= this.Setup.FocusDocking			;
-								if (	! this.Setup.ColourFocus.Equals(Color.Empty)			)		lo_BtnProf.FocusDocking			= this.Setup.FocusDocking			;
-								//...
-								IUC_Button lo_Btn		= DB_Factory.CreateButton( lo_BtnProf ) ;
-								lo_Btn.ApplyProfile();
-								lo_Btn.CompileButton();
-								//...
-								lt_Btns.Add( lo_BtnProf.ID , lo_Btn ) ;
-							}
+						return	new	List<IUC_Button>();
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void	AddScenario( string id )	=>	this._Scenarios.Add(	id
-																																				, new	Dictionary<string , IUC_Button>() );
+																																				, new UC_TBarScenario( id) );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnButtonClick_Routing( object sender , EventArgs e )
@@ -272,67 +242,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private void OnMouseHover( object sender , EventArgs e )
 					{
 						throw new NotImplementedException();
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Classes: Private"
-
-				private class Scenario
-					{
-
-						public Scenario( string	id )
-							{
-								if ( string.IsNullOrEmpty( id ) )		{	throw	new	Exception("")	; }
-								//...
-								this._Buttons		=	new	Dictionary<string , IUC_Button>()	;
-								this._Lock			=	new	object()	;
-							}
-
-						private	Dictionary<string , IUC_Button>	_Buttons	;
-						private	object	_Lock	;
-
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-						public	string	ID				{ get; }
-						public	bool		IsReady		{	get;	set; }
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-						public void	CreateButtons(	IUC_TBarModel model
-																			,	EventHandler	onButtonClick	)
-							{
-								if ( this.IsReady )		{	return ; }
-								//...
-								if ( Monitor.TryEnter( this._Lock ) )
-									{
-										try
-											{
-												Task.Run(	()=>	{
-																					foreach ( IButtonProfile lo_BtnProf in model.ScenarioButtons( this.ID ) )
-																						{
-																							if (		lo_BtnProf.OnClickHandler == null									)		lo_BtnProf.OnClickHandler		= onButtonClick							;
-																							if (	! model.Setup.FocusDocking	.Equals(DockStyle.None)	)		lo_BtnProf.FocusDocking			= model.Setup.FocusDocking	;
-																							if (	! model.Setup.ColourFocus		.Equals(Color.Empty)		)		lo_BtnProf.ColourFocus			= model.Setup.ColourFocus		;
-																							//...
-																							IUC_Button lo_Btn		= DB_Factory.CreateButton( lo_BtnProf ) ;
-																							lo_Btn.ApplyProfile();
-																							lo_Btn.CompileButton();
-																							//...
-																							this._Buttons.Add( lo_BtnProf.ID , lo_Btn ) ;
-																						}
-																					//...
-																					this.IsReady	= true ;
-																				}	);
-											}
-										finally
-											{
-												Monitor.Exit( this._Lock ) ;
-											}
-									}
-
-							}
-
 					}
 
 			#endregion
