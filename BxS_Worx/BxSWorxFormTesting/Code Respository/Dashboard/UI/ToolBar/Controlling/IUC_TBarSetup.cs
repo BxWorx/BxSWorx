@@ -1,9 +1,10 @@
-﻿using System.Drawing				;
+﻿using System.ComponentModel;
+using System.Drawing				;
 using System.Windows.Forms	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
 {
-	public interface IUC_TBarSetup
+	public interface IUC_TBarSetup : INotifyPropertyChanged
 		{
 			#region "Properties"
 

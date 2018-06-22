@@ -15,11 +15,13 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UC_TBarPresenter(	IUC_TBarModel		model
-																	,	IUC_TBarView		view	)
+				internal UC_TBarPresenter(	IDB_TBarFactory		tbarFactory
+																	,	IUC_TBarModel			model
+																	,	IUC_TBarView			view				)
 					{
-						this._Model		=	model	;
-						this.View			= view	;
+						this._TBarFactory	= tbarFactory	;
+						this._Model				=	model				;
+						this.View					= view				;
 						//...
 						this._Scenarios			= new	Dictionary<string, UC_TBarScenario>() ;
 
@@ -34,9 +36,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Declarations"
 
 				public event	EventHandler<IButtonTag>	TBarClicked	;
+				//...
+				private	readonly	IDB_TBarFactory												_TBarFactory	;
+				private	readonly	IUC_TBarModel													_Model				;
 
-				private	readonly	IUC_TBarModel													_Model			;
-				private readonly	Dictionary<string , UC_TBarScenario>	_Scenarios	;
+				private readonly	Dictionary<string , UC_TBarScenario>	_Scenarios		;
 				//...
 				private	bool		_IsStarted		;
 				private	string	_CurScenario	;
@@ -206,10 +210,16 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( ! this._QuickView )	{	return ; }
 						//...
-						Point p		= this.View.ViewBar.PointToClient(Cursor.Position)	;
-						if ( this.View.ViewUC.ClientRectangle.Contains( p ) )
+						Point lo_Pnt	= this.View.ViewBar.PointToClient( Cursor.Position )	;
+						if ( this.View.ViewUC.ClientRectangle.Contains( lo_Pnt ) )
 							{
 								return ;
+							}
+						//...
+						this.View.InvokeTransition() ;
+						this._QuickView		= false	;
+					}
+
 								//var c		=	this.View.ViewBar.GetChildAtPoint(p);
 
 								//if ( c == null )
@@ -222,11 +232,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 								//		//	{
 								//		//	}
 								//	}
-							}
-						//...
-						this.View.InvokeTransition() ;
-						this._QuickView		= false	;
-					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void TBar_MouseEnter( object sender , EventArgs e )
@@ -236,12 +241,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						this.View.InvokeTransition( true )	;
 						//...
 						this._QuickView	= true	;
-					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void OnMouseHover( object sender , EventArgs e )
-					{
-						throw new NotImplementedException();
 					}
 
 			#endregion

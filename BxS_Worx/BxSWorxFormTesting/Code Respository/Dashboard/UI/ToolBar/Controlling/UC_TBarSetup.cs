@@ -1,4 +1,5 @@
-﻿using System.Drawing	;
+﻿using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI
@@ -28,7 +29,9 @@ namespace BxS_Worx.Dashboard.UI
 				//...
 				public	DockStyle	FocusDocking			{ get;  set; }
 
-			#endregion
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		#endregion
 
 		}
 }
