@@ -18,6 +18,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				internal UC_TBarScenario( string	id )
 					{
 						if ( string.IsNullOrEmpty( id ) )		{	throw	new	Exception("")	; }
+						this.ID	= id	;
 						//...
 						this._Buttons		=	new	Dictionary<string , IUC_Button>()	;
 
@@ -49,6 +50,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				internal void ChangeFocus( IButtonTag	lo_Tag )
 					{
 						if ( this._CurButton != null )
@@ -84,11 +86,12 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal IList<IUC_Button> ScenarioButtons()
+				internal IList<IUC_Button> ButtonList( bool reverse = true )
 					{
 						IList<IUC_Button> lt_List		= new	List<IUC_Button>();
 						//...
-						foreach ( IUC_Button lo_Btn in this._Buttons.Values.OrderByDescending( x => x.Index ).ToList() )
+						foreach ( IUC_Button lo_Btn in ( reverse	? this._Buttons.Values.OrderByDescending	( x => x.Index )
+																											:	this._Buttons.Values.OrderBy						( x => x.Index )	).ToList() )
 							{
 								lt_List.Add( lo_Btn );
 							}

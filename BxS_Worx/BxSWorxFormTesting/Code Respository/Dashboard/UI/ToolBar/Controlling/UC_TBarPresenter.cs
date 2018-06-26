@@ -19,9 +19,9 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 																	,	IUC_TBarModel			model
 																	,	IUC_TBarView			view				)
 					{
-						this._TBarFactory	= tbarFactory	;
-						this._Model				=	model				;
-						this.View					= view				;
+						this._TBarFactory		= tbarFactory	;
+						this._Model					=	model				;
+						this.View						= view				;
 						//...
 						this._Scenarios			= new	Dictionary<string, UC_TBarScenario>() ;
 
@@ -37,10 +37,10 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 				public event	EventHandler<IButtonTag>	TBarClicked	;
 				//...
-				private	readonly	IDB_TBarFactory												_TBarFactory	;
-				private	readonly	IUC_TBarModel													_Model				;
+				private	readonly	IDB_TBarFactory		_TBarFactory	;
+				private	readonly	IUC_TBarModel			_Model				;
 
-				private readonly	Dictionary<string , UC_TBarScenario>	_Scenarios		;
+				private readonly	Dictionary<string , UC_TBarScenario>	_Scenarios	;
 				//...
 				private	bool		_IsStarted		;
 				private	string	_CurScenario	;
@@ -151,7 +151,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( this._Scenarios.TryGetValue( scenarioID , out UC_TBarScenario lo_Scenario ) )
 							{
-								return	lo_Scenario.ScenarioButtons();
+								return	lo_Scenario.ButtonList();
 							}
 						//...
 						return	new	List<IUC_Button>();
@@ -188,7 +188,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private IUC_Button	GetButton	( string scenarioID , string buttonID )
+				private IUC_Button GetButton	( string scenarioID , string buttonID )
 					{
 						IUC_Button lo_Btn	= null ;
 						//...
@@ -200,13 +200,30 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						return	lo_Btn ;
 					}
 
+
+
+
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				private	async Task CreateScenario( string scenarioID )
+					{
+						if ( ! this._Scenarios.TryGetValue( scenarioID , out UC_TBarScenario lo_Scenario ) )
+							{
+								var x	= this._TBarFactory.CreateScenario( scenarioID , this._Model.ScenarioButtons( scenarioID ) )	;
+								
+
+								lt_Btns.TryGetValue( buttonID , out lo_Btn )	;
+							}
+						
+					}
+
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Private: Event handlers"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void TBar_MouseLeave(object sender , EventArgs e)
+				private void TBar_MouseLeave( object sender , EventArgs e )
 					{
 						if ( ! this._QuickView )	{	return ; }
 						//...

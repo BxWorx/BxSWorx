@@ -29,7 +29,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Declarations"
 
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	readonly	Lazy<Dictionary<string , Type>>		_BtnTypes	;
 
 			#endregion
@@ -38,15 +37,27 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Exposed: Toolbar"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UC_TBarScenario	CreateScenario( string id )		=>	new	UC_TBarScenario( id );
+				public UC_TBarScenario CreateScenario( string id , IList<IButtonProfile> list )
+					{
+						var x = new	UC_TBarScenario( id );
+
+						foreach ( IButtonProfile lo_BtnProf in list )
+							{
+								x.AddButton( this.CreateButton( lo_BtnProf ) );
+							}
+
+						x.IsReady		= true ;
+						//...
+						return	x ;
+					}
 
 			#endregion
 
 			//===========================================================================================
-			#region "Methods: Exposed: Button"
+			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IUC_Button CreateButton( IButtonProfile	profile )
+				private IUC_Button CreateButton( IButtonProfile	profile )
 					{
 						IUC_Button	lo_Btn	= null;
 						//...
@@ -58,20 +69,6 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						//...
 						return	lo_Btn ;
 					}
-
-				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public IUC_Button	CreateButton( string	buttonType )
-					{
-						if ( ! this._BtnTypes.Value.TryGetValue( buttonType , out Type lo_BtnType ) )
-							{	return	null; }
-						//...
-						return	Activator.CreateInstance( lo_BtnType )	as IUC_Button;
-					}
-
-			#endregion
-
-			//===========================================================================================
-			#region "Methods: Private"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private	static Dictionary<string , Type>	GetManifestOf<T>() where T:class
