@@ -23,11 +23,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						this._Model					=	model				;
 						this.View						= view				;
 						//...
-						this._Scenarios			= new	Dictionary<string, UC_TBarScenario>() ;
+						this._Scenes			= new	Dictionary<string, UC_TBarScene>() ;
 
-						this._CurScenario		= string.Empty	;
-						this._IsStarted			= false					;
-						this._QuickView			= false					;
+						this._ActScene		= string.Empty	;
+						this._IsStarted		= false					;
+						this._QuickView		= false					;
 					}
 
 			#endregion
@@ -40,10 +40,10 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				private	readonly	IDB_TBarFactory		_TBarFactory	;
 				private	readonly	IUC_TBarModel			_Model				;
 
-				private readonly	Dictionary<string , UC_TBarScenario>	_Scenarios	;
+				private readonly	Dictionary<string , UC_TBarScene>	_Scenes	;
 				//...
 				private	bool		_IsStarted		;
-				private	string	_CurScenario	;
+				private	string	_ActScene	;
 				private	string	_CurButton		;
 
 				private	bool		_QuickView		;
@@ -88,10 +88,10 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						if ( id == null )		{	return ; }
 						//...
-						if ( ! this._CurScenario.Equals(id) )
+						if ( ! this._ActScene.Equals(id) )
 							{
 								this.View.LoadButtons( this.ScenarioButtons( id ) )	;
-								this._CurScenario		= id	;
+								this._ActScene		= id	;
 							}
 						//...
 						this.View.InvokeTransition()	;
@@ -149,7 +149,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private IList<IUC_Button> ScenarioButtons( string scenarioID )
 					{
-						if ( this._Scenarios.TryGetValue( scenarioID , out UC_TBarScenario lo_Scenario ) )
+						if ( this._Scenes.TryGetValue( scenarioID , out UC_TBarScene lo_Scenario ) )
 							{
 								return	lo_Scenario.ButtonList();
 							}
@@ -158,8 +158,8 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private void	AddScenario( string id )	=>	this._Scenarios.Add(	id
-																																				, new UC_TBarScenario( id) );
+				private void	AddScenario( string id )	=>	this._Scenes.Add(	id
+																																				, new UC_TBarScene( id) );
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private void OnButtonClick_Routing( object sender , EventArgs e )
@@ -167,21 +167,21 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 						var	lo_Btn	= (Control)			sender			;
 						var	lo_Tag	= (IButtonTag)	lo_Btn.Tag	;
 						//...
-						if (		! string.IsNullOrEmpty( this._CurScenario )
+						if (		! string.IsNullOrEmpty( this._ActScene )
 								&&	! string.IsNullOrEmpty( this._CurButton		) )
 							{
-								if (		lo_Tag.ScenarioID.Equals( this._CurScenario )
+								if (		lo_Tag.ScenarioID.Equals( this._ActScene )
 										&&	lo_Tag.ButtonID.Equals	(	this._CurButton		) )
 									{ return ; }
 								//...
-								IUC_Button lo_BtnSrc	= this.GetButton( this._CurScenario , this._CurButton );
+								IUC_Button lo_BtnSrc	= this.GetButton( this._ActScene , this._CurButton );
 								lo_BtnSrc.HasFocus		= ! lo_BtnSrc.HasFocus;
 							}
 						//...
 						IUC_Button lo_BtnTrg	= this.GetButton( lo_Tag.ScenarioID , lo_Tag.ButtonID );
 						lo_BtnTrg.HasFocus		= ! lo_BtnTrg.HasFocus;
 						//...
-						this._CurScenario	= lo_Tag.ScenarioID	;
+						this._ActScene	= lo_Tag.ScenarioID	;
 						this._CurButton		= lo_Tag.ButtonID		;
 
 						this.TBarClicked( sender , lo_Tag );
@@ -192,7 +192,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					{
 						IUC_Button lo_Btn	= null ;
 						//...
-						if ( this._Scenarios.TryGetValue( scenarioID , out Dictionary<string , IUC_Button> lt_Btns ) )
+						if ( this._Scenes.TryGetValue( scenarioID , out Dictionary<string , IUC_Button> lt_Btns ) )
 							{
 								lt_Btns.TryGetValue( buttonID , out lo_Btn )	;
 							}
@@ -205,11 +205,11 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	async Task CreateScenario( string scenarioID )
+				private	async Task CreateScene( string scenarioID )
 					{
-						if ( ! this._Scenarios.TryGetValue( scenarioID , out UC_TBarScenario lo_Scenario ) )
+						if ( ! this._Scenes.TryGetValue( scenarioID , out UC_TBarScene lo_Scenario ) )
 							{
-								var x	= this._TBarFactory.CreateScenario( scenarioID , this._Model.ScenarioButtons( scenarioID ) )	;
+								var x	= this._TBarFactory.CreateScene( scenarioID , this._Model.ScenarioButtons( scenarioID ) )	;
 								
 
 								lt_Btns.TryGetValue( buttonID , out lo_Btn )	;

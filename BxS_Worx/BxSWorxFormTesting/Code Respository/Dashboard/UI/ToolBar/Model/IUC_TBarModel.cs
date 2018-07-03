@@ -8,14 +8,14 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 		{
 			#region "Properties"
 
-				IUC_TBarSetup		Setup				{ get;	set; }
-				IList<string>		Scenarios		{ get; }
+				IUC_TBarSetup		Setup	{ get;	set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
 
+				IList<string>					ScenarioIDs()													;
 				IList<IButtonProfile>	ScenarioButtons( string scenarioID )	;
 				//...
 				void	LoadButton( IButtonProfile buttonProfile ) ;

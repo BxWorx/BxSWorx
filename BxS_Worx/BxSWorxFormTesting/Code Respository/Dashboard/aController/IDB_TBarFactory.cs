@@ -9,7 +9,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Exposed"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				UC_TBarScenario		CreateScenario( string id , IList<IButtonProfile> list )	;
+				UC_TBarScene		CreateScene( string id , IList<IButtonProfile> list )	;
 
 			#endregion
 

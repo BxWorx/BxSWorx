@@ -20,8 +20,7 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				private DB_TBarFactory()
 					{
-						this._BtnTypes	= new	Lazy<Dictionary<string , Type>>	(	()=>		GetManifestOf<IUC_Button>()
-																																					, cz_LM												);
+						this._BtnTypes	= new	Lazy<Dictionary<string , Type>>	(	()=>	GetManifestOf()	, cz_LM	);
 					}
 
 			#endregion
@@ -37,18 +36,18 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			#region "Methods: Exposed: Toolbar"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				public UC_TBarScenario CreateScenario( string id , IList<IButtonProfile> list )
+				public UC_TBarScene CreateScene( string id , IList<IButtonProfile> list )
 					{
-						var x = new	UC_TBarScenario( id );
+						var lo_Scene	= new	UC_TBarScene( id );
 
 						foreach ( IButtonProfile lo_BtnProf in list )
 							{
-								x.AddButton( this.CreateButton( lo_BtnProf ) );
+								lo_Scene.AddButton( this.CreateButton( lo_BtnProf ) );
 							}
 
-						x.IsReady		= true ;
+						lo_Scene.IsReady		= true ;
 						//...
-						return	x ;
+						return	lo_Scene ;
 					}
 
 			#endregion
@@ -71,17 +70,17 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 					}
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				private	static Dictionary<string , Type>	GetManifestOf<T>() where T:class
+				private	Dictionary<string , Type>	GetManifestOf()
 					{
-						var lt	=	new Dictionary<string , Type>();
+						var lt_Types	=	new Dictionary<string , Type>();
 						//...
-						foreach ( Type lo_Type in Toolset.TypesImplementingIFaceOf<T>() )
+						foreach ( Type lo_Type in Toolset.TypesImplementingIFaceOf<IUC_Button>() )
 							{
 								ButtonTypeAttribute lc_Attr		=	lo_Type.GetCustomAttribute<ButtonTypeAttribute>();
-								lt.Add( lc_Attr.BtnType , lo_Type );
+								lt_Types.Add( lc_Attr.BtnType , lo_Type );
 							}
 						//...
-						return	lt;
+						return	lt_Types;
 					}
 
 			#endregion

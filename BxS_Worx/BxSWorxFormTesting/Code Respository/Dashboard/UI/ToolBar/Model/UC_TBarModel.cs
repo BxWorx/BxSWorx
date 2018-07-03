@@ -27,14 +27,15 @@ namespace BxS_Worx.Dashboard.UI.Toolbar
 			//===========================================================================================
 			#region "Properties"
 
-				public	IUC_TBarSetup		Setup				{ get;	set; }
-				//...
-				public	IList<string>		Scenarios		{ get	=>	this._Scenarios.Keys.ToList()	; }
+				public	IUC_TBarSetup		Setup		{ get;	set; }
 
 			#endregion
 
 			//===========================================================================================
 			#region "Methods: Exposed"
+
+				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+				public IList<string> ScenarioIDs()	=>	this._Scenarios.Keys.ToList()	;
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 				public IList<IButtonProfile> ScenarioButtons( string scenarioID )

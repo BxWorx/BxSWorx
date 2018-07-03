@@ -10,12 +10,12 @@ using BxS_Worx.Dashboard.UI.Button	;
 //•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 namespace BxS_Worx.Dashboard.UI.Toolbar
 {
-	internal class UC_TBarScenario
+	internal class UC_TBarScene
 		{
 			#region "Constructors"
 
 				//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
-				internal UC_TBarScenario( string	id )
+				internal UC_TBarScene( string	id )
 					{
 						if ( string.IsNullOrEmpty( id ) )		{	throw	new	Exception("")	; }
 						this.ID	= id	;

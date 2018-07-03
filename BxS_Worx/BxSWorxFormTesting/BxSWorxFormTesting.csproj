@@ -54,7 +54,7 @@
     <Compile Include="Code Respository\Dashboard\aController\IDB_TBarFactory.cs" />
     <Compile Include="Code Respository\Dashboard\aController\DB_TBarFactory.cs" />
     <Compile Include="Code Respository\Dashboard\Common\DB_Constants.cs" />
-    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\UC_TBarScenario.cs" />
+    <Compile Include="Code Respository\Dashboard\UI\ToolBar\Model\UC_TBarScene.cs" />
     <Compile Include="Code Respository\Dashboard\UI\ToolBar\View\IUC_TBarView.cs" />
     <Compile Include="Code Respository\Dashboard\aController\DBAssemblyBase.cs" />
     <Compile Include="Code Respository\aMain\DBAssemblyExcel.cs" />
